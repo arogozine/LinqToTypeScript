@@ -1,0 +1,13 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "strictNullChecks": true,
+        "noFallthroughCasesInSwitch": true
+    }
+}
