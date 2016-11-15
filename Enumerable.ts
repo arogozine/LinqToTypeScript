@@ -37,7 +37,7 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
     }
 
     public contains(value: T, comparer?: IEqualityComparer<T>): boolean {
-        return Enumerable.contains(this, comparer)
+        return Enumerable.contains(this, value, comparer)
     }
 
     public count(predicate?: (x: T) => boolean): number {
@@ -1157,6 +1157,7 @@ export class Enumerable {
     }
 
     public static lastOrDefault<T>(source: IEnumerable<T>, predicate?: (x: T) => boolean): T | null {
+
         if (predicate) {
             return Enumerable.lastOrDefault_2(source, predicate)
         } else {
@@ -1175,6 +1176,7 @@ export class Enumerable {
     }
 
     private static lastOrDefault_2<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null {
+
         let last: T | null = null
 
         for (let value of source) {
