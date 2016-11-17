@@ -1492,7 +1492,6 @@ export class Enumerable {
         }
 
         return map
-
     }
 
     public static toSet<TSource>(source: IEnumerable<TSource>): Set<TSource> {
@@ -1502,7 +1501,17 @@ export class Enumerable {
     public static union<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource> = Linq.StrictEqualityComparer): IEnumerable<TSource> {
+        comparer?: IEqualityComparer<TSource>): IEnumerable<TSource> {
+            if (comparer) {
+                return Enumerable.union_2(first, second, comparer)
+            } else {
+                return Enumerable.union_1(first, second)
+            }
+    }
+
+    private static union_1<TSource>(
+        first: IEnumerable<TSource>,
+        second: IEnumerable<TSource>) {
 
         function* iterator() {
 
@@ -1524,6 +1533,36 @@ export class Enumerable {
         }
 
         return new BasicEnumerable<TSource>(iterator)
+    }
+
+    private static union_2<TSource>(
+        first: IEnumerable<TSource>,
+        second: IEnumerable<TSource>,
+        comparer: IEqualityComparer<TSource>) {
+
+        function *iterator(): IterableIterator<TSource> {
+            const result: TSource[] = []
+
+            for (let source of [first, second]) {
+                for (let value of source) {
+                    let exists = false
+
+                    for (let resultValue of result) {
+                        if (comparer(value, resultValue) === true) {
+                            exists = true
+                            break
+                        }
+                    }
+
+                    if (exists === false) {
+                        yield value
+                        result.push(value)
+                    }
+                }
+            }
+        }
+
+        return new BasicEnumerable(iterator)
     }
 
     public static where<T>(
