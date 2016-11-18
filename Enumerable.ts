@@ -217,9 +217,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
             const values = map.get(key)
 
             if (values instanceof Map) {
-                for (let value of OrderedEnumerable.unrollAndSort(values as RecOrdMap<T>, comparer)) {
-                    yield value
-                }
+                yield* OrderedEnumerable.unrollAndSort(values as RecOrdMap<T>, comparer)
             } else {
                 // Because the key is from the same map
                 // as the values, values cannot be undefined
@@ -387,12 +385,8 @@ export class Enumerable {
 
     public static concat<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource> {
         function* iterator() {
-            for (let item of first) {
-                yield item
-            }
-            for (let item of second) {
-                yield item
-            }
+            yield* first
+            yield* second
         }
 
         return new BasicEnumerable(iterator)
@@ -585,10 +579,7 @@ export class Enumerable {
         function* iterator(source: Iterable<any>): IterableIterator<TSource | Iterable<TSource>> {
             for (let item of source) {
                 if (item[Symbol.iterator] !== undefined && typeof item !== "string") {
-                    const innerSource = shallow ? item : iterator(item)
-                    for (let innerItem of innerSource) {
-                        yield innerItem
-                    }
+                    yield* shallow ? item : iterator(item)
                 } else {
                     yield item
                 }
