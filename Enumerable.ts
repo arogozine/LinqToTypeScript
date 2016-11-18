@@ -577,6 +577,27 @@ export class Enumerable {
         return null
     }
 
+    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>): IEnumerable<TSource>;
+    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>;
+    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>;
+    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow?: boolean): IEnumerable<TSource | Iterable<TSource>> {
+
+        function* iterator(source: Iterable<any>): IterableIterator<TSource | Iterable<TSource>> {
+            for (let item of source) {
+                if (item[Symbol.iterator] !== undefined && typeof item !== "string") {
+                    const innerSource = shallow ? item : iterator(item)
+                    for (let innerItem of innerSource) {
+                        yield innerItem
+                    }
+                } else {
+                    yield item
+                }
+            }
+        }
+
+        return new BasicEnumerable(() => iterator(source))
+    }
+
     public static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): void {
         for (let value of source) {
             action(value)
