@@ -316,15 +316,13 @@ export class Enumerable {
     }
 
     public static all<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): boolean {
-        let allValue = true
-
         for (let item of source) {
-            allValue = allValue && predicate(item)
-            if (!allValue) {
+            if (predicate(item) === false) {
                 return false
             }
         }
-        return allValue
+
+        return true
     }
 
     public static any<TSource>(
