@@ -4,6 +4,15 @@ Linq to TypeScript
 - Implementation of LINQ for TypeScript
 - Targets TypeScript 2.0 and ES6
 
+### Getting Started
+
+```TypeScript
+// Import Module
+import * as Linq from "Linq"
+// Bind Linq Functions to Array and Map
+Linq.initialize()
+```
+
 ### API
 
 ```TypeScript
@@ -21,13 +30,16 @@ Linq to TypeScript
 [0].any() // true
 [true].any(x => !x) // false
 
-// COUNT
-[1, 2, 3].count() // 3
-[true, true, false].count(x => x) // false
+// CONCAT
+[1, 2].concat([2, 3]) // [1, 2, 2, 3]
 
 // CONTAINS
 [1, 2, 3].contains(1) // true
 [1, "2", "3"].contains(2, Linq.EqualityComparer) // true
+
+// COUNT
+[1, 2, 3].count() // 3
+[true, true, false].count(x => x) // false
 
 // DISTINCT
 ["f", "o", "o"].distinct() // "foo"
@@ -50,6 +62,7 @@ let y = 0;
 
 // EXCEPT
 [1, 2].except([1]) // [2]
+([1, 2] as Linq.IEnumerable<string | number>).except(["1"], Linq.EqualityComparer) // [2]
 
 // FIRST
 [1, 2].first() // 1
@@ -61,8 +74,20 @@ let y = 0;
 // FLATTEN
 Linq.Enumerable.flatten([1, [2, 3]]) // [1, 2, 3]
 
+// GROUPBY
+const groupByBreed = cats.groupBy(cat => cat.breed)
+const groupByBreedThenAge = groupByBreed.thenBy(cat => cat.age)
+
 // INTERSECT
 [1, 2, 3].intersect([1, 2]) // [1, 2]
+[1, 2, "3"].intersect(["1", "2"], Linq.EqualityComparer) // [1, 2]
+
+// PLUCK
+
+// TAKE
+[1, 2, 3, 4, 5].take(2) // [1, 2]
+
+// TAKEWHILE
 
 // LAST
 [1, 2].last() // 2
@@ -90,9 +115,26 @@ Linq.Enumerable.flatten([1, [2, 3]]) // [1, 2, 3]
 // REVERSE
 [1, 2, 3].reverse() // [3, 2, 1]
 
+// SELECT
+[1, 2, 3].select(x => x * 10) // [10, 20, 30]
+
+// SELECTMANY
+[1, 2, 3].selectMany(x => [x, x * x]) // [1, 1, 2, 4, 3, 9]
+
+// SEQUENCEEQUALS
+// SINGLE
+// SINGLEORDEFAULT
+// SUM
+// SKIP
+[1, 2, 3].skip(2) // [3]
+
+// SKIPWHILE
+
+// TOARRAY
 // TOMAP
 // TOSET
 // UNION
 [1, 2, 3].union([4, 5, 6]) // [1, 2, 3, 4, 5, 6]
+// WHERE
 // ZIP
 ```
