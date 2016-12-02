@@ -1,0 +1,33 @@
+{
+  "name": "linq-to-typescript",
+  "version": "0.9.0",
+  "description": "LINQ ported to TypeScript",
+  "main": "linq.ts",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "install": "tsc",
+    "build": "tsc",
+    "build-test": "tsc --project ./tests/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arogozine/LinqToTypeScript.git"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "linq"
+  ],
+  "author": "Alexandre Rogozine",
+  "license": "FSFUL",
+  "devDependencies": {
+    "typescript": "^2.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/arogozine/LinqToTypeScript/issues"
+  },
+  "homepage": "https://github.com/arogozine/LinqToTypeScript#readme"
+}
