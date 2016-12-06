@@ -1,4 +1,4 @@
-import * as Linq from "./../Linq"
+import * as Linq from "./../src/index"
 import { TestClass, RunTests, IsTrue, IsFalse, AreEqual, IterationsAreEqual, ExpectedException } from "./UnitTest"
 
 Linq.initialize()
@@ -68,6 +68,15 @@ class LinqTests {
         IsFalse(allStartWithB)
     }
 
+    public allMap() {
+        const map = new Map<string, string>()
+        map.set("foo", "bar")
+        map.set("foo2", "bar")
+
+        const allAreBar = map.all(x => x[1] === "bar")
+        IsTrue(allAreBar)
+    }
+
     public any() {
         IsTrue([0].any())
         IsTrue([true].any())
@@ -76,6 +85,10 @@ class LinqTests {
         IsFalse([].any())
         IsFalse([].any(x => x))
         IsFalse([true].any(x => !x))
+    }
+
+    public anyMap() {
+        IsFalse(new Map<any, any>().any())
     }
 
     public count() {
@@ -285,6 +298,11 @@ class LinqTests {
 
     public selectMany() {
         IterationsAreEqual([1, 2, 3].selectMany(x => [x, x * x]), [1, 1, 2, 4, 3, 9])
+    }
+
+    public sum() {
+         const numbers = [ 43.68, 1.25, 583.7, 6.5 ]
+         AreEqual(635.13, numbers.sum())
     }
 
     public toMap() {

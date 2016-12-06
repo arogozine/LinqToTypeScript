@@ -2,15 +2,11 @@
   "name": "linq-to-typescript",
   "version": "0.9.0",
   "description": "LINQ ported to TypeScript",
-  "main": "linq.ts",
-  "directories": {
-    "test": "tests"
-  },
+  "main": "lib/index.js",
   "scripts": {
-    "install": "tsc",
     "build": "tsc",
-    "build-test": "tsc --project ./tests/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-test": "tsc --project ./test/",
+    "test": "npm run build-test && node ./test/LinqTests.js"
   },
   "repository": {
     "type": "git",
