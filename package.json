@@ -3,6 +3,12 @@
   "version": "0.9.0",
   "description": "LINQ ported to TypeScript",
   "main": "lib/index.js",
+  "maintainers": [
+    {
+      "name": "Alexandre Rogozine",
+      "email": "alexandre.rogozine@live.com"
+    }
+  ],
   "scripts": {
     "build": "tsc",
     "build-test": "tsc --project ./test/",
