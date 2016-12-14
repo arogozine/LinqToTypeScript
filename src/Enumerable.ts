@@ -476,7 +476,8 @@ export class Enumerable {
         return null
     }
 
-    public static enumerateObject<TResult>(source: { [key: string]: TResult}): IEnumerable<Tuple<string, TResult>> {
+    public static enumerateObject<TInput>
+        (source: TInput): IEnumerable<Tuple<keyof TInput, TInput[keyof TInput]>> {
         function *iterable() {
             /* tslint:disable */
             for (let key in source) {
@@ -936,10 +937,35 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static select<T, Y>(source: IEnumerable<T>, selector: (x: T) => Y): IEnumerable<Y> {
+    public static select<TSource, TResult>
+        (source: IEnumerable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>;
+    public static select<TSource, TKey extends keyof TSource>
+        (source: IEnumerable<TSource>, key: TKey): IEnumerable<TSource[TKey]>;
+    public static select<T, Y>(source: IEnumerable<T>, selector: (x: T) => Y | string): IEnumerable<any> {
+
+        if (typeof selector === "string") {
+            return Enumerable.select_2(source, selector)
+        } else {
+            return Enumerable.select_1(source, selector)
+        }
+    }
+
+    private static select_1<TSource, TResult>
+        (source: IEnumerable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult> {
         function* iterator() {
             for (let value of source) {
                 yield selector(value)
+            }
+        }
+
+        return new BasicEnumerable(iterator)
+    }
+
+    private static select_2<TSource, TKey extends keyof TSource>
+        (source: IEnumerable<TSource>, key: TKey): IEnumerable<TSource[TKey]> {
+        function* iterator() {
+            for (let value of source) {
+                yield value[key]
             }
         }
 

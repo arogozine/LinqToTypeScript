@@ -6,6 +6,7 @@
         "moduleResolution": "node",
         "removeComments": true,
         "noImplicitAny": true,
+        "alwaysStrict": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
         "outDir": "./lib"

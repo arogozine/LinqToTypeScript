@@ -103,8 +103,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>
     }
     reverse:() => IEnumerable<TSource>
-    select: <OUT>(selector: (x : TSource) => OUT) => IEnumerable<OUT>
-    selectMany: <OUT>(selector: (x : TSource) => Iterable<OUT>) => IEnumerable<OUT>
+    select: {
+        <OUT>(selector: (x : TSource) => OUT): IEnumerable<OUT>
+        <TKey extends keyof TSource>(key: TKey): IEnumerable<TSource[TKey]> 
+    }
+    selectMany: { 
+        <OUT>(selector: (x : TSource) => Iterable<OUT>): IEnumerable<OUT>
+    }
     sequenceEquals: (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>) => boolean
     single: {
         (): TSource

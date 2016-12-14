@@ -87,7 +87,7 @@ export abstract class LinqTests {
         }
 
         for (let item of Linq.Enumerable.enumerateObject(object)) {
-            AreEqual((object as any)[item.first], item.second)
+            AreEqual(item.second, object[item.first])
         }
     }
 
@@ -239,12 +239,13 @@ export abstract class LinqTests {
 
     public select() {
         IterationsAreEqual(this.generator(["1", "2", "3"]).select(Number.parseInt), [1, 2, 3])
+        IterationsAreEqual(this.generator(["1", "22", "333"]).select("length"), [1, 2, 3])
     }
 
     public selectMany() {
         const values = this.generator([
             { a: [1, 2]},
-            { a: [3, 4]}
+            { a: [3, 4]},
         ])
 
         IterationsAreEqual(values.selectMany(x => x.a), [1, 2, 3, 4])

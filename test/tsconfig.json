@@ -8,6 +8,7 @@
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "alwaysStrict": true
     }
 }
