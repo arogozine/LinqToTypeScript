@@ -558,7 +558,7 @@ export class Enumerable {
 
     private static firstOrDefault_1<T>(source: IEnumerable<T>): T | null {
         const first = source[Symbol.iterator]().next()
-        return first.value
+        return first.value || null
     }
 
     private static firstOrDefault_2<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null {
@@ -1211,19 +1211,29 @@ export class Enumerable {
     }
 
     private static max_1(source: IEnumerable<number>): number {
-        let max = Number.MIN_VALUE
+        let max: number | null = null
         for (let item of source) {
-            max = Math.max(max, item)
+            max = Math.max(max || Number.MIN_VALUE, item)
         }
-        return max
+
+        if (max === null) {
+            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+        } else {
+            return max
+        }
     }
 
     private static max_2<TSource>(source: IEnumerable<TSource>, selector: (x: TSource) => number): number {
-        let max = Number.MIN_VALUE
+        let max: number | null = null
         for (let item of source) {
-            max = Math.max(max, selector(item))
+            max = Math.max(max || Number.MIN_VALUE, selector(item))
         }
-        return max
+
+        if (max === null) {
+            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+        } else {
+            return max
+        }
     }
 
     public static min(source: IEnumerable<number>): number;
@@ -1237,19 +1247,29 @@ export class Enumerable {
     }
 
     private static min_1(source: IEnumerable<number>) {
-        let min = Number.MAX_VALUE
+        let min: number | null = null
         for (let item of source) {
-            min = Math.min(min, item)
+            min = Math.min(min || Number.MAX_VALUE, item)
         }
-        return min
+
+        if (min === null) {
+            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+        } else {
+            return min
+        }
     }
 
     private static min_2(source: IEnumerable<number>, selector: (x: number) => number) {
-        let min = Number.MAX_VALUE
+        let min: number | null = null
         for (let item of source) {
-            min = Math.min(min, selector(item))
+            min = Math.min(min || Number.MAX_VALUE, selector(item))
         }
-        return min
+
+        if (min === null) {
+            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+        } else {
+            return min
+        }
     }
 
     public static ofType<TSource, TResult>(

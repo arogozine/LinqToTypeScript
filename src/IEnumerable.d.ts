@@ -80,12 +80,12 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (predicate: (x: TSource) => boolean): TSource | null
     }
     max: {
-        (this: IEnumerable<number>): number,
-        (selector: (x: TSource) => number): number
+        (this: IEnumerable<number>): number | never,
+        (selector: (x: TSource) => number): number | never
     },
     min: {
-        (this: IEnumerable<number>): number,
-        (selector: (x: TSource) => number): number        
+        (this: IEnumerable<number>): number | never,
+        (selector: (x: TSource) => number): number | never       
     }
     ofType: {
         (type: "object"): IEnumerable<Object>
