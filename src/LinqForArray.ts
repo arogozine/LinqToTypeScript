@@ -5,131 +5,242 @@
 import { IEnumerable } from "./IEnumerable"
 import { ArgumentOutOfRangeException, InvalidOperationException, ErrorString } from "./TypesAndHelpers"
 
+interface IArray<T, Y> extends ArrayLike<T>, IEnumerable<T> {
+    every(callbackfn: (value: T, index: number, array: Y) => boolean, thisArg?: any): boolean
+    find(predicate: (value: T, index: number, obj: any) => boolean, thisArg?: any): T | undefined
+    slice(start?: number, end?: number): Y
+    filter(callbackfn: (value: T, index: number, array: Y) => any, thisArg?: any): Y
+    some(callbackfn: (value: T, index: number, array: Y) => boolean, thisArg?: any): boolean
+}
+
+interface IArrayConstructor<T, Y extends IArray<T, Y>> {
+    new (_?: any): Y
+    readonly prototype: IEnumerable<T>
+}
+
 /* tslint:disable */
 declare global {
     interface Array<T> extends IEnumerable<T> {
         
     }
+
+    interface Uint8Array extends IEnumerable<number> {
+
+    }
+
+    interface Uint8ClampedArray extends IEnumerable<number> {
+
+    }
+
+    interface Uint16Array extends IEnumerable<number> {
+
+    }
+
+    interface Uint32Array extends IEnumerable<number> {
+
+    }
+
+    interface Int8Array extends IEnumerable<number> {
+
+    }
+
+    interface Int16Array extends IEnumerable<number> {
+
+    }
+
+    interface Int32Array extends IEnumerable<number> {
+
+    }
+
+    interface Float32Array extends IEnumerable<number> {
+
+    }
+
+    interface Float64Array extends IEnumerable<number> {
+
+    }
 }
 /* tsline:enable */
 
-// Array has,
-// 1. length (no need to iterate to determine length)
-// 2. Access to any index (no need to iterate to get first / last element)
+function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): void {
 
-Array.prototype.any = function<TSource>(this: TSource[], predicate?: (x: TSource) => boolean): boolean {
-    return (this as any[]).some(predicate || (x => true))
-}
+    type genericArray = IArray<T, Y>
+    
+    _array.prototype.all = function(this: genericArray, predicate: (x: T) => boolean): boolean {
+        return this.every(predicate)
+    }
 
-Array.prototype.all = function<TSource>(this: TSource[], predicate: (x: TSource) => boolean): boolean {
-    return this.every(predicate)
-}
+    _array.prototype.any = function(this: genericArray, predicate?: (x: T) => boolean): boolean {
+        return this.some(predicate || (x => true))
+    }
 
-Array.prototype.count = function<TSource>(this: TSource[], predicate?: (x: TSource) => boolean): number {
-    if (predicate) {
-        let count = 0
-        for (let i = 0; i < this.length; i ++) {
-            if (predicate(this[i])) {
-                count++
+    _array.prototype.count = function(this: genericArray, predicate?: (x: T) => boolean): number {
+        if (predicate) {
+            let count = 0
+            for (let i = 0; i < this.length; i ++) {
+                if (predicate(this[i]) === true) {
+                    count++
+                }
             }
+            return count
+        } else {
+            return this.length
         }
-        return count
-    } else {
-        return this.length
-    }
-}
-
-Array.prototype.elementAt =  function<TSource>(this: TSource[], index: number): TSource {
-    if (index >= this.length) {
-        throw new ArgumentOutOfRangeException("index")
     }
 
-    return this[index]
-}
+    _array.prototype.elementAt = function(this: genericArray, index: number): T {
+        if (index >= this.length) {
+            throw new ArgumentOutOfRangeException("index")
+        }
 
-Array.prototype.first = function<TSource>(this: TSource[], predicate?: (x: TSource) => boolean): TSource {
-    if (predicate) {
-        const value = this.find(predicate)
-        if (typeof value === "undefined") {
+        return this[index]
+    }
+    
+    _array.prototype.first = function(this: genericArray, predicate?: (x: T) => boolean): T {
+        if (predicate) {
+            const value = this.find(predicate)
+            if (typeof value === "undefined") {
+                throw new InvalidOperationException(ErrorString.NoMatch)
+            } else {
+                return value
+            }
+        } else {
+            if (this.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
+
+            return this[0]
+        }
+    }
+
+    _array.prototype.firstOrDefault = function(
+        this: IArray<any, Y>,
+        predicate?: (x: T) => boolean): T | null {
+        if (predicate) {
+            const value = this.find(predicate)
+            if (typeof value === "undefined") {
+                return null
+            } else {
+                return value
+            }
+        } else {
+            return this.length === 0 ? null : this[0]
+        }
+    }
+
+    _array.prototype.last = function(this: genericArray, predicate?: (x: T) => boolean): T {
+        if (predicate) {
+            for (let i = 0; i < this.length; i++) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
             throw new InvalidOperationException(ErrorString.NoMatch)
         } else {
-            return value
-        }
-    } else {
-        if (this.length === 0) {
-            throw new InvalidOperationException(ErrorString.NoElements)
-        }
+            if (this.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
 
-        return this[0]
+            return this[this.length - 1]
+        }
     }
-}
 
-Array.prototype.firstOrDefault = function<TSource>(
-    this: TSource[],
-    predicate?: (x: TSource) => boolean): TSource | null {
-    if (predicate) {
-        const value = this.find(predicate)
-        if (typeof value === "undefined") {
+    _array.prototype.lastOrDefault = function(this: genericArray, predicate?: (x: T) => boolean): T | null {
+        if (predicate) {
+            for (let i = 0; i < this.length; i++) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+            
             return null
         } else {
-            return value
+            return this.length === 0 ? null : this[this.length - 1]
         }
-    } else {
-        return this.length === 0 ? null : this[0]
     }
-}
+    
+    _array.prototype.max = function(this: IArray<any, Y>, selector?: (x: T) => number): number | never {
 
-Array.prototype.max = function<TSource>(this: TSource[], selector?: (x: TSource) => number): number {
-    if (selector) {
-        let max = Number.MIN_VALUE
-
-        for (let i = 0; i < this.length; i++) {
-            max = Math.max(selector(this[i]), max)
+        if (this.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements);
         }
 
-        return max
-    } else {
-        return Math.max(...(this as any[]))
-    }
-}
+        if (selector) {
+            let max = Number.MIN_VALUE
 
-Array.prototype.min = function<TSource>(this: TSource[], selector?: (x: TSource) => number): number {
-    if (selector) {
-        let min = Number.MAX_VALUE
+            for (let i = 0; i < this.length; i++) {
+                max = Math.max(selector(this[i]), max)
+            }
 
-        for (let i = 0; i < this.length; i++) {
-            min = Math.min(selector(this[i]), min)
-        }
-
-        return min
-    } else {
-        return Math.min(...(this as any[]))
-    }
-}
-
-Array.prototype.toArray = function<TSource>(this: TSource[]): TSource[] {
-    return this.slice()
-}
-
-Array.prototype.toMap = function<TSource, TKey>(this: TSource[], selector: (x: TSource) => TKey): Map<TKey, TSource[]> {
-    const map = new Map<TKey, TSource[]>()
-    for (let i = 0; i < this.length; i++) {
-        const value = this[i]
-        const key = selector(value)
-
-        const valuesForKey = map.get(key)
-        if (valuesForKey) {
-            valuesForKey.push(value)
+            return max
         } else {
-            map.set(key, [value])
+            return Math.max(...(this as any))
         }
     }
+    
+    _array.prototype.min = function(this: IArray<any, Y>, selector?: (x: T) => number): number {
 
-    return map
+        if (this.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements);
+        }
+
+        if (selector) {
+            let min = Number.MAX_VALUE
+
+            for (let i = 0; i < this.length; i++) {
+                min = Math.min(selector(this[i]), min)
+            }
+
+            return min
+        } else {
+            return Math.min(...(this as any))
+        }
+    }
+    
+    _array.prototype.toArray = function(this: genericArray): T[] {
+        const array = new Array<T>(this.length)
+        for (let i = 0; i < this.length; i++) {
+            array[i] = this[i]
+        }
+        return array
+    }
+
+    _array.prototype.toMap = function<TKey>(this: genericArray, selector: (x: T) => TKey): Map<TKey, T[]> {
+        const map = new Map<TKey, T[]>()
+        for (let i = 0; i < this.length; i++) {
+            const value = this[i]
+            const key = selector(value)
+
+            const valuesForKey = map.get(key)
+            if (valuesForKey) {
+                valuesForKey.push(value)
+            } else {
+                map.set(key, [value])
+            }
+        }
+
+        return map
+    }
+
+    _array.prototype.where = function(
+        this: genericArray,
+        predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IEnumerable<T> {
+        return this.filter(predicate)
+    }
+
+    // reverse already exists
 }
 
-Array.prototype.where = function<TSource>(
-    this: TSource[],
-    predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IEnumerable<TSource> {
-    return this.filter(predicate)
-}
+bindArray(Array)
+bindArray(Int8Array)
+bindArray(Int16Array)
+bindArray(Int32Array)
+bindArray(Uint8Array)
+bindArray(Uint8ClampedArray)
+bindArray(Uint16Array)
+bindArray(Uint32Array)
+bindArray(Float32Array)
+bindArray(Float64Array)

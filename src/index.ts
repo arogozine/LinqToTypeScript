@@ -27,4 +27,18 @@ function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
 export function initialize() {
     bindLinq(Array)
     bindLinq(Map)
+    bindLinq(Set)
+    bindLinq(String)
+
+    bindLinq(Int8Array)
+    bindLinq(Int16Array)
+    bindLinq(Int32Array)
+
+    bindLinq(Uint8Array)
+    bindLinq(Uint8ClampedArray)
+    bindLinq(Uint16Array)
+    bindLinq(Uint32Array)
+
+    bindLinq(Float32Array)
+    bindLinq(Float64Array)
 }

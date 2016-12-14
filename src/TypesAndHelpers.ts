@@ -54,9 +54,8 @@ export interface IConstructor<TResult>{
     readonly prototype: TResult
 }
 
-export interface IPrototype<T, Y extends Iterable<T>> {
+export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
     new (_?: any): Y
-    readonly prototype: { [key: string]: any }
 }
 
 // ###########################
