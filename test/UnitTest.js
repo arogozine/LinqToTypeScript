@@ -10,7 +10,7 @@ function ExpectedException(exceptionType) {
         function wrapper() {
             let exceptionOccurred = false;
             try {
-                func();
+                func.apply(this);
             }
             catch (e) {
                 if (e instanceof exceptionType) {
@@ -31,10 +31,15 @@ function ExpectedException(exceptionType) {
 exports.ExpectedException = ExpectedException;
 function RunTests() {
     for (let classInit of classes) {
-        console.log(`Runnings Tests for ${classInit.name}`);
-        const obj = classInit.constructor();
-        const keys = Reflect.ownKeys(classInit)
-            .concat(Reflect.ownKeys(classInit.prototype));
+        const className = classInit.name;
+        console.log(`Runnings Tests for ${className}`);
+        const obj = Reflect.construct(classInit, []);
+        let keys = [];
+        let o = classInit;
+        while (o.prototype !== undefined) {
+            keys = keys.concat(Reflect.ownKeys(o)).concat(Reflect.ownKeys(o.prototype));
+            o = Object.getPrototypeOf(o);
+        }
         for (let i = 0, j = 0; i < keys.length; i++) {
             const key = keys[i];
             const func = classInit[key] || classInit.prototype[key];
@@ -50,15 +55,16 @@ function RunTests() {
                 j++;
                 continue;
             }
-            console.log(`Running Test ${key} (${i - j}/${keys.length - 1 - j})`);
+            console.log(`Running Test [${className}] ${key} (${i - j}/${keys.length - 1 - j})`);
             try {
-                func.apply(obj);
+                func.call(obj);
             }
             catch (e) {
-                console.log(`Test #${i - j} (${key}) failed ${e}`);
+                console.log(`${className}: Test #${i - j} (${key}) failed ${e}`);
                 break;
             }
         }
+        console.log(``);
     }
 }
 exports.RunTests = RunTests;

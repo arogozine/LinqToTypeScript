@@ -10,12 +10,12 @@ export function ExpectedException<E extends Function>(exceptionType: E) {
         propertyKey: string | symbol,
         descriptor: TypedPropertyDescriptor<() => void | never>): TypedPropertyDescriptor<() => void | never> {
 
-        const func = descriptor.value as () => void | never
+        const func = descriptor.value as Function
 
         function wrapper() {
             let exceptionOccurred = false
             try {
-                func()
+                func.apply(this)
             } catch (e) {
                 if (e instanceof <any> exceptionType)  {
                     exceptionOccurred = true
@@ -37,12 +37,19 @@ export function ExpectedException<E extends Function>(exceptionType: E) {
 export function RunTests() {
 
     for (let classInit of classes) {
+        const className: string = (classInit as any).name
 
-        console.log(`Runnings Tests for ${(classInit as any).name}`)
-        const obj = classInit.constructor()
+        console.log(`Runnings Tests for ${className}`)
+        const obj = Reflect.construct(classInit as any, [])
 
-        const keys = Reflect.ownKeys(classInit)
-            .concat(Reflect.ownKeys((classInit as any).prototype))
+        let keys: PropertyKey[] = []
+
+        let o: any = classInit
+        while (o.prototype !== undefined) {
+            keys = keys.concat(Reflect.ownKeys(o)).concat(Reflect.ownKeys(o.prototype))
+
+            o = Object.getPrototypeOf(o)
+        }
 
         for (let i = 0, j = 0; i < keys.length; i++) {
             const key = keys[i]
@@ -64,15 +71,17 @@ export function RunTests() {
                 continue
             }
 
-            console.log(`Running Test ${key} (${i - j}/${keys.length - 1 - j})`)
+            console.log(`Running Test [${className}] ${key} (${i - j}/${keys.length - 1 - j})`)
 
             try {
-                (func as Function).apply(obj)
+                (func as Function).call(obj)
             } catch (e) {
-                console.log(`Test #${i - j} (${key}) failed ${e}`)
+                console.log(`${className}: Test #${i - j} (${key}) failed ${e}`)
                 break
             }
         }
+
+        console.log(``)
     }
 }
 
