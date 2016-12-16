@@ -65,7 +65,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (second: IEnumerable<TSource>): IEnumerable<TSource>
         (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     }
-    pluck: <TResult>(this: IEnumerable<{[key: string]: TResult}>, propertyName: string) => IEnumerable<TResult>
     take: (amount: number) => IEnumerable<TSource>
     takeWhile: {
         (pedicate: (x: TSource) => boolean): IEnumerable<TSource>,

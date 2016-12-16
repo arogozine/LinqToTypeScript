@@ -94,10 +94,6 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.intersect(this, second, comparer)
     }
 
-    public pluck<TResult>(this: IEnumerable<{[key: string]: TResult}>, propertyName: string): IEnumerable<TResult> {
-        return Enumerable.pluck(this, propertyName)
-    }
-
     public last<T>(predicate?: (x: T) => boolean): T {
         return Enumerable.last(this, predicate)
     }
@@ -579,6 +575,8 @@ export class Enumerable {
 
         function* iterator(source: Iterable<any>): IterableIterator<TSource | Iterable<TSource>> {
             for (let item of source) {
+                // JS string is an Iterable.
+                // We exclude it from being flattened
                 if (item[Symbol.iterator] !== undefined && typeof item !== "string") {
                     yield* shallow ? item : iterator(item)
                 } else {
@@ -927,16 +925,6 @@ export class Enumerable {
         return [fail, pass]
     }
 
-    public static pluck<TResult>(source: IEnumerable<{[key: string]: TResult}>, propertyName: string) {
-        function* iterator() {
-            for (let value of source) {
-                yield value[propertyName]
-            }
-        }
-
-        return new BasicEnumerable(iterator)
-    }
-
     public static select<TSource, TResult>
         (source: IEnumerable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>;
     public static select<TSource, TKey extends keyof TSource>
@@ -1136,7 +1124,7 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static skip<T>(source: IEnumerable<T>, count: number): IEnumerable<T> {
+    public static skip<TSource>(source: IEnumerable<TSource>, count: number): IEnumerable<TSource> {
 
         function* iterator() {
             let i = 0
@@ -1147,14 +1135,14 @@ export class Enumerable {
             }
         }
 
-        return new BasicEnumerable<T>(iterator)
+        return new BasicEnumerable<TSource>(iterator)
     }
 
     public static empty<TSource>(): IEnumerable<TSource> {
         return []
     }
 
-    public static last<T>(source: IEnumerable<T>, predicate?: (x: T) => boolean): T {
+    public static last<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
             return Enumerable.last_2(source, predicate)
         } else {
@@ -1308,7 +1296,7 @@ export class Enumerable {
 
         const typeCheck: (x: any) => boolean = typeof type === "string" ?
             (x => typeof x === type) :
-            (x => x instanceof <any> type)
+            (x => x instanceof type)
 
         function *iterator() {
             for (let item of source) {
@@ -1367,10 +1355,9 @@ export class Enumerable {
     }
 
     public static reverse<TSource>(source: IEnumerable<TSource>): IEnumerable<TSource> {
-        if (source instanceof Array) {
-            return source.reverse()
-        }
-        // TODO
+        // If source instanceof Array
+        // there is already a built in function .reverse
+        // which should be called
         return Enumerable.toArray(source).reverse()
     }
 

@@ -50,7 +50,7 @@ export function AsTuple<X, Y>(first: X, second: Y): Tuple<X, Y> {
 // ## Constructor ##
 // #################
 
-export interface IConstructor<TResult>{
+export interface IConstructor<TResult> extends Function {
     readonly prototype: TResult
 }
 

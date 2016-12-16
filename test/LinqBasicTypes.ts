@@ -148,10 +148,6 @@ export abstract class LinqTests {
         AreEqual(this.generator([1, 2, 3]).lastOrDefault(x => x === 4), null)
     }
 
-    public max() {
-        AreEqual(this.generator([1, 2, 3]).max(), 3)
-    }
-
     @ExpectedException(Linq.InvalidOperationException)
     public maxError() {
         this.generator([]).max()
