@@ -1,14 +1,4 @@
 import {
-    ArgumentOutOfRangeException,
-    ArrayIterator,
-    AsTuple,
-    ErrorString,
-    EqualityComparer,
-    InvalidOperationException,
-    StrictEqualityComparer,
-    Tuple,
-} from "./TypesAndHelpers"
-import {
     IComparer,
     IConstructor,
     IGrouping,
@@ -16,7 +6,17 @@ import {
     IOrderedEnumerable,
     IEqualityComparer,
     RecOrdMap,
-} from "./IEnumerable"
+    Tuple,
+} from "./Interfaces"
+import {
+    ArgumentOutOfRangeException,
+    ArrayIterator,
+    AsTuple,
+    ErrorString,
+    EqualityComparer,
+    InvalidOperationException,
+    StrictEqualityComparer,
+} from "./TypesAndHelpers"
 
 export class BasicEnumerable<T> implements IEnumerable<T> {
     constructor(private iterator: () => IterableIterator<T>) {
@@ -256,16 +256,16 @@ export class OrderedEnumerableDescending<T> extends BasicEnumerable<T> implement
         return this.map()
     }
 
-    public thenBy<TSource, TKey>(
-        keySelector: (x: TSource) => number | string,
+    public thenBy(
+        keySelector: ((x: T) => number) | ((x: T) => string),
         comparer?: IComparer<number | string>): IOrderedEnumerable<T> {
-        return Enumerable.thenBy(this, keySelector, comparer)
+        return Enumerable.thenBy<T>(this, keySelector, comparer)
     }
 
-    public thenByDescending<TSource, TKey>(
-        keySelector: (x: TSource) => number | string,
+    public thenByDescending(
+        keySelector: ((x: T) => number) | ((x: T) => string),
         comparer?: IComparer<number | string>): IOrderedEnumerable<T> {
-        return Enumerable.thenByDescending(this, keySelector, comparer)
+        return Enumerable.thenByDescending<T>(this, keySelector, comparer)
     }}
 
 export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
@@ -304,16 +304,16 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         return this.map()
     }
 
-    public thenBy<TSource, TKey>(
-        keySelector: (x: TSource) => number | string,
+    public thenBy(
+        keySelector: ((x: T) => number) | ((x: T) => string),
         comparer?: IComparer<number | string>): IOrderedEnumerable<T> {
-        return Enumerable.thenBy(this, keySelector, comparer)
+        return Enumerable.thenBy<T>(this, keySelector, comparer)
     }
 
-    public thenByDescending<TSource, TKey>(
-        keySelector: (x: TSource) => number | string,
+    public thenByDescending(
+        keySelector: ((x: T) => number) | ((x: T) => string),
         comparer?: IComparer<number | string>): IOrderedEnumerable<T> {
-        return Enumerable.thenByDescending(this, keySelector, comparer)
+        return Enumerable.thenByDescending<T>(this, keySelector, comparer)
     }
 }
 
@@ -1362,11 +1362,11 @@ export class Enumerable {
     }
 
     public static ofType<TSource, TResult>(
-        source: IEnumerable<any>,
+        source: IEnumerable<TSource>,
         type?: IConstructor<TResult> | string): IEnumerable<TResult> {
 
         if (!type) {
-            return source
+            return <any> source
         }
 
         const typeCheck: (x: any) => boolean = typeof type === "string" ?
@@ -1376,7 +1376,7 @@ export class Enumerable {
         function *iterator() {
             for (let item of source) {
                 if (typeCheck(item)) {
-                    yield <TResult> item
+                    yield <TResult> <any> item
                 }
             }
         }
@@ -1553,9 +1553,9 @@ export class Enumerable {
         return new BasicEnumerable<T>(iterator)
     }
 
-    public static thenBy<TSource, TKey>(
+    public static thenBy<TSource>(
         source: IOrderedEnumerable<TSource>,
-        keySelector: (x: TSource) => number | string,
+        keySelector: ((x: TSource) => number) | ((x: TSource) => string),
         comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
 
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
@@ -1588,9 +1588,9 @@ export class Enumerable {
         return new OrderedEnumerable(() => sortInnerMost(source.getMap()), comparer)
     }
 
-    public static thenByDescending<TSource, TKey>(
+    public static thenByDescending<TSource>(
         source: IOrderedEnumerable<TSource>,
-        keySelector: (x: TSource) => number | string,
+        keySelector: ((x: TSource) => number) | ((x: TSource) => string),
         comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
 
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {

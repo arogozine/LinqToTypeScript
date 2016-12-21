@@ -2,7 +2,7 @@
 // ## Optimizations for Array ##
 // #############################
 
-import { IEnumerable } from "./IEnumerable"
+import { IEnumerable } from "./Interfaces"
 import { ArgumentOutOfRangeException, InvalidOperationException, ErrorString } from "./TypesAndHelpers"
 
 interface IArray<T, Y> extends ArrayLike<T>, IEnumerable<T> {

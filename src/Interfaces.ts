@@ -1,25 +1,30 @@
-// ################
-// ## Interfaces ##
-// ################
+// #############################
+// Contains Types and Interfaces
+// #############################
 
-import { Tuple } from "./TypesAndHelpers"
+// Used for IEnumerable.Zip
+export type Tuple<X, Y> = {
+    readonly first: X
+    readonly second: Y
+}
 
+// Used for IEnumerable.ofType
 export interface IConstructor<TResult> extends Function {
     readonly prototype: TResult
 }
 
+// Used for grouping of elements
 export type IComparer<TKey> = (x: TKey, y: TKey) => number
 
+// Used for equality comparison
 export type IEqualityComparer<T> = (x: T, y: T) => boolean
 
+// Used for constraints on the BindLinq function
 export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
     new (_?: any): Y
 }
 
-// ###########################
-// ## Recursive Ordered Map ##
-// ###########################
-
+// Used internally for the ordering
 export type RecOrdMap<T> = Map<number | string, T[] | Map<number | string, any>>
 
 // IEnumerable interface based on,

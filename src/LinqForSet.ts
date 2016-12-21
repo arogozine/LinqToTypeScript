@@ -1,4 +1,4 @@
-import { IEnumerable } from "./IEnumerable"
+import { IEnumerable } from "./Interfaces"
 
 /* tslint:disable */
 declare global {
