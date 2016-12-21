@@ -4,6 +4,10 @@
 
 import { RecOrdMap, Tuple, IConstructor, IEqualityComparer, IComparer, NumberComparer } from "./TypesAndHelpers"
 
+
+// IEnumerable interface based on,
+// https://msdn.microsoft.com/en-us/library/9eekhta0(v=vs.110).aspx
+
 export interface IEnumerable<TSource> extends Iterable<TSource>
 {
     aggregate: {
@@ -11,12 +15,20 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         <TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate,
         <TAccumulate, TResult>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x : TAccumulate) => TResult): TResult
     }
-    all: (predicate: (x : TSource) => boolean) => boolean
+    all: {
+        (predicate: (x : TSource) => boolean): boolean
+    }
     any: {
         (): boolean,
         (predicate: (x: TSource) => boolean): boolean 
     }
-    concat: (second: Iterable<TSource>) => IEnumerable<TSource>,
+    average: {
+        (this: IEnumerable<number>): number
+        (selector: (x: TSource) => number): number
+    }
+    concat: {
+        (second: Iterable<TSource>): IEnumerable<TSource>
+    }
     contains: {
         (value: TSource): boolean,
         (value: TSource, comparer: IEqualityComparer<TSource>): boolean
@@ -29,8 +41,12 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (): IEnumerable<TSource>,
         (comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     },
-    elementAt: (index: number) => TSource
-    elementAtOrDefault: (index: number) => TSource | null
+    elementAt: {
+        (index: number): TSource
+    }
+    elementAtOrDefault: { 
+        (index: number): TSource | null
+    }
     except: {
         (second: IEnumerable<TSource>): IEnumerable<TSource>
         (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>
@@ -43,7 +59,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (): TSource | null,
         (predicate: (x: TSource) => boolean): TSource | null
     }
-    each: (action: (x: TSource) => void) => void
+    each: { 
+        (action: (x: TSource) => void): void
+    }
     groupBy: {
         (keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>
         (keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>
@@ -65,11 +83,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (second: IEnumerable<TSource>): IEnumerable<TSource>
         (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     }
-    take: (amount: number) => IEnumerable<TSource>
-    takeWhile: {
-        (pedicate: (x: TSource) => boolean): IEnumerable<TSource>,
-        (pedicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
-    }
+    // Join
     last: {
         (): TSource,
         (predicate: (x: TSource) => boolean): TSource
@@ -101,7 +115,14 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>
         (predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>
     }
-    reverse:() => IEnumerable<TSource>
+    orderByDescending: {
+        (predicate: (x: TSource) => number | string): IOrderedEnumerable<TSource>
+        (predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>
+        (predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>        
+    }
+    reverse: {
+        (): IEnumerable<TSource>
+    }
     select: {
         <OUT>(selector: (x : TSource) => OUT): IEnumerable<OUT>
         <TKey extends keyof TSource>(key: TKey): IEnumerable<TSource[TKey]> 
@@ -109,7 +130,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
     selectMany: { 
         <OUT>(selector: (x : TSource) => Iterable<OUT>): IEnumerable<OUT>
     }
-    sequenceEquals: (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>) => boolean
+    sequenceEquals: {
+        (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean
+    }
     single: {
         (): TSource
         (predicate: (x: TSource) => boolean): TSource
@@ -118,7 +141,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (): TSource | null
         (predicate: (x: TSource) => boolean): TSource | null
     }
-    skip: (count: number) => IEnumerable<TSource>
+    skip: {
+        (count: number): IEnumerable<TSource>
+    }
     skipWhile: {
         (predicate: (x: TSource) => boolean): IEnumerable<TSource>,
         (predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>
@@ -127,9 +152,22 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
         (this: IEnumerable<number>): number
         (this: IEnumerable<TSource>, selector: (x : TSource) => number): number
     }
-    toArray: () => TSource[]
-    toMap: <TKey>(selector: (x: TSource) => TKey) => Map<TKey, TSource[]>
-    toSet: () => Set<TSource>
+    take: {
+        (amount: number): IEnumerable<TSource>
+    }
+    takeWhile: {
+        (pedicate: (x: TSource) => boolean): IEnumerable<TSource>,
+        (pedicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
+    }
+    toArray: {
+        (): TSource[]
+    }
+    toMap: { // = ToDictionary
+        <TKey>(selector: (x: TSource) => TKey): Map<TKey, TSource[]>
+    }
+    toSet: {
+        (): Set<TSource>
+    }
     union: {
         (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
         (second: IEnumerable<TSource>): IEnumerable<TSource>
@@ -146,12 +184,19 @@ export interface IEnumerable<TSource> extends Iterable<TSource>
 }
 
 export interface IOrderedEnumerable<TSource> extends IEnumerable<TSource> {
-    ThenBy: {
+    thenBy: {
         (keySelector: (x: TSource) => string | number): IOrderedEnumerable<TSource>
         (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>
         (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>        
     }
-    GetMap: () => RecOrdMap<TSource>
+    thenByDescending: {
+        (keySelector: (x: TSource) => string | number): IOrderedEnumerable<TSource>
+        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>
+        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>
+    }
+    getMap: {
+        (): RecOrdMap<TSource>
+    }
 }
 
 export interface IGrouping<TKey, TElement> extends IEnumerable<TElement> {
