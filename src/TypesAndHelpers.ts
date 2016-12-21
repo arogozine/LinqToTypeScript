@@ -2,7 +2,7 @@
 // ## Equality Comparers ##
 // ########################
 
-export type IEqualityComparer<T> = (x: T, y: T) => boolean
+export type IComparer<TKey> = (x: TKey, y: TKey) => number
 
 export function StrictEqualityComparer<T>(x: T, y: T): boolean {
     return x === y
@@ -21,8 +21,6 @@ export function StringifyComparer<T>(x: T, y: T): boolean {
 // #####################
 // ## Order Comparers ##
 // #####################
-
-export type IComparer<TKey> = (x: TKey, y: TKey) => number
 
 export function NumberComparer(x: number, y: number) {
     return x - y

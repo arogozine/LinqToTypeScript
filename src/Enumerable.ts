@@ -1,12 +1,22 @@
-import * as Linq from "./TypesAndHelpers"
-import { IEnumerable, IOrderedEnumerable, IGrouping } from "./IEnumerable"
-
-type IEqualityComparer<T> = Linq.IEqualityComparer<T>
-type NameValueTuple<T> = Linq.NameValueTuple<T>
-type Tuple<X, Y> = Linq.Tuple<X, Y>
-type IConstructor<TResult> = Linq.IConstructor<TResult>
-type IComparer<T> = Linq.IComparer<T>
-type RecOrdMap<T> = Linq.RecOrdMap<T>
+import {
+    ArgumentOutOfRangeException,
+    ArrayIterator,
+    AsTuple,
+    ErrorString,
+    EqualityComparer,
+    IComparer,
+    IConstructor,
+    InvalidOperationException,
+    RecOrdMap,
+    StrictEqualityComparer,
+    Tuple,
+} from "./TypesAndHelpers"
+import {
+    IGrouping,
+    IEnumerable,
+    IOrderedEnumerable,
+    IEqualityComparer,
+} from "./IEnumerable"
 
 export class BasicEnumerable<T> implements IEnumerable<T> {
     constructor(private iterator: () => IterableIterator<T>) {
@@ -456,7 +466,7 @@ export class Enumerable {
     public static contains<TSource>(
         source: IEnumerable<TSource>,
         value: TSource,
-        comparer: IEqualityComparer<TSource> = Linq.StrictEqualityComparer): boolean {
+        comparer: IEqualityComparer<TSource> = StrictEqualityComparer): boolean {
 
         for (let item of source) {
             if (comparer(value, item)) {
@@ -497,7 +507,7 @@ export class Enumerable {
 
     public static distinct<TSource>(
         source: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource> = Linq.StrictEqualityComparer) {
+        comparer: IEqualityComparer<TSource> = StrictEqualityComparer) {
 
         function* iterator() {
             const distinctElements: TSource[] = []
@@ -523,7 +533,7 @@ export class Enumerable {
             }
         }
 
-        throw new Linq.ArgumentOutOfRangeException("index")
+        throw new ArgumentOutOfRangeException("index")
     }
 
     public static elementAtOrDefault<TSource>(source: IEnumerable<TSource>, index: number): TSource | null {
@@ -556,7 +566,7 @@ export class Enumerable {
     public static except<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource> = Linq.EqualityComparer): IEnumerable<TSource> {
+        comparer: IEqualityComparer<TSource> = EqualityComparer): IEnumerable<TSource> {
 
         function *iterator() {
             const secondArray = [...second]
@@ -594,7 +604,7 @@ export class Enumerable {
         const first = source[Symbol.iterator]().next()
 
         if (first.done === true) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+            throw new InvalidOperationException(ErrorString.NoElements)
         }
 
         return first.value
@@ -607,7 +617,7 @@ export class Enumerable {
             }
         }
 
-        throw new Linq.InvalidOperationException(Linq.ErrorString.NoMatch)
+        throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
     public static firstOrDefault<T>(source: IEnumerable<T>, predicate?: (x: T) => boolean): T | null {
@@ -739,7 +749,7 @@ export class Enumerable {
 
             }
 
-            return new Linq.ArrayIterator(keyMap)
+            return new ArrayIterator(keyMap)
         }
 
         return new BasicEnumerable(generate)
@@ -831,7 +841,7 @@ export class Enumerable {
 
             }
 
-            return new Linq.ArrayIterator(keyMap)
+            return new ArrayIterator(keyMap)
         }
 
         return new BasicEnumerable(generate)
@@ -875,7 +885,7 @@ export class Enumerable {
         source: IEnumerable<TSource>,
         keySelector: (x: TSource) => TKey,
         resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult,
-        comparer: IEqualityComparer<TKey> = Linq.StrictEqualityComparer): IEnumerable<TResult> {
+        comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IEnumerable<TResult> {
 
         function *iterator(): IterableIterator<TResult> {
             const groupByResult = Enumerable.groupBy_0(source, keySelector, comparer)
@@ -913,7 +923,7 @@ export class Enumerable {
         keySelector: (x: TSource) => TKey,
         elementSelector: (x: TSource) => TElement,
         resultSelector: (key: TKey, values: IEnumerable<TElement>) => TResult,
-        comparer: IEqualityComparer<TKey> = Linq.StrictEqualityComparer): IEnumerable<TResult> {
+        comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IEnumerable<TResult> {
 
         function *iterator(): IterableIterator<TResult> {
             const groupByResult = Enumerable.GroupBy_1(source, keySelector, elementSelector, comparer)
@@ -946,7 +956,7 @@ export class Enumerable {
     public static intersect<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource> = Linq.StrictEqualityComparer): IEnumerable<TSource> {
+        comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
 
         function *iterator(): IterableIterator<TSource> {
 
@@ -1051,7 +1061,7 @@ export class Enumerable {
 
         for (let value of source) {
             if (hasValue === true) {
-                throw new Linq.InvalidOperationException(Linq.ErrorString.MoreThanOneElement)
+                throw new InvalidOperationException(ErrorString.MoreThanOneElement)
             } else {
                 hasValue = true
                 singleValue = value
@@ -1059,7 +1069,7 @@ export class Enumerable {
         }
 
         if (hasValue === false) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+            throw new InvalidOperationException(ErrorString.NoElements)
         }
 
         return <TSource> singleValue
@@ -1072,7 +1082,7 @@ export class Enumerable {
         for (let value of source) {
             if (predicate(value)) {
                 if (hasValue === true) {
-                    throw new Linq.InvalidOperationException(Linq.ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1081,7 +1091,7 @@ export class Enumerable {
         }
 
         if (hasValue === false) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoMatch)
+            throw new InvalidOperationException(ErrorString.NoMatch)
         }
 
         return <TSource> singleValue
@@ -1104,7 +1114,7 @@ export class Enumerable {
 
         for (let value of source) {
             if (hasValue === true) {
-                throw new Linq.InvalidOperationException(Linq.ErrorString.MoreThanOneElement)
+                throw new InvalidOperationException(ErrorString.MoreThanOneElement)
             } else {
                 hasValue = true
                 singleValue = value
@@ -1124,7 +1134,7 @@ export class Enumerable {
         for (let value of source) {
             if (predicate(value)) {
                 if (hasValue === true) {
-                    throw new Linq.InvalidOperationException(Linq.ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1223,7 +1233,7 @@ export class Enumerable {
         }
 
         if (!last) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+            throw new InvalidOperationException(ErrorString.NoElements)
         }
 
         return last
@@ -1239,7 +1249,7 @@ export class Enumerable {
         }
 
         if (!last) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoMatch)
+            throw new InvalidOperationException(ErrorString.NoMatch)
         }
 
         return last
@@ -1296,7 +1306,7 @@ export class Enumerable {
         }
 
         if (max === null) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+            throw new InvalidOperationException(ErrorString.NoElements)
         } else {
             return max
         }
@@ -1309,7 +1319,7 @@ export class Enumerable {
         }
 
         if (max === null) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+            throw new InvalidOperationException(ErrorString.NoElements)
         } else {
             return max
         }
@@ -1332,7 +1342,7 @@ export class Enumerable {
         }
 
         if (min === null) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+            throw new InvalidOperationException(ErrorString.NoElements)
         } else {
             return min
         }
@@ -1345,7 +1355,7 @@ export class Enumerable {
         }
 
         if (min === null) {
-            throw new Linq.InvalidOperationException(Linq.ErrorString.NoElements)
+            throw new InvalidOperationException(ErrorString.NoElements)
         } else {
             return min
         }
@@ -1439,7 +1449,7 @@ export class Enumerable {
     public static sequenceEquals<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource> = Linq.StrictEqualityComparer): boolean {
+        comparer: IEqualityComparer<TSource> = StrictEqualityComparer): boolean {
 
         const firstIterator = first[Symbol.iterator]()
         const secondIterator = second[Symbol.iterator]()
@@ -1776,7 +1786,7 @@ export class Enumerable {
                 if (a.done && b.done) {
                     break
                 } else {
-                    yield Linq.AsTuple(a.value, b.value)
+                    yield AsTuple(a.value, b.value)
                 }
             }
         }

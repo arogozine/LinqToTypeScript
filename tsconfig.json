@@ -9,7 +9,8 @@
         "alwaysStrict": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "./lib"
+        "outDir": "./lib",
+        "declaration": true
     },
     "files": [
         "src/index.ts"

@@ -76,7 +76,7 @@ export function RunTests() {
             try {
                 (func as Function).call(obj)
             } catch (e) {
-                console.log(`${className}: Test #${i - j} (${key}) failed ${e}`)
+                console.log(`${className}: Test #${i - j} (${key}) failed ${e} \r\n ${(e as Error).stack}`)
                 break
             }
         }
