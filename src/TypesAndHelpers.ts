@@ -2,8 +2,6 @@
 // ## Equality Comparers ##
 // ########################
 
-export type IComparer<TKey> = (x: TKey, y: TKey) => number
-
 export function StrictEqualityComparer<T>(x: T, y: T): boolean {
     return x === y
 }
@@ -37,14 +35,6 @@ export type Tuple<X, Y> = {
 
 export function AsTuple<X, Y>(first: X, second: Y): Tuple<X, Y> {
     return { first, second }
-}
-
-// #################
-// ## Constructor ##
-// #################
-
-export interface IConstructor<TResult> extends Function {
-    readonly prototype: TResult
 }
 
 // ###################

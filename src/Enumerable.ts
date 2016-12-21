@@ -4,18 +4,18 @@ import {
     AsTuple,
     ErrorString,
     EqualityComparer,
-    IComparer,
-    IConstructor,
     InvalidOperationException,
     StrictEqualityComparer,
     Tuple,
 } from "./TypesAndHelpers"
 import {
+    IComparer,
+    IConstructor,
     IGrouping,
     IEnumerable,
     IOrderedEnumerable,
     IEqualityComparer,
-    RecOrdMap
+    RecOrdMap,
 } from "./IEnumerable"
 
 export class BasicEnumerable<T> implements IEnumerable<T> {

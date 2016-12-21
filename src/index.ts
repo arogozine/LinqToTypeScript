@@ -4,13 +4,13 @@ import "./LinqForArray"
 import "./LinqForMap"
 
 export {
-    StrictEqualityComparer, EqualityComparer, StringifyComparer, IComparer,
+    StrictEqualityComparer, EqualityComparer, StringifyComparer,
     NumberComparer,
     Tuple, AsTuple,
-    IConstructor,
     InvalidOperationException, ArgumentOutOfRangeException,
     ArrayIterator } from "./TypesAndHelpers"
-export { IEnumerable, IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap } from "./IEnumerable"
+export { IComparer,
+    IConstructor, IEnumerable, IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap } from "./IEnumerable"
 export { Enumerable } from "./Enumerable"
 
 function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {

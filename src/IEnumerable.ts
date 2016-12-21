@@ -2,7 +2,13 @@
 // ## Interfaces ##
 // ################
 
-import { Tuple, IConstructor, IComparer } from "./TypesAndHelpers"
+import { Tuple } from "./TypesAndHelpers"
+
+export interface IConstructor<TResult> extends Function {
+    readonly prototype: TResult
+}
+
+export type IComparer<TKey> = (x: TKey, y: TKey) => number
 
 export type IEqualityComparer<T> = (x: T, y: T) => boolean
 
