@@ -7,7 +7,6 @@ import {
     IComparer,
     IConstructor,
     InvalidOperationException,
-    RecOrdMap,
     StrictEqualityComparer,
     Tuple,
 } from "./TypesAndHelpers"
@@ -16,6 +15,7 @@ import {
     IEnumerable,
     IOrderedEnumerable,
     IEqualityComparer,
+    RecOrdMap
 } from "./IEnumerable"
 
 export class BasicEnumerable<T> implements IEnumerable<T> {

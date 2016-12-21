@@ -30,11 +30,6 @@ export function NumberComparer(x: number, y: number) {
 // ## Tuples ##
 // ############
 
-export type NameValueTuple<TValue> = {
-    readonly name: string
-    readonly value: TValue
-}
-
 export type Tuple<X, Y> = {
     readonly first: X
     readonly second: Y
@@ -51,16 +46,6 @@ export function AsTuple<X, Y>(first: X, second: Y): Tuple<X, Y> {
 export interface IConstructor<TResult> extends Function {
     readonly prototype: TResult
 }
-
-export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
-    new (_?: any): Y
-}
-
-// ###########################
-// ## Recursive Ordered Map ##
-// ###########################
-
-export type RecOrdMap<T> = Map<number | string, T[] | Map<number | string, any>>
 
 // ###################
 // ## Error Classes ##

@@ -2,9 +2,19 @@
 // ## Interfaces ##
 // ################
 
-import { RecOrdMap, Tuple, IConstructor, IComparer } from "./TypesAndHelpers"
+import { Tuple, IConstructor, IComparer } from "./TypesAndHelpers"
 
 export type IEqualityComparer<T> = (x: T, y: T) => boolean
+
+export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
+    new (_?: any): Y
+}
+
+// ###########################
+// ## Recursive Ordered Map ##
+// ###########################
+
+export type RecOrdMap<T> = Map<number | string, T[] | Map<number | string, any>>
 
 // IEnumerable interface based on,
 // https://msdn.microsoft.com/en-us/library/9eekhta0(v=vs.110).aspx

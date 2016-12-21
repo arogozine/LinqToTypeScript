@@ -1,5 +1,5 @@
-import { IPrototype } from "./TypesAndHelpers"
 import { BasicEnumerable } from "./Enumerable"
+import { IPrototype } from "./IEnumerable"
 import "./LinqForArray"
 import "./LinqForMap"
 
@@ -7,11 +7,10 @@ export {
     StrictEqualityComparer, EqualityComparer, StringifyComparer, IComparer,
     NumberComparer,
     Tuple, AsTuple,
-    IConstructor, IPrototype,
-    RecOrdMap,
+    IConstructor,
     InvalidOperationException, ArgumentOutOfRangeException,
     ArrayIterator } from "./TypesAndHelpers"
-export { IEnumerable, IOrderedEnumerable, IEqualityComparer } from "./IEnumerable"
+export { IEnumerable, IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap } from "./IEnumerable"
 export { Enumerable } from "./Enumerable"
 
 function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
