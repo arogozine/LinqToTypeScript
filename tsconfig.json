@@ -6,9 +6,13 @@
         "moduleResolution": "node",
         "removeComments": true,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
+        // "noUnusedLocals": true,
+        // "noUnusedParameters": true,
         "alwaysStrict": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
         "outDir": "./lib",
         "declaration": true
     },
