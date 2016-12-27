@@ -343,7 +343,7 @@ export class Enumerable {
     private static aggregate_1<TSource>(
         source: IEnumerable<TSource>,
         func: (x: TSource, y: TSource) => TSource): TSource | null {
-        let aggregateValue: TSource | null = null
+        let aggregateValue: TSource | undefined
 
         for (let value of source)
         {
@@ -352,6 +352,10 @@ export class Enumerable {
             } else {
                 aggregateValue = value
             }
+        }
+
+        if (typeof aggregateValue === "undefined") {
+            throw new InvalidOperationException(ErrorString.NoElements)
         }
 
         return aggregateValue
@@ -435,22 +439,32 @@ export class Enumerable {
     }
 
     private static average_1(source: IEnumerable<number>): number {
-        let value = 0
-        let count = 0
+        let value: number | undefined
+        let count: number | undefined
         for (let item of source) {
-            value += item
-            count++
+            value = (value || 0) + item
+            count = (count || 0) + 1
         }
+
+        if (typeof value === "undefined") {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
         return value / count
     }
 
     private static average_2<TSource>(source: IEnumerable<TSource>, func: (x: TSource) => number): number {
-        let value = 0
-        let count = 0
+        let value: number | undefined
+        let count: number | undefined
         for (let item of source) {
-            value += func(item)
-            count++
+            value = (value || 0) + func(item)
+            count = (count || 0) + 1
         }
+
+        if (typeof value === "undefined") {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
         return value / count
     }
 
