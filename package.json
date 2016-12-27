@@ -3,6 +3,7 @@
   "version": "0.9.0",
   "description": "LINQ ported to TypeScript",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "maintainers": [
     {
       "name": "Alexandre Rogozine",
