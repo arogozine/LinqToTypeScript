@@ -1,3 +1,5 @@
+import { Tuple } from "./Interfaces"
+
 // ########################
 // ## Equality Comparers ##
 // ########################
@@ -27,11 +29,6 @@ export function NumberComparer(x: number, y: number) {
 // ############
 // ## Tuples ##
 // ############
-
-export type Tuple<X, Y> = {
-    readonly first: X
-    readonly second: Y
-}
 
 export function AsTuple<X, Y>(first: X, second: Y): Tuple<X, Y> {
     return { first, second }

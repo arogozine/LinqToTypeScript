@@ -78,8 +78,8 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.firstOrDefault(this, predicate)
     }
 
-    public each<T>(action: (x: T) => void): void {
-        Enumerable.each(this, action)
+    public each<T>(action: (x: T) => void): IEnumerable<T> {
+        return Enumerable.each(this, action)
     }
 
     public groupBy(keySelector: (x: T) => string): IEnumerable<IGrouping<string, T>>;
@@ -677,10 +677,12 @@ export class Enumerable {
         return new BasicEnumerable(() => iterator(source))
     }
 
-    public static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): void {
+    public static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): IEnumerable<TSource> {
         for (let value of source) {
             action(value)
         }
+
+        return source
     }
 
     public static groupBy<TSource>(

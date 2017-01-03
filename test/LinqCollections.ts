@@ -1,5 +1,4 @@
-import * as Linq from "./../src/index"
-import { IsTrue, IsFalse, AreEqual, IterationsAreEqual, ExpectedException } from "./UnitTest"
+import { IsTrue, IsFalse } from "./UnitTest"
 import { TestClass } from "./UnitTest"
 
 @TestClass
