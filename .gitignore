@@ -38,3 +38,7 @@ jspm_packages
 
 # Visual Studio Code
 .vscode
+
+# Uneeded JS files
+test/*.js
+src/*.js
