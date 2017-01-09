@@ -15,7 +15,7 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     except(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     first<T>(predicate?: (x: T) => boolean): T;
     firstOrDefault<T>(predicate?: (x: T) => boolean): T | null;
-    each<T>(action: (x: T) => void): void;
+    each<T>(action: (x: T) => void): IEnumerable<T>;
     groupBy(keySelector: (x: T) => string): IEnumerable<IGrouping<string, T>>;
     groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>;
     groupBy<TKey>(keySelector: (x: T) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>;
@@ -102,7 +102,7 @@ export declare class Enumerable {
     static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>): IEnumerable<TSource>;
     static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>;
     static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>;
-    static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): void;
+    static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): IEnumerable<TSource>;
     static groupBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>;
     static groupBy<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>;

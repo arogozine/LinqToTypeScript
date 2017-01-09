@@ -64,7 +64,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (predicate: (x: TSource) => boolean): TSource | null;
     };
     each: {
-        (action: (x: TSource) => void): void;
+        (action: (x: TSource) => void): IEnumerable<TSource>;
     };
     groupBy: {
         (keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>;
