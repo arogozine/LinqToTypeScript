@@ -1,4 +1,4 @@
-import { ArgumentOutOfRangeException, IEnumerable, InvalidOperationException } from "./../src/index"
+import { ArgumentOutOfRangeException, IEnumerable, InvalidOperationException, EqualityComparer } from "./../src/index"
 import { IsTrue, IsFalse, AreEqual, IterationsAreEqual, ExpectedException } from "./UnitTest"
 
 export class NumberTest<T extends IEnumerable<number>> {
@@ -136,5 +136,100 @@ export class NumberTest<T extends IEnumerable<number>> {
     @ExpectedException(InvalidOperationException)
     public first2_exception() {
         this.generator([1, 2, 3]).first(x => x === 4)
+    }
+
+    public orderBy() {
+        const vals = this.generator([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        IterationsAreEqual(vals.orderBy(x => x), vals)
+
+        // TODO: Behavior Difference Between C# and JS
+        // IterationsAreEqual(vals.orderBy(x => -x), vals.reverse())
+    }
+
+    public max() {
+        AreEqual(this.generator([1, 2, 3]).max(), 3)
+    }
+
+    @ExpectedException(InvalidOperationException)
+    public max_exception() {
+        this.generator([]).max()
+    }
+
+    public max2() {
+        AreEqual(this.generator([1, 2, 3]).max(x => x * 2), 6)
+    }
+
+    @ExpectedException(InvalidOperationException)
+    public max2_exception() {
+        this.generator([]).max(x => x * 2)
+    }
+
+    public orderByDescending() {
+        const vals = this.generator([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        IterationsAreEqual(vals.orderByDescending(x => x), vals.reverse())
+    }
+
+    public reverse() {
+        const vals = this.generator([1, 2, 3])
+        IterationsAreEqual(vals.reverse(), [3, 2, 1])
+
+        IterationsAreEqual([].reverse(), [])
+    }
+
+    public skip() {
+        const vals = this.generator([1, 2, 3, 4])
+        IterationsAreEqual(vals.skip(1), [2, 3, 4])
+        IterationsAreEqual(vals.skip(0), vals)
+
+        IterationsAreEqual(vals.skip(-9), vals)
+    }
+
+    public take() {
+        const vals = this.generator([1, 2, 3, 4])
+        IterationsAreEqual(vals.take(4), vals)
+        IterationsAreEqual(vals.take(1), [1])
+        IterationsAreEqual(vals.take(2), [1, 2])
+
+        IterationsAreEqual(vals.take(0), [])
+        IterationsAreEqual(vals.take(-1), [])
+    }
+
+    public takeWhile() {
+        const vals = this.generator([1, 2, 3, 4])
+        IterationsAreEqual(vals.takeWhile(x => true), vals)
+        IterationsAreEqual(vals.takeWhile(x => false), [])
+        IterationsAreEqual(vals.takeWhile(x => x !== 3), [1, 2])
+
+        IterationsAreEqual(vals.takeWhile((x: number, i: number) => true), vals)
+        IterationsAreEqual(vals.takeWhile((x: number, i: number) => false), [])
+        IterationsAreEqual(vals.takeWhile((x: number, i: number) => x !== 3), [1, 2])
+    }
+
+    public union() {
+        const ints1 = this.generator([ 5, 3, 9, 7, 5, 9, 3, 7 ])
+        const ints2 = this.generator([ 8, 3, 6, 4, 4, 9, 1, 0 ])
+
+        const union = ints1.union(ints2)
+
+        IterationsAreEqual([5, 3, 9, 7, 8, 6, 4, 1, 0], union)
+    }
+
+    public union2() {
+        const ints1: IEnumerable<string|number> = this.generator([ 5, 3, 9, 7, 5, 9, 3, 7 ])
+        const ints2: IEnumerable<string|number> = [ "8", "3", "6", "4", "4", "9", "1", "0" ]
+
+        const union = ints1.union(ints2, EqualityComparer)
+
+        IterationsAreEqual([5, 3, 9, 7, "8", "6", "4", "1", "0"], union)
+    }
+
+    public where() {
+        const vals = this.generator([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+        IterationsAreEqual(vals.where(x => x > 8), [9])
+    }
+
+    public where2() {
+        const vals = this.generator([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+        IterationsAreEqual(vals.where((x: number, i: number) => i === 9), [9])
     }
 }

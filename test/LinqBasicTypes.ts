@@ -277,6 +277,15 @@ export abstract class LinqTests {
         }
     }
 
+    public where() {
+        const stuff = [ "", "1", "2", "foo", "bar" ]
+        const noEmptyStrings = stuff.where(x => x !== "")
+        IterationsAreEqual(noEmptyStrings, [ "1", "2", "foo", "bar" ])
+
+        const noBar = stuff.where((x: string, i: number) => i !== stuff.length - 1)
+        IterationsAreEqual(noBar, [ "", "1", "2", "foo" ])
+    }
+
     public zipWithResultSelector() {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
