@@ -1515,8 +1515,10 @@ export class Enumerable {
     }
 
     public static take<T>(source: IEnumerable<T>, amount: number): IEnumerable<T> {
+
         function* iterator() {
-            let amountLeft = amount
+            // negative amounts should yield empty
+            let amountLeft = amount > 0 ? amount : 0
             for (let item of source) {
                 if (amountLeft-- === 0) {
                     break
