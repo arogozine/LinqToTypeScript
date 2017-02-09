@@ -21,6 +21,7 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     groupBy<TKey>(keySelector: (x: T) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>;
     groupByWithSel<TSource, TKey, TElement>(keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>;
     intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
+    joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
     last<T>(predicate?: (x: T) => boolean): T;
     lastOrDefault<T>(predicate?: (x: T) => boolean): T;
     max(this: IEnumerable<number> | IEnumerable<T>, selector?: (x: T) => number): number;
@@ -72,7 +73,9 @@ export declare class OrderedEnumerable<T> extends BasicEnumerable<T> implements 
     thenByDescending(keySelector: ((x: T) => number) | ((x: T) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<T>;
 }
 export declare class Enumerable {
-    static aggregate<TSource, TAccumulate, TResult>(source: IEnumerable<TSource>, seedOrFunc: ((x: TSource, y: TSource) => TSource) | TAccumulate, func?: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector?: (x: TAccumulate) => TResult): TSource | TAccumulate | TResult | null;
+    static aggregate<TSource>(source: IEnumerable<TSource>, func: (x: TSource, y: TSource) => TSource): TSource;
+    static aggregate<TSource, TAccumulate>(source: IEnumerable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate;
+    static aggregate<TSource, TAccumulate, TResult>(source: IEnumerable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): TResult;
     private static aggregate_1<TSource>(source, func);
     private static aggregate_2<TSource, TAccumulate>(source, seed, func);
     private static aggregate_3<TSource, TAccumulate, TResult>(source, seed, func, resultSelector);
@@ -119,6 +122,7 @@ export declare class Enumerable {
     static GroupByWithResultAndSelector<TSource, TKey, TElement, TResult>(source: IEnumerable<TSource>, keySelector: ((x: TSource) => TKey) | ((x: TSource) => string) | ((x: TSource) => number), elementSelector: (x: TSource) => TElement, resultSelector: ((key: TKey, values: IEnumerable<TElement>) => TResult) | ((key: string | number, values: IEnumerable<TElement>) => TResult), comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
     private static GroupBy_3<TSource, TKey, TElement, TResult>(source, keySelector, elementSelector, resultSelector, comparer?);
     private static GroupBy_3_Simple<TSource, TElement, TResult>(source, keySelector, elementSelector, resultSelector);
+    static Join<TOuter, TInner, TKey, TResult>(outer: IEnumerable<TOuter>, inner: IEnumerable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
     static intersect<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     static partition<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource[][];
     static select<TSource, TResult>(source: IEnumerable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>;

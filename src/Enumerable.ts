@@ -27,7 +27,7 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         seedOrFunc: ((x: T, y: T) => T) | TAccumulate,
         func?: (x: TAccumulate, y: T) => TAccumulate,
         resultSelector?: (x: TAccumulate) => TResult): T | TAccumulate | TResult {
-        return Enumerable.aggregate(this, seedOrFunc, func, resultSelector)
+        return <any> Enumerable.aggregate(this, <any> seedOrFunc, <any> func, <any> resultSelector)
     }
 
     public all(predicate: (x: T) => boolean): boolean {
@@ -94,14 +94,23 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
     }
 
     public groupByWithSel<TSource, TKey, TElement>(
-            keySelector: ((x: TSource) => TKey),
-            elementSelector: (x: TSource) => TElement,
-            comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
+        keySelector: ((x: TSource) => TKey),
+        elementSelector: (x: TSource) => TElement,
+        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
         return Enumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
     }
 
     public intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
         return Enumerable.intersect(this, second, comparer)
+    }
+
+    public joinByKey<TInner, TKey, TResult>(
+        inner: IEnumerable<TInner>,
+        outerKeySelector: (x: T) => TKey,
+        innerKeySelector: (x: TInner) => TKey,
+        resultSelector: (x: T, y: TInner) => TResult,
+        comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
+        return Enumerable.Join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer)
     }
 
     public last<T>(predicate?: (x: T) => boolean): T {
@@ -322,6 +331,18 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
 
 export class Enumerable {
 
+    public static aggregate<TSource>(
+        source: IEnumerable<TSource>,
+        func: (x: TSource, y: TSource) => TSource): TSource;
+    public static aggregate<TSource, TAccumulate> (
+        source: IEnumerable<TSource>,
+        seed: TAccumulate,
+        func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate;
+    public static aggregate<TSource, TAccumulate, TResult>(
+        source: IEnumerable<TSource>,
+        seed: TAccumulate,
+        func: (x: TAccumulate, y: TSource) => TAccumulate,
+        resultSelector: (x: TAccumulate) => TResult): TResult;
     public static aggregate<TSource, TAccumulate, TResult>(
         source: IEnumerable<TSource>,
         seedOrFunc: ((x: TSource, y: TSource) => TSource) | TAccumulate,
@@ -963,6 +984,30 @@ export class Enumerable {
 
             for (let group of groupByResult) {
                 yield resultSelector(group.key, group)
+            }
+        }
+
+        return new BasicEnumerable(iterator)
+    }
+
+    public static Join<TOuter, TInner, TKey, TResult>(
+        outer: IEnumerable<TOuter>,
+        inner: IEnumerable<TInner>,
+        outerKeySelector: (x: TOuter) => TKey,
+        innerKeySelector: (x: TInner) => TKey,
+        resultSelector: (x: TOuter, y: TInner) => TResult,
+        comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IEnumerable<TResult> {
+        function *iterator(): IterableIterator<TResult> {
+            const innerArray = [...inner]
+            for (const o of outer) {
+                const outerKey = outerKeySelector(o)
+
+                for (const i of innerArray) {
+                    const innerKey = innerKeySelector(i)
+                    if (comparer(outerKey, innerKey) === true) {
+                        yield resultSelector(o, i)
+                    }
+                }
             }
         }
 

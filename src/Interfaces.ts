@@ -106,7 +106,18 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (second: IEnumerable<TSource>): IEnumerable<TSource>
         (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     }
-    // Join
+    // join in LINQ - but renamed to avoid clash with Array.prototype.join
+    joinByKey: {
+        <TInner, TKey, TResult>(inner: IEnumerable<TInner>,
+            outerKeySelector: (x: TSource) => TKey,
+            innerKeySelector: (x: TInner) => TKey,
+            resultSelector: (x: TSource, y: TInner) => TResult): IEnumerable<TResult>
+        <TInner, TKey, TResult>(inner: IEnumerable<TInner>,
+            outerKeySelector: (x: TSource) => TKey,
+            innerKeySelector: (x: TInner) => TKey,
+            resultSelector: (x: TSource, y: TInner) => TResult,
+            comparer: IEqualityComparer<TKey>): IEnumerable<TResult>
+    }
     last: {
         (): TSource,
         (predicate: (x: TSource) => boolean): TSource

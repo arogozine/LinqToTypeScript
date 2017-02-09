@@ -138,6 +138,22 @@ export class NumberTest<T extends IEnumerable<number>> {
         this.generator([1, 2, 3]).first(x => x === 4)
     }
 
+    public joinByKey() {
+        const joinBy = this.generator([1, 2, 3]).joinByKey(this.generator([1, 2, 3]),
+            x => x,
+            x => x,
+            (x, y) => { return { x, y } })
+            .toArray()
+
+        AreEqual(joinBy.length, 3)
+        AreEqual(joinBy[0].x, 1)
+        AreEqual(joinBy[1].x, 2)
+        AreEqual(joinBy[2].x, 3)
+        AreEqual(joinBy[0].x, joinBy[0].y)
+        AreEqual(joinBy[1].x, joinBy[1].y)
+        AreEqual(joinBy[2].x, joinBy[2].y)
+    }
+
     public orderBy() {
         const vals = this.generator([1, 2, 3, 4, 5, 6, 7, 8, 9])
         IterationsAreEqual(vals.orderBy(x => x), vals)
@@ -162,6 +178,16 @@ export class NumberTest<T extends IEnumerable<number>> {
     @ExpectedException(InvalidOperationException)
     public max2_exception() {
         this.generator([]).max(x => x * 2)
+    }
+
+    @ExpectedException(InvalidOperationException)
+    public min_exception() {
+        this.generator([]).min()
+    }
+
+    @ExpectedException(InvalidOperationException)
+    public min2_exception() {
+        this.generator([]).min(x => x)
     }
 
     public orderByDescending() {
