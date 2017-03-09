@@ -27,7 +27,7 @@
   "author": "Alexandre Rogozine",
   "license": "FSFUL",
   "devDependencies": {
-    "typescript": "^2.1.4"
+    "typescript": "^2.2.1"
   },
   "bugs": {
     "url": "https://github.com/arogozine/LinqToTypeScript/issues"

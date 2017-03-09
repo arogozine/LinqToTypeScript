@@ -471,7 +471,7 @@ export class Enumerable {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
-        return value / count
+        return value / <number> count
     }
 
     private static average_2<TSource>(source: IEnumerable<TSource>, func: (x: TSource) => number): number {
@@ -486,7 +486,7 @@ export class Enumerable {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
-        return value / count
+        return value / <number> count
     }
 
     public static concat<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource> {
