@@ -1,7 +1,7 @@
-export declare type Tuple<X, Y> = {
+export interface ITuple<X, Y> {
     readonly first: X;
     readonly second: Y;
-};
+}
 export interface IConstructor<TResult> extends Function {
     readonly prototype: TResult;
 }
@@ -178,7 +178,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     };
     zip: {
         <TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>;
-        <TSecond>(second: Iterable<TSecond>): IEnumerable<Tuple<TSource, TSecond>>;
+        <TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;
     };
     [Symbol.iterator]: () => IterableIterator<TSource>;
 }

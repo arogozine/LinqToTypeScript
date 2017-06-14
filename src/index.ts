@@ -13,15 +13,15 @@ export {
     IComparer,
     IConstructor,
     IEnumerable,
-    IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, Tuple } from "./Interfaces"
+    IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces"
 export { Enumerable } from "./Enumerable"
 
 function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
 
     const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
-        .filter(v => v !== "constructor")
+        .filter((v) => v !== "constructor")
 
-    for (let prop of propertyNames) {
+    for (const prop of propertyNames) {
         object.prototype[prop] =  object.prototype[prop] || (BasicEnumerable.prototype as any)[prop]
     }
 }

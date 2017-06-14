@@ -3,7 +3,7 @@
 // #############################
 
 import { IEnumerable } from "./Interfaces"
-import { ArgumentOutOfRangeException, InvalidOperationException, ErrorString } from "./TypesAndHelpers"
+import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "./TypesAndHelpers"
 
 interface IArray<T, Y> extends ArrayLike<T>, IEnumerable<T> {
     every(callbackfn: (value: T, index: number, array: Y) => boolean, thisArg?: any): boolean
@@ -60,21 +60,21 @@ declare global {
 
     }
 }
-/* tsline:enable */
+/* tslint:enable */
 
-function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): void {
+function bindArray<T, Y extends IArray<T, Y>>(array: IArrayConstructor<T, Y>): void {
 
     type genericArray = IArray<T, Y>
-    
-    _array.prototype.all = function(this: genericArray, predicate: (x: T) => boolean): boolean {
+
+    array.prototype.all = function(this: genericArray, predicate: (x: T) => boolean): boolean {
         return this.every(predicate)
     }
 
-    _array.prototype.any = function(this: genericArray, predicate?: (x: T) => boolean): boolean {
-        return this.some(predicate || (x => true))
+    array.prototype.any = function(this: genericArray, predicate?: (x: T) => boolean): boolean {
+        return this.some(predicate || ((_) => true))
     }
 
-    _array.prototype.count = function(this: genericArray, predicate?: (x: T) => boolean): number {
+    array.prototype.count = function(this: genericArray, predicate?: (x: T) => boolean): number {
         if (predicate) {
             let count = 0
             for (let i = 0; i < this.length; i ++) {
@@ -88,15 +88,15 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
         }
     }
 
-    _array.prototype.elementAt = function(this: genericArray, index: number): T {
+    array.prototype.elementAt = function(this: genericArray, index: number): T {
         if (index >= this.length) {
             throw new ArgumentOutOfRangeException("index")
         }
 
         return this[index]
     }
-    
-    _array.prototype.first = function(this: genericArray, predicate?: (x: T) => boolean): T {
+
+    array.prototype.first = function(this: genericArray, predicate?: (x: T) => boolean): T {
         if (predicate) {
             const value = this.find(predicate)
             if (typeof value === "undefined") {
@@ -113,7 +113,7 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
         }
     }
 
-    _array.prototype.firstOrDefault = function(
+    array.prototype.firstOrDefault = function(
         this: IArray<any, Y>,
         predicate?: (x: T) => boolean): T | null {
         if (predicate) {
@@ -128,7 +128,7 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
         }
     }
 
-    _array.prototype.last = function(this: genericArray, predicate?: (x: T) => boolean): T {
+    array.prototype.last = function(this: genericArray, predicate?: (x: T) => boolean): T {
         if (predicate) {
             for (let i = 0; i < this.length; i++) {
                 const value = this[i]
@@ -147,7 +147,7 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
         }
     }
 
-    _array.prototype.lastOrDefault = function(this: genericArray, predicate?: (x: T) => boolean): T | null {
+    array.prototype.lastOrDefault = function(this: genericArray, predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             for (let i = 0; i < this.length; i++) {
                 const value = this[i]
@@ -155,17 +155,17 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
                     return value
                 }
             }
-            
+
             return null
         } else {
             return this.length === 0 ? null : this[this.length - 1]
         }
     }
-    
-    _array.prototype.max = function(this: IArray<any, Y>, selector?: (x: T) => number): number | never {
+
+    array.prototype.max = function(this: IArray<any, Y>, selector?: (x: T) => number): number | never {
 
         if (this.length === 0) {
-            throw new InvalidOperationException(ErrorString.NoElements);
+            throw new InvalidOperationException(ErrorString.NoElements)
         }
 
         if (selector) {
@@ -180,11 +180,11 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
             return Math.max(...(this as any))
         }
     }
-    
-    _array.prototype.min = function(this: IArray<any, Y>, selector?: (x: T) => number): number {
+
+    array.prototype.min = function(this: IArray<any, Y>, selector?: (x: T) => number): number {
 
         if (this.length === 0) {
-            throw new InvalidOperationException(ErrorString.NoElements);
+            throw new InvalidOperationException(ErrorString.NoElements)
         }
 
         if (selector) {
@@ -199,16 +199,16 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
             return Math.min(...(this as any))
         }
     }
-    
-    _array.prototype.toArray = function(this: genericArray): T[] {
-        const array = new Array<T>(this.length)
+
+    array.prototype.toArray = function(this: genericArray): T[] {
+        const newArray = new Array<T>(this.length)
         for (let i = 0; i < this.length; i++) {
-            array[i] = this[i]
+            newArray[i] = this[i]
         }
-        return array
+        return newArray
     }
 
-    _array.prototype.toMap = function<TKey>(this: genericArray, selector: (x: T) => TKey): Map<TKey, T[]> {
+    array.prototype.toMap = function<TKey>(this: genericArray, selector: (x: T) => TKey): Map<TKey, T[]> {
         const map = new Map<TKey, T[]>()
         for (let i = 0; i < this.length; i++) {
             const value = this[i]
@@ -225,7 +225,7 @@ function bindArray<T, Y extends IArray<T, Y>>(_array: IArrayConstructor<T, Y>): 
         return map
     }
 
-    _array.prototype.where = function(
+    array.prototype.where = function(
         this: genericArray,
         predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IEnumerable<T> {
         return this.filter(predicate)

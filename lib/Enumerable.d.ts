@@ -1,4 +1,4 @@
-import { IComparer, IConstructor, IGrouping, IEnumerable, IOrderedEnumerable, IEqualityComparer, RecOrdMap, Tuple } from "./Interfaces";
+import { IComparer, IConstructor, IEnumerable, IEqualityComparer, IGrouping, IOrderedEnumerable, ITuple, RecOrdMap } from "./Interfaces";
 export declare class BasicEnumerable<T> implements IEnumerable<T> {
     private iterator;
     constructor(iterator: () => IterableIterator<T>);
@@ -45,7 +45,7 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     toSet(): Set<T>;
     union(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     where(predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IEnumerable<T>;
-    zip<Y, OUT>(second: Iterable<Y>, resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<Tuple<T, Y>>;
+    zip<Y, OUT>(second: Iterable<Y>, resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<ITuple<T, Y>>;
     [Symbol.iterator](): IterableIterator<T>;
 }
 export declare class Grouping<TKey, Element> extends Array<Element> implements IGrouping<TKey, Element> {
@@ -54,7 +54,6 @@ export declare class Grouping<TKey, Element> extends Array<Element> implements I
 }
 export declare class OrderedEnumerableDescending<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
     private map;
-    private comparer;
     private static unrollAndSort<T>(map, comparer?);
     private static generate<T>(mapFunc, comparer?);
     constructor(map: () => RecOrdMap<T>, comparer?: IComparer<number | string>);
@@ -64,7 +63,6 @@ export declare class OrderedEnumerableDescending<T> extends BasicEnumerable<T> i
 }
 export declare class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
     private map;
-    private comparer;
     private static unrollAndSort<T>(map, comparer?);
     private static generate<T>(mapFunc, comparer?);
     constructor(map: () => RecOrdMap<T>, comparer?: IComparer<number | string>);
@@ -99,7 +97,7 @@ export declare class Enumerable {
     static distinct<TSource>(source: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
     static elementAt<TSource>(source: IEnumerable<TSource>, index: number): TSource;
     static elementAtOrDefault<TSource>(source: IEnumerable<TSource>, index: number): TSource | null;
-    static enumerateObject<TInput>(source: TInput): IEnumerable<Tuple<keyof TInput, TInput[keyof TInput]>>;
+    static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
     static except<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
     static first<TSource>(source: IEnumerable<TSource>): TSource;
@@ -221,7 +219,7 @@ export declare class Enumerable {
     static where<T>(source: IEnumerable<T>, predicate: (x: T, index: number) => boolean): IEnumerable<T>;
     private static where_1<T>(source, predicate);
     private static where_2<T>(source, predicate);
-    static zip<T, Y>(source: IEnumerable<T>, second: Iterable<Y>): IEnumerable<Tuple<T, Y>>;
+    static zip<T, Y>(source: IEnumerable<T>, second: Iterable<Y>): IEnumerable<ITuple<T, Y>>;
     static zip<T, Y, OUT>(source: IEnumerable<T>, second: Iterable<Y>, resultSelector: (x: T, y: Y) => OUT): IEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);
     private static zip_2<T, Y, OUT>(source, second, resultSelector);
