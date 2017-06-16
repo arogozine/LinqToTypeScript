@@ -12,6 +12,6 @@
         ],
         "unified-signatures": [ false ],
         "prefer-for-of": false,
-        "callable-types": [ false ],
+        "callable-types": [ false ]
     }
 }
