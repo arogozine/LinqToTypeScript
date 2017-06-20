@@ -2,6 +2,7 @@ import { BasicEnumerable } from "./Enumerable"
 import { IPrototype } from "./Interfaces"
 import "./LinqForArray"
 import "./LinqForMap"
+import "./LinqForSet"
 
 export {
     StrictEqualityComparer, EqualityComparer, StringifyComparer,
