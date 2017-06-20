@@ -27,8 +27,17 @@
   "author": "Alexandre Rogozine",
   "license": "FSFUL",
   "devDependencies": {
-    "typescript": "^2.3.4",
-    "tslint":"5.4.3"
+    "@types/jasmine": "2.5.52",
+    "jasmine-core": "^2.6.3",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-edge-launcher": "^0.4.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-typescript": "^3.0.4",
+    "karma-typescript-preprocessor": "^0.3.1",
+    "tslint": "5.4.3",
+    "typescript": "^2.3.4"
   },
   "bugs": {
     "url": "https://github.com/arogozine/LinqToTypeScript/issues"

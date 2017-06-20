@@ -9,6 +9,10 @@
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
-        "alwaysStrict": true
-    }
+        "alwaysStrict": true,
+        "sourceMap": true
+    },
+    "files": [
+        "./LinqTests.ts"
+    ]
 }
