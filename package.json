@@ -12,8 +12,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "build-test": "tsc --project ./test/",
-    "test": "npm run build-test && node ./test/LinqTests.js"
+    "test": "karma start"
   },
   "repository": {
     "type": "git",
@@ -37,7 +36,7 @@
     "karma-typescript": "^3.0.4",
     "karma-typescript-preprocessor": "^0.3.1",
     "tslint": "5.4.3",
-    "typescript": "^2.3.4"
+    "typescript": "^2.4.1"
   },
   "bugs": {
     "url": "https://github.com/arogozine/LinqToTypeScript/issues"

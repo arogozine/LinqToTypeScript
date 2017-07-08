@@ -1,8 +1,13 @@
+import { IEnumerable } from "../src/Interfaces"
+import {
+    ArgumentOutOfRangeException,
+    EqualityComparer,
+    ErrorString,
+    InvalidOperationException } from "../src/TypesAndHelpers"
 import * as Linq from "./../src/index"
 Linq.initialize()
 // https://jasmine.github.io/2.0/introduction.html
 import "jasmine"
-import { ErrorString } from "../src/TypesAndHelpers"
 
 declare function describe(description: keyof[Linq.Enumerable]|string, specDefinitions: (this: never) => void): void
 
@@ -35,6 +40,36 @@ describe("aggregate", () => {
 
         expect(longestName).toBe("PASSIONFRUIT")
     })
+
+    it("single value", () => {
+        const val2 = [1].aggregate((x, y) => x + y)
+        expect(val2).toBe(1)
+    })
+
+    it("multiple values", () => {
+        const val = [1, 2, 3].aggregate((x, y) => x + y)
+        expect(val).toBe(6)
+    })
+
+    it("exception", () => {
+        expect(() => ([] as any[]).aggregate((x, y) => x + y)).toThrowError(InvalidOperationException)
+    })
+
+    it("aggregate2", () => {
+        const val = [1, 2, 3].aggregate(4, (x, y) => x + y)
+        expect(val).toBe(10)
+
+        const val2 = [1].aggregate(9, (x, y) => x + y)
+        expect(val2).toBe(10)
+
+        const val3 = ([] as number[]).aggregate(10, (x, y) => x + y)
+        expect(val3).toBe(10)
+    })
+
+    it("aggregate3", () => {
+        const val = [1, 2, 3].aggregate(4, (x, y) => x + y, (acc) => acc * 10)
+        expect(val).toBe(100)
+    })
 })
 
 describe("all", () => {
@@ -50,6 +85,15 @@ describe("all", () => {
         const allStartWithB = pets.all((pet) => pet.Name.startsWith("B"))
 
         expect(allStartWithB).toBe(false)
+    })
+
+    it("many elements", () => {
+        expect([1, 2, 3].all((x) => x !== 0)).toBe(true)
+        expect([0, 1, 2].all((x) => x > 5)).toBe(false)
+    })
+
+    it("empty element true", () => {
+        expect([].all((x) => x === 1)).toBe(true)
     })
 })
 
@@ -74,6 +118,36 @@ describe("any", () => {
         expect(array.any((x) => x === 2)).toBe(true)
     })
 
+    it("empty", () => {
+        expect([].any()).toBe(false)
+    })
+
+    it("basic", () => {
+        expect([1].any()).toBe(true)
+    })
+
+    it("empty predicate", () => {
+        expect([].any((x) => x === 0)).toBe(false)
+    })
+
+    it("basic predicate", () => {
+        expect([1].any((x) => x === 1)).toBe(true)
+        expect([1].any((x) => x === 0)).toBe(false)
+    })
+})
+
+describe("average", () => {
+    it("basic", () =>
+        expect([0, 10].average()).toBe(5))
+
+    it("empty throws exception", () =>
+        expect(() => [].average()).toThrowError(InvalidOperationException))
+
+    it("selector", () =>
+        expect([0, 10].average((x) => x * 10)).toBe(50))
+
+    it("empty array with selector throws exception",
+        () => expect(() => ([] as number[]).average((x) => x * 10)).toThrowError(InvalidOperationException))
 })
 
 describe("count", () => {
@@ -83,6 +157,26 @@ describe("count", () => {
         expect(array.count((x) => x)).toBe(2)
         expect(array.count((x) => !x)).toBe(1)
     })
+
+    it("empty array to be zero", () =>
+        expect([].count()).toBe(0))
+
+    it("single element array to be one", () =>
+        expect([1].count()).toBe(1))
+})
+
+describe("concat", () => {
+    it("handles two empty arrays", () =>
+        expect([].concat([])).toEqual([]))
+
+    it("handles calling array being empty", () =>
+        expect(([] as number[]).concat([1])).toEqual([1]))
+
+    it("handles concat with empty array", () =>
+        expect([2].concat([]).toArray()).toEqual([2]))
+
+    it("handle two arrays concat", () =>
+        expect([1].concat([2, 3]).toArray()).toEqual([1, 2, 3]))
 })
 
 describe("contains", () => {
@@ -100,6 +194,15 @@ describe("contains", () => {
         expect(array.contains("2", Linq.EqualityComparer)).toBe(true)
         expect(array.contains(4, Linq.EqualityComparer)).toBe(false)
     })
+
+    it("contains empty to be false", () =>
+        expect(([] as number[]).contains(0)).toBe(false))
+
+    it("contains false", () =>
+        expect([1, 2].contains(0)).toBe(false))
+
+    it("contains true", () =>
+        expect([1, 2].contains(1)).toBe(true))
 })
 
 describe("distinct", () => {
@@ -113,6 +216,13 @@ describe("distinct", () => {
         const array = ["1", 1, 2, 2, 3, "3"]
 
         expect(array.distinct(Linq.EqualityComparer).toArray()).toEqual(["1", 2, 3])
+    })
+
+    it("empty array to remain empty", () =>
+        expect([].distinct().toArray()).toEqual([]))
+
+    it("basic", () => {
+        expect([1, 1].distinct().toArray()).toEqual([1])
     })
 })
 
@@ -128,6 +238,38 @@ describe("first", () => {
     it("FirstOrDefaultEmpty", () =>  {
         expect([].firstOrDefault()).toBeNull()
     })
+
+    it("basic", () =>
+        expect([1].first()).toBe(1))
+
+    it("empty array causes exception", () =>
+        expect(() => [].first()).toThrowError(InvalidOperationException))
+
+    it("predicate", () =>
+        expect([1, 2, 3].first((x) => x === 2)).toBe(2))
+
+    it("empty array with predicate causes exception", () =>
+        expect(() => [1, 2, 3].first((x) => x === 4)).toThrowError(InvalidOperationException))
+})
+
+describe("elementAt", () => {
+    it("basic", () => {
+        expect([1].elementAt(0)).toBe(1)
+        expect([1, 2].elementAt(1)).toBe(2)
+    })
+
+    it("empty array throws exception", () =>
+        expect(() => [].elementAt(0)).toThrowError(ArgumentOutOfRangeException))
+})
+
+describe("elementAtOrDefault", () => {
+    it("with elements", () => {
+        expect([1].elementAtOrDefault(0)).toBe(1)
+        expect([1, 2].elementAtOrDefault(1)).toBe(2)
+    })
+
+    it("empty to be null", () =>
+        expect([].elementAtOrDefault(0)).toBeNull())
 })
 
 describe("enumerateObject", () => {
@@ -141,6 +283,12 @@ describe("enumerateObject", () => {
         for (const item of Linq.Enumerable.enumerateObject(object)) {
             expect(item.second).toBe(object[item.first])
         }
+    })
+})
+
+describe("except", () => {
+    it("basic", () => {
+        expect([1, 2, 3].except([1, 2]).toArray()).toEqual([3])
     })
 })
 
@@ -171,11 +319,59 @@ describe("intersect", () => {
     })
 })
 
+describe("joinByKey", () => {
+    it("basic", () => {
+        const joinBy = [1, 2, 3].joinByKey([1, 2, 3],
+            (x) => x,
+            (x) => x,
+            (x, y) => ( { x, y } ))
+            .toArray()
+
+        expect(joinBy.length).toBe(3)
+        expect(joinBy[0].x).toBe(1)
+        expect(joinBy[1].x).toBe(2)
+        expect(joinBy[2].x).toBe(3)
+        expect(joinBy[0].x).toBe(joinBy[0].y)
+        expect(joinBy[1].x).toBe(joinBy[1].y)
+        expect(joinBy[2].x).toBe(joinBy[2].y)
+    })
+})
+
 describe("take", () => {
     it("Take", () => {
         const array = [1, 2, 3, 4, 5].take(2).toArray()
 
         expect(array).toEqual([1, 2])
+    })
+
+    const vals = [1, 2, 3, 4]
+
+    it("various positive amounts", () => {
+        expect(vals.take(4).toArray()).toEqual(vals)
+        expect(vals.take(1).toArray()).toEqual([1])
+        expect(vals.take(2).toArray()).toEqual([1, 2])
+    })
+
+    it("zero elements", () =>
+        expect(vals.take(0).toArray()).toEqual([]))
+
+    it("negative amount", () =>
+        expect(vals.take(-1).toArray()).toEqual([]))
+})
+
+describe("takeWhile", () => {
+    const vals = [1, 2, 3, 4]
+
+    it("by value", () => {
+        expect(vals.takeWhile((x) => true).toArray()).toEqual(vals)
+        expect(vals.takeWhile((x) => false).toArray()).toEqual([])
+        expect(vals.takeWhile((x) => x !== 3).toArray()).toEqual([1, 2])
+    })
+
+    it("by value and index", () => {
+        expect(vals.takeWhile((x: number, i: number) => true).toArray()).toEqual(vals)
+        expect(vals.takeWhile((x: number, i: number) => false).toArray()).toEqual([])
+        expect(vals.takeWhile((x: number, i: number) => x !== 3).toArray()).toEqual([1, 2])
     })
 })
 
@@ -216,6 +412,17 @@ describe("max", () => {
     it("MaxSelect", () => {
         expect([1, 2, 3].max((x) => x * x)).toBe(9)
     })
+
+    it("basic", () => expect([1, 2, 3].max()).toBe(3))
+
+    it("empty array throws exception", () =>
+        expect(() => [].max()).toThrowError(InvalidOperationException))
+
+    it("max with selector", () =>
+        expect([1, 2, 3].max((x) => x * 2)).toBe(6))
+
+    it("empty array throws exception with selector", () =>
+        expect(() => ([] as number[]).max((x) => x * 2)).toThrowError(InvalidOperationException))
 })
 
 describe("min", () => {
@@ -234,6 +441,14 @@ describe("min", () => {
     it("Min Predicate", () => {
         expect([1, 2, 3, -7].min(Math.abs)).toBe(1)
     })
+
+    it("empty exception", () => {
+        expect(() => [].min()).toThrowError(InvalidOperationException)
+    })
+
+    it("empty exception with selector", () => {
+        expect(() => [].min((x) => x)).toThrowError(InvalidOperationException)
+    })
 })
 
 describe("ofType", () => {
@@ -244,7 +459,7 @@ describe("ofType", () => {
     })
 
     it("number", () => {
-        expect(array.ofType("number").toArray()).toEqual([1, 2, 3])
+        expect(array.ofType("number").toArray()).toEqual([1, 2, 3, 1])
     })
 
     it("object", () => {
@@ -266,6 +481,29 @@ describe("orderBy", () => {
 
         expect(vals).toEqual(["a", "b", "c"])
     })
+
+    it("basic", () => {
+        const vals = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        expect(vals.orderBy((x) => x).toArray()).toEqual(vals)
+    })
+})
+
+describe("orderByDescending", () => {
+    it("basic", () => {
+        const vals = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        expect(vals.orderByDescending((x) => x).toArray()).toEqual(vals.reverse())
+    })
+})
+
+describe("reverse", () => {
+    // TODO
+    it("basic", () => {
+        const vals = [1, 2, 3]
+        expect(vals.reverse()).toEqual([3, 2, 1])
+    })
+
+    it("empty array still empty", () =>
+        expect([].reverse()).toEqual([]))
 })
 
 describe("select", () => {
@@ -289,6 +527,19 @@ describe("selectMany", () => {
     })
 })
 
+describe("skip", () => {
+    const vals = [1, 2, 3, 4]
+
+    it("first element", () =>
+        expect(vals.skip(1).toArray()).toEqual([2, 3, 4]))
+
+    it("first two elements", () =>
+        expect(vals.skip(0).toArray()).toEqual(vals))
+
+    it("negative value", () =>
+        expect(vals.skip(-9).toArray()).toEqual(vals))
+})
+
 describe("sum", () => {
     it("sum basic", () => {
         expect([ 43.68, 1.25, 583.7, 6.5 ].sum()).toBe(635.13)
@@ -297,6 +548,37 @@ describe("sum", () => {
     it("sum Selector", () => {
         const zooms = [ { a: 1}, { a: 2 }, {a: 3} ]
         expect(zooms.sum((x) => x.a)).toBe(6)
+    })
+})
+
+describe("union", () => {
+    it("=== union", () => {
+        const ints1 = [ 5, 3, 9, 7, 5, 9, 3, 7 ]
+        const ints2 = [ 8, 3, 6, 4, 4, 9, 1, 0 ]
+        const result = [5, 3, 9, 7, 8, 6, 4, 1, 0]
+        const union = ints1.union(ints2).toArray()
+        expect(union).toEqual(result)
+    })
+
+    it("== union", () => {
+        const ints1: IEnumerable<string|number> = [ 5, 3, 9, 7, 5, 9, 3, 7 ]
+        const ints2 = [ "8", "3", "6", "4", "4", "9", "1", "0" ]
+        const result = [5, 3, 9, 7, "8", "6", "4", "1", "0"]
+        const union = ints1.union(ints2, EqualityComparer).toArray()
+
+        expect(union).toEqual(result)
+    })
+})
+
+describe("where", () => {
+    it("item predicate", () => {
+        const vals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        expect(vals.where((x) => x > 8).toArray()).toEqual([9])
+    })
+
+    it("item and index predicate", () => {
+        const vals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        expect(vals.where((x: number, i: number) => i === 9)).toEqual([9])
     })
 })
 
@@ -350,110 +632,3 @@ describe("where", () => {
         expect(noBar).toEqual([ "", "1", "2", "foo" ])
     })
 })
-
-/*
-import * as Linq from "./../src/index"
-import { NumberTest } from "./LinqNumberArrays"
-import { LinqTests } from "./LinqBasicTypes"
-import { TestClass, RunTests } from "./UnitTest"
-Linq.initialize()
-
-import "./LinqCollections"
-
-@TestClass
-class ArrayNumberTests extends NumberTest<Array<number>> {
-    constructor() {
-        super(x => x)
-    }
-}
-
-@TestClass
-class EnumerableNumberTests extends NumberTest<Linq.IEnumerable<number>> {
-    constructor() {
-        super(x => x.select(y => y))
-    }
-}
-
-@TestClass
-class Float32Tests extends NumberTest<Float32Array> {
-    constructor() {
-        super(x => new Float32Array(x))
-    }
-}
-
-@TestClass
-class Float64Tests extends NumberTest<Float64Array> {
-    constructor() {
-        super(x => new Float64Array(x))
-    }
-}
-
-@TestClass
-class ByteTests extends NumberTest<Int8Array> {
-    constructor() {
-        super(x => new Int8Array(x))
-    }
-}
-
-@TestClass
-class UByteTests extends NumberTest<Uint8Array> {
-     constructor() {
-        super(x => new Uint8Array(x))
-    }
-}
-
-@TestClass
-class UByteClampedTests extends NumberTest<Uint8ClampedArray> {
-     constructor() {
-        super(x => new Uint8ClampedArray(x))
-    }
-}
-
-@TestClass
-class ShortTests extends NumberTest<Int16Array> {
-    constructor() {
-        super(x => new Int16Array(x))
-    }
-}
-
-@TestClass
-class UShortTests extends NumberTest<Uint16Array> {
-    constructor() {
-        super(x => new Uint16Array(x))
-    }
-}
-
-@TestClass
-class IntTests extends NumberTest<Int32Array> {
-    constructor() {
-        super(x => new Int32Array(x))
-    }
-}
-
-@TestClass
-class UIntTests extends NumberTest<Uint32Array> {
-    constructor() {
-        super(x => new Uint32Array(x))
-    }
-}
-
-@TestClass
-class ArrayAnyTests extends LinqTests {
-    constructor() {
-        super(x => x)
-    }
-}
-
-@TestClass
-class EnumerableAnyTests extends LinqTests {
-    constructor() {
-        // Makes a BasicEnumerable
-        super(x => x.select(y => y))
-    }
-}
-
-RunTests()
-
-declare var process: any
-process.exit()
-*/
