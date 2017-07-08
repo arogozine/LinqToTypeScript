@@ -1,7 +1,7 @@
 module.exports = function(config) {
   config.set({
     frameworks: [ 
-      'jasmine', 
+      'jasmine',
       'karma-typescript'
     ],
     plugins: [
@@ -29,8 +29,11 @@ module.exports = function(config) {
     reporters: [ 'progress', 'karma-typescript' ],
     browsers: [ 
       // 'Edge', 
-      'Firefox' ],
+      'Firefox',
+      'Chrome', ],
     port: 9876,
     singleRun: true,
+
+    logLevel: config.LOG_INFO,
   })
 }
