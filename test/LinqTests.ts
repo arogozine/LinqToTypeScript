@@ -452,18 +452,20 @@ describe("min", () => {
 })
 
 describe("ofType", () => {
-    const array = ["str", "str2", 1, 2, 3, {}, true, Number(1)]
+    // tslint:disable-next-line:no-construct
+    const array = ["str", "str2", 1, 2, 3, {}, true, new Number(1)]
 
     it("string", () => {
         expect(array.ofType("string").toArray()).toEqual(["str", "str2"])
     })
 
     it("number", () => {
-        expect(array.ofType("number").toArray()).toEqual([1, 2, 3, 1])
+        expect(array.ofType("number").toArray()).toEqual([1, 2, 3])
     })
 
     it("object", () => {
-        expect(array.ofType("object").toArray()).toEqual([{}])
+        // tslint:disable-next-line:no-construct
+        expect(array.ofType("object").toArray()).toEqual([{}, new Number(1)])
     })
 
     it("boolean", () => {
