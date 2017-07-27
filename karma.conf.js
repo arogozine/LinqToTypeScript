@@ -7,7 +7,7 @@ module.exports = function(config) {
     plugins: [
       'karma-typescript',
       'karma-jasmine',
-      'karma-edge-launcher',
+//      'karma-edge-launcher',
       'karma-firefox-launcher',
       'karma-chrome-launcher'
     ],

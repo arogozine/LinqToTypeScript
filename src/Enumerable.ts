@@ -133,6 +133,9 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.ofType(this, type)
     }
 
+    public orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>
+    public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
+    public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
     public orderBy(
         predicate: (x: T) => string | number,
         comparer?: IComparer<string | number>): IOrderedEnumerable<T> {
@@ -141,8 +144,8 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
 
     public orderByDescending(
         predicate: (x: T) => string | number,
-        comparer?: IComparer<string | number>): IOrderedEnumerable<T> {
-        return Enumerable.orderByDescending(this, predicate as any, comparer)
+        comparer?: IComparer<string> | IComparer<number>): IOrderedEnumerable<T> {
+        return Enumerable.orderByDescending(this, predicate as any, comparer as any)
     }
 
     public reverse(): IEnumerable<T> {
@@ -1590,7 +1593,7 @@ export class Enumerable {
     public static orderByDescending<TSource>(
         source: IEnumerable<TSource>,
         keySelector: (x: TSource) => number,
-        comparer?: IComparer<number>): IOrderedEnumerable<TSource>
+        comparer: IComparer<number>): IOrderedEnumerable<TSource>
     public static orderByDescending<TSource>(
         source: IEnumerable<TSource>,
         keySelector: (x: TSource) => number | string,

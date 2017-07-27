@@ -28,7 +28,7 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     min(this: IEnumerable<number> | IEnumerable<T>, selector?: (x: T) => number): number;
     ofType<TResult>(type?: IConstructor<TResult> | string): IEnumerable<TResult>;
     orderBy(predicate: (x: T) => string | number, comparer?: IComparer<string | number>): IOrderedEnumerable<T>;
-    orderByDescending(predicate: (x: T) => string | number, comparer?: IComparer<string | number>): IOrderedEnumerable<T>;
+    orderByDescending(predicate: (x: T) => string | number, comparer?: IComparer<string> | IComparer<number>): IOrderedEnumerable<T>;
     reverse(): IEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;
     selectMany<Y>(selector: (x: T) => Iterable<Y>): IEnumerable<Y>;
@@ -182,7 +182,7 @@ export declare class Enumerable {
     static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedEnumerable<TSource>;
     static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>;
     static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => number, comparer?: IComparer<number>): IOrderedEnumerable<TSource>;
+    static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>;
     static range(start: number, count: number): IEnumerable<number>;
     static repeat<T>(element: T, count: number): IEnumerable<T>;
     static reverse<TSource>(source: IEnumerable<TSource>): IEnumerable<TSource>;
