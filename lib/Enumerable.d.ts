@@ -27,7 +27,9 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     max(this: IEnumerable<number> | IEnumerable<T>, selector?: (x: T) => number): number;
     min(this: IEnumerable<number> | IEnumerable<T>, selector?: (x: T) => number): number;
     ofType<TResult>(type?: IConstructor<TResult> | string): IEnumerable<TResult>;
-    orderBy(predicate: (x: T) => string | number, comparer?: IComparer<string | number>): IOrderedEnumerable<T>;
+    orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>;
+    orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>;
+    orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
     orderByDescending(predicate: (x: T) => string | number, comparer?: IComparer<string> | IComparer<number>): IOrderedEnumerable<T>;
     reverse(): IEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;

@@ -2,31 +2,28 @@ module.exports = function(config) {
   config.set({
     frameworks: [ 
       'jasmine',
-      'karma-typescript'
+      'browserify',
     ],
     plugins: [
-      'karma-typescript',
+      'karma-browserify',
       'karma-jasmine',
-//      'karma-edge-launcher',
       'karma-firefox-launcher',
       'karma-chrome-launcher'
     ],
     files: [
-      './src/*.ts',
-      './test/*.ts'
+      './test/compiled/**/*.js'
     ],
     exclude: [
-      "**/*.d.ts", 
-      "**/*.js",
+      "**/*.ts",
       "./node_modules"
     ],
     preprocessors: {
-      '**/*.ts': ['karma-typescript']
+      './test/compiled/**/*.js': [ 'browserify' ]
     },
-    karmaTypescriptConfig: {
-      tsconfig: "./test/tsconfig.json",
+    browserify: {
+      debug: false,
     },
-    reporters: [ 'progress', 'karma-typescript' ],
+    reporters: [ 'progress' ],
     browsers: [ 
       // 'Edge', 
       'Firefox',

@@ -7,7 +7,6 @@ import {
 import * as Linq from "./../src/index"
 Linq.initialize()
 // https://jasmine.github.io/2.0/introduction.html
-import "jasmine"
 
 declare function describe(description: keyof[Linq.Enumerable]|string, specDefinitions: (this: never) => void): void
 

@@ -3,14 +3,15 @@
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
-        "moduleResolution": "node",
+        "moduleResolution": "classic",
         "removeComments": true,
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
         "alwaysStrict": true,
-        "sourceMap": true
+        "sourceMap": true,
+        "outDir": "./compiled"
     },
     "files": [
         "./LinqTests.ts"
