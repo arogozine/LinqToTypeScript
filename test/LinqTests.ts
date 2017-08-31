@@ -6,9 +6,15 @@ import {
     InvalidOperationException } from "../src/TypesAndHelpers"
 import * as Linq from "./../src/index"
 Linq.initialize()
+
+// Tests use Jasmine framework,
 // https://jasmine.github.io/2.0/introduction.html
 
-declare function describe(description: keyof[Linq.Enumerable]|string, specDefinitions: (this: never) => void): void
+// We want the description to be the function
+// being tested
+declare function describe(
+    description: (keyof Linq.IEnumerable<any>) | (keyof typeof Linq.Enumerable),
+    specDefinitions: (this: never) => void): void
 
 describe("aggregate", () => {
 
@@ -205,6 +211,10 @@ describe("contains", () => {
 })
 
 describe("distinct", () => {
+    it("basic", () => {
+        expect([1, 1].distinct().toArray()).toEqual([1])
+    })
+
     it("Distinct", () => {
         const array = ["f", "o", "o"]
 
@@ -219,10 +229,6 @@ describe("distinct", () => {
 
     it("empty array to remain empty", () =>
         expect([].distinct().toArray()).toEqual([]))
-
-    it("basic", () => {
-        expect([1, 1].distinct().toArray()).toEqual([1])
-    })
 })
 
 describe("first", () => {
@@ -310,6 +316,14 @@ describe("flatten", () => {
     })
 })
 
+describe("groupBy", () => {
+    // TODO
+})
+
+describe("groupByWithSel", () => {
+    // TODO
+})
+
 describe("intersect", () => {
     it("IntersectWithEqualityComparer", () => {
         const array = [1, 2, "3"].intersect(["1", "2"], Linq.EqualityComparer).toArray()
@@ -372,6 +386,18 @@ describe("takeWhile", () => {
         expect(vals.takeWhile((x: number, i: number) => false).toArray()).toEqual([])
         expect(vals.takeWhile((x: number, i: number) => x !== 3).toArray()).toEqual([1, 2])
     })
+})
+
+describe("toArray", () => {
+    // TODO
+})
+
+describe("toMap", () => {
+    // TODO
+})
+
+describe("toSet", () => {
+    // TODO
 })
 
 describe("last", () => {
