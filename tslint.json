@@ -5,7 +5,7 @@
             true, "never"
         ],
         "member-ordering": [
-            false
+            true
         ],
         "max-classes-per-file": [
             false
