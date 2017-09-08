@@ -317,10 +317,54 @@ describe("flatten", () => {
 })
 
 describe("groupBy", () => {
-    // TODO
+    it("OddEven", () => {
+        const groupBy = [1, 2, 3, 4, 5, 6, 7, 8, 9].groupBy((x) => x % 2);
+        for (const group of groupBy) {
+            expect(group.key === 0 || group.key === 1).toBe(true)
+            if (group.key === 0) {
+                expect(group.toArray()).toEqual([2, 4, 6, 8])
+            } else {
+                expect(group.toArray()).toEqual([1, 3, 5, 7, 9])
+            }
+        }
+    })
 })
 
 describe("groupByWithSel", () => {
+    it("ObjectSelect", () => {
+        const array = [{ key: "foo", value: 0 }, { key: "foo", value: 1 }, { key: "bar", value: 3}]
+        const grouping = array.groupByWithSel((x) => x.key, x => x.value)
+        const groupingArray = grouping.toArray()
+
+        expect(groupingArray[0].key).toBe("foo")
+        expect(groupingArray[0].toArray()).toEqual([0, 1])
+
+        expect(groupingArray[1].key).toBe("bar")
+        expect(groupingArray[1].toArray()).toEqual([3])
+    })
+
+    
+    it("ObjectSelectWithComparer", () => {
+        const array = [{ key: "foo", value: "0" }, { key: "foo", value: 1 }, { key: "bar", value: 3}]
+        const grouping = array.groupByWithSel((x) => x.key, x => x.value, EqualityComparer)
+        const groupingArray = grouping.toArray()
+
+        expect(groupingArray[0].key).toBe("foo")
+        expect(groupingArray[0].toArray()).toEqual(["0", 1])
+
+        expect(groupingArray[1].key).toBe("bar")
+        expect(groupingArray[1].toArray()).toEqual([3])
+    })
+
+    it("SingleKey", () => {
+        const singleKey = "singleKey"
+        const grouping = [1, 2, 3].groupByWithSel((x) => singleKey, x => x.toString())
+        
+        for (const group of grouping) {
+            expect(group.key).toBe(singleKey)
+            expect(group.toArray()).toEqual(["1", "2", "3"])
+        }
+    })
     // TODO
 })
 
@@ -389,15 +433,35 @@ describe("takeWhile", () => {
 })
 
 describe("toArray", () => {
-    // TODO
+    it("toArray", () => {
+        const array1 = [1, 2, 3]
+        const array2 = array1.toArray()
+        expect(array2.length).toBe(array1.length)
+        expect(array1 === array2).toBe(false)
+        expect(array1).toEqual(array2)
+    })
 })
 
 describe("toMap", () => {
-    // TODO
+    it("toMap", () => {
+        const map = [1, 2, 3].toMap((x) => `Key_${ x }`);
+        for (const keyValue of map) {
+            const key = keyValue[0]
+            const value = keyValue[1]
+            expect(key).toBe(`Key_${ value[0] }`)
+        }
+    });
 })
 
 describe("toSet", () => {
-    // TODO
+    it("toSet", () => {
+        const set = [1, 2, 3].toSet();
+        expect(set instanceof Set).toBe(true);
+        expect(set.has(1)).toBe(true);
+        expect(set.has(2)).toBe(true);
+        expect(set.has(3)).toBe(true);
+        expect(set.size).toBe(3);
+    })
 })
 
 describe("last", () => {
