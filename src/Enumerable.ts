@@ -34,7 +34,7 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.all(this, predicate)
     }
 
-    public any<T>(predicate?: (x: T) => boolean): boolean {
+    public any(predicate?: (x: T) => boolean): boolean {
         return Enumerable.any(this, predicate as any)
     }
 
@@ -54,7 +54,7 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.count(this, predicate as any)
     }
 
-    public distinct<T>(comparer?: IEqualityComparer<T>): IEnumerable<T> {
+    public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
         return Enumerable.distinct(this, comparer as any)
     }
 
@@ -70,15 +70,15 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.except(this, second, comparer as any)
     }
 
-    public first<T>(predicate?: (x: T) => boolean): T {
+    public first(predicate?: (x: T) => boolean): T {
         return Enumerable.first(this, predicate as any)
     }
 
-    public firstOrDefault<T>(predicate?: (x: T) => boolean): T | null {
+    public firstOrDefault(predicate?: (x: T) => boolean): T | null {
         return Enumerable.firstOrDefault(this, predicate as any)
     }
 
-    public each<T>(action: (x: T) => void): IEnumerable<T> {
+    public each(action: (x: T) => void): IEnumerable<T> {
         return Enumerable.each(this, action)
     }
 
@@ -113,11 +113,11 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.Join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
     }
 
-    public last<T>(predicate?: (x: T) => boolean): T {
+    public last(predicate?: (x: T) => boolean): T {
         return Enumerable.last(this, predicate as any)
     }
 
-    public lastOrDefault<T>(predicate?: (x: T) => boolean): T {
+    public lastOrDefault(predicate?: (x: T) => boolean): T {
         return Enumerable.lastOrDefault(this, predicate as any)
     }
 
