@@ -1,4 +1,4 @@
-import { IComparer, IConstructor, IEnumerable, IEqualityComparer, IGrouping, IOrderedEnumerable, ITuple, RecOrdMap } from "./Interfaces";
+import { IComparer, IConstructor, IEnumerable, IEqualityComparer, IGrouping, IOrderedEnumerable, ITuple } from "./Interfaces";
 export declare class BasicEnumerable<T> implements IEnumerable<T> {
     private iterator;
     constructor(iterator: () => IterableIterator<T>);
@@ -49,28 +49,6 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     where(predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IEnumerable<T>;
     zip<Y, OUT>(second: Iterable<Y>, resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<ITuple<T, Y>>;
     [Symbol.iterator](): IterableIterator<T>;
-}
-export declare class Grouping<TKey, Element> extends Array<Element> implements IGrouping<TKey, Element> {
-    readonly key: TKey;
-    constructor(key: TKey, startingItem: Element);
-}
-export declare class OrderedEnumerableDescending<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
-    private map;
-    private static unrollAndSort<T>(map, comparer?);
-    private static generate<T>(mapFunc, comparer?);
-    constructor(map: () => RecOrdMap<T>, comparer?: IComparer<number | string>);
-    getMap(): RecOrdMap<T>;
-    thenBy(keySelector: ((x: T) => number) | ((x: T) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<T>;
-    thenByDescending(keySelector: ((x: T) => number) | ((x: T) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<T>;
-}
-export declare class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
-    private map;
-    private static unrollAndSort<T>(map, comparer?);
-    private static generate<T>(mapFunc, comparer?);
-    constructor(map: () => RecOrdMap<T>, comparer?: IComparer<number | string>);
-    getMap(): RecOrdMap<T>;
-    thenBy(keySelector: ((x: T) => number) | ((x: T) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<T>;
-    thenByDescending(keySelector: ((x: T) => number) | ((x: T) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<T>;
 }
 export declare class Enumerable {
     static aggregate<TSource>(source: IEnumerable<TSource>, func: (x: TSource, y: TSource) => TSource): TSource;
