@@ -93,13 +93,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
             comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>,
     }
     groupByWithSel: {
-        <TSource, TElement>(
+        <TElement>(
             keySelector: ((x: TSource) => number),
             elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<number, TElement>>
-        <TSource, TElement>(
+        <TElement>(
             keySelector: ((x: TSource) => string),
             elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<string, TElement>>
-        <TSource, TKey, TElement>(
+        <TKey, TElement>(
             keySelector: ((x: TSource) => TKey),
             elementSelector: (x: TSource) => TElement,
             comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>,
