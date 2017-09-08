@@ -14,13 +14,7 @@
         "noFallthroughCasesInSwitch": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./lib",
-        "declaration": true,
-        "plugins": [
-            {
-                "name": "tslint-language-service",
-                "ignoreDefinitionFiles": true
-            }
-        ]
+        "declaration": true
     },
     "files": [
         "src/index.ts"

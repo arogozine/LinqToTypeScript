@@ -10,8 +10,8 @@
         "max-classes-per-file": [
             false
         ],
-        "unified-signatures": [ false ],
+        "unified-signatures": false,
         "prefer-for-of": false,
-        "callable-types": [ false ]
+        "callable-types": false
     }
 }
