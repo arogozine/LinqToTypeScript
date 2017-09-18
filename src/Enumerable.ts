@@ -1,3 +1,5 @@
+// import "core-js/symbol"
+
 import {
     IComparer,
     IConstructor,
@@ -110,7 +112,7 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         innerKeySelector: (x: TInner) => TKey,
         resultSelector: (x: T, y: TInner) => TResult,
         comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
-        return Enumerable.Join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
+        return Enumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
     }
 
     public last(predicate?: (x: T) => boolean): T {
@@ -223,7 +225,7 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
     }
 }
 
-class Grouping<TKey, TElement> extends Array<TElement> implements IGrouping<TKey, TElement> {
+export class Grouping<TKey, TElement> extends Array<TElement> implements IGrouping<TKey, TElement> {
     constructor(public readonly key: TKey, startingItem: TElement) {
         super(1)
         this[0] = startingItem
@@ -1053,20 +1055,20 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static Join<TOuter, TInner, TKey, TResult>(
+    public static join<TOuter, TInner, TKey, TResult>(
         outer: IEnumerable<TOuter>,
         inner: IEnumerable<TInner>,
         outerKeySelector: (x: TOuter) => TKey,
         innerKeySelector: (x: TInner) => TKey,
         resultSelector: (x: TOuter, y: TInner) => TResult): IEnumerable<TResult>
-    public static Join<TOuter, TInner, TKey, TResult>(
+    public static join<TOuter, TInner, TKey, TResult>(
         outer: IEnumerable<TOuter>,
         inner: IEnumerable<TInner>,
         outerKeySelector: (x: TOuter) => TKey,
         innerKeySelector: (x: TInner) => TKey,
         resultSelector: (x: TOuter, y: TInner) => TResult,
         comparer: IEqualityComparer<TKey>): IEnumerable<TResult>
-    public static Join<TOuter, TInner, TKey, TResult>(
+    public static join<TOuter, TInner, TKey, TResult>(
         outer: IEnumerable<TOuter>,
         inner: IEnumerable<TInner>,
         outerKeySelector: (x: TOuter) => TKey,
@@ -1662,6 +1664,7 @@ export class Enumerable {
 
         return firstResult.done && secondResult.done
     }
+
     public static sum(source: IEnumerable<number>): number
     public static sum<TSource>(source: IEnumerable<TSource>, selector: (x: TSource) => number): number
     public static sum<TSource>(
@@ -2071,5 +2074,4 @@ export class Enumerable {
     private constructor() {
         /* */
     }
-
 }

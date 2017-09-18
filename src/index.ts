@@ -16,6 +16,7 @@ export {
     IEnumerable,
     IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces"
 export { Enumerable } from "./Enumerable"
+export { AsyncEnumerable } from "./AsyncEnumerable"
 
 function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
 

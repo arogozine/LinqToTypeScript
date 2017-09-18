@@ -28,6 +28,7 @@
   "devDependencies": {
     "@types/jasmine": "^2.5.52",
     "browserify": "^14.4.0",
+    "o": "^2.5.1",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.0",
     "karma-browserify": "^5.1.1",

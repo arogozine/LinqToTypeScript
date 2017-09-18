@@ -1,7 +1,7 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "target": "es6",
+        "target": "es2016",
         "module": "commonjs",
         "moduleResolution": "classic",
         "removeComments": true,
@@ -11,7 +11,12 @@
         "noFallthroughCasesInSwitch": true,
         "alwaysStrict": true,
         "sourceMap": true,
-        "outDir": "./compiled"
+        "outDir": "./compiled",
+        "lib": [      
+            "dom",
+            "es2016",
+            "esnext.asynciterable"
+        ]
     },
     "files": [
         "./LinqTests.ts"
