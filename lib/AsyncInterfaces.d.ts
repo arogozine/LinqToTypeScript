@@ -34,6 +34,9 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (): IAsyncEnumerable<TSource>;
         (comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     };
+    each: {
+        (action: (x: TSource) => void): IAsyncEnumerable<TSource>;
+    };
     elementAt: {
         (index: number): Promise<TSource>;
     };
@@ -52,9 +55,6 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (): Promise<TSource | null>;
         (predicate: (x: TSource) => boolean): Promise<TSource | null>;
     };
-    each: {
-        (action: (x: TSource) => void): IAsyncEnumerable<TSource>;
-    };
     groupBy: {
         (keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
         (keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
@@ -68,6 +68,26 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
     intersect: {
         (second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>;
         (second: IAsyncEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    };
+    joinByKey: {
+        <TInner, TKey, TResult>(inner: IAsyncEnumerable<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult): IAsyncEnumerable<TResult>;
+        <TInner, TKey, TResult>(inner: IAsyncEnumerable<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>;
+    };
+    last: {
+        (): Promise<TSource>;
+        (predicate: (x: TSource) => boolean): Promise<TSource>;
+    };
+    lastOrDefault: {
+        (): Promise<TSource | null>;
+        (predicate: (x: TSource) => boolean): Promise<TSource | null>;
+    };
+    max: {
+        (this: IAsyncEnumerable<number>): Promise<number | never>;
+        (selector: (x: TSource) => number): Promise<number | never>;
+    };
+    min: {
+        (this: IAsyncEnumerable<number>): Promise<number | never>;
+        (selector: (x: TSource) => number): Promise<number | never>;
     };
     ofType: {
         (type: "object"): IAsyncEnumerable<Object>;

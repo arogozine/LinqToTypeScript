@@ -1,8 +1,8 @@
 import { IComparer, IConstructor, IEnumerable, IEqualityComparer, IGrouping, IOrderedEnumerable, ITuple } from "./Interfaces";
-export declare class BasicEnumerable<T> implements IEnumerable<T> {
-    private iterator;
-    constructor(iterator: () => IterableIterator<T>);
-    aggregate<TAccumulate, TResult>(seedOrFunc: ((x: T, y: T) => T) | TAccumulate, func?: (x: TAccumulate, y: T) => TAccumulate, resultSelector?: (x: TAccumulate) => TResult): T | TAccumulate | TResult;
+export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
+    aggregate(func: (x: T, y: T) => T): T;
+    aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate;
+    aggregate<TAccumulate, TResult>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): T;
     all(predicate: (x: T) => boolean): boolean;
     any(predicate?: (x: T) => boolean): boolean;
     average(selector?: (x: T) => number): number;
@@ -23,7 +23,7 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
     last(predicate?: (x: T) => boolean): T;
-    lastOrDefault(predicate?: (x: T) => boolean): T;
+    lastOrDefault(predicate?: (x: T) => boolean): T | null;
     max(this: IEnumerable<number> | IEnumerable<T>, selector?: (x: T) => number): number;
     min(this: IEnumerable<number> | IEnumerable<T>, selector?: (x: T) => number): number;
     ofType<TResult>(type?: IConstructor<TResult> | string): IEnumerable<TResult>;
@@ -48,9 +48,14 @@ export declare class BasicEnumerable<T> implements IEnumerable<T> {
     union(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     where(predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IEnumerable<T>;
     zip<Y, OUT>(second: Iterable<Y>, resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<ITuple<T, Y>>;
+    abstract [Symbol.iterator](): IterableIterator<T>;
+}
+export declare class BasicEnumerable<T> extends BaseEnumerable<T> {
+    private iterator;
+    constructor(iterator: () => IterableIterator<T>);
     [Symbol.iterator](): IterableIterator<T>;
 }
-export declare class Grouping<TKey, TElement> extends Array<TElement> implements IGrouping<TKey, TElement> {
+export declare class Grouping<TKey, TElement> extends Array<TElement> implements BaseEnumerable<TElement>, IGrouping<TKey, TElement> {
     readonly key: TKey;
     constructor(key: TKey, startingItem: TElement);
 }

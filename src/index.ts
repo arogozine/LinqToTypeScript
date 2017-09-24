@@ -1,4 +1,4 @@
-import { BasicEnumerable } from "./Enumerable"
+import { BaseEnumerable } from "./Enumerable"
 import { IPrototype } from "./Interfaces"
 import "./LinqForArray"
 import "./LinqForMap"
@@ -15,16 +15,17 @@ export {
     IConstructor,
     IEnumerable,
     IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces"
+export { IAsyncEnumerable } from "./AsyncInterfaces"
 export { Enumerable } from "./Enumerable"
 export { AsyncEnumerable } from "./AsyncEnumerable"
 
 function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
 
-    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
+    const propertyNames = Object.getOwnPropertyNames(BaseEnumerable.prototype)
         .filter((v) => v !== "constructor")
 
     for (const prop of propertyNames) {
-        object.prototype[prop] =  object.prototype[prop] || (BasicEnumerable.prototype as any)[prop]
+        object.prototype[prop] =  object.prototype[prop] || (BaseEnumerable.prototype as any)[prop]
     }
 }
 

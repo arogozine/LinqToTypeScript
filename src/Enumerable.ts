@@ -20,11 +20,12 @@ import {
     StrictEqualityComparer,
 } from "./TypesAndHelpers"
 
-export class BasicEnumerable<T> implements IEnumerable<T> {
-    constructor(private iterator: () => IterableIterator<T>) {
-
-    }
-
+export abstract class BaseEnumerable<T> implements IEnumerable<T> {
+    public aggregate(func: (x: T, y: T) => T): T
+    public aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate
+    public aggregate<TAccumulate, TResult>(
+        seed: TAccumulate,
+        func: (x: TAccumulate, y: T) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): T
     public aggregate<TAccumulate, TResult>(
         seedOrFunc: ((x: T, y: T) => T) | TAccumulate,
         func?: (x: TAccumulate, y: T) => TAccumulate,
@@ -119,7 +120,7 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.last(this, predicate as any)
     }
 
-    public lastOrDefault(predicate?: (x: T) => boolean): T {
+    public lastOrDefault(predicate?: (x: T) => boolean): T | null {
         return Enumerable.lastOrDefault(this, predicate as any)
     }
 
@@ -220,17 +221,36 @@ export class BasicEnumerable<T> implements IEnumerable<T> {
         return Enumerable.zip(this, second, resultSelector as any) as any
     }
 
+    public abstract [Symbol.iterator](): IterableIterator<T>
+}
+
+export class BasicEnumerable<T> extends BaseEnumerable<T> {
+    constructor(private iterator: () => IterableIterator<T>) {
+        super()
+    }
+
     public [Symbol.iterator](): IterableIterator<T> {
         return this.iterator()
     }
 }
 
-export class Grouping<TKey, TElement> extends Array<TElement> implements IGrouping<TKey, TElement> {
+export class Grouping<TKey, TElement> extends Array<TElement> implements BaseEnumerable<TElement>,
+    IGrouping<TKey, TElement> {
     constructor(public readonly key: TKey, startingItem: TElement) {
         super(1)
         this[0] = startingItem
     }
 }
+
+function applyMixins(derivedCtor: any, baseCtors: any[]) {
+    baseCtors.forEach((baseCtor) => {
+        Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
+            derivedCtor.prototype[name] = baseCtor.prototype[name]
+        })
+    })
+}
+
+applyMixins(Grouping, [BasicEnumerable])
 
 class OrderedEnumerableDescending<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
 

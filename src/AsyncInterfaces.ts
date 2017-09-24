@@ -13,16 +13,13 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
             func: (x: TAccumulate, y: TSource) => TAccumulate,
             resultSelector: (x: TAccumulate) => TResult): Promise<TResult>,
     }
-
     all: {
         (predicate: (x: TSource) => boolean): Promise<boolean>,
     }
-
     any: {
         (): Promise<boolean>,
         (predicate: (x: TSource) => boolean): Promise<boolean>,
     }
-
     average: {
         (this: IAsyncEnumerable<number>): Promise<number>
         (selector: (x: TSource) => number): Promise<number>,
@@ -42,6 +39,9 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (): IAsyncEnumerable<TSource>,
         (comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     }
+    each: {
+        (action: (x: TSource) => void): IAsyncEnumerable<TSource>,
+    }
     elementAt: {
         (index: number): Promise<TSource>,
     }
@@ -59,9 +59,6 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
     firstOrDefault: {
         (): Promise<TSource | null>,
         (predicate: (x: TSource) => boolean): Promise<TSource | null>,
-    }
-    each: {
-        (action: (x: TSource) => void): IAsyncEnumerable<TSource>,
     }
     groupBy: {
         (keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
@@ -86,38 +83,36 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
         (second: IAsyncEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     }
-    /*
     // join in LINQ - but renamed to avoid clash with Array.prototype.join
     joinByKey: {
         <TInner, TKey, TResult>(
-            inner: IEnumerable<TInner>,
+            inner: IAsyncEnumerable<TInner>,
             outerKeySelector: (x: TSource) => TKey,
             innerKeySelector: (x: TInner) => TKey,
-            resultSelector: (x: TSource, y: TInner) => TResult): IEnumerable<TResult>
+            resultSelector: (x: TSource, y: TInner) => TResult): IAsyncEnumerable<TResult>
         <TInner, TKey, TResult>(
-            inner: IEnumerable<TInner>,
+            inner: IAsyncEnumerable<TInner>,
             outerKeySelector: (x: TSource) => TKey,
             innerKeySelector: (x: TInner) => TKey,
             resultSelector: (x: TSource, y: TInner) => TResult,
-            comparer: IEqualityComparer<TKey>): IEnumerable<TResult>,
+            comparer: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>,
     }
     last: {
-        (): TSource,
-        (predicate: (x: TSource) => boolean): TSource,
+        (): Promise<TSource>,
+        (predicate: (x: TSource) => boolean): Promise<TSource>,
     }
     lastOrDefault: {
-        (): TSource | null,
-        (predicate: (x: TSource) => boolean): TSource | null,
+        (): Promise<TSource | null>,
+        (predicate: (x: TSource) => boolean): Promise<TSource | null>,
     }
     max: {
-        (this: IEnumerable<number>): number | never,
-        (selector: (x: TSource) => number): number | never,
+        (this: IAsyncEnumerable<number>): Promise<number | never>,
+        (selector: (x: TSource) => number): Promise<number | never>,
     },
     min: {
-        (this: IEnumerable<number>): number | never,
-        (selector: (x: TSource) => number): number | never,
+        (this: IAsyncEnumerable<number>): Promise<number | never>,
+        (selector: (x: TSource) => number): Promise<number | never>,
     }
-    */
     ofType: {
         /* tslint:disable:ban-types */
         (type: "object"): IAsyncEnumerable<Object>

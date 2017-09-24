@@ -369,7 +369,7 @@ export class AsyncEnumerable {
 
     private static async aggregate_1<TSource>(
         source: AsyncIterable<TSource>,
-        func: (x: TSource, y: TSource) => TSource): Promise<TSource | null> {
+        func: (x: TSource, y: TSource) => TSource): Promise<TSource> {
         let aggregateValue: TSource | undefined
 
         for await (const value of source)
@@ -743,6 +743,24 @@ export class AsyncEnumerable {
         }
 
         return iterator(source)
+    }
+
+    public static from<TSource>(promises: Promise<TSource>[]): IAsyncEnumerable<TSource>
+    public static from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>
+    public static from<TSource>(promisesOrIterable: Promise<TSource>[] | (() => AsyncIterableIterator<TSource>)) {
+        if (Array.isArray(promisesOrIterable)) {           
+            if (promisesOrIterable.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
+
+            return new BasicAsyncEnumerable(async function*() {
+                for await (const value of promisesOrIterable) {
+                    yield value
+                }
+            })
+        } else {
+            return new BasicAsyncEnumerable(promisesOrIterable)
+        }
     }
 
     public static each<TSource>(source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {

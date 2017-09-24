@@ -12,9 +12,35 @@ Linq.initialize()
 
 // We want the description to be the function
 // being tested
+/*
 declare function describe(
     description: (keyof Linq.IEnumerable<any>) | (keyof typeof Linq.Enumerable),
     specDefinitions: (this: never) => void): void
+*/
+
+function asAsync<T>(values: T[]) {
+    async function *promises() {
+        for (const value of values) {
+            yield await new Promise<T>((resolve) => setTimeout(() => resolve(value), 100))
+        }
+    }
+    return Linq.AsyncEnumerable.from(promises)
+}
+
+function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
+    it(expectation, (done) => assertion().then(done), timeout)
+}
+
+async function expectAsync<T>(promise: Promise<T>) {
+    return expect(await promise)
+}
+
+describe("test", () => {
+    itAsync("each", async () => {
+        const asyncEnumerable = asAsync([true])
+        expect(await asyncEnumerable.each(console.log).all((x) => x)).toBe(true)
+    })
+})
 
 describe("aggregate", () => {
 
@@ -33,6 +59,20 @@ describe("aggregate", () => {
         expect(reversed).toBe("dog lazy the over jumps fox brown quick the")
     })
 
+    itAsync("BasicAsync", async () => {
+        const asyncArray = asAsync(["f", "o", "o"])
+        expect(await asyncArray.aggregate((x, y) => x + y)).toBe("foo")
+        const sentence = "the quick brown fox jumps over the lazy dog"
+
+        // Split the string into individual words.
+        const words = asAsync(sentence.split(" "))
+        // Prepend each word to the beginning of the
+        // new sentence to reverse the word order.
+        const reversed = await words.aggregate((workingSentence, next) =>
+                                        next + " " + workingSentence)
+        expect(reversed).toBe("dog lazy the over jumps fox brown quick the")
+    })
+
     it("ResultSelector", () => {
         const fruits = [ "apple", "mango", "orange", "passionfruit", "grape" ]
 
@@ -46,18 +86,46 @@ describe("aggregate", () => {
         expect(longestName).toBe("PASSIONFRUIT")
     })
 
-    it("single value", () => {
+    itAsync("ResultSelectorAsync", async () => {
+        const fruits = asAsync([ "apple", "mango", "orange", "passionfruit", "grape" ])
+
+        // Determine whether any string in the array is longer than "banana".
+        const longestName = await fruits.aggregate(
+            "banana",
+            (longest, next) => next.length > longest.length ? next : longest,
+            // Return the final result as an upper case string.
+            (fruit) => fruit.toUpperCase())
+
+        expect(longestName).toBe("PASSIONFRUIT")
+    })
+
+    it("SingleValue", () => {
         const val2 = [1].aggregate((x, y) => x + y)
         expect(val2).toBe(1)
     })
 
-    it("multiple values", () => {
+    itAsync("SingleValueAsync", async () => {
+        const val2 = await asAsync([1]).aggregate((x, y) => x + y)
+        expect(val2).toBe(1)
+    })
+
+    it("MultipleValues", () => {
         const val = [1, 2, 3].aggregate((x, y) => x + y)
         expect(val).toBe(6)
     })
 
-    it("exception", () => {
+    itAsync("MultipleValuesAsync", async () => {
+        const val = await asAsync([1, 2, 3]).aggregate((x, y) => x + y)
+        expect(val).toBe(6)
+    })
+
+    it("Exception", () => {
         expect(() => ([] as any[]).aggregate((x, y) => x + y)).toThrowError(InvalidOperationException)
+    })
+
+    itAsync("ExceptionAsync", async () => {
+        // TODO
+        await asAsync([] as number[]).aggregate((x, y) => x + y)
     })
 
     it("aggregate2", () => {
@@ -71,8 +139,24 @@ describe("aggregate", () => {
         expect(val3).toBe(10)
     })
 
-    it("aggregate3", () => {
+    itAsync("Aggregate2Async", async () => {
+        const val = await asAsync([1, 2, 3]).aggregate(4, (x, y) => x + y)
+        expect(val).toBe(10)
+
+        const val2 = await asAsync([1]).aggregate(9, (x, y) => x + y)
+        expect(val2).toBe(10)
+
+        const val3 = await asAsync([] as number[]).aggregate(10, (x, y) => x + y)
+        expect(val3).toBe(10)
+    })
+
+    it("Aggregate3", () => {
         const val = [1, 2, 3].aggregate(4, (x, y) => x + y, (acc) => acc * 10)
+        expect(val).toBe(100)
+    })
+
+    itAsync("Aggregate3Async", async () => {
+        const val = await asAsync([1, 2, 3]).aggregate(4, (x, y) => x + y, (acc) => acc * 10)
         expect(val).toBe(100)
     })
 })
@@ -92,12 +176,31 @@ describe("all", () => {
         expect(allStartWithB).toBe(false)
     })
 
-    it("many elements", () => {
+    itAsync("AllAsync", async () => {
+        // Create an array of Pets.
+        const pets = asAsync([
+            { Age: 10, Name: "Barley" },
+            { Age: 4, Name: "Boots" },
+            { Age: 6, Name: "Whiskers" } ])
+
+        // Determine whether all pet names
+        // in the array start with 'B'.
+        const allStartWithB = await pets.all((pet) => pet.Name.startsWith("B"))
+
+        expect(allStartWithB).toBe(false)
+    })
+
+    it("ManyElements", () => {
         expect([1, 2, 3].all((x) => x !== 0)).toBe(true)
         expect([0, 1, 2].all((x) => x > 5)).toBe(false)
     })
 
-    it("empty element true", () => {
+    itAsync("ManyElementsAsync", async () => {
+        expect(await asAsync([1, 2, 3]).all((x) => x !== 0)).toBe(true)
+        expect(await asAsync([0, 1, 2]).all((x) => x > 5)).toBe(false)
+    })
+
+    it("EmptyElementTrue", () => {
         expect([].all((x) => x === 1)).toBe(true)
     })
 })
@@ -112,6 +215,14 @@ describe("any", () => {
         expect(array.any((_) => false)).toBe(false)
     })
 
+    itAsync("EmptyAsync", async () => {
+        const array = asAsync([])
+
+        expect(await array.any()).toBe(false)
+        expect(await array.any((_) => true)).toBe(false)
+        expect(await array.any((_) => false)).toBe(false)
+    })
+
     it("AnyExists", () => {
         const array = [1, 2]
 
@@ -123,12 +234,27 @@ describe("any", () => {
         expect(array.any((x) => x === 2)).toBe(true)
     })
 
+    itAsync("AnyExistsAsync", async () => {
+        const array = asAsync([1, 2])
+
+        expect(await array.any()).toBe(true)
+        expect(await array.any((_) => true)).toBe(true)
+        expect(await array.any((_) => false)).toBe(false)
+
+        expect(await array.any((x) => x === 1)).toBe(true)
+        expect(await array.any((x) => x === 2)).toBe(true)
+    })
+
     it("empty", () => {
         expect([].any()).toBe(false)
     })
 
     it("basic", () => {
         expect([1].any()).toBe(true)
+    })
+
+    itAsync("basicAsync", async () => {
+        expect(await asAsync([1]).any()).toBe(true)
     })
 
     it("empty predicate", () => {
@@ -139,17 +265,30 @@ describe("any", () => {
         expect([1].any((x) => x === 1)).toBe(true)
         expect([1].any((x) => x === 0)).toBe(false)
     })
+
+    itAsync("BasicPredicateAsync", async () => {
+        expect(await asAsync([1]).any((x) => x === 1)).toBe(true)
+        expect(await asAsync([1]).any((x) => x === 0)).toBe(false)
+    })
 })
 
 describe("average", () => {
     it("basic", () =>
         expect([0, 10].average()).toBe(5))
 
+    itAsync("basicAsync", async () =>
+        expect(await asAsync([0, 10]).average()).toBe(5))
+
     it("empty throws exception", () =>
         expect(() => [].average()).toThrowError(InvalidOperationException))
 
+    // TODO Async ^
+
     it("selector", () =>
         expect([0, 10].average((x) => x * 10)).toBe(50))
+
+    itAsync("selectorAsync", async () =>
+        expect(await asAsync([0, 10]).average((x) => x * 10)).toBe(50))
 
     it("empty array with selector throws exception",
         () => expect(() => ([] as number[]).average((x) => x * 10)).toThrowError(InvalidOperationException))
@@ -163,11 +302,21 @@ describe("count", () => {
         expect(array.count((x) => !x)).toBe(1)
     })
 
+    itAsync("CountPredicateAsync", async () => {
+        const array = asAsync([true, true, false])
+
+        expect(await array.count((x) => x)).toBe(2)
+        expect(await array.count((x) => !x)).toBe(1)
+    })
+
     it("empty array to be zero", () =>
         expect([].count()).toBe(0))
 
     it("single element array to be one", () =>
         expect([1].count()).toBe(1))
+
+    itAsync("single element array to be one Async", async () =>
+        expect(await asAsync([1]).count()).toBe(1))
 })
 
 describe("concat", () => {
@@ -192,6 +341,13 @@ describe("contains", () => {
         expect(array.contains(1)).toBe(true)
     })
 
+    itAsync("CountainsAsync", async () => {
+        const array = asAsync([1, "2", "3"])
+
+        expect(await array.contains(2)).toBe(false)
+        expect(await array.contains(1)).toBe(true)
+    })
+
     it("Contains With Comparer", () => {
         const array = [1, "2", "3"]
 
@@ -200,19 +356,37 @@ describe("contains", () => {
         expect(array.contains(4, Linq.EqualityComparer)).toBe(false)
     })
 
+    itAsync("Contains With ComparerAsync", async () => {
+        const array = asAsync([1, "2", "3"])
+
+        expect(await array.contains(2, Linq.EqualityComparer)).toBe(true)
+        expect(await array.contains("2", Linq.EqualityComparer)).toBe(true)
+        expect(await array.contains(4, Linq.EqualityComparer)).toBe(false)
+    })
+
     it("contains empty to be false", () =>
         expect(([] as number[]).contains(0)).toBe(false))
 
     it("contains false", () =>
         expect([1, 2].contains(0)).toBe(false))
 
+    itAsync("Contains False Async", async () =>
+        expect(await asAsync([1, 2]).contains(0)).toBe(false))
+
     it("contains true", () =>
         expect([1, 2].contains(1)).toBe(true))
+
+    it("Contains True Async", async () =>
+        expect(await [1, 2].contains(1)).toBe(true))
 })
 
 describe("distinct", () => {
     it("basic", () => {
         expect([1, 1].distinct().toArray()).toEqual([1])
+    })
+
+    itAsync("Basic Async", async () => {
+        expect(await asAsync([1, 1]).distinct().toArray()).toEqual([1])
     })
 
     it("Distinct", () => {
@@ -221,10 +395,22 @@ describe("distinct", () => {
         expect(array.distinct().toArray()).toEqual(["f", "o"])
     })
 
+    itAsync("DistinctAsync", async () => {
+        const array = asAsync(["f", "o", "o"])
+
+        expect(await array.distinct().toArray()).toEqual(["f", "o"])
+    })
+
     it("DistinctWeakRequality", () => {
         const array = ["1", 1, 2, 2, 3, "3"]
 
         expect(array.distinct(Linq.EqualityComparer).toArray()).toEqual(["1", 2, 3])
+    })
+
+    itAsync("DistinctWeakRequalityAsync", async () => {
+        const array = asAsync(["1", 1, 2, 2, 3, "3"])
+
+        expect(await array.distinct(Linq.EqualityComparer).toArray()).toEqual(["1", 2, 3])
     })
 
     it("empty array to remain empty", () =>
@@ -240,6 +426,10 @@ describe("first", () => {
         expect([1, 2].first((x) => x === 2)).toBe(2)
     })
 
+    itAsync("FirstPredicateAsync", async () => {
+        expect(await asAsync([1, 2]).first((x) => x === 2)).toBe(2)
+    })
+
     it("FirstOrDefaultEmpty", () =>  {
         expect([].firstOrDefault()).toBeNull()
     })
@@ -247,11 +437,17 @@ describe("first", () => {
     it("basic", () =>
         expect([1].first()).toBe(1))
 
+    itAsync("BasicAsync", async () =>
+        expect(await asAsync([1]).first()).toBe(1))
+
     it("empty array causes exception", () =>
         expect(() => [].first()).toThrowError(InvalidOperationException))
 
     it("predicate", () =>
         expect([1, 2, 3].first((x) => x === 2)).toBe(2))
+
+    itAsync("PredicateAsync", async () =>
+        expect(await asAsync([1, 2, 3]).first((x) => x === 2)).toBe(2))
 
     it("empty array with predicate causes exception", () =>
         expect(() => [1, 2, 3].first((x) => x === 4)).toThrowError(InvalidOperationException))
