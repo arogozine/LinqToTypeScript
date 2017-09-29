@@ -5,6 +5,7 @@ import {
     ErrorString,
     InvalidOperationException } from "../src/TypesAndHelpers"
 import * as Linq from "./../src/index"
+import { IAsyncEnumerable } from "../src/AsyncInterfaces";
 Linq.initialize()
 
 // Tests use Jasmine framework,
@@ -797,8 +798,16 @@ describe("select", () => {
         expect(["1", "2", "3"].select(Number.parseInt).toArray()).toEqual([1, 2, 3])
     })
 
+    itAsync("select parseInt", async () => {
+        expect(await asAsync(["1", "2", "3"]).select(Number.parseInt).toArray()).toEqual([1, 2, 3])
+    })
+
     it("select length", () => {
         expect(["1", "22", "333"].select("length").toArray()).toEqual([1, 2, 3])
+    })
+
+    itAsync("select length", async () => {
+        expect(await asAsync(["1", "22", "333"]).select("length").toArray()).toEqual([1, 2, 3])
     })
 })
 
@@ -811,19 +820,38 @@ describe("selectMany", () => {
 
         expect(values.selectMany((x) => x.a).toArray()).toEqual([1, 2, 3, 4])
     })
+
+    itAsync("selectMany basic async", async () => {
+        const values = asAsync([
+            { a: [1, 2]},
+            { a: [3, 4]},
+        ])
+
+        expect(await values.selectMany((x) => x.a).toArray()).toEqual([1, 2, 3, 4])
+    })
 })
 
 describe("skip", () => {
     const vals = [1, 2, 3, 4]
+    const valsAsync = asAsync([1, 2, 3, 4])
 
     it("first element", () =>
         expect(vals.skip(1).toArray()).toEqual([2, 3, 4]))
 
+    itAsync("first element async", async () =>
+        expect(await valsAsync.skip(1).toArray()).toEqual([2, 3, 4]))
+
     it("first two elements", () =>
         expect(vals.skip(0).toArray()).toEqual(vals))
 
+    itAsync("first two elements async", async () =>
+        expect(await valsAsync.skip(0).toArray()).toEqual(vals))
+
     it("negative value", () =>
         expect(vals.skip(-9).toArray()).toEqual(vals))
+
+    itAsync("negative value async", async () =>
+        expect(await valsAsync.skip(-9).toArray()).toEqual(vals))
 })
 
 describe("sum", () => {
@@ -831,9 +859,18 @@ describe("sum", () => {
         expect([ 43.68, 1.25, 583.7, 6.5 ].sum()).toBe(635.13)
     })
 
+    itAsync("sum basic async", async () => {
+        expect(await [ 43.68, 1.25, 583.7, 6.5 ].sum()).toBe(635.13)
+    })
+
     it("sum Selector", () => {
         const zooms = [ { a: 1}, { a: 2 }, {a: 3} ]
         expect(zooms.sum((x) => x.a)).toBe(6)
+    })
+
+    itAsync("sum Selector Async", async () => {
+        const zooms = asAsync([ { a: 1}, { a: 2 }, {a: 3} ])
+        expect(await zooms.sum((x) => x.a)).toBe(6)
     })
 })
 
@@ -846,11 +883,28 @@ describe("union", () => {
         expect(union).toEqual(result)
     })
 
+    itAsync("=== union async", async () => {
+        const ints1 = asAsync([ 5, 3, 9, 7, 5, 9, 3, 7 ])
+        const ints2 = asAsync([ 8, 3, 6, 4, 4, 9, 1, 0 ])
+        const result = [5, 3, 9, 7, 8, 6, 4, 1, 0]
+        const union = await ints1.union(ints2).toArray()
+        expect(union).toEqual(result)
+    })
+
     it("== union", () => {
         const ints1: IEnumerable<string|number> = [ 5, 3, 9, 7, 5, 9, 3, 7 ]
         const ints2 = [ "8", "3", "6", "4", "4", "9", "1", "0" ]
         const result = [5, 3, 9, 7, "8", "6", "4", "1", "0"]
         const union = ints1.union(ints2, EqualityComparer).toArray()
+
+        expect(union).toEqual(result)
+    })
+
+    itAsync("== union async", async () => {
+        const ints1: IAsyncEnumerable<string|number> = asAsync([ 5, 3, 9, 7, 5, 9, 3, 7 ])
+        const ints2 = asAsync([ "8", "3", "6", "4", "4", "9", "1", "0" ])
+        const result = [5, 3, 9, 7, "8", "6", "4", "1", "0"]
+        const union = await ints1.union(ints2, EqualityComparer).toArray()
 
         expect(union).toEqual(result)
     })
@@ -862,9 +916,45 @@ describe("where", () => {
         expect(vals.where((x) => x > 8).toArray()).toEqual([9])
     })
 
+    itAsync("item predicate async", async () => {
+        const vals = asAsync([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+        expect(await vals.where((x) => x > 8).toArray()).toEqual([9])
+    })
+
     it("item and index predicate", () => {
         const vals = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        expect(vals.where((x: number, i: number) => i === 9)).toEqual([9])
+        expect(vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
+    })
+
+    itAsync("item and index predicate async", async () => {
+        const vals = asAsync([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+        expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
+    })
+
+    it("where basic", () => {
+        const stuff = [ "", "1", "2", "foo", "bar" ]
+        const noEmptyStrings = stuff.where((x) => x !== "").toArray()
+
+        expect(noEmptyStrings).toEqual([ "1", "2", "foo", "bar" ])
+
+        const noBar = stuff
+            .where((x: string, i: number) => i !== stuff.length - 1)
+            .toArray()
+
+        expect(noBar).toEqual([ "", "1", "2", "foo" ])
+    })
+
+    itAsync("where basic async", async () => {
+        const stuff = asAsync([ "", "1", "2", "foo", "bar" ])
+        const noEmptyStrings = await stuff.where((x) => x !== "").toArray()
+
+        expect(noEmptyStrings).toEqual([ "1", "2", "foo", "bar" ])
+
+        const noBar = await stuff
+            .where((x: string, i: number) => i !== 4)
+            .toArray()
+
+        expect(noBar).toEqual([ "", "1", "2", "foo" ])
     })
 })
 
@@ -874,6 +964,27 @@ describe("zip", () => {
         const it2 = ["5", "6", "7", "8"]
 
         const zip = it1.zip(it2).toArray()
+
+        expect(zip.length).toBe(it1.length)
+
+        for (let i = 0; i < zip.length; i++) {
+            const val = zip[i]
+            const first = it1[i]
+            const second = it2[i]
+
+            expect(val.first).toBe(first)
+            expect(val.second).toBe(second)
+        }
+    })
+
+    itAsync("zip basic async", async () => {
+        const it1 = [1, 2, 3, 4]
+        const it2 = ["5", "6", "7", "8"]
+
+        const it1Async = asAsync(it1)
+        const it2Async = asAsync(it2)
+
+        const zip = await it1Async.zip(it2Async).toArray()
 
         expect(zip.length).toBe(it1.length)
 
@@ -902,19 +1013,23 @@ describe("zip", () => {
             expect(val.b).toBe(second)
         }
     })
-})
 
-describe("where", () => {
-    it("where basic", () => {
-        const stuff = [ "", "1", "2", "foo", "bar" ]
-        const noEmptyStrings = stuff.where((x) => x !== "").toArray()
+    itAsync("zip selector Async", async () => {
+        const it1 = [1, 2, 3, 4]
+        const it2 = ["5", "6", "7", "8"]
 
-        expect(noEmptyStrings).toEqual([ "1", "2", "foo", "bar" ])
+        const it1Async = asAsync(it1)
+        const it2Async = asAsync(it2)
 
-        const noBar = stuff
-            .where((x: string, i: number) => i !== stuff.length - 1)
-            .toArray()
+        const zip = await it1Async.zip(it2Async, (a, b) => ({ a, b })).toArray()
 
-        expect(noBar).toEqual([ "", "1", "2", "foo" ])
+        for (let i = 0; i < zip.length; i++) {
+            const val = zip[i]
+            const first = it1[i]
+            const second = it2[i]
+
+            expect(val.a).toBe(first)
+            expect(val.b).toBe(second)
+        }
     })
 })

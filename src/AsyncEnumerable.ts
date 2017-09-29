@@ -763,6 +763,23 @@ export class AsyncEnumerable {
         }
     }
 
+    public static fromEvent<K extends keyof ElementEventMap>(element: Element, type: K) {
+        async function *eventGenerator() {
+            let resolve: () => void
+            const nextPromise = () => new Promise<any>((r) => resolve = r)
+            let promise: Promise<any> = nextPromise()
+
+            element.addEventListener(type, () => {
+                resolve()
+                promise = nextPromise()
+            })
+
+            yield await promise
+        }
+
+        return new BasicAsyncEnumerable(eventGenerator);
+    }
+
     public static each<TSource>(source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
         async function *iterator() {
             for await (let value of source) {

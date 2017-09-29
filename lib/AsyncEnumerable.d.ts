@@ -98,6 +98,8 @@ export declare class AsyncEnumerable {
     static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>): AsyncIterable<TSource>;
     static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: false): AsyncIterable<TSource>;
     static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: true): AsyncIterable<TSource | AsyncIterable<TSource>>;
+    static from<TSource>(promises: Promise<TSource>[]): IAsyncEnumerable<TSource>;
+    static from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>;
     static each<TSource>(source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource>;
     static groupBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
