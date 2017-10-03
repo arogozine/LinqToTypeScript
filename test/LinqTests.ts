@@ -1,3 +1,4 @@
+import { IAsyncEnumerable } from "../src/AsyncInterfaces"
 import { IEnumerable } from "../src/Interfaces"
 import {
     ArgumentOutOfRangeException,
@@ -5,7 +6,6 @@ import {
     ErrorString,
     InvalidOperationException } from "../src/TypesAndHelpers"
 import * as Linq from "./../src/index"
-import { IAsyncEnumerable } from "../src/AsyncInterfaces";
 Linq.initialize()
 
 // Tests use Jasmine framework,
@@ -29,17 +29,72 @@ function asAsync<T>(values: T[]) {
 }
 
 function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
-    it(expectation, (done) => assertion().then(done), timeout)
+    it(expectation, (done) => assertion().then(done, fail), timeout)
 }
 
 async function expectAsync<T>(promise: Promise<T>) {
-    return expect(await promise)
+    try {
+        return expect(await promise)
+    } catch (e) {
+        return expect(() => { throw e })
+    }
 }
 
-describe("test", () => {
-    itAsync("each", async () => {
-        const asyncEnumerable = asAsync([true])
-        expect(await asyncEnumerable.each(console.log).all((x) => x)).toBe(true)
+describe("AsyncEnumerableIteration", () => {
+    itAsync("AsyncGeneratorBehavior", async () => {
+        async function* generatorFunc() {
+            for (const value of []) {
+                yield value
+            }
+        }
+
+        const generator = generatorFunc()
+        const nextValue = await generator.next()
+        expect(nextValue.done).toBe(true)
+
+        const generator2 = generatorFunc()
+        for await (const value of generator2) {
+            fail("Value Detected In Generator")
+        }
+    })
+
+    itAsync("AsyncGeneratorError", async () => {
+        async function* generatorFunc() {
+            for (const value of [1, 2, 3]) {
+                yield value
+                throw new Error("Test")
+            }
+        }
+
+        const generator = generatorFunc()
+
+        try {
+            for await (const value of generator) {
+                expect(value).toBe(1)
+            }
+        } catch (e) {
+            return
+        }
+
+        fail("Catch Didn't Execute")
+    })
+
+    itAsync("AsyncEnumerableBehavior", async () => {
+        async function* generatorFunc() {
+            for (const value of []) {
+                yield value
+            }
+        }
+
+        const asyncEnumerable = Linq.AsyncEnumerable.from(generatorFunc)
+        const generator = asyncEnumerable[Symbol.asyncIterator]()
+        const nextValue = await generator.next()
+        expect(nextValue.done).toBe(true)
+
+        const generator2 = asyncEnumerable[Symbol.asyncIterator]()
+        for await (const value of generator2) {
+            fail("Value Detected In Generator")
+        }
     })
 })
 
@@ -125,8 +180,8 @@ describe("aggregate", () => {
     })
 
     itAsync("ExceptionAsync", async () => {
-        // TODO
-        await asAsync([] as number[]).aggregate((x, y) => x + y)
+        const expect = await expectAsync(asAsync([] as number[]).aggregate((x, y) => x + y))
+        expect.toThrowError(InvalidOperationException)
     })
 
     it("aggregate2", () => {
@@ -204,6 +259,11 @@ describe("all", () => {
     it("EmptyElementTrue", () => {
         expect([].all((x) => x === 1)).toBe(true)
     })
+
+    itAsync("EmptyElementTrue", async () => {
+        const expect = await expectAsync(asAsync([]).all((x) => x === 1))
+        expect.toBe(true)
+    })
 })
 
 describe("any", () => {
@@ -246,8 +306,12 @@ describe("any", () => {
         expect(await array.any((x) => x === 2)).toBe(true)
     })
 
-    it("empty", () => {
+    it("Empty", () => {
         expect([].any()).toBe(false)
+    })
+
+    itAsync("EmptyAsync", async () => {
+        (await expectAsync(asAsync([]).any())).toBe(false)
     })
 
     it("basic", () => {
@@ -258,11 +322,16 @@ describe("any", () => {
         expect(await asAsync([1]).any()).toBe(true)
     })
 
-    it("empty predicate", () => {
+    it("EmptyPredicate", () => {
         expect([].any((x) => x === 0)).toBe(false)
     })
 
-    it("basic predicate", () => {
+    itAsync("EmptyPredicateAsync", async () => {
+        const expect = await expectAsync(asAsync([]).any((x) => x === 0))
+        expect.toBe(false)
+    })
+
+    it("BasicPredicate", () => {
         expect([1].any((x) => x === 1)).toBe(true)
         expect([1].any((x) => x === 0)).toBe(false)
     })
@@ -283,7 +352,10 @@ describe("average", () => {
     it("empty throws exception", () =>
         expect(() => [].average()).toThrowError(InvalidOperationException))
 
-    // TODO Async ^
+    itAsync("EmptyThrowsException", async () => {
+        const expect = await expectAsync(asAsync([]).average())
+        expect.toThrowError(InvalidOperationException)
+    })
 
     it("selector", () =>
         expect([0, 10].average((x) => x * 10)).toBe(50))
@@ -293,6 +365,11 @@ describe("average", () => {
 
     it("empty array with selector throws exception",
         () => expect(() => ([] as number[]).average((x) => x * 10)).toThrowError(InvalidOperationException))
+
+    itAsync("empty array with selector throws exception Async", async () => {
+        const expect = await expectAsync((asAsync([] as number[])).average((x) => x * 10))
+        expect.toThrowError(InvalidOperationException)
+    })
 })
 
 describe("count", () => {
@@ -313,6 +390,9 @@ describe("count", () => {
     it("empty array to be zero", () =>
         expect([].count()).toBe(0))
 
+    itAsync("empty array to be zero async", async () =>
+        (await expectAsync(asAsync([]).count())).toBe(0))
+
     it("single element array to be one", () =>
         expect([1].count()).toBe(1))
 
@@ -322,16 +402,36 @@ describe("count", () => {
 
 describe("concat", () => {
     it("handles two empty arrays", () =>
-        expect([].concat([])).toEqual([]))
+        expect([].concat([]).toArray()).toEqual([]))
+
+    itAsync("handles two empty arrays async", async () => {
+        const value = await asAsync([]).concat(asAsync([])).toArray()
+        expect(value).toEqual([])
+    })
 
     it("handles calling array being empty", () =>
         expect(([] as number[]).concat([1])).toEqual([1]))
 
+    itAsync("handles calling array being empty async", async () => {
+        const value = await asAsync([] as number[]).concat(asAsync([1])).toArray()
+        expect(value).toEqual([1])
+    })
+
     it("handles concat with empty array", () =>
         expect([2].concat([]).toArray()).toEqual([2]))
 
+    itAsync("handles concat with empty array async", async () => {
+        const value = await asAsync([2]).concat(asAsync([])).toArray()
+        expect(value).toEqual([2])
+    })
+
     it("handle two arrays concat", () =>
         expect([1].concat([2, 3]).toArray()).toEqual([1, 2, 3]))
+
+    itAsync("handle two arrays concat async", async () => {
+        const value = await asAsync([1]).concat(asAsync([2, 3])).toArray()
+        expect(value).toEqual([1, 2, 3])
+    })
 })
 
 describe("contains", () => {
@@ -367,6 +467,11 @@ describe("contains", () => {
 
     it("contains empty to be false", () =>
         expect(([] as number[]).contains(0)).toBe(false))
+
+    itAsync("contains empty to be false async", async () => {
+        const value = await asAsync([] as number[]).contains(0)
+        expect(value).toBe(false)
+    })
 
     it("contains false", () =>
         expect([1, 2].contains(0)).toBe(false))
@@ -416,11 +521,21 @@ describe("distinct", () => {
 
     it("empty array to remain empty", () =>
         expect([].distinct().toArray()).toEqual([]))
+
+    itAsync("empty array to remain empty async", async () => {
+        const value = await asAsync([]).distinct().toArray()
+        expect(value).toEqual([])
+    })
 })
 
 describe("first", () => {
     it("FirstEmptyException", () => {
-        expect(() => [].first()).toThrowError(Linq.InvalidOperationException)
+        expect(() => [].first()).toThrowError(InvalidOperationException)
+    })
+
+    itAsync("FirstEmptyExceptionAsync", async () => {
+        const expect = await expectAsync(asAsync([]).first())
+        expect.toThrowError(InvalidOperationException)
     })
 
     it("FirstPredicate", () => {
@@ -435,14 +550,15 @@ describe("first", () => {
         expect([].firstOrDefault()).toBeNull()
     })
 
+    itAsync("FirstOrDefaultEmptyAsync", async () =>  {
+        (await expectAsync(asAsync([]).firstOrDefault())).toBeNull()
+    })
+
     it("basic", () =>
         expect([1].first()).toBe(1))
 
     itAsync("BasicAsync", async () =>
         expect(await asAsync([1]).first()).toBe(1))
-
-    it("empty array causes exception", () =>
-        expect(() => [].first()).toThrowError(InvalidOperationException))
 
     it("predicate", () =>
         expect([1, 2, 3].first((x) => x === 2)).toBe(2))
@@ -452,16 +568,31 @@ describe("first", () => {
 
     it("empty array with predicate causes exception", () =>
         expect(() => [1, 2, 3].first((x) => x === 4)).toThrowError(InvalidOperationException))
+
+    itAsync("empty array with predicate causes exception", async () => {
+        const value = await expectAsync(asAsync([1, 2, 3]).first((x) => x === 4))
+        value.toThrowError(InvalidOperationException)
+    })
 })
 
 describe("elementAt", () => {
-    it("basic", () => {
+    it("Basic", () => {
         expect([1].elementAt(0)).toBe(1)
         expect([1, 2].elementAt(1)).toBe(2)
     })
 
+    itAsync("BasicAsync", async () => {
+        expect(await asAsync([1]).elementAt(0)).toBe(1)
+        expect(await asAsync([1, 2]).elementAt(1)).toBe(2)
+    })
+
     it("empty array throws exception", () =>
         expect(() => [].elementAt(0)).toThrowError(ArgumentOutOfRangeException))
+
+    itAsync("empty array throws exception", async () => {
+        const expect = await expectAsync(asAsync([]).elementAt(0))
+        expect.toThrowError(ArgumentOutOfRangeException)
+    })
 })
 
 describe("elementAtOrDefault", () => {
@@ -470,8 +601,18 @@ describe("elementAtOrDefault", () => {
         expect([1, 2].elementAtOrDefault(1)).toBe(2)
     })
 
+    itAsync("WithElementsAsync", async () => {
+        expect(await asAsync([1]).elementAtOrDefault(0)).toBe(1)
+        expect(await asAsync([1, 2]).elementAtOrDefault(1)).toBe(2)
+    })
+
     it("empty to be null", () =>
         expect([].elementAtOrDefault(0)).toBeNull())
+
+    itAsync("empty to be null async", async () => {
+        const expect = await expectAsync(asAsync([]).elementAtOrDefault(0))
+        expect.toBeNull()
+    })
 })
 
 describe("enumerateObject", () => {
@@ -491,6 +632,11 @@ describe("enumerateObject", () => {
 describe("except", () => {
     it("basic", () => {
         expect([1, 2, 3].except([1, 2]).toArray()).toEqual([3])
+    })
+
+    itAsync("basicAsync", async () => {
+        const value = await asAsync([1, 2, 3]).except(asAsync([1, 2])).toArray()
+        expect(value).toEqual([3])
     })
 })
 
