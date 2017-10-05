@@ -727,22 +727,25 @@ export class AsyncEnumerable {
         return null
     }
 
-    public static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>): AsyncIterable<TSource>;
-    public static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: false): AsyncIterable<TSource>;
-    public static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: true): AsyncIterable<TSource | AsyncIterable<TSource>>;
-    public static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow?: boolean): AsyncIterable<TSource | AsyncIterable<TSource>> {
+    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>): IAsyncEnumerable<TSource>;
+    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: false): IAsyncEnumerable<TSource>;
+    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>;
+    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
 
         async function* iterator(source: AsyncIterable<any>): AsyncIterableIterator<TSource | AsyncIterable<TSource>> {
             for await (let item of source) {
                 if (item[Symbol.asyncIterator] !== undefined) {
-                    yield* shallow ? item : iterator(item as AsyncIterable<any>)
+                    const items = shallow ? item : iterator(item as AsyncIterable<any>)
+                    for await (let inner of items) {
+                        yield inner
+                    }
                 } else {
                     yield item
                 }
             }
         }
 
-        return iterator(source)
+        return new BasicAsyncEnumerable(() => iterator(source))
     }
 
     public static from<TSource>(promises: Promise<TSource>[]): IAsyncEnumerable<TSource>

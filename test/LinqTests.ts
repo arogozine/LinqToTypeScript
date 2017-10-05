@@ -22,7 +22,7 @@ declare function describe(
 function asAsync<T>(values: T[]) {
     async function *promises() {
         for (const value of values) {
-            yield await new Promise<T>((resolve) => setTimeout(() => resolve(value), 100))
+            yield await new Promise<T>((resolve) => setTimeout(() => resolve(value), 10))
         }
     }
     return Linq.AsyncEnumerable.from(promises)
@@ -641,14 +641,16 @@ describe("except", () => {
 })
 
 describe("flatten", () => {
-    it("Flatten", () => {
+    it("Basic", () => {
         const a = Linq.Enumerable.flatten([1, 2, 3]).toArray()
         const b = Linq.Enumerable.flatten<string | number>([1, [2], "3"]).toArray()
         const c = Linq.Enumerable.flatten([1, [2, 3]]).toArray()
         expect(a).toEqual([1, 2, 3])
         expect(b).toEqual([1, 2, "3"])
         expect(c).toEqual([1, 2, 3])
+    })
 
+    it("Shallow", () => {
         const shallow = Linq.Enumerable.flatten([1, [2, [3]]], true).toArray()
         expect(shallow.length).toBe(3)
         expect(shallow[0]).toBe(1)
@@ -657,12 +659,40 @@ describe("flatten", () => {
         expect((shallow[2] as number[]).length).toBe(1)
         expect((shallow[2] as number[])[0]).toBe(3)
     })
+
+    itAsync("BasicAsync", async () => {
+        const a = await Linq.AsyncEnumerable.flatten(asAsync([1, 2, 3])).toArray()
+        const b = await Linq.AsyncEnumerable.flatten(asAsync<any>([1, asAsync([2]), "3"])).toArray()
+        const c = await Linq.AsyncEnumerable.flatten(asAsync([1, asAsync([2, 3])])).toArray()
+        expect(a).toEqual([1, 2, 3])
+        expect(b).toEqual([1, 2, "3"])
+        expect(c).toEqual([1, 2, 3])
+    })
+
+    itAsync("ShallowAsync", async () => {
+        const shallow = await Linq.AsyncEnumerable.flatten(asAsync([1, asAsync([2, asAsync([3])])]), true).toArray()
+        expect(shallow.length).toBe(3)
+        expect(shallow[0]).toBe(1)
+        expect(shallow[1]).toBe(2)
+    })
 })
 
 describe("groupBy", () => {
     it("OddEven", () => {
         const groupBy = [1, 2, 3, 4, 5, 6, 7, 8, 9].groupBy((x) => x % 2)
         for (const group of groupBy) {
+            expect(group.key === 0 || group.key === 1).toBe(true)
+            if (group.key === 0) {
+                expect(group.toArray()).toEqual([2, 4, 6, 8])
+            } else {
+                expect(group.toArray()).toEqual([1, 3, 5, 7, 9])
+            }
+        }
+    })
+
+    itAsync("OddEvenAsync", async () => {
+        const groupBy = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9]).groupBy((x) => x % 2)
+        for await (const group of groupBy) {
             expect(group.key === 0 || group.key === 1).toBe(true)
             if (group.key === 0) {
                 expect(group.toArray()).toEqual([2, 4, 6, 8])
@@ -686,10 +716,34 @@ describe("groupByWithSel", () => {
         expect(groupingArray[1].toArray()).toEqual([3])
     })
 
+    itAsync("ObjectSelectAsync", async () => {
+        const array = asAsync([{ key: "foo", value: 0 }, { key: "foo", value: 1 }, { key: "bar", value: 3}])
+        const grouping = array.groupByWithSel((x) => x.key, (x) => x.value)
+        const groupingArray = await grouping.toArray()
+
+        expect(groupingArray[0].key).toBe("foo")
+        expect(groupingArray[0].toArray()).toEqual([0, 1])
+
+        expect(groupingArray[1].key).toBe("bar")
+        expect(groupingArray[1].toArray()).toEqual([3])
+    })
+
     it("ObjectSelectWithComparer", () => {
         const array = [{ key: "foo", value: "0" }, { key: "foo", value: 1 }, { key: "bar", value: 3}]
         const grouping = array.groupByWithSel((x) => x.key, (x) => x.value, EqualityComparer)
         const groupingArray = grouping.toArray()
+
+        expect(groupingArray[0].key).toBe("foo")
+        expect(groupingArray[0].toArray()).toEqual(["0", 1])
+
+        expect(groupingArray[1].key).toBe("bar")
+        expect(groupingArray[1].toArray()).toEqual([3])
+    })
+
+    itAsync("ObjectSelectWithComparerAsync", async () => {
+        const array = asAsync([{ key: "foo", value: "0" }, { key: "foo", value: 1 }, { key: "bar", value: 3}])
+        const grouping = array.groupByWithSel((x) => x.key, (x) => x.value, EqualityComparer)
+        const groupingArray = await grouping.toArray()
 
         expect(groupingArray[0].key).toBe("foo")
         expect(groupingArray[0].toArray()).toEqual(["0", 1])
@@ -707,6 +761,17 @@ describe("groupByWithSel", () => {
             expect(group.toArray()).toEqual(["1", "2", "3"])
         }
     })
+
+    itAsync("SingleKey", async () => {
+        const singleKey = "singleKey"
+        const grouping = asAsync([1, 2, 3]).groupByWithSel((x) => singleKey, (x) => x.toString())
+
+        for await (const group of grouping) {
+            expect(group.key).toBe(singleKey)
+            expect(group.toArray()).toEqual(["1", "2", "3"])
+        }
+    })
+
     // TODO
 })
 
@@ -716,11 +781,33 @@ describe("intersect", () => {
 
         expect(array).toEqual([1, 2])
     })
+
+    itAsync("IntersectWithEqualityComparerAsync", async () => {
+        const array = await asAsync([1, 2, "3"]).intersect(asAsync(["1", "2"]), Linq.EqualityComparer).toArray()
+
+        expect(array).toEqual([1, 2])
+    })
 })
 
 describe("joinByKey", () => {
     it("basic", () => {
         const joinBy = [1, 2, 3].joinByKey([1, 2, 3],
+            (x) => x,
+            (x) => x,
+            (x, y) => ( { x, y } ))
+            .toArray()
+
+        expect(joinBy.length).toBe(3)
+        expect(joinBy[0].x).toBe(1)
+        expect(joinBy[1].x).toBe(2)
+        expect(joinBy[2].x).toBe(3)
+        expect(joinBy[0].x).toBe(joinBy[0].y)
+        expect(joinBy[1].x).toBe(joinBy[1].y)
+        expect(joinBy[2].x).toBe(joinBy[2].y)
+    })
+
+    itAsync("BasicAsync", async () => {
+        const joinBy = await asAsync([1, 2, 3]).joinByKey(asAsync([1, 2, 3]),
             (x) => x,
             (x) => x,
             (x, y) => ( { x, y } ))
@@ -743,7 +830,14 @@ describe("take", () => {
         expect(array).toEqual([1, 2])
     })
 
+    itAsync("TakeAsync", async () => {
+        const array = await asAsync([1, 2, 3, 4, 5]).take(2).toArray()
+
+        expect(array).toEqual([1, 2])
+    })
+
     const vals = [1, 2, 3, 4]
+    const valsAsync = asAsync(vals)
 
     it("various positive amounts", () => {
         expect(vals.take(4).toArray()).toEqual(vals)
@@ -751,11 +845,23 @@ describe("take", () => {
         expect(vals.take(2).toArray()).toEqual([1, 2])
     })
 
+    itAsync("various positive amounts async", async () => {
+        expect(await valsAsync.take(4).toArray()).toEqual(vals)
+        expect(await valsAsync.take(1).toArray()).toEqual([1])
+        expect(await valsAsync.take(2).toArray()).toEqual([1, 2])
+    })
+
     it("zero elements", () =>
         expect(vals.take(0).toArray()).toEqual([]))
 
+    itAsync("zero elements async", async () =>
+        expect(await valsAsync.take(0).toArray()).toEqual([]))
+
     it("negative amount", () =>
         expect(vals.take(-1).toArray()).toEqual([]))
+
+    itAsync("negative amount async", async () =>
+        expect(await valsAsync.take(-1).toArray()).toEqual([]))
 })
 
 describe("takeWhile", () => {
@@ -772,6 +878,20 @@ describe("takeWhile", () => {
         expect(vals.takeWhile((x: number, i: number) => false).toArray()).toEqual([])
         expect(vals.takeWhile((x: number, i: number) => x !== 3).toArray()).toEqual([1, 2])
     })
+
+    const valsAsync = asAsync([1, 2, 3, 4])
+
+    itAsync("by value async", async () => {
+        expect(await valsAsync.takeWhile((x) => true).toArray()).toEqual(vals)
+        expect(await valsAsync.takeWhile((x) => false).toArray()).toEqual([])
+        expect(await valsAsync.takeWhile((x) => x !== 3).toArray()).toEqual([1, 2])
+    })
+
+    itAsync("by value and index async", async () => {
+        expect(await valsAsync.takeWhile((x: number, i: number) => true).toArray()).toEqual(vals)
+        expect(await valsAsync.takeWhile((x: number, i: number) => false).toArray()).toEqual([])
+        expect(await valsAsync.takeWhile((x: number, i: number) => x !== 3).toArray()).toEqual([1, 2])
+    })
 })
 
 describe("toArray", () => {
@@ -782,11 +902,28 @@ describe("toArray", () => {
         expect(array1 === array2).toBe(false)
         expect(array1).toEqual(array2)
     })
+
+    itAsync("toArrayAsync", async () => {
+        const array1 = [1, 2, 3]
+        const array2 = await asAsync(array1).toArray()
+        expect(array2.length).toBe(array1.length)
+        expect(array1 === array2).toBe(false)
+        expect(array1).toEqual(array2)
+    })
 })
 
 describe("toMap", () => {
     it("toMap", () => {
         const map = [1, 2, 3].toMap((x) => `Key_${ x }`)
+        for (const keyValue of map) {
+            const key = keyValue[0]
+            const value = keyValue[1]
+            expect(key).toBe(`Key_${ value[0] }`)
+        }
+    })
+
+    itAsync("toMapAsync", async () => {
+        const map = await asAsync([1, 2, 3]).toMap((x) => `Key_${ x }`)
         for (const keyValue of map) {
             const key = keyValue[0]
             const value = keyValue[1]
@@ -804,6 +941,15 @@ describe("toSet", () => {
         expect(set.has(3)).toBe(true)
         expect(set.size).toBe(3)
     })
+
+    itAsync("toSetAsync", async () => {
+        const set = await asAsync([1, 2, 3]).toSet()
+        expect(set instanceof Set).toBe(true)
+        expect(set.has(1)).toBe(true)
+        expect(set.has(2)).toBe(true)
+        expect(set.has(3)).toBe(true)
+        expect(set.size).toBe(3)
+    })
 })
 
 describe("last", () => {
@@ -811,12 +957,25 @@ describe("last", () => {
         expect([1, 2].last()).toBe(2)
     })
 
+    itAsync("LastAsync", async () => {
+        expect(await asAsync([1, 2]).last()).toBe(2)
+    })
+
     it("LastEmpty", () => {
         expect(() => [].last()).toThrowError(Linq.InvalidOperationException)
     })
 
+    itAsync("LastEmptyAsync", async () => {
+        const expect = await expectAsync(asAsync([]).last())
+        expect.toThrowError(Linq.InvalidOperationException)
+    })
+
     it("LastPredicate", () => {
         expect([1, 2].last((x) => x === 1)).toBe(1)
+    })
+
+    itAsync("LastPredicateAsync", async () => {
+        expect(await asAsync([1, 2]).last((x) => x === 1)).toBe(1)
     })
 })
 
@@ -825,35 +984,64 @@ describe("lastOrDefault", () => {
         expect([].lastOrDefault()).toBeNull()
     })
 
+    itAsync("LastOrDefaultAsync", async () => {
+        expect(await asAsync([]).lastOrDefault()).toBeNull()
+    })
+
     it("LastOrDefaultPredicate", () => {
         expect([1, 2, 3].lastOrDefault((x) => x === 4)).toBeNull()
+    })
+
+    itAsync("LastOrDefaultPredicateAsync", async () => {
+        expect(await asAsync([1, 2, 3]).lastOrDefault((x) => x === 4)).toBeNull()
     })
 })
 
 describe("max", () => {
-    it("MaxEmptyError", () => {
-        expect(() => [].max()).toThrowError(Linq.InvalidOperationException)
-    })
-
     it("MaxSelectEmptyError", () => {
         expect(() => ([] as number[]).max((x) => x * x))
             .toThrowError(Linq.InvalidOperationException)
+    })
+
+    itAsync("MaxSelectEmptyError", async () => {
+        const value = await expectAsync(asAsync([] as number[]).max((x) => x * x))
+        value.toThrowError(Linq.InvalidOperationException)
     })
 
     it("MaxSelect", () => {
         expect([1, 2, 3].max((x) => x * x)).toBe(9)
     })
 
-    it("basic", () => expect([1, 2, 3].max()).toBe(3))
+    itAsync("MaxSelectAsync", async () => {
+        expect(await asAsync([1, 2, 3]).max((x) => x * x)).toBe(9)
+    })
+
+    it("Basic", () => expect([1, 2, 3].max()).toBe(3))
+
+    itAsync("BasicAsync", async () => expect(await asAsync([1, 2, 3]).max()).toBe(3))
 
     it("empty array throws exception", () =>
         expect(() => [].max()).toThrowError(InvalidOperationException))
 
+    itAsync("empty array throws exception async", async () => {
+        const value = await expectAsync(asAsync([]).max())
+        value.toThrowError(InvalidOperationException)
+    })
+
     it("max with selector", () =>
         expect([1, 2, 3].max((x) => x * 2)).toBe(6))
 
+    itAsync("max with selector async", async () => {
+        expect(await asAsync([1, 2, 3]).max((x) => x * 2)).toBe(6)
+    })
+
     it("empty array throws exception with selector", () =>
         expect(() => ([] as number[]).max((x) => x * 2)).toThrowError(InvalidOperationException))
+
+    itAsync("empty array throws exception with selector async", async () => {
+        const expect = await expectAsync(asAsync([] as number[]).max((x) => x * 2))
+        expect.toThrowError(InvalidOperationException)
+    })
 })
 
 describe("min", () => {
@@ -861,24 +1049,53 @@ describe("min", () => {
         expect([1, 2, 3, -7].min()).toBe(-7)
     })
 
+    itAsync("MinAsync", async () => {
+        expect(await asAsync([1, 2, 3, -7]).min()).toBe(-7)
+    })
+
     it("MinEmptyError", () => {
         expect(() => [].min()).toThrowError(Linq.InvalidOperationException)
+    })
+
+    itAsync("MinEmptyErrorAsync", async () => {
+        const expectMin = await expectAsync(asAsync([]).min())
+        expectMin.toThrowError(Linq.InvalidOperationException)
     })
 
     it("MinPredicate Empty Error", () => {
         expect(() => ([] as number[]).min((x) => x * x)).toThrowError(Linq.InvalidOperationException)
     })
 
+    itAsync("MinPredicate Empty Error Async", async () => {
+        const expectMin = await expectAsync(asAsync([] as number[]).min((x) => x * x))
+        expectMin.toThrowError(Linq.InvalidOperationException)
+    })
+
     it("Min Predicate", () => {
         expect([1, 2, 3, -7].min(Math.abs)).toBe(1)
+    })
+
+    itAsync("Min Predicate Async", async () => {
+        const expectMin = await expectAsync(asAsync([1, 2, 3, -7]).min(Math.abs))
+        expectMin.toBe(1)
     })
 
     it("empty exception", () => {
         expect(() => [].min()).toThrowError(InvalidOperationException)
     })
 
+    itAsync("empty exception async", async () => {
+        const expectMin = await expectAsync(asAsync([]).min())
+        expectMin.toThrowError(InvalidOperationException)
+    })
+
     it("empty exception with selector", () => {
         expect(() => [].min((x) => x)).toThrowError(InvalidOperationException)
+    })
+
+    itAsync("empty exception with selector async", async () => {
+        const expectMin = await expectAsync(asAsync([]).min((x) => x))
+        expectMin.toThrowError(InvalidOperationException)
     })
 })
 
@@ -890,8 +1107,16 @@ describe("ofType", () => {
         expect(array.ofType("string").toArray()).toEqual(["str", "str2"])
     })
 
+    itAsync("stringAsync", async () => {
+        expect(await asAsync(array).ofType("string").toArray()).toEqual(["str", "str2"])
+    })
+
     it("number", () => {
         expect(array.ofType("number").toArray()).toEqual([1, 2, 3])
+    })
+
+    it("numberAsync", async () => {
+        expect(await asAsync(array).ofType("number").toArray()).toEqual([1, 2, 3])
     })
 
     it("object", () => {
@@ -899,12 +1124,25 @@ describe("ofType", () => {
         expect(array.ofType("object").toArray()).toEqual([{}, new Number(1)])
     })
 
+    itAsync("objectAsync", async () => {
+        // tslint:disable-next-line:no-construct
+        expect(await asAsync(array).ofType("object").toArray()).toEqual([{}, new Number(1)])
+    })
+
     it("boolean", () => {
         expect(array.ofType("boolean").toArray()).toEqual([true])
     })
 
+    itAsync("booleanAsync", async () => {
+        expect(await asAsync(array).ofType("boolean").toArray()).toEqual([true])
+    })
+
     it("Number (Object)", () => {
         expect(array.ofType(Number).toArray()).toEqual([Number(1)])
+    })
+
+    itAsync("Number (Object) Async", async () => {
+        expect(await asAsync(array).ofType(Number).toArray()).toEqual([Number(1)])
     })
 })
 
@@ -915,9 +1153,19 @@ describe("orderBy", () => {
         expect(vals).toEqual(["a", "b", "c"])
     })
 
+    itAsync("StringAsync", async () => {
+        const vals = await asAsync(["b", "c", "a"]).orderBy((x) => x).toArray()
+        expect(vals).toEqual(["a", "b", "c"])
+    })
+
     it("basic", () => {
         const vals = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         expect(vals.orderBy((x) => x).toArray()).toEqual(vals)
+    })
+
+    itAsync("basicAsync", async () => {
+        const vals = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        expect(await vals.orderBy((x) => x).toArray()).toEqual(await vals.toArray())
     })
 })
 
@@ -926,17 +1174,30 @@ describe("orderByDescending", () => {
         const vals = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         expect(vals.orderByDescending((x) => x).toArray()).toEqual(vals.reverse())
     })
+
+    itAsync("BasicAsync", async () => {
+        const vals = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        expect(await vals.orderByDescending((x) => x).toArray())
+            .toEqual(await vals.reverse().toArray())
+    })
 })
 
 describe("reverse", () => {
-    // TODO
     it("basic", () => {
         const vals = [1, 2, 3]
-        expect(vals.reverse()).toEqual([3, 2, 1])
+        expect(vals.reverse().toArray()).toEqual([3, 2, 1])
+    })
+
+    itAsync("basicAsync", async () => {
+        const vals = asAsync([1, 2, 3])
+        expect(await vals.reverse().toArray()).toEqual([3, 2, 1])
     })
 
     it("empty array still empty", () =>
         expect([].reverse()).toEqual([]))
+
+    itAsync("empty array still empty async", async () =>
+        expect(await asAsync([]).reverse().toArray()).toEqual([]))
 })
 
 describe("select", () => {
