@@ -617,7 +617,7 @@ export class AsyncEnumerable {
     }
 
     public static enumerateObject<TInput>(
-        source: TInput): AsyncIterable<ITuple<keyof TInput, TInput[keyof TInput]>> {
+        source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
         async function *iterable() {
             /* tslint:disable */
             for (let key in source) {
@@ -629,7 +629,7 @@ export class AsyncEnumerable {
             /* tslint: enable */
         }
 
-        return iterable()
+        return new BasicAsyncEnumerable(iterable)
     }
 
     public static except<TSource>(
@@ -766,14 +766,16 @@ export class AsyncEnumerable {
         }
     }
 
-    public static fromEvent<K extends keyof ElementEventMap>(element: Element, type: K) {
+    public static fromEvent<K extends keyof HTMLElementEventMap>(element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>
+    public static fromEvent(element: Element, type: string): IAsyncEnumerable<Event>
+    public static fromEvent(element: Element, type: string) {
         async function *eventGenerator() {
-            let resolve: () => void
-            const nextPromise = () => new Promise<any>((r) => resolve = r)
-            let promise: Promise<any> = nextPromise()
+            let resolve: (e: Event) => void
+            const nextPromise = () => new Promise<Event>((r) => resolve = r)
+            let promise: Promise<Event> = nextPromise()
 
-            element.addEventListener(type, () => {
-                resolve()
+            element.addEventListener(type, (e) => {
+                resolve(e)
                 promise = nextPromise()
             })
 
