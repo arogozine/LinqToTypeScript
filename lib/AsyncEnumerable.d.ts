@@ -2,7 +2,7 @@ import "core-js/modules/es7.symbol.async-iterator";
 import { IAsyncEnumerable, IAsyncGrouping, IOrderedAsyncEnumerable } from "./AsyncInterfaces";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "./Interfaces";
 export declare class BasicAsyncEnumerable<T> implements IAsyncEnumerable<T> {
-    private iterator;
+    private readonly iterator;
     constructor(iterator: () => AsyncIterableIterator<T>);
     aggregate<TAccumulate, TResult>(seedOrFunc: ((x: T, y: T) => T) | TAccumulate, func?: (x: TAccumulate, y: T) => TAccumulate, resultSelector?: (x: TAccumulate) => TResult): T | TAccumulate | TResult;
     all(predicate: (x: T) => boolean): Promise<boolean>;
@@ -84,7 +84,7 @@ export declare class AsyncEnumerable {
     static distinct<TSource>(source: IAsyncEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     static elementAt<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource>;
     static elementAtOrDefault<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource | null>;
-    static enumerateObject<TInput>(source: TInput): AsyncIterable<ITuple<keyof TInput, TInput[keyof TInput]>>;
+    static enumerateObject<TInput>(source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: IAsyncEnumerable<TSource>, second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>;
     static except<TSource>(first: IAsyncEnumerable<TSource>, second: IAsyncEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     static first<TSource>(source: AsyncIterable<TSource>): Promise<TSource>;
@@ -95,11 +95,13 @@ export declare class AsyncEnumerable {
     static firstOrDefault<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null>;
     private static firstOrDefault_1<T>(source);
     private static firstOrDefault_2<T>(source, predicate);
-    static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>): AsyncIterable<TSource>;
-    static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: false): AsyncIterable<TSource>;
-    static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: true): AsyncIterable<TSource | AsyncIterable<TSource>>;
+    static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>): IAsyncEnumerable<TSource>;
+    static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: false): IAsyncEnumerable<TSource>;
+    static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>;
     static from<TSource>(promises: Promise<TSource>[]): IAsyncEnumerable<TSource>;
     static from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>;
+    static fromEvent<K extends keyof HTMLElementEventMap>(element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>;
+    static fromEvent(element: Element, type: string): IAsyncEnumerable<Event>;
     static each<TSource>(source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource>;
     static groupBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
@@ -201,6 +203,5 @@ export declare class AsyncEnumerable {
     static zip<T, Y, OUT>(source: IAsyncEnumerable<T>, second: IAsyncEnumerable<Y>, resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);
     private static zip_2<T, Y, OUT>(source, second, resultSelector);
-    static test(): () => AsyncIterableIterator<number>;
     private constructor();
 }

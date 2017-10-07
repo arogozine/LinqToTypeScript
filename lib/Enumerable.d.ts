@@ -51,7 +51,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     abstract [Symbol.iterator](): IterableIterator<T>;
 }
 export declare class BasicEnumerable<T> extends BaseEnumerable<T> {
-    private iterator;
+    private readonly iterator;
     constructor(iterator: () => IterableIterator<T>);
     [Symbol.iterator](): IterableIterator<T>;
 }

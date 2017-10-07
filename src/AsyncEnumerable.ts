@@ -8,7 +8,7 @@ import {
     EqualityComparer, ErrorString, InvalidOperationException, StrictEqualityComparer } from "./TypesAndHelpers"
 
 export class BasicAsyncEnumerable<T> implements IAsyncEnumerable<T> {
-    constructor(private iterator: () => AsyncIterableIterator<T>) {
+    constructor(private readonly iterator: () => AsyncIterableIterator<T>) {
         //
     }
 
@@ -236,7 +236,7 @@ class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implements IOrde
         return () => OrderedAsyncEnumerable.unrollAndSort(mapFunc(), comparer)
     }
 
-    constructor(private map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
+    constructor(private readonly map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
         super(OrderedAsyncEnumerable.generate(map, comparer))
     }
 
@@ -290,7 +290,7 @@ class OrderedAsyncEnumerableDescending<T> extends BasicAsyncEnumerable<T> implem
         return () => OrderedAsyncEnumerableDescending.unrollAndSort(mapFunc(), comparer)
     }
 
-    constructor(private map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
+    constructor(private readonly map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
         super(OrderedAsyncEnumerableDescending.generate(map, comparer))
     }
 

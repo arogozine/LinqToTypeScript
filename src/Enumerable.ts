@@ -225,7 +225,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
 }
 
 export class BasicEnumerable<T> extends BaseEnumerable<T> {
-    constructor(private iterator: () => IterableIterator<T>) {
+    constructor(private readonly iterator: () => IterableIterator<T>) {
         super()
     }
 
@@ -282,7 +282,7 @@ class OrderedEnumerableDescending<T> extends BasicEnumerable<T> implements IOrde
         return () => OrderedEnumerableDescending.unrollAndSort(mapFunc(), comparer)
     }
 
-    constructor(private map: () => RecOrdMap<T>, comparer?: IComparer<number | string>) {
+    constructor(private readonly map: () => RecOrdMap<T>, comparer?: IComparer<number | string>) {
         super(OrderedEnumerableDescending.generate(map, comparer))
     }
 
@@ -333,7 +333,7 @@ class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumera
         return () => OrderedEnumerable.unrollAndSort(mapFunc(), comparer)
     }
 
-    constructor(private map: () => RecOrdMap<T>, comparer?: IComparer<number | string>) {
+    constructor(private readonly map: () => RecOrdMap<T>, comparer?: IComparer<number | string>) {
         super(OrderedEnumerable.generate(map, comparer))
     }
 
