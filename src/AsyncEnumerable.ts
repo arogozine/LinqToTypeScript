@@ -2032,14 +2032,6 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static test() {
-        return async function*() {
-            yield await new Promise<number>((resolve) => setTimeout(() => resolve(1), 100))
-            yield await new Promise<number>((resolve) => setTimeout(() => resolve(2), 100))
-            yield await new Promise<number>((resolve) => setTimeout(() => resolve(3), 100))
-        }
-    }
-
     private constructor() { }
 }
 
