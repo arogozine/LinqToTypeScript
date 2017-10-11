@@ -31,7 +31,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (selector: (x: TSource) => number): number;
     };
     concat: {
-        (second: Iterable<TSource>): IEnumerable<TSource>;
+        (second: IEnumerable<TSource>): IEnumerable<TSource>;
     };
     contains: {
         (value: TSource): boolean;
@@ -156,8 +156,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (amount: number): IEnumerable<TSource>;
     };
     takeWhile: {
-        (pedicate: (x: TSource) => boolean): IEnumerable<TSource>;
-        (pedicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
+        (predicate: (x: TSource) => boolean): IEnumerable<TSource>;
+        (predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
     };
     toArray: {
         (): TSource[];
@@ -169,8 +169,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (): Set<TSource>;
     };
     union: {
-        (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
         (second: IEnumerable<TSource>): IEnumerable<TSource>;
+        (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
     };
     where: {
         (predicate: (x: TSource) => boolean): IEnumerable<TSource>;
