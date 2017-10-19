@@ -1,3 +1,4 @@
+/*
 // #############################
 // ## Optimizations for Array ##
 // #############################
@@ -18,10 +19,10 @@ interface IArrayConstructor<T, Y extends IArray<T, Y>> {
     readonly prototype: IEnumerable<T>
 }
 
-/* tslint:disable */
+// tslint:disable
 declare global {
     interface Array<T> extends IEnumerable<T> {
-        
+
     }
 
     interface Uint8Array extends IEnumerable<number> {
@@ -60,7 +61,7 @@ declare global {
 
     }
 }
-/* tslint:enable */
+// tslint:enable
 
 function bindArray<T, Y extends IArray<T, Y>>(array: IArrayConstructor<T, Y>): void {
 
@@ -244,3 +245,4 @@ bindArray(Uint16Array)
 bindArray(Uint32Array)
 bindArray(Float32Array)
 bindArray(Float64Array)
+*/

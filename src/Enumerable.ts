@@ -20,6 +20,408 @@ import {
     StrictEqualityComparer,
 } from "./TypesAndHelpers"
 
+export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
+    public aggregate(func: (x: T, y: T) => T): T
+    public aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate
+    public aggregate<TAccumulate, TResult>(
+        seed: TAccumulate,
+        func: (x: TAccumulate, y: T) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): T
+    public aggregate<TAccumulate, TResult>(
+        seedOrFunc: ((x: T, y: T) => T) | TAccumulate,
+        func?: (x: TAccumulate, y: T) => TAccumulate,
+        resultSelector?: (x: TAccumulate) => TResult): T | TAccumulate | TResult {
+        return Enumerable.aggregate(this, seedOrFunc, func as any, resultSelector as any)
+    }
+
+    public all(predicate: (x: T) => boolean): boolean {
+        return super.every(predicate)
+    }
+
+    public any(): boolean
+    public any(predicate: (x: T) => boolean): boolean
+    public any(predicate?: (x: T) => boolean): boolean {
+        return this.some(predicate || (() => true))
+    }
+
+    public average(this: IEnumerable<number>): number
+    public average(selector: (x: T) => number): number
+    public average(selector?: (x: T) => number): number {
+        return Enumerable.average(this, selector as any)
+    }
+
+    public concat(items: IEnumerable<T>): IEnumerable<T>
+    public concat(...items: T[][]): ArrayEnumerable<T>
+    public concat(...items: Array<T | T[]>): ArrayEnumerable<T>
+    public concat() {
+        let items: any
+        if (arguments.length === 1) {
+            items = arguments[0]
+        } else {
+            items = [...arguments]
+        }
+
+        if (items instanceof BasicEnumerable) {
+            function *iterator() {
+                for (const x of this) {
+                    yield x
+                }
+                for (const x of items) {
+                    yield x
+                }
+            }
+
+            return new BasicEnumerable(iterator)
+        } else {
+            return super.concat.apply(this, [items])
+        }
+    }
+
+    public contains(value: T): boolean
+    public contains(value: T, comparer: IEqualityComparer<T>): boolean
+    public contains(value: T, comparer?: IEqualityComparer<T>): boolean {
+        return Enumerable.contains(this, value, comparer as any)
+    }
+
+    public count(): number
+    public count(predicate: (x: T) => boolean): number
+    public count(predicate?: (x: T) => boolean): number {
+        if (predicate) {
+            let count = 0
+            for (let i = 0; i < this.length; i ++) {
+                if (predicate(this[i]) === true) {
+                    count++
+                }
+            }
+            return count
+        } else {
+            return this.length
+        }
+    }
+
+    public distinct(): IEnumerable<T>
+    public distinct(comparer: IEqualityComparer<T>): IEnumerable<T>
+    public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.distinct(this, comparer as any)
+    }
+
+    public elementAt(index: number): T {
+        if (index >= this.length) {
+            throw new ArgumentOutOfRangeException("index")
+        }
+
+        return this[index]
+    }
+
+    public elementAtOrDefault(index: number): T | null {
+        return Enumerable.elementAtOrDefault(this, index)
+    }
+
+    public except(second: IEnumerable<T>): IEnumerable<T>
+    public except(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
+    public except(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.except(this, second, comparer as any)
+    }
+
+    public first(): T
+    public first(predicate: (x: T) => boolean): T
+    public first(predicate?: (x: T) => boolean): T {
+        if (predicate) {
+            const value = this.find(predicate)
+            if (typeof value === "undefined") {
+                throw new InvalidOperationException(ErrorString.NoMatch)
+            } else {
+                return value
+            }
+        } else {
+            if (this.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
+
+            return this[0]
+        }
+    }
+
+    public firstOrDefault(): T | null
+    public firstOrDefault(predicate: (x: T) => boolean): T | null
+    public firstOrDefault(predicate?: (x: T) => boolean): T | null {
+        if (predicate) {
+            const value = this.find(predicate)
+            if (typeof value === "undefined") {
+                return null
+            } else {
+                return value
+            }
+        } else {
+            return this.length === 0 ? null : this[0]
+        }
+    }
+
+    public each(action: (x: T) => void): IEnumerable<T> {
+        return Enumerable.each(this, action)
+    }
+
+    public groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>
+    public groupBy(keySelector: (x: T) => string): IEnumerable<IGrouping<string, T>>
+    public groupBy<TKey>(
+        keySelector: (x: T) => TKey,
+        comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>
+    public groupBy<TKey>(
+        keySelector: (x: T) => TKey,
+        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>> {
+        return Enumerable.groupBy(this, keySelector, comparer as any)
+    }
+
+    public groupByWithSel<TElement>(
+        keySelector: ((x: T) => number),
+        elementSelector: (x: T) => TElement): IEnumerable<IGrouping<number, TElement>>
+    public groupByWithSel<TElement>(
+        keySelector: ((x: T) => string),
+        elementSelector: (x: T) => TElement): IEnumerable<IGrouping<string, TElement>>
+    public groupByWithSel<TKey, TElement>(
+        keySelector: ((x: T) => TKey),
+        elementSelector: (x: T) => TElement,
+        comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>
+    public groupByWithSel<TKey, TElement>(
+        keySelector: ((x: T) => TKey),
+        elementSelector: (x: T) => TElement,
+        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
+        return Enumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
+    }
+
+    public intersect(second: IEnumerable<T>): IEnumerable<T>
+    public intersect(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
+    public intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.intersect(this, second, comparer as any)
+    }
+
+    // join in LINQ - but renamed to avoid clash with Array.prototype.join
+    public joinByKey<TInner, TKey, TResult>(
+        inner: IEnumerable<TInner>,
+        outerKeySelector: (x: T) => TKey,
+        innerKeySelector: (x: TInner) => TKey,
+        resultSelector: (x: T, y: TInner) => TResult): IEnumerable<TResult>
+    public joinByKey<TInner, TKey, TResult>(
+        inner: IEnumerable<TInner>,
+        outerKeySelector: (x: T) => TKey,
+        innerKeySelector: (x: TInner) => TKey,
+        resultSelector: (x: T, y: TInner) => TResult,
+        comparer: IEqualityComparer<TKey>): IEnumerable<TResult>
+    public joinByKey<TInner, TKey, TResult>(
+            inner: IEnumerable<TInner>,
+            outerKeySelector: (x: T) => TKey,
+            innerKeySelector: (x: TInner) => TKey,
+            resultSelector: (x: T, y: TInner) => TResult,
+            comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
+        return Enumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
+    }
+
+    public last(): T
+    public last(predicate: (x: T) => boolean): T
+    public last(predicate?: (x: T) => boolean): T {
+        if (predicate) {
+            for (let i = this.length - 1; i >= 0; i--) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
+            throw new InvalidOperationException(ErrorString.NoMatch)
+        } else {
+            if (this.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
+
+            return this[this.length - 1]
+        }
+    }
+
+    public lastOrDefault(): T | null
+    public lastOrDefault(predicate: (x: T) => boolean): T | null
+    public lastOrDefault(predicate?: (x: T) => boolean): T | null {
+        if (predicate) {
+            for (let i = this.length - 1; i >= 0; i--) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
+            return null
+        } else {
+            return this.length === 0 ? null : this[this.length - 1]
+        }
+    }
+
+    public max(this: IEnumerable<number>): number | never
+    public max(selector: (x: T) => number): number | never
+    public max(selector?: (x: T) => number): number | never {
+        if (this.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
+        if (selector) {
+            let max = Number.MIN_VALUE
+
+            for (let i = 0; i < this.length; i++) {
+                max = Math.max(selector(this[i]), max)
+            }
+
+            return max
+        } else {
+            return Math.max.apply(null, this as ArrayEnumerable<any>)
+        }
+    }
+
+    public min(this: IEnumerable<number>): number | never
+    public min(selector: (x: T) => number): number | never
+    public min(selector?: (x: T) => number): number | never {
+        if (this.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
+        if (selector) {
+            let min = Number.MAX_VALUE
+
+            for (let i = 0; i < this.length; i++) {
+                min = Math.min(selector(this[i]), min)
+            }
+
+            return min
+        } else {
+            return Math.min.apply(null, this as ArrayEnumerable<any>)
+        }
+    }
+
+    // tslint:disable:ban-types
+
+    public ofType(type: "object"): IEnumerable<Object>
+    public ofType(type: "function"): IEnumerable<Function>
+    public ofType(type: "symbol"): IEnumerable<Symbol>
+    public ofType(type: "boolean"): IEnumerable<boolean>
+    public ofType(type: "number"): IEnumerable<number>
+    public ofType(type: "string"): IEnumerable<string>
+    public ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>
+    public ofType<TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>
+    public ofType(type?: string | IConstructor<any>) {
+        return Enumerable.ofType(this, type)
+    }
+
+    // tslint:enable:ban-types
+
+    public orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>
+    public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
+    public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
+    public orderBy(predicate: any, comparer?: IComparer<any>) {
+        return Enumerable.orderBy(this, predicate, comparer as any)
+    }
+
+    public orderByDescending(predicate: (x: T) => number | string): IOrderedEnumerable<T>
+    public orderByDescending(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
+    public orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
+    public orderByDescending(predicate: any, comparer?: IComparer<any>) {
+        return Enumerable.orderByDescending(this, predicate, comparer as any)
+    }
+
+    public reverse(): ArrayEnumerable<T> {
+        super.reverse()
+        return this
+    }
+
+    public select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>
+    public select<TKey extends keyof T>(key: TKey): IEnumerable<T[TKey]>
+    public select(keyOrSelector: any) {
+        return Enumerable.select(this, keyOrSelector)
+    }
+
+    public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT> {
+        return Enumerable.selectMany(this, selector)
+    }
+
+    public sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean {
+        return Enumerable.sequenceEquals(this, second, comparer as any)
+    }
+
+    public single(): T
+    public single(predicate: (x: T) => boolean): T
+    public single(predicate?: (x: T) => boolean): T {
+        return Enumerable.single(this, predicate as any)
+    }
+
+    public singleOrDefault(): T | null
+    public singleOrDefault(predicate: (x: T) => boolean): T | null
+    public singleOrDefault(predicate?: (x: T) => boolean): T | null {
+        return Enumerable.singleOrDefault(this, predicate as any)
+    }
+
+    public skip(count: number): IEnumerable<T> {
+        return Enumerable.skip(this, count)
+    }
+
+    public skipWhile(predicate: (x: T) => boolean): IEnumerable<T>
+    public skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
+    public skipWhile(predicate: any) {
+        return Enumerable.skipWhile(this, predicate)
+    }
+
+    public sum(this: IEnumerable<number>): number
+    public sum(this: IEnumerable<T>, selector: (x: T) => number): number
+    public sum(selector?: (x: T) => number): number {
+        return Enumerable.sum(this, selector as any)
+    }
+
+    public take(amount: number): IEnumerable<T> {
+        return Enumerable.take(this, amount)
+    }
+
+    public takeWhile(predicate: (x: T) => boolean): IEnumerable<T>
+    public takeWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
+    public takeWhile(predicate: any) {
+        return Enumerable.takeWhile(this, predicate)
+    }
+
+    public toArray(): T[] {
+        return Enumerable.toArray(this)
+    }
+
+    public toMap<TKey>(selector: (x: T) => TKey): Map<TKey, T[]> {
+        return Enumerable.toMap(this, selector)
+    }
+
+    public toSet(): Set<T> {
+        return Enumerable.toSet(this)
+    }
+
+    public union(second: IEnumerable<T>): IEnumerable<T>
+    public union(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
+    public union(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.union(this, second, comparer as any)
+    }
+
+    public where(predicate: (x: T) => boolean): IEnumerable<T>
+    public where(predicate: (x: T, index: number) => boolean): IEnumerable<T>
+    public where(predicate: any): IEnumerable<T> {
+        return Enumerable.where(this, predicate)
+    }
+
+    public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>
+    public zip<TSecond, TResult>(
+        second: Iterable<TSecond>,
+        resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>
+    public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any) {
+        return Enumerable.zip(this, second, resultSelector as any)
+    }
+}
+
+export class Grouping<TKey, TElement> extends ArrayEnumerable<TElement> {
+    public readonly key: TKey
+    constructor(key: TKey, startingItem: TElement) {
+        super(1)
+        this.key = key
+        this[0] = startingItem
+    }
+}
+
 export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public aggregate(func: (x: T, y: T) => T): T
     public aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate
@@ -233,15 +635,406 @@ export class BasicEnumerable<T> extends BaseEnumerable<T> {
         return this.iterator()
     }
 }
-
-export class Grouping<TKey, TElement> extends Array<TElement> implements BaseEnumerable<TElement>,
-    IGrouping<TKey, TElement> {
-    constructor(public readonly key: TKey, startingItem: TElement) {
+/*
+export class Grouping<K, T> extends Array<T> implements BaseEnumerable<T>,
+    IGrouping<K, T> {
+    constructor(public readonly key: K, startingItem: T) {
         super(1)
         this[0] = startingItem
     }
-}
 
+    public aggregate(func: (x: T, y: T) => T): T
+    public aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate
+    public aggregate<TAccumulate, TResult>(
+        seed: TAccumulate,
+        func: (x: TAccumulate, y: T) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): T
+    public aggregate<TAccumulate, TResult>(
+        seedOrFunc: ((x: T, y: T) => T) | TAccumulate,
+        func?: (x: TAccumulate, y: T) => TAccumulate,
+        resultSelector?: (x: TAccumulate) => TResult): T | TAccumulate | TResult {
+        return Enumerable.aggregate(this, seedOrFunc, func as any, resultSelector as any)
+    }
+
+    public all(predicate: (x: T) => boolean): boolean {
+        return super.every(predicate)
+    }
+
+    public any(): boolean
+    public any(predicate: (x: T) => boolean): boolean
+    public any(predicate?: (x: T) => boolean): boolean {
+        return this.some(predicate || (() => true))
+    }
+
+    public average(this: IEnumerable<number>): number
+    public average(selector: (x: T) => number): number
+    public average(selector?: (x: T) => number): number {
+        return Enumerable.average(this, selector as any)
+    }
+
+    public concat(items: IEnumerable<T>): IEnumerable<T>
+    public concat(...items: T[][]): Grouping<K, T>
+    public concat(...items: Array<T | T[]>): Grouping<K, T>
+    public concat() {
+        let items: any
+        if (arguments.length === 1) {
+            items = arguments[0]
+        } else {
+            items = [...arguments]
+        }
+
+        if (items instanceof BasicEnumerable) {
+            function *iterator() {
+                for (const x of this) {
+                    yield x
+                }
+                for (const x of items) {
+                    yield x
+                }
+            }
+
+            return new BasicEnumerable(iterator)
+        } else {
+            return super.concat.apply(this, [items])
+        }
+    }
+
+    public contains(value: T): boolean
+    public contains(value: T, comparer: IEqualityComparer<T>): boolean
+    public contains(value: T, comparer?: IEqualityComparer<T>): boolean {
+        return Enumerable.contains(this, value, comparer as any)
+    }
+
+    public count(): number
+    public count(predicate: (x: T) => boolean): number
+    public count(predicate?: (x: T) => boolean): number {
+        if (predicate) {
+            let count = 0
+            for (let i = 0; i < this.length; i ++) {
+                if (predicate(this[i]) === true) {
+                    count++
+                }
+            }
+            return count
+        } else {
+            return this.length
+        }
+    }
+
+    public distinct(): IEnumerable<T>
+    public distinct(comparer: IEqualityComparer<T>): IEnumerable<T>
+    public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.distinct(this, comparer as any)
+    }
+
+    public elementAt(index: number): T {
+        if (index >= this.length) {
+            throw new ArgumentOutOfRangeException("index")
+        }
+
+        return this[index]
+    }
+
+    public elementAtOrDefault(index: number): T | null {
+        return Enumerable.elementAtOrDefault(this, index)
+    }
+
+    public except(second: IEnumerable<T>): IEnumerable<T>
+    public except(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
+    public except(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.except(this, second, comparer as any)
+    }
+
+    public first(): T
+    public first(predicate: (x: T) => boolean): T
+    public first(predicate?: (x: T) => boolean): T {
+        if (predicate) {
+            const value = this.find(predicate)
+            if (typeof value === "undefined") {
+                throw new InvalidOperationException(ErrorString.NoMatch)
+            } else {
+                return value
+            }
+        } else {
+            if (this.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
+
+            return this[0]
+        }
+    }
+
+    public firstOrDefault(): T | null
+    public firstOrDefault(predicate: (x: T) => boolean): T | null
+    public firstOrDefault(predicate?: (x: T) => boolean): T | null {
+        if (predicate) {
+            const value = this.find(predicate)
+            if (typeof value === "undefined") {
+                return null
+            } else {
+                return value
+            }
+        } else {
+            return this.length === 0 ? null : this[0]
+        }
+    }
+
+    public each(action: (x: T) => void): IEnumerable<T> {
+        return Enumerable.each(this, action)
+    }
+
+    public groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>
+    public groupBy(keySelector: (x: T) => string): IEnumerable<IGrouping<string, T>>
+    public groupBy<TKey>(
+        keySelector: (x: T) => TKey,
+        comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>
+    public groupBy<TKey>(
+        keySelector: (x: T) => TKey,
+        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>> {
+        return Enumerable.groupBy(this, keySelector, comparer as any)
+    }
+
+    public groupByWithSel<TElement>(
+        keySelector: ((x: T) => number),
+        elementSelector: (x: T) => TElement): IEnumerable<IGrouping<number, TElement>>
+    public groupByWithSel<TElement>(
+        keySelector: ((x: T) => string),
+        elementSelector: (x: T) => TElement): IEnumerable<IGrouping<string, TElement>>
+    public groupByWithSel<TKey, TElement>(
+        keySelector: ((x: T) => TKey),
+        elementSelector: (x: T) => TElement,
+        comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>
+    public groupByWithSel<TKey, TElement>(
+        keySelector: ((x: T) => TKey),
+        elementSelector: (x: T) => TElement,
+        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
+        return Enumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
+    }
+
+    public intersect(second: IEnumerable<T>): IEnumerable<T>
+    public intersect(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
+    public intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.intersect(this, second, comparer as any)
+    }
+
+    // join in LINQ - but renamed to avoid clash with Array.prototype.join
+    public joinByKey<TInner, TKey, TResult>(
+        inner: IEnumerable<TInner>,
+        outerKeySelector: (x: T) => TKey,
+        innerKeySelector: (x: TInner) => TKey,
+        resultSelector: (x: T, y: TInner) => TResult): IEnumerable<TResult>
+    public joinByKey<TInner, TKey, TResult>(
+        inner: IEnumerable<TInner>,
+        outerKeySelector: (x: T) => TKey,
+        innerKeySelector: (x: TInner) => TKey,
+        resultSelector: (x: T, y: TInner) => TResult,
+        comparer: IEqualityComparer<TKey>): IEnumerable<TResult>
+    public joinByKey<TInner, TKey, TResult>(
+            inner: IEnumerable<TInner>,
+            outerKeySelector: (x: T) => TKey,
+            innerKeySelector: (x: TInner) => TKey,
+            resultSelector: (x: T, y: TInner) => TResult,
+            comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
+        return Enumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
+    }
+
+    public last(): T
+    public last(predicate: (x: T) => boolean): T
+    public last(predicate?: (x: T) => boolean): T {
+        if (predicate) {
+            for (let i = this.length - 1; i >= 0; i--) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
+            throw new InvalidOperationException(ErrorString.NoMatch)
+        } else {
+            if (this.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
+
+            return this[this.length - 1]
+        }
+    }
+
+    public lastOrDefault(): T | null
+    public lastOrDefault(predicate: (x: T) => boolean): T | null
+    public lastOrDefault(predicate?: (x: T) => boolean): T | null {
+        if (predicate) {
+            for (let i = this.length - 1; i >= 0; i--) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
+            return null
+        } else {
+            return this.length === 0 ? null : this[this.length - 1]
+        }
+    }
+
+    public max(this: IEnumerable<number>): number | never
+    public max(selector: (x: T) => number): number | never
+    public max(selector?: (x: T) => number): number | never {
+        if (this.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
+        if (selector) {
+            let max = Number.MIN_VALUE
+
+            for (let i = 0; i < this.length; i++) {
+                max = Math.max(selector(this[i]), max)
+            }
+
+            return max
+        } else {
+            return Math.max.apply(null, this as Grouping<K, T>)
+        }
+    }
+
+    public min(this: IEnumerable<number>): number | never
+    public min(selector: (x: T) => number): number | never
+    public min(selector?: (x: T) => number): number | never {
+        if (this.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
+        if (selector) {
+            let min = Number.MAX_VALUE
+
+            for (let i = 0; i < this.length; i++) {
+                min = Math.min(selector(this[i]), min)
+            }
+
+            return min
+        } else {
+            return Math.min.apply(null, this as Grouping<K, T>)
+        }
+    }
+
+    // tslint:disable:ban-types
+
+    public ofType(type: "object"): IEnumerable<Object>
+    public ofType(type: "function"): IEnumerable<Function>
+    public ofType(type: "symbol"): IEnumerable<Symbol>
+    public ofType(type: "boolean"): IEnumerable<boolean>
+    public ofType(type: "number"): IEnumerable<number>
+    public ofType(type: "string"): IEnumerable<string>
+    public ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>
+    public ofType<TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>
+    public ofType(type?: string | IConstructor<any>) {
+        return Enumerable.ofType(this, type)
+    }
+
+    // tslint:enable:ban-types
+
+    public orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>
+    public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
+    public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
+    public orderBy(predicate: any, comparer?: IComparer<any>) {
+        return Enumerable.orderBy(this, predicate, comparer as any)
+    }
+
+    public orderByDescending(predicate: (x: T) => number | string): IOrderedEnumerable<T>
+    public orderByDescending(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
+    public orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
+    public orderByDescending(predicate: any, comparer?: IComparer<any>) {
+        return Enumerable.orderByDescending(this, predicate, comparer as any)
+    }
+
+    public reverse(): Grouping<K, T> {
+        super.reverse()
+        return this
+    }
+
+    public select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>
+    public select<TKey extends keyof T>(key: TKey): IEnumerable<T[TKey]>
+    public select(keyOrSelector: any) {
+        return Enumerable.select(this, keyOrSelector)
+    }
+
+    public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT> {
+        return Enumerable.selectMany(this, selector)
+    }
+
+    public sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean {
+        return Enumerable.sequenceEquals(this, second, comparer as any)
+    }
+
+    public single(): T
+    public single(predicate: (x: T) => boolean): T
+    public single(predicate?: (x: T) => boolean): T {
+        return Enumerable.single(this, predicate as any)
+    }
+
+    public singleOrDefault(): T | null
+    public singleOrDefault(predicate: (x: T) => boolean): T | null
+    public singleOrDefault(predicate?: (x: T) => boolean): T | null {
+        return Enumerable.singleOrDefault(this, predicate as any)
+    }
+
+    public skip(count: number): IEnumerable<T> {
+        return Enumerable.skip(this, count)
+    }
+
+    public skipWhile(predicate: (x: T) => boolean): IEnumerable<T>
+    public skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
+    public skipWhile(predicate: any) {
+        return Enumerable.skipWhile(this, predicate)
+    }
+
+    public sum(this: IEnumerable<number>): number
+    public sum(this: IEnumerable<T>, selector: (x: T) => number): number
+    public sum(selector?: (x: T) => number): number {
+        return Enumerable.sum(this, selector as any)
+    }
+
+    public take(amount: number): IEnumerable<T> {
+        return Enumerable.take(this, amount)
+    }
+
+    public takeWhile(predicate: (x: T) => boolean): IEnumerable<T>
+    public takeWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
+    public takeWhile(predicate: any) {
+        return Enumerable.takeWhile(this, predicate)
+    }
+
+    public toArray(): T[] {
+        return Enumerable.toArray(this)
+    }
+
+    public toMap<TKey>(selector: (x: T) => TKey): Map<TKey, T[]> {
+        return Enumerable.toMap(this, selector)
+    }
+
+    public toSet(): Set<T> {
+        return Enumerable.toSet(this)
+    }
+
+    public union(second: IEnumerable<T>): IEnumerable<T>
+    public union(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
+    public union(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
+        return Enumerable.union(this, second, comparer as any)
+    }
+
+    public where(predicate: (x: T) => boolean): IEnumerable<T>
+    public where(predicate: (x: T, index: number) => boolean): IEnumerable<T>
+    public where(predicate: any): IEnumerable<T> {
+        return Enumerable.where(this, predicate)
+    }
+
+    public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>
+    public zip<TSecond, TResult>(
+        second: Iterable<TSecond>,
+        resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>
+    public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any) {
+        return Enumerable.zip(this, second, resultSelector as any)
+    }
+}
+*/
 function applyMixins(derivedCtor: any, baseCtors: any[]) {
     baseCtors.forEach((baseCtor) => {
         Object.getOwnPropertyNames(baseCtor.prototype).forEach((name) => {
@@ -1391,7 +2184,12 @@ export class Enumerable {
     }
 
     public static empty<TSource>(): IEnumerable<TSource> {
-        return []
+        const iterator = function*() {
+            for (const x of [] as TSource[]) {
+                yield x
+            }
+        }
+        return new BasicEnumerable(iterator)
     }
 
     public static last<TSource>(source: IEnumerable<TSource>): TSource
@@ -1649,10 +2447,13 @@ export class Enumerable {
     }
 
     public static reverse<TSource>(source: IEnumerable<TSource>): IEnumerable<TSource> {
-        // If source instanceof Array
-        // there is already a built in function .reverse
-        // which should be called
-        return Enumerable.toArray(source).reverse()
+        function* iterator() {
+            for (const x of [...source].reverse()) {
+                yield x
+            }
+        }
+
+        return new BasicEnumerable(iterator)
     }
 
     public static sequenceEquals<TSource>(

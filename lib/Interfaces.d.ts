@@ -177,8 +177,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
     };
     zip: {
-        <TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>;
         <TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;
+        <TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>;
     };
     [Symbol.iterator]: () => IterableIterator<TSource>;
 }
