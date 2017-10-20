@@ -20,6 +20,8 @@ import {
     StrictEqualityComparer,
 } from "./TypesAndHelpers"
 
+//#region Classes
+
 export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public aggregate(func: (x: T, y: T) => T): T
     public aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate
@@ -818,6 +820,8 @@ class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumera
         return Enumerable.thenByDescending(this, keySelector, comparer)
     }
 }
+
+//#endregion
 
 // Enumerable class based on,
 // https://msdn.microsoft.com/en-us/library/system.linq.enumerable(v=vs.110).aspx

@@ -1,8 +1,6 @@
 import { BaseEnumerable } from "./Enumerable"
 import { IPrototype } from "./Interfaces"
-import "./LinqForArray"
-import "./LinqForMap"
-import "./LinqForSet"
+import { bindAllArrayTypes } from "./LinqForArray"
 
 export {
     StrictEqualityComparer, EqualityComparer, StringifyComparer,
@@ -16,10 +14,15 @@ export {
     IEnumerable,
     IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces"
 export { IAsyncEnumerable } from "./AsyncInterfaces"
-export { BasicEnumerable, Enumerable } from "./Enumerable"
+export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable"
 export { AsyncEnumerable } from "./AsyncEnumerable"
+export { IArray, IArrayConstructor, bindArray, bindAllArrayTypes } from "./LinqForArray"
 
-function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
+/**
+ * Binds LINQ methods to an iterable type
+ * @param object Iterable Type
+ */
+export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
 
     const propertyNames = Object.getOwnPropertyNames(BaseEnumerable.prototype)
         .filter((v) => v !== "constructor")
@@ -29,7 +32,10 @@ function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
     }
 }
 
-export function initialize() {
+/**
+ * Binds LINQ methods to Array Types, Map, Set, and String
+ */
+export function initializeLinq() {
     bindLinq(Array)
     bindLinq(Map)
     bindLinq(Set)
@@ -46,4 +52,6 @@ export function initialize() {
 
     bindLinq(Float32Array)
     bindLinq(Float64Array)
+
+    bindAllArrayTypes()
 }

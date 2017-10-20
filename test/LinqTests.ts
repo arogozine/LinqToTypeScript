@@ -5,28 +5,30 @@ import {
     EqualityComparer,
     ErrorString,
     InvalidOperationException } from "../src/TypesAndHelpers"
-// import * as Linq from "./../src/index"
-import { AsyncEnumerable, BasicEnumerable, Enumerable } from "./../src/index"
-
-// Linq.initialize()
+import { ArrayEnumerable, AsyncEnumerable, BasicEnumerable, Enumerable } from "./../src/index"
 
 // Tests use Jasmine framework,
 // https://jasmine.github.io/2.0/introduction.html
 
 // We want the description to be the function
 // being tested
-/*
+
 declare function describe(
-    description: (keyof Linq.IEnumerable<any>) | (keyof typeof Linq.Enumerable),
+    description: (keyof IEnumerable<any>) |
+        (keyof typeof Enumerable) | (keyof typeof AsyncEnumerable) | "AsyncEnumerableIteration",
     specDefinitions: (this: never) => void): void
-*/
 
 function asEnumerable<T>(values: T[]): IEnumerable<T> {
+    const array = new ArrayEnumerable<T>()
+    array.push(...values)
+    return array
+    /*
     return new BasicEnumerable<T>(function* meh() {
         for (const x of values) {
             yield x
         }
     })
+    */
 }
 
 function asAsync<T>(values: T[]) {
@@ -488,12 +490,10 @@ describe("concat", () => {
         expect(value).toEqual([1, 2, 3])
     })
 
-    /*
     it("ArrayEnumerable Concat", () => {
         const a = new ArrayEnumerable(1, 2)
         expect(a.concat(3)).toEqual([1, 2, 3])
     })
-    */
 })
 
 describe("contains", () => {
@@ -659,14 +659,12 @@ describe("elementAt", () => {
 
 describe("elementAtOrDefault", () => {
 
-    /*
     it("ArrayEnumerable", () => {
         const arrayEnum = new ArrayEnumerable(1, 2, 3)
         for (const val of arrayEnum) {
             expect(val).toBeDefined()
         }
     })
-    */
 
     it("with elements", () => {
         expect(asEnumerable([1]).elementAtOrDefault(0)).toBe(1)

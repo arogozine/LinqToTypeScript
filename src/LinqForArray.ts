@@ -1,4 +1,3 @@
-/*
 // #############################
 // ## Optimizations for Array ##
 // #############################
@@ -6,7 +5,7 @@
 import { IEnumerable } from "./Interfaces"
 import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "./TypesAndHelpers"
 
-interface IArray<T, Y> extends ArrayLike<T>, IEnumerable<T> {
+export interface IArray<T, Y> extends ArrayLike<T>, IEnumerable<T> {
     every(callbackfn: (value: T, index: number, array: Y) => boolean, thisArg?: any): boolean
     find(predicate: (value: T, index: number, obj: any) => boolean, thisArg?: any): T | undefined
     slice(start?: number, end?: number): Y
@@ -14,56 +13,16 @@ interface IArray<T, Y> extends ArrayLike<T>, IEnumerable<T> {
     some(callbackfn: (value: T, index: number, array: Y) => boolean, thisArg?: any): boolean
 }
 
-interface IArrayConstructor<T, Y extends IArray<T, Y>> {
+export interface IArrayConstructor<T, Y extends IArray<T, Y>> {
     new (_?: any): Y
     readonly prototype: IEnumerable<T>
 }
 
-// tslint:disable
-declare global {
-    interface Array<T> extends IEnumerable<T> {
-
-    }
-
-    interface Uint8Array extends IEnumerable<number> {
-
-    }
-
-    interface Uint8ClampedArray extends IEnumerable<number> {
-
-    }
-
-    interface Uint16Array extends IEnumerable<number> {
-
-    }
-
-    interface Uint32Array extends IEnumerable<number> {
-
-    }
-
-    interface Int8Array extends IEnumerable<number> {
-
-    }
-
-    interface Int16Array extends IEnumerable<number> {
-
-    }
-
-    interface Int32Array extends IEnumerable<number> {
-
-    }
-
-    interface Float32Array extends IEnumerable<number> {
-
-    }
-
-    interface Float64Array extends IEnumerable<number> {
-
-    }
-}
-// tslint:enable
-
-function bindArray<T, Y extends IArray<T, Y>>(array: IArrayConstructor<T, Y>): void {
+/**
+ * Binds the LINQ methods to the Array prototype
+ * @param array One of the Array Types in JavaScript
+ */
+export function bindArray<T, Y extends IArray<T, Y>>(array: IArrayConstructor<T, Y>): void {
 
     type genericArray = IArray<T, Y>
 
@@ -235,14 +194,18 @@ function bindArray<T, Y extends IArray<T, Y>>(array: IArrayConstructor<T, Y>): v
     // reverse already exists
 }
 
-bindArray(Array)
-bindArray(Int8Array)
-bindArray(Int16Array)
-bindArray(Int32Array)
-bindArray(Uint8Array)
-bindArray(Uint8ClampedArray)
-bindArray(Uint16Array)
-bindArray(Uint32Array)
-bindArray(Float32Array)
-bindArray(Float64Array)
-*/
+/**
+ * Add IEnumerable methods to all Array types in JavaScript
+ */
+export const bindAllArrayTypes = () => {
+    bindArray(Array as any)
+    bindArray(Int8Array as any)
+    bindArray(Int16Array as any)
+    bindArray(Int32Array as any)
+    bindArray(Uint8Array as any)
+    bindArray(Uint8ClampedArray as any)
+    bindArray(Uint16Array as any)
+    bindArray(Uint32Array as any)
+    bindArray(Float32Array as any)
+    bindArray(Float64Array as any)
+}
