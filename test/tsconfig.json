@@ -9,6 +9,7 @@
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
+        "strict": true,
         "alwaysStrict": true,
         "sourceMap": true,
         "outDir": "./compiled",
