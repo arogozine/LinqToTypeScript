@@ -60,7 +60,12 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
     reverse(): ArrayEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;
-    select<TKey extends keyof T>(key: TKey): IEnumerable<T[TKey]>;
+    select<TKey extends keyof T>(this: IEnumerable<{
+        [key: string]: Iterable<T[TKey]>;
+    }>, selector: TKey): IEnumerable<T[TKey]>;
+    selectMany<OUT>(this: IEnumerable<{
+        [key: string]: Iterable<OUT>;
+    }>, selector: keyof T): IEnumerable<OUT>;
     selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>;
     sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean;
     single(): T;
@@ -148,7 +153,12 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
     reverse(): IEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;
-    select<TKey extends keyof T>(key: TKey): IEnumerable<T[TKey]>;
+    select<TKey extends keyof T>(this: IEnumerable<{
+        [key: string]: Iterable<T[TKey]>;
+    }>, selector: TKey): IEnumerable<T[TKey]>;
+    selectMany<OUT>(this: IEnumerable<{
+        [key: string]: Iterable<OUT>;
+    }>, selector: keyof T): IEnumerable<OUT>;
     selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>;
     sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean;
     single(): T;
@@ -252,6 +262,13 @@ export declare class Enumerable {
     private static select_1<TSource, TResult>(source, selector);
     private static select_2<TSource, TKey>(source, key);
     static selectMany<TSource, Y>(source: IEnumerable<TSource>, selector: (x: TSource) => Iterable<Y>): IEnumerable<Y>;
+    static selectMany<TSource extends {
+        [key: string]: Iterable<Y>;
+    }, Y>(source: IEnumerable<TSource>, selector: keyof TSource): IEnumerable<Y>;
+    private static selectMany_1<TSource, Y>(source, selector);
+    static selectMany_2<TSource extends {
+        [key: string]: Iterable<Y>;
+    }, Y>(source: IEnumerable<TSource>, selector: keyof TSource): BasicEnumerable<Y>;
     static single<TSource>(source: IEnumerable<TSource>): TSource;
     static single<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource;
     private static single_1<TSource>(source);

@@ -333,13 +333,19 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     }
 
     public select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>
-    public select<TKey extends keyof T>(key: TKey): IEnumerable<T[TKey]>
-    public select(keyOrSelector: any) {
+    public select<TKey extends keyof T>(
+        this: IEnumerable<{ [key: string]: Iterable<T[TKey]>}>,
+        selector: TKey): IEnumerable<T[TKey]>
+    public select(keyOrSelector: any): IEnumerable<any> {
         return Enumerable.select(this, keyOrSelector)
     }
 
-    public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT> {
-        return Enumerable.selectMany(this, selector)
+    public selectMany<OUT>(
+        this: IEnumerable<{ [key: string]: Iterable<OUT>}>,
+        selector: keyof T): IEnumerable<OUT>
+    public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>
+    public selectMany<OUT>(selector: ((x: T) => Iterable<OUT>) | string): IEnumerable<OUT> {
+        return Enumerable.selectMany(this as any, selector as any)
     }
 
     public sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean {
@@ -621,13 +627,19 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>
-    public select<TKey extends keyof T>(key: TKey): IEnumerable<T[TKey]>
-    public select(keyOrSelector: any) {
+    public select<TKey extends keyof T>(
+        this: IEnumerable<{ [key: string]: Iterable<T[TKey]>}>,
+        selector: TKey): IEnumerable<T[TKey]>
+    public select(keyOrSelector: any): IEnumerable<any> {
         return Enumerable.select(this, keyOrSelector)
     }
 
-    public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT> {
-        return Enumerable.selectMany(this, selector)
+    public selectMany<OUT>(
+        this: IEnumerable<{ [key: string]: Iterable<OUT>}>,
+        selector: keyof T): IEnumerable<OUT>
+    public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>
+    public selectMany<OUT>(selector: ((x: T) => Iterable<OUT>) | string): IEnumerable<OUT> {
+        return Enumerable.selectMany(this as any, selector as any)
     }
 
     public sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean {
@@ -1670,10 +1682,38 @@ export class Enumerable {
 
     public static selectMany<TSource, Y>(
         source: IEnumerable<TSource>,
+        selector: (x: TSource) => Iterable<Y>): IEnumerable<Y>
+    public static selectMany<
+        TSource extends { [key: string]: Iterable<Y>}, Y>(
+            source: IEnumerable<TSource>,
+            selector: keyof TSource): IEnumerable<Y>
+    public static selectMany(source: IEnumerable<any>, selector: any) {
+        if (typeof selector === "string") {
+            return Enumerable.selectMany_2(source, selector)
+        } else {
+            return Enumerable.selectMany_1(source, selector as any)
+        }
+    }
+
+    private static selectMany_1<TSource, Y>(
+        source: IEnumerable<TSource>,
         selector: (x: TSource) => Iterable<Y>): IEnumerable<Y> {
         function* iterator() {
             for (const value of source) {
                 for (const selectorValue of selector(value)){
+                    yield selectorValue
+                }
+            }
+        }
+
+        return new BasicEnumerable(iterator)
+    }
+
+    public static selectMany_2<TSource extends { [key: string]: Iterable<Y> }, Y>(
+        source: IEnumerable<TSource>, selector: keyof TSource) {
+        function* iterator() {
+            for (const value of source) {
+                for (const selectorValue of value[selector]){
                     yield selectorValue
                 }
             }

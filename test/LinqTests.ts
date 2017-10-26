@@ -1,11 +1,11 @@
 import { IAsyncEnumerable } from "../src/AsyncInterfaces"
-import { IEnumerable } from "../src/Interfaces"
 import {
     ArgumentOutOfRangeException,
     EqualityComparer,
     ErrorString,
     InvalidOperationException } from "../src/TypesAndHelpers"
-import { ArrayEnumerable, AsyncEnumerable, BasicEnumerable, Enumerable } from "./../src/index"
+import { ArrayEnumerable, AsyncEnumerable, BasicEnumerable, Enumerable, IEnumerable } from "./../src/index"
+import { asAsync, expectAsync, itAsync, itEnumerable } from "./TestHelpers"
 
 // Tests use Jasmine framework,
 // https://jasmine.github.io/2.0/introduction.html
@@ -17,48 +17,6 @@ declare function describe(
     description: (keyof IEnumerable<any>) |
         (keyof typeof Enumerable) | (keyof typeof AsyncEnumerable) | "AsyncEnumerableIteration",
     specDefinitions: (this: never) => void): void
-
-function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {
-    const array = new ArrayEnumerable<T>()
-    array.push(...values)
-    return array
-}
-
-function asBasicEnumerable<T>(values: T[]): IEnumerable<T> {
-    return new BasicEnumerable<T>(function* meh() {
-        for (const x of values) {
-            yield x
-        }
-    })
-}
-
-function asAsync<T>(values: T[]) {
-    async function *promises() {
-        for (const value of values) {
-            yield await new Promise<T>((resolve) => setTimeout(() => resolve(value), 10))
-        }
-    }
-    return AsyncEnumerable.from(promises)
-}
-
-function itEnumerable<T = number>(
-    expectation: string,
-    assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => void, timeout?: number): void {
-    it(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
-    it(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
-}
-
-function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
-    it(expectation, (done) => assertion().then(done, fail), timeout)
-}
-
-async function expectAsync<T>(promise: Promise<T>) {
-    try {
-        return expect(await promise)
-    } catch (e) {
-        return expect(() => { throw e })
-    }
-}
 
 describe("fromEvent", () => {
     it("ClickAsync", (done) => {
@@ -717,6 +675,15 @@ describe("except", () => {
         const value = await asAsync([1, 2, 3]).except(asAsync([1, 2])).toArray()
         expect(value).toEqual([3])
     })
+
+    itEnumerable<string | number>("with comparer", (asEnumerable) => {
+        expect(asEnumerable([1, "2", 3]).except(asEnumerable([1, "2"]), EqualityComparer).toArray()).toEqual([3])
+    })
+
+    itAsync("with comparer async", async () => {
+        const value = await asAsync([1, "2", 3]).except(asAsync([1, "2"]), EqualityComparer).toArray()
+        expect(value).toEqual([3])
+    })
 })
 
 describe("flatten", () => {
@@ -900,6 +867,8 @@ describe("joinByKey", () => {
         expect(joinBy[1].x).toBe(joinBy[1].y)
         expect(joinBy[2].x).toBe(joinBy[2].y)
     })
+
+    // TODO: Comparer
 })
 
 describe("take", () => {
@@ -1307,6 +1276,15 @@ describe("selectMany", () => {
         expect(values.selectMany((x) => x.a).toArray()).toEqual([1, 2, 3, 4])
     })
 
+    itEnumerable<{ a: number[] }>("selectMany string", (asEnumerable) => {
+        const values = asEnumerable([
+            { a: [1, 2]},
+            { a: [3, 4]},
+        ])
+
+        expect(values.selectMany("a").toArray()).toEqual([1, 2, 3, 4])
+    })
+
     itAsync("selectMany basic async", async () => {
         const values = asAsync([
             { a: [1, 2]},
@@ -1314,6 +1292,135 @@ describe("selectMany", () => {
         ])
 
         expect(await values.selectMany((x) => x.a).toArray()).toEqual([1, 2, 3, 4])
+    })
+
+    itAsync("selectMany string async", async () => {
+        const values = asAsync([
+            { a: [1, 2]},
+            { a: [3, 4]},
+        ])
+
+        expect(await values.selectMany("a").toArray()).toEqual([1, 2, 3, 4])
+    })
+
+})
+
+describe("single", () => {
+    itEnumerable("basic", (asEnumerable) => {
+        const vals = asEnumerable([1])
+        expect(vals.single()).toBe(1)
+    })
+
+    itAsync("basic async", async () => {
+        const vals = asAsync([1])
+        expect(await vals.single()).toBe(1)
+    })
+
+    itEnumerable("basic expection", (asEnumerable) => {
+        const vals = asEnumerable([1, 2, 3, 4])
+        expect(() => vals.single()).toThrowError(InvalidOperationException)
+    })
+
+    itAsync("basic expection async", async () => {
+        const vals = asAsync([1, 2, 3, 4])
+        const expect = await expectAsync(vals.single())
+        expect.toThrowError(InvalidOperationException)
+    })
+
+    itEnumerable("predicate", (asEnumerable) => {
+        const vals = asEnumerable([1])
+        expect(vals.single((x) => true)).toBe(1)
+    })
+
+    itAsync("predicate async", async () => {
+        const vals = asAsync([1])
+        expect(await vals.single((x) => true)).toBe(1)
+    })
+
+    itEnumerable("predicate multiple expection", (asEnumerable) => {
+        const vals = asEnumerable([1, 2, 3, 4])
+        expect(() => vals.single((x) => true)).toThrowError(InvalidOperationException)
+    })
+
+    itEnumerable("predicate no matches expection", (asEnumerable) => {
+        const vals = asEnumerable([1, 2, 3, 4])
+        expect(() => vals.single((x) => false)).toThrowError(InvalidOperationException)
+    })
+
+    itAsync("predicate multiple expection async", async () => {
+        const vals = asAsync([1, 2, 3, 4])
+        const expect = await expectAsync(vals.single((x) => true))
+        expect.toThrowError(InvalidOperationException)
+    })
+
+    itAsync("predicate no matches expection async", async () => {
+        const vals = asAsync([1, 2, 3, 4])
+        const expect = await expectAsync(vals.single((x) => false))
+        expect.toThrowError(InvalidOperationException)
+    })
+})
+
+describe("singleOrDefault", () => {
+    itEnumerable("basic", (asEnumerable) => {
+        const vals = asEnumerable([1])
+        expect(vals.singleOrDefault()).toBe(1)
+    })
+
+    itAsync("basic async", async () => {
+        const vals = asAsync([1])
+        expect(await vals.singleOrDefault()).toBe(1)
+    })
+
+    itEnumerable("empty", (asEnumerable) => {
+        const vals = asEnumerable([])
+        expect(vals.singleOrDefault()).toBeNull()
+    })
+
+    itAsync("empty async", async () => {
+        const vals = asAsync([])
+        expect(await vals.singleOrDefault()).toBeNull()
+    })
+
+    itEnumerable("basic expection", (asEnumerable) => {
+        const vals = asEnumerable([1, 2, 3, 4])
+        expect(() => vals.singleOrDefault()).toThrowError(InvalidOperationException)
+    })
+
+    itAsync("basic expection async", async () => {
+        const vals = asAsync([1, 2, 3, 4])
+        const expect = await expectAsync(vals.singleOrDefault())
+        expect.toThrowError(InvalidOperationException)
+    })
+
+    itEnumerable("predicate", (asEnumerable) => {
+        const vals = asEnumerable([1])
+        expect(vals.singleOrDefault((x) => true)).toBe(1)
+    })
+
+    itAsync("predicate async", async () => {
+        const vals = asAsync([1])
+        expect(await vals.singleOrDefault((x) => true)).toBe(1)
+    })
+
+    itEnumerable("predicate multiple expection", (asEnumerable) => {
+        const vals = asEnumerable([1, 2, 3, 4])
+        expect(() => vals.singleOrDefault((x) => true)).toThrowError(InvalidOperationException)
+    })
+
+    itEnumerable("predicate no matches expection", (asEnumerable) => {
+        const vals = asEnumerable([1, 2, 3, 4])
+        expect(vals.singleOrDefault((x) => false)).toBeNull()
+    })
+
+    itAsync("predicate multiple expection async", async () => {
+        const vals = asAsync([1, 2, 3, 4])
+        const expect = await expectAsync(vals.single((x) => true))
+        expect.toThrowError(InvalidOperationException)
+    })
+
+    itAsync("predicate no matches null", async () => {
+        const vals = asAsync([1, 2, 3, 4])
+        expect(await vals.singleOrDefault((x) => false)).toBeNull()
     })
 })
 

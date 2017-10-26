@@ -140,6 +140,10 @@ export class BasicAsyncEnumerable<T> implements IAsyncEnumerable<T> {
         return AsyncEnumerable.select(this, selector)
     }
 
+    public selectMany<TKey extends keyof T>(
+        this: IAsyncEnumerable<{ [key: string]: Iterable<T[TKey]>}>,
+        selector: TKey): IAsyncEnumerable<T[TKey]>
+    public selectMany<Y>(selector: (x: T) => Iterable<Y>): IAsyncEnumerable<Y>
     public selectMany<Y>(selector: (x: T) => Iterable<Y>): IAsyncEnumerable<Y> {
         return AsyncEnumerable.selectMany(this, selector)
     }
@@ -1092,12 +1096,44 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
+    public static selectMany
+        <TSource extends { [key: string]: Iterable<Y> }, Y>(
+        source: IAsyncEnumerable<TSource>,
+        selector: keyof TSource): IAsyncEnumerable<Y>
     public static selectMany<TSource, Y>(
+        source: IAsyncEnumerable<TSource>,
+        selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>
+    public static selectMany(
+        source: IAsyncEnumerable<any>,
+        selector: any): IAsyncEnumerable<any> {
+        if (typeof selector === "string") {
+            return AsyncEnumerable.selectMany_2(source, selector)
+        } else {
+            return AsyncEnumerable.selectMany_1(source, selector)
+        }
+    }
+
+    private static selectMany_1<TSource, Y>(
         source: IAsyncEnumerable<TSource>,
         selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y> {
         async function* iterator() {
             for await (const value of source) {
                 for (const selectorValue of selector(value)){
+                    yield selectorValue
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
+    private static selectMany_2
+        <TSource extends { [key: string]: Iterable<Y> }, Y>(
+        source: IAsyncEnumerable<TSource>,
+        selector: keyof TSource): IAsyncEnumerable<Y> {
+        async function* iterator() {
+            for await (const value of source) {
+                for (const selectorValue of value[selector]){
                     yield selectorValue
                 }
             }

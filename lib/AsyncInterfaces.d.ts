@@ -117,6 +117,9 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
     };
     selectMany: {
         <OUT>(selector: (x: TSource) => Iterable<OUT>): IAsyncEnumerable<OUT>;
+        <OUT>(this: IAsyncEnumerable<{
+            [key: string]: Iterable<OUT>;
+        }>, selector: keyof TSource): IAsyncEnumerable<OUT>;
     };
     sequenceEquals: {
         (second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;

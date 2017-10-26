@@ -33,6 +33,9 @@ export declare class BasicAsyncEnumerable<T> implements IAsyncEnumerable<T> {
     orderByDescending(predicate: (x: T) => string | number, comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<T>;
     reverse(): IAsyncEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IAsyncEnumerable<OUT>;
+    selectMany<TKey extends keyof T>(this: IAsyncEnumerable<{
+        [key: string]: Iterable<T[TKey]>;
+    }>, selector: TKey): IAsyncEnumerable<T[TKey]>;
     selectMany<Y>(selector: (x: T) => Iterable<Y>): IAsyncEnumerable<Y>;
     sequenceEquals(second: IAsyncEnumerable<T>, comparer?: IEqualityComparer<T>): Promise<boolean>;
     single(predicate?: (x: T) => boolean): Promise<T>;
@@ -121,7 +124,12 @@ export declare class AsyncEnumerable {
     static select<TSource, TKey extends keyof TSource>(source: IAsyncEnumerable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>;
     private static select_1<TSource, TResult>(source, selector);
     private static select_2<TSource, TKey>(source, key);
+    static selectMany<TSource extends {
+        [key: string]: Iterable<Y>;
+    }, Y>(source: IAsyncEnumerable<TSource>, selector: keyof TSource): IAsyncEnumerable<Y>;
     static selectMany<TSource, Y>(source: IAsyncEnumerable<TSource>, selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>;
+    private static selectMany_1<TSource, Y>(source, selector);
+    private static selectMany_2<TSource, Y>(source, selector);
     static single<TSource>(source: AsyncIterable<TSource>): Promise<TSource>;
     static single<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;
     private static single_1<TSource>(source);

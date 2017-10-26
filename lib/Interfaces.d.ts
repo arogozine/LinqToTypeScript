@@ -129,6 +129,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     };
     selectMany: {
         <OUT>(selector: (x: TSource) => Iterable<OUT>): IEnumerable<OUT>;
+        <OUT>(this: IEnumerable<{
+            [key: string]: Iterable<OUT>;
+        }>, slector: keyof TSource): IEnumerable<OUT>;
     };
     sequenceEquals: {
         (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
