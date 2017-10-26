@@ -131,7 +131,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public first(predicate?: (x: T) => boolean): T {
         if (predicate) {
             const value = this.find(predicate)
-            if (typeof value === "undefined") {
+            if (value === undefined) {
                 throw new InvalidOperationException(ErrorString.NoMatch)
             } else {
                 return value
@@ -150,7 +150,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public firstOrDefault(predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             const value = this.find(predicate)
-            if (typeof value === "undefined") {
+            if (value === undefined) {
                 return null
             } else {
                 return value
@@ -858,7 +858,7 @@ export class Enumerable {
         func?: (x: TAccumulate, y: TSource) => TAccumulate,
         resultSelector?: (x: TAccumulate) => TResult): TSource | TAccumulate | TResult | null {
         if (resultSelector) {
-            if (typeof func === "undefined") {
+            if (!func) {
                 throw new ReferenceError(`TAccumulate function is undefined`)
             }
 
@@ -884,7 +884,7 @@ export class Enumerable {
             }
         }
 
-        if (typeof aggregateValue === "undefined") {
+        if (aggregateValue === undefined) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
@@ -978,7 +978,7 @@ export class Enumerable {
             count = (count || 0) + 1
         }
 
-        if (typeof value === "undefined") {
+        if (value === undefined) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
@@ -993,7 +993,7 @@ export class Enumerable {
             count = (count || 0) + 1
         }
 
-        if (typeof value === "undefined") {
+        if (value === undefined) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
@@ -2403,7 +2403,7 @@ export class Enumerable {
             const key = selector(value)
             const array = map.get(key)
 
-            if (typeof array === "undefined") {
+            if (array === undefined) {
                 map.set(key, [value])
             } else {
                 array.push(value)

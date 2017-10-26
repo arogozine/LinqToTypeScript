@@ -359,7 +359,7 @@ export class AsyncEnumerable {
         func?: (x: TAccumulate, y: TSource) => TAccumulate,
         resultSelector?: (x: TAccumulate) => TResult): Promise<TSource | TAccumulate | TResult | null> {
         if (resultSelector) {
-            if (typeof func === "undefined") {
+            if (!func) {
                 throw new ReferenceError(`TAccumulate function is undefined`)
             }
 
@@ -385,7 +385,7 @@ export class AsyncEnumerable {
             }
         }
 
-        if (typeof aggregateValue === "undefined") {
+        if (aggregateValue === undefined) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
@@ -488,7 +488,7 @@ export class AsyncEnumerable {
             count = (count || 0) + 1
         }
 
-        if (typeof value === "undefined") {
+        if (value === undefined) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
@@ -504,7 +504,7 @@ export class AsyncEnumerable {
             count = (count || 0) + 1
         }
 
-        if (typeof value === "undefined") {
+        if (value === undefined) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
@@ -1857,7 +1857,7 @@ export class AsyncEnumerable {
             const key = selector(value)
             const array = map.get(key)
 
-            if (typeof array === "undefined") {
+            if (array === undefined) {
                 map.set(key, [value])
             } else {
                 array.push(value)
