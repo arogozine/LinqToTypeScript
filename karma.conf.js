@@ -8,7 +8,8 @@ module.exports = function(config) {
       'karma-browserify',
       'karma-jasmine',
       'karma-firefox-launcher',
-      'karma-chrome-launcher'
+      'karma-chrome-launcher',
+//      'karma-edge-launcher'
     ],
     files: [
       './test/compiled/**/*.js'
@@ -25,7 +26,7 @@ module.exports = function(config) {
     },
     reporters: [ 'progress' ],
     browsers: [ 
-      // 'Edge', 
+//      'Edge', 
       'Firefox',
       'Chrome', ],
     port: 9876,

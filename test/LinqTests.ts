@@ -1,11 +1,18 @@
-import { IAsyncEnumerable } from "../src/AsyncInterfaces"
+import { ErrorString } from "../src/TypesAndHelpers"
 import {
     ArgumentOutOfRangeException,
+    ArrayEnumerable,
+    AsyncEnumerable,
+    BasicEnumerable,
+    Enumerable,
     EqualityComparer,
-    ErrorString,
-    InvalidOperationException } from "../src/TypesAndHelpers"
-import { ArrayEnumerable, AsyncEnumerable, BasicEnumerable, Enumerable, IEnumerable } from "./../src/index"
+    IAsyncEnumerable,
+    IEnumerable,
+    initializeLinq,
+    InvalidOperationException } from "./../src/index"
 import { asAsync, expectAsync, itAsync, itEnumerable } from "./TestHelpers"
+
+initializeLinq()
 
 // Tests use Jasmine framework,
 // https://jasmine.github.io/2.0/introduction.html

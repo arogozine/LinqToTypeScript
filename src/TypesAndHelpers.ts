@@ -59,29 +59,3 @@ export class ArgumentOutOfRangeException extends RangeError {
         this.stack = this.stack || (new Error()).stack
     }
 }
-
-// ################################
-// ## IterableIterator for Array ##
-// ################################
-
-export class ArrayIterator<T> implements IterableIterator<T> {
-
-    private index = 0
-
-    constructor(private array: T[]) {
-    }
-
-    public next(): IteratorResult<T> {
-        const curIndex = this.index
-        this.index++
-
-        return {
-            done: curIndex >= this.array.length,
-            value: this.array[curIndex],
-        }
-    }
-
-    public [Symbol.iterator]() {
-        return this
-    }
-}

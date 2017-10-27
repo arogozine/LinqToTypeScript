@@ -17,10 +17,3 @@ export declare class ArgumentOutOfRangeException extends RangeError {
     paramName: string;
     constructor(paramName: string);
 }
-export declare class ArrayIterator<T> implements IterableIterator<T> {
-    private array;
-    private index;
-    constructor(array: T[]);
-    next(): IteratorResult<T>;
-    [Symbol.iterator](): this;
-}

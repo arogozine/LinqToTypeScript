@@ -12,7 +12,6 @@ import {
 } from "./Interfaces"
 import {
     ArgumentOutOfRangeException,
-    ArrayIterator,
     AsTuple,
     EqualityComparer,
     ErrorString,
@@ -1085,6 +1084,14 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
+    public static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): IEnumerable<TSource> {
+        for (const value of source) {
+            action(value)
+        }
+
+        return source
+    }
+
     public static elementAt<TSource>(source: IEnumerable<TSource>, index: number): TSource {
         let i = 0
         for (const item of source) {
@@ -1233,12 +1240,19 @@ export class Enumerable {
         return new BasicEnumerable(() => iterator(source))
     }
 
-    public static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): IEnumerable<TSource> {
-        for (let value of source) {
-            action(value)
+    public static from<TSource>(source: TSource[]): IEnumerable<TSource>
+    public static from<TSource>(source: IterableIterator<TSource>): IEnumerable<TSource>
+    public static from<TSource>(source: TSource[] | IterableIterator<TSource>): IEnumerable<TSource> {
+        if (Array.isArray(source)) {
+            function *iterator() {
+                for (const value of source) {
+                    yield value
+                }
+            }
+            return new BasicEnumerable(iterator)
+        } else {
+            return new BasicEnumerable(() => source)
         }
-
-        return source
     }
 
     public static groupBy<TSource>(
@@ -1297,7 +1311,7 @@ export class Enumerable {
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>> {
 
-        function generate(): IterableIterator<IGrouping<TKey, TSource>> {
+        function *generate(): IterableIterator<IGrouping<TKey, TSource>> {
 
             const keyMap = new Array<Grouping<TKey, TSource>>()
 
@@ -1320,7 +1334,9 @@ export class Enumerable {
 
             }
 
-            return new ArrayIterator(keyMap)
+            for (const keyValue of keyMap) {
+                yield keyValue
+            }
         }
 
         return new BasicEnumerable(generate)
@@ -1390,7 +1406,7 @@ export class Enumerable {
         elementSelector: (x: TSource) => TElement,
         comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
 
-        function generate(): IterableIterator<IGrouping<TKey, TElement>> {
+        function *generate(): IterableIterator<IGrouping<TKey, TElement>> {
             const keyMap = new Array<Grouping<TKey, TElement>>()
             for (const value of source) {
                 const key = keySelector(value)
@@ -1412,7 +1428,9 @@ export class Enumerable {
 
             }
 
-            return new ArrayIterator(keyMap)
+            for (const keyValue of keyMap) {
+                yield keyValue
+            }
         }
 
         return new BasicEnumerable(generate)

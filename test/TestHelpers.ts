@@ -28,6 +28,7 @@ export function itEnumerable<T = number>(
     assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => void, timeout?: number): void {
     it(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
     it(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
+    it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
 }
 
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {

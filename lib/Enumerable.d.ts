@@ -214,6 +214,7 @@ export declare class Enumerable {
     private static count_2<T>(source, predicate);
     static distinct<TSource>(source: IEnumerable<TSource>): IEnumerable<TSource>;
     static distinct<TSource>(source: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): IEnumerable<TSource>;
     static elementAt<TSource>(source: IEnumerable<TSource>, index: number): TSource;
     static elementAtOrDefault<TSource>(source: IEnumerable<TSource>, index: number): TSource | null;
     static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
@@ -230,7 +231,8 @@ export declare class Enumerable {
     static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>): IEnumerable<TSource>;
     static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>;
     static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>;
-    static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): IEnumerable<TSource>;
+    static from<TSource>(source: TSource[]): IEnumerable<TSource>;
+    static from<TSource>(source: IterableIterator<TSource>): IEnumerable<TSource>;
     static groupBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>;
     static groupBy<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>;

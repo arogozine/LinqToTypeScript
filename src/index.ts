@@ -1,13 +1,11 @@
-import { BaseEnumerable } from "./Enumerable"
+import { ArrayEnumerable, BaseEnumerable } from "./Enumerable"
 import { IPrototype } from "./Interfaces"
-import { bindAllArrayTypes } from "./LinqForArray"
 
 export {
     StrictEqualityComparer, EqualityComparer, StringifyComparer,
     NumberComparer,
     AsTuple,
-    InvalidOperationException, ArgumentOutOfRangeException,
-    ArrayIterator } from "./TypesAndHelpers"
+    InvalidOperationException, ArgumentOutOfRangeException } from "./TypesAndHelpers"
 export {
     IComparer,
     IConstructor,
@@ -16,7 +14,6 @@ export {
 export { IAsyncEnumerable } from "./AsyncInterfaces"
 export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable"
 export { AsyncEnumerable } from "./AsyncEnumerable"
-export { IArray, IArrayConstructor, bindArray, bindAllArrayTypes } from "./LinqForArray"
 
 /**
  * Binds LINQ methods to an iterable type
@@ -33,25 +30,36 @@ export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): vo
 }
 
 /**
+ * Binds LINQ method to a built in array type
+ * @param object Built In JS Array Type
+ */
+export function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(object: IPrototype<T, Y>): void {
+    const propertyNames = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
+        .filter((v) => v !== "constructor")
+
+    for (const prop of propertyNames) {
+        object.prototype[prop] =  object.prototype[prop] || (BaseEnumerable.prototype as any)[prop]
+    }
+}
+
+/**
  * Binds LINQ methods to Array Types, Map, Set, and String
  */
 export function initializeLinq() {
-    bindLinq(Array)
+    bindArray(Array)
     bindLinq(Map)
     bindLinq(Set)
     bindLinq(String)
 
-    bindLinq(Int8Array)
-    bindLinq(Int16Array)
-    bindLinq(Int32Array)
+    bindArray(Int8Array)
+    bindArray(Int16Array)
+    bindArray(Int32Array)
 
-    bindLinq(Uint8Array)
-    bindLinq(Uint8ClampedArray)
-    bindLinq(Uint16Array)
-    bindLinq(Uint32Array)
+    bindArray(Uint8Array)
+    bindArray(Uint8ClampedArray)
+    bindArray(Uint16Array)
+    bindArray(Uint32Array)
 
-    bindLinq(Float32Array)
-    bindLinq(Float64Array)
-
-    bindAllArrayTypes()
+    bindArray(Float32Array)
+    bindArray(Float64Array)
 }
