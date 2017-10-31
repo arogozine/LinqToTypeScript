@@ -624,7 +624,7 @@ export class AsyncEnumerable {
         source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
         async function *iterable() {
             /* tslint:disable */
-            for (let key in source) {
+            for (const key in source) {
                 yield {
                     first: key,
                     second: source[key]
@@ -651,11 +651,11 @@ export class AsyncEnumerable {
         async function *iterator() {
             // TODO: async eq of [...second] ?
             const secondArray = []
-            for await (let x of second) {
+            for await (const x of second) {
                 secondArray.push(x)
             }
 
-            for await (let firstItem of first) {
+            for await (const firstItem of first) {
 
                 let exists = false
                 for (let j = 0; j < secondArray.length; j++) {
@@ -697,7 +697,7 @@ export class AsyncEnumerable {
     }
 
     private static async first_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T> {
-        for await (let value of source) {
+        for await (const value of source) {
             if (predicate(value) === true) {
                 return value
             }
@@ -722,7 +722,7 @@ export class AsyncEnumerable {
     }
 
     private static async firstOrDefault_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null> {
-        for await (let value of source) {
+        for await (const value of source) {
             if (predicate(value) === true) {
                 return value
             }
@@ -737,10 +737,10 @@ export class AsyncEnumerable {
     public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
 
         async function* iterator(source: AsyncIterable<any>): AsyncIterableIterator<TSource | AsyncIterable<TSource>> {
-            for await (let item of source) {
+            for await (const item of source) {
                 if (item[Symbol.asyncIterator] !== undefined) {
                     const items = shallow ? item : iterator(item as AsyncIterable<any>)
-                    for await (let inner of items) {
+                    for await (const inner of items) {
                         yield inner
                     }
                 } else {
@@ -791,7 +791,7 @@ export class AsyncEnumerable {
 
     public static each<TSource>(source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
         async function *iterator() {
-            for await (let value of source) {
+            for await (const value of source) {
                 action(value)
                 yield value
             }
@@ -831,7 +831,7 @@ export class AsyncEnumerable {
 
         async function *iterator(): AsyncIterableIterator<IGrouping<string | number, TSource>> {
             const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
-            for await (let value of source) {
+            for await (const value of source) {
 
                 const key = keySelector(value)
                 const grouping: Grouping<string | number, TSource> = keyMap[key]

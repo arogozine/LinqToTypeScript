@@ -1116,14 +1116,13 @@ export class Enumerable {
 
     public static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
         function *iterable() {
-            /* tslint:disable */
-            for (let key in source) {
+            // tslint:disable-next-line:forin
+            for (const key in source) {
                 yield {
                     first: key,
-                    second: source[key]
+                    second: source[key],
                 }
             }
-            /* tslint: enable */
         }
 
         return new BasicEnumerable(iterable)
@@ -1131,11 +1130,11 @@ export class Enumerable {
 
     public static except<TSource>(
         first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>): IEnumerable<TSource>;
+        second: IEnumerable<TSource>): IEnumerable<TSource>
     public static except<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+        comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     public static except<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
@@ -1144,7 +1143,7 @@ export class Enumerable {
         function *iterator() {
             const secondArray = [...second]
 
-            for (let firstItem of first) {
+            for (const firstItem of first) {
 
                 let exists = false
                 for (let j = 0; j < secondArray.length; j++) {
@@ -1165,8 +1164,8 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static first<TSource>(source: IEnumerable<TSource>): TSource;
-    public static first<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource;
+    public static first<TSource>(source: IEnumerable<TSource>): TSource
+    public static first<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource
     public static first<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
             return Enumerable.first_2(source, predicate)
@@ -1186,7 +1185,7 @@ export class Enumerable {
     }
 
     private static first_2<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T {
-        for (let value of source) {
+        for (const value of source) {
             if (predicate(value) === true) {
                 return value
             }
@@ -1195,8 +1194,8 @@ export class Enumerable {
         throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
-    public static firstOrDefault<T>(source: IEnumerable<T>): T | null;
-    public static firstOrDefault<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null;
+    public static firstOrDefault<T>(source: IEnumerable<T>): T | null
+    public static firstOrDefault<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null
     public static firstOrDefault<T>(source: IEnumerable<T>, predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             return Enumerable.firstOrDefault_2(source, predicate)
@@ -1211,7 +1210,7 @@ export class Enumerable {
     }
 
     private static firstOrDefault_2<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null {
-        for (let value of source) {
+        for (const value of source) {
             if (predicate(value) === true) {
                 return value
             }
@@ -1220,13 +1219,17 @@ export class Enumerable {
         return null
     }
 
-    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>): IEnumerable<TSource>;
-    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>;
-    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>;
-    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>, shallow?: boolean): IEnumerable<TSource | Iterable<TSource>> {
+    public static flatten<TSource>(source: IEnumerable<TSource | Iterable<TSource>>): IEnumerable<TSource>
+    public static flatten<TSource>(
+        source: IEnumerable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>
+    public static flatten<TSource>(
+        source: IEnumerable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>
+    public static flatten<TSource>(
+        source: IEnumerable<TSource | Iterable<TSource>>, shallow?: boolean): IEnumerable<TSource | Iterable<TSource>> {
 
+        // tslint:disable-next-line:no-shadowed-variable
         function* iterator(source: Iterable<any>): IterableIterator<TSource | Iterable<TSource>> {
-            for (let item of source) {
+            for (const item of source) {
                 // JS string is an Iterable.
                 // We exclude it from being flattened
                 if (item[Symbol.iterator] !== undefined && typeof item !== "string") {
@@ -1257,14 +1260,14 @@ export class Enumerable {
 
     public static groupBy<TSource>(
         source: IEnumerable<TSource>,
-        keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>;
+        keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>
     public static groupBy<TSource>(
         source: IEnumerable<TSource>,
-        keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>;
+        keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>
     public static groupBy<TSource, TKey>(
         source: IEnumerable<TSource>,
         keySelector: (x: TSource) => TKey,
-        comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>;
+        comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>
     public static groupBy<TSource, TKey>(
         source: IEnumerable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
@@ -1286,7 +1289,7 @@ export class Enumerable {
 
         function *iterator(): IterableIterator<IGrouping<string | number, TSource>> {
             const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
-            for (let value of source) {
+            for (const value of source) {
 
                 const key = keySelector(value)
                 const grouping: Grouping<string | number, TSource> = keyMap[key]
@@ -1298,6 +1301,7 @@ export class Enumerable {
                 }
             }
 
+            // tslint:disable-next-line:forin
             for (const value in keyMap) {
                 yield keyMap[value]
             }
@@ -1306,7 +1310,7 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    private static groupBy_0<TSource, TKey> (
+    private static groupBy_0<TSource, TKey>(
         source: IEnumerable<TSource>,
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>> {
@@ -1320,7 +1324,7 @@ export class Enumerable {
                 let found = false
 
                 for (let i = 0; i < keyMap.length; i++) {
-                    const group = keyMap[i];
+                    const group = keyMap[i]
                     if (comparer(group.key, key)) {
                         group.push(value)
                         found = true
