@@ -122,7 +122,7 @@ export class BasicAsyncEnumerable<T> implements IAsyncEnumerable<T> {
     public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
     public orderBy(
         predicate: (x: T) => string | number,
-        comparer?: IComparer<string | number>): IOrderedAsyncEnumerable<T> {
+        comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<T> {
         return AsyncEnumerable.orderBy(this, predicate as any, comparer as any)
     }
 
@@ -813,7 +813,7 @@ export class AsyncEnumerable {
     public static groupBy<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey | string | number, TSource>> {
+        comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TSource>> {
 
         if (comparer) {
             return AsyncEnumerable.groupBy_0<TSource, TKey>(source,
@@ -904,7 +904,7 @@ export class AsyncEnumerable {
         source: IAsyncEnumerable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
         elementSelector: (x: TSource) => TElement,
-        comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey | string | number, TElement>> {
+        comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TElement>> {
 
         if (comparer) {
             return AsyncEnumerable.GroupBy_1(source,
@@ -1378,9 +1378,9 @@ export class AsyncEnumerable {
         comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
     public static orderBy<TSource>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number | string,
-        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
-        return new OrderedAsyncEnumerable(AsyncEnumerable.orderByInner(source, keySelector), comparer)
+        keySelector: ((x: TSource) => number) | ((x: TSource) => string),
+        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
+        return new OrderedAsyncEnumerable(AsyncEnumerable.orderByInner(source, keySelector), comparer as any)
     }
 
     public static orderByDescending<TSource>(
@@ -1400,8 +1400,8 @@ export class AsyncEnumerable {
     public static orderByDescending<TSource>(
         source: IAsyncEnumerable<TSource>,
         keySelector: (x: TSource) => number | string,
-        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
-        return new OrderedAsyncEnumerableDescending(AsyncEnumerable.orderByInner(source, keySelector), comparer)
+        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
+        return new OrderedAsyncEnumerableDescending(AsyncEnumerable.orderByInner(source, keySelector), comparer as any)
     }
 
     public static async last<TSource>(
@@ -1761,7 +1761,7 @@ export class AsyncEnumerable {
     public static thenBy<TSource>(
         source: IOrderedAsyncEnumerable<TSource>,
         keySelector: ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
 
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
@@ -1790,7 +1790,7 @@ export class AsyncEnumerable {
             }
         }
 
-        return new OrderedAsyncEnumerable(async () => sortInnerMost(await source.getMap()), comparer)
+        return new OrderedAsyncEnumerable(async () => sortInnerMost(await source.getMap()), comparer as any)
     }
 
     public static thenByDescending<TSource>(
@@ -1810,7 +1810,7 @@ export class AsyncEnumerable {
     public static thenByDescending<TSource>(
         source: IOrderedAsyncEnumerable<TSource>,
         keySelector: ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
 
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
@@ -1839,7 +1839,7 @@ export class AsyncEnumerable {
             }
         }
 
-        return new OrderedAsyncEnumerableDescending(async () => sortInnerMost(await source.getMap()), comparer)
+        return new OrderedAsyncEnumerableDescending(async () => sortInnerMost(await source.getMap()), comparer as any)
     }
 
     public static async toArray<TSource>(source: IAsyncEnumerable<TSource>): Promise<TSource[]> {

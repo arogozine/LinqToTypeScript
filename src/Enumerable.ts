@@ -417,7 +417,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public zip<TSecond, TResult>(
         second: Iterable<TSecond>,
         resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>
-    public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any) {
+    public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any): any {
         return Enumerable.zip(this, second, resultSelector as any)
     }
 }
@@ -711,7 +711,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public zip<TSecond, TResult>(
         second: Iterable<TSecond>,
         resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>
-    public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any) {
+    public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any): IEnumerable<any> {
         return Enumerable.zip(this, second, resultSelector as any)
     }
 
@@ -1271,7 +1271,7 @@ export class Enumerable {
     public static groupBy<TSource, TKey>(
         source: IEnumerable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey | string | number, TSource>> {
+        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<any, TSource>> {
 
         if (comparer) {
             return Enumerable.groupBy_0<TSource, TKey>(source,
@@ -1363,7 +1363,7 @@ export class Enumerable {
         source: IEnumerable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
         elementSelector: (x: TSource) => TElement,
-        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey | string | number, TElement>> {
+        comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<any, TElement>> {
 
         if (comparer) {
             return Enumerable.GroupBy_1(source,
@@ -2136,8 +2136,8 @@ export class Enumerable {
     public static orderBy<TSource>(
         source: IEnumerable<TSource>,
         keySelector: (x: TSource) => number | string,
-        comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
-        return new OrderedEnumerable(Enumerable.orderByInner(source, keySelector), comparer)
+        comparer?: IComparer<number> | IComparer<string>): IOrderedEnumerable<TSource> {
+        return new OrderedEnumerable(Enumerable.orderByInner(source, keySelector), comparer as any)
     }
 
     public static orderByDescending<TSource>(
@@ -2157,8 +2157,8 @@ export class Enumerable {
     public static orderByDescending<TSource>(
         source: IEnumerable<TSource>,
         keySelector: (x: TSource) => number | string,
-        comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
-        return new OrderedEnumerableDescending(Enumerable.orderByInner(source, keySelector), comparer)
+        comparer?: IComparer<number> | IComparer<string>): IOrderedEnumerable<TSource> {
+        return new OrderedEnumerableDescending(Enumerable.orderByInner(source, keySelector), comparer as any)
     }
 
     public static range(start: number, count: number): IEnumerable<number> {
@@ -2333,7 +2333,7 @@ export class Enumerable {
     public static thenBy<TSource>(
         source: IOrderedEnumerable<TSource>,
         keySelector: ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
+        comparer?: IComparer<number> | IComparer<string>): IOrderedEnumerable<TSource> {
 
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
@@ -2362,7 +2362,7 @@ export class Enumerable {
             }
         }
 
-        return new OrderedEnumerable(() => sortInnerMost(source.getMap()), comparer)
+        return new OrderedEnumerable(() => sortInnerMost(source.getMap()), comparer as any)
     }
 
     public static thenByDescending<TSource>(
@@ -2382,7 +2382,7 @@ export class Enumerable {
     public static thenByDescending<TSource>(
         source: IOrderedEnumerable<TSource>,
         keySelector: ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
+        comparer?: IComparer<number> | IComparer<string>): IOrderedEnumerable<TSource> {
 
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
@@ -2411,7 +2411,7 @@ export class Enumerable {
             }
         }
 
-        return new OrderedEnumerableDescending(() => sortInnerMost(source.getMap()), comparer)
+        return new OrderedEnumerableDescending(() => sortInnerMost(source.getMap()), comparer as any)
     }
 
     public static toArray<TSource>(source: IEnumerable<TSource>): TSource[] {
