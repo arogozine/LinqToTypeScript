@@ -23,8 +23,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (predicate: (x: TSource) => boolean): boolean;
     };
     any: {
-        (): boolean;
-        (predicate: (x: TSource) => boolean): boolean;
+        (predicate?: (x: TSource) => boolean): boolean;
     };
     average: {
         (this: IEnumerable<number>): number;
@@ -34,16 +33,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (second: IEnumerable<TSource>): IEnumerable<TSource>;
     };
     contains: {
-        (value: TSource): boolean;
-        (value: TSource, comparer: IEqualityComparer<TSource>): boolean;
+        (value: TSource, comparer?: IEqualityComparer<TSource>): boolean;
     };
     count: {
-        (): number;
-        (predicate: (x: TSource) => boolean): number;
+        (predicate?: (x: TSource) => boolean): number;
     };
     distinct: {
-        (): IEnumerable<TSource>;
-        (comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+        (comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     };
     elementAt: {
         (index: number): TSource;
@@ -52,16 +48,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (index: number): TSource | null;
     };
     except: {
-        (second: IEnumerable<TSource>): IEnumerable<TSource>;
         (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     };
     first: {
-        (): TSource;
-        (predicate: (x: TSource) => boolean): TSource;
+        (predicate?: (x: TSource) => boolean): TSource;
     };
     firstOrDefault: {
-        (): TSource | null;
-        (predicate: (x: TSource) => boolean): TSource | null;
+        (predicate?: (x: TSource) => boolean): TSource | null;
     };
     each: {
         (action: (x: TSource) => void): IEnumerable<TSource>;
@@ -77,20 +70,16 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         <TKey, TElement>(keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>;
     };
     intersect: {
-        (second: IEnumerable<TSource>): IEnumerable<TSource>;
-        (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+        (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     };
     joinByKey: {
-        <TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult): IEnumerable<TResult>;
-        <TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IEnumerable<TResult>;
+        <TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
     };
     last: {
-        (): TSource;
-        (predicate: (x: TSource) => boolean): TSource;
+        (predicate?: (x: TSource) => boolean): TSource;
     };
     lastOrDefault: {
-        (): TSource | null;
-        (predicate: (x: TSource) => boolean): TSource | null;
+        (predicate?: (x: TSource) => boolean): TSource | null;
     };
     max: {
         (this: IEnumerable<number>): number | never;
@@ -129,20 +118,18 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     };
     selectMany: {
         <OUT>(selector: (x: TSource) => Iterable<OUT>): IEnumerable<OUT>;
-        <OUT>(this: IEnumerable<{
-            [key: string]: Iterable<OUT>;
-        }>, slector: keyof TSource): IEnumerable<OUT>;
+        <TBindedSource extends {
+            [key: string]: Iterable<TOut>;
+        }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
     };
     sequenceEquals: {
         (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
     };
     single: {
-        (): TSource;
-        (predicate: (x: TSource) => boolean): TSource;
+        (predicate?: (x: TSource) => boolean): TSource;
     };
     singleOrDefault: {
-        (): TSource | null;
-        (predicate: (x: TSource) => boolean): TSource | null;
+        (predicate?: (x: TSource) => boolean): TSource | null;
     };
     skip: {
         (count: number): IEnumerable<TSource>;
@@ -172,8 +159,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (): Set<TSource>;
     };
     union: {
-        (second: IEnumerable<TSource>): IEnumerable<TSource>;
-        (second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+        (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     };
     where: {
         (predicate: (x: TSource) => boolean): IEnumerable<TSource>;

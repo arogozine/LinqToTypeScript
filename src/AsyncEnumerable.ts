@@ -7,206 +7,266 @@ import {
     ArgumentOutOfRangeException, AsTuple,
     EqualityComparer, ErrorString, InvalidOperationException, StrictEqualityComparer } from "./TypesAndHelpers"
 
-export class BasicAsyncEnumerable<T> implements IAsyncEnumerable<T> {
-    constructor(private readonly iterator: () => AsyncIterableIterator<T>) {
+export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
+    constructor(private readonly iterator: () => AsyncIterableIterator<TSource>) {
         //
     }
 
+    public aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>
+    public aggregate<TAccumulate>(
+        seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>
     public aggregate<TAccumulate, TResult>(
-        seedOrFunc: ((x: T, y: T) => T) | TAccumulate,
-        func?: (x: TAccumulate, y: T) => TAccumulate,
-        resultSelector?: (x: TAccumulate) => TResult): T | TAccumulate | TResult {
+        seed: TAccumulate,
+        func: (x: TAccumulate, y: TSource) => TAccumulate,
+        resultSelector: (x: TAccumulate) => TResult): Promise<TResult>
+    public aggregate<TAccumulate, TResult>(
+        seedOrFunc: ((x: TSource, y: TSource) => TSource) | TAccumulate,
+        func?: (x: TAccumulate, y: TSource) => TAccumulate,
+        resultSelector?: (x: TAccumulate) => TResult): TSource | TAccumulate | TResult {
         return AsyncEnumerable.aggregate(this, seedOrFunc, func as any, resultSelector as any) as any
     }
 
-    public all(predicate: (x: T) => boolean): Promise<boolean> {
+    public all(predicate: (x: TSource) => boolean): Promise<boolean> {
         return AsyncEnumerable.all(this, predicate)
     }
 
-    public any(predicate?: (x: T) => boolean): Promise<boolean> {
+    public any(predicate?: (x: TSource) => boolean): Promise<boolean> {
         return AsyncEnumerable.any(this, predicate as any)
     }
 
-    public average(selector?: (x: T) => number): Promise<number> {
+    public average(this: IAsyncEnumerable<number>): Promise<number>
+    public average(selector: (x: TSource) => number): Promise<number>
+    public average(selector?: (x: TSource) => number): Promise<number> {
         return AsyncEnumerable.average(this, selector as any)
     }
 
-    public concat(second: IAsyncEnumerable<T>): IAsyncEnumerable<T> {
+    public concat(second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.concat(this, second)
     }
 
-    public contains(value: T, comparer?: IEqualityComparer<T>): Promise<boolean> {
-        return AsyncEnumerable.contains(this, value, comparer as any)
+    public contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean> {
+        return AsyncEnumerable.contains(this, value, comparer)
     }
 
-    public count(predicate?: (x: T) => boolean): Promise<number> {
-        return AsyncEnumerable.count(this, predicate as any)
+    public count(predicate?: (x: TSource) => boolean): Promise<number> {
+        return AsyncEnumerable.count(this, predicate)
     }
 
-    public distinct(comparer?: IEqualityComparer<T>): IAsyncEnumerable<T> {
-        return AsyncEnumerable.distinct(this, comparer as any)
+    public distinct(comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.distinct(this, comparer)
     }
 
-    public elementAt(index: number): Promise<T> {
+    public elementAt(index: number): Promise<TSource> {
         return AsyncEnumerable.elementAt(this, index)
     }
 
-    public elementAtOrDefault(index: number): Promise<T | null> {
+    public elementAtOrDefault(index: number): Promise<TSource | null> {
         return AsyncEnumerable.elementAtOrDefault(this, index)
     }
 
-    public each(action: (x: T) => void): IAsyncEnumerable<T> {
+    public each(action: (x: TSource) => void): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.each(this, action)
     }
 
-    public except(second: IAsyncEnumerable<T>, comparer?: IEqualityComparer<T>): IAsyncEnumerable<T> {
-        return AsyncEnumerable.except(this, second, comparer as any)
+    public except(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.except(this, second, comparer)
     }
 
-    public first(predicate?: (x: T) => boolean): Promise<T> {
+    public first(predicate?: (x: TSource) => boolean): Promise<TSource> {
         return AsyncEnumerable.first(this, predicate as any)
     }
 
-    public firstOrDefault(predicate?: (x: T) => boolean): Promise<T | null> {
+    public firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
         return AsyncEnumerable.firstOrDefault(this, predicate as any)
     }
 
+    public groupBy(keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
+    public groupBy(keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>
     public groupBy<TKey>(
-        keySelector: (x: T) => TKey | string | number,
-        comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey | string | number, T>> {
+        keySelector: (x: TSource) => TKey,
+        comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
+    public groupBy<TKey>(
+        keySelector: (x: TSource) => TKey | string | number,
+        comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey | string | number, TSource>> {
         return AsyncEnumerable.groupBy(this, keySelector, comparer as any)
     }
 
-    public groupByWithSel<TSource, TKey, TElement>(
+    public groupByWithSel<TElement>(
+        keySelector: ((x: TSource) => number),
+        elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<number, TElement>>
+    public groupByWithSel<TElement>(
+        keySelector: ((x: TSource) => string),
+        elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string, TElement>>
+    public groupByWithSel<TKey, TElement>(
+        keySelector: ((x: TSource) => TKey),
+        elementSelector: (x: TSource) => TElement,
+        comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>
+    public groupByWithSel<TKey, TElement>(
         keySelector: ((x: TSource) => TKey),
         elementSelector: (x: TSource) => TElement,
         comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>> {
         return AsyncEnumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
     }
 
-    public intersect(second: IAsyncEnumerable<T>, comparer?: IEqualityComparer<T>): IAsyncEnumerable<T> {
-        return AsyncEnumerable.intersect(this, second, comparer as any)
+    public intersect(
+        second: IAsyncEnumerable<TSource>,
+        comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.intersect(this, second, comparer)
     }
 
     public joinByKey<TInner, TKey, TResult>(
         inner: IAsyncEnumerable<TInner>,
-        outerKeySelector: (x: T) => TKey,
+        outerKeySelector: (x: TSource) => TKey,
         innerKeySelector: (x: TInner) => TKey,
-        resultSelector: (x: T, y: TInner) => TResult,
+        resultSelector: (x: TSource, y: TInner) => TResult,
         comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult> {
         return AsyncEnumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
     }
 
-    public last(predicate?: (x: T) => boolean): Promise<T> {
-        return AsyncEnumerable.last(this, predicate as any)
+    public last(predicate?: (x: TSource) => boolean): Promise<TSource> {
+        return AsyncEnumerable.last(this, predicate)
     }
 
-    public lastOrDefault(predicate?: (x: T) => boolean): Promise<T | null> {
-        return AsyncEnumerable.lastOrDefault(this, predicate as any)
+    public lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
+        return AsyncEnumerable.lastOrDefault(this, predicate)
     }
 
-    public max(this: IAsyncEnumerable<number> | IAsyncEnumerable<T>, selector?: (x: T) => number): Promise<number> {
-        return AsyncEnumerable.max<T>(this as any, selector as any)
+    public max(this: IAsyncEnumerable<number>): Promise<number | never>
+    public max(selector: (x: TSource) => number): Promise<number | never>
+    public max(
+        this: IAsyncEnumerable<number> | IAsyncEnumerable<TSource>,
+        selector?: (x: TSource) => number): Promise<number> {
+        return AsyncEnumerable.max<TSource>(this as any, selector as any)
     }
 
-    public min(this: IAsyncEnumerable<number> | IAsyncEnumerable<T>, selector?: (x: T) => number): Promise<number> {
-        return AsyncEnumerable.min<T>(this as any, selector as any)
+    public min(this: IAsyncEnumerable<number>): Promise<number | never>
+    public min(selector: (x: TSource) => number): Promise<number | never>
+    public min(
+        this: IAsyncEnumerable<number> | IAsyncEnumerable<TSource>,
+        selector?: (x: TSource) => number): Promise<number> {
+        return AsyncEnumerable.min<TSource>(this as any, selector as any)
     }
 
+    /* tslint:disable:ban-types */
+    public ofType(type: "object"): IAsyncEnumerable<Object>
+    public ofType(type: "function"): IAsyncEnumerable<Function>
+    public ofType(type: "symbol"): IAsyncEnumerable<Symbol>
+    /* tslint:enable:ban-types */
+    public ofType(type: "boolean"): IAsyncEnumerable<boolean>
+    public ofType(type: "number"): IAsyncEnumerable<number>
+    public ofType(type: "string"): IAsyncEnumerable<string>
+    public ofType<TResult>(type: IConstructor<TResult>): IAsyncEnumerable<TResult>
     public ofType<TResult>(type?: IConstructor<TResult> | string): IAsyncEnumerable<TResult> {
         return AsyncEnumerable.ofType(this, type)
     }
 
-    public orderBy(predicate: (x: T) => number | string): IOrderedAsyncEnumerable<T>
-    public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
-    public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
+    public orderBy(predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>
+    public orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
+    public orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
     public orderBy(
-        predicate: (x: T) => string | number,
-        comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<T> {
+        predicate: (x: TSource) => string | number,
+        comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<TSource> {
         return AsyncEnumerable.orderBy(this, predicate as any, comparer as any)
     }
 
     public orderByDescending(
-        predicate: (x: T) => string | number,
-        comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<T> {
+        predicate: (x: TSource) => string | number,
+        comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<TSource> {
         return AsyncEnumerable.orderByDescending(this, predicate as any, comparer as any)
     }
 
-    public reverse(): IAsyncEnumerable<T> {
+    public reverse(): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.reverse(this)
     }
 
-    public select<OUT>(selector: (x: T) => OUT): IAsyncEnumerable<OUT> {
+    public select<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT> {
         return AsyncEnumerable.select(this, selector)
     }
 
-    public selectMany<TKey extends keyof T>(
-        this: IAsyncEnumerable<{ [key: string]: Iterable<T[TKey]>}>,
-        selector: TKey): IAsyncEnumerable<T[TKey]>
-    public selectMany<Y>(selector: (x: T) => Iterable<Y>): IAsyncEnumerable<Y>
-    public selectMany<Y>(selector: (x: T) => Iterable<Y>): IAsyncEnumerable<Y> {
-        return AsyncEnumerable.selectMany(this, selector)
+    public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
+        this: IAsyncEnumerable<TBindedSource>,
+        selector: keyof TBindedSource): IAsyncEnumerable<TOut>
+    public selectMany<Y>(selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>
+    public selectMany<Y>(selector: ((x: TSource) => Iterable<Y>) | string): IAsyncEnumerable<Y> {
+        return AsyncEnumerable.selectMany(this, selector as any)
     }
 
-    public sequenceEquals(second: IAsyncEnumerable<T>, comparer?: IEqualityComparer<T>): Promise<boolean> {
-        return AsyncEnumerable.sequenceEquals(this, second, comparer as any)
+    public sequenceEquals(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean> {
+        return AsyncEnumerable.sequenceEquals(this, second, comparer)
     }
 
-    public single(predicate?: (x: T) => boolean): Promise<T> {
-        return AsyncEnumerable.single(this, predicate as any)
+    public single(predicate?: (x: TSource) => boolean): Promise<TSource> {
+        return AsyncEnumerable.single(this, predicate)
     }
 
-    public singleOrDefault(predicate?: (x: T) => boolean): Promise<T | null> {
+    public singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
         return AsyncEnumerable.singleOrDefault(this, predicate as any)
     }
 
-    public skip(count: number): IAsyncEnumerable<T> {
+    public skip(count: number): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.skip(this, count)
     }
 
-    public skipWhile(predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IAsyncEnumerable<T> {
+    public skipWhile(predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
+    public skipWhile(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+    public skipWhile(
+        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.skipWhile(this, predicate)
     }
 
-    public sum(this: IAsyncEnumerable<number> | IAsyncEnumerable<T>, selector?: (x: T) => number): Promise<number> {
+    public sum(this: IAsyncEnumerable<number>): Promise<number>
+    public sum(this: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>
+    public sum(
+        this: IAsyncEnumerable<number> | IAsyncEnumerable<TSource>,
+        selector?: (x: TSource) => number): Promise<number> {
         return AsyncEnumerable.sum(this as any, selector as any)
     }
 
-    public take(amount: number): IAsyncEnumerable<T> {
+    public take(amount: number): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.take(this, amount)
     }
 
-    public takeWhile(predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IAsyncEnumerable<T> {
+    public takeWhile(pedicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
+    public takeWhile(pedicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+    public takeWhile(
+        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.takeWhile(this, predicate)
     }
 
-    public toArray(): Promise<T[]> {
+    public toArray(): Promise<TSource[]> {
         return AsyncEnumerable.toArray(this)
     }
 
-    public toMap<TKey>(selector: (x: T) => TKey): Promise<Map<TKey, T[]>> {
+    public toMap<TKey>(selector: (x: TSource) => TKey): Promise<Map<TKey, TSource[]>> {
         return AsyncEnumerable.toMap(this, selector)
     }
 
-    public toSet(): Promise<Set<T>> {
+    public toSet(): Promise<Set<TSource>> {
         return AsyncEnumerable.toSet(this)
     }
 
-    public union(second: IAsyncEnumerable<T>, comparer?: IEqualityComparer<T>): IAsyncEnumerable<T> {
-        return AsyncEnumerable.union(this, second, comparer as any)
+    public union(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.union(this, second, comparer)
     }
 
-    public where(predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IAsyncEnumerable<T> {
+    public where(predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
+    public where(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+    public where(
+        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.where(this, predicate)
     }
 
+    public zip<TSecond, TResult>(
+        second: IAsyncEnumerable<TSecond>,
+        resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>
+        public zip<TSecond>(second: IAsyncEnumerable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>
     public zip<Y, OUT>(
         second: IAsyncEnumerable<Y>,
-        resultSelector?: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT> | IAsyncEnumerable<ITuple<T, Y>>  {
+        resultSelector?: (x: TSource, y: Y) => OUT): IAsyncEnumerable<OUT> | IAsyncEnumerable<ITuple<TSource, Y>>  {
         return AsyncEnumerable.zip(this, second, resultSelector as any) as any
     }
 
-    public [Symbol.asyncIterator](): AsyncIterableIterator<T> {
+    public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
         return this.iterator()
     }
 }
@@ -431,11 +491,6 @@ export class AsyncEnumerable {
         return true
     }
 
-    public static async any<TSource>(
-        source: IAsyncEnumerable<TSource>): Promise<boolean>
-    public static async any<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        predicate: (x: TSource) => boolean): Promise<boolean>
     public static any<TSource>(
         source: IAsyncEnumerable<TSource>,
         predicate?: (x: TSource) => boolean): Promise<boolean> {
@@ -523,13 +578,6 @@ export class AsyncEnumerable {
 
     public static async contains<TSource>(
         source: AsyncIterable<TSource>,
-        value: TSource): Promise<boolean>
-    public static async contains<TSource>(
-        source: AsyncIterable<TSource>,
-        value: TSource,
-        comparer: IEqualityComparer<TSource>): Promise<boolean>
-    public static async contains<TSource>(
-        source: AsyncIterable<TSource>,
         value: TSource,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
 
@@ -542,8 +590,6 @@ export class AsyncEnumerable {
         return false
     }
 
-    public static count<TSource>(source: AsyncIterable<TSource>): Promise<number>
-    public static count<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<number>
     public static count<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<number> {
         if (predicate) {
             return AsyncEnumerable.count_2(source, predicate)
@@ -572,11 +618,6 @@ export class AsyncEnumerable {
         return count
     }
 
-    public static distinct<TSource>(
-        source: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
-    public static distinct<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>
     public static distinct<TSource>(
         source: IAsyncEnumerable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
@@ -636,13 +677,6 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterable)
     }
 
-    public static except<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>;
-    public static except<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     public static except<TSource>(
         first: IAsyncEnumerable<TSource>,
         second: IAsyncEnumerable<TSource>,
@@ -1024,13 +1058,6 @@ export class AsyncEnumerable {
 
     public static intersect<TSource>(
         first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
-    public static intersect<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>
-    public static intersect<TSource>(
-        first: IAsyncEnumerable<TSource>,
         second: IAsyncEnumerable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
 
@@ -1142,8 +1169,6 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static single<TSource>(source: AsyncIterable<TSource>): Promise<TSource>
-    public static single<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>
     public static single<TSource>(
         source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {
@@ -1196,9 +1221,6 @@ export class AsyncEnumerable {
         return singleValue as TSource
     }
 
-    public static singleOrDefault<TSource>(source: AsyncIterable<TSource>): Promise<TSource | null>
-    public static singleOrDefault<TSource>(
-        source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource | null>
     public static singleOrDefault<TSource>(
         source: AsyncIterable<TSource>,
         predicate?: (x: TSource) => boolean): Promise<TSource | null> {
@@ -1405,10 +1427,6 @@ export class AsyncEnumerable {
     }
 
     public static async last<TSource>(
-        source: AsyncIterable<TSource>): Promise<TSource>
-    public static async last<TSource>(
-        source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>
-    public static async last<TSource>(
         source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {
             return AsyncEnumerable.last_2(source, predicate)
@@ -1431,8 +1449,9 @@ export class AsyncEnumerable {
         return last
     }
 
-    private static async last_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T> {
-        let last: T | null = null
+    private static async last_2<TSource>(
+        source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource> {
+        let last: TSource | null = null
 
         for await (const value of source) {
             if (predicate(value) === true) {
@@ -1447,9 +1466,8 @@ export class AsyncEnumerable {
         return last
     }
 
-    public static async lastOrDefault<T>(source: AsyncIterable<T>): Promise<T | null>
-    public static async lastOrDefault<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null>
-    public static async lastOrDefault<T>(source: AsyncIterable<T>, predicate?: (x: T) => boolean): Promise<T | null> {
+    public static async lastOrDefault<TSource>(
+        source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null> {
 
         if (predicate) {
             return AsyncEnumerable.lastOrDefault_2(source, predicate)
@@ -1616,13 +1634,6 @@ export class AsyncEnumerable {
 
     public static async sequenceEquals<TSource>(
         first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>): Promise<boolean>
-    public static async sequenceEquals<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): Promise<boolean>
-    public static async sequenceEquals<TSource>(
-        first: IAsyncEnumerable<TSource>,
         second: IAsyncEnumerable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
 
@@ -1681,7 +1692,7 @@ export class AsyncEnumerable {
         return sum
     }
 
-    public static take<T>(source: IAsyncEnumerable<T>, amount: number): IAsyncEnumerable<T> {
+    public static take<TSource>(source: IAsyncEnumerable<TSource>, amount: number): IAsyncEnumerable<TSource> {
         async function* iterator() {
             // negative amounts should yield empty
             let amountLeft = amount > 0 ? amount : 0
@@ -1694,23 +1705,23 @@ export class AsyncEnumerable {
             }
         }
 
-        return new BasicAsyncEnumerable<T>(iterator)
+        return new BasicAsyncEnumerable<TSource>(iterator)
     }
 
-    public static takeWhile<T>(
-        source: IAsyncEnumerable<T>,
-        predicate: (x: T) => boolean): IAsyncEnumerable<T>
-    public static takeWhile<T>(
-        source: IAsyncEnumerable<T>,
-        predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T>
-    public static takeWhile<T>(
-        source: IAsyncEnumerable<T>,
-        predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IAsyncEnumerable<T> {
+    public static takeWhile<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
+    public static takeWhile<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+    public static takeWhile<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
 
         if (predicate.length === 1) {
-            return AsyncEnumerable.takeWhile_1(source, predicate as (x: T) => boolean)
+            return AsyncEnumerable.takeWhile_1(source, predicate as (x: TSource) => boolean)
         } else {
-            return AsyncEnumerable.takeWhile_2(source, predicate as (x: T, index: number) => boolean)
+            return AsyncEnumerable.takeWhile_2(source, predicate as (x: TSource, index: number) => boolean)
         }
     }
 
@@ -1890,20 +1901,13 @@ export class AsyncEnumerable {
 
     public static union<TSource>(
         first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
-    public static union<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>
-    public static union<TSource>(
-        first: IAsyncEnumerable<TSource>,
         second: IAsyncEnumerable<TSource>,
         comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
-            if (comparer) {
-                return AsyncEnumerable.union_2(first, second, comparer)
-            } else {
-                return AsyncEnumerable.union_1(first, second)
-            }
+        if (comparer) {
+            return AsyncEnumerable.union_2(first, second, comparer)
+        } else {
+            return AsyncEnumerable.union_1(first, second)
+        }
     }
 
     private static union_1<TSource>(
@@ -1962,19 +1966,19 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static where<T>(
-        source: IAsyncEnumerable<T>,
-        predicate: (x: T) => boolean): IAsyncEnumerable<T>
-    public static where<T>(
-        source: IAsyncEnumerable<T>,
-        predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T>
-    public static where<T>(
-        source: IAsyncEnumerable<T>,
-        predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IAsyncEnumerable<T> {
+    public static where<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
+    public static where<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+    public static where<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
         if (predicate.length === 1) {
-            return AsyncEnumerable.where_1(source, predicate as (x: T) => boolean)
+            return AsyncEnumerable.where_1(source, predicate as (x: TSource) => boolean)
         } else {
-            return AsyncEnumerable.where_2(source, predicate as (x: T, index: number) => boolean)
+            return AsyncEnumerable.where_2(source, predicate as (x: TSource, index: number) => boolean)
         }
     }
 

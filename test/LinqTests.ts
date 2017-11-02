@@ -714,7 +714,7 @@ describe("flatten", () => {
     })
 
     itAsync("BasicAsync", async () => {
-        const a = await AsyncEnumerable.flatten(asAsync([1, 2, 3])).toArray()
+        const a = await AsyncEnumerable.flatten(asAsync<any>([1, 2, 3])).toArray()
         const b = await AsyncEnumerable.flatten(asAsync<any>([1, asAsync([2]), "3"])).toArray()
         const c = await AsyncEnumerable.flatten(asAsync([1, asAsync([2, 3])])).toArray()
         expect(a).toEqual([1, 2, 3])
@@ -723,7 +723,7 @@ describe("flatten", () => {
     })
 
     itAsync("ShallowAsync", async () => {
-        const shallow = await AsyncEnumerable.flatten(asAsync([1, asAsync([2, asAsync([3])])]), true).toArray()
+        const shallow = await AsyncEnumerable.flatten(asAsync<any>([1, asAsync([2, asAsync([3])])]), true).toArray()
         expect(shallow.length).toBe(3)
         expect(shallow[0]).toBe(1)
         expect(shallow[1]).toBe(2)
@@ -836,7 +836,9 @@ describe("intersect", () => {
     })
 
     itAsync("IntersectWithEqualityComparerAsync", async () => {
-        const array = await asAsync([1, 2, "3"]).intersect(asAsync(["1", "2"]), EqualityComparer).toArray()
+        const array = await asAsync([1, 2, "3"])
+            .intersect(asAsync<string | number>(["1", "2"]), EqualityComparer)
+            .toArray()
 
         expect(array).toEqual([1, 2])
     })
@@ -1305,7 +1307,7 @@ describe("selectMany", () => {
         const values = asAsync([
             { a: [1, 2]},
             { a: [3, 4]},
-        ])
+        ] as Array<{ a: Iterable<number> }>)
 
         expect(await values.selectMany("a").toArray()).toEqual([1, 2, 3, 4])
     })
@@ -1501,8 +1503,8 @@ describe("union", () => {
     })
 
     itAsync("== union async", async () => {
-        const ints1: IAsyncEnumerable<string|number> = asAsync([ 5, 3, 9, 7, 5, 9, 3, 7 ])
-        const ints2 = asAsync([ "8", "3", "6", "4", "4", "9", "1", "0" ])
+        const ints1 = asAsync<string | number>([ 5, 3, 9, 7, 5, 9, 3, 7 ])
+        const ints2 = asAsync<string | number>([ "8", "3", "6", "4", "4", "9", "1", "0" ])
         const result = [5, 3, 9, 7, "8", "6", "4", "1", "0"]
         const union = await ints1.union(ints2, EqualityComparer).toArray()
 

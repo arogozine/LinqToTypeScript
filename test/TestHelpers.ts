@@ -1,4 +1,4 @@
-import { ArrayEnumerable, AsyncEnumerable, BasicEnumerable, IEnumerable } from "./../src/index"
+import { ArrayEnumerable, AsyncEnumerable, BasicEnumerable, IAsyncEnumerable, IEnumerable } from "./../src/index"
 
 function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {
     const array = new ArrayEnumerable<T>()
@@ -14,6 +14,8 @@ function asBasicEnumerable<T>(values: T[]): IEnumerable<T> {
     })
 }
 
+export function asAsync(values: never[]): IAsyncEnumerable<number>
+export function asAsync<T>(values: T[]): IAsyncEnumerable<T>
 export function asAsync<T>(values: T[]) {
     async function *promises() {
         for (const value of values) {
@@ -35,7 +37,7 @@ export function itAsync<T>(expectation: string, assertion: () => Promise<T>, tim
     it(expectation, (done) => assertion().then(done, fail), timeout)
 }
 
-export async function expectAsync<T>(promise: Promise<T>) {
+export async function expectAsync<T>(promise: Promise<T>): Promise<jasmine.Matchers<T>> {
     try {
         return expect(await promise)
     } catch (e) {

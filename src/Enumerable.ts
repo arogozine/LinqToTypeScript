@@ -38,8 +38,6 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return super.every(predicate)
     }
 
-    public any(): boolean
-    public any(predicate: (x: T) => boolean): boolean
     public any(predicate?: (x: T) => boolean): boolean {
         return this.some(predicate || (() => true))
     }
@@ -79,10 +77,8 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
-    public contains(value: T): boolean
-    public contains(value: T, comparer: IEqualityComparer<T>): boolean
     public contains(value: T, comparer?: IEqualityComparer<T>): boolean {
-        return Enumerable.contains(this, value, comparer as any)
+        return Enumerable.contains(this, value, comparer)
     }
 
     public count(): number
@@ -101,10 +97,8 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
-    public distinct(): IEnumerable<T>
-    public distinct(comparer: IEqualityComparer<T>): IEnumerable<T>
     public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.distinct(this, comparer as any)
+        return Enumerable.distinct(this, comparer)
     }
 
     public elementAt(index: number): T {
@@ -119,14 +113,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.elementAtOrDefault(this, index)
     }
 
-    public except(second: IEnumerable<T>): IEnumerable<T>
-    public except(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
     public except(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.except(this, second, comparer as any)
+        return Enumerable.except(this, second, comparer)
     }
 
-    public first(): T
-    public first(predicate: (x: T) => boolean): T
     public first(predicate?: (x: T) => boolean): T {
         if (predicate) {
             const value = this.find(predicate)
@@ -191,24 +181,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
     }
 
-    public intersect(second: IEnumerable<T>): IEnumerable<T>
-    public intersect(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
     public intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.intersect(this, second, comparer as any)
+        return Enumerable.intersect(this, second, comparer)
     }
 
-    // join in LINQ - but renamed to avoid clash with Array.prototype.join
-    public joinByKey<TInner, TKey, TResult>(
-        inner: IEnumerable<TInner>,
-        outerKeySelector: (x: T) => TKey,
-        innerKeySelector: (x: TInner) => TKey,
-        resultSelector: (x: T, y: TInner) => TResult): IEnumerable<TResult>
-    public joinByKey<TInner, TKey, TResult>(
-        inner: IEnumerable<TInner>,
-        outerKeySelector: (x: T) => TKey,
-        innerKeySelector: (x: TInner) => TKey,
-        resultSelector: (x: T, y: TInner) => TResult,
-        comparer: IEqualityComparer<TKey>): IEnumerable<TResult>
     public joinByKey<TInner, TKey, TResult>(
             inner: IEnumerable<TInner>,
             outerKeySelector: (x: T) => TKey,
@@ -218,8 +194,6 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
     }
 
-    public last(): T
-    public last(predicate: (x: T) => boolean): T
     public last(predicate?: (x: T) => boolean): T {
         if (predicate) {
             for (let i = this.length - 1; i >= 0; i--) {
@@ -239,8 +213,6 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
-    public lastOrDefault(): T | null
-    public lastOrDefault(predicate: (x: T) => boolean): T | null
     public lastOrDefault(predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             for (let i = this.length - 1; i >= 0; i--) {
@@ -339,28 +311,24 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.select(this, keyOrSelector)
     }
 
-    public selectMany<OUT>(
-        this: IEnumerable<{ [key: string]: Iterable<OUT>}>,
-        selector: keyof T): IEnumerable<OUT>
+    public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
+        this: IEnumerable<TBindedSource>,
+        selector: keyof TBindedSource): IEnumerable<TOut>
     public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>
     public selectMany<OUT>(selector: ((x: T) => Iterable<OUT>) | string): IEnumerable<OUT> {
         return Enumerable.selectMany(this as any, selector as any)
     }
 
     public sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean {
-        return Enumerable.sequenceEquals(this, second, comparer as any)
+        return Enumerable.sequenceEquals(this, second, comparer)
     }
 
-    public single(): T
-    public single(predicate: (x: T) => boolean): T
     public single(predicate?: (x: T) => boolean): T {
-        return Enumerable.single(this, predicate as any)
+        return Enumerable.single(this, predicate)
     }
 
-    public singleOrDefault(): T | null
-    public singleOrDefault(predicate: (x: T) => boolean): T | null
     public singleOrDefault(predicate?: (x: T) => boolean): T | null {
-        return Enumerable.singleOrDefault(this, predicate as any)
+        return Enumerable.singleOrDefault(this, predicate)
     }
 
     public skip(count: number): IEnumerable<T> {
@@ -401,10 +369,8 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.toSet(this)
     }
 
-    public union(second: IEnumerable<T>): IEnumerable<T>
-    public union(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
     public union(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.union(this, second, comparer as any)
+        return Enumerable.union(this, second, comparer)
     }
 
     public where(predicate: (x: T) => boolean): IEnumerable<T>
@@ -448,10 +414,8 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.all(this, predicate)
     }
 
-    public any(): boolean
-    public any(predicate: (x: T) => boolean): boolean
     public any(predicate?: (x: T) => boolean): boolean {
-        return Enumerable.any(this, predicate as any)
+        return Enumerable.any(this, predicate)
     }
 
     public average(this: IEnumerable<number>): number
@@ -470,16 +434,12 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.contains(this, value, comparer as any)
     }
 
-    public count(): number
-    public count(predicate: (x: T) => boolean): number
     public count(predicate?: (x: T) => boolean): number {
         return Enumerable.count(this, predicate as any)
     }
 
-    public distinct(): IEnumerable<T>
-    public distinct(comparer: IEqualityComparer<T>): IEnumerable<T>
     public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.distinct(this, comparer as any)
+        return Enumerable.distinct(this, comparer)
     }
 
     public elementAt(index: number): T {
@@ -546,18 +506,6 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.intersect(this, second, comparer as any)
     }
 
-    // join in LINQ - but renamed to avoid clash with Array.prototype.join
-    public joinByKey<TInner, TKey, TResult>(
-        inner: IEnumerable<TInner>,
-        outerKeySelector: (x: T) => TKey,
-        innerKeySelector: (x: TInner) => TKey,
-        resultSelector: (x: T, y: TInner) => TResult): IEnumerable<TResult>
-    public joinByKey<TInner, TKey, TResult>(
-        inner: IEnumerable<TInner>,
-        outerKeySelector: (x: T) => TKey,
-        innerKeySelector: (x: TInner) => TKey,
-        resultSelector: (x: T, y: TInner) => TResult,
-        comparer: IEqualityComparer<TKey>): IEnumerable<TResult>
     public joinByKey<TInner, TKey, TResult>(
             inner: IEnumerable<TInner>,
             outerKeySelector: (x: T) => TKey,
@@ -567,16 +515,12 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
     }
 
-    public last(): T
-    public last(predicate: (x: T) => boolean): T
     public last(predicate?: (x: T) => boolean): T {
-        return Enumerable.last(this, predicate as any)
+        return Enumerable.last(this, predicate)
     }
 
-    public lastOrDefault(): T | null
-    public lastOrDefault(predicate: (x: T) => boolean): T | null
     public lastOrDefault(predicate?: (x: T) => boolean): T | null {
-        return Enumerable.lastOrDefault(this, predicate as any)
+        return Enumerable.lastOrDefault(this, predicate)
     }
 
     public max(this: IEnumerable<number>): number | never
@@ -633,9 +577,9 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.select(this, keyOrSelector)
     }
 
-    public selectMany<OUT>(
-        this: IEnumerable<{ [key: string]: Iterable<OUT>}>,
-        selector: keyof T): IEnumerable<OUT>
+    public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
+        this: IEnumerable<TBindedSource>,
+        selector: keyof TBindedSource): IEnumerable<TOut>
     public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>
     public selectMany<OUT>(selector: ((x: T) => Iterable<OUT>) | string): IEnumerable<OUT> {
         return Enumerable.selectMany(this as any, selector as any)
@@ -645,16 +589,12 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.sequenceEquals(this, second, comparer as any)
     }
 
-    public single(): T
-    public single(predicate: (x: T) => boolean): T
     public single(predicate?: (x: T) => boolean): T {
-        return Enumerable.single(this, predicate as any)
+        return Enumerable.single(this, predicate)
     }
 
-    public singleOrDefault(): T | null
-    public singleOrDefault(predicate: (x: T) => boolean): T | null
     public singleOrDefault(predicate?: (x: T) => boolean): T | null {
-        return Enumerable.singleOrDefault(this, predicate as any)
+        return Enumerable.singleOrDefault(this, predicate)
     }
 
     public skip(count: number): IEnumerable<T> {
@@ -718,12 +658,12 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public abstract [Symbol.iterator](): IterableIterator<T>
 }
 
-export class BasicEnumerable<T> extends BaseEnumerable<T> {
-    constructor(private readonly iterator: () => IterableIterator<T>) {
+export class BasicEnumerable<TSource> extends BaseEnumerable<TSource> {
+    constructor(private readonly iterator: () => IterableIterator<TSource>) {
         super()
     }
 
-    public [Symbol.iterator](): IterableIterator<T> {
+    public [Symbol.iterator](): IterableIterator<TSource> {
         return this.iterator()
     }
 }
@@ -927,8 +867,6 @@ export class Enumerable {
         return true
     }
 
-    public static any<TSource>(source: IEnumerable<TSource>): boolean
-    public static any<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): boolean
     public static any<TSource>(
         source: IEnumerable<TSource>,
         predicate?: (x: TSource) => boolean): boolean {
@@ -1010,13 +948,6 @@ export class Enumerable {
 
     public static contains<TSource>(
         source: IEnumerable<TSource>,
-        value: TSource): boolean
-    public static contains<TSource>(
-        source: IEnumerable<TSource>,
-        value: TSource,
-        comparer: IEqualityComparer<TSource>): boolean
-    public static contains<TSource>(
-        source: IEnumerable<TSource>,
         value: TSource,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): boolean {
 
@@ -1059,11 +990,6 @@ export class Enumerable {
         return count
     }
 
-    public static distinct<TSource>(
-        source: IEnumerable<TSource>): IEnumerable<TSource>
-    public static distinct<TSource>(
-        source: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     public static distinct<TSource>(
         source: IEnumerable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
@@ -1128,13 +1054,6 @@ export class Enumerable {
         return new BasicEnumerable(iterable)
     }
 
-    public static except<TSource>(
-        first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>): IEnumerable<TSource>
-    public static except<TSource>(
-        first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     public static except<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
@@ -1615,13 +1534,6 @@ export class Enumerable {
 
     public static intersect<TSource>(
         first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>): IEnumerable<TSource>
-    public static intersect<TSource>(
-        first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
-    public static intersect<TSource>(
-        first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
 
@@ -1671,7 +1583,9 @@ export class Enumerable {
         source: IEnumerable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>
     public static select<TSource, TKey extends keyof TSource>(
         source: IEnumerable<TSource>, key: TKey): IEnumerable<TSource[TKey]>
-    public static select<T, Y>(source: IEnumerable<T>, selector: (x: T) => Y | string): IEnumerable<any> {
+    public static select<TSource, TKey extends keyof TSource, TResult>(
+        source: IEnumerable<TSource>,
+        selector: ((x: TSource) => TResult) | TKey): IEnumerable<TSource[TKey]> | IEnumerable<TResult> {
 
         if (typeof selector === "string") {
             return Enumerable.select_2(source, selector)
@@ -1702,14 +1616,16 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static selectMany<TSource, Y>(
+    public static selectMany<TSource, TResult>(
         source: IEnumerable<TSource>,
-        selector: (x: TSource) => Iterable<Y>): IEnumerable<Y>
+        selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>
     public static selectMany<
-        TSource extends { [key: string]: Iterable<Y>}, Y>(
+        TSource extends { [key: string]: Iterable<TResult>}, TResult>(
             source: IEnumerable<TSource>,
-            selector: keyof TSource): IEnumerable<Y>
-    public static selectMany(source: IEnumerable<any>, selector: any) {
+            selector: keyof TSource): IEnumerable<TResult>
+    public static selectMany<TSource extends { [key: string]: Iterable<TResult>}, TResult>(
+        source: IEnumerable<TSource>,
+        selector: ((x: TSource) => Iterable<TResult>) | keyof TSource) {
         if (typeof selector === "string") {
             return Enumerable.selectMany_2(source, selector)
         } else {
@@ -1717,9 +1633,9 @@ export class Enumerable {
         }
     }
 
-    private static selectMany_1<TSource, Y>(
+    private static selectMany_1<TSource, TResult>(
         source: IEnumerable<TSource>,
-        selector: (x: TSource) => Iterable<Y>): IEnumerable<Y> {
+        selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult> {
         function* iterator() {
             for (const value of source) {
                 for (const selectorValue of selector(value)){
@@ -1731,7 +1647,7 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static selectMany_2<TSource extends { [key: string]: Iterable<Y> }, Y>(
+    public static selectMany_2<TSource extends { [key: string]: Iterable<TResult> }, TResult>(
         source: IEnumerable<TSource>, selector: keyof TSource) {
         function* iterator() {
             for (const value of source) {
@@ -1744,8 +1660,6 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static single<TSource>(source: IEnumerable<TSource>): TSource
-    public static single<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource
     public static single<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
             return Enumerable.single_2(source, predicate)
@@ -1796,9 +1710,6 @@ export class Enumerable {
         return singleValue as TSource
     }
 
-    public static singleOrDefault<TSource>(source: IEnumerable<TSource>): TSource | null
-    public static singleOrDefault<TSource>(
-        source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource | null
     public static singleOrDefault<TSource>(
         source: IEnumerable<TSource>,
         predicate?: (x: TSource) => boolean): TSource | null {
@@ -1856,7 +1767,7 @@ export class Enumerable {
         predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IEnumerable<TSource> {
 
         if (predicate.length === 1) {
-            return Enumerable.skipWhile_1(source, predicate as any)
+            return Enumerable.skipWhile_1(source, predicate as (x: TSource) => boolean)
         } else {
             return Enumerable.skipWhile_2(source, predicate)
         }
@@ -1928,8 +1839,6 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static last<TSource>(source: IEnumerable<TSource>): TSource
-    public static last<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource
     public static last<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
             return Enumerable.last_2(source, predicate)
@@ -1938,8 +1847,8 @@ export class Enumerable {
         }
     }
 
-    private static last_1<T>(source: IEnumerable<T>): T {
-        let last: T | null = null
+    private static last_1<TSource>(source: IEnumerable<TSource>): TSource {
+        let last: TSource | undefined
 
         for (const value of source) {
             last = value
@@ -1952,8 +1861,8 @@ export class Enumerable {
         return last
     }
 
-    private static last_2<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T {
-        let last: T | null = null
+    private static last_2<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource {
+        let last: TSource | undefined
 
         for (const value of source) {
             if (predicate(value) === true) {
@@ -1968,9 +1877,9 @@ export class Enumerable {
         return last
     }
 
-    public static lastOrDefault<T>(source: IEnumerable<T>): T | null
-    public static lastOrDefault<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null
-    public static lastOrDefault<T>(source: IEnumerable<T>, predicate?: (x: T) => boolean): T | null {
+    public static lastOrDefault<TSource>(
+        source: IEnumerable<TSource>,
+        predicate?: (x: TSource) => boolean): TSource | null {
 
         if (predicate) {
             return Enumerable.lastOrDefault_2(source, predicate)
@@ -1979,8 +1888,8 @@ export class Enumerable {
         }
     }
 
-    private static lastOrDefault_1<T>(source: IEnumerable<T>): T | null {
-        let last: T | null = null
+    private static lastOrDefault_1<TSource>(source: IEnumerable<TSource>): TSource | null {
+        let last: TSource | null = null
 
         for (const value of source) {
             last = value
@@ -1989,9 +1898,11 @@ export class Enumerable {
         return last
     }
 
-    private static lastOrDefault_2<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null {
+    private static lastOrDefault_2<TSource>(
+        source: IEnumerable<TSource>,
+        predicate: (x: TSource) => boolean): TSource | null {
 
-        let last: T | null = null
+        let last: TSource | null = null
 
         for (const value of source) {
             if (predicate(value) === true) {
@@ -2192,13 +2103,6 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    public static sequenceEquals<TSource>(
-        first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>): boolean
-    public static sequenceEquals<TSource>(
-        first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): boolean
     public static sequenceEquals<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,
@@ -2452,13 +2356,6 @@ export class Enumerable {
         return new Set<TSource>(source)
     }
 
-    public static union<TSource>(
-        first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>): IEnumerable<TSource>
-    public static union<TSource>(
-        first: IEnumerable<TSource>,
-        second: IEnumerable<TSource>,
-        comparer: IEqualityComparer<TSource>): IEnumerable<TSource>
     public static union<TSource>(
         first: IEnumerable<TSource>,
         second: IEnumerable<TSource>,

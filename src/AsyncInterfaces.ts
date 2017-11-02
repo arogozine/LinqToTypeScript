@@ -17,8 +17,7 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (predicate: (x: TSource) => boolean): Promise<boolean>,
     }
     any: {
-        (): Promise<boolean>,
-        (predicate: (x: TSource) => boolean): Promise<boolean>,
+        (predicate?: (x: TSource) => boolean): Promise<boolean>,
     }
     average: {
         (this: IAsyncEnumerable<number>): Promise<number>
@@ -28,16 +27,13 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>,
     }
     contains: {
-        (value: TSource): Promise<boolean>,
-        (value: TSource, comparer: IEqualityComparer<TSource>): Promise<boolean>,
+        (value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>,
     }
     count: {
-        (): Promise<number>
-        (predicate: (x: TSource) => boolean): Promise<number>,
+        (predicate?: (x: TSource) => boolean): Promise<number>,
     }
     distinct: {
-        (): IAsyncEnumerable<TSource>,
-        (comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+        (comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     }
     each: {
         (action: (x: TSource) => void): IAsyncEnumerable<TSource>,
@@ -49,16 +45,13 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (index: number): Promise<TSource | null>,
     }
     except: {
-        (second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
         (second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     }
     first: {
-        (): Promise<TSource>,
-        (predicate: (x: TSource) => boolean): Promise<TSource>,
+        (predicate?: (x: TSource) => boolean): Promise<TSource>,
     }
     firstOrDefault: {
-        (): Promise<TSource | null>,
-        (predicate: (x: TSource) => boolean): Promise<TSource | null>,
+        (predicate?: (x: TSource) => boolean): Promise<TSource | null>,
     }
     groupBy: {
         (keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
@@ -80,8 +73,7 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
             comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>,
     }
     intersect: {
-        (second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
-        (second: IAsyncEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+        (second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     }
     // join in LINQ - but renamed to avoid clash with Array.prototype.join
     joinByKey: {
@@ -89,21 +81,14 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
             inner: IAsyncEnumerable<TInner>,
             outerKeySelector: (x: TSource) => TKey,
             innerKeySelector: (x: TInner) => TKey,
-            resultSelector: (x: TSource, y: TInner) => TResult): IAsyncEnumerable<TResult>
-        <TInner, TKey, TResult>(
-            inner: IAsyncEnumerable<TInner>,
-            outerKeySelector: (x: TSource) => TKey,
-            innerKeySelector: (x: TInner) => TKey,
             resultSelector: (x: TSource, y: TInner) => TResult,
-            comparer: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>,
+            comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>,
     }
     last: {
-        (): Promise<TSource>,
-        (predicate: (x: TSource) => boolean): Promise<TSource>,
+        (predicate?: (x: TSource) => boolean): Promise<TSource>,
     }
     lastOrDefault: {
-        (): Promise<TSource | null>,
-        (predicate: (x: TSource) => boolean): Promise<TSource | null>,
+        (predicate?: (x: TSource) => boolean): Promise<TSource | null>,
     }
     max: {
         (this: IAsyncEnumerable<number>): Promise<number | never>,
@@ -123,7 +108,6 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (type: "number"): IAsyncEnumerable<number>
         (type: "string"): IAsyncEnumerable<string>
         <TResult>(type: IConstructor<TResult>): IAsyncEnumerable<TResult>,
-        // <TResult>(this: AsyncIterable<TResult>): AsyncIterable<TResult>,
     }
     orderBy: {
         (predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>
@@ -144,20 +128,18 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
     }
     selectMany: {
         <OUT>(selector: (x: TSource) => Iterable<OUT>): IAsyncEnumerable<OUT>,
-        <OUT>(
-            this: IAsyncEnumerable<{ [key: string]: Iterable<OUT>}>,
-            selector: keyof TSource): IAsyncEnumerable<OUT>,
+        <TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
+            this: IAsyncEnumerable<TBindedSource>,
+            selector: keyof TBindedSource): IAsyncEnumerable<TOut>,
     }
     sequenceEquals: {
         (second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>,
     }
     single: {
-        (): Promise<TSource>
-        (predicate: (x: TSource) => boolean): Promise<TSource>,
+        (predicate?: (x: TSource) => boolean): Promise<TSource>,
     }
     singleOrDefault: {
-        (): Promise<TSource | null>
-        (predicate: (x: TSource) => boolean): Promise<TSource | null>,
+        (predicate?: (x: TSource) => boolean): Promise<TSource | null>,
     }
     skip: {
         (count: number): IAsyncEnumerable<TSource>,
@@ -187,8 +169,7 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (): Promise<Set<TSource>>,
     }
     union: {
-        (second: IAsyncEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>
-        (second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>,
+        (second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     }
     where: {
         (predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>,

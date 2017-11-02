@@ -4,25 +4,20 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate;
     aggregate<TAccumulate, TResult>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): T;
     all(predicate: (x: T) => boolean): boolean;
-    any(): boolean;
-    any(predicate: (x: T) => boolean): boolean;
+    any(predicate?: (x: T) => boolean): boolean;
     average(this: IEnumerable<number>): number;
     average(selector: (x: T) => number): number;
     concat(items: IEnumerable<T>): IEnumerable<T>;
     concat(...items: T[][]): ArrayEnumerable<T>;
     concat(...items: Array<T | T[]>): ArrayEnumerable<T>;
-    contains(value: T): boolean;
-    contains(value: T, comparer: IEqualityComparer<T>): boolean;
+    contains(value: T, comparer?: IEqualityComparer<T>): boolean;
     count(): number;
     count(predicate: (x: T) => boolean): number;
-    distinct(): IEnumerable<T>;
-    distinct(comparer: IEqualityComparer<T>): IEnumerable<T>;
+    distinct(comparer?: IEqualityComparer<T>): IEnumerable<T>;
     elementAt(index: number): T;
     elementAtOrDefault(index: number): T | null;
-    except(second: IEnumerable<T>): IEnumerable<T>;
-    except(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>;
-    first(): T;
-    first(predicate: (x: T) => boolean): T;
+    except(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
+    first(predicate?: (x: T) => boolean): T;
     firstOrDefault(): T | null;
     firstOrDefault(predicate: (x: T) => boolean): T | null;
     each(action: (x: T) => void): IEnumerable<T>;
@@ -32,14 +27,10 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     groupByWithSel<TElement>(keySelector: ((x: T) => number), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<number, TElement>>;
     groupByWithSel<TElement>(keySelector: ((x: T) => string), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<string, TElement>>;
     groupByWithSel<TKey, TElement>(keySelector: ((x: T) => TKey), elementSelector: (x: T) => TElement, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>;
-    intersect(second: IEnumerable<T>): IEnumerable<T>;
-    intersect(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>;
-    joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult): IEnumerable<TResult>;
-    joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IEnumerable<TResult>;
-    last(): T;
-    last(predicate: (x: T) => boolean): T;
-    lastOrDefault(): T | null;
-    lastOrDefault(predicate: (x: T) => boolean): T | null;
+    intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
+    joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
+    last(predicate?: (x: T) => boolean): T;
+    lastOrDefault(predicate?: (x: T) => boolean): T | null;
     max(this: IEnumerable<number>): number | never;
     max(selector: (x: T) => number): number | never;
     min(this: IEnumerable<number>): number | never;
@@ -63,15 +54,13 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     select<TKey extends keyof T>(this: IEnumerable<{
         [key: string]: Iterable<T[TKey]>;
     }>, selector: TKey): IEnumerable<T[TKey]>;
-    selectMany<OUT>(this: IEnumerable<{
-        [key: string]: Iterable<OUT>;
-    }>, selector: keyof T): IEnumerable<OUT>;
+    selectMany<TBindedSource extends {
+        [key: string]: Iterable<TOut>;
+    }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
     selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>;
     sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean;
-    single(): T;
-    single(predicate: (x: T) => boolean): T;
-    singleOrDefault(): T | null;
-    singleOrDefault(predicate: (x: T) => boolean): T | null;
+    single(predicate?: (x: T) => boolean): T;
+    singleOrDefault(predicate?: (x: T) => boolean): T | null;
     skip(count: number): IEnumerable<T>;
     skipWhile(predicate: (x: T) => boolean): IEnumerable<T>;
     skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>;
@@ -83,8 +72,7 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     toArray(): T[];
     toMap<TKey>(selector: (x: T) => TKey): Map<TKey, T[]>;
     toSet(): Set<T>;
-    union(second: IEnumerable<T>): IEnumerable<T>;
-    union(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>;
+    union(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     where(predicate: (x: T) => boolean): IEnumerable<T>;
     where(predicate: (x: T, index: number) => boolean): IEnumerable<T>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>;
@@ -99,17 +87,14 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate;
     aggregate<TAccumulate, TResult>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): T;
     all(predicate: (x: T) => boolean): boolean;
-    any(): boolean;
-    any(predicate: (x: T) => boolean): boolean;
+    any(predicate?: (x: T) => boolean): boolean;
     average(this: IEnumerable<number>): number;
     average(selector: (x: T) => number): number;
     concat(second: IEnumerable<T>): IEnumerable<T>;
     contains(value: T): boolean;
     contains(value: T, comparer: IEqualityComparer<T>): boolean;
-    count(): number;
-    count(predicate: (x: T) => boolean): number;
-    distinct(): IEnumerable<T>;
-    distinct(comparer: IEqualityComparer<T>): IEnumerable<T>;
+    count(predicate?: (x: T) => boolean): number;
+    distinct(comparer?: IEqualityComparer<T>): IEnumerable<T>;
     elementAt(index: number): T;
     elementAtOrDefault(index: number): T | null;
     except(second: IEnumerable<T>): IEnumerable<T>;
@@ -127,12 +112,9 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     groupByWithSel<TKey, TElement>(keySelector: ((x: T) => TKey), elementSelector: (x: T) => TElement, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>;
     intersect(second: IEnumerable<T>): IEnumerable<T>;
     intersect(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>;
-    joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult): IEnumerable<TResult>;
-    joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IEnumerable<TResult>;
-    last(): T;
-    last(predicate: (x: T) => boolean): T;
-    lastOrDefault(): T | null;
-    lastOrDefault(predicate: (x: T) => boolean): T | null;
+    joinByKey<TInner, TKey, TResult>(inner: IEnumerable<TInner>, outerKeySelector: (x: T) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: T, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
+    last(predicate?: (x: T) => boolean): T;
+    lastOrDefault(predicate?: (x: T) => boolean): T | null;
     max(this: IEnumerable<number>): number | never;
     max(selector: (x: T) => number): number | never;
     min(this: IEnumerable<number>): number | never;
@@ -156,15 +138,13 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     select<TKey extends keyof T>(this: IEnumerable<{
         [key: string]: Iterable<T[TKey]>;
     }>, selector: TKey): IEnumerable<T[TKey]>;
-    selectMany<OUT>(this: IEnumerable<{
-        [key: string]: Iterable<OUT>;
-    }>, selector: keyof T): IEnumerable<OUT>;
+    selectMany<TBindedSource extends {
+        [key: string]: Iterable<TOut>;
+    }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
     selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>;
     sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean;
-    single(): T;
-    single(predicate: (x: T) => boolean): T;
-    singleOrDefault(): T | null;
-    singleOrDefault(predicate: (x: T) => boolean): T | null;
+    single(predicate?: (x: T) => boolean): T;
+    singleOrDefault(predicate?: (x: T) => boolean): T | null;
     skip(count: number): IEnumerable<T>;
     skipWhile(predicate: (x: T) => boolean): IEnumerable<T>;
     skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>;
@@ -184,10 +164,10 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>;
     abstract [Symbol.iterator](): IterableIterator<T>;
 }
-export declare class BasicEnumerable<T> extends BaseEnumerable<T> {
+export declare class BasicEnumerable<TSource> extends BaseEnumerable<TSource> {
     private readonly iterator;
-    constructor(iterator: () => IterableIterator<T>);
-    [Symbol.iterator](): IterableIterator<T>;
+    constructor(iterator: () => IterableIterator<TSource>);
+    [Symbol.iterator](): IterableIterator<TSource>;
 }
 export declare class Enumerable {
     static aggregate<TSource>(source: IEnumerable<TSource>, func: (x: TSource, y: TSource) => TSource): TSource;
@@ -197,8 +177,7 @@ export declare class Enumerable {
     private static aggregate_2<TSource, TAccumulate>(source, seed, func);
     private static aggregate_3<TSource, TAccumulate, TResult>(source, seed, func, resultSelector);
     static all<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): boolean;
-    static any<TSource>(source: IEnumerable<TSource>): boolean;
-    static any<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): boolean;
+    static any<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): boolean;
     private static any_1<TSource>(source);
     private static any_2<TSource>(source, predicate);
     static average(source: IEnumerable<number>): number;
@@ -206,20 +185,17 @@ export declare class Enumerable {
     private static average_1(source);
     private static average_2<TSource>(source, func);
     static concat<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
-    static contains<TSource>(source: IEnumerable<TSource>, value: TSource): boolean;
-    static contains<TSource>(source: IEnumerable<TSource>, value: TSource, comparer: IEqualityComparer<TSource>): boolean;
+    static contains<TSource>(source: IEnumerable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): boolean;
     static count<TSource>(source: IEnumerable<TSource>): number;
     static count<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): number;
     private static count_1<T>(source);
     private static count_2<T>(source, predicate);
-    static distinct<TSource>(source: IEnumerable<TSource>): IEnumerable<TSource>;
-    static distinct<TSource>(source: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    static distinct<TSource>(source: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     static each<TSource>(source: IEnumerable<TSource>, action: (x: TSource) => void): IEnumerable<TSource>;
     static elementAt<TSource>(source: IEnumerable<TSource>, index: number): TSource;
     static elementAtOrDefault<TSource>(source: IEnumerable<TSource>, index: number): TSource | null;
     static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
-    static except<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
-    static except<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    static except<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     static first<TSource>(source: IEnumerable<TSource>): TSource;
     static first<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource;
     private static first_1<T>(source);
@@ -256,27 +232,24 @@ export declare class Enumerable {
     private static GroupBy_3_Simple<TSource, TElement, TResult>(source, keySelector, elementSelector, resultSelector);
     static join<TOuter, TInner, TKey, TResult>(outer: IEnumerable<TOuter>, inner: IEnumerable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult): IEnumerable<TResult>;
     static join<TOuter, TInner, TKey, TResult>(outer: IEnumerable<TOuter>, inner: IEnumerable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IEnumerable<TResult>;
-    static intersect<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
-    static intersect<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    static intersect<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     static partition<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource[][];
     static select<TSource, TResult>(source: IEnumerable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>;
     static select<TSource, TKey extends keyof TSource>(source: IEnumerable<TSource>, key: TKey): IEnumerable<TSource[TKey]>;
     private static select_1<TSource, TResult>(source, selector);
     private static select_2<TSource, TKey>(source, key);
-    static selectMany<TSource, Y>(source: IEnumerable<TSource>, selector: (x: TSource) => Iterable<Y>): IEnumerable<Y>;
+    static selectMany<TSource, TResult>(source: IEnumerable<TSource>, selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>;
     static selectMany<TSource extends {
-        [key: string]: Iterable<Y>;
-    }, Y>(source: IEnumerable<TSource>, selector: keyof TSource): IEnumerable<Y>;
-    private static selectMany_1<TSource, Y>(source, selector);
+        [key: string]: Iterable<TResult>;
+    }, TResult>(source: IEnumerable<TSource>, selector: keyof TSource): IEnumerable<TResult>;
+    private static selectMany_1<TSource, TResult>(source, selector);
     static selectMany_2<TSource extends {
-        [key: string]: Iterable<Y>;
-    }, Y>(source: IEnumerable<TSource>, selector: keyof TSource): BasicEnumerable<Y>;
-    static single<TSource>(source: IEnumerable<TSource>): TSource;
-    static single<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource;
+        [key: string]: Iterable<TResult>;
+    }, TResult>(source: IEnumerable<TSource>, selector: keyof TSource): BasicEnumerable<TResult>;
+    static single<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource;
     private static single_1<TSource>(source);
     private static single_2<TSource>(source, predicate);
-    static singleOrDefault<TSource>(source: IEnumerable<TSource>): TSource | null;
-    static singleOrDefault<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource | null;
+    static singleOrDefault<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource | null;
     private static singleOrDefault_1<TSource>(source);
     private static singleOrDefault_2<TSource>(source, predicate);
     static skipWhile<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): IEnumerable<TSource>;
@@ -285,14 +258,12 @@ export declare class Enumerable {
     private static skipWhile_2<TSource>(source, predicate);
     static skip<TSource>(source: IEnumerable<TSource>, count: number): IEnumerable<TSource>;
     static empty<TSource>(): IEnumerable<TSource>;
-    static last<TSource>(source: IEnumerable<TSource>): TSource;
-    static last<TSource>(source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): TSource;
-    private static last_1<T>(source);
-    private static last_2<T>(source, predicate);
-    static lastOrDefault<T>(source: IEnumerable<T>): T | null;
-    static lastOrDefault<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): T | null;
-    private static lastOrDefault_1<T>(source);
-    private static lastOrDefault_2<T>(source, predicate);
+    static last<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource;
+    private static last_1<TSource>(source);
+    private static last_2<TSource>(source, predicate);
+    static lastOrDefault<TSource>(source: IEnumerable<TSource>, predicate?: (x: TSource) => boolean): TSource | null;
+    private static lastOrDefault_1<TSource>(source);
+    private static lastOrDefault_2<TSource>(source, predicate);
     static max(source: IEnumerable<number>): number;
     static max<TSource>(source: IEnumerable<TSource>, selector: (x: TSource) => number): number;
     private static max_1(source);
@@ -314,8 +285,7 @@ export declare class Enumerable {
     static range(start: number, count: number): IEnumerable<number>;
     static repeat<T>(element: T, count: number): IEnumerable<T>;
     static reverse<TSource>(source: IEnumerable<TSource>): IEnumerable<TSource>;
-    static sequenceEquals<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): boolean;
-    static sequenceEquals<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): boolean;
+    static sequenceEquals<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
     static sum(source: IEnumerable<number>): number;
     static sum<TSource>(source: IEnumerable<TSource>, selector: (x: TSource) => number): number;
     private static sum_1(source);
@@ -339,8 +309,7 @@ export declare class Enumerable {
         [key: string]: TSource;
     };
     static toSet<TSource>(source: IEnumerable<TSource>): Set<TSource>;
-    static union<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
-    static union<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    static union<TSource>(first: IEnumerable<TSource>, second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     private static union_1<TSource>(first, second);
     private static union_2<TSource>(first, second, comparer);
     static where<T>(source: IEnumerable<T>, predicate: (x: T) => boolean): IEnumerable<T>;
