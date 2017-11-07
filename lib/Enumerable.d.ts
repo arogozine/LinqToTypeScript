@@ -42,7 +42,6 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     ofType(type: "number"): IEnumerable<number>;
     ofType(type: "string"): IEnumerable<string>;
     ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>;
-    ofType<TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>;
     orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>;
     orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>;
     orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
@@ -126,7 +125,6 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     ofType(type: "number"): IEnumerable<number>;
     ofType(type: "string"): IEnumerable<string>;
     ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>;
-    ofType<TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>;
     orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>;
     orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>;
     orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
@@ -272,7 +270,7 @@ export declare class Enumerable {
     static min<TSource>(source: IEnumerable<TSource>, selector: (x: TSource) => number): number;
     private static min_1(source);
     private static min_2(source, selector);
-    static ofType<TSource, TResult>(source: IEnumerable<TSource>, type?: IConstructor<TResult> | string): IEnumerable<TResult>;
+    static ofType<TSource, TResult>(source: IEnumerable<TSource>, type: IConstructor<TResult> | string): IEnumerable<TResult>;
     private static orderByInner<TSource>(source, keySelector);
     static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedEnumerable<TSource>;
     static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>;

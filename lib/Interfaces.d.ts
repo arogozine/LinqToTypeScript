@@ -97,7 +97,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (type: "number"): IEnumerable<number>;
         (type: "string"): IEnumerable<string>;
         <TResult>(type: IConstructor<TResult>): IEnumerable<TResult>;
-        <TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>;
     };
     orderBy: {
         (predicate: (x: TSource) => number | string): IOrderedEnumerable<TSource>;

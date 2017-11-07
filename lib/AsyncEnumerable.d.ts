@@ -45,7 +45,9 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     orderBy(predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>;
     orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
     orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescending(predicate: (x: TSource) => string | number, comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<TSource>;
+    orderByDescending(predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>;
+    orderByDescending(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
+    orderByDescending(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
     reverse(): IAsyncEnumerable<TSource>;
     select<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>;
     selectMany<TBindedSource extends {
@@ -105,12 +107,10 @@ export declare class AsyncEnumerable {
     static elementAtOrDefault<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource | null>;
     static enumerateObject<TInput>(source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: IAsyncEnumerable<TSource>, second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
-    static first<TSource>(source: AsyncIterable<TSource>): Promise<TSource>;
-    static first<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;
+    static first<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static first_1<T>(source);
     private static first_2<T>(source, predicate);
-    static firstOrDefault<T>(source: AsyncIterable<T>): Promise<T | null>;
-    static firstOrDefault<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null>;
+    static firstOrDefault<T>(source: AsyncIterable<T>, predicate?: (x: T) => boolean): Promise<T | null>;
     private static firstOrDefault_1<T>(source);
     private static firstOrDefault_2<T>(source, predicate);
     static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>): IAsyncEnumerable<TSource>;

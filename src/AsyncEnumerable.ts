@@ -22,8 +22,8 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public aggregate<TAccumulate, TResult>(
         seedOrFunc: ((x: TSource, y: TSource) => TSource) | TAccumulate,
         func?: (x: TAccumulate, y: TSource) => TAccumulate,
-        resultSelector?: (x: TAccumulate) => TResult): TSource | TAccumulate | TResult {
-        return AsyncEnumerable.aggregate(this, seedOrFunc, func as any, resultSelector as any) as any
+        resultSelector?: (x: TAccumulate) => TResult): Promise<any> {
+        return AsyncEnumerable.aggregate(this, seedOrFunc, func as any, resultSelector as any)
     }
 
     public all(predicate: (x: TSource) => boolean): Promise<boolean> {
@@ -31,7 +31,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     }
 
     public any(predicate?: (x: TSource) => boolean): Promise<boolean> {
-        return AsyncEnumerable.any(this, predicate as any)
+        return AsyncEnumerable.any(this, predicate)
     }
 
     public average(this: IAsyncEnumerable<number>): Promise<number>
@@ -73,11 +73,11 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     }
 
     public first(predicate?: (x: TSource) => boolean): Promise<TSource> {
-        return AsyncEnumerable.first(this, predicate as any)
+        return AsyncEnumerable.first(this, predicate)
     }
 
     public firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
-        return AsyncEnumerable.firstOrDefault(this, predicate as any)
+        return AsyncEnumerable.firstOrDefault(this, predicate)
     }
 
     public groupBy(keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
@@ -135,15 +135,15 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public max(selector: (x: TSource) => number): Promise<number | never>
     public max(
         this: IAsyncEnumerable<number> | IAsyncEnumerable<TSource>,
-        selector?: (x: TSource) => number): Promise<number> {
-        return AsyncEnumerable.max<TSource>(this as any, selector as any)
+        selector?: (x: TSource) => number): Promise<number | never> {
+        return AsyncEnumerable.max(this as any, selector as any)
     }
 
     public min(this: IAsyncEnumerable<number>): Promise<number | never>
     public min(selector: (x: TSource) => number): Promise<number | never>
     public min(
         this: IAsyncEnumerable<number> | IAsyncEnumerable<TSource>,
-        selector?: (x: TSource) => number): Promise<number> {
+        selector?: (x: TSource) => number): Promise<number | never> {
         return AsyncEnumerable.min<TSource>(this as any, selector as any)
     }
 
@@ -169,6 +169,12 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.orderBy(this, predicate as any, comparer as any)
     }
 
+    public orderByDescending(
+        predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>
+    public orderByDescending(
+        predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
+    public orderByDescending(
+        predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
     public orderByDescending(
         predicate: (x: TSource) => string | number,
         comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<TSource> {
@@ -200,7 +206,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     }
 
     public singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
-        return AsyncEnumerable.singleOrDefault(this, predicate as any)
+        return AsyncEnumerable.singleOrDefault(this, predicate)
     }
 
     public skip(count: number): IAsyncEnumerable<TSource> {
@@ -262,8 +268,8 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         public zip<TSecond>(second: IAsyncEnumerable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>
     public zip<Y, OUT>(
         second: IAsyncEnumerable<Y>,
-        resultSelector?: (x: TSource, y: Y) => OUT): IAsyncEnumerable<OUT> | IAsyncEnumerable<ITuple<TSource, Y>>  {
-        return AsyncEnumerable.zip(this, second, resultSelector as any) as any
+        resultSelector?: (x: TSource, y: Y) => OUT): IAsyncEnumerable<any>  {
+        return AsyncEnumerable.zip(this, second, resultSelector as any)
     }
 
     public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
@@ -311,14 +317,14 @@ class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implements IOrde
     public thenBy(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
     public thenBy(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
     public thenBy(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: any, comparer?: any) {
+    public thenBy(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
         return AsyncEnumerable.thenBy(this, keySelector, comparer)
     }
 
     public thenByDescending(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
     public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
     public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: any, comparer?: any) {
+    public thenByDescending(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
         return AsyncEnumerable.thenByDescending(this, keySelector, comparer)
     }
 }
@@ -365,14 +371,14 @@ class OrderedAsyncEnumerableDescending<T> extends BasicAsyncEnumerable<T> implem
     public thenBy(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
     public thenBy(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
     public thenBy(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: any, comparer?: any) {
+    public thenBy(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
         return AsyncEnumerable.thenBy(this, keySelector, comparer)
     }
 
     public thenByDescending(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
     public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
     public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: any, comparer?: any) {
+    public thenByDescending(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
         return AsyncEnumerable.thenByDescending(this, keySelector, comparer)
     }
 }
@@ -710,8 +716,6 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static first<TSource>(source: AsyncIterable<TSource>): Promise<TSource>;
-    public static first<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;
     public static first<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {
             return AsyncEnumerable.first_2(source, predicate)
@@ -740,8 +744,6 @@ export class AsyncEnumerable {
         throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
-    public static firstOrDefault<T>(source: AsyncIterable<T>): Promise<T | null>;
-    public static firstOrDefault<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null>;
     public static firstOrDefault<T>(source: AsyncIterable<T>, predicate?: (x: T) => boolean): Promise<T | null> {
         if (predicate) {
             return AsyncEnumerable.firstOrDefault_2(source, predicate)

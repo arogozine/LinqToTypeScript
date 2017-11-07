@@ -132,8 +132,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (type: "boolean"): IEnumerable<boolean>
         (type: "number"): IEnumerable<number>
         (type: "string"): IEnumerable<string>
-        <TResult>(type: IConstructor<TResult>): IEnumerable<TResult>
-        <TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>,
+        <TResult>(type: IConstructor<TResult>): IEnumerable<TResult>,
     }
     orderBy: {
         (predicate: (x: TSource) => number | string): IOrderedEnumerable<TSource>

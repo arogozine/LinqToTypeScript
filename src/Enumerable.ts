@@ -277,8 +277,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public ofType(type: "number"): IEnumerable<number>
     public ofType(type: "string"): IEnumerable<string>
     public ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>
-    public ofType<TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>
-    public ofType(type?: string | IConstructor<any>) {
+    public ofType(type: string | IConstructor<any>) {
         return Enumerable.ofType(this, type)
     }
 
@@ -544,8 +543,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public ofType(type: "number"): IEnumerable<number>
     public ofType(type: "string"): IEnumerable<string>
     public ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>
-    public ofType<TResult>(this: IEnumerable<TResult>): IEnumerable<TResult>
-    public ofType(type?: string | IConstructor<any>) {
+    public ofType(type: string | IConstructor<any>) {
         return Enumerable.ofType(this, type)
     }
 
@@ -554,7 +552,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>
     public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
     public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
-    public orderBy(predicate: any, comparer?: IComparer<any>) {
+    public orderBy(predicate: any, comparer?: IComparer<number> | IComparer<string>) {
         return Enumerable.orderBy(this, predicate, comparer as any)
     }
 
@@ -1989,11 +1987,7 @@ export class Enumerable {
 
     public static ofType<TSource, TResult>(
         source: IEnumerable<TSource>,
-        type?: IConstructor<TResult> | string): IEnumerable<TResult> {
-
-        if (!type) {
-            return source as any
-        }
+        type: IConstructor<TResult> | string): IEnumerable<TResult> {
 
         const typeCheck: (x: TSource) => boolean = typeof type === "string" ?
             ((x) => typeof x === type) :
