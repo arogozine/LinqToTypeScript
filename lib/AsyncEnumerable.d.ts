@@ -58,13 +58,11 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     single(predicate?: (x: TSource) => boolean): Promise<TSource>;
     singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     skip(count: number): IAsyncEnumerable<TSource>;
-    skipWhile(predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
     skipWhile(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     sum(this: IAsyncEnumerable<number>): Promise<number>;
     sum(this: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
     take(amount: number): IAsyncEnumerable<TSource>;
-    takeWhile(pedicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
-    takeWhile(pedicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
+    takeWhile(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     toArray(): Promise<TSource[]>;
     toMap<TKey>(selector: (x: TSource) => TKey): Promise<Map<TKey, TSource[]>>;
     toSet(): Promise<Set<TSource>>;
@@ -151,7 +149,6 @@ export declare class AsyncEnumerable {
     private static singleOrDefault_1<TSource>(source);
     private static singleOrDefault_2<TSource>(source, predicate);
     static skip<TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource>;
-    static skipWhile<TSource>(source: IAsyncEnumerable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
     static skipWhile<TSource>(source: IAsyncEnumerable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     private static skipWhile_1<TSource>(source, predicate);
     private static skipWhile_2<TSource>(source, predicate);
@@ -190,7 +187,6 @@ export declare class AsyncEnumerable {
     private static sum_1(source);
     private static sum_2<TSource>(source, selector);
     static take<TSource>(source: IAsyncEnumerable<TSource>, amount: number): IAsyncEnumerable<TSource>;
-    static takeWhile<TSource>(source: IAsyncEnumerable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
     static takeWhile<TSource>(source: IAsyncEnumerable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     private static takeWhile_1<T>(source, predicate);
     private static takeWhile_2<T>(source, predicate);

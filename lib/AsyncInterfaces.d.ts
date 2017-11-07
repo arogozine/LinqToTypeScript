@@ -123,7 +123,6 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (count: number): IAsyncEnumerable<TSource>;
     };
     skipWhile: {
-        (predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
         (predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     };
     sum: {
@@ -134,7 +133,6 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (amount: number): IAsyncEnumerable<TSource>;
     };
     takeWhile: {
-        (pedicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
         (pedicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     };
     toArray: {
@@ -150,7 +148,6 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         (second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     };
     where: {
-        (predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
         (predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     };
     zip: {

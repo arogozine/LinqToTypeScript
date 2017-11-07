@@ -170,7 +170,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (count: number): IEnumerable<TSource>,
     }
     skipWhile: {
-        (predicate: (x: TSource) => boolean): IEnumerable<TSource>,
         (predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
     },
     sum: {
@@ -181,7 +180,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (amount: number): IEnumerable<TSource>,
     }
     takeWhile: {
-        (predicate: (x: TSource) => boolean): IEnumerable<TSource>,
         (predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
     }
     toArray: {
@@ -197,7 +195,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         (second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
     }
     where: {
-        (predicate: (x: TSource) => boolean): IEnumerable<TSource>,
         (predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
     }
     zip: {

@@ -213,10 +213,8 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.skip(this, count)
     }
 
-    public skipWhile(predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
-    public skipWhile(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
     public skipWhile(
-        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
+        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.skipWhile(this, predicate)
     }
 
@@ -232,10 +230,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.take(this, amount)
     }
 
-    public takeWhile(pedicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
-    public takeWhile(pedicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
-    public takeWhile(
-        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
+    public takeWhile(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.takeWhile(this, predicate)
     }
 
@@ -1286,12 +1281,8 @@ export class AsyncEnumerable {
     }
 
     public static skipWhile<TSource>(
-        source: IAsyncEnumerable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
-    public static skipWhile<TSource>(
-        source: IAsyncEnumerable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
-    public static skipWhile<TSource>(
         source: IAsyncEnumerable<TSource>,
-        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
+        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
 
         if (predicate.length === 1) {
             return AsyncEnumerable.skipWhile_1(source, predicate as any)
@@ -1712,13 +1703,7 @@ export class AsyncEnumerable {
 
     public static takeWhile<TSource>(
         source: IAsyncEnumerable<TSource>,
-        predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
-    public static takeWhile<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
-    public static takeWhile<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
+        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
 
         if (predicate.length === 1) {
             return AsyncEnumerable.takeWhile_1(source, predicate as (x: TSource) => boolean)

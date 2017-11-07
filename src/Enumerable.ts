@@ -334,9 +334,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.skip(this, count)
     }
 
-    public skipWhile(predicate: (x: T) => boolean): IEnumerable<T>
-    public skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public skipWhile(predicate: any) {
+    public skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         return Enumerable.skipWhile(this, predicate)
     }
 
@@ -350,9 +348,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.take(this, amount)
     }
 
-    public takeWhile(predicate: (x: T) => boolean): IEnumerable<T>
-    public takeWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public takeWhile(predicate: any) {
+    public takeWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         return Enumerable.takeWhile(this, predicate)
     }
 
@@ -372,9 +368,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.union(this, second, comparer)
     }
 
-    public where(predicate: (x: T) => boolean): IEnumerable<T>
-    public where(predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public where(predicate: any): IEnumerable<T> {
+    public where(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         return Enumerable.where(this, predicate)
     }
 
@@ -599,9 +593,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.skip(this, count)
     }
 
-    public skipWhile(predicate: (x: T) => boolean): IEnumerable<T>
-    public skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public skipWhile(predicate: any) {
+    public skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         return Enumerable.skipWhile(this, predicate)
     }
 
@@ -615,9 +607,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.take(this, amount)
     }
 
-    public takeWhile(predicate: (x: T) => boolean): IEnumerable<T>
-    public takeWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public takeWhile(predicate: any) {
+    public takeWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         return Enumerable.takeWhile(this, predicate)
     }
 
@@ -639,9 +629,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.union(this, second, comparer as any)
     }
 
-    public where(predicate: (x: T) => boolean): IEnumerable<T>
-    public where(predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public where(predicate: any): IEnumerable<T> {
+    public where(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         return Enumerable.where(this, predicate)
     }
 
@@ -1757,12 +1745,8 @@ export class Enumerable {
     }
 
     public static skipWhile<TSource>(
-        source: IEnumerable<TSource>, predicate: (x: TSource) => boolean): IEnumerable<TSource>
-    public static skipWhile<TSource>(
-        source: IEnumerable<TSource>, predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>
-    public static skipWhile<TSource>(
         source: IEnumerable<TSource>,
-        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IEnumerable<TSource> {
+        predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource> {
 
         if (predicate.length === 1) {
             return Enumerable.skipWhile_1(source, predicate as (x: TSource) => boolean)
@@ -2170,13 +2154,7 @@ export class Enumerable {
 
     public static takeWhile<T>(
         source: IEnumerable<T>,
-        predicate: (x: T) => boolean): IEnumerable<T>
-    public static takeWhile<T>(
-        source: IEnumerable<T>,
-        predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public static takeWhile<T>(
-        source: IEnumerable<T>,
-        predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IEnumerable<T> {
+        predicate: (x: T, index: number) => boolean): IEnumerable<T> {
 
         if (predicate.length === 1) {
             return Enumerable.takeWhile_1(source, predicate as (x: T) => boolean)
@@ -2419,13 +2397,7 @@ export class Enumerable {
 
     public static where<T>(
         source: IEnumerable<T>,
-        predicate: (x: T) => boolean): IEnumerable<T>
-    public static where<T>(
-        source: IEnumerable<T>,
-        predicate: (x: T, index: number) => boolean): IEnumerable<T>
-    public static where<T>(
-        source: IEnumerable<T>,
-        predicate: ((x: T) => boolean) | ((x: T, index: number) => boolean)): IEnumerable<T> {
+        predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         if (predicate.length === 1) {
             return Enumerable.where_1(source, predicate as (x: T) => boolean)
         } else {
