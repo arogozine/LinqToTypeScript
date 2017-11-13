@@ -10,6 +10,7 @@ export {
     IComparer,
     IConstructor,
     IEnumerable,
+    IGrouping,
     IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces"
 export { IAsyncEnumerable } from "./AsyncInterfaces"
 export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable"

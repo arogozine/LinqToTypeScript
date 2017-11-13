@@ -21,14 +21,18 @@
   "keywords": [
     "typescript",
     "javascript",
-    "linq"
+    "linq",
+    "async",
+    "generators"
   ],
   "author": "Alexandre Rogozine",
   "license": "FSFUL",
+  "dependencies": {
+    "core-js": "^2.5.1"
+  },
   "devDependencies": {
     "@types/jasmine": "^2.6.0",
     "browserify": "^14.4.0",
-    "core-js": "^2.5.1",
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
     "karma-browserify": "^5.1.1",

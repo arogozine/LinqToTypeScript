@@ -1,6 +1,6 @@
 import { IPrototype } from "./Interfaces";
 export { StrictEqualityComparer, EqualityComparer, StringifyComparer, NumberComparer, AsTuple, InvalidOperationException, ArgumentOutOfRangeException } from "./TypesAndHelpers";
-export { IComparer, IConstructor, IEnumerable, IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces";
+export { IComparer, IConstructor, IEnumerable, IGrouping, IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces";
 export { IAsyncEnumerable } from "./AsyncInterfaces";
 export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable";
 export { AsyncEnumerable } from "./AsyncEnumerable";

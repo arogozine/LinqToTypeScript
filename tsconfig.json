@@ -15,6 +15,7 @@
         "forceConsistentCasingInFileNames": true,
         "outDir": "./lib",
         "strict": true,
+        "noStrictGenericChecks": true,
         "declaration": true,
         "lib": [
             "dom",
