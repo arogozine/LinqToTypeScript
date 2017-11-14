@@ -8,8 +8,8 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     average(this: IEnumerable<number>): number;
     average(selector: (x: T) => number): number;
     concat(items: IEnumerable<T>): IEnumerable<T>;
-    concat(...items: T[][]): ArrayEnumerable<T>;
-    concat(...items: Array<T | T[]>): ArrayEnumerable<T>;
+    concat(...items: Array<ReadonlyArray<T>>): ArrayEnumerable<T>;
+    concat(...items: Array<T | ReadonlyArray<T>>): ArrayEnumerable<T>;
     contains(value: T, comparer?: IEqualityComparer<T>): boolean;
     count(): number;
     count(predicate: (x: T) => boolean): number;

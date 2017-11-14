@@ -49,8 +49,8 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     }
 
     public concat(items: IEnumerable<T>): IEnumerable<T>
-    public concat(...items: T[][]): ArrayEnumerable<T>
-    public concat(...items: Array<T | T[]>): ArrayEnumerable<T>
+    public concat(...items: Array<ReadonlyArray<T>>): ArrayEnumerable<T>
+    public concat(...items: Array<T | ReadonlyArray<T>>): ArrayEnumerable<T>
     public concat() {
         let items: any
         if (arguments.length === 1) {
