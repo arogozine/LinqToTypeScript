@@ -29,7 +29,11 @@ const evenNumbers = Enumerable.from([1, 2, 3, 4, 5, 6, 7, 8, 9]).where((x) => x 
 // To Use Without Wrappers
 // 1. Declare that the JS types implement the IEnumerable interface
 declare global {
-    interface Array<T> extends IEnumerable<T> { }
+    interface Array<T> extends IEnumerable<T> {
+        concat(items: IEnumerable<T>): IEnumerable<T>;
+        concat(...items: Array<ReadonlyArray<T>>): ArrayEnumerable<T>;
+        concat(...items: Array<T | ReadonlyArray<T>>): ArrayEnumerable<T>;    
+    }
     interface Uint8Array extends IEnumerable<number> { }
     interface Uint8ClampedArray extends IEnumerable<number> { }
     interface Uint16Array extends IEnumerable<number> { }
@@ -39,7 +43,7 @@ declare global {
     interface Int32Array extends IEnumerable<number> { }
     interface Float32Array extends IEnumerable<number> { }
     interface Float64Array extends IEnumerable<number> { }
-    interface Map<K,V> extends IEnumerable<[K,V]> { }
+    interface Map<K, V> extends IEnumerable<[K, V]> { }
     interface Set<T> extends IEnumerable<T> { }
 }
 // 2. Bind Linq Functions to Array and Map
