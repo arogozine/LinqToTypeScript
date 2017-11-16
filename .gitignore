@@ -40,5 +40,11 @@ jspm_packages
 .vscode
 
 # Uneeded JS files
+test/compiled
 test/*.js
+test/*.js.map
 src/*.js
+src/*.js.map
+
+# Browser Test Results
+coverage

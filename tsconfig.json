@@ -1,20 +1,27 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "target": "es6",
+        "target": "es2016",
         "module": "commonjs",
         "moduleResolution": "node",
         "removeComments": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        // "noUnusedLocals": true,
-        // "noUnusedParameters": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
         "alwaysStrict": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./lib",
-        "declaration": true
+        "strict": true,
+        "noStrictGenericChecks": true,
+        "declaration": true,
+        "lib": [
+            "dom",
+            "es2016",
+            "esnext.asynciterable"
+        ]
     },
     "files": [
         "src/index.ts"

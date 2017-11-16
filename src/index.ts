@@ -1,46 +1,66 @@
-import { BasicEnumerable } from "./Enumerable"
+import { ArrayEnumerable, BaseEnumerable } from "./Enumerable"
 import { IPrototype } from "./Interfaces"
-import "./LinqForArray"
-import "./LinqForMap"
 
 export {
     StrictEqualityComparer, EqualityComparer, StringifyComparer,
     NumberComparer,
     AsTuple,
-    InvalidOperationException, ArgumentOutOfRangeException,
-    ArrayIterator } from "./TypesAndHelpers"
+    InvalidOperationException, ArgumentOutOfRangeException } from "./TypesAndHelpers"
 export {
     IComparer,
     IConstructor,
     IEnumerable,
-    IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, Tuple } from "./Interfaces"
-export { Enumerable } from "./Enumerable"
+    IGrouping,
+    IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces"
+export { IAsyncEnumerable } from "./AsyncInterfaces"
+export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable"
+export { AsyncEnumerable } from "./AsyncEnumerable"
 
-function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
+/**
+ * Binds LINQ methods to an iterable type
+ * @param object Iterable Type
+ */
+export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
 
-    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
-        .filter(v => v !== "constructor")
+    const propertyNames = Object.getOwnPropertyNames(BaseEnumerable.prototype)
+        .filter((v) => v !== "constructor")
 
-    for (let prop of propertyNames) {
-        object.prototype[prop] =  object.prototype[prop] || (BasicEnumerable.prototype as any)[prop]
+    for (const prop of propertyNames) {
+        object.prototype[prop] =  object.prototype[prop] || (BaseEnumerable.prototype as any)[prop]
     }
 }
 
-export function initialize() {
-    bindLinq(Array)
+/**
+ * Binds LINQ method to a built in array type
+ * @param object Built In JS Array Type
+ */
+export function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(object: IPrototype<T, Y>): void {
+    const propertyNames = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
+        .filter((v) => v !== "constructor")
+
+    for (const prop of propertyNames) {
+        object.prototype[prop] =  object.prototype[prop] || (BaseEnumerable.prototype as any)[prop]
+    }
+}
+
+/**
+ * Binds LINQ methods to Array Types, Map, Set, and String
+ */
+export function initializeLinq() {
+    bindArray(Array)
     bindLinq(Map)
     bindLinq(Set)
     bindLinq(String)
 
-    bindLinq(Int8Array)
-    bindLinq(Int16Array)
-    bindLinq(Int32Array)
+    bindArray(Int8Array)
+    bindArray(Int16Array)
+    bindArray(Int32Array)
 
-    bindLinq(Uint8Array)
-    bindLinq(Uint8ClampedArray)
-    bindLinq(Uint16Array)
-    bindLinq(Uint32Array)
+    bindArray(Uint8Array)
+    bindArray(Uint8ClampedArray)
+    bindArray(Uint16Array)
+    bindArray(Uint32Array)
 
-    bindLinq(Float32Array)
-    bindLinq(Float64Array)
+    bindArray(Float32Array)
+    bindArray(Float64Array)
 }

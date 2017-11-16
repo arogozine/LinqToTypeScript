@@ -1,4 +1,4 @@
-import { Tuple } from "./Interfaces"
+import { ITuple } from "./Interfaces"
 
 // ########################
 // ## Equality Comparers ##
@@ -30,7 +30,7 @@ export function NumberComparer(x: number, y: number) {
 // ## Tuples ##
 // ############
 
-export function AsTuple<X, Y>(first: X, second: Y): Tuple<X, Y> {
+export function AsTuple<X, Y>(first: X, second: Y): ITuple<X, Y> {
     return { first, second }
 }
 
@@ -38,11 +38,11 @@ export function AsTuple<X, Y>(first: X, second: Y): Tuple<X, Y> {
 // ## Error Classes ##
 // ###################
 
-export const ErrorString = {
+export const ErrorString = Object.freeze({
     MoreThanOneElement: `Sequence contains more than one element`,
     NoElements: `Sequence contains more than one element`,
     NoMatch: `No matching element found`,
-}
+})
 
 export class InvalidOperationException extends Error {
     constructor(public message: string) {
@@ -54,34 +54,8 @@ export class InvalidOperationException extends Error {
 
 export class ArgumentOutOfRangeException extends RangeError {
     constructor(public paramName: string) {
-        super(`Argument ${paramName} is out of range`)
+        super(`Argument ${ paramName } is out of range`)
         this.name = `ArgumentOutOfRangeException`
         this.stack = this.stack || (new Error()).stack
-    }
-}
-
-// ################################
-// ## IterableIterator for Array ##
-// ################################
-
-export class ArrayIterator<T> implements IterableIterator<T> {
-
-    private index = 0
-
-    constructor(private array: T[]) {
-    }
-
-    public next(): IteratorResult<T> {
-        const curIndex = this.index
-        this.index++
-
-        return {
-            done: curIndex >= this.array.length,
-            value: this.array[curIndex],
-        }
-    }
-
-    public [Symbol.iterator]() {
-        return this
     }
 }

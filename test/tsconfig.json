@@ -1,14 +1,25 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "target": "es6",
+        "target": "es2017",
         "module": "commonjs",
-        "moduleResolution": "node",
+        "moduleResolution": "classic",
         "removeComments": true,
         "noImplicitAny": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
-        "alwaysStrict": true
-    }
+        "strict": true,
+        "alwaysStrict": true,
+        "sourceMap": true,
+        "outDir": "./compiled",
+        "lib": [      
+            "dom",
+            "es2016",
+            "esnext.asynciterable"
+        ]
+    },
+    "files": [
+        "./LinqTests.ts"
+    ]
 }
