@@ -4,6 +4,7 @@ export { IComparer, IConstructor, IEnumerable, IGrouping, IOrderedEnumerable, IE
 export { IAsyncEnumerable } from "./AsyncInterfaces";
 export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable";
 export { AsyncEnumerable } from "./AsyncEnumerable";
+export { ParallelEnumerable } from "./parallel/ParallelEnumerable";
 export declare function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void;
 export declare function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(object: IPrototype<T, Y>): void;
 export declare function initializeLinq(): void;

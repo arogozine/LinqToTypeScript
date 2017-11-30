@@ -1601,8 +1601,7 @@ export class AsyncEnumerable {
     private static repeat_2<T>(element: T, count: number, delay: number): IAsyncEnumerable<T> {
         async function* iterator() {
             for (let i = 0; i < count; i++) {
-                await new Promise((resolve) => setTimeout(resolve, delay))
-                yield element
+                yield await new Promise<T>((resolve) => setTimeout(() => resolve(element), delay))
             }
         }
 

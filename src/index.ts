@@ -15,6 +15,7 @@ export {
 export { IAsyncEnumerable } from "./AsyncInterfaces"
 export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable"
 export { AsyncEnumerable } from "./AsyncEnumerable"
+export { ParallelEnumerable } from "./parallel/ParallelEnumerable"
 
 /**
  * Binds LINQ methods to an iterable type
