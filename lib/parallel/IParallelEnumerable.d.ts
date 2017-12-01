@@ -1,5 +1,5 @@
-import { IAsyncEnumerable } from "../AsyncInterfaces";
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../Interfaces";
+import { IAsyncEnumerable } from "../async/async";
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 export interface IParallelEnumerable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;

@@ -1,21 +1,50 @@
-import { ArrayEnumerable, BaseEnumerable } from "./Enumerable"
-import { IPrototype } from "./Interfaces"
+import { IConstructor } from "./shared/shared"
+import { ArrayEnumerable, BaseEnumerable } from "./sync/sync"
 
+// Shared Types
 export {
-    StrictEqualityComparer, EqualityComparer, StringifyComparer,
+    StrictEqualityComparer,
+    ErrorString,
+    EqualityComparer,
+    StringifyComparer,
     NumberComparer,
     AsTuple,
-    InvalidOperationException, ArgumentOutOfRangeException } from "./TypesAndHelpers"
+    InvalidOperationException,
+    ArgumentOutOfRangeException,
+} from "./shared/shared"
+// Shared Interfacess
 export {
     IComparer,
     IConstructor,
-    IEnumerable,
     IGrouping,
-    IOrderedEnumerable, IEqualityComparer, IPrototype, RecOrdMap, ITuple } from "./Interfaces"
-export { IAsyncEnumerable } from "./AsyncInterfaces"
-export { ArrayEnumerable, BasicEnumerable, Enumerable } from "./Enumerable"
-export { AsyncEnumerable } from "./AsyncEnumerable"
-export { ParallelEnumerable } from "./parallel/ParallelEnumerable"
+    IEqualityComparer,
+    RecOrdMap,
+    ITuple,
+} from "./shared/shared"
+
+// Enumerable
+export {
+    ArrayEnumerable,
+    Enumerable,
+    IEnumerable,
+    IOrderedEnumerable,
+} from "./sync/sync"
+
+// AsyncEnumerable
+export {
+    AsyncEnumerable,
+    IAsyncEnumerable,
+} from "./async/async"
+
+// ParallelEnumerable
+export {
+    IParallelEnumerable,
+    ParallelEnumerable,
+} from "./parallel/parallel"
+
+export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
+    new (_?: any): Y
+}
 
 /**
  * Binds LINQ methods to an iterable type
@@ -40,7 +69,7 @@ export function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(object: IProt
         .filter((v) => v !== "constructor")
 
     for (const prop of propertyNames) {
-        object.prototype[prop] =  object.prototype[prop] || (BaseEnumerable.prototype as any)[prop]
+        object.prototype[prop] =  object.prototype[prop] || (ArrayEnumerable.prototype as any)[prop]
     }
 }
 

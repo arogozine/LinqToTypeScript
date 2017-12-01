@@ -1,8 +1,5 @@
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple, RecOrdMap } from "./Interfaces"
-
-export interface IAsyncGrouping<TKey, TValue> extends AsyncIterableIterator<TValue> {
-    readonly key: TKey
-}
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared"
+import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 
 export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>,
@@ -95,20 +92,4 @@ export interface IAsyncEnumerable<TSource> extends AsyncIterable<TSource> {
         resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>,
     zip<TSecond>(second: IAsyncEnumerable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>,
     [Symbol.asyncIterator]: () => AsyncIterableIterator<TSource>
-}
-
-export interface IOrderedAsyncEnumerable<TSource> extends IAsyncEnumerable<TSource> {
-    thenBy: {
-        (keySelector: (x: TSource) => string | number): IOrderedAsyncEnumerable<TSource>
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>,
-    }
-    thenByDescending: {
-        (keySelector: (x: TSource) => string | number): IOrderedAsyncEnumerable<TSource>
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>,
-    }
-    getMap: {
-        (): Promise<RecOrdMap<TSource>>,
-    }
 }

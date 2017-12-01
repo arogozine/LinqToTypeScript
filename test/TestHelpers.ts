@@ -1,4 +1,4 @@
-import { ArrayEnumerable, AsyncEnumerable, BasicEnumerable, IAsyncEnumerable, IEnumerable } from "./../src/index"
+import { ArrayEnumerable, AsyncEnumerable, Enumerable, IAsyncEnumerable, IEnumerable } from "./../src/index"
 
 function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {
     const array = new ArrayEnumerable<T>()
@@ -7,11 +7,7 @@ function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {
 }
 
 function asBasicEnumerable<T>(values: T[]): IEnumerable<T> {
-    return new BasicEnumerable<T>(function* meh() {
-        for (const x of values) {
-            yield x
-        }
-    })
+    return Enumerable.from(values)
 }
 
 export function asAsync(values: never[]): IAsyncEnumerable<number>

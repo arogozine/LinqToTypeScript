@@ -1,21 +1,7 @@
-import { IAsyncEnumerable } from "../AsyncInterfaces";
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple, RecOrdMap } from "../Interfaces";
+import { IAsyncEnumerable } from "../async/IAsyncEnumerable";
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 import { IParallelEnumerable } from "./IParallelEnumerable";
-export interface IOrderedParallelEnumerable<TSource> extends IParallelEnumerable<TSource> {
-    thenBy: {
-        (keySelector: (x: TSource) => string | number): IOrderedParallelEnumerable<TSource>;
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>;
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
-    };
-    thenByDescending: {
-        (keySelector: (x: TSource) => string | number): IOrderedParallelEnumerable<TSource>;
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>;
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
-    };
-    getMap: {
-        (): Promise<RecOrdMap<TSource>>;
-    };
-}
 export declare class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     private readonly dataFunc;
     constructor(promise: () => Promise<TSource[]>);

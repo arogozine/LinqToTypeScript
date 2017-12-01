@@ -1,35 +1,20 @@
-import { IAsyncEnumerable } from "../AsyncInterfaces"
+import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
+    ArgumentOutOfRangeException,
+    AsTuple,
+    EqualityComparer,
+    ErrorString,
     IComparer,
     IConstructor,
     IEqualityComparer,
     IGrouping,
-    ITuple,
-    RecOrdMap } from "../Interfaces"
-import { ArgumentOutOfRangeException,
-    AsTuple,
-    EqualityComparer,
-    ErrorString,
     InvalidOperationException,
-    StrictEqualityComparer } from "../TypesAndHelpers"
-import { Grouping } from "./../Enumerable"
+    ITuple,
+    RecOrdMap,
+    StrictEqualityComparer } from "../shared/shared"
+import { Grouping } from "../sync/sync"
+import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
 import { IParallelEnumerable } from "./IParallelEnumerable"
-
-export interface IOrderedParallelEnumerable<TSource> extends IParallelEnumerable<TSource> {
-    thenBy: {
-        (keySelector: (x: TSource) => string | number): IOrderedParallelEnumerable<TSource>
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>,
-    }
-    thenByDescending: {
-        (keySelector: (x: TSource) => string | number): IOrderedParallelEnumerable<TSource>
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>,
-    }
-    getMap: {
-        (): Promise<RecOrdMap<TSource>>,
-    }
-}
 
 export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     private readonly dataFunc: () => (Array<Promise<TSource>> | Promise<TSource[]>)

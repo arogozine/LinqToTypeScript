@@ -1,34 +1,5 @@
-// #############################
-// Contains Types and Interfaces
-// #############################
-
-// Used for IEnumerable.Zip
-export interface ITuple<X, Y> {
-    readonly first: X
-    readonly second: Y,
-}
-
-// Used for IEnumerable.ofType
-export interface IConstructor<TResult> extends Function {
-    readonly prototype: TResult
-}
-
-// Used for grouping of elements
-export type IComparer<TKey> = (x: TKey, y: TKey) => number
-
-// Used for equality comparison
-export type IEqualityComparer<T> = (x: T, y: T) => boolean
-
-// Used for constraints on the BindLinq function
-export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
-    new (_?: any): Y
-}
-
-// Used internally for the ordering
-export type RecOrdMap<T> = Map<number | string, T[] | Map<number | string, any>>
-
-// IEnumerable interface based on,
-// https://msdn.microsoft.com/en-us/library/9eekhta0(v=vs.110).aspx
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared"
+import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
 export interface IEnumerable<TSource> extends Iterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): TSource,
@@ -121,24 +92,4 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
             second: Iterable<TSecond>,
             resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>,
     [Symbol.iterator]: () => IterableIterator<TSource>
-}
-
-export interface IOrderedEnumerable<TSource> extends IEnumerable<TSource> {
-    thenBy: {
-        (keySelector: (x: TSource) => string | number): IOrderedEnumerable<TSource>
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>,
-    }
-    thenByDescending: {
-        (keySelector: (x: TSource) => string | number): IOrderedEnumerable<TSource>
-        (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>
-        (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>,
-    }
-    getMap: {
-        (): RecOrdMap<TSource>,
-    }
-}
-
-export interface IGrouping<TKey, TElement> extends IEnumerable<TElement> {
-    readonly key: TKey
 }

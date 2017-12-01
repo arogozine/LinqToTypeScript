@@ -1,11 +1,12 @@
-import { ErrorString } from "../src/TypesAndHelpers"
+// import { ErrorString } from "../src/TypesAndHelpers"
 import {
     ArgumentOutOfRangeException,
     ArrayEnumerable,
     AsyncEnumerable,
-    BasicEnumerable,
+    // BasicEnumerable,
     Enumerable,
     EqualityComparer,
+    ErrorString,
     IAsyncEnumerable,
     IEnumerable,
     initializeLinq,

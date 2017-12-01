@@ -1,23 +1,21 @@
 // import "core-js/symbol"
 
 import {
-    IComparer,
-    IConstructor,
-    IEnumerable,
-    IEqualityComparer,
-    IGrouping,
-    IOrderedEnumerable,
-    ITuple,
-    RecOrdMap,
-} from "./Interfaces"
-import {
     ArgumentOutOfRangeException,
     AsTuple,
     EqualityComparer,
     ErrorString,
+    IComparer,
+    IConstructor,
+    IEqualityComparer,
+    IGrouping,
     InvalidOperationException,
+    ITuple,
+    RecOrdMap,
     StrictEqualityComparer,
-} from "./TypesAndHelpers"
+} from "../shared/shared"
+import { IEnumerable } from "./IEnumerable"
+import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
 //#region Classes
 

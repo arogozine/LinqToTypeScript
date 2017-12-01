@@ -1,11 +1,24 @@
 // import 'core-js/shim'
 import "core-js/modules/es7.symbol.async-iterator"
-import { IAsyncEnumerable, IAsyncGrouping, IOrderedAsyncEnumerable } from "./AsyncInterfaces"
-import { Grouping } from "./Enumerable"
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple, RecOrdMap } from "./Interfaces"
+
 import {
-    ArgumentOutOfRangeException, AsTuple,
-    EqualityComparer, ErrorString, InvalidOperationException, StrictEqualityComparer } from "./TypesAndHelpers"
+    ArgumentOutOfRangeException,
+    AsTuple,
+    EqualityComparer,
+    ErrorString,
+    IComparer,
+    IConstructor,
+    IEqualityComparer,
+    IGrouping,
+    InvalidOperationException,
+    ITuple,
+    RecOrdMap,
+    StrictEqualityComparer,
+} from "../shared/shared"
+import { Grouping } from "../sync/sync"
+import { IAsyncEnumerable } from "./IAsyncEnumerable"
+import { IAsyncGrouping } from "./IAsyncGrouping"
+import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 
 export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
     constructor(private readonly iterator: () => AsyncIterableIterator<TSource>) {
