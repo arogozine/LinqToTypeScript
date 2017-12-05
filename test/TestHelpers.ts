@@ -1,4 +1,21 @@
-import { ArrayEnumerable, AsyncEnumerable, Enumerable, IAsyncEnumerable, IEnumerable } from "./../src/index"
+import {
+    ArrayEnumerable,
+    AsyncEnumerable,
+    Enumerable,
+    IAsyncEnumerable,
+    IEnumerable,
+    IParallelEnumerable,
+    ParallelEnumerable,
+} from "./../src/index"
+
+export function asParallel<T>(values: never[]): IParallelEnumerable<number>
+export function asParallel<T>(values: T[]): IParallelEnumerable<T>
+export function asParallel<T>(values: T[]): IParallelEnumerable<T> {
+    const generator = () => {
+        return values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
+    }
+    return ParallelEnumerable.from(generator)
+}
 
 function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {
     const array = new ArrayEnumerable<T>()

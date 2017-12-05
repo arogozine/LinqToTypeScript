@@ -1,5 +1,5 @@
 import { IConstructor } from "./shared/shared";
-export { StrictEqualityComparer, EqualityComparer, StringifyComparer, NumberComparer, AsTuple, InvalidOperationException, ArgumentOutOfRangeException } from "./shared/shared";
+export { StrictEqualityComparer, ErrorString, EqualityComparer, StringifyComparer, NumberComparer, AsTuple, InvalidOperationException, ArgumentOutOfRangeException } from "./shared/shared";
 export { IComparer, IConstructor, IGrouping, IEqualityComparer, RecOrdMap, ITuple } from "./shared/shared";
 export { ArrayEnumerable, Enumerable, IEnumerable, IOrderedEnumerable } from "./sync/sync";
 export { AsyncEnumerable, IAsyncEnumerable } from "./async/async";

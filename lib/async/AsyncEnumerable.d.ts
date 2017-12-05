@@ -116,7 +116,7 @@ export declare class AsyncEnumerable {
     static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>): IAsyncEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: false): IAsyncEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>;
-    static from<TSource>(promises: Promise<TSource>[]): IAsyncEnumerable<TSource>;
+    static from<TSource>(promises: Array<Promise<TSource>>): IAsyncEnumerable<TSource>;
     static from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>;
     static fromEvent<K extends keyof HTMLElementEventMap>(element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>;
     static fromEvent(element: Element, type: string): IAsyncEnumerable<Event>;

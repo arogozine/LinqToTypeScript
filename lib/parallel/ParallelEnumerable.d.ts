@@ -97,6 +97,9 @@ export declare class ParallelEnumerable {
     private static average_1(source);
     private static average_2<TSource>(source, func);
     static except<TSource>(first: IParallelEnumerable<TSource>, second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    static flatten<TSource>(source: IParallelEnumerable<TSource | IParallelEnumerable<TSource>>): IParallelEnumerable<TSource>;
+    static flatten<TSource>(source: IParallelEnumerable<TSource | IParallelEnumerable<TSource>>, shallow: false): IParallelEnumerable<TSource>;
+    static flatten<TSource>(source: IParallelEnumerable<TSource | IParallelEnumerable<TSource>>, shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>;
     static from<TSource>(promises: Array<Promise<TSource>>): IParallelEnumerable<TSource>;
     static from<TSource>(generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
     static from<TSource>(generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;

@@ -685,7 +685,7 @@ export class AsyncEnumerable {
                     second: source[key]
                 }
             }
-            /* tslint: enable */
+            /* tslint:enable */
         }
 
         return new BasicAsyncEnumerable(iterable)
@@ -724,7 +724,8 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static first<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
+    public static first<TSource>(
+        source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {
             return AsyncEnumerable.first_2(source, predicate)
         } else {
@@ -765,7 +766,8 @@ export class AsyncEnumerable {
         return first.value || null
     }
 
-    private static async firstOrDefault_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null> {
+    private static async firstOrDefault_2<T>(
+        source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null> {
         for await (const value of source) {
             if (predicate(value) === true) {
                 return value
@@ -775,13 +777,21 @@ export class AsyncEnumerable {
         return null
     }
 
-    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>): IAsyncEnumerable<TSource>;
-    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: false): IAsyncEnumerable<TSource>;
-    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>;
-    public static flatten<TSource>(source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>, shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
+    public static flatten<TSource>(
+        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>): IAsyncEnumerable<TSource>
+    public static flatten<TSource>(
+        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>,
+        shallow: false): IAsyncEnumerable<TSource>
+    public static flatten<TSource>(
+        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>,
+        shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>
+    public static flatten<TSource>(
+        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>,
+        shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
 
-        async function* iterator(source: AsyncIterable<any>): AsyncIterableIterator<TSource | AsyncIterable<TSource>> {
-            for await (const item of source) {
+        async function* iterator(sourceInner: AsyncIterable<any>)
+            : AsyncIterableIterator<TSource | AsyncIterable<TSource>> {
+            for await (const item of sourceInner) {
                 if (item[Symbol.asyncIterator] !== undefined) {
                     const items = shallow ? item : iterator(item as AsyncIterable<any>)
                     for await (const inner of items) {
@@ -796,10 +806,10 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(() => iterator(source))
     }
 
-    public static from<TSource>(promises: Promise<TSource>[]): IAsyncEnumerable<TSource>
+    public static from<TSource>(promises: Array<Promise<TSource>>): IAsyncEnumerable<TSource>
     public static from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>
-    public static from<TSource>(promisesOrIterable: Promise<TSource>[] | (() => AsyncIterableIterator<TSource>)) {
-        if (Array.isArray(promisesOrIterable)) {           
+    public static from<TSource>(promisesOrIterable: Array<Promise<TSource>> | (() => AsyncIterableIterator<TSource>)) {
+        if (Array.isArray(promisesOrIterable)) {
             if (promisesOrIterable.length === 0) {
                 throw new InvalidOperationException(ErrorString.NoElements)
             }
@@ -814,7 +824,8 @@ export class AsyncEnumerable {
         }
     }
 
-    public static fromEvent<K extends keyof HTMLElementEventMap>(element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>
+    public static fromEvent<K extends keyof HTMLElementEventMap>(
+        element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>
     public static fromEvent(element: Element, type: string): IAsyncEnumerable<Event>
     public static fromEvent(element: Element, type: string) {
         async function *eventGenerator() {
@@ -830,10 +841,11 @@ export class AsyncEnumerable {
             yield await promise
         }
 
-        return new BasicAsyncEnumerable(eventGenerator);
+        return new BasicAsyncEnumerable(eventGenerator)
     }
 
-    public static each<TSource>(source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
+    public static each<TSource>(
+        source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
         async function *iterator() {
             for await (const value of source) {
                 action(value)
@@ -846,14 +858,14 @@ export class AsyncEnumerable {
 
     public static groupBy<TSource>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
+        keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
     public static groupBy<TSource>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
+        keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>
     public static groupBy<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
         keySelector: (x: TSource) => TKey,
-        comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
+        comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
     public static groupBy<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
@@ -887,6 +899,7 @@ export class AsyncEnumerable {
                 }
             }
 
+            // tslint:disable-next-line:forin
             for (const value in keyMap) {
                 yield keyMap[value]
             }
@@ -895,7 +908,7 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    private static groupBy_0<TSource, TKey> (
+    private static groupBy_0<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {
@@ -909,7 +922,7 @@ export class AsyncEnumerable {
                 let found = false
 
                 for (let i = 0; i < keyMap.length; i++) {
-                    const group = keyMap[i];
+                    const group = keyMap[i]
                     if (comparer(group.key, key)) {
                         group.push(value)
                         found = true
