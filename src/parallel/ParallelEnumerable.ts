@@ -379,8 +379,8 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         }
     }
 
-    public max(this: IParallelEnumerable<number>): Promise<number>
-    public max(selector: (x: TSource) => number): Promise<number>
+    public async max(this: IParallelEnumerable<number>): Promise<number>
+    public async max(selector: (x: TSource) => number): Promise<number>
     public async max(selector?: any): Promise<number> {
         let maxInfo: number[]
         if (selector) {
@@ -393,8 +393,8 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return Math.max.apply(null, maxInfo)
     }
 
-    public min(this: IParallelEnumerable<number>): Promise<number>
-    public min(selector: (x: TSource) => number): Promise<number>
+    public async min(this: IParallelEnumerable<number>): Promise<number>
+    public async min(selector: (x: TSource) => number): Promise<number>
     public async min(selector?: any): Promise<number> {
         let minInfo: number[]
         if (selector) {
@@ -1528,7 +1528,26 @@ export class ParallelEnumerable {
         predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
         const generator = async () => {
             const values = await source.toArray()
-            return values.filter(predicate)
+            const results = new Array<TSource>()
+            if (predicate.length === 1) {
+                for (const value of values) {
+                    if ((predicate as (x: TSource) => boolean)(value) === true) {
+                        results.push(value)
+                    } else {
+                        break
+                    }
+                }
+            } else {
+                for (let i = 0; i < values.length; i++) {
+                    const value = values[i]
+                    if (predicate(value, i) === true) {
+                        results.push(value)
+                    } else {
+                        break
+                    }
+                }
+            }
+            return results
         }
 
         return new BasicParallelEnumerable<TSource>(generator)
