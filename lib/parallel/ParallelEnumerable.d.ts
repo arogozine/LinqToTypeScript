@@ -156,8 +156,8 @@ export declare class ParallelEnumerable {
     static union<TSource>(first: IParallelEnumerable<TSource>, second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     private static union_1<TSource>(first, second);
     private static union_2<TSource>(first, second, comparer);
-    static zip<T, Y>(source: IAsyncEnumerable<T>, second: IAsyncEnumerable<Y>): IParallelEnumerable<ITuple<T, Y>>;
-    static zip<T, Y, OUT>(source: IAsyncEnumerable<T>, second: IAsyncEnumerable<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
+    static zip<T, Y>(source: IAsyncEnumerable<T> | IParallelEnumerable<T>, second: IAsyncEnumerable<Y> | IParallelEnumerable<Y>): IParallelEnumerable<ITuple<T, Y>>;
+    static zip<T, Y, OUT>(source: IAsyncEnumerable<T> | IParallelEnumerable<T>, second: IAsyncEnumerable<Y> | IParallelEnumerable<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);
     private static zip_2<T, Y, OUT>(source, second, resultSelector);
 }

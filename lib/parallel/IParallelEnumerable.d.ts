@@ -66,7 +66,7 @@ export interface IParallelEnumerable<TSource> {
     toSet(): Promise<Set<TSource>>;
     union(second: IAsyncEnumerable<TSource> | IParallelEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
-    zip<TSecond, TResult>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSource>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;
+    zip<TSecond, TResult>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;
     zip<TSecond>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>;
     [Symbol.asyncIterator]: () => AsyncIterableIterator<TSource>;
 }

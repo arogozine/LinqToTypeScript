@@ -656,7 +656,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     public zip<TSecond>(
         second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>
     public zip(second: any, resultSelector?: any): IParallelEnumerable<any> {
-        return ParallelEnumerable.zip(second, resultSelector)
+        return ParallelEnumerable.zip(this, second, resultSelector)
     }
 
     private nextIteration<TOut>(onfulfilled: (x: TSource) => TOut): Promise<TOut[]> {
@@ -1764,15 +1764,15 @@ export class ParallelEnumerable {
     }
 
     public static zip<T, Y>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>): IParallelEnumerable<ITuple<T, Y>>
+        source: IAsyncEnumerable<T> | IParallelEnumerable<T>,
+        second: IAsyncEnumerable<Y> | IParallelEnumerable<Y>): IParallelEnumerable<ITuple<T, Y>>
     public static zip<T, Y, OUT>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>,
+        source: IAsyncEnumerable<T> | IParallelEnumerable<T>,
+        second: IAsyncEnumerable<Y> | IParallelEnumerable<Y>,
         resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>
     public static zip<T, Y, OUT>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>,
+        source: IAsyncEnumerable<T> | IParallelEnumerable<T>,
+        second: IAsyncEnumerable<Y> | IParallelEnumerable<Y>,
         resultSelector?: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> | IParallelEnumerable<ITuple<T, Y>> {
         if (resultSelector) {
             return ParallelEnumerable.zip_2(source, second, resultSelector)
@@ -1782,7 +1782,8 @@ export class ParallelEnumerable {
     }
 
     private static zip_1<T, Y>(
-        source: IAsyncEnumerable<T>, second: IAsyncEnumerable<Y>): IParallelEnumerable<ITuple<T, Y>> {
+        source: IAsyncEnumerable<T> | IParallelEnumerable<T>,
+        second: IAsyncEnumerable<Y> | IParallelEnumerable<Y>): IParallelEnumerable<ITuple<T, Y>> {
         async function iterator() {
             const items = await Promise.all([source.toArray(), second.toArray()])
             const max = items[0].length > items[1].length ? items[0].length : items[1].length
@@ -1798,8 +1799,8 @@ export class ParallelEnumerable {
     }
 
     private static zip_2<T, Y, OUT>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>,
+        source: IAsyncEnumerable<T> | IParallelEnumerable<T>,
+        second: IAsyncEnumerable<Y> | IParallelEnumerable<Y>,
         resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> {
         async function iterator() {
             const items = await Promise.all([source.toArray(), second.toArray()])
