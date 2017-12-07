@@ -33,7 +33,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         func: (x: TAccumulate, y: TSource) => TAccumulate,
         resultSelector: (x: TAccumulate) => TResult): Promise<TResult>
     public async aggregate(seed: any, func?: any, resultSelector?: any): Promise<any> {
-        return ParallelEnumerable.aggregate(seed, func, resultSelector)
+        return ParallelEnumerable.aggregate(this, seed, func, resultSelector)
     }
 
     public all(predicate: (x: TSource) => boolean): Promise<boolean> {

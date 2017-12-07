@@ -32,7 +32,6 @@ describe("aggregate", () => {
         expect(reversed).toBe("dog lazy the over jumps fox brown quick the")
     })
 
-    /*
     itAsync("BasicParallel", async () => {
         const asyncArray = asParallel(["f", "o", "o"])
         expect(await asyncArray.aggregate((x, y) => x + y)).toBe("foo")
@@ -46,7 +45,6 @@ describe("aggregate", () => {
                                         next + " " + workingSentence)
         expect(reversed).toBe("dog lazy the over jumps fox brown quick the")
     })
-    */
 
     itEnumerable<string>("ResultSelector", (asEnumerable) => {
         const fruits = asEnumerable([ "apple", "mango", "orange", "passionfruit", "grape" ])
@@ -74,7 +72,6 @@ describe("aggregate", () => {
         expect(longestName).toBe("PASSIONFRUIT")
     })
 
-    /*
     itAsync("ResultSelectorParallel", async () => {
         const fruits = asParallel([ "apple", "mango", "orange", "passionfruit", "grape" ])
 
@@ -87,7 +84,6 @@ describe("aggregate", () => {
 
         expect(longestName).toBe("PASSIONFRUIT")
     })
-    */
 
     itEnumerable("SingleValue", (asEnumerable) => {
         const val2 = asEnumerable([1]).aggregate((x, y) => x + y)
@@ -99,12 +95,10 @@ describe("aggregate", () => {
         expect(val2).toBe(1)
     })
 
-    /*
     itAsync("SingleValueParallel", async () => {
         const val2 = await asParallel([1]).aggregate((x, y) => x + y)
         expect(val2).toBe(1)
     })
-    */
 
     itEnumerable("MultipleValues", (asEnumerable) => {
         const val = asEnumerable([1, 2, 3]).aggregate((x, y) => x + y)
@@ -116,12 +110,10 @@ describe("aggregate", () => {
         expect(val).toBe(6)
     })
 
-    /*
     itAsync("MultipleValuesParallel", async () => {
         const val = await asParallel([1, 2, 3]).aggregate((x, y) => x + y)
         expect(val).toBe(6)
     })
-    */
 
     itEnumerable<any>("Exception", (asEnumerable) => {
         expect(() => asEnumerable([] as any[]).aggregate((x, y) => x + y)).toThrowError(InvalidOperationException)
@@ -132,12 +124,10 @@ describe("aggregate", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    /*
     itAsync("ExceptionParallel", async () => {
         const expect = await expectAsync(asParallel([] as number[]).aggregate((x, y) => x + y))
         expect.toThrowError(InvalidOperationException)
     })
-    */
 
     itEnumerable<number>("aggregate2", (asEnumerable) => {
         const val = asEnumerable([1, 2, 3]).aggregate(4, (x, y) => x + y)
@@ -161,7 +151,6 @@ describe("aggregate", () => {
         expect(val3).toBe(10)
     })
 
-    /*
     itAsync("Aggregate2Parallel", async () => {
         const val = await asParallel([1, 2, 3]).aggregate(4, (x, y) => x + y)
         expect(val).toBe(10)
@@ -172,7 +161,6 @@ describe("aggregate", () => {
         const val3 = await asParallel([] as number[]).aggregate(10, (x, y) => x + y)
         expect(val3).toBe(10)
     })
-    */
 
     itEnumerable("Aggregate3", (asEnumerable) => {
         const val = asEnumerable([1, 2, 3]).aggregate(4, (x, y) => x + y, (acc) => acc * 10)
@@ -184,10 +172,8 @@ describe("aggregate", () => {
         expect(val).toBe(100)
     })
 
-    /*
     itAsync("Aggregate3Parallel", async () => {
         const val = await asParallel([1, 2, 3]).aggregate(4, (x, y) => x + y, (acc) => acc * 10)
         expect(val).toBe(100)
     })
-    */
 })
