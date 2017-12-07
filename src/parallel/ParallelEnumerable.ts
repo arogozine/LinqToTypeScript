@@ -390,6 +390,10 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
             maxInfo = await Promise.all(data)
         }
 
+        if (maxInfo.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
         return Math.max.apply(null, maxInfo)
     }
 
@@ -402,6 +406,10 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         } else {
             const data = this.dataFunc() as Array<Promise<any>>
             minInfo = await Promise.all(data)
+        }
+
+        if (minInfo.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements)
         }
 
         return Math.min.apply(null, minInfo)
