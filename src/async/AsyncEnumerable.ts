@@ -494,7 +494,7 @@ export class AsyncEnumerable {
     }
 
     public static async all<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource) => boolean): Promise<boolean> {
         for await (const item of source) {
             if (predicate(item) === false) {
@@ -506,7 +506,7 @@ export class AsyncEnumerable {
     }
 
     public static any<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate?: (x: TSource) => boolean): Promise<boolean> {
         if (predicate) {
             return AsyncEnumerable.any_2(source, predicate)
@@ -515,7 +515,7 @@ export class AsyncEnumerable {
         }
     }
 
-    private static async any_1<TSource>(source: IAsyncEnumerable<TSource>): Promise<boolean> {
+    private static async any_1<TSource>(source: AsyncIterable<TSource>): Promise<boolean> {
         for await (const _ of source) {
             return true
         }
@@ -524,7 +524,7 @@ export class AsyncEnumerable {
     }
 
     private static async any_2<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource) => boolean): Promise<boolean> {
         for await (const item of source) {
             if (predicate(item) === true) {
@@ -536,20 +536,20 @@ export class AsyncEnumerable {
     }
 
     public static average(
-        source: IAsyncEnumerable<number>): Promise<number>
+        source: AsyncIterable<number>): Promise<number>
     public static average<TSource>(
-        source: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>
+        source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
     public static average<TSource>(
-        source: IAsyncEnumerable<TSource> | IAsyncEnumerable<number>,
+        source: AsyncIterable<TSource> | AsyncIterable<number>,
         selector?: (x: TSource) => number): Promise<number> {
         if (selector) {
-            return AsyncEnumerable.average_2(source as IAsyncEnumerable<TSource>, selector)
+            return AsyncEnumerable.average_2(source as AsyncIterable<TSource>, selector)
         } else {
-            return AsyncEnumerable.average_1(source as IAsyncEnumerable<number>)
+            return AsyncEnumerable.average_1(source as AsyncIterable<number>)
         }
     }
 
-    private static async average_1(source: IAsyncEnumerable<number>): Promise<number> {
+    private static async average_1(source: AsyncIterable<number>): Promise<number> {
         let value: number | undefined
         let count: number | undefined
         for await (const item of source) {
@@ -565,7 +565,7 @@ export class AsyncEnumerable {
     }
 
     private static async average_2<TSource>(
-        source: IAsyncEnumerable<TSource>, func: (x: TSource) => number): Promise<number> {
+        source: AsyncIterable<TSource>, func: (x: TSource) => number): Promise<number> {
         let value: number | undefined
         let count: number | undefined
         for await (const item of source) {
@@ -581,7 +581,7 @@ export class AsyncEnumerable {
     }
 
     public static concat<TSource>(
-        first: IAsyncEnumerable<TSource>, second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource> {
+        first: AsyncIterable<TSource>, second: AsyncIterable<TSource>): IAsyncEnumerable<TSource> {
         async function* iterator() {
             yield* first
             yield* second
@@ -633,7 +633,7 @@ export class AsyncEnumerable {
     }
 
     public static distinct<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
 
         async function* iterator() {
@@ -692,8 +692,8 @@ export class AsyncEnumerable {
     }
 
     public static except<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
+        first: AsyncIterable<TSource>,
+        second: AsyncIterable<TSource>,
         comparer: IEqualityComparer<TSource> = EqualityComparer): IAsyncEnumerable<TSource> {
 
         async function *iterator() {
@@ -778,15 +778,15 @@ export class AsyncEnumerable {
     }
 
     public static flatten<TSource>(
-        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>): IAsyncEnumerable<TSource>
+        source: AsyncIterable<TSource | AsyncIterable<TSource>>): IAsyncEnumerable<TSource>
     public static flatten<TSource>(
-        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>,
+        source: AsyncIterable<TSource | AsyncIterable<TSource>>,
         shallow: false): IAsyncEnumerable<TSource>
     public static flatten<TSource>(
-        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>,
+        source: AsyncIterable<TSource | AsyncIterable<TSource>>,
         shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>
     public static flatten<TSource>(
-        source: IAsyncEnumerable<TSource | IAsyncEnumerable<TSource>>,
+        source: AsyncIterable<TSource | AsyncIterable<TSource>>,
         shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
 
         async function* iterator(sourceInner: AsyncIterable<any>)
@@ -845,7 +845,7 @@ export class AsyncEnumerable {
     }
 
     public static each<TSource>(
-        source: IAsyncEnumerable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
+        source: AsyncIterable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
         async function *iterator() {
             for await (const value of source) {
                 action(value)
@@ -857,17 +857,17 @@ export class AsyncEnumerable {
     }
 
     public static groupBy<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
     public static groupBy<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>
     public static groupBy<TSource, TKey>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
     public static groupBy<TSource, TKey>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
         comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TSource>> {
 
@@ -881,7 +881,7 @@ export class AsyncEnumerable {
     }
 
     private static groupBy_0_Simple<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: ((x: TSource) => string) | ((x: TSource) => number)):
             IAsyncEnumerable<IGrouping<string | number, TSource>> {
 
@@ -909,7 +909,7 @@ export class AsyncEnumerable {
     }
 
     private static groupBy_0<TSource, TKey>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {
 
@@ -945,35 +945,35 @@ export class AsyncEnumerable {
     }
 
     public static groupByWithSel<TSource, TElement>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: ((x: TSource) => number),
         elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<number, TElement>>
     public static groupByWithSel<TSource, TElement>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: ((x: TSource) => string),
         elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string, TElement>>
     public static groupByWithSel<TSource, TKey, TElement>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: ((x: TSource) => TKey),
         elementSelector: (x: TSource) => TElement,
         comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>
     public static groupByWithSel<TSource, TKey, TElement>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
         elementSelector: (x: TSource) => TElement,
         comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TElement>> {
 
         if (comparer) {
-            return AsyncEnumerable.GroupBy_1(source,
+            return AsyncEnumerable.groupBy_1(source,
                 keySelector as (x: TSource) => TKey, elementSelector, comparer)
         } else {
-            return AsyncEnumerable.GroupBy_1_Simple(source,
+            return AsyncEnumerable.groupBy_1_Simple(source,
                 keySelector as (x: TSource) => number | string, elementSelector)
         }
     }
 
-    private static GroupBy_1_Simple<TSource, TElement>(
-        source: IAsyncEnumerable<TSource>,
+    private static groupBy_1_Simple<TSource, TElement>(
+        source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => string | number,
         elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string | number, TElement>> {
 
@@ -1002,8 +1002,8 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(generate)
     }
 
-    private static GroupBy_1<TSource, TKey, TElement>(
-        source: IAsyncEnumerable<TSource>,
+    private static groupBy_1<TSource, TKey, TElement>(
+        source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => TKey,
         elementSelector: (x: TSource) => TElement,
         comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>> {
@@ -1039,21 +1039,21 @@ export class AsyncEnumerable {
     }
 
     public static join<TOuter, TInner, TKey, TResult>(
-        outer: IAsyncEnumerable<TOuter>,
-        inner: IAsyncEnumerable<TInner>,
+        outer: AsyncIterable<TOuter>,
+        inner: AsyncIterable<TInner>,
         outerKeySelector: (x: TOuter) => TKey,
         innerKeySelector: (x: TInner) => TKey,
         resultSelector: (x: TOuter, y: TInner) => TResult): IAsyncEnumerable<TResult>
     public static join<TOuter, TInner, TKey, TResult>(
-        outer: IAsyncEnumerable<TOuter>,
-        inner: IAsyncEnumerable<TInner>,
+        outer: AsyncIterable<TOuter>,
+        inner: AsyncIterable<TInner>,
         outerKeySelector: (x: TOuter) => TKey,
         innerKeySelector: (x: TInner) => TKey,
         resultSelector: (x: TOuter, y: TInner) => TResult,
         comparer: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>
     public static join<TOuter, TInner, TKey, TResult>(
-        outer: IAsyncEnumerable<TOuter>,
-        inner: IAsyncEnumerable<TInner>,
+        outer: AsyncIterable<TOuter>,
+        inner: AsyncIterable<TInner>,
         outerKeySelector: (x: TOuter) => TKey,
         innerKeySelector: (x: TInner) => TKey,
         resultSelector: (x: TOuter, y: TInner) => TResult,
@@ -1112,9 +1112,9 @@ export class AsyncEnumerable {
     }
 
     public static select<TSource, TResult>(
-        source: IAsyncEnumerable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult>
+        source: AsyncIterable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult>
     public static select<TSource, TKey extends keyof TSource>(
-        source: IAsyncEnumerable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>
+        source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>
     public static select<T, Y>(source: IAsyncEnumerable<T>, selector: (x: T) => Y | string): IAsyncEnumerable<any> {
 
         if (typeof selector === "string") {
@@ -1125,7 +1125,7 @@ export class AsyncEnumerable {
     }
 
     private static select_1<TSource, TResult>(
-        source: IAsyncEnumerable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult> {
+        source: AsyncIterable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult> {
         async function* iterator() {
             for await (const value of source) {
                 yield selector(value)
@@ -1136,7 +1136,7 @@ export class AsyncEnumerable {
     }
 
     private static select_2<TSource, TKey extends keyof TSource>(
-        source: IAsyncEnumerable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]> {
+        source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]> {
         async function* iterator() {
             for await (const value of source) {
                 yield value[key]
@@ -1148,13 +1148,13 @@ export class AsyncEnumerable {
 
     public static selectMany
         <TSource extends { [key: string]: Iterable<Y> }, Y>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         selector: keyof TSource): IAsyncEnumerable<Y>
     public static selectMany<TSource, Y>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>
     public static selectMany(
-        source: IAsyncEnumerable<any>,
+        source: AsyncIterable<any>,
         selector: any): IAsyncEnumerable<any> {
         if (typeof selector === "string") {
             return AsyncEnumerable.selectMany_2(source, selector)
@@ -1164,7 +1164,7 @@ export class AsyncEnumerable {
     }
 
     private static selectMany_1<TSource, Y>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y> {
         async function* iterator() {
             for await (const value of source) {
@@ -1179,7 +1179,7 @@ export class AsyncEnumerable {
 
     private static selectMany_2
         <TSource extends { [key: string]: Iterable<Y> }, Y>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         selector: keyof TSource): IAsyncEnumerable<Y> {
         async function* iterator() {
             for await (const value of source) {
@@ -1307,7 +1307,7 @@ export class AsyncEnumerable {
     }
 
     public static skipWhile<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
 
         if (predicate.length === 1) {
@@ -1318,7 +1318,7 @@ export class AsyncEnumerable {
     }
 
     private static skipWhile_1<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource> {
 
         async function* iterator() {
@@ -1338,7 +1338,7 @@ export class AsyncEnumerable {
     }
 
     private static skipWhile_2<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
 
         async function* iterator() {
@@ -1519,19 +1519,19 @@ export class AsyncEnumerable {
         return last
     }
 
-    public static max(source: IAsyncEnumerable<number>): Promise<number>
-    public static max<TSource>(source: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>
+    public static max(source: AsyncIterable<number>): Promise<number>
+    public static max<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
     public static max<TSource>(
-        source: IAsyncEnumerable<TSource> | IAsyncEnumerable<number>,
+        source: AsyncIterable<TSource> | AsyncIterable<number>,
         selector?: (x: TSource) => number): Promise<number> {
         if (selector) {
-            return AsyncEnumerable.max_2<TSource>(source as IAsyncEnumerable<TSource>, selector)
+            return AsyncEnumerable.max_2<TSource>(source as AsyncIterable<TSource>, selector)
         } else {
-            return AsyncEnumerable.max_1(source as IAsyncEnumerable<number>)
+            return AsyncEnumerable.max_1(source as AsyncIterable<number>)
         }
     }
 
-    private static async max_1(source: IAsyncEnumerable<number>): Promise<number> {
+    private static async max_1(source: AsyncIterable<number>): Promise<number> {
         let max: number | null = null
         for await (const item of source) {
             max = Math.max(max || Number.MIN_VALUE, item)
@@ -1545,7 +1545,7 @@ export class AsyncEnumerable {
     }
 
     private static async max_2<TSource>(
-        source: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number> {
+        source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number> {
         let max: number | null = null
         for await (const item of source) {
             max = Math.max(max || Number.MIN_VALUE, selector(item))
@@ -1558,9 +1558,9 @@ export class AsyncEnumerable {
         }
     }
 
-    public static min(source: IAsyncEnumerable<number>): Promise<number>
-    public static min<TSource>(source: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>
-    public static min(source: IAsyncEnumerable<number>, selector?: (x: number) => number): Promise<number> {
+    public static min(source: AsyncIterable<number>): Promise<number>
+    public static min<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
+    public static min(source: AsyncIterable<number>, selector?: (x: number) => number): Promise<number> {
         if (selector) {
             return AsyncEnumerable.min_2(source, selector)
         } else {
@@ -1568,7 +1568,7 @@ export class AsyncEnumerable {
         }
     }
 
-    private static async min_1(source: IAsyncEnumerable<number>): Promise<number> {
+    private static async min_1(source: AsyncIterable<number>): Promise<number> {
         let min: number | null = null
         for await (const item of source) {
             min = Math.min(min || Number.MAX_VALUE, item)
@@ -1581,7 +1581,7 @@ export class AsyncEnumerable {
         }
     }
 
-    private static async min_2(source: IAsyncEnumerable<number>, selector: (x: number) => number): Promise<number> {
+    private static async min_2(source: AsyncIterable<number>, selector: (x: number) => number): Promise<number> {
         let min: number | null = null
         for await (const item of source) {
             min = Math.min(min || Number.MAX_VALUE, selector(item))
@@ -1634,7 +1634,7 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static reverse<TSource>(source: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource> {
+    public static reverse<TSource>(source: AsyncIterable<TSource>): IAsyncEnumerable<TSource> {
 
         async function* iterator() {
             const values = []
@@ -1651,8 +1651,8 @@ export class AsyncEnumerable {
     }
 
     public static async sequenceEquals<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
+        first: AsyncIterable<TSource>,
+        second: AsyncIterable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
 
         const firstIterator = first[Symbol.asyncIterator]()
@@ -1676,22 +1676,22 @@ export class AsyncEnumerable {
     }
 
     public static sum(
-        source: IAsyncEnumerable<number>): Promise<number>
+        source: AsyncIterable<number>): Promise<number>
     public static sum<TSource>(
-        source: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>
+        source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
     public static sum<TSource>(
-        source: IAsyncEnumerable<number> | IAsyncEnumerable<TSource>,
+        source: AsyncIterable<number> | AsyncIterable<TSource>,
         selector?: (x: TSource) => number): Promise<number> {
 
         if (selector) {
-            return AsyncEnumerable.sum_2(source as IAsyncEnumerable<TSource>, selector)
+            return AsyncEnumerable.sum_2(source as AsyncIterable<TSource>, selector)
         } else {
-            return AsyncEnumerable.sum_1(source as IAsyncEnumerable<number>)
+            return AsyncEnumerable.sum_1(source as AsyncIterable<number>)
         }
     }
 
     private static async sum_1(
-        source: IAsyncEnumerable<number>): Promise<number> {
+        source: AsyncIterable<number>): Promise<number> {
         let sum = 0
         for await (const value of source) {
             sum += value
@@ -1701,7 +1701,7 @@ export class AsyncEnumerable {
     }
 
     private static async sum_2<TSource>(
-        source: IAsyncEnumerable<TSource>, selector: (x: TSource) => number): Promise<number> {
+        source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number> {
         let sum = 0
         for await (const value of source) {
             sum += selector(value)
@@ -1710,7 +1710,7 @@ export class AsyncEnumerable {
         return sum
     }
 
-    public static take<TSource>(source: IAsyncEnumerable<TSource>, amount: number): IAsyncEnumerable<TSource> {
+    public static take<TSource>(source: AsyncIterable<TSource>, amount: number): IAsyncEnumerable<TSource> {
         async function* iterator() {
             // negative amounts should yield empty
             let amountLeft = amount > 0 ? amount : 0
@@ -1727,7 +1727,7 @@ export class AsyncEnumerable {
     }
 
     public static takeWhile<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
 
         if (predicate.length === 1) {
@@ -1737,7 +1737,7 @@ export class AsyncEnumerable {
         }
     }
 
-    private static takeWhile_1<T>(source: IAsyncEnumerable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> {
+    private static takeWhile_1<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> {
         async function* iterator() {
             for await (const item of source) {
                 if (predicate(item)) {
@@ -1752,7 +1752,7 @@ export class AsyncEnumerable {
     }
 
     private static takeWhile_2<T>(
-        source: IAsyncEnumerable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T> {
+        source: AsyncIterable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T> {
         async function* iterator() {
             let index = 0
             for await (const item of source) {
@@ -1865,7 +1865,7 @@ export class AsyncEnumerable {
         return new OrderedAsyncEnumerableDescending(async () => sortInnerMost(await source.getMap()), comparer as any)
     }
 
-    public static async toArray<TSource>(source: IAsyncEnumerable<TSource>): Promise<TSource[]> {
+    public static async toArray<TSource>(source: AsyncIterable<TSource>): Promise<TSource[]> {
         const array = []
         for await (const item of source) {
             array.push(item)
@@ -1873,7 +1873,7 @@ export class AsyncEnumerable {
         return array
     }
 
-    public static async toMap<K, V>(source: IAsyncEnumerable<V>, selector: (x: V) => K): Promise<Map<K, V[]>> {
+    public static async toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>> {
         const map = new Map<K, V[]>()
 
         for await (const value of source) {
@@ -1891,7 +1891,7 @@ export class AsyncEnumerable {
     }
 
     public static async toObject<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         selector: (x: TSource) => string): Promise<{[key: string]: TSource}> {
 
         const map: {[key: string]: TSource} = {}
@@ -1903,7 +1903,7 @@ export class AsyncEnumerable {
         return map
     }
 
-    public static async toSet<TSource>(source: IAsyncEnumerable<TSource>): Promise<Set<TSource>> {
+    public static async toSet<TSource>(source: AsyncIterable<TSource>): Promise<Set<TSource>> {
         const set = new Set<TSource>()
         for await (const item of source) {
             set.add(item)
@@ -1912,8 +1912,8 @@ export class AsyncEnumerable {
     }
 
     public static union<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
+        first: AsyncIterable<TSource>,
+        second: AsyncIterable<TSource>,
         comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
         if (comparer) {
             return AsyncEnumerable.union_2(first, second, comparer)
@@ -1923,8 +1923,8 @@ export class AsyncEnumerable {
     }
 
     private static union_1<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>) {
+        first: AsyncIterable<TSource>,
+        second: AsyncIterable<TSource>) {
 
         async function* iterator() {
 
@@ -1949,8 +1949,8 @@ export class AsyncEnumerable {
     }
 
     private static union_2<TSource>(
-        first: IAsyncEnumerable<TSource>,
-        second: IAsyncEnumerable<TSource>,
+        first: AsyncIterable<TSource>,
+        second: AsyncIterable<TSource>,
         comparer: IEqualityComparer<TSource>) {
 
         async function *iterator(): AsyncIterableIterator<TSource> {
@@ -1979,13 +1979,13 @@ export class AsyncEnumerable {
     }
 
     public static where<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
     public static where<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
     public static where<TSource>(
-        source: IAsyncEnumerable<TSource>,
+        source: AsyncIterable<TSource>,
         predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
         if (predicate.length === 1) {
             return AsyncEnumerable.where_1(source, predicate as (x: TSource) => boolean)
@@ -1994,7 +1994,7 @@ export class AsyncEnumerable {
         }
     }
 
-    private static where_1<T>(source: IAsyncEnumerable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> {
+    private static where_1<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> {
         async function* iterator() {
             for await (const item of source) {
                 if (predicate(item) === true) {
@@ -2007,7 +2007,7 @@ export class AsyncEnumerable {
     }
 
     private static where_2<T>(
-        source: IAsyncEnumerable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T> {
+        source: AsyncIterable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T> {
         async function* iterator() {
             let i = 0
             for await (const item of source) {
@@ -2021,15 +2021,15 @@ export class AsyncEnumerable {
     }
 
     public static zip<T, Y>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>): IAsyncEnumerable<ITuple<T, Y>>
+        source: AsyncIterable<T>,
+        second: AsyncIterable<Y>): IAsyncEnumerable<ITuple<T, Y>>
     public static zip<T, Y, OUT>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>,
+        source: AsyncIterable<T>,
+        second: AsyncIterable<Y>,
         resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT>
     public static zip<T, Y, OUT>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>,
+        source: AsyncIterable<T>,
+        second: AsyncIterable<Y>,
         resultSelector?: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT> | IAsyncEnumerable<ITuple<T, Y>> {
         if (resultSelector) {
             return AsyncEnumerable.zip_2(source, second, resultSelector)
@@ -2039,7 +2039,7 @@ export class AsyncEnumerable {
     }
 
     private static zip_1<T, Y>(
-        source: IAsyncEnumerable<T>, second: IAsyncEnumerable<Y>): IAsyncEnumerable<ITuple<T, Y>> {
+        source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<ITuple<T, Y>> {
         async function* iterator() {
             const firstIterator = source[Symbol.asyncIterator]()
             const secondIterator = second[Symbol.asyncIterator]()
@@ -2061,8 +2061,8 @@ export class AsyncEnumerable {
     }
 
     private static zip_2<T, Y, OUT>(
-        source: IAsyncEnumerable<T>,
-        second: IAsyncEnumerable<Y>,
+        source: AsyncIterable<T>,
+        second: AsyncIterable<Y>,
         resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT> {
         async function* iterator() {
             const firstIterator = source[Symbol.asyncIterator]()

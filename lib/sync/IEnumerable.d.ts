@@ -14,7 +14,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     distinct(comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     elementAt(index: number): TSource;
     elementAtOrDefault(index: number): TSource | null;
-    except(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    except(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     first(predicate?: (x: TSource) => boolean): TSource;
     firstOrDefault(predicate?: (x: TSource) => boolean): TSource | null;
     each(action: (x: TSource) => void): IEnumerable<TSource>;
@@ -64,7 +64,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     toArray(): TSource[];
     toMap<TKey>(selector: (x: TSource) => TKey): Map<TKey, TSource[]>;
     toSet(): Set<TSource>;
-    union(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    union(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>;
