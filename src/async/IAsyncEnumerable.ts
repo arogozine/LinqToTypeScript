@@ -2,6 +2,7 @@ import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, 
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 
 export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
+    asParallel(): IAsyncParallel<TSource>
     concat(second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>,
     distinct(comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     each(action: (x: TSource) => void): IAsyncEnumerable<TSource>,
@@ -51,15 +52,15 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
             this: IAsyncEnumerable<TBindedSource>,
             selector: keyof TBindedSource): IAsyncEnumerable<TOut>,
-    sequenceEquals(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>,
+    sequenceEquals(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>,
     skip(count: number): IAsyncEnumerable<TSource>,
     skipWhile(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>,
     take(amount: number): IAsyncEnumerable<TSource>,
     takeWhile(pedicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
-    union(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+    union(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     where(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>,
     zip<TSecond, TResult>(
-        second: IAsyncEnumerable<TSecond>,
+        second: AsyncIterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>,
-    zip<TSecond>(second: IAsyncEnumerable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>,
+    zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>,
 }

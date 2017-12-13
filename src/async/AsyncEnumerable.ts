@@ -1,11 +1,13 @@
 // import 'core-js/shim'
 import "core-js/modules/es7.symbol.async-iterator"
 
+import { ParallelEnumerable } from "../parallel/parallel"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
     EqualityComparer,
     ErrorString,
+    IAsyncParallel,
     IComparer,
     IConstructor,
     IEqualityComparer,
@@ -23,6 +25,10 @@ import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
     constructor(private readonly iterator: () => AsyncIterableIterator<TSource>) {
         //
+    }
+
+    public asParallel(): IAsyncParallel<TSource> {
+        return ParallelEnumerable.from(() => this.toArray())
     }
 
     public aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>
@@ -210,7 +216,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.selectMany(this, selector as any)
     }
 
-    public sequenceEquals(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean> {
+    public sequenceEquals(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean> {
         return AsyncEnumerable.sequenceEquals(this, second, comparer)
     }
 
@@ -259,7 +265,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.toSet(this)
     }
 
-    public union(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+    public union(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.union(this, second, comparer)
     }
 
@@ -271,11 +277,11 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     }
 
     public zip<TSecond, TResult>(
-        second: IAsyncEnumerable<TSecond>,
+        second: AsyncIterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>
-        public zip<TSecond>(second: IAsyncEnumerable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>
+    public zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>
     public zip<Y, OUT>(
-        second: IAsyncEnumerable<Y>,
+        second: AsyncIterable<Y>,
         resultSelector?: (x: TSource, y: Y) => OUT): IAsyncEnumerable<any>  {
         return AsyncEnumerable.zip(this, second, resultSelector as any)
     }

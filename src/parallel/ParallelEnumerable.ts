@@ -1492,9 +1492,9 @@ export class ParallelEnumerable {
         selector?: (x: TSource) => number): Promise<number> {
 
         if (selector) {
-            return ParallelEnumerable.sum_2(source as IAsyncEnumerable<TSource>, selector)
+            return ParallelEnumerable.sum_2(source as IAsyncParallel<TSource>, selector)
         } else {
-            return ParallelEnumerable.sum_1(source as IAsyncEnumerable<number>)
+            return ParallelEnumerable.sum_1(source as IAsyncParallel<number>)
         }
     }
 

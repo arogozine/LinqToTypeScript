@@ -1,11 +1,10 @@
-import { IAsyncEnumerable } from "../async/async"
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared"
 
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
-    concat(second: IAsyncEnumerable<TSource> | IParallelEnumerable<TSource>): IParallelEnumerable<TSource>,
+    concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>,
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     each(action: (x: TSource) => void): IParallelEnumerable<TSource>,
-    except(second: IAsyncEnumerable<TSource> | IParallelEnumerable<TSource>,
+    except(second: IAsyncParallel<TSource>,
            comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     groupBy(keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>
     groupBy(keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>
@@ -22,11 +21,11 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
             keySelector: ((x: TSource) => TKey),
             elementSelector: (x: TSource) => TElement,
             comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>>,
-    intersect(second: IAsyncEnumerable<TSource> | IParallelEnumerable<TSource>,
+    intersect(second: IAsyncParallel<TSource>,
               comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     // join in LINQ - but renamed to avoid clash with Array.prototype.join
     joinByKey<TInner, TKey, TResult>(
-            inner: IAsyncEnumerable<TInner> | IParallelEnumerable<TInner>,
+            inner: IAsyncParallel<TInner>,
             outerKeySelector: (x: TSource) => TKey,
             innerKeySelector: (x: TInner) => TKey,
             resultSelector: (x: TSource, y: TInner) => TResult,
@@ -53,18 +52,18 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
             this: IParallelEnumerable<TBindedSource>,
             selector: keyof TBindedSource): IParallelEnumerable<TOut>,
-    sequenceEquals(second: IAsyncEnumerable<TSource> | IParallelEnumerable<TSource>,
+    sequenceEquals(second: IAsyncParallel<TSource>,
                    comparer?: IEqualityComparer<TSource>): Promise<boolean>,
     skip(count: number): IParallelEnumerable<TSource>,
     skipWhile(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>,
     take(amount: number): IParallelEnumerable<TSource>,
     takeWhile(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>
-    union(second: IAsyncEnumerable<TSource> | IParallelEnumerable<TSource>,
+    union(second: IAsyncParallel<TSource>,
           comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>,
     zip<TSecond, TResult>(
-        second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>,
+        second: IAsyncParallel<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>,
-    zip<TSecond>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>):
+    zip<TSecond>(second: IAsyncParallel<TSecond>):
         IParallelEnumerable<ITuple<TSource, TSecond>>
 }

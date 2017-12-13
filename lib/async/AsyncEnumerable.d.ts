@@ -1,11 +1,12 @@
 import "core-js/modules/es7.symbol.async-iterator";
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IAsyncGrouping } from "./IAsyncGrouping";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
 export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
     private readonly iterator;
     constructor(iterator: () => AsyncIterableIterator<TSource>);
+    asParallel(): IAsyncParallel<TSource>;
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
     aggregate<TAccumulate, TResult>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): Promise<TResult>;
@@ -56,7 +57,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IAsyncEnumerable<TBindedSource>, selector: keyof TBindedSource): IAsyncEnumerable<TOut>;
     selectMany<Y>(selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>;
-    sequenceEquals(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    sequenceEquals(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     single(predicate?: (x: TSource) => boolean): Promise<TSource>;
     singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     skip(count: number): IAsyncEnumerable<TSource>;
@@ -68,11 +69,11 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     toArray(): Promise<TSource[]>;
     toMap<TKey>(selector: (x: TSource) => TKey): Promise<Map<TKey, TSource[]>>;
     toSet(): Promise<Set<TSource>>;
-    union(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    union(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
-    zip<TSecond, TResult>(second: IAsyncEnumerable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>;
-    zip<TSecond>(second: IAsyncEnumerable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>;
+    zip<TSecond, TResult>(second: AsyncIterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>;
+    zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>;
     [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
 }
 export declare class AsyncGrouping<TKey, TValue> extends Array<Promise<TValue>> implements IAsyncGrouping<TKey, TValue> {
