@@ -298,8 +298,7 @@ class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implements IOrde
 
         const map = await mapPromise
 
-        for (const key of [...map.keys()].sort(comparer ? comparer : undefined))
-        {
+        for (const key of [...map.keys()].sort(comparer ? comparer : undefined)) {
             const values = map.get(key)
 
             if (values instanceof Map) {
@@ -456,8 +455,7 @@ export class AsyncEnumerable {
         func: (x: TSource, y: TSource) => TSource): Promise<TSource> {
         let aggregateValue: TSource | undefined
 
-        for await (const value of source)
-        {
+        for await (const value of source) {
             if (aggregateValue) {
                 aggregateValue = func(aggregateValue, value)
             } else {
@@ -1174,7 +1172,7 @@ export class AsyncEnumerable {
         selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y> {
         async function* iterator() {
             for await (const value of source) {
-                for (const selectorValue of selector(value)){
+                for (const selectorValue of selector(value)) {
                     yield selectorValue
                 }
             }
@@ -1189,7 +1187,7 @@ export class AsyncEnumerable {
         selector: keyof TSource): IAsyncEnumerable<Y> {
         async function* iterator() {
             for await (const value of source) {
-                for (const selectorValue of value[selector]){
+                for (const selectorValue of value[selector]) {
                     yield selectorValue
                 }
             }
@@ -1795,8 +1793,7 @@ export class AsyncEnumerable {
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
             if (item instanceof Map) {
-                for (const key of item.keys())
-                {
+                for (const key of item.keys()) {
                     item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
                 }
 
@@ -1844,8 +1841,7 @@ export class AsyncEnumerable {
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
             if (item instanceof Map) {
-                for (const key of item.keys())
-                {
+                for (const key of item.keys()) {
                     item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
                 }
 

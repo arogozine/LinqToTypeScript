@@ -702,8 +702,7 @@ class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> implements
         const map = await mapPromise
         const returnValues = new Array<T>()
 
-        for (const key of [...map.keys()].sort(comparer ? comparer : undefined))
-        {
+        for (const key of [...map.keys()].sort(comparer ? comparer : undefined)) {
             const values = map.get(key)
 
             if (values instanceof Map) {
@@ -852,8 +851,7 @@ export class ParallelEnumerable {
         func: (x: TSource, y: TSource) => TSource): Promise<TSource> {
         let aggregateValue: TSource | undefined
 
-        for await (const value of source)
-        {
+        for await (const value of source) {
             if (aggregateValue) {
                 aggregateValue = func(aggregateValue, value)
             } else {
@@ -1583,8 +1581,7 @@ export class ParallelEnumerable {
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
             if (item instanceof Map) {
-                for (const key of item.keys())
-                {
+                for (const key of item.keys()) {
                     item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
                 }
 
@@ -1632,8 +1629,7 @@ export class ParallelEnumerable {
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
             if (item instanceof Map) {
-                for (const key of item.keys())
-                {
+                for (const key of item.keys()) {
                     item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
                 }
 

@@ -703,8 +703,7 @@ class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumera
         map: RecOrdMap<T>,
         comparer?: IComparer<string | number>): IterableIterator<T> {
 
-        for (const key of [...map.keys()].sort(comparer ? comparer : undefined))
-        {
+        for (const key of [...map.keys()].sort(comparer ? comparer : undefined)) {
             const values = map.get(key)
 
             if (values instanceof Map) {
@@ -790,8 +789,7 @@ export class Enumerable {
         func: (x: TSource, y: TSource) => TSource): TSource | null {
         let aggregateValue: TSource | undefined
 
-        for (const value of source)
-        {
+        for (const value of source) {
             if (aggregateValue) {
                 aggregateValue = func(aggregateValue, value)
             } else {
@@ -1617,7 +1615,7 @@ export class Enumerable {
         selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult> {
         function* iterator() {
             for (const value of source) {
-                for (const selectorValue of selector(value)){
+                for (const selectorValue of selector(value)) {
                     yield selectorValue
                 }
             }
@@ -1630,7 +1628,7 @@ export class Enumerable {
         source: Iterable<TSource>, selector: keyof TSource) {
         function* iterator() {
             for (const value of source) {
-                for (const selectorValue of value[selector]){
+                for (const selectorValue of value[selector]) {
                     yield selectorValue
                 }
             }
@@ -2207,8 +2205,7 @@ export class Enumerable {
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
             if (item instanceof Map) {
-                for (const key of item.keys())
-                {
+                for (const key of item.keys()) {
                     item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
                 }
 
@@ -2256,8 +2253,7 @@ export class Enumerable {
         function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
 
             if (item instanceof Map) {
-                for (const key of item.keys())
-                {
+                for (const key of item.keys()) {
                     item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
                 }
 
