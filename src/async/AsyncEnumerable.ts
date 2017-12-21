@@ -1,6 +1,7 @@
 // import 'core-js/shim'
 import "core-js/modules/es7.symbol.async-iterator"
 
+import { DataType } from "../parallel/DataType"
 import { ParallelEnumerable } from "../parallel/parallel"
 import {
     ArgumentOutOfRangeException,
@@ -28,7 +29,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     }
 
     public asParallel(): IAsyncParallel<TSource> {
-        return ParallelEnumerable.from("PromiseToArray", () => this.toArray())
+        return ParallelEnumerable.from(DataType.PromiseToArray, () => this.toArray())
     }
 
     public aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>

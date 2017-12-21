@@ -3,9 +3,10 @@ import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, 
 import { DataType } from "./DataType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 import { IParallelEnumerable } from "./IParallelEnumerable";
+import { TypedData } from "./TypedData";
 export declare class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     private readonly dataFunc;
-    constructor(dataFunc: DataType<TSource>);
+    constructor(dataFunc: TypedData<TSource>);
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
     aggregate<TAccumulate, TResult>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): Promise<TResult>;
@@ -109,9 +110,9 @@ export declare class ParallelEnumerable {
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: false): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>;
-    static from<TSource>(type: "ArrayOfPromises", generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
-    static from<TSource>(type: "PromiseToArray", generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
-    static from<TSource>(type: "PromiseOfPromises", generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: DataType.ArrayOfPromises, generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: DataType.PromiseToArray, generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: DataType.PromiseOfPromises, generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
     static groupBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;

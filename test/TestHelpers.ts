@@ -1,3 +1,4 @@
+import { DataType } from "../src/parallel/DataType"
 import {
     ArrayEnumerable,
     AsyncEnumerable,
@@ -14,7 +15,7 @@ export function asParallel<T>(values: T[]): IParallelEnumerable<T> {
     const generator = () => {
         return values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
     }
-    return ParallelEnumerable.from("ArrayOfPromises", generator)
+    return ParallelEnumerable.from(DataType.ArrayOfPromises, generator)
 }
 
 function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {

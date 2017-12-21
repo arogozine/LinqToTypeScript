@@ -1,46 +1,17 @@
 import { IConstructor } from "./shared/shared"
 import { ArrayEnumerable, BaseEnumerable } from "./sync/sync"
 
-// Shared Types
-export {
-    StrictEqualityComparer,
-    ErrorString,
-    EqualityComparer,
-    StringifyComparer,
-    NumberComparer,
-    AsTuple,
-    InvalidOperationException,
-    ArgumentOutOfRangeException,
-} from "./shared/shared"
 // Shared Interfacess
-export {
-    IComparer,
-    IConstructor,
-    IGrouping,
-    IEqualityComparer,
-    RecOrdMap,
-    ITuple,
-} from "./shared/shared"
+export * from "./shared/shared"
 
 // Enumerable
-export {
-    ArrayEnumerable,
-    Enumerable,
-    IEnumerable,
-    IOrderedEnumerable,
-} from "./sync/sync"
+export * from "./sync/sync"
 
 // AsyncEnumerable
-export {
-    AsyncEnumerable,
-    IAsyncEnumerable,
-} from "./async/async"
+export * from "./async/async"
 
 // ParallelEnumerable
-export {
-    IParallelEnumerable,
-    ParallelEnumerable,
-} from "./parallel/parallel"
+export * from "./parallel/parallel"
 
 export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
     new (_?: any): Y
