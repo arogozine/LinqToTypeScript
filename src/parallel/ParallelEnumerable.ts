@@ -14,15 +14,14 @@ import {
     RecOrdMap,
     StrictEqualityComparer } from "../shared/shared"
 import { Grouping } from "../sync/sync"
+import { DataType } from "./DataType"
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
 import { IParallelEnumerable } from "./IParallelEnumerable"
 
 export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
-    private readonly dataFunc: () => (Array<Promise<TSource>> | Promise<TSource[]>)
+    private readonly dataFunc: DataType<TSource>
 
-    public constructor(promise: () => Promise<TSource[]>)
-    public constructor(dataFunc: () => Array<Promise<TSource>>)
-    public constructor(dataFunc: () => (Array<Promise<TSource>> | Promise<TSource[]>)) {
+    public constructor(dataFunc: DataType<TSource>) {
         this.dataFunc = dataFunc
     }
 
@@ -38,21 +37,39 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public all(predicate: (x: TSource) => boolean): Promise<boolean> {
-        return this.nextIteration((x) => {
+        const nextIteration = this.nextIteration((x) => {
             if (!predicate(x)) {
                 throw new Error(String(false))
             }
             return true
-        }).then(() => true, () => false)
+        })
+
+        switch (nextIteration.type) {
+            case "PromiseToArray":
+               return nextIteration.data().then(() => true, () => false)
+            case "ArrayOfPromises":
+                return Promise.all(nextIteration.data()).then(() => true, () => false)
+            case "PromiseOfPromises":
+                return nextIteration.data().then(Promise.all).then(() => true, () => false)
+        }
     }
 
     public async any(predicate?: (x: TSource) => boolean): Promise<boolean> {
-        const promiseResults = await this.nextIteration(predicate || ((_) => true))
+        const nextIteration = this.nextIteration(predicate || ((_) => true))
 
-        if (predicate) {
-            return promiseResults.length !== 0 && promiseResults.some((x) => x)
-        } else {
-            return promiseResults.length !== 0
+        switch (nextIteration.type) {
+            case "PromiseToArray":
+               return nextIteration.data().then((values) => {
+                   return values.some((x) => x)
+               })
+            case "ArrayOfPromises":
+                return Promise.all(nextIteration.data()).then((values) => {
+                    return values.some((x) => x)
+                })
+            case "PromiseOfPromises":
+                return nextIteration.data().then(Promise.all).then((values) => {
+                    return values.some((x) => x)
+                })
         }
     }
 
@@ -82,97 +99,155 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
             return data
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data: generator,
+        })
     }
 
     public async contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean> {
-        let values: boolean[]
+        let values: DataType<boolean>
         if (comparer) {
-            values = await this.nextIteration((x) => comparer(value, x))
+            values = this.nextIteration((x) => comparer(value, x))
         } else {
-            values = await this.nextIteration((x) => x === value)
+            values = this.nextIteration((x) => x === value)
         }
 
-        return values.some((x) => x)
+        switch (values.type) {
+            case "PromiseToArray":
+            {
+                const data = await values.data()
+                return data.some((x) => x)
+            }
+            case "ArrayOfPromises":
+            {
+                const data = await Promise.all(values.data())
+                return data.some((x) => x)
+            }
+            case "PromiseOfPromises":
+            {
+                const data = await Promise.all(await values.data())
+                return data.some((x) => x)
+            }
+        }
     }
 
-    public async count(predicate?: (x: TSource) => boolean): Promise<number> {
+    public count(predicate?: (x: TSource) => boolean): Promise<number> {
         if (predicate) {
-            const values = await this.toArray()
-            let count = 0
-            for (let i = 0; i < values.length; i++) {
-                if (predicate(values[i]) === true) {
-                    count ++
-                }
-            }
-            return count
+            return this.count_2(predicate)
         } else {
-            const data = this.dataFunc()
-            if (Array.isArray(data)) {
-                return data.length
-            } else {
-                return (await data).length
+            return this.count_1()
+        }
+    }
+
+    private async count_1(): Promise<number> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            case "PromiseOfPromises":
+                const arrayData = await this.toArray()
+                return arrayData.length
+            case "ArrayOfPromises":
+                const promises = dataFunc.data()
+                return promises.length
+        }
+    }
+
+    private async count_2(predicate: (x: TSource) => boolean): Promise<number> {
+        const values = await this.toArray()
+        let count = 0
+        for (let i = 0; i < values.length; i++) {
+            if (predicate(values[i]) === true) {
+                count ++
             }
         }
+        return count
     }
 
     public distinct(comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
-        const iterator = async () => {
+        const data = async () => {
             const distinctElements: TSource[] = []
-            await this.nextIteration((item) => {
+            for (const item of await this.toArray()) {
                 const foundItem = distinctElements.find((x) => comparer(x, item))
                 if (!foundItem) {
                     distinctElements.push(item)
                 }
-            })
+            }
             return distinctElements
         }
 
-        return new BasicParallelEnumerable(iterator)
-    }
-
-    public each(action: (x: TSource) => void): IParallelEnumerable<TSource> {
-        return new BasicParallelEnumerable(() => {
-            return this.nextIteration((x) => {
-                action(x)
-                return x
-            })
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
         })
     }
 
+    public each(action: (x: TSource) => void): IParallelEnumerable<TSource> {
+        return new BasicParallelEnumerable(this.nextIteration((x) => {
+                action(x)
+                return x
+            }))
+    }
+
     public async elementAt(index: number): Promise<TSource> {
-        const data = this.dataFunc()
-        if (Array.isArray(data)) {
-            if (index >= data.length) {
-                throw new ArgumentOutOfRangeException("index")
-            } else {
-                return await data[index]
-            }
-        } else {
-            const dataArray = await data
-            if (index >= dataArray.length) {
-                throw new ArgumentOutOfRangeException("index")
-            } else {
-                return await dataArray[index]
-            }
+        const dataFunc = this.dataFunc
+
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+               return dataFunc.data().then((values) => {
+                    if (index >= values.length) {
+                        throw new ArgumentOutOfRangeException("index")
+                    } else {
+                        return values[index]
+                    }
+                })
+            case "ArrayOfPromises":
+                return Promise.all(dataFunc.data()).then((values) => {
+                    if (index >= values.length) {
+                        throw new ArgumentOutOfRangeException("index")
+                    } else {
+                        return values[index]
+                    }
+                })
+            case "PromiseOfPromises":
+                return dataFunc.data().then(async (values) => {
+                    if (index >= values.length) {
+                        throw new ArgumentOutOfRangeException("index")
+                    } else {
+                        return await values[index]
+                    }
+                })
         }
     }
 
     public async elementAtOrDefault(index: number): Promise<TSource | null> {
-        const data = this.dataFunc()
-        if (Array.isArray(data)) {
-            if (index >= data.length) {
-                return null
-            } else {
-                return await data[index]
-            }
-        } else {
-            const dataArray = await data
-            if (index >= dataArray.length) {
-                return null
-            } else {
-                return await dataArray[index]
-            }
+        const dataFunc = this.dataFunc
+
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+               return dataFunc.data().then((values) => {
+                    if (index >= values.length) {
+                        return null
+                    } else {
+                        return values[index]
+                    }
+                })
+            case "ArrayOfPromises":
+                return Promise.all(dataFunc.data()).then((values) => {
+                    if (index >= values.length) {
+                        return null
+                    } else {
+                        return values[index]
+                    }
+                })
+            case "PromiseOfPromises":
+                return dataFunc.data().then(async (values) => {
+                    if (index >= values.length) {
+                        return null
+                    } else {
+                        return await values[index]
+                    }
+                })
         }
     }
 
@@ -191,19 +266,34 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     private async first_1(): Promise<TSource> {
-        const dataPromises = this.dataFunc()
-        if (Array.isArray(dataPromises)) {
-            if (dataPromises.length === 0) {
-                throw new InvalidOperationException(ErrorString.NoElements)
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const values = await dataFunc.data()
+                if (values.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                } else {
+                    return values[0]
+                }
             }
-
-            return await dataPromises[0]
-        } else {
-            const data = await dataPromises
-            if (data.length === 0) {
-                throw new InvalidOperationException(ErrorString.NoElements)
-            } else {
-                return data[0]
+            case "ArrayOfPromises":
+            {
+                const promises = dataFunc.data()
+                if (promises.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                } else {
+                    return await promises[0]
+                }
+            }
+            case "PromiseOfPromises":
+            {
+                const promises = await dataFunc.data()
+                if (promises.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                } else {
+                    return await promises[0]
+                }
             }
         }
     }
@@ -228,19 +318,34 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     private async firstOrDefault_1(): Promise<TSource | null> {
-        const dataPromises = this.dataFunc()
-        if (Array.isArray(dataPromises)) {
-            if (dataPromises.length === 0) {
-                return null
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const values = await dataFunc.data()
+                if (values.length === 0) {
+                    return null
+                } else {
+                    return values[0]
+                }
             }
-
-            return await dataPromises[0]
-        } else {
-            const data = await dataPromises
-            if (data.length === 0) {
-                return null
-            } else {
-                return data[0]
+            case "ArrayOfPromises":
+            {
+                const promises = dataFunc.data()
+                if (promises.length === 0) {
+                    return null
+                } else {
+                    return await promises[0]
+                }
+            }
+            case "PromiseOfPromises":
+            {
+                const promises = await dataFunc.data()
+                if (promises.length === 0) {
+                    return null
+                } else {
+                    return await promises[0]
+                }
             }
         }
     }
@@ -293,75 +398,138 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
     }
 
-    public async last(predicate?: (x: TSource) => boolean): Promise<TSource> {
-
-        const dataPromises = this.dataFunc()
-        if (Array.isArray(dataPromises)) {
-            if (predicate) {
-                // Promise Array - Predicate
-                for (let i = dataPromises.length - 1; i >= 0; i--) {
-                    const value = await dataPromises[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-
-                throw new InvalidOperationException(ErrorString.NoMatch)
-            } else {
-                // Promise Array - No Predicate
-                if (dataPromises.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                } else {
-                    return await dataPromises[dataPromises.length - 1]
-                }
-            }
+    public last(predicate?: (x: TSource) => boolean): Promise<TSource> {
+        if (predicate) {
+            return this.last_2(predicate)
         } else {
-            const values = await dataPromises
+            return this.last_1()
+        }
+    }
 
-            if (predicate) {
-                for (let i = values.length - 1; i >= 0; i--) {
-                    const value = values[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-
-                throw new InvalidOperationException(ErrorString.NoMatch)
-            } else {
+    private async last_1(): Promise<TSource> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const values = await dataFunc.data()
                 if (values.length === 0) {
                     throw new InvalidOperationException(ErrorString.NoElements)
                 } else {
-                    return await values[values.length - 1]
+                    return values[values.length - 1]
+                }
+            }
+            case "ArrayOfPromises":
+            {
+                const promises = dataFunc.data()
+                if (promises.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                } else {
+                    return await promises[promises.length - 1]
+                }
+            }
+            case "PromiseOfPromises":
+            {
+                const promises = await dataFunc.data()
+                if (promises.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                } else {
+                    return await promises[promises.length - 1]
                 }
             }
         }
     }
 
-    public async lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
-        const dataPromises = this.dataFunc()
-        if (Array.isArray(dataPromises)) {
-            if (predicate) {
+    private async last_2(predicate: (x: TSource) => boolean): Promise<TSource> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const values = await dataFunc.data()
                 // Promise Array - Predicate
-                for (let i = dataPromises.length - 1; i >= 0; i--) {
-                    const value = await dataPromises[i]
+                for (let i = values.length - 1; i >= 0; i--) {
+                    const value = values[i]
                     if (predicate(value)) {
                         return value
                     }
                 }
+                break
+            }
+            case "ArrayOfPromises":
+            {
+                const promises = dataFunc.data()
+                // Promise Array - Predicate
+                for (let i = promises.length - 1; i >= 0; i--) {
+                    const value = await promises[i]
+                    if (predicate(value)) {
+                        return value
+                    }
+                }
+                break
+            }
+            case "PromiseOfPromises":
+            {
+                const promises = await dataFunc.data()
+                // Promise Array - Predicate
+                for (let i = promises.length - 1; i >= 0; i--) {
+                    const value = await promises[i]
+                    if (predicate(value)) {
+                        return value
+                    }
+                }
+                break
+            }
+        }
 
-                return null
-            } else {
-                // Promise Array - No Predicate
-                if (dataPromises.length === 0) {
+        throw new InvalidOperationException(ErrorString.NoMatch)
+    }
+
+    public async lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
+        if (predicate) {
+            return this.lastOrDefault_2(predicate)
+        } else {
+            return this.lastOrDefault_1()
+        }
+    }
+
+    private async lastOrDefault_1(): Promise<TSource | null> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const values = await dataFunc.data()
+                if (values.length === 0) {
                     return null
                 } else {
-                    return await dataPromises[dataPromises.length - 1]
+                    return values[values.length - 1]
                 }
             }
-        } else {
-            const values = await dataPromises
+            case "ArrayOfPromises":
+            {
+                const promises = dataFunc.data()
+                if (promises.length === 0) {
+                    return null
+                } else {
+                    return await promises[promises.length - 1]
+                }
+            }
+            case "PromiseOfPromises":
+            {
+                const promises = await dataFunc.data()
+                if (promises.length === 0) {
+                    return null
+                } else {
+                    return await promises[promises.length - 1]
+                }
+            }
+        }
+    }
 
-            if (predicate) {
+    private async lastOrDefault_2(predicate: (x: TSource) => boolean): Promise<TSource | null> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const values = await dataFunc.data()
                 for (let i = values.length - 1; i >= 0; i--) {
                     const value = values[i]
                     if (predicate(value)) {
@@ -369,26 +537,46 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
                     }
                 }
 
-                return null
-            } else {
-                if (values.length === 0) {
-                    return null
-                } else {
-                    return await values[values.length - 1]
+                break
+            }
+            case "ArrayOfPromises":
+            {
+                const promises = dataFunc.data()
+                for (let i = promises.length - 1; i >= 0; i--) {
+                    const value = await promises[i]
+                    if (predicate(value)) {
+                        return value
+                    }
                 }
+
+                break
+            }
+            case "PromiseOfPromises":
+            {
+                const promises = await dataFunc.data()
+                for (let i = promises.length - 1; i >= 0; i--) {
+                    const value = await promises[i]
+                    if (predicate(value)) {
+                        return value
+                    }
+                }
+
+                break
             }
         }
+
+        return null
     }
 
     public async max(this: IParallelEnumerable<number>): Promise<number>
     public async max(selector: (x: TSource) => number): Promise<number>
     public async max(selector?: any): Promise<number> {
-        let maxInfo: number[]
+        let maxInfo: any[]
         if (selector) {
-            maxInfo = await this.nextIteration<number>(selector)
+            const dataFunc = this.nextIteration<number>(selector)
+            maxInfo = await new BasicParallelEnumerable(dataFunc).toArray()
         } else {
-            const data = this.dataFunc() as Array<Promise<any>>
-            maxInfo = await Promise.all(data)
+            maxInfo = await this.toArray()
         }
 
         if (maxInfo.length === 0) {
@@ -401,12 +589,12 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     public async min(this: IParallelEnumerable<number>): Promise<number>
     public async min(selector: (x: TSource) => number): Promise<number>
     public async min(selector?: any): Promise<number> {
-        let minInfo: number[]
+        let minInfo: any[]
         if (selector) {
-            minInfo = await this.nextIteration<number>(selector)
+            const dataFunc = this.nextIteration<number>(selector)
+            minInfo = await new BasicParallelEnumerable(dataFunc).toArray()
         } else {
-            const data = this.dataFunc() as Array<Promise<any>>
-            minInfo = await Promise.all(data)
+            minInfo = await this.toArray()
         }
 
         if (minInfo.length === 0) {
@@ -452,16 +640,15 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     public select<OUT>(selector: (x: TSource) => OUT): IParallelEnumerable<OUT>
     public select<TKey extends keyof TSource>(key: TKey): IParallelEnumerable<TSource[TKey]>
     public select<OUT>(key: string | ((x: TSource) => OUT)): IParallelEnumerable<any> {
-        const generator = async () => {
-            let values: OUT[]
-            if (typeof key === "string") {
-                values = await this.nextIteration((x: any) => x[key] as OUT)
-            } else {
-                values = await this.nextIteration(key)
-            }
-            return values
+        if (typeof key === "string") {
+            return new BasicParallelEnumerable(this.nextIteration((x: any) => x[key] as OUT))
+        } else {
+            return new BasicParallelEnumerable(this.nextIteration(key))
         }
+    }
 
+    public selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT> {
+        const generator = this.nextIterationAsync(selector)
         return new BasicParallelEnumerable(generator)
     }
 
@@ -470,8 +657,8 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     public selectMany<TBindedSource extends { [key: string]: Iterable<TOut> }, TOut>(
         this: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>
     public selectMany<OUT>(selector: ((x: TSource) => Iterable<OUT>) | string): IParallelEnumerable<any> {
-        const generator = async () => {
-            let values: Array<Iterable<OUT>>
+        const data = async () => {
+            let values: DataType<Iterable<OUT>>
             if (typeof selector === "string") {
                 values = await this.nextIteration((x: any) => x[selector])
             } else {
@@ -479,16 +666,45 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
             }
 
             const valuesArray = []
-            for (const outer of values) {
-                for (const y of outer) {
-                    valuesArray.push(y)
+            switch (values.type) {
+                case "PromiseToArray":
+                {
+                    for (const outer of await values.data()) {
+                        for (const y of outer) {
+                            valuesArray.push(y)
+                        }
+                    }
+
+                    break
+                }
+                case "ArrayOfPromises":
+                {
+                    for (const outer of values.data()) {
+                        for (const y of await outer) {
+                            valuesArray.push(y)
+                        }
+                    }
+
+                    break
+                }
+                case "PromiseOfPromises":
+                {
+                    for (const outer of await values.data()) {
+                        for (const y of await outer) {
+                            valuesArray.push(y)
+                        }
+                    }
+
+                    break
                 }
             }
-
             return valuesArray
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public sequenceEquals(
@@ -506,24 +722,41 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     private async single_1(): Promise<TSource> {
-        const dataPromises = this.dataFunc()
-        if (Array.isArray(dataPromises)) {
-            if (dataPromises.length > 1) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-            } else if (dataPromises.length === 0) {
-                throw new InvalidOperationException(ErrorString.NoElements)
-            }
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const results = await dataFunc.data()
+                if (results.length > 1) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else if (results.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                }
 
-            return await dataPromises[0]
-        } else {
-            const results = await dataPromises
-            if (results.length > 1) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-            } else if (results.length === 0) {
-                throw new InvalidOperationException(ErrorString.NoElements)
+                return results[0]
             }
+            case "ArrayOfPromises":
+            {
+                const results = dataFunc.data()
+                if (results.length > 1) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else if (results.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                }
 
-            return results[0]
+                return results[0]
+            }
+            case "PromiseOfPromises":
+            {
+                const results = await dataFunc.data()
+                if (results.length > 1) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else if (results.length === 0) {
+                    throw new InvalidOperationException(ErrorString.NoElements)
+                }
+
+                return await results[0]
+            }
         }
     }
 
@@ -560,24 +793,41 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     private async singleOrDefault_1(): Promise<TSource | null> {
-        const dataPromises = this.dataFunc()
-        if (Array.isArray(dataPromises)) {
-            if (dataPromises.length > 1) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-            } else if (dataPromises.length === 0) {
-                return null
-            }
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const results = await dataFunc.data()
+                if (results.length > 1) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else if (results.length === 0) {
+                    return null
+                }
 
-            return await dataPromises[0]
-        } else {
-            const results = await dataPromises
-            if (results.length > 1) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-            } else if (results.length === 0) {
-                return null
+                return results[0]
             }
+            case "ArrayOfPromises":
+            {
+                const results = dataFunc.data()
+                if (results.length > 1) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else if (results.length === 0) {
+                    return null
+                }
 
-            return results[0]
+                return results[0]
+            }
+            case "PromiseOfPromises":
+            {
+                const results = await dataFunc.data()
+                if (results.length > 1) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else if (results.length === 0) {
+                    return null
+                }
+
+                return await results[0]
+            }
         }
     }
 
@@ -602,11 +852,37 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public skip(count: number): IParallelEnumerable<TSource> {
-        const promiseOrPromises = this.dataFunc()
-        if (Array.isArray(promiseOrPromises)) {
-            return new BasicParallelEnumerable(() => promiseOrPromises.slice(count))
-        } else {
-            return new BasicParallelEnumerable(async () => (await promiseOrPromises).slice(count))
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const data = async () => (await dataFunc.data()).slice(count)
+                return new BasicParallelEnumerable({
+                    type: "PromiseToArray",
+                    data,
+                })
+            }
+            case "ArrayOfPromises":
+            {
+                const data = () => dataFunc.data().slice(count)
+                return new BasicParallelEnumerable({
+                    type: "ArrayOfPromises",
+                    data,
+                })
+            }
+            case "PromiseOfPromises":
+            {
+                const data = async () => {
+                    const dataInner = await dataFunc.data()
+                    return dataInner.slice(count)
+                }
+                const dataFuncNew: DataType<TSource> = {
+                    type: "PromiseOfPromises",
+                    data,
+                }
+                // TODO: No Idea
+                return new BasicParallelEnumerable(dataFuncNew as any)
+            }
         }
     }
 
@@ -628,12 +904,20 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.takeWhile(this, predicate)
     }
 
-    public async toArray(): Promise<TSource[]> {
-        const promiseOrPromises = this.dataFunc()
-        if (Array.isArray(promiseOrPromises)) {
-            return Promise.all(promiseOrPromises)
-        } else {
-            return await promiseOrPromises
+    public toArray(): Promise<TSource[]> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+                return dataFunc.data()
+            case "ArrayOfPromises":
+                return Promise.all(dataFunc.data())
+            case "PromiseOfPromises":
+                return (async () => {
+                    const data = await dataFunc.data()
+                    return Promise.all(data)
+                })()
+            default:
+                throw new Error("Not Implemented")
         }
     }
 
@@ -652,11 +936,18 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
-        const generator = async () => {
+        const data = async () => {
             const values = await this.toArray()
             return values.filter(predicate)
         }
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
+    }
+
+    public whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource> {
+        return ParallelEnumerable.whereAsync(this, predicate)
     }
 
     public zip<TSecond, TResult>(
@@ -668,16 +959,90 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.zip(this, second, resultSelector)
     }
 
-    private nextIteration<TOut>(onfulfilled: (x: TSource) => TOut): Promise<TOut[]> {
-        const promiseOrPromises = this.dataFunc()
-        if (Array.isArray(promiseOrPromises)) {
-            const newPromises = new Array<Promise<TOut>>(promiseOrPromises.length)
-            for (let i = 0; i < promiseOrPromises.length; i++) {
-                newPromises[i] = promiseOrPromises[i].then(onfulfilled)
+    private nextIterationAsync<TOut>(
+        onfulfilled: (x: TSource) => Promise<TOut>): DataType<TOut> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const data = async () => {
+                    const results = await dataFunc.data()
+                    const newPromises = new Array<Promise<TOut>>(results.length)
+                    for (let i = 0; i < results.length; i++) {
+                        newPromises[i] = onfulfilled(results[i])
+                    }
+                    return newPromises
+                }
+                return {
+                    type: "PromiseOfPromises",
+                    data,
+                }
             }
-            return Promise.all(newPromises)
-        } else {
-            return promiseOrPromises.then((data) => data.map(onfulfilled))
+            case "ArrayOfPromises":
+            {
+                const data = () => dataFunc
+                    .data()
+                    .map((promise) => promise.then(onfulfilled))
+                return {
+                    type: "ArrayOfPromises",
+                    data,
+                }
+            }
+            case "PromiseOfPromises":
+            {
+                const data = async () => {
+                    const promises = await dataFunc.data()
+                    return promises.map((promise) => promise.then(onfulfilled))
+                }
+                return {
+                    type: "PromiseOfPromises",
+                    data,
+                }
+            }
+        }
+    }
+
+    private nextIteration<TOut>(onfulfilled: (x: TSource) => TOut): DataType<TOut> {
+        const dataFunc = this.dataFunc
+        switch (dataFunc.type) {
+            case "PromiseToArray":
+            {
+                const data = () => dataFunc.data().then((x) => x.map(onfulfilled))
+                return {
+                    type: "PromiseToArray",
+                    data,
+                }
+            }
+            case "ArrayOfPromises":
+            {
+                const data = () => {
+                    const previousData = dataFunc.data()
+                    const newPromises = new Array<Promise<TOut>>(previousData.length)
+                    for (let i = 0; i < previousData.length; i++) {
+                        newPromises[i] = previousData[i].then(onfulfilled)
+                    }
+                    return newPromises
+                }
+                return {
+                    type: "ArrayOfPromises",
+                    data,
+                }
+            }
+            case "PromiseOfPromises":
+            {
+                const data = async () => {
+                    const previousData = await dataFunc.data()
+                    const newPromises = new Array<Promise<TOut>>(previousData.length)
+                    for (let i = 0; i < previousData.length; i++) {
+                        newPromises[i] = previousData[i].then(onfulfilled)
+                    }
+                    return newPromises
+                }
+                return {
+                    type: "PromiseOfPromises",
+                    data,
+                }
+            }
         }
     }
 
@@ -722,8 +1087,12 @@ class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> implements
 
     private static generate<T>(
         mapFunc: () => Promise<RecOrdMap<T>>,
-        comparer?: IComparer<number | string>): () => Promise<T[]> {
-        return () => OrderedParallelEnumerable.unrollAndSort(mapFunc(), comparer)
+        comparer?: IComparer<number | string>): DataType<T> {
+        const data = () => OrderedParallelEnumerable.unrollAndSort(mapFunc(), comparer)
+        return {
+            type: "PromiseToArray",
+            data,
+        }
     }
 
     constructor(private readonly map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
@@ -781,8 +1150,12 @@ class OrderedParallelEnumerableDescending<T> extends BasicParallelEnumerable<T>
 
     private static generate<T>(
         mapFunc: () => Promise<RecOrdMap<T>>,
-        comparer?: IComparer<number | string>): () => Promise<T[]> {
-        return () => OrderedParallelEnumerableDescending.unrollAndSort(mapFunc(), comparer)
+        comparer?: IComparer<number | string>): DataType<T> {
+        const data = () => OrderedParallelEnumerableDescending.unrollAndSort(mapFunc(), comparer)
+        return {
+            type: "PromiseToArray",
+            data,
+        }
     }
 
     constructor(private readonly map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
@@ -943,7 +1316,7 @@ export class ParallelEnumerable {
         second: IAsyncParallel<TSource>,
         comparer: IEqualityComparer<TSource> = EqualityComparer): IParallelEnumerable<TSource> {
 
-        const generator = async () => {
+        const data = async () => {
             const values = await Promise.all([ first.toArray(), second.toArray() ])
             const firstValues = values[0]
             const secondValues = values[1]
@@ -969,7 +1342,10 @@ export class ParallelEnumerable {
             return resultValues
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static flatten<TSource>(
@@ -998,7 +1374,7 @@ export class ParallelEnumerable {
             }
         }
 
-        const generator = async () => {
+        const data = async () => {
             const results = new Array()
             for await (const x of iterator(source)) {
                 results.push(x)
@@ -1006,23 +1382,28 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
-    public static from<TSource>(promises: Array<Promise<TSource>>): IParallelEnumerable<TSource>
-    public static from<TSource>(generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>
-    public static from<TSource>(generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>
     public static from<TSource>(
-        promisesOrGenerator: Array<Promise<TSource>> | (() => Promise<TSource[]>) | (() => Array<Promise<TSource>>)) {
-        if (Array.isArray(promisesOrGenerator)) {
-            if (promisesOrGenerator.length === 0) {
-                throw new InvalidOperationException(ErrorString.NoElements)
-            }
-
-            return new BasicParallelEnumerable(() => promisesOrGenerator)
-        } else {
-            return new BasicParallelEnumerable(promisesOrGenerator as any)
-        }
+        type: "ArrayOfPromises",
+        generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>
+    public static from<TSource>(
+        type: "PromiseToArray",
+        generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>
+    public static from<TSource>(
+        type: "PromiseOfPromises",
+        generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>
+    public static from<TSource>(
+        type: string,
+        generator: () => any) {
+        return new BasicParallelEnumerable<TSource>({
+            type,
+            data: generator,
+        } as any)
     }
 
     public static groupBy<TSource>(
@@ -1054,7 +1435,7 @@ export class ParallelEnumerable {
         keySelector: ((x: TSource) => string) | ((x: TSource) => number)):
             IParallelEnumerable<IGrouping<string | number, TSource>> {
 
-        const generator = async () => {
+        const data = async () => {
             const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
             for (const value of await source.toArray()) {
 
@@ -1077,7 +1458,10 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     private static groupBy_0<TSource, TKey>(
@@ -1085,7 +1469,7 @@ export class ParallelEnumerable {
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>> {
 
-        const generator = async () => {
+        const data = async () => {
 
             const keyMap = new Array<Grouping<TKey, TSource>>()
 
@@ -1115,7 +1499,10 @@ export class ParallelEnumerable {
             return results as Array<IGrouping<TKey, TSource>>
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static groupByWithSel<TSource, TElement>(
@@ -1152,7 +1539,7 @@ export class ParallelEnumerable {
         elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string | number, TElement>> {
 
         // generate(): AsyncIterableIterator<IGrouping<string | number, TElement>>
-        const generator = async () => {
+        const data = async () => {
             const keyMap: { [key: string]: Grouping<string | number, TElement> } = {}
             for (const value of await source.toArray()) {
 
@@ -1176,7 +1563,10 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     private static groupBy_1<TSource, TKey, TElement>(
@@ -1185,7 +1575,7 @@ export class ParallelEnumerable {
         elementSelector: (x: TSource) => TElement,
         comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>> {
 
-        const generator = async () => {
+        const data = async () => {
             const keyMap = new Array<Grouping<TKey, TElement>>()
             for await (const value of source) {
                 const key = keySelector(value)
@@ -1214,7 +1604,10 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static join<TOuter, TInner, TKey, TResult>(
@@ -1237,7 +1630,7 @@ export class ParallelEnumerable {
         innerKeySelector: (x: TInner) => TKey,
         resultSelector: (x: TOuter, y: TInner) => TResult,
         comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IParallelEnumerable<TResult> {
-        const generator = async () => {
+        const data = async () => {
             const innerOuter = await Promise.all([inner.toArray(), outer.toArray()])
             const innerArray = innerOuter[0]
             const outerArray = innerOuter[1]
@@ -1256,7 +1649,10 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static intersect<TSource>(
@@ -1264,7 +1660,7 @@ export class ParallelEnumerable {
         second: IAsyncParallel<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
 
-        const generator = async () => {
+        const data = async () => {
 
             const firstResults = await first.distinct(comparer).toArray()
 
@@ -1290,20 +1686,26 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static skip<TSource>(source: IAsyncParallel<TSource>, count: number): IParallelEnumerable<TSource> {
-        const generator = async () => {
+        const data = async () => {
             return (await source.toArray()).slice(count)
         }
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static skipWhile<TSource>(
         source: IAsyncParallel<TSource>,
         predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
-        const generator = async () => {
+        const data = async () => {
             const values = await source.toArray()
             let i = 0
             for (; i < values.length; i++) {
@@ -1320,7 +1722,10 @@ export class ParallelEnumerable {
             return returnedValues
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static ofType<TSource, TResult>(
@@ -1331,10 +1736,13 @@ export class ParallelEnumerable {
             ((x) => typeof x === type) :
             ((x) => x instanceof (type as any))
 
-        const generator = async () =>
+        const data = async () =>
             (await source.toArray()).filter(typeCheck)
 
-        return new BasicParallelEnumerable(generator) as any
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data: data as any,
+        })
     }
 
     public static orderBy<TSource>(
@@ -1401,7 +1809,7 @@ export class ParallelEnumerable {
     }
 
     public static range(start: number, count: number): IParallelEnumerable<number> {
-        const generator = () => {
+        const data = async () => {
             const items = new Array<Promise<number>>(count)
             const max = start + count
             for (let i = start, j = 0; i < max; i++, j++) {
@@ -1410,7 +1818,10 @@ export class ParallelEnumerable {
             return items
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable<number>({
+            type: "PromiseOfPromises",
+            data,
+        })
     }
 
     public static repeat<T>(
@@ -1423,19 +1834,22 @@ export class ParallelEnumerable {
     }
 
     private static repeat_1<T>(element: T, count: number): IParallelEnumerable<T> {
-        const generator = () => {
-            const values = new Array<Promise<T>>(count)
+        const data = async () => {
+            const values = new Array<T>(count)
             for (let i = 0; i < count; i++) {
-                values[i] = new Promise((resolve) => resolve(element))
+                values[i] = element
             }
             return values
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     private static repeat_2<T>(element: T, count: number, delay: number): IParallelEnumerable<T> {
-        const generator = () => {
+        const data = async () => {
             const values = new Array<Promise<T>>(count)
             for (let i = 0; i < count; i++) {
                 values[i] = new Promise<T>((resolve) => setTimeout(() => resolve(element), delay))
@@ -1443,17 +1857,23 @@ export class ParallelEnumerable {
             return values
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable<T>({
+            type: "PromiseOfPromises",
+            data,
+        })
     }
 
     public static reverse<TSource>(
         source: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
-        const generator = async () => {
+        const data = async () => {
             const values = await source.toArray()
             return values.reverse()
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static async sequenceEquals<TSource>(
@@ -1519,20 +1939,23 @@ export class ParallelEnumerable {
     public static take<TSource>(
         source: IAsyncParallel<TSource>,
         amount: number): IParallelEnumerable<TSource> {
-        const generator = async () => {
+        const data = async () => {
             // negative amounts should yield empty
             const amountLeft = amount > 0 ? amount : 0
             const values = await source.toArray()
             return values.splice(0, amountLeft)
         }
 
-        return new BasicParallelEnumerable<TSource>(generator)
+        return new BasicParallelEnumerable<TSource>({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static takeWhile<TSource>(
         source: IAsyncParallel<TSource>,
         predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
-        const generator = async () => {
+        const data = async () => {
             const values = await source.toArray()
             const results = new Array<TSource>()
             if (predicate.length === 1) {
@@ -1556,7 +1979,10 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable<TSource>(generator)
+        return new BasicParallelEnumerable<TSource>({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static thenBy<TSource>(
@@ -1712,7 +2138,7 @@ export class ParallelEnumerable {
         first: IAsyncParallel<TSource>,
         second: IAsyncParallel<TSource>) {
 
-        async function iterator() {
+        async function data() {
 
             const set = new Set<TSource>()
             const secondPromise = second.toArray()
@@ -1733,7 +2159,10 @@ export class ParallelEnumerable {
             return [... set.keys()]
         }
 
-        return new BasicParallelEnumerable<TSource>(iterator)
+        return new BasicParallelEnumerable<TSource>({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     private static union_2<TSource>(
@@ -1741,7 +2170,7 @@ export class ParallelEnumerable {
         second: IAsyncParallel<TSource>,
         comparer: IEqualityComparer<TSource>) {
 
-        const generator = async () => {
+        const data = async () => {
             const result: TSource[] = []
             const values = await Promise.all([ first.toArray(), second.toArray() ])
             for (const source of values) {
@@ -1764,7 +2193,37 @@ export class ParallelEnumerable {
             return result
         }
 
-        return new BasicParallelEnumerable(generator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
+    }
+
+    public static whereAsync<T>(
+        source: IAsyncParallel<T>,
+        predicate: (x: T, index: number) => Promise<boolean>) {
+        const data = async () => {
+            const values = await source.toArray()
+            const valuesAsync = values.map(async (x, i) => {
+                const keep = await predicate(x, i)
+                return {
+                    keep,
+                    x,
+                }
+            })
+            const filteredValues = []
+            for (const value of await Promise.all(valuesAsync)) {
+                if (value.keep) {
+                    filteredValues.push(value.x)
+                }
+            }
+            return filteredValues
+        }
+
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     public static zip<T, Y>(
@@ -1788,7 +2247,7 @@ export class ParallelEnumerable {
     private static zip_1<T, Y>(
         source: IAsyncParallel<T>,
         second: IAsyncParallel<Y>): IParallelEnumerable<ITuple<T, Y>> {
-        async function iterator() {
+        async function data() {
             const items = await Promise.all([source.toArray(), second.toArray()])
             const max = items[0].length > items[1].length ? items[0].length : items[1].length
             const results = new Array<ITuple<T, Y>>(max)
@@ -1799,14 +2258,17 @@ export class ParallelEnumerable {
             }
             return results
         }
-        return new BasicParallelEnumerable(iterator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     private static zip_2<T, Y, OUT>(
         source: IAsyncParallel<T>,
         second: IAsyncParallel<Y>,
         resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> {
-        async function iterator() {
+        async function data() {
             const items = await Promise.all([source.toArray(), second.toArray()])
             const max = items[0].length > items[1].length ? items[0].length : items[1].length
             const results = new Array<OUT>(max)
@@ -1818,7 +2280,10 @@ export class ParallelEnumerable {
             return results
         }
 
-        return new BasicParallelEnumerable(iterator)
+        return new BasicParallelEnumerable({
+            type: "PromiseToArray",
+            data,
+        })
     }
 
     //#endregion

@@ -28,7 +28,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     }
 
     public asParallel(): IAsyncParallel<TSource> {
-        return ParallelEnumerable.from(() => this.toArray())
+        return ParallelEnumerable.from("PromiseToArray", () => this.toArray())
     }
 
     public aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>
@@ -274,6 +274,10 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public where(
         predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IAsyncEnumerable<TSource> {
         return AsyncEnumerable.where(this, predicate)
+    }
+
+    public whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.whereAsync(this, predicate)
     }
 
     public zip<TSecond, TResult>(
@@ -2014,6 +2018,51 @@ export class AsyncEnumerable {
             let i = 0
             for await (const item of source) {
                 if (predicate(item, i++) === true) {
+                    yield item
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable<T>(iterator)
+    }
+
+    public static whereAsync<TSource>(
+        source: AsyncIterable<TSource>,
+        predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>
+    public static whereAsync<TSource>(
+        source: AsyncIterable<TSource>,
+        predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
+    public static whereAsync<TSource>(
+        source: AsyncIterable<TSource>,
+        predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+        if (predicate.length === 1) {
+            return AsyncEnumerable.whereAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
+        } else {
+            return AsyncEnumerable.whereAsync_2(source, predicate)
+        }
+    }
+
+    private static whereAsync_1<T>(
+        source: AsyncIterable<T>,
+        predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> {
+        async function* iterator() {
+            for await (const item of source) {
+                if (await predicate(item) === true) {
+                    yield item
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable<T>(iterator)
+    }
+
+    private static whereAsync_2<T>(
+        source: AsyncIterable<T>,
+        predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        async function* iterator() {
+            let i = 0
+            for await (const item of source) {
+                if (await predicate(item, i++) === true) {
                     yield item
                 }
             }

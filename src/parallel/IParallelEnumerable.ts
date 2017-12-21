@@ -61,6 +61,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     union(second: IAsyncParallel<TSource>,
           comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>,
+    whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>
     zip<TSecond, TResult>(
         second: IAsyncParallel<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>,

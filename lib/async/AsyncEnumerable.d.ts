@@ -72,6 +72,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     union(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
+    whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     zip<TSecond, TResult>(second: AsyncIterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>;
     zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>;
     [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
@@ -214,6 +215,10 @@ export declare class AsyncEnumerable {
     static where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     private static where_1<T>(source, predicate);
     private static where_2<T>(source, predicate);
+    static whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>;
+    static whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
+    private static whereAsync_1<T>(source, predicate);
+    private static whereAsync_2<T>(source, predicate);
     static zip<T, Y>(source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<ITuple<T, Y>>;
     static zip<T, Y, OUT>(source: AsyncIterable<T>, second: AsyncIterable<Y>, resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);

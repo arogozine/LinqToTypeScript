@@ -71,5 +71,6 @@ import "./tests/ToMap"
 import "./tests/ToSet"
 import "./tests/Union"
 import "./tests/Where"
+import "./tests/WhereAsync"
 import "./tests/Zip"
 // tslint:enable:ordered-imports

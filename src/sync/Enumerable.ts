@@ -1,5 +1,7 @@
 // import "core-js/symbol"
 
+import { IAsyncEnumerable } from "../async/async"
+import { BasicAsyncEnumerable } from "../async/AsyncEnumerable"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -370,6 +372,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.where(this, predicate)
     }
 
+    public whereAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        return Enumerable.whereAsync(this, predicate)
+    }
+
     public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>
     public zip<TSecond, TResult>(
         second: Iterable<TSecond>,
@@ -621,6 +627,10 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
 
     public where(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
         return Enumerable.where(this, predicate)
+    }
+
+    public whereAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        return Enumerable.whereAsync(this, predicate)
     }
 
     public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>
@@ -2417,6 +2427,45 @@ export class Enumerable {
         }
 
         return new BasicEnumerable<T>(iterator)
+    }
+
+    public static whereAsync<T>(
+        source: Iterable<T>,
+        predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        if (predicate.length === 1) {
+            return Enumerable.whereAsync_1(source, predicate as (x: T) => Promise<boolean>)
+        } else {
+            return Enumerable.whereAsync_2(source, predicate)
+        }
+    }
+
+    private static whereAsync_1<T>(
+        source: Iterable<T>,
+        predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> {
+        async function* generator() {
+            for (const item of source) {
+                if (await predicate(item) === true) {
+                    yield item
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable<T>(generator)
+    }
+
+    private static whereAsync_2<T>(
+        source: Iterable<T>,
+        predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        async function* generator() {
+            let i = 0
+            for (const item of source) {
+                if (await predicate(item, i++) === true) {
+                    yield item
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable<T>(generator)
     }
 
     public static zip<T, Y>(

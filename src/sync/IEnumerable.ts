@@ -1,3 +1,4 @@
+import { IAsyncEnumerable } from "../async/async"
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
@@ -87,6 +88,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     toSet(): Set<TSource>,
     union(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
     where(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
+    whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>,
     zip<TSecond, TResult>(
             second: Iterable<TSecond>,

@@ -1,3 +1,4 @@
+import { IAsyncEnumerable } from "../async/async";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
@@ -73,6 +74,7 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     toSet(): Set<T>;
     union(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     where(predicate: (x: T, index: number) => boolean): IEnumerable<T>;
+    whereAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>;
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>;
 }
@@ -150,6 +152,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     toSet(): Set<T>;
     union(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     where(predicate: (x: T, index: number) => boolean): IEnumerable<T>;
+    whereAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>;
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>;
     abstract [Symbol.iterator](): IterableIterator<T>;
@@ -303,6 +306,9 @@ export declare class Enumerable {
     static where<T>(source: Iterable<T>, predicate: (x: T, index: number) => boolean): IEnumerable<T>;
     private static where_1<T>(source, predicate);
     private static where_2<T>(source, predicate);
+    static whereAsync<T>(source: Iterable<T>, predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T>;
+    private static whereAsync_1<T>(source, predicate);
+    private static whereAsync_2<T>(source, predicate);
     static zip<T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<ITuple<T, Y>>;
     static zip<T, Y, OUT>(source: Iterable<T>, second: Iterable<Y>, resultSelector: (x: T, y: Y) => OUT): IEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);

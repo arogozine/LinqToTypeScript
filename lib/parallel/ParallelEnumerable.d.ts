@@ -1,11 +1,11 @@
 import { IAsyncEnumerable } from "../async/IAsyncEnumerable";
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { DataType } from "./DataType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 import { IParallelEnumerable } from "./IParallelEnumerable";
 export declare class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     private readonly dataFunc;
-    constructor(promise: () => Promise<TSource[]>);
-    constructor(dataFunc: () => Array<Promise<TSource>>);
+    constructor(dataFunc: DataType<TSource>);
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
     aggregate<TAccumulate, TResult>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): Promise<TResult>;
@@ -16,6 +16,8 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     count(predicate?: (x: TSource) => boolean): Promise<number>;
+    private count_1();
+    private count_2(predicate);
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     each(action: (x: TSource) => void): IParallelEnumerable<TSource>;
     elementAt(index: number): Promise<TSource>;
@@ -36,7 +38,11 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     intersect(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     joinByKey<TInner, TKey, TResult>(inner: IAsyncParallel<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>;
     last(predicate?: (x: TSource) => boolean): Promise<TSource>;
+    private last_1();
+    private last_2(predicate);
     lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
+    private lastOrDefault_1();
+    private lastOrDefault_2(predicate);
     max(this: IParallelEnumerable<number>): Promise<number>;
     max(selector: (x: TSource) => number): Promise<number>;
     min(this: IParallelEnumerable<number>): Promise<number>;
@@ -57,6 +63,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     reverse(): IParallelEnumerable<TSource>;
     select<OUT>(selector: (x: TSource) => OUT): IParallelEnumerable<OUT>;
     select<TKey extends keyof TSource>(key: TKey): IParallelEnumerable<TSource[TKey]>;
+    selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
     selectMany<OUT>(selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>;
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
@@ -79,8 +86,10 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     toSet(): Promise<Set<TSource>>;
     union(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
+    whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     zip<TSecond, TResult>(second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;
     zip<TSecond>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>;
+    private nextIterationAsync<TOut>(onfulfilled);
     private nextIteration<TOut>(onfulfilled);
     [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
 }
@@ -100,9 +109,9 @@ export declare class ParallelEnumerable {
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: false): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>;
-    static from<TSource>(promises: Array<Promise<TSource>>): IParallelEnumerable<TSource>;
-    static from<TSource>(generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
-    static from<TSource>(generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: "ArrayOfPromises", generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: "PromiseToArray", generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: "PromiseOfPromises", generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
     static groupBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
@@ -156,6 +165,7 @@ export declare class ParallelEnumerable {
     static union<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     private static union_1<TSource>(first, second);
     private static union_2<TSource>(first, second, comparer);
+    static whereAsync<T>(source: IAsyncParallel<T>, predicate: (x: T, index: number) => Promise<boolean>): BasicParallelEnumerable<T>;
     static zip<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<ITuple<T, Y>>;
     static zip<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);
