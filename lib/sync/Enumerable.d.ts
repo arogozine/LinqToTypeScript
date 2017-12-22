@@ -54,8 +54,12 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     reverse(): ArrayEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;
     select<TKey extends keyof T>(this: IEnumerable<{
-        [key: string]: Iterable<T[TKey]>;
+        [key: string]: T[TKey];
     }>, selector: TKey): IEnumerable<T[TKey]>;
+    selectAsync<OUT>(selector: (x: T) => OUT): IAsyncEnumerable<OUT>;
+    selectAsync<TKey extends keyof T, TResult>(this: IEnumerable<{
+        [key: string]: Promise<TResult>;
+    }>, selector: TKey): IAsyncEnumerable<TResult>;
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
@@ -134,6 +138,9 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     select<TKey extends keyof T>(this: IEnumerable<{
         [key: string]: Iterable<T[TKey]>;
     }>, selector: TKey): IEnumerable<T[TKey]>;
+    selectAsync<TKey extends keyof T, TResult>(this: IEnumerable<{
+        [key: string]: Promise<TResult>;
+    }>, key: TKey): IAsyncEnumerable<T[TKey]>;
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
@@ -231,6 +238,12 @@ export declare class Enumerable {
     static select<TSource, TKey extends keyof TSource>(source: Iterable<TSource>, key: TKey): IEnumerable<TSource[TKey]>;
     private static select_1<TSource, TResult>(source, selector);
     private static select_2<TSource, TKey>(source, key);
+    static selectAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>;
+    static selectAsync<TSource extends {
+        [key: string]: Promise<any>;
+    }, TKey extends keyof TSource>(source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>;
+    private static selectAsync_1<TSource, TResult>(source, selector);
+    private static selectAsync_2<TSource, TKey, TResult>(source, key);
     static selectMany<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>;
     static selectMany<TSource extends {
         [key: string]: Iterable<TResult>;

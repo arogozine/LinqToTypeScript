@@ -209,6 +209,14 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.select(this, selector)
     }
 
+    public selectAsync<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>
+    public selectAsync<TKey extends keyof TSource, TResult>(
+        this: IAsyncEnumerable<{ [key: string]: Promise<TResult> }>,
+        selector: TKey): IAsyncEnumerable<TResult>
+    public selectAsync(keyOrSelector: any): IAsyncEnumerable<any> {
+        return AsyncEnumerable.selectAsync(this, keyOrSelector)
+    }
+
     public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
         this: IAsyncEnumerable<TBindedSource>,
         selector: keyof TBindedSource): IAsyncEnumerable<TOut>
@@ -1146,6 +1154,45 @@ export class AsyncEnumerable {
 
     private static select_2<TSource, TKey extends keyof TSource>(
         source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]> {
+        async function* iterator() {
+            for await (const value of source) {
+                yield value[key]
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
+    public static selectAsync<TSource, TResult>(
+        source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>
+    public static selectAsync<TSource extends { [key: string]: Promise<any> }, TKey extends keyof TSource>(
+        source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>
+    public static selectAsync<TSource extends { [key: string]: Promise<TResult> }, TKey extends keyof TSource, TResult>(
+        source: AsyncIterable<TSource>,
+        selector: ((x: TSource) => Promise<TResult>) | TKey): IAsyncEnumerable<any> {
+
+        if (typeof selector === "string") {
+            return AsyncEnumerable.selectAsync_2(source, selector)
+        } else {
+            return AsyncEnumerable.selectAsync_1(source, selector)
+        }
+    }
+
+    private static selectAsync_1<TSource, TResult>(
+        source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult> {
+        async function* iterator() {
+            for await (const value of source) {
+                yield selector(value)
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
+    private static selectAsync_2<
+        TSource extends { [ key: string]: Promise<TResult> },
+        TKey extends keyof TSource, TResult>(
+        source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TResult> {
         async function* iterator() {
             for await (const value of source) {
                 yield value[key]

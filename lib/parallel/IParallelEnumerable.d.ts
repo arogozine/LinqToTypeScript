@@ -28,6 +28,10 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     reverse(): IParallelEnumerable<TSource>;
     select<OUT>(selector: (x: TSource) => OUT): IParallelEnumerable<OUT>;
     select<TKey extends keyof TSource>(key: TKey): IParallelEnumerable<TSource[TKey]>;
+    selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
+    selectAsync<TKey extends keyof TSource, TResult>(this: IParallelEnumerable<{
+        [key: string]: Promise<TResult>;
+    }>, selector: TKey): IParallelEnumerable<TResult>;
     selectMany<OUT>(selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>;
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;

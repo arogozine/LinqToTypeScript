@@ -648,7 +648,18 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         }
     }
 
-    public selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT> {
+    public selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>
+    public selectAsync<TKey extends keyof TSource, TResult>(
+        this: IParallelEnumerable<{ [key: string]: Promise<TResult> }>,
+        selector: TKey): IParallelEnumerable<TResult>
+    public selectAsync<OUT>(keyOrSelector: string | ((x: TSource) => Promise<OUT>)): IParallelEnumerable<OUT> {
+        let selector: (x: TSource) => Promise<OUT>
+        if (typeof keyOrSelector === "string") {
+            selector = (x: TSource) => (x[keyOrSelector as keyof TSource]) as any
+        } else {
+            selector = keyOrSelector
+        }
+
         const generator = this.nextIterationAsync(selector)
         return new BasicParallelEnumerable(generator)
     }

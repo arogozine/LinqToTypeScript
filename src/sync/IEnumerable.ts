@@ -69,6 +69,10 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     reverse(): IEnumerable<TSource>,
     select<OUT>(selector: (x: TSource) => OUT): IEnumerable<OUT>
     select<TKey extends keyof TSource>(key: TKey): IEnumerable<TSource[TKey]>,
+    selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IAsyncEnumerable<OUT>
+    selectAsync<TKey extends keyof TSource, TResult>(
+                this: IEnumerable<{ [key: string]: Promise<TResult> }>,
+                key: TKey): IAsyncEnumerable<TSource[TKey]>,
     selectMany<OUT>(selector: (x: TSource) => Iterable<OUT>): IEnumerable<OUT>,
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
             this: IEnumerable<TBindedSource>,

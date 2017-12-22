@@ -12,7 +12,7 @@ describe("WhereAsync", () => {
         expect(promise instanceof Promise).toBe(true)
     })
 
-    itAsync("Basic 2", async () => {
+    itAsync("From Enumerable", async () => {
         const values = Enumerable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
             setTimeout(() => e(true), 100)
@@ -20,5 +20,27 @@ describe("WhereAsync", () => {
 
         const asyncValues = await trueFilter.toArray()
         expect(values.toArray()).toEqual(asyncValues)
+    })
+
+    itAsync("From Async", async () => {
+        const values = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+        const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
+            setTimeout(() => e(true), 100)
+        }))
+
+        const asyncValues = await trueFilter.toArray()
+        expect(await values.toArray()).toEqual(asyncValues)
+    })
+
+    itAsync("From Parallel", async () => {
+        const values = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+        const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
+            setTimeout(() => e(true), 100)
+        }))
+
+        const asyncValues = await trueFilter.toArray()
+        expect(await values.toArray()).toEqual(asyncValues)
     })
 })

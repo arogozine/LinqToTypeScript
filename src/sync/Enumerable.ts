@@ -304,10 +304,18 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
 
     public select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>
     public select<TKey extends keyof T>(
-        this: IEnumerable<{ [key: string]: Iterable<T[TKey]>}>,
+        this: IEnumerable<{ [key: string]: T[TKey]}>,
         selector: TKey): IEnumerable<T[TKey]>
     public select(keyOrSelector: any): IEnumerable<any> {
         return Enumerable.select(this, keyOrSelector)
+    }
+
+    public selectAsync<OUT>(selector: (x: T) => OUT): IAsyncEnumerable<OUT>
+    public selectAsync<TKey extends keyof T, TResult>(
+        this: IEnumerable<{ [key: string]: Promise<TResult> }>,
+        selector: TKey): IAsyncEnumerable<TResult>
+    public selectAsync(keyOrSelector: any): IAsyncEnumerable<any> {
+        return Enumerable.selectAsync(this, keyOrSelector)
     }
 
     public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
@@ -565,6 +573,13 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         selector: TKey): IEnumerable<T[TKey]>
     public select(keyOrSelector: any): IEnumerable<any> {
         return Enumerable.select(this, keyOrSelector)
+    }
+
+    public selectAsync<TKey extends keyof T, TResult>(
+        this: IEnumerable<{ [key: string]: Promise<TResult> }>,
+        key: TKey): IAsyncEnumerable<T[TKey]>
+    public selectAsync<OUT>(selector: (x: T) => Promise<OUT>): IAsyncEnumerable<OUT> {
+        return Enumerable.selectAsync(this, selector)
     }
 
     public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
@@ -1601,6 +1616,45 @@ export class Enumerable {
         }
 
         return new BasicEnumerable(iterator)
+    }
+
+    public static selectAsync<TSource, TResult>(
+        source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>
+    public static selectAsync<TSource extends { [key: string]: Promise<any> }, TKey extends keyof TSource>(
+        source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>
+    public static selectAsync<TSource extends { [key: string]: Promise<TResult> }, TKey extends keyof TSource, TResult>(
+        source: Iterable<TSource>,
+        selector: ((x: TSource) => Promise<TResult>) | TKey): IAsyncEnumerable<any> {
+
+        if (typeof selector === "string") {
+            return Enumerable.selectAsync_2(source, selector)
+        } else {
+            return Enumerable.selectAsync_1(source, selector)
+        }
+    }
+
+    private static selectAsync_1<TSource, TResult>(
+        source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult> {
+        async function* iterator() {
+            for (const value of source) {
+                yield selector(value)
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
+    private static selectAsync_2<
+        TSource extends { [ key: string]: Promise<TResult> },
+        TKey extends keyof TSource, TResult>(
+        source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TResult> {
+        async function* iterator() {
+            for (const value of source) {
+                yield value[key]
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
     }
 
     public static selectMany<TSource, TResult>(
