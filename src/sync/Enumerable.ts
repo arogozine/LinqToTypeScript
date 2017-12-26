@@ -38,14 +38,26 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return super.every(predicate)
     }
 
+    public allAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
+        return Enumerable.allAsync(this, predicate)
+    }
+
     public any(predicate?: (x: T) => boolean): boolean {
         return this.some(predicate || (() => true))
+    }
+
+    public anyAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
+        return Enumerable.anyAsync(this, predicate)
     }
 
     public average(this: IEnumerable<number>): number
     public average(selector: (x: T) => number): number
     public average(selector?: (x: T) => number): number {
         return Enumerable.average(this, selector as any)
+    }
+
+    public averageAsync(selector: (x: T) => Promise<number>): Promise<number> {
+        return Enumerable.averageAsync(this, selector)
     }
 
     public concat(items: IEnumerable<T>): IEnumerable<T>
@@ -97,6 +109,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
+    public countAsync(predicate: (x: T) => Promise<boolean>): Promise<number> {
+        return Enumerable.countAsync(this, predicate)
+    }
+
     public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
         return Enumerable.distinct(this, comparer)
     }
@@ -134,6 +150,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
+    public firstAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
+        return Enumerable.firstAsync(this, predicate)
+    }
+
     public firstOrDefault(): T | null
     public firstOrDefault(predicate: (x: T) => boolean): T | null
     public firstOrDefault(predicate?: (x: T) => boolean): T | null {
@@ -149,8 +169,16 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
+    public firstOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+        return Enumerable.firstOrDefaultAsync(this, predicate)
+    }
+
     public each(action: (x: T) => void): IEnumerable<T> {
         return Enumerable.each(this, action)
+    }
+
+    public eachAsync(action: (x: T) => Promise<void>): IAsyncEnumerable<T> {
+        return Enumerable.eachAsync(this, action)
     }
 
     public groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>
@@ -213,6 +241,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
+    public lastAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
+        return Enumerable.lastAsync(this, predicate)
+    }
+
     public lastOrDefault(predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             for (let i = this.length - 1; i >= 0; i--) {
@@ -226,6 +258,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         } else {
             return this.length === 0 ? null : this[this.length - 1]
         }
+    }
+
+    public lastOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+        return Enumerable.lastOrDefaultAsync(this, predicate)
     }
 
     public max(this: IEnumerable<number>): number | never
@@ -248,6 +284,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
     }
 
+    public maxAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
+        return Enumerable.maxAsync(this, selector)
+    }
+
     public min(this: IEnumerable<number>): number | never
     public min(selector: (x: T) => number): number | never
     public min(selector?: (x: T) => number): number | never {
@@ -266,6 +306,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         } else {
             return Math.min.apply(null, this as ArrayEnumerable<any>)
         }
+    }
+
+    public minAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
+        return Enumerable.minAsync(this, selector)
     }
 
     // tslint:disable:ban-types
@@ -334,8 +378,16 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.single(this, predicate)
     }
 
+    public singleAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
+        return Enumerable.singleAsync(this, predicate)
+    }
+
     public singleOrDefault(predicate?: (x: T) => boolean): T | null {
         return Enumerable.singleOrDefault(this, predicate)
+    }
+
+    public singleOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+        return Enumerable.singleOrDefaultAsync(this, predicate)
     }
 
     public skip(count: number): IEnumerable<T> {
@@ -346,10 +398,18 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.skipWhile(this, predicate)
     }
 
+    public skipWhileAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        return Enumerable.skipWhileAsync(this, predicate)
+    }
+
     public sum(this: IEnumerable<number>): number
-    public sum(this: IEnumerable<T>, selector: (x: T) => number): number
+    public sum(selector: (x: T) => number): number
     public sum(selector?: (x: T) => number): number {
         return Enumerable.sum(this, selector as any)
+    }
+
+    public sumAsync(selector: (x: T) => Promise<number>): Promise<number> {
+        return Enumerable.sumAsync(this, selector)
     }
 
     public take(amount: number): IEnumerable<T> {
@@ -360,12 +420,20 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.takeWhile(this, predicate)
     }
 
+    public takeWhileAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        return Enumerable.takeWhileAsync(this, predicate)
+    }
+
     public toArray(): T[] {
         return Enumerable.toArray(this)
     }
 
     public toMap<TKey>(selector: (x: T) => TKey): Map<TKey, T[]> {
         return Enumerable.toMap(this, selector)
+    }
+
+    public toMapAsync<TKey>(selector: (x: T) => Promise<TKey>): Promise<Map<TKey, T[]>> {
+        return Enumerable.toMapAsync(this, selector)
     }
 
     public toSet(): Set<T> {
@@ -419,14 +487,26 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.all(this, predicate)
     }
 
+    public allAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
+        return Enumerable.allAsync(this, predicate)
+    }
+
     public any(predicate?: (x: T) => boolean): boolean {
         return Enumerable.any(this, predicate)
+    }
+
+    public anyAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
+        return Enumerable.anyAsync(this, predicate)
     }
 
     public average(this: IEnumerable<number>): number
     public average(selector: (x: T) => number): number
     public average(selector?: (x: T) => number): number {
         return Enumerable.average(this, selector as any)
+    }
+
+    public averageAsync(selector: (x: T) => Promise<number>): Promise<number> {
+        return Enumerable.averageAsync(this, selector)
     }
 
     public concat(second: IEnumerable<T>): IEnumerable<T> {
@@ -441,6 +521,10 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
 
     public count(predicate?: (x: T) => boolean): number {
         return Enumerable.count(this, predicate as any)
+    }
+
+    public countAsync(predicate: (x: T) => Promise<boolean>): Promise<number> {
+        return Enumerable.countAsync(this, predicate as any)
     }
 
     public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
@@ -463,12 +547,24 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.first(this, predicate as any)
     }
 
+    public firstAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
+        return Enumerable.firstAsync(this, predicate)
+    }
+
     public firstOrDefault(predicate?: (x: T) => boolean): T | null {
         return Enumerable.firstOrDefault(this, predicate as any)
     }
 
+    public firstOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+        return Enumerable.firstOrDefaultAsync(this, predicate)
+    }
+
     public each(action: (x: T) => void): IEnumerable<T> {
         return Enumerable.each(this, action)
+    }
+
+    public eachAsync(action: (x: T) => Promise<void>): IAsyncEnumerable<T> {
+        return Enumerable.eachAsync(this, action)
     }
 
     public groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>
@@ -518,8 +614,16 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.last(this, predicate)
     }
 
+    public lastAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
+        return Enumerable.lastAsync(this, predicate)
+    }
+
     public lastOrDefault(predicate?: (x: T) => boolean): T | null {
         return Enumerable.lastOrDefault(this, predicate)
+    }
+
+    public lastOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+        return Enumerable.lastOrDefaultAsync(this, predicate)
     }
 
     public max(this: IEnumerable<number>): number | never
@@ -528,10 +632,18 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.max(this, selector as any)
     }
 
+    public maxAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
+        return Enumerable.maxAsync(this, selector)
+    }
+
     public min(this: IEnumerable<number>): number | never
     public min(selector: (x: T) => number): number | never
     public min(selector?: (x: T) => number): number | never {
         return Enumerable.min(this, selector as any)
+    }
+
+    public minAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
+        return Enumerable.minAsync(this, selector)
     }
 
     // tslint:disable:ban-types
@@ -598,8 +710,16 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.single(this, predicate)
     }
 
+    public singleAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
+        return Enumerable.singleAsync(this, predicate)
+    }
+
     public singleOrDefault(predicate?: (x: T) => boolean): T | null {
         return Enumerable.singleOrDefault(this, predicate)
+    }
+
+    public singleOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+        return Enumerable.singleOrDefaultAsync(this, predicate)
     }
 
     public skip(count: number): IEnumerable<T> {
@@ -610,10 +730,18 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.skipWhile(this, predicate)
     }
 
+    public skipWhileAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        return Enumerable.skipWhileAsync(this, predicate)
+    }
+
     public sum(this: IEnumerable<number>): number
-    public sum(this: IEnumerable<T>, selector: (x: T) => number): number
+    public sum(selector: (x: T) => number): number
     public sum(selector?: (x: T) => number): number {
         return Enumerable.sum(this, selector as any)
+    }
+
+    public sumAsync(selector: (x: T) => Promise<number>): Promise<number> {
+        return Enumerable.sumAsync(this, selector)
     }
 
     public take(amount: number): IEnumerable<T> {
@@ -624,12 +752,20 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.takeWhile(this, predicate)
     }
 
+    public takeWhileAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        return Enumerable.takeWhileAsync(this, predicate)
+    }
+
     public toArray(): T[] {
         return Enumerable.toArray(this)
     }
 
     public toMap<TKey>(selector: (x: T) => TKey): Map<TKey, T[]> {
         return Enumerable.toMap(this, selector)
+    }
+
+    public toMapAsync<TKey>(selector: (x: T) => Promise<TKey>): Promise<Map<TKey, T[]>> {
+        return Enumerable.toMapAsync(this, selector)
     }
 
     public toSet(): Set<T> {
@@ -866,6 +1002,17 @@ export class Enumerable {
         return true
     }
 
+    public static async allAsync<TSource>(
+        source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
+        for (const item of source) {
+            if (await predicate(item) === false) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     public static any<TSource>(
         source: Iterable<TSource>,
         predicate?: (x: TSource) => boolean): boolean {
@@ -887,6 +1034,17 @@ export class Enumerable {
     private static any_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): boolean {
         for (const item of source) {
             if (predicate(item) === true) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    public static async anyAsync<TSource>(
+        source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
+        for (const item of source) {
+            if (await predicate(item) === true) {
                 return true
             }
         }
@@ -926,6 +1084,22 @@ export class Enumerable {
         let count: number | undefined
         for (const item of source) {
             value = (value || 0) + func(item)
+            count = (count || 0) + 1
+        }
+
+        if (value === undefined) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+
+        return value / (count as number)
+    }
+
+    public static async averageAsync<TSource>(
+        source: Iterable<TSource>, func: (x: TSource) => Promise<number>): Promise<number> {
+        let value: number | undefined
+        let count: number | undefined
+        for (const item of source) {
+            value = (value || 0) + await func(item)
             count = (count || 0) + 1
         }
 
@@ -989,6 +1163,17 @@ export class Enumerable {
         return count
     }
 
+    public static async countAsync<T>(
+        source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<number> {
+        let count = 0
+        for (const value of source) {
+            if (await predicate(value) === true) {
+                count++
+            }
+        }
+        return count
+    }
+
     public static distinct<TSource>(
         source: Iterable<TSource>,
         comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
@@ -1018,6 +1203,18 @@ export class Enumerable {
         }
 
         return new BasicEnumerable(generator)
+    }
+
+    public static eachAsync<TSource>(
+        source: Iterable<TSource>, action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource> {
+        async function *generator() {
+            for (const value of source) {
+                await action(value)
+                yield value
+            }
+        }
+
+        return new BasicAsyncEnumerable(generator)
     }
 
     public static elementAt<TSource>(source: Iterable<TSource>, index: number): TSource {
@@ -1115,6 +1312,17 @@ export class Enumerable {
         throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
+    public static async firstAsync<T>(
+        source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T> {
+        for (const value of source) {
+            if (await predicate(value) === true) {
+                return value
+            }
+        }
+
+        throw new InvalidOperationException(ErrorString.NoMatch)
+    }
+
     public static firstOrDefault<T>(source: Iterable<T>): T | null
     public static firstOrDefault<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null
     public static firstOrDefault<T>(source: Iterable<T>, predicate?: (x: T) => boolean): T | null {
@@ -1133,6 +1341,17 @@ export class Enumerable {
     private static firstOrDefault_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null {
         for (const value of source) {
             if (predicate(value) === true) {
+                return value
+            }
+        }
+
+        return null
+    }
+
+    public static async firstOrDefaultAsync<T>(
+        source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+        for (const value of source) {
+            if (await predicate(value) === true) {
                 return value
             }
         }
@@ -1581,6 +1800,22 @@ export class Enumerable {
         return [fail, pass]
     }
 
+    public static async partitionAsync<TSource>(
+        source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource[][]> {
+        const fail: TSource[] = []
+        const pass: TSource[] = []
+
+        for (const value of source) {
+            if (await predicate(value) === true) {
+                pass.push(value)
+            } else {
+                fail.push(value)
+            }
+        }
+
+        return [fail, pass]
+    }
+
     public static select<TSource, TResult>(
         source: Iterable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>
     public static select<TSource, TKey extends keyof TSource>(
@@ -1751,6 +1986,29 @@ export class Enumerable {
         return singleValue as TSource
     }
 
+    public static async singleAsync<TSource>(
+        source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
+        let hasValue = false
+        let singleValue: TSource | null = null
+
+        for (const value of source) {
+            if (await predicate(value)) {
+                if (hasValue === true) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else {
+                    hasValue = true
+                    singleValue = value
+                }
+            }
+        }
+
+        if (hasValue === false) {
+            throw new InvalidOperationException(ErrorString.NoMatch)
+        }
+
+        return singleValue as TSource
+    }
+
     public static singleOrDefault<TSource>(
         source: Iterable<TSource>,
         predicate?: (x: TSource) => boolean): TSource | null {
@@ -1787,6 +2045,27 @@ export class Enumerable {
 
         for (const value of source) {
             if (predicate(value)) {
+                if (hasValue === true) {
+                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                } else {
+                    hasValue = true
+                    singleValue = value
+                }
+            }
+        }
+
+        return singleValue
+    }
+
+    public static async singleOrDefaultAsync<TSource>(
+        source: Iterable<TSource>,
+        predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
+
+        let hasValue = false
+        let singleValue: TSource | null = null
+
+        for (const value of source) {
+            if (await predicate(value)) {
                 if (hasValue === true) {
                     throw new InvalidOperationException(ErrorString.MoreThanOneElement)
                 } else {
@@ -1853,6 +2132,60 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
+    public static skipWhileAsync<TSource>(
+        source: Iterable<TSource>,
+        predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+
+        if (predicate.length === 1) {
+            return Enumerable.skipWhileAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
+        } else {
+            return Enumerable.skipWhileAsync_2(source, predicate)
+        }
+    }
+
+    private static skipWhileAsync_1<TSource>(
+        source: Iterable<TSource>,
+        predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource> {
+
+        async function* iterator() {
+            let skip = true
+            for (const item of source) {
+
+                if (skip === false) {
+                    yield item
+                } else if (await predicate(item) === false) {
+                    skip = false
+                    yield item
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
+    private static skipWhileAsync_2<TSource>(
+        source: Iterable<TSource>,
+        predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+
+        async function* iterator() {
+            let index = 0
+            let skip = true
+            for (const item of source) {
+
+                if (skip === false) {
+                    yield item
+                } else if (await predicate(item, index) === false) {
+                    skip = false
+                    yield item
+                }
+
+                index++
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
     public static skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
 
         function* iterator() {
@@ -1914,6 +2247,23 @@ export class Enumerable {
         return last
     }
 
+    public static async lastAsync<TSource>(
+        source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
+        let last: TSource | undefined
+
+        for (const value of source) {
+            if (await predicate(value) === true) {
+                last = value
+            }
+        }
+
+        if (!last) {
+            throw new InvalidOperationException(ErrorString.NoMatch)
+        }
+
+        return last
+    }
+
     public static lastOrDefault<TSource>(
         source: Iterable<TSource>,
         predicate?: (x: TSource) => boolean): TSource | null {
@@ -1943,6 +2293,21 @@ export class Enumerable {
 
         for (const value of source) {
             if (predicate(value) === true) {
+                last = value
+            }
+        }
+
+        return last
+    }
+
+    public static async lastOrDefaultAsync<TSource>(
+        source: Iterable<TSource>,
+        predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
+
+        let last: TSource | null = null
+
+        for (const value of source) {
+            if (await predicate(value) === true) {
                 last = value
             }
         }
@@ -1988,6 +2353,20 @@ export class Enumerable {
         }
     }
 
+    public static async maxAsync<TSource>(
+        source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
+        let max: number | null = null
+        for (const item of source) {
+            max = Math.max(max || Number.MIN_VALUE, await selector(item))
+        }
+
+        if (max === null) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        } else {
+            return max
+        }
+    }
+
     public static min(source: Iterable<number>): number
     public static min<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
     public static min(source: Iterable<number>, selector?: (x: number) => number): number {
@@ -2015,6 +2394,20 @@ export class Enumerable {
         let min: number | null = null
         for (const item of source) {
             min = Math.min(min || Number.MAX_VALUE, selector(item))
+        }
+
+        if (min === null) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        } else {
+            return min
+        }
+    }
+
+    public static async minAsync<TSource>(
+        source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
+        let min: number | null = null
+        for (const item of source) {
+            min = Math.min(min || Number.MAX_VALUE, await selector(item))
         }
 
         if (min === null) {
@@ -2062,6 +2455,30 @@ export class Enumerable {
             return map
         }
     }
+
+    /*
+    private static orderByInnerAsync<TSource>(
+        source: IEnumerable<TSource>,
+        keySelector: (x: TSource) => Promise<number | string>): () => Promise<Map<number | string, TSource[]>> {
+        const func = async function lazyMap() {
+            const map = new Map<number | string, TSource[]>()
+            for (const item of source) {
+                const key = await keySelector(item)
+                const currentMapping = map.get(key)
+
+                if (currentMapping) {
+                    currentMapping.push(item)
+                } else {
+                    map.set(key, [item])
+                }
+            }
+
+            return map
+        }
+
+        return func
+    }
+    */
 
     public static orderBy<TSource>(
         source: IEnumerable<TSource>,
@@ -2190,6 +2607,16 @@ export class Enumerable {
         return sum
     }
 
+    public static async sumAsync<TSource>(
+        source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
+        let sum = 0
+        for (const value of source) {
+            sum += await selector(value)
+        }
+
+        return sum
+    }
+
     public static take<T>(source: Iterable<T>, amount: number): IEnumerable<T> {
 
         function* iterator() {
@@ -2245,6 +2672,50 @@ export class Enumerable {
         }
 
         return new BasicEnumerable<T>(iterator)
+    }
+
+    public static takeWhileAsync<T>(
+        source: Iterable<T>,
+        predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+
+        if (predicate.length === 1) {
+            return Enumerable.takeWhileAsync_1(source, predicate as (x: T) => Promise<boolean>)
+        } else {
+            return Enumerable.takeWhileAsync_2(source, predicate as (x: T, index: number) => Promise<boolean>)
+        }
+    }
+
+    private static takeWhileAsync_1<T>(
+        source: Iterable<T>,
+        predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> {
+        async function* iterator() {
+            for (const item of source) {
+                if (await predicate(item)) {
+                    yield item
+                } else {
+                    break
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable<T>(iterator)
+    }
+
+    private static takeWhileAsync_2<T>(
+        source: Iterable<T>,
+        predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+        async function* iterator() {
+            let index = 0
+            for (const item of source) {
+                if (await predicate(item, index++)) {
+                    yield item
+                } else {
+                    break
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable<T>(iterator)
     }
 
     public static thenBy<TSource>(
@@ -2364,6 +2835,23 @@ export class Enumerable {
         return map
     }
 
+    public static async toMapAsync<K, V>(source: Iterable<V>, selector: (x: V) => Promise<K>): Promise<Map<K, V[]>> {
+        const map = new Map<K, V[]>()
+
+        for (const value of source) {
+            const key = await selector(value)
+            const array = map.get(key)
+
+            if (array === undefined) {
+                map.set(key, [value])
+            } else {
+                array.push(value)
+            }
+        }
+
+        return map
+    }
+
     public static toObject<TSource>(
         source: Iterable<TSource>,
         selector: (x: TSource) => string): {[key: string]: TSource} {
@@ -2372,6 +2860,19 @@ export class Enumerable {
 
         for (const value of source) {
             map[selector(value)] = value
+        }
+
+        return map
+    }
+
+    public static async toObjectAsync<TSource>(
+        source: Iterable<TSource>,
+        selector: (x: TSource) => Promise<string>): Promise<{[key: string]: TSource}> {
+
+        const map: {[key: string]: TSource} = {}
+
+        for (const value of source) {
+            map[await selector(value)] = value
         }
 
         return map
