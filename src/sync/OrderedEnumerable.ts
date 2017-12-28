@@ -1,0 +1,54 @@
+import { IComparer, RecOrdMap } from "../shared/shared"
+import { BasicEnumerable } from "./BasicEnumerable"
+import { Enumerable } from "./Enumerable"
+import { IOrderedEnumerable } from "./IOrderedEnumerable"
+
+export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
+
+    private static *unrollAndSort<T>(
+        map: RecOrdMap<T>,
+        comparer?: IComparer<string | number>): IterableIterator<T> {
+
+        for (const key of [...map.keys()].sort(comparer ? comparer : undefined)) {
+            const values = map.get(key)
+
+            if (values instanceof Map) {
+                yield* OrderedEnumerable.unrollAndSort(values as RecOrdMap<T>, comparer)
+            } else {
+                // Because the key is from the same map
+                // as the values, values cannot be undefined
+                for (const value of values as T[]) {
+                    yield value
+                }
+            }
+        }
+    }
+
+    private static generate<T>(
+        mapFunc: () => RecOrdMap<T>,
+        comparer?: IComparer<number | string>): () => IterableIterator<T> {
+        return () => OrderedEnumerable.unrollAndSort(mapFunc(), comparer)
+    }
+
+    constructor(private readonly map: () => RecOrdMap<T>, comparer?: IComparer<number | string>) {
+        super(OrderedEnumerable.generate(map, comparer))
+    }
+
+    public getMap(): RecOrdMap<T> {
+        return this.map()
+    }
+
+    public thenBy(keySelector: (x: T) => string | number): IOrderedEnumerable<T>
+    public thenBy(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
+    public thenBy(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
+    public thenBy(keySelector: any, comparer?: any) {
+        return Enumerable.thenBy(this, keySelector, comparer)
+    }
+
+    public thenByDescending(keySelector: (x: T) => string | number): IOrderedEnumerable<T>
+    public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
+    public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
+    public thenByDescending(keySelector: any, comparer?: any) {
+        return Enumerable.thenByDescending(this, keySelector, comparer)
+    }
+}

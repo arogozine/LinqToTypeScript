@@ -1,3 +1,6 @@
 export { IEnumerable } from "./IEnumerable"
-export { ArrayEnumerable, BaseEnumerable, Enumerable, Grouping } from "./Enumerable"
+export { Enumerable } from "./Enumerable"
 export { IOrderedEnumerable } from "./IOrderedEnumerable"
+export { ArrayEnumerable } from "./ArrayEnumerable"
+export { Grouping } from "./Grouping"
+export { BaseEnumerable } from "./BaseEnumerable"
