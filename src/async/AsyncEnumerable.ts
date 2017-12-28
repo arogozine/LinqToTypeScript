@@ -23,7 +23,7 @@ import { IAsyncEnumerable } from "./IAsyncEnumerable"
 import { IAsyncGrouping } from "./IAsyncGrouping"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 
-export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
+class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
     constructor(private readonly iterator: () => AsyncIterableIterator<TSource>) {
         //
     }

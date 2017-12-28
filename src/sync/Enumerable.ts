@@ -1,5 +1,5 @@
 import { IAsyncEnumerable } from "../async/async"
-import { BasicAsyncEnumerable } from "../async/AsyncEnumerable"
+import { AsyncEnumerable } from "../async/AsyncEnumerable"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -325,7 +325,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable(generator)
+        return AsyncEnumerable.from(generator)
     }
 
     public static elementAt<TSource>(source: Iterable<TSource>, index: number): TSource {
@@ -987,7 +987,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable(iterator)
+        return AsyncEnumerable.from(iterator)
     }
 
     private static selectAsync_2<
@@ -1000,7 +1000,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable(iterator)
+        return AsyncEnumerable.from(iterator)
     }
 
     public static selectMany<TSource, TResult>(
@@ -1271,7 +1271,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable(iterator)
+        return AsyncEnumerable.from(iterator)
     }
 
     private static skipWhileAsync_2<TSource>(
@@ -1294,7 +1294,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable(iterator)
+        return AsyncEnumerable.from(iterator)
     }
 
     public static skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
@@ -1809,7 +1809,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable<T>(iterator)
+        return AsyncEnumerable.from(iterator)
     }
 
     private static takeWhileAsync_2<T>(
@@ -1826,7 +1826,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable<T>(iterator)
+        return AsyncEnumerable.from(iterator)
     }
 
     public static thenBy<TSource>(
@@ -2116,7 +2116,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable<T>(generator)
+        return AsyncEnumerable.from(generator)
     }
 
     private static whereAsync_2<T>(
@@ -2131,7 +2131,7 @@ export class Enumerable {
             }
         }
 
-        return new BasicAsyncEnumerable<T>(generator)
+        return AsyncEnumerable.from(generator)
     }
 
     public static zip<T, Y>(
