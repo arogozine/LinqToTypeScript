@@ -1,15 +1,7 @@
 import "core-js/modules/es7.symbol.async-iterator";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
-import { IAsyncGrouping } from "./IAsyncGrouping";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
-export declare class AsyncGrouping<TKey, TValue> extends Array<Promise<TValue>> implements IAsyncGrouping<TKey, TValue> {
-    readonly key: TKey;
-    private currentIndex;
-    constructor(key: TKey, startingItem: Promise<TValue>);
-    next(): Promise<IteratorResult<TValue>>;
-    [Symbol.asyncIterator](): AsyncIterableIterator<TValue>;
-}
 export declare class AsyncEnumerable {
     static aggregate<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     static aggregate<TSource, TAccumulate>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;

@@ -1,4 +1,3 @@
-// import 'core-js/shim'
 import "core-js/modules/es7.symbol.async-iterator"
 
 import {
@@ -18,135 +17,9 @@ import {
 import { Grouping } from "../sync/sync"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 import { IAsyncEnumerable } from "./IAsyncEnumerable"
-import { IAsyncGrouping } from "./IAsyncGrouping"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
-
-class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implements IOrderedAsyncEnumerable<T> {
-    private static async *unrollAndSort<T>(
-        mapPromise: Promise<RecOrdMap<T>> | RecOrdMap<T>,
-        comparer?: IComparer<string | number>): AsyncIterableIterator<T> {
-
-        const map = await mapPromise
-
-        for (const key of [...map.keys()].sort(comparer ? comparer : undefined)) {
-            const values = map.get(key)
-
-            if (values instanceof Map) {
-                yield* OrderedAsyncEnumerable.unrollAndSort(values as RecOrdMap<T>, comparer)
-            } else {
-                // Because the key is from the same map
-                // as the values, values cannot be undefined
-                for (const value of values as T[]) {
-                    yield value
-                }
-            }
-        }
-    }
-
-    private static generate<T>(
-        mapFunc: () => Promise<RecOrdMap<T>>,
-        comparer?: IComparer<number | string>): () => AsyncIterableIterator<T> {
-        return () => OrderedAsyncEnumerable.unrollAndSort(mapFunc(), comparer)
-    }
-
-    constructor(private readonly map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
-        super(OrderedAsyncEnumerable.generate(map, comparer))
-    }
-
-    public getMap(): Promise<RecOrdMap<T>> {
-        return this.map()
-    }
-
-    public thenBy(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
-        return AsyncEnumerable.thenBy(this, keySelector, comparer)
-    }
-
-    public thenByDescending(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
-        return AsyncEnumerable.thenByDescending(this, keySelector, comparer)
-    }
-}
-
-class OrderedAsyncEnumerableDescending<T> extends BasicAsyncEnumerable<T> implements IOrderedAsyncEnumerable<T> {
-    private static async *unrollAndSort<T>(
-        mapPromise: Promise<RecOrdMap<T>> | RecOrdMap<T>,
-        comparer?: IComparer<string | number>): AsyncIterableIterator<T> {
-
-        const map = await mapPromise
-
-        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
-
-        for (let i = sortedKeys.length - 1; i >= 0; i--) {
-            const key = sortedKeys[i]
-            const values = map.get(key)
-
-            if (values instanceof Map) {
-                yield* OrderedAsyncEnumerableDescending.unrollAndSort(values as RecOrdMap<T>, comparer)
-            } else {
-                // Because the key is from the same map
-                // as the values, values cannot be undefined
-                for (const value of values as T[]) {
-                    yield value
-                }
-            }
-        }
-    }
-
-    private static generate<T>(
-        mapFunc: () => Promise<RecOrdMap<T>>,
-        comparer?: IComparer<number | string>): () => AsyncIterableIterator<T> {
-        return () => OrderedAsyncEnumerableDescending.unrollAndSort(mapFunc(), comparer)
-    }
-
-    constructor(private readonly map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
-        super(OrderedAsyncEnumerableDescending.generate(map, comparer))
-    }
-
-    public getMap(): Promise<RecOrdMap<T>> {
-        return this.map()
-    }
-
-    public thenBy(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenBy(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
-        return AsyncEnumerable.thenBy(this, keySelector, comparer)
-    }
-
-    public thenByDescending(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public thenByDescending(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
-        return AsyncEnumerable.thenByDescending(this, keySelector, comparer)
-    }
-}
-
-export class AsyncGrouping<TKey, TValue> extends Array<Promise<TValue>> implements IAsyncGrouping<TKey, TValue> {
-    private currentIndex = 0
-    constructor(public readonly key: TKey, startingItem: Promise<TValue>) {
-        super(1)
-        this[0] = startingItem
-    }
-
-    public next(): Promise<IteratorResult<TValue>> {
-        return new Promise<IteratorResult<TValue>>(async (resolve) => {
-            const value = await this[this.currentIndex++]
-            resolve({
-                done: this.currentIndex === this.length,
-                value,
-            })
-        })
-    }
-
-    public [Symbol.asyncIterator](): AsyncIterableIterator<TValue> {
-        return this
-    }
-}
+import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
+import { OrderedAsyncEnumerableDescending } from "./OrderedAsyncEnumerableDescending"
 
 export class AsyncEnumerable {
 
@@ -2237,5 +2110,3 @@ export class AsyncEnumerable {
 
     private constructor() { }
 }
-
-// AsyncIterableIterator
