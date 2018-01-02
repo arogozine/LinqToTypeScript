@@ -1,4 +1,5 @@
 import { IAsyncEnumerable } from "../async/async";
+import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { BasicEnumerable } from "./BasicEnumerable";
 import { IEnumerable } from "./IEnumerable";
@@ -158,6 +159,11 @@ export declare class Enumerable {
     static thenBy<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>;
     static thenBy<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedEnumerable<TSource>;
     static thenBy<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>;
+    static thenByAsync<TSource>(source: IOrderedEnumerable<TSource>, keySelector: ((x: TSource) => Promise<number>) | ((x: TSource) => Promise<string>), comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource>;
+    static thenByDescendingAsync<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>): IOrderedAsyncEnumerable<TSource>;
+    static thenByDescendingAsync<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
+    static thenByDescendingAsync<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>): IOrderedAsyncEnumerable<TSource>;
+    static thenByDescendingAsync<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedEnumerable<TSource>;

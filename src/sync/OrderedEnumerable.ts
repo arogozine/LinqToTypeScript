@@ -1,3 +1,4 @@
+import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { IComparer, RecOrdMap } from "../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Enumerable } from "./Enumerable"
@@ -45,10 +46,27 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         return Enumerable.thenBy(this, keySelector, comparer)
     }
 
+    public thenByAsync(keySelector: (x: T) => Promise<string | number>): IOrderedAsyncEnumerable<T>
+    public thenByAsync(keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
+    public thenByAsync(keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
+    public thenByAsync(keySelector: any, comparer?: any): IOrderedAsyncEnumerable<T> {
+        return Enumerable.thenByAsync(this, keySelector, comparer)
+    }
+
     public thenByDescending(keySelector: (x: T) => string | number): IOrderedEnumerable<T>
     public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
     public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
     public thenByDescending(keySelector: any, comparer?: any) {
         return Enumerable.thenByDescending(this, keySelector, comparer)
+    }
+
+    public thenByDescendingAsync(
+        keySelector: (x: T) => Promise<string | number>): IOrderedAsyncEnumerable<T>
+    public thenByDescendingAsync(
+        keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
+    public thenByDescendingAsync(
+        keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
+    public thenByDescendingAsync(keySelector: any, comparer?: any) {
+        return Enumerable.thenByDescendingAsync(this, keySelector, comparer)
     }
 }

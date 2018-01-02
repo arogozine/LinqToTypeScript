@@ -1,5 +1,10 @@
-import { IAsyncEnumerable } from "../async/async"
+import {
+    IAsyncEnumerable,
+} from "../async/async"
 import { AsyncEnumerable } from "../async/AsyncEnumerable"
+import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
+import { OrderedAsyncEnumerable } from "../async/OrderedAsyncEnumerable"
+import { OrderedAsyncEnumerableDescending } from "../async/OrderedAsyncEnumerableDescending"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -1875,6 +1880,88 @@ export class Enumerable {
         }
 
         return new OrderedEnumerable(() => sortInnerMost(source.getMap()), comparer as any)
+    }
+
+    public static thenByAsync<TSource>(
+        source: IOrderedEnumerable<TSource>,
+        keySelector: ((x: TSource) => Promise<number>) | ((x: TSource) => Promise<string>),
+        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
+
+        async function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): Promise<RecOrdMap<TSource>> {
+
+            if (item instanceof Map) {
+                for (const key of item.keys()) {
+                    item.set(key, await sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
+                }
+
+                return item
+            } else {
+                const map = new Map<number | string, TSource[]>()
+                for (let i = 0; i < item.length; i++) {
+                    const value = item[i]
+                    const key = await keySelector(value)
+
+                    const mapping = map.get(key)
+                    if (mapping) {
+                        mapping.push(value)
+                    } else {
+                        map.set(key, [value])
+                    }
+                }
+
+                return map
+            }
+        }
+
+        return new OrderedAsyncEnumerable(() => sortInnerMost(source.getMap()), comparer as any)
+    }
+
+    public static thenByDescendingAsync<TSource>(
+        source: IOrderedEnumerable<TSource>,
+        keySelector: (x: TSource) => Promise<string>): IOrderedAsyncEnumerable<TSource>
+    public static thenByDescendingAsync<TSource>(
+        source: IOrderedEnumerable<TSource>,
+        keySelector: (x: TSource) => Promise<string>,
+        comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
+    public static thenByDescendingAsync<TSource>(
+        source: IOrderedEnumerable<TSource>,
+        keySelector: (x: TSource) => Promise<number>): IOrderedAsyncEnumerable<TSource>
+    public static thenByDescendingAsync<TSource>(
+        source: IOrderedEnumerable<TSource>,
+        keySelector: (x: TSource) => Promise<number>,
+        comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
+    public static thenByDescendingAsync<TSource>(
+        source: IOrderedEnumerable<TSource>,
+        keySelector: ((x: TSource) => Promise<number>) | ((x: TSource) => Promise<string>),
+        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
+
+        async function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): Promise<RecOrdMap<TSource>> {
+
+            if (item instanceof Map) {
+                for (const key of item.keys()) {
+                    item.set(key, await sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
+                }
+
+                return item
+            } else {
+                const map = new Map<number | string, TSource[]>()
+                for (let i = 0; i < item.length; i++) {
+                    const value = item[i]
+                    const key = await keySelector(value)
+
+                    const mapping = map.get(key)
+                    if (mapping) {
+                        mapping.push(value)
+                    } else {
+                        map.set(key, [value])
+                    }
+                }
+
+                return map
+            }
+        }
+
+        return new OrderedAsyncEnumerableDescending(() => sortInnerMost(source.getMap()), comparer as any)
     }
 
     public static thenByDescending<TSource>(

@@ -10,7 +10,13 @@ export declare class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> i
     thenBy(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>;
     thenBy(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
     thenBy(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
+    thenByAsync(keySelector: (x: T) => Promise<string | number>): IOrderedAsyncEnumerable<T>;
+    thenByAsync(keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
+    thenByAsync(keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
     thenByDescending(keySelector: (x: T) => string | number): IOrderedAsyncEnumerable<T>;
     thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
     thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
+    thenByDescendingAsync(keySelector: (x: T) => Promise<string | number>): IOrderedAsyncEnumerable<T>;
+    thenByDescendingAsync(keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
+    thenByDescendingAsync(keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
 }
