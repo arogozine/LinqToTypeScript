@@ -7,10 +7,22 @@ export interface IOrderedParallelEnumerable<TSource> extends IParallelEnumerable
         (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
         (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>,
     }
+    thenByAsync: {
+        (keySelector: (x: TSource) => Promise<string | number>): IOrderedParallelEnumerable<TSource>
+        (keySelector: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
+        (keySelector: (x: TSource) => Promise<string>,
+         comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>,
+    }
     thenByDescending: {
         (keySelector: (x: TSource) => string | number): IOrderedParallelEnumerable<TSource>
         (keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
         (keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>,
+    }
+    thenByDescendingAsync: {
+        (keySelector: (x: TSource) => Promise<string | number>): IOrderedParallelEnumerable<TSource>
+        (keySelector: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
+        (keySelector: (x: TSource) => Promise<string>,
+         comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>,
     }
     getMap: {
         (): Promise<RecOrdMap<TSource>>,

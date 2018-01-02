@@ -63,10 +63,33 @@ export class OrderedParallelEnumerableDescending<T> extends BasicParallelEnumera
         return ParallelEnumerable.thenBy(this, keySelector, comparer)
     }
 
+    public thenByAsync(
+        keySelector: (x: T) => Promise<string | number>): IOrderedParallelEnumerable<T>
+    public thenByAsync(
+        keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<T>
+    public thenByAsync(
+        keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<T>
+    public thenByAsync(
+        keySelector: any, comparer?: any): IOrderedParallelEnumerable<T> {
+        return ParallelEnumerable.thenByAsync(this, keySelector, comparer)
+    }
+
     public thenByDescending(keySelector: (x: T) => string | number): IOrderedParallelEnumerable<T>
     public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<T>
     public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<T>
     public thenByDescending(keySelector: any, comparer?: any): IOrderedParallelEnumerable<T> {
         return ParallelEnumerable.thenByDescending(this, keySelector, comparer)
     }
+
+    public thenByDescendingAsync(
+        keySelector: (x: T) => Promise<string | number>): IOrderedParallelEnumerable<T>
+    public thenByDescendingAsync(
+        keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<T>
+    public thenByDescendingAsync(
+        keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<T>
+    public thenByDescendingAsync(
+        keySelector: any, comparer?: any): IOrderedParallelEnumerable<T> {
+        return ParallelEnumerable.thenByDescendingAsync(this, keySelector, comparer)
+    }
+
 }

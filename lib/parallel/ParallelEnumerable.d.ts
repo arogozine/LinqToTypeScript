@@ -68,11 +68,19 @@ export declare class ParallelEnumerable {
     static thenBy<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
     static thenBy<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedParallelEnumerable<TSource>;
     static thenBy<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>;
+    static thenByAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>): IOrderedParallelEnumerable<TSource>;
+    static thenByAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
+    static thenByAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>): IOrderedParallelEnumerable<TSource>;
+    static thenByAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedParallelEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedParallelEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>;
     static toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>>;
+    static thenByDescendingAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>): IOrderedParallelEnumerable<TSource>;
+    static thenByDescendingAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
+    static thenByDescendingAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>): IOrderedParallelEnumerable<TSource>;
+    static thenByDescendingAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>;
     static toMapAsync<K, V>(source: AsyncIterable<V>, selector: (x: V) => Promise<K>): Promise<Map<K, V[]>>;
     static toObject<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => string): Promise<{
         [key: string]: TSource;
