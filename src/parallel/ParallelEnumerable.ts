@@ -105,6 +105,30 @@ export class ParallelEnumerable {
         return resultSelector(aggregateValue)
     }
 
+    public static async all<TSource>(
+        source: AsyncIterable<TSource>,
+        predicate: (x: TSource) => boolean): Promise<boolean> {
+        for await (const item of source) {
+            if (predicate(item) === false) {
+                return false
+            }
+        }
+
+        return true
+    }
+
+    public static async allAsync<TSource>(
+        source: AsyncIterable<TSource>,
+        predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
+        for await (const item of source) {
+            if (await predicate(item) === false) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     public static average(
         source: IAsyncParallel<number>): Promise<number>
     public static average<TSource>(
@@ -164,6 +188,53 @@ export class ParallelEnumerable {
         }
 
         return value / (count as number)
+    }
+
+    public static concat<TSource>(
+        first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
+        const generator = async () => {
+            // Wait for both enumerables
+            const promiseResults = await Promise.all([ first.toArray(), second.toArray() ])
+            // Concat
+            const firstData = promiseResults[0]
+            const secondData = promiseResults[1]
+            const data = new Array(firstData.length + secondData.length)
+            let i = 0
+            for (; i < firstData.length; i++) {
+                data[i] = firstData[i]
+            }
+
+            for (let j = 0; j < secondData.length; j++, i++) {
+                data[i] = secondData[j]
+            }
+
+            return data
+        }
+
+        return new BasicParallelEnumerable({
+            type: DataType.PromiseToArray,
+            generator,
+        })
+    }
+
+    public static distinct<TSource>(
+        source: IAsyncParallel<TSource>,
+        comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
+        const generator = async () => {
+            const distinctElements: TSource[] = []
+            for (const item of await source.toArray()) {
+                const foundItem = distinctElements.find((x) => comparer(x, item))
+                if (!foundItem) {
+                    distinctElements.push(item)
+                }
+            }
+            return distinctElements
+        }
+
+        return new BasicParallelEnumerable({
+            type: DataType.PromiseToArray,
+            generator,
+        })
     }
 
     public static except<TSource>(
@@ -1235,6 +1306,25 @@ export class ParallelEnumerable {
             return result
         }
 
+        return new BasicParallelEnumerable({
+            type: DataType.PromiseToArray,
+            generator,
+        })
+    }
+
+    public static where<TSource>(
+        source: IAsyncParallel<TSource>,
+        predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
+    public static where<TSource>(
+        source: IAsyncParallel<TSource>,
+        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+    public static where<TSource>(
+        source: IAsyncParallel<TSource>,
+        predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IParallelEnumerable<TSource> {
+        const generator = async () => {
+            const values = await source.toArray()
+            return values.filter(predicate)
+        }
         return new BasicParallelEnumerable({
             type: DataType.PromiseToArray,
             generator,

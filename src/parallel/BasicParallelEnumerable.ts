@@ -119,29 +119,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
-        const generator = async () => {
-            // Wait for both enumerables
-            const promiseResults = await Promise.all([ this.toArray(), second.toArray() ])
-            // Concat
-            const firstData = promiseResults[0]
-            const secondData = promiseResults[1]
-            const data = new Array(firstData.length + secondData.length)
-            let i = 0
-            for (; i < firstData.length; i++) {
-                data[i] = firstData[i]
-            }
-
-            for (let j = 0; j < secondData.length; j++, i++) {
-                data[i] = secondData[j]
-            }
-
-            return data
-        }
-
-        return new BasicParallelEnumerable({
-            type: DataType.PromiseToArray,
-            generator,
-        })
+        return ParallelEnumerable.concat(this, second)
     }
 
     public async contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean> {
@@ -231,21 +209,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public distinct(comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
-        const generator = async () => {
-            const distinctElements: TSource[] = []
-            for (const item of await this.toArray()) {
-                const foundItem = distinctElements.find((x) => comparer(x, item))
-                if (!foundItem) {
-                    distinctElements.push(item)
-                }
-            }
-            return distinctElements
-        }
-
-        return new BasicParallelEnumerable({
-            type: DataType.PromiseToArray,
-            generator,
-        })
+        return ParallelEnumerable.distinct(this, comparer)
     }
 
     public each(action: (x: TSource) => void): IParallelEnumerable<TSource> {
@@ -1212,14 +1176,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
-        const generator = async () => {
-            const values = await this.toArray()
-            return values.filter(predicate)
-        }
-        return new BasicParallelEnumerable({
-            type: DataType.PromiseToArray,
-            generator,
-        })
+        return ParallelEnumerable.where(this, predicate)
     }
 
     public whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource> {
