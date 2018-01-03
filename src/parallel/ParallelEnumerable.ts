@@ -1,4 +1,3 @@
-import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
     AsTuple,
     EqualityComparer,
@@ -25,8 +24,6 @@ export class ParallelEnumerable {
     private constructor() {
         //
     }
-
-    //#region Static Members
 
     public static aggregate<TSource>(
         source: AsyncIterable<TSource>,
@@ -334,14 +331,14 @@ export class ParallelEnumerable {
 
     public static groupBy<TSource>(
         source: IAsyncParallel<TSource>,
-        keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
+        keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>
     public static groupBy<TSource>(
         source: IAsyncParallel<TSource>,
-        keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>
+        keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>
     public static groupBy<TSource, TKey>(
         source: IAsyncParallel<TSource>,
         keySelector: (x: TSource) => TKey,
-        comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
+        comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
     public static groupBy<TSource, TKey>(
         source: IAsyncParallel<TSource>,
         keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
@@ -1314,10 +1311,10 @@ export class ParallelEnumerable {
 
     public static where<TSource>(
         source: IAsyncParallel<TSource>,
-        predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>
+        predicate: (x: TSource) => boolean): IParallelEnumerable<TSource>
     public static where<TSource>(
         source: IAsyncParallel<TSource>,
-        predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+        predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>
     public static where<TSource>(
         source: IAsyncParallel<TSource>,
         predicate: ((x: TSource) => boolean) | ((x: TSource, index: number) => boolean)): IParallelEnumerable<TSource> {
@@ -1418,5 +1415,4 @@ export class ParallelEnumerable {
         })
     }
 
-    //#endregion
 }

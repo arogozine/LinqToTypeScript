@@ -3,7 +3,7 @@ import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, 
 import { IParallelEnumerable } from "./IParallelEnumerable";
 import { TypedData } from "./TypedData";
 export declare class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
-    private readonly dataFunc;
+    readonly dataFunc: TypedData<TSource>;
     constructor(dataFunc: TypedData<TSource>);
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;

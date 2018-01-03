@@ -17,7 +17,7 @@ import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
 
 export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
-    private readonly dataFunc: TypedData<TSource>
+    public readonly dataFunc: TypedData<TSource>
 
     public constructor(dataFunc: TypedData<TSource>) {
         this.dataFunc = dataFunc
