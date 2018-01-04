@@ -18,8 +18,6 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     count(predicate?: (x: TSource) => boolean): Promise<number>;
-    private count_1();
-    private count_2(predicate);
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>;
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     each(action: (x: TSource) => void): IParallelEnumerable<TSource>;
@@ -108,7 +106,5 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     zip<TSecond, TResult>(second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;
     zip<TSecond>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>;
-    private nextIterationAsync<TOut>(onfulfilled);
-    private nextIteration<TOut>(onfulfilled);
     [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
 }

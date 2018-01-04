@@ -11,15 +11,24 @@ export declare class ParallelEnumerable {
     private static aggregate_1<TSource>(source, func);
     private static aggregate_2<TSource, TAccumulate>(source, seed, func);
     private static aggregate_3<TSource, TAccumulate, TResult>(source, seed, func, resultSelector);
-    static all<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<boolean>;
-    static allAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+    static all<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<boolean>;
+    static allAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+    static any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<boolean>;
+    static anyAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
     static average(source: IAsyncParallel<number>): Promise<number>;
     static average<TSource>(source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static average_1(source);
     private static average_2<TSource>(source, func);
     static averageAsync<TSource>(source: IAsyncParallel<TSource>, func: (x: TSource) => Promise<number>): Promise<number>;
     static concat<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
+    static contains<TSource>(source: IParallelEnumerable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    static count<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<number>;
+    private static count_1<TSource>(source);
+    private static count_2<TSource>(source, predicate);
+    static countAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<number>;
     static distinct<TSource>(source: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    static each<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => void): IParallelEnumerable<TSource>;
+    static eachAsync<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource>;
     static except<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: false): IParallelEnumerable<TSource>;
@@ -40,6 +49,22 @@ export declare class ParallelEnumerable {
     static join<TOuter, TInner, TKey, TResult>(outer: IAsyncParallel<TOuter>, inner: IAsyncParallel<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult): IParallelEnumerable<TResult>;
     static join<TOuter, TInner, TKey, TResult>(outer: IAsyncParallel<TOuter>, inner: IAsyncParallel<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IParallelEnumerable<TResult>;
     static intersect<TSource>(first: IParallelEnumerable<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    static min(source: IParallelEnumerable<number>): Promise<number>;
+    static min<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
+    static max(source: IParallelEnumerable<number>): Promise<number>;
+    static max<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
+    static maxAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+    static minAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+    static select<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => OUT): IParallelEnumerable<OUT>;
+    static select<TSource, TKey extends keyof TSource>(source: IParallelEnumerable<TSource>, key: TKey): IParallelEnumerable<TSource[TKey]>;
+    static selectAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
+    static selectAsync<TSource, TKey extends keyof TSource, TResult>(source: IParallelEnumerable<{
+        [key: string]: Promise<TResult>;
+    }>, selector: TKey): IParallelEnumerable<TResult>;
+    static selectMany<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>;
+    static selectMany<TBindedSource extends {
+        [key: string]: Iterable<TOut>;
+    }, TOut>(source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
     static skip<TSource>(source: IAsyncParallel<TSource>, count: number): IParallelEnumerable<TSource>;
     static skipWhile<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
     static skipWhileAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
@@ -99,4 +124,6 @@ export declare class ParallelEnumerable {
     static zip<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);
     private static zip_2<T, Y, OUT>(source, second, resultSelector);
+    private static nextIterationAsync<TSource, TOut>(source, onfulfilled);
+    private static nextIteration<TSource, TOut>(source, onfulfilled);
 }
