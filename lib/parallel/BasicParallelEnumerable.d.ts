@@ -26,12 +26,8 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     elementAtOrDefault(index: number): Promise<TSource | null>;
     except(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     first(predicate?: (x: TSource) => boolean): Promise<TSource>;
-    private first_1();
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
-    private first_2(predicate);
     firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
-    private firstOrDefault_1();
-    private firstOrDefault_2(predicate);
     firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
     groupBy(keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>;
     groupBy(keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>;
@@ -42,12 +38,8 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     intersect(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     joinByKey<TInner, TKey, TResult>(inner: IAsyncParallel<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>;
     last(predicate?: (x: TSource) => boolean): Promise<TSource>;
-    private last_1();
-    private last_2(predicate);
     lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
-    private lastOrDefault_1();
-    private lastOrDefault_2(predicate);
     lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
     max(this: IParallelEnumerable<number>): Promise<number>;
     max(selector: (x: TSource) => number): Promise<number>;
@@ -81,12 +73,8 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     }, TOut>(this: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
     sequenceEquals(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     single(predicate?: (x: TSource) => boolean): Promise<TSource>;
-    private single_1();
-    private single_2(predicate);
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
-    private singleOrDefault_1();
-    private singleOrDefault_2(predicate);
     singleOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
     skip(count: number): IParallelEnumerable<TSource>;
     skipWhile(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;

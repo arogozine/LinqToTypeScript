@@ -1,17 +1,13 @@
 import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
-    ArgumentOutOfRangeException,
-    ErrorString,
     IAsyncParallel,
     IComparer,
     IConstructor,
     IEqualityComparer,
     IGrouping,
-    InvalidOperationException,
     ITuple,
     StrictEqualityComparer,
 } from "../shared/shared"
-import { DataType } from "./DataType"
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
@@ -103,129 +99,19 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public first(predicate?: (x: TSource) => boolean): Promise<TSource> {
-        if (predicate) {
-            return this.first_2(predicate)
-        } else {
-            return this.first_1()
-        }
-    }
-
-    private async first_1(): Promise<TSource> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                if (values.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                } else {
-                    return values[0]
-                }
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                if (promises.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                } else {
-                    return await promises[0]
-                }
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                if (promises.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                } else {
-                    return await promises[0]
-                }
-            }
-        }
+        return ParallelEnumerable.first(this, predicate)
     }
 
     public async firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
-        const data = await this.toArray()
-        for (const value of data) {
-            if (await predicate(value) === true) {
-                return value
-            }
-        }
-
-        throw new InvalidOperationException(ErrorString.NoMatch)
-    }
-
-    private async first_2(predicate: (x: TSource) => boolean): Promise<TSource> {
-        const data = await this.toArray()
-        for (const value of data) {
-            if (predicate(value) === true) {
-                return value
-            }
-        }
-
-        throw new InvalidOperationException(ErrorString.NoMatch)
+        return ParallelEnumerable.firstAsync(this, predicate)
     }
 
     public firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
-        if (predicate) {
-            return this.firstOrDefault_2(predicate)
-        } else {
-            return this.firstOrDefault_1()
-        }
-    }
-
-    private async firstOrDefault_1(): Promise<TSource | null> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                if (values.length === 0) {
-                    return null
-                } else {
-                    return values[0]
-                }
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                if (promises.length === 0) {
-                    return null
-                } else {
-                    return await promises[0]
-                }
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                if (promises.length === 0) {
-                    return null
-                } else {
-                    return await promises[0]
-                }
-            }
-        }
-    }
-
-    private async firstOrDefault_2(predicate: (x: TSource) => boolean): Promise<TSource | null> {
-        const data = await this.toArray()
-        for (const value of data) {
-            if (predicate(value) === true) {
-                return value
-            }
-        }
-
-        return null
+        return ParallelEnumerable.firstOrDefault(this, predicate)
     }
 
     public async firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
-        const data = await this.toArray()
-        for (const value of data) {
-            if (await predicate(value) === true) {
-                return value
-            }
-        }
-
-        return null
+        return ParallelEnumerable.firstOrDefaultAsync(this, predicate)
     }
 
     public groupBy(keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>
@@ -266,261 +152,19 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public last(predicate?: (x: TSource) => boolean): Promise<TSource> {
-        if (predicate) {
-            return this.last_2(predicate)
-        } else {
-            return this.last_1()
-        }
-    }
-
-    private async last_1(): Promise<TSource> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                if (values.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                } else {
-                    return values[values.length - 1]
-                }
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                if (promises.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                } else {
-                    return await promises[promises.length - 1]
-                }
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                if (promises.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                } else {
-                    return await promises[promises.length - 1]
-                }
-            }
-        }
-    }
-
-    private async last_2(predicate: (x: TSource) => boolean): Promise<TSource> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                // Promise Array - Predicate
-                for (let i = values.length - 1; i >= 0; i--) {
-                    const value = values[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-                break
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                // Promise Array - Predicate
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-                break
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                // Promise Array - Predicate
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-                break
-            }
-        }
-
-        throw new InvalidOperationException(ErrorString.NoMatch)
+        return ParallelEnumerable.last(this, predicate)
     }
 
     public async lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                // Promise Array - Predicate
-                for (let i = values.length - 1; i >= 0; i--) {
-                    const value = values[i]
-                    if (await predicate(value) === true) {
-                        return value
-                    }
-                }
-                break
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                // Promise Array - Predicate
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (await predicate(value) === true) {
-                        return value
-                    }
-                }
-                break
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                // Promise Array - Predicate
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (await predicate(value) === true) {
-                        return value
-                    }
-                }
-                break
-            }
-        }
-
-        throw new InvalidOperationException(ErrorString.NoMatch)
+        return ParallelEnumerable.lastAsync(this, predicate)
     }
 
     public async lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
-        if (predicate) {
-            return this.lastOrDefault_2(predicate)
-        } else {
-            return this.lastOrDefault_1()
-        }
-    }
-
-    private async lastOrDefault_1(): Promise<TSource | null> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                if (values.length === 0) {
-                    return null
-                } else {
-                    return values[values.length - 1]
-                }
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                if (promises.length === 0) {
-                    return null
-                } else {
-                    return await promises[promises.length - 1]
-                }
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                if (promises.length === 0) {
-                    return null
-                } else {
-                    return await promises[promises.length - 1]
-                }
-            }
-        }
-    }
-
-    private async lastOrDefault_2(predicate: (x: TSource) => boolean): Promise<TSource | null> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                for (let i = values.length - 1; i >= 0; i--) {
-                    const value = values[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-
-                break
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-
-                break
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (predicate(value)) {
-                        return value
-                    }
-                }
-
-                break
-            }
-        }
-
-        return null
+        return ParallelEnumerable.lastOrDefault(this, predicate)
     }
 
     public async lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const values = await dataFunc.generator()
-                for (let i = values.length - 1; i >= 0; i--) {
-                    const value = values[i]
-                    if (await predicate(value) === true) {
-                        return value
-                    }
-                }
-
-                break
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const promises = dataFunc.generator()
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (await predicate(value) === true) {
-                        return value
-                    }
-                }
-
-                break
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const promises = await dataFunc.generator()
-                for (let i = promises.length - 1; i >= 0; i--) {
-                    const value = await promises[i]
-                    if (await predicate(value) === true) {
-                        return value
-                    }
-                }
-
-                break
-            }
-        }
-
-        return null
+        return ParallelEnumerable.lastOrDefaultAsync(this, predicate)
     }
 
     public async max(this: IParallelEnumerable<number>): Promise<number>
@@ -605,220 +249,23 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public async single(predicate?: (x: TSource) => boolean): Promise<TSource> {
-        if (predicate) {
-            return this.single_2(predicate)
-        } else {
-            return this.single_1()
-        }
-    }
-
-    private async single_1(): Promise<TSource> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const results = await dataFunc.generator()
-                if (results.length > 1) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else if (results.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                }
-
-                return results[0]
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const results = dataFunc.generator()
-                if (results.length > 1) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else if (results.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                }
-
-                return results[0]
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const results = await dataFunc.generator()
-                if (results.length > 1) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else if (results.length === 0) {
-                    throw new InvalidOperationException(ErrorString.NoElements)
-                }
-
-                return await results[0]
-            }
-        }
-    }
-
-    private async single_2(predicate: (x: TSource) => boolean): Promise<TSource> {
-        const results = await this.toArray()
-
-        let hasValue = false
-        let singleValue: TSource | null = null
-
-        for (const value of results) {
-            if (predicate(value)) {
-                if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else {
-                    hasValue = true
-                    singleValue = value
-                }
-            }
-        }
-
-        if (hasValue === false) {
-            throw new InvalidOperationException(ErrorString.NoMatch)
-        }
-
-        return singleValue as TSource
+        return ParallelEnumerable.single(this, predicate)
     }
 
     public async singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
-        const results = await this.toArray()
-
-        let hasValue = false
-        let singleValue: TSource | null = null
-
-        for (const value of results) {
-            if (await predicate(value) === true) {
-                if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else {
-                    hasValue = true
-                    singleValue = value
-                }
-            }
-        }
-
-        if (hasValue === false) {
-            throw new InvalidOperationException(ErrorString.NoMatch)
-        }
-
-        return singleValue as TSource
+        return ParallelEnumerable.singleAsync(this, predicate)
     }
 
     public singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null> {
-        if (predicate) {
-            return this.singleOrDefault_2(predicate)
-        } else {
-            return this.singleOrDefault_1()
-        }
-    }
-
-    private async singleOrDefault_1(): Promise<TSource | null> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const results = await dataFunc.generator()
-                if (results.length > 1) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else if (results.length === 0) {
-                    return null
-                }
-
-                return results[0]
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const results = dataFunc.generator()
-                if (results.length > 1) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else if (results.length === 0) {
-                    return null
-                }
-
-                return results[0]
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const results = await dataFunc.generator()
-                if (results.length > 1) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else if (results.length === 0) {
-                    return null
-                }
-
-                return await results[0]
-            }
-        }
-    }
-
-    private async singleOrDefault_2(predicate: (x: TSource) => boolean): Promise<TSource | null> {
-        const results = await this.toArray()
-
-        let hasValue = false
-        let singleValue: TSource | null = null
-
-        for (const value of results) {
-            if (predicate(value)) {
-                if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else {
-                    hasValue = true
-                    singleValue = value
-                }
-            }
-        }
-
-        return singleValue
+        return ParallelEnumerable.singleOrDefault(this, predicate)
     }
 
     public async singleOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
-        const results = await this.toArray()
-
-        let hasValue = false
-        let singleValue: TSource | null = null
-
-        for (const value of results) {
-            if (await predicate(value) === true) {
-                if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-                } else {
-                    hasValue = true
-                    singleValue = value
-                }
-            }
-        }
-
-        return singleValue
+        return ParallelEnumerable.singleOrDefaultAsync(this, predicate)
     }
 
     public skip(count: number): IParallelEnumerable<TSource> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-            {
-                const generator = async () => (await dataFunc.generator()).slice(count)
-                return new BasicParallelEnumerable({
-                    type: DataType.PromiseToArray,
-                    generator,
-                })
-            }
-            case DataType.ArrayOfPromises:
-            {
-                const generator = () => dataFunc.generator().slice(count)
-                return new BasicParallelEnumerable({
-                    type: DataType.ArrayOfPromises,
-                    generator,
-                })
-            }
-            case DataType.PromiseOfPromises:
-            {
-                const generator = async () => {
-                    const dataInner = await dataFunc.generator()
-                    return dataInner.slice(count)
-                }
-                const dataFuncNew: TypedData<TSource> = {
-                    type: DataType.PromiseOfPromises,
-                    generator,
-                }
-                // TODO: No Idea
-                return new BasicParallelEnumerable(dataFuncNew as any)
-            }
-        }
+        return ParallelEnumerable.skip(this, count)
     }
 
     public skipWhile(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
@@ -852,20 +299,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public toArray(): Promise<TSource[]> {
-        const dataFunc = this.dataFunc
-        switch (dataFunc.type) {
-            case DataType.PromiseToArray:
-                return dataFunc.generator()
-            case DataType.ArrayOfPromises:
-                return Promise.all(dataFunc.generator())
-            case DataType.PromiseOfPromises:
-                return (async () => {
-                    const data = await dataFunc.generator()
-                    return Promise.all(data)
-                })()
-            default:
-                throw new Error("Not Implemented")
-        }
+        return ParallelEnumerable.toArray(this)
     }
 
     public toMap<TKey>(selector: (x: TSource) => TKey): Promise<Map<TKey, TSource[]>> {

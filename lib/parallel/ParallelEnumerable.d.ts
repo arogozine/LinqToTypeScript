@@ -29,7 +29,17 @@ export declare class ParallelEnumerable {
     static distinct<TSource>(source: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     static each<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => void): IParallelEnumerable<TSource>;
     static eachAsync<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource>;
+    static elementAt<TSource>(source: IParallelEnumerable<TSource>, index: number): Promise<TSource>;
+    static elementAtOrDefault<TSource>(source: IParallelEnumerable<TSource>, index: number): Promise<TSource | null>;
     static except<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    static first<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
+    private static first_1<TSource>(source);
+    private static first_2<TSource>(source, predicate);
+    static firstAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
+    static firstOrDefault<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null>;
+    private static firstOrDefault_1<TSource>(source);
+    private static firstOrDefault_2<TSource>(source, predicate);
+    static firstOrDefaultAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: false): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>;
@@ -51,6 +61,14 @@ export declare class ParallelEnumerable {
     static intersect<TSource>(first: IParallelEnumerable<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     static min(source: IParallelEnumerable<number>): Promise<number>;
     static min<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
+    static last<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
+    private static last_1<TSource>(source);
+    private static last_2<TSource>(source, predicate);
+    static lastAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
+    static lastOrDefault<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null>;
+    private static lastOrDefault_1<TSource>(source);
+    private static lastOrDefault_2<TSource>(source, predicate);
+    static lastOrDefaultAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
     static max(source: IParallelEnumerable<number>): Promise<number>;
     static max<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
     static maxAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
@@ -65,9 +83,6 @@ export declare class ParallelEnumerable {
     static selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
-    static skip<TSource>(source: IAsyncParallel<TSource>, count: number): IParallelEnumerable<TSource>;
-    static skipWhile<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
-    static skipWhileAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     static ofType<TSource, TResult>(source: IAsyncParallel<TSource>, type?: IConstructor<TResult> | string): IParallelEnumerable<TResult>;
     static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IOrderedParallelEnumerable<TSource>;
     static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
@@ -84,6 +99,17 @@ export declare class ParallelEnumerable {
     private static repeat_2<T>(element, count, delay);
     static reverse<TSource>(source: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     static sequenceEquals<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    static single<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
+    private static single_1<TSource>(source);
+    private static single_2<TSource>(source, predicate);
+    static singleAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
+    static singleOrDefault<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null>;
+    private static singleOrDefault_1<TSource>(source);
+    private static singleOrDefault_2<TSource>(source, predicate);
+    static singleOrDefaultAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
+    static skip<TSource>(source: IParallelEnumerable<TSource>, count: number): IParallelEnumerable<TSource>;
+    static skipWhile<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
+    static skipWhileAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     static sum(source: IAsyncParallel<number>): Promise<number>;
     static sum<TSource>(source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static sum_1(source);
@@ -104,6 +130,7 @@ export declare class ParallelEnumerable {
     static thenByDescending<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedParallelEnumerable<TSource>;
     static thenByDescending<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>;
+    static toArray<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]>;
     static toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>>;
     static thenByDescendingAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>): IOrderedParallelEnumerable<TSource>;
     static thenByDescendingAsync<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
