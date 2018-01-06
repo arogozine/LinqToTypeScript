@@ -18,6 +18,10 @@ export function asParallel<T>(values: T[]): IParallelEnumerable<T> {
     return ParallelEnumerable.from(DataType.ArrayOfPromises, generator)
 }
 
+export function asPromise<T>(value: T): Promise<T> {
+    return new Promise((resolve) => resolve(value))
+}
+
 function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {
     const array = new ArrayEnumerable<T>()
     array.push(...values)
@@ -49,6 +53,14 @@ export function itEnumerable<T = number>(
 
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
     it(expectation, (done) => assertion().then(done, fail), timeout)
+}
+
+export function itEnumerableAsync<T = number>(
+    expectation: string,
+    assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => Promise<void>, timeout?: number): void {
+        itAsync(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
+        itAsync(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
+        itAsync(`${ expectation } array`, () => assertion((x) => x as any), timeout)
 }
 
 export async function expectAsync<T>(promise: Promise<T>): Promise<jasmine.Matchers<T>> {

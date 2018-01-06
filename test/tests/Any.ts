@@ -1,4 +1,4 @@
-import { asAsync, expectAsync, itAsync, itEnumerable, asParallel } from "./../TestHelpers"
+import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "./../TestHelpers"
 
 describe("any", () => {
     itEnumerable("Empty", (asEnumerable) => {

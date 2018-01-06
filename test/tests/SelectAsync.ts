@@ -1,12 +1,13 @@
 import { Enumerable } from "../../src/index"
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, asParallel, itAsync, itEnumerableAsync } from "../TestHelpers"
 
 describe("SelectAsync", () => {
-    itEnumerable("Basic", (asEnumerable) => {
+    itEnumerableAsync("Basic", async (asEnumerable) => {
         const values = asEnumerable([1, 2, 3])
         const trueValues = values.selectAsync((x) => new Promise<boolean>((res) => res(true)))
         const promise = trueValues.toArray()
         expect(promise instanceof Promise).toBe(true)
+        expect(await promise).toEqual([true, true, true])
     })
 
     itAsync("From Enumerable", async () => {
