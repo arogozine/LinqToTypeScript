@@ -29,18 +29,6 @@ describe("first", () => {
         expect(await asParallel([1, 2]).first((x) => x === 2)).toBe(2)
     })
 
-    itEnumerable("FirstOrDefaultEmpty", (asEnumerable) =>  {
-        expect(asEnumerable([]).firstOrDefault()).toBeNull()
-    })
-
-    itAsync("FirstOrDefaultEmptyAsync", async () =>  {
-        (await expectAsync(asAsync([]).firstOrDefault())).toBeNull()
-    })
-
-    itAsync("FirstOrDefaultEmptyParallel", async () =>  {
-        (await expectAsync(asParallel([]).firstOrDefault())).toBeNull()
-    })
-
     itEnumerable("basic", (asEnumerable) =>
         expect(asEnumerable([1]).first()).toBe(1))
 
