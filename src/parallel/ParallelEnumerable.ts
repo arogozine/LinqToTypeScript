@@ -160,7 +160,7 @@ export class ParallelEnumerable {
                     return values.some((x) => x)
                 })
             case DataType.PromiseOfPromises:
-                return nextIteration.generator().then(Promise.all).then((values) => {
+                return nextIteration.generator().then((values) => Promise.all(values)).then((values) => {
                     return values.some((x) => x)
                 })
         }
@@ -180,7 +180,7 @@ export class ParallelEnumerable {
                     return values.some((x) => x)
                 })
             case DataType.PromiseOfPromises:
-                return nextIteration.generator().then(Promise.all).then((values) => {
+                return nextIteration.generator().then((values) => Promise.all(values)).then((values) => {
                     return values.some((x) => x)
                 })
         }
@@ -1433,18 +1433,18 @@ export class ParallelEnumerable {
 
     public static ofType<TSource, TResult>(
         source: IAsyncParallel<TSource>,
-        type?: IConstructor<TResult> | string): IParallelEnumerable<TResult> {
+        type: IConstructor<TResult> | string): IParallelEnumerable<TResult> {
 
         const typeCheck: (x: TSource) => boolean = typeof type === "string" ?
             ((x) => typeof x === type) :
-            ((x) => x instanceof (type as any))
+            ((x) => x instanceof type)
 
-        const data = async () =>
+        const data: any = async () =>
             (await source.toArray()).filter(typeCheck)
 
         return new BasicParallelEnumerable({
             type: DataType.PromiseToArray,
-            generator: data as any,
+            generator: data as (() => Promise<TResult[]>),
         })
     }
 
@@ -1829,7 +1829,7 @@ export class ParallelEnumerable {
                     generator,
                 }
                 // TODO: No Idea
-                return new BasicParallelEnumerable(dataFuncNew as any)
+                return new BasicParallelEnumerable<TSource>(dataFuncNew as any)
             }
         }
     }
