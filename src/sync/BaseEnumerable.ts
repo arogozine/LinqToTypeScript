@@ -1,10 +1,10 @@
-import { IAsyncEnumerable } from "../async/async"
+import { IAsyncEnumerable } from "@async/async"
 import {
     IComparer,
     IConstructor,
     IEqualityComparer,
     IGrouping,
-    ITuple } from "../shared/shared"
+    ITuple } from "@shared/shared"
 import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"

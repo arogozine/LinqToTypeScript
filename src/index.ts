@@ -2,16 +2,16 @@ import { IConstructor } from "./shared/shared"
 import { ArrayEnumerable, BaseEnumerable } from "./sync/sync"
 
 // Shared Interfacess
-export * from "./shared/shared"
+export * from "@shared/shared"
 
 // Enumerable
-export * from "./sync/sync"
+export * from "@sync/sync"
 
 // AsyncEnumerable
-export * from "./async/async"
+export * from "@async/async"
 
 // ParallelEnumerable
-export * from "./parallel/parallel"
+export * from "@parallel/parallel"
 
 export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
     new (_?: any): Y

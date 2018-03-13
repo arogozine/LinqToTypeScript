@@ -1,5 +1,5 @@
-import { IAsyncEnumerable } from "../async/async";
-import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
+import { IAsyncEnumerable } from "@async/IAsyncEnumerable";
+import { IOrderedAsyncEnumerable } from "@async/IOrderedAsyncEnumerable";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { BasicEnumerable } from "./BasicEnumerable";
 import { IEnumerable } from "./IEnumerable";

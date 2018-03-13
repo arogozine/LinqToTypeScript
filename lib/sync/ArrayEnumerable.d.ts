@@ -1,5 +1,5 @@
-import { IAsyncEnumerable } from "../async/async";
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncEnumerable } from "@async/async";
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "@shared/shared";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
 export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {

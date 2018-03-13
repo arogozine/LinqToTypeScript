@@ -17,9 +17,16 @@
             "dom",
             "es2016",
             "esnext.asynciterable"
-        ]
+        ],
+        "baseUrl": "../src",
+        "paths": {
+            "@async/*": [ "async/*" ],
+            "@parallel/*": [ "parallel/*" ],
+            "@shared/*": [ "shared/*" ],
+            "@sync/*": [ "sync/*" ],
+        },
     },
     "files": [
         "./LinqTests.ts"
-    ]
+    ],
 }

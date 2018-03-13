@@ -1,10 +1,10 @@
+import { AsyncEnumerable } from "@async/AsyncEnumerable"
 import {
     IAsyncEnumerable,
-} from "../async/async"
-import { AsyncEnumerable } from "../async/AsyncEnumerable"
-import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { OrderedAsyncEnumerable } from "../async/OrderedAsyncEnumerable"
-import { OrderedAsyncEnumerableDescending } from "../async/OrderedAsyncEnumerableDescending"
+} from "@async/IAsyncEnumerable"
+import { IOrderedAsyncEnumerable } from "@async/IOrderedAsyncEnumerable"
+import { OrderedAsyncEnumerable } from "@async/OrderedAsyncEnumerable"
+import { OrderedAsyncEnumerableDescending } from "@async/OrderedAsyncEnumerableDescending"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
