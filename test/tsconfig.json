@@ -1,9 +1,9 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "target": "es2017",
+        "target": "es6",
         "module": "commonjs",
-        "moduleResolution": "classic",
+        "moduleResolution": "node",
         "removeComments": true,
         "noImplicitAny": true,
         "experimentalDecorators": true,
@@ -12,7 +12,7 @@
         "strict": true,
         "alwaysStrict": true,
         "sourceMap": true,
-        "outDir": "./compiled",
+        "declaration": true,
         "lib": [      
             "dom",
             "es2016",

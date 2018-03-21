@@ -2,29 +2,43 @@ module.exports = function(config) {
   config.set({
     frameworks: [ 
       'jasmine',
-      'browserify',
+      'karma-typescript',
+      //'browserify',
     ],
     plugins: [
-      'karma-browserify',
+      'karma-typescript',
       'karma-jasmine',
       'karma-firefox-launcher',
       'karma-chrome-launcher',
 //      'karma-edge-launcher'
     ],
     files: [
-      './test/compiled/**/*.js'
+      "./src/**/*.ts",
+      "./test/**/*.ts"
     ],
     exclude: [
-      "**/*.ts",
+      "./**/*.d.ts",
+      "./**/IAsyncGrouping.ts",
       "./node_modules"
     ],
     preprocessors: {
-      './test/compiled/**/*.js': [ 'browserify' ]
+      "./**/*.ts": "karma-typescript",
+     // "./test/**/*.ts": "karma-typescript",
+      // './test/compiled/**/*.js': [ 'browserify' ]
     },
+    /*
     browserify: {
       debug: false,
     },
-    reporters: [ 'progress' ],
+    */
+    karmaTypescriptConfig: {
+      /*
+      bundlerOptions: {
+          transforms: [require("karma-typescript-es6-transform")()]
+      },*/
+      tsconfig: "./test/tsconfig.json"
+    },
+    reporters: [ 'progress', 'karma-typescript' ],
     browsers: [ 
 //      'Edge', 
       'Firefox',

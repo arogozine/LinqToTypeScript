@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "tsc -p ./test/tsconfig.json && cd ./node_modules/karma/bin/ && karma start \"..\\..\\..\\karma.conf.js\""
+    "test": "cd ./node_modules/karma/bin/ && karma start \"..\\..\\..\\karma.conf.js\""
   },
   "repository": {
     "type": "git",
@@ -40,7 +40,9 @@
     "karma-edge-launcher": "^0.4.2",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
-    "typescript": "^2.7.0-rc"
+    "karma-typescript": "^3.0.12",
+    "karma-typescript-es6-transform": "^1.0.4",
+    "typescript": "^2.7.2"
   },
   "bugs": {
     "url": "https://github.com/arogozine/LinqToTypeScript/issues"
