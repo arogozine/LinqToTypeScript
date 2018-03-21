@@ -28,18 +28,18 @@
   "author": "Alexandre Rogozine",
   "license": "FSFUL",
   "dependencies": {
-    "core-js": "^2.5.1"
+    "core-js": "^2.5.3"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.6.0",
+    "@types/jasmine": "^2.8.6",
     "browserify": "^14.4.0",
-    "jasmine-core": "^2.8.0",
+    "jasmine-core": "^2.99.1",
     "karma": "^1.7.1",
-    "karma-browserify": "^5.1.1",
+    "karma-browserify": "^5.2.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-edge-launcher": "^0.4.2",
-    "karma-firefox-launcher": "^1.0.1",
-    "karma-jasmine": "^1.1.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^1.1.1",
     "karma-typescript": "^3.0.12",
     "karma-typescript-es6-transform": "^1.0.4",
     "typescript": "^2.7.2"
