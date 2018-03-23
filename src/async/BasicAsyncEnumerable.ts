@@ -250,6 +250,10 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.selectMany(this, selector as any)
     }
 
+    public selectManyAsync<Y>(selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y> {
+        return AsyncEnumerable.selectManyAsync(this, selector)
+    }
+
     public sequenceEquals(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean> {
         return AsyncEnumerable.sequenceEquals(this, second, comparer)
     }

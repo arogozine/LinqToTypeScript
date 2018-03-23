@@ -59,6 +59,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
             this: IParallelEnumerable<TBindedSource>,
             selector: keyof TBindedSource): IParallelEnumerable<TOut>,
+    selectManyAsync<OUT>(selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>,
     sequenceEquals(second: IAsyncParallel<TSource>,
                    comparer?: IEqualityComparer<TSource>): Promise<boolean>,
     skip(count: number): IParallelEnumerable<TSource>,

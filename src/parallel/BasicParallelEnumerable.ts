@@ -242,6 +242,12 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.selectMany(this as any, selector as any)
     }
 
+    public selectManyAsync<OUT>(
+        selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT> {
+        return ParallelEnumerable.selectManyAsync(this, selector);
+    }
+
+
     public sequenceEquals(
         second: IAsyncParallel<TSource>,
         comparer?: IEqualityComparer<TSource>): Promise<boolean> {

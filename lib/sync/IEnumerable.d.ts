@@ -68,6 +68,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
+    selectManyAsync<TOut>(selector: (x: TSource) => Promise<Iterable<TOut>>): IAsyncEnumerable<TOut>;
     sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
     single(predicate?: (x: TSource) => boolean): TSource;
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;

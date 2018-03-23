@@ -927,6 +927,21 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
+    public static selectManyAsync<TSource, Y>(
+        source: AsyncIterable<TSource>,
+        selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y> {
+        async function* iterator(){
+            for await (const value of source) {
+                const many = await selector(value)
+                for (const innerValue of many) {
+                    yield innerValue
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
     public static single<TSource>(
         source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {

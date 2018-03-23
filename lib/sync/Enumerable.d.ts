@@ -95,6 +95,7 @@ export declare class Enumerable {
     static selectMany_2<TSource extends {
         [key: string]: Iterable<TResult>;
     }, TResult>(source: Iterable<TSource>, selector: keyof TSource): BasicEnumerable<TResult>;
+    static selectManyAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>;
     static single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource;
     private static single_1<TSource>(source);
     private static single_2<TSource>(source, predicate);

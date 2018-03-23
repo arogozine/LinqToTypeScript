@@ -83,6 +83,7 @@ export declare class ParallelEnumerable {
     static selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
+    static selectManyAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
     static ofType<TSource, TResult>(source: IAsyncParallel<TSource>, type: IConstructor<TResult> | string): IParallelEnumerable<TResult>;
     static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IOrderedParallelEnumerable<TSource>;
     static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;

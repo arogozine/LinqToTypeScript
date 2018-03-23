@@ -241,6 +241,10 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.selectMany(this as any, selector as any)
     }
 
+    public selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {
+        return Enumerable.selectManyAsync(this, selector)
+    }
+
     public sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean {
         return Enumerable.sequenceEquals(this, second, comparer as any)
     }

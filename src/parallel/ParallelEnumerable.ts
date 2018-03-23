@@ -1431,6 +1431,54 @@ export class ParallelEnumerable {
         })
     }
 
+    public static selectManyAsync<TSource, OUT>(
+        source: IParallelEnumerable<TSource>,
+        selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT> {
+        const generator = async () => {
+            const values = await ParallelEnumerable.nextIterationAsync(source, selector)
+
+            const valuesArray = []
+            switch (values.type) {
+                case DataType.PromiseToArray:
+                {
+                    for (const outer of await values.generator()) {
+                        for (const y of outer) {
+                            valuesArray.push(y)
+                        }
+                    }
+
+                    break
+                }
+                case DataType.ArrayOfPromises:
+                {
+                    for (const outer of values.generator()) {
+                        for (const y of await outer) {
+                            valuesArray.push(y)
+                        }
+                    }
+
+                    break
+                }
+                case DataType.PromiseOfPromises:
+                {
+                    for (const outer of await values.generator()) {
+                        for (const y of await outer) {
+                            valuesArray.push(y)
+                        }
+                    }
+
+                    break
+                }
+            }
+            return valuesArray
+        }
+    
+        return new BasicParallelEnumerable({
+            type: DataType.PromiseToArray,
+            generator,
+        })            
+    }
+
     public static ofType<TSource, TResult>(
         source: IAsyncParallel<TSource>,
         type: IConstructor<TResult> | string): IParallelEnumerable<TResult> {

@@ -77,6 +77,7 @@ export declare class AsyncEnumerable {
     static selectMany<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>;
     private static selectMany_1<TSource, Y>(source, selector);
     private static selectMany_2<TSource, Y>(source, selector);
+    static selectManyAsync<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y>;
     static single<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static single_1<TSource>(source);
     private static single_2<TSource>(source, predicate);
