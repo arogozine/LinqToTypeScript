@@ -91,5 +91,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>;
+    zipAsync<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>;
     [Symbol.iterator]: () => IterableIterator<TSource>;
 }

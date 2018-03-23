@@ -331,5 +331,11 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.zip(this, second, resultSelector as any)
     }
 
+    public zipAsync<TSecond, TResult>(
+        second: Iterable<TSecond>,
+        resultSelector: (x: T, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
+        return Enumerable.zipAsync(this, second, resultSelector);
+    }
+
     public abstract [Symbol.iterator](): IterableIterator<T>
 }

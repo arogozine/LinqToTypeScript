@@ -76,4 +76,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
         resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>,
     zip<TSecond>(second: IAsyncParallel<TSecond>):
         IParallelEnumerable<ITuple<TSource, TSecond>>
+    zipAsync<TSecond, TResult>(
+        second: IAsyncParallel<TSecond>,
+        resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult>,
 }

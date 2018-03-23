@@ -94,5 +94,6 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     zip<TSecond, TResult>(second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;
     zip<TSecond>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>;
+    zipAsync<TSecond, TResult>(second: IAsyncParallel<TSecond>, resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult>;
     [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
 }

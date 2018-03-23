@@ -191,5 +191,6 @@ export declare class Enumerable {
     static zip<T, Y, OUT>(source: Iterable<T>, second: Iterable<Y>, resultSelector: (x: T, y: Y) => OUT): IEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);
     private static zip_2<T, Y, OUT>(source, second, resultSelector);
+    static zipAsync<T, Y, OUT>(source: Iterable<T>, second: Iterable<Y>, resultSelector: (x: T, y: Y) => Promise<OUT>): IAsyncEnumerable<OUT>;
     private constructor();
 }

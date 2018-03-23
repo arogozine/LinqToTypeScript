@@ -114,5 +114,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     zip<TSecond, TResult>(
             second: Iterable<TSecond>,
             resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>,
+    zipAsync<TSecond, TResult>(
+        second: Iterable<TSecond>,
+        resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>,
     [Symbol.iterator]: () => IterableIterator<TSource>
 }

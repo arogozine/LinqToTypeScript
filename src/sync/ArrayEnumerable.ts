@@ -451,4 +451,11 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any): any {
         return Enumerable.zip(this, second, resultSelector as any)
     }
+
+    public zipAsync<TSecond, TResult>(
+        second: Iterable<TSecond>,
+        resultSelector: (x: T, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
+        return Enumerable.zipAsync(this, second, resultSelector)
+    }
+
 }

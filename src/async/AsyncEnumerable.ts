@@ -2204,5 +2204,30 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
+    public static ZipAsync<T, Y, OUT>(
+        source: AsyncIterable<T>,
+        second: AsyncIterable<Y>,
+        resultSelector: (x: T, y: Y) => Promise<OUT>): IAsyncEnumerable<OUT> {
+        async function *generator() {
+            const firstIterator = source[Symbol.asyncIterator]()
+            const secondIterator = second[Symbol.asyncIterator]()
+            
+            while (true) {
+                const results = await Promise.all([firstIterator.next(), secondIterator.next()])
+                const firstNext = results[0]
+                const secondNext = results[1]
+
+                if (firstNext.done || secondNext.done) {
+                    break;
+                } else {
+                    yield resultSelector(firstNext.value, secondNext.value);
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable(generator);
+    }
+
+
     private constructor() { }
 }

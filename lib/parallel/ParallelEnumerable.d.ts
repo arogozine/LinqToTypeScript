@@ -151,6 +151,7 @@ export declare class ParallelEnumerable {
     static zip<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
     private static zip_1<T, Y>(source, second);
     private static zip_2<T, Y, OUT>(source, second, resultSelector);
+    static ZipAsync<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => Promise<OUT>): IParallelEnumerable<OUT>;
     private static nextIterationAsync<TSource, TOut>(source, onfulfilled);
     private static nextIteration<TSource, TOut>(source, onfulfilled);
 }

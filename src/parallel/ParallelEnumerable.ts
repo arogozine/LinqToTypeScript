@@ -2469,6 +2469,28 @@ export class ParallelEnumerable {
         })
     }
 
+    public static ZipAsync<T, Y, OUT>(
+        source: IAsyncParallel<T>,
+        second: IAsyncParallel<Y>,
+        resultSelector: (x: T, y: Y) => Promise<OUT>): IParallelEnumerable<OUT> {
+        async function generator() {
+            const items = await Promise.all([source.toArray(), second.toArray()])
+            const max = items[0].length > items[1].length ? items[0].length : items[1].length
+            const resultPromises = new Array<Promise<OUT>>(max)
+            for (let i = 0; i < max; i++) {
+                const a = items[0][i]
+                const b = items[1][i]
+                resultPromises[i] = resultSelector(a, b)
+            }
+            return Promise.all(resultPromises)
+        }
+
+        return new BasicParallelEnumerable({
+            type: DataType.PromiseToArray,
+            generator,
+        })
+    }
+
     private static nextIterationAsync<TSource, TOut>(
         source: IParallelEnumerable<TSource>,
         onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut> {

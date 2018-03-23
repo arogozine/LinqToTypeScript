@@ -94,5 +94,6 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     zip<TSecond, TResult>(second: AsyncIterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>;
     zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>;
+    zipAsync<TSecond, TResult>(second: AsyncIterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>;
     [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
 }
