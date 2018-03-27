@@ -169,11 +169,11 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.lastOrDefaultAsync(this, predicate)
     }
 
-    public max(this: IAsyncEnumerable<number>): Promise<number | never>
-    public max(selector: (x: TSource) => number): Promise<number | never>
+    public max(this: IAsyncEnumerable<number>): Promise<number>
+    public max(selector: (x: TSource) => number): Promise<number>
     public max(
         this: IAsyncEnumerable<number> | IAsyncEnumerable<TSource>,
-        selector?: (x: TSource) => number): Promise<number | never> {
+        selector?: (x: TSource) => number): Promise<number> {
         return AsyncEnumerable.max(this as any, selector as any)
     }
 
@@ -202,7 +202,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public ofType(type: "number"): IAsyncEnumerable<number>
     public ofType(type: "string"): IAsyncEnumerable<string>
     public ofType<TResult>(type: IConstructor<TResult>): IAsyncEnumerable<TResult>
-    public ofType<TResult>(type?: IConstructor<TResult> | string): IAsyncEnumerable<TResult> {
+    public ofType<TResult>(type: IConstructor<TResult> | string): IAsyncEnumerable<TResult> {
         return AsyncEnumerable.ofType(this, type)
     }
 

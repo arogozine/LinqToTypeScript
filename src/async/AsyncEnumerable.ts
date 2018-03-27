@@ -1107,7 +1107,7 @@ export class AsyncEnumerable {
         predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
 
         if (predicate.length === 1) {
-            return AsyncEnumerable.skipWhile_1(source, predicate as any)
+            return AsyncEnumerable.skipWhile_1(source, predicate as (x: TSource) => boolean)
         } else {
             return AsyncEnumerable.skipWhile_2(source, predicate)
         }
@@ -1161,7 +1161,7 @@ export class AsyncEnumerable {
         predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
 
         if (predicate.length === 1) {
-            return AsyncEnumerable.skipWhileAsync_1(source, predicate as any)
+            return AsyncEnumerable.skipWhileAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
         } else {
             return AsyncEnumerable.skipWhileAsync_2(source, predicate)
         }
@@ -1212,20 +1212,16 @@ export class AsyncEnumerable {
 
     public static ofType<TSource, TResult>(
         source: AsyncIterable<TSource>,
-        type?: IConstructor<TResult> | string): IAsyncEnumerable<TResult> {
+        type: IConstructor<TResult> | string): IAsyncEnumerable<TResult> {
 
-        if (!type) {
-            return source as any
-        }
-
-        const typeCheck: (x: TSource) => boolean = typeof type === "string" ?
-            ((x) => typeof x === type) :
-            ((x) => x instanceof type)
+        const typeCheck = typeof type === "string" ?
+            ((x) => typeof x === type) as (x: any) => x is TResult :
+            ((x) => x instanceof type) as (x: any) => x is TResult
 
         async function *iterator(): AsyncIterableIterator<TResult> {
             for await (const item of source) {
                 if (typeCheck(item)) {
-                    yield item as any
+                    yield item
                 }
             }
         }

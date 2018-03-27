@@ -1022,7 +1022,7 @@ export class Enumerable {
         if (typeof selector === "string") {
             return Enumerable.selectMany_2(source, selector)
         } else {
-            return Enumerable.selectMany_1(source, selector as any)
+            return Enumerable.selectMany_1(source, selector as (x: TSource) => Iterable<TResult>)
         }
     }
 
@@ -1553,14 +1553,14 @@ export class Enumerable {
         source: Iterable<TSource>,
         type: IConstructor<TResult> | string): IEnumerable<TResult> {
 
-        const typeCheck: (x: TSource) => boolean = typeof type === "string" ?
-            ((x) => typeof x === type) :
-            ((x) => x instanceof type)
+        const typeCheck = typeof type === "string" ?
+            ((x) => typeof x === type) as (x: any) => x is TResult :
+            ((x) => x instanceof type) as (x: any) => x is TResult
 
         function *iterator(): IterableIterator<TResult> {
             for (const item of source) {
                 if (typeCheck(item)) {
-                    yield item as any
+                    yield item
                 }
             }
         }

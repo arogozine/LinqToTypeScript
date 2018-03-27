@@ -42,8 +42,8 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
-    max(this: IAsyncEnumerable<number>): Promise<number | never>;
-    max(selector: (x: TSource) => number): Promise<number | never>;
+    max(this: IAsyncEnumerable<number>): Promise<number>;
+    max(selector: (x: TSource) => number): Promise<number>;
     maxAsync(selector: (x: TSource) => Promise<number>): Promise<number | never>;
     min(this: IAsyncEnumerable<number>): Promise<number | never>;
     min(selector: (x: TSource) => number): Promise<number | never>;

@@ -13,6 +13,10 @@
         "unified-signatures": false,
         "prefer-for-of": false,
         "callable-types": false,
-        "member-access": true
+        "member-access": true,
+        "object-literal-sort-keys": true,
+        "no-unnecessary-type-assertion": true,
+        "prefer-const": true,
+        "no-duplicate-imports": true
     }
 }

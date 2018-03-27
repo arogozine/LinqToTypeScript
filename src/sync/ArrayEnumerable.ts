@@ -1,4 +1,5 @@
 import { IAsyncEnumerable } from "@async/async"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     ErrorString,
@@ -12,7 +13,6 @@ import { BasicEnumerable } from "./BasicEnumerable"
 import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public aggregate(func: (x: T, y: T) => T): T
