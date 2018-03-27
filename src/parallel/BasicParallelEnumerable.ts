@@ -1,3 +1,4 @@
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
     IAsyncParallel,
@@ -11,7 +12,6 @@ import {
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     public readonly dataFunc: TypedData<TSource>
@@ -232,7 +232,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         this: IParallelEnumerable<{ [key: string]: Promise<TResult> }>,
         selector: TKey): IParallelEnumerable<TResult>
     public selectAsync<OUT>(keyOrSelector: string | ((x: TSource) => Promise<OUT>)): IParallelEnumerable<OUT> {
-        return ParallelEnumerable.selectAsync(this as any, keyOrSelector as any)
+        return ParallelEnumerable.selectAsync<any, OUT>(this, keyOrSelector as any)
     }
 
     public selectMany<OUT>(
@@ -245,7 +245,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
 
     public selectManyAsync<OUT>(
         selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT> {
-        return ParallelEnumerable.selectManyAsync(this, selector);
+        return ParallelEnumerable.selectManyAsync(this, selector)
     }
 
     public sequenceEquals(
@@ -331,7 +331,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource> {
         return ParallelEnumerable.union(this, second, comparer)
     }
-    
+
     public unionAsync(
         second: IAsyncParallel<TSource>,
         comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
@@ -360,7 +360,6 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult> {
         return ParallelEnumerable.ZipAsync(this, second, resultSelector)
     }
-
 
     public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
         const toArray = this.toArray

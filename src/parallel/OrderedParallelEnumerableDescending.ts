@@ -24,8 +24,8 @@ export class OrderedParallelEnumerableDescending<T> extends BasicParallelEnumera
             const values = map.get(key)
 
             if (values instanceof Map) {
-                for (const value of await OrderedParallelEnumerableDescending.unrollAndSort(values, comparer)) {
-                    returnValues.push(value as any)
+                for (const value of await OrderedParallelEnumerableDescending.unrollAndSort<T>(values, comparer)) {
+                    returnValues.push(value)
                 }
             } else {
                 // Because the key is from the same map
@@ -43,8 +43,8 @@ export class OrderedParallelEnumerableDescending<T> extends BasicParallelEnumera
         comparer?: IComparer<number | string>): TypedData<T> {
         const generator = () => OrderedParallelEnumerableDescending.unrollAndSort(mapFunc(), comparer)
         return {
-            type: DataType.PromiseToArray,
             generator,
+            type: DataType.PromiseToArray,
         }
     }
 

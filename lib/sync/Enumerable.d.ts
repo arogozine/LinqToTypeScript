@@ -1,10 +1,10 @@
 import { IAsyncEnumerable } from "@async/IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "@async/IOrderedAsyncEnumerable";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { BasicEnumerable } from "./BasicEnumerable";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class Enumerable {
     static aggregate<TSource>(source: Iterable<TSource>, func: (x: TSource, y: TSource) => TSource): TSource;
     static aggregate<TSource, TAccumulate>(source: Iterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate;

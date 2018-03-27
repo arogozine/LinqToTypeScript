@@ -1,5 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -20,7 +21,6 @@ import { IAsyncEnumerable } from "./IAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
 import { OrderedAsyncEnumerableDescending } from "./OrderedAsyncEnumerableDescending"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export class AsyncEnumerable {
 
@@ -931,7 +931,7 @@ export class AsyncEnumerable {
     public static selectManyAsync<TSource, Y>(
         source: AsyncIterable<TSource>,
         selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y> {
-        async function* iterator(){
+        async function* iterator() {
             for await (const value of source) {
                 const many = await selector(value)
                 for (const innerValue of many) {
@@ -1584,8 +1584,6 @@ export class AsyncEnumerable {
 
         return firstResult.done && secondResult.done
     }
-
-    
 
     public static async sequenceEqualsAsync<TSource>(
         first: AsyncIterable<TSource>,
@@ -2284,23 +2282,22 @@ export class AsyncEnumerable {
         async function *generator() {
             const firstIterator = source[Symbol.asyncIterator]()
             const secondIterator = second[Symbol.asyncIterator]()
-            
+
             while (true) {
                 const results = await Promise.all([firstIterator.next(), secondIterator.next()])
                 const firstNext = results[0]
                 const secondNext = results[1]
 
                 if (firstNext.done || secondNext.done) {
-                    break;
+                    break
                 } else {
-                    yield resultSelector(firstNext.value, secondNext.value);
+                    yield resultSelector(firstNext.value, secondNext.value)
                 }
             }
         }
 
-        return new BasicAsyncEnumerable(generator);
+        return new BasicAsyncEnumerable(generator)
     }
-
 
     private constructor() { }
 }

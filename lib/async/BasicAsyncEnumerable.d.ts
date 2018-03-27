@@ -1,7 +1,7 @@
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
     private readonly iterator;
     constructor(iterator: () => AsyncIterableIterator<TSource>);

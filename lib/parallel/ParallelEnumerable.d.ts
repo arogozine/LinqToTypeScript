@@ -1,9 +1,9 @@
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { DataType } from "./DataType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 import { IParallelEnumerable } from "./IParallelEnumerable";
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class ParallelEnumerable {
     private constructor();
     static aggregate<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;

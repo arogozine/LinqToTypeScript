@@ -5,6 +5,7 @@ import {
 import { IOrderedAsyncEnumerable } from "@async/IOrderedAsyncEnumerable"
 import { OrderedAsyncEnumerable } from "@async/OrderedAsyncEnumerable"
 import { OrderedAsyncEnumerableDescending } from "@async/OrderedAsyncEnumerableDescending"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -25,7 +26,6 @@ import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 import { OrderedEnumerable } from "./OrderedEnumerable"
 import { OrderedEnumerableDescending } from "./OrderedEnumerableDescending"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 // Enumerable class based on,
 // https://msdn.microsoft.com/en-us/library/system.linq.enumerable(v=vs.110).aspx
@@ -2372,7 +2372,7 @@ export class Enumerable {
             }
         }
 
-        return AsyncEnumerable.from(generator);
+        return AsyncEnumerable.from(generator)
     }
 
     private constructor() {
