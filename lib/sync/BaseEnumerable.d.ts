@@ -2,6 +2,7 @@ import { IAsyncEnumerable } from "@async/async";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "@shared/shared";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     aggregate(func: (x: T, y: T) => T): T;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate;
@@ -74,6 +75,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>;
     selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT>;
     sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean;
+    sequenceEqualsAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): Promise<boolean>;
     single(predicate?: (x: T) => boolean): T;
     singleAsync(predicate: (x: T) => Promise<boolean>): Promise<T>;
     singleOrDefault(predicate?: (x: T) => boolean): T | null;
@@ -92,6 +94,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     toMapAsync<TKey>(selector: (x: T) => Promise<TKey>): Promise<Map<TKey, T[]>>;
     toSet(): Set<T>;
     union(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
+    unionAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T>;
     where(predicate: (x: T, index: number) => boolean): IEnumerable<T>;
     whereAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>;

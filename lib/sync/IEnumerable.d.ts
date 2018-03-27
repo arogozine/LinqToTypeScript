@@ -1,6 +1,7 @@
 import { IAsyncEnumerable } from "../async/async";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export interface IEnumerable<TSource> extends Iterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): TSource;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate;
@@ -70,6 +71,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
     selectManyAsync<TOut>(selector: (x: TSource) => Promise<Iterable<TOut>>): IAsyncEnumerable<TOut>;
     sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
+    sequenceEqualsAsync(second: IEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     single(predicate?: (x: TSource) => boolean): TSource;
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     singleOrDefault(predicate?: (x: TSource) => boolean): TSource | null;
@@ -88,6 +90,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>;
     toSet(): Set<TSource>;
     union(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    unionAsync(second: Iterable<TSource>, comparer?: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;

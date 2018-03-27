@@ -20,6 +20,7 @@ import { IAsyncEnumerable } from "./IAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
 import { OrderedAsyncEnumerableDescending } from "./OrderedAsyncEnumerableDescending"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export class AsyncEnumerable {
 
@@ -1584,6 +1585,33 @@ export class AsyncEnumerable {
         return firstResult.done && secondResult.done
     }
 
+    
+
+    public static async sequenceEqualsAsync<TSource>(
+        first: AsyncIterable<TSource>,
+        second: AsyncIterable<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+
+        const firstIterator = first[Symbol.asyncIterator]()
+        const secondIterator = second[Symbol.asyncIterator]()
+
+        let results = await Promise.all([ firstIterator.next(), secondIterator.next() ])
+        let firstResult = results[0]
+        let secondResult = results[1]
+
+        while (!firstResult.done && !secondResult.done) {
+            if (await comparer(firstResult.value, secondResult.value) === false) {
+                return false
+            }
+
+            results = await Promise.all([ firstIterator.next(), secondIterator.next() ])
+            firstResult = results[0]
+            secondResult = results[1]
+        }
+
+        return firstResult.done && secondResult.done
+    }
+
     public static sum(
         source: AsyncIterable<number>): Promise<number>
     public static sum<TSource>(
@@ -2052,6 +2080,36 @@ export class AsyncEnumerable {
 
                     for (const resultValue of result) {
                         if (comparer(value, resultValue) === true) {
+                            exists = true
+                            break
+                        }
+                    }
+
+                    if (exists === false) {
+                        yield value
+                        result.push(value)
+                    }
+                }
+            }
+        }
+
+        return new BasicAsyncEnumerable(iterator)
+    }
+
+    public static unionAsync<TSource>(
+        first: AsyncIterable<TSource>,
+        second: AsyncIterable<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+
+        async function *iterator(): AsyncIterableIterator<TSource> {
+            const result: TSource[] = []
+
+            for (const source of [first, second]) {
+                for await (const value of source) {
+                    let exists = false
+
+                    for (const resultValue of result) {
+                        if (await comparer(value, resultValue) === true) {
                             exists = true
                             break
                         }

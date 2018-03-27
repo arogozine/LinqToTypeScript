@@ -12,6 +12,7 @@ import { BasicEnumerable } from "./BasicEnumerable"
 import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public aggregate(func: (x: T, y: T) => T): T
@@ -370,6 +371,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.sequenceEquals(this, second, comparer)
     }
 
+    public sequenceEqualsAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): Promise<boolean> {
+        return Enumerable.sequenceEqualsAsync(this, second, comparer)
+    }
+
     public single(predicate?: (x: T) => boolean): T {
         return Enumerable.single(this, predicate)
     }
@@ -438,6 +443,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
 
     public union(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
         return Enumerable.union(this, second, comparer)
+    }
+
+    public unionAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
+        return Enumerable.unionAsync(this, second, comparer)
     }
 
     public where(predicate: (x: T, index: number) => boolean): IEnumerable<T> {

@@ -2,6 +2,7 @@ import { IAsyncEnumerable } from "../async/IAsyncEnumerable";
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IParallelEnumerable } from "./IParallelEnumerable";
 import { TypedData } from "./TypedData";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     readonly dataFunc: TypedData<TSource>;
     constructor(dataFunc: TypedData<TSource>);
@@ -73,6 +74,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     }, TOut>(this: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
     selectManyAsync<OUT>(selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
     sequenceEquals(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    sequenceEqualsAsync(second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     single(predicate?: (x: TSource) => boolean): Promise<TSource>;
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
@@ -91,6 +93,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>;
     toSet(): Promise<Set<TSource>>;
     union(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    unionAsync(second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     zip<TSecond, TResult>(second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;

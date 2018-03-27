@@ -3,6 +3,7 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { DataType } from "./DataType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 import { IParallelEnumerable } from "./IParallelEnumerable";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class ParallelEnumerable {
     private constructor();
     static aggregate<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
@@ -100,6 +101,7 @@ export declare class ParallelEnumerable {
     private static repeat_2<T>(element, count, delay);
     static reverse<TSource>(source: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     static sequenceEquals<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    static sequenceEqualsAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     static single<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static single_1<TSource>(source);
     private static single_2<TSource>(source, predicate);
@@ -145,6 +147,7 @@ export declare class ParallelEnumerable {
     static union<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     private static union_1<TSource>(first, second);
     private static union_2<TSource>(first, second, comparer);
+    static unionAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     static where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource) => boolean): IParallelEnumerable<TSource>;
     static where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
     static whereAsync<T>(source: IAsyncParallel<T>, predicate: (x: T, index: number) => Promise<boolean>): BasicParallelEnumerable<T>;

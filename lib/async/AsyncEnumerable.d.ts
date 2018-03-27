@@ -2,6 +2,7 @@ import "core-js/modules/es7.symbol.async-iterator";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "@shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class AsyncEnumerable {
     static aggregate<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     static aggregate<TSource, TAccumulate>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
@@ -127,6 +128,7 @@ export declare class AsyncEnumerable {
     private static repeat_2<T>(element, count, delay);
     static reverse<TSource>(source: AsyncIterable<TSource>): IAsyncEnumerable<TSource>;
     static sequenceEquals<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    static sequenceEqualsAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     static sum(source: AsyncIterable<number>): Promise<number>;
     static sum<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static sum_1(source);
@@ -168,6 +170,7 @@ export declare class AsyncEnumerable {
     static union<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     private static union_1<TSource>(first, second);
     private static union_2<TSource>(first, second, comparer);
+    static unionAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     static where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
     static where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     private static where_1<T>(source, predicate);

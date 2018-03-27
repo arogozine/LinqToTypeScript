@@ -11,6 +11,7 @@ import {
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     public readonly dataFunc: TypedData<TSource>
@@ -247,11 +248,16 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.selectManyAsync(this, selector);
     }
 
-
     public sequenceEquals(
         second: IAsyncParallel<TSource>,
         comparer?: IEqualityComparer<TSource>): Promise<boolean> {
         return ParallelEnumerable.sequenceEquals(this, second, comparer)
+    }
+
+    public sequenceEqualsAsync(
+        second: IAsyncParallel<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+        return ParallelEnumerable.sequenceEqualsAsync(this, second, comparer)
     }
 
     public async single(predicate?: (x: TSource) => boolean): Promise<TSource> {
@@ -324,6 +330,12 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         second: IAsyncParallel<TSource>,
         comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource> {
         return ParallelEnumerable.union(this, second, comparer)
+    }
+    
+    public unionAsync(
+        second: IAsyncParallel<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+        return ParallelEnumerable.unionAsync(this, second, comparer)
     }
 
     public where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {

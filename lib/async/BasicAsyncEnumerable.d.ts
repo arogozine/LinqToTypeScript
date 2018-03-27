@@ -1,6 +1,7 @@
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
     private readonly iterator;
     constructor(iterator: () => AsyncIterableIterator<TSource>);
@@ -72,6 +73,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     selectMany<Y>(selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>;
     selectManyAsync<Y>(selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y>;
     sequenceEquals(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    sequenceEqualsAsync(second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     single(predicate?: (x: TSource) => boolean): Promise<TSource>;
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
@@ -90,6 +92,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>;
     toSet(): Promise<Set<TSource>>;
     union(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    unionAsync(second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;

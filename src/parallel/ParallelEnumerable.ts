@@ -20,6 +20,7 @@ import { IParallelEnumerable } from "./IParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
 import { OrderedParallelEnumerableDescending } from "./OrderedParallelEnumerableDescending"
 import { TypedData } from "./TypedData"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export class ParallelEnumerable {
 
@@ -1651,6 +1652,30 @@ export class ParallelEnumerable {
         return true
     }
 
+    public static async sequenceEqualsAsync<TSource>(
+        first: IAsyncParallel<TSource>,
+        second: IAsyncParallel<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+
+        const firstArray = await first.toArray()
+        const secondArray = await second.toArray()
+
+        if (firstArray.length !== secondArray.length) {
+            return false
+        }
+
+        for (let i = 0; i < firstArray.length; i++) {
+            const firstResult = firstArray[i]
+            const secondResult = secondArray[i]
+
+            if (await comparer(firstResult, secondResult) === false) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     public static async single<TSource>(
         source: IParallelEnumerable<TSource>,
         predicate?: (x: TSource) => boolean): Promise<TSource> {
@@ -2391,6 +2416,42 @@ export class ParallelEnumerable {
 
                     for (const resultValue of result) {
                         if (comparer(value, resultValue) === true) {
+                            exists = true
+                            break
+                        }
+                    }
+
+                    if (exists === false) {
+                        result.push(value)
+                    }
+                }
+            }
+
+            return result
+        }
+
+        return new BasicParallelEnumerable({
+            type: DataType.PromiseToArray,
+            generator,
+        })
+    }
+
+
+    public static unionAsync<TSource>(
+        first: IAsyncParallel<TSource>,
+        second: IAsyncParallel<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+
+        const generator = async () => {
+            const result: TSource[] = []
+            const values = await Promise.all([ first.toArray(), second.toArray() ])
+
+            for (const source of values) {
+                for (const value of source) {
+                    let exists = false
+
+                    for (const resultValue of result) {
+                        if (await comparer(value, resultValue) === true) {
                             exists = true
                             break
                         }

@@ -25,6 +25,7 @@ import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 import { OrderedEnumerable } from "./OrderedEnumerable"
 import { OrderedEnumerableDescending } from "./OrderedEnumerableDescending"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 // Enumerable class based on,
 // https://msdn.microsoft.com/en-us/library/system.linq.enumerable(v=vs.110).aspx
@@ -1707,6 +1708,30 @@ export class Enumerable {
         return firstResult.done && secondResult.done
     }
 
+    public static async sequenceEqualsAsync<TSource>(
+        first: Iterable<TSource>,
+        second: Iterable<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+
+        const firstIterator = first[Symbol.iterator]()
+        const secondIterator = second[Symbol.iterator]()
+
+        let firstResult = firstIterator.next()
+        let secondResult = secondIterator.next()
+
+        while (!firstResult.done && !secondResult.done) {
+            const comparison = await comparer(firstResult.value, secondResult.value)
+            if (comparison) {
+                return false
+            }
+
+            firstResult = firstIterator.next()
+            secondResult = secondIterator.next()
+        }
+
+        return firstResult.done && secondResult.done
+    }
+
     public static sum(source: Iterable<number>): number
     public static sum<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
     public static sum<TSource>(
@@ -2160,6 +2185,36 @@ export class Enumerable {
         }
 
         return new BasicEnumerable(iterator)
+    }
+
+    public static unionAsync<TSource>(
+        first: Iterable<TSource>,
+        second: Iterable<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>) {
+
+        async function *iterator(): AsyncIterableIterator<TSource> {
+            const result: TSource[] = []
+
+            for (const source of [first, second]) {
+                for (const value of source) {
+                    let exists = false
+
+                    for (const resultValue of result) {
+                        if (await comparer(value, resultValue) === true) {
+                            exists = true
+                            break
+                        }
+                    }
+
+                    if (exists === false) {
+                        yield value
+                        result.push(value)
+                    }
+                }
+            }
+        }
+
+        return AsyncEnumerable.from(iterator)
     }
 
     public static where<T>(

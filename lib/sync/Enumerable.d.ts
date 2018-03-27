@@ -4,6 +4,7 @@ import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from ".
 import { BasicEnumerable } from "./BasicEnumerable";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare class Enumerable {
     static aggregate<TSource>(source: Iterable<TSource>, func: (x: TSource, y: TSource) => TSource): TSource;
     static aggregate<TSource, TAccumulate>(source: Iterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate;
@@ -144,6 +145,7 @@ export declare class Enumerable {
     static repeat<T>(element: T, count: number): IEnumerable<T>;
     static reverse<TSource>(source: Iterable<TSource>): IEnumerable<TSource>;
     static sequenceEquals<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
+    static sequenceEqualsAsync<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     static sum(source: Iterable<number>): number;
     static sum<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number;
     private static sum_1(source);
@@ -182,6 +184,7 @@ export declare class Enumerable {
     static union<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     private static union_1<TSource>(first, second);
     private static union_2<TSource>(first, second, comparer);
+    static unionAsync<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     static where<T>(source: Iterable<T>, predicate: (x: T, index: number) => boolean): IEnumerable<T>;
     private static where_1<T>(source, predicate);
     private static where_2<T>(source, predicate);
