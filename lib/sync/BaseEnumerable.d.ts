@@ -1,8 +1,8 @@
 import { IAsyncEnumerable } from "@async/async";
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "@shared/shared";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     aggregate(func: (x: T, y: T) => T): T;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate;

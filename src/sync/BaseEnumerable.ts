@@ -1,4 +1,5 @@
 import { IAsyncEnumerable } from "@async/async"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import {
     IComparer,
     IConstructor,
@@ -8,7 +9,6 @@ import {
 import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public aggregate(func: (x: T, y: T) => T): T
@@ -347,7 +347,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public zipAsync<TSecond, TResult>(
         second: Iterable<TSecond>,
         resultSelector: (x: T, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
-        return Enumerable.zipAsync(this, second, resultSelector);
+        return Enumerable.zipAsync(this, second, resultSelector)
     }
 
     public abstract [Symbol.iterator](): IterableIterator<T>

@@ -129,7 +129,7 @@ export declare class Enumerable {
     static min(source: Iterable<number>): number;
     static min<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number;
     private static min_1(source);
-    private static min_2(source, selector);
+    private static min_2<TSource>(source, selector);
     static minAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static ofType<TSource, TResult>(source: Iterable<TSource>, type: IConstructor<TResult> | string): IEnumerable<TResult>;
     private static orderByInner<TSource>(source, keySelector);

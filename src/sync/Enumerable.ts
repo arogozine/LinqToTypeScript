@@ -1501,11 +1501,12 @@ export class Enumerable {
 
     public static min(source: Iterable<number>): number
     public static min<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
-    public static min(source: Iterable<number>, selector?: (x: number) => number): number {
+    public static min<TSource>(source: Iterable<TSource> | Iterable<number>,
+                               selector?: (x: TSource) => number): number {
         if (selector) {
-            return Enumerable.min_2(source, selector)
+            return Enumerable.min_2(source as Iterable<TSource>, selector)
         } else {
-            return Enumerable.min_1(source)
+            return Enumerable.min_1(source as Iterable<number>)
         }
     }
 
@@ -1522,7 +1523,7 @@ export class Enumerable {
         }
     }
 
-    private static min_2(source: Iterable<number>, selector: (x: number) => number) {
+    private static min_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number) {
         let min: number | null = null
         for (const item of source) {
             min = Math.min(min || Number.MAX_VALUE, selector(item))
