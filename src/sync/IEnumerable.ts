@@ -1,7 +1,7 @@
-import { IAsyncEnumerable } from "../async/async"
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared"
+import { IAsyncEnumerable } from "@async/async"
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "@shared/shared"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export interface IEnumerable<TSource> extends Iterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): TSource,
