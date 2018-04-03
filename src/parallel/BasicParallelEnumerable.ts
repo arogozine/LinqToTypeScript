@@ -13,6 +13,10 @@ import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
 
+/**
+ * Base implementation of IParallelEnumerable<T>
+ * @private
+ */
 export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     public readonly dataFunc: TypedData<TSource>
 
@@ -121,7 +125,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
     public groupBy(keySelector: any, comparer?: any): IParallelEnumerable<any> {
-        return ParallelEnumerable.groupBy(this, keySelector, comparer as any)
+        return ParallelEnumerable.groupBy(this, keySelector, comparer)
     }
 
     public groupByWithSel<TElement>(
@@ -135,7 +139,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         elementSelector: (x: TSource) => TElement,
         comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>>
     public groupByWithSel(keySelector: any, elementSelector: any, comparer?: any): IParallelEnumerable<any> {
-        return ParallelEnumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
+        return ParallelEnumerable.groupByWithSel(this, keySelector, elementSelector, comparer)
     }
 
     public intersect(

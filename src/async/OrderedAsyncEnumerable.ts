@@ -3,6 +3,9 @@ import { AsyncEnumerable } from "./AsyncEnumerable"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 
+/**
+ * Ordered Async Enumerable
+ */
 export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implements IOrderedAsyncEnumerable<T> {
     private static async *unrollAndSort<T>(
         mapPromise: Promise<RecOrdMap<T>> | RecOrdMap<T>,

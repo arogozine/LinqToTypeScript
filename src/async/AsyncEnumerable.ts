@@ -22,6 +22,9 @@ import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
 import { OrderedAsyncEnumerableDescending } from "./OrderedAsyncEnumerableDescending"
 
+/**
+ * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
+ */
 export class AsyncEnumerable {
 
     public static aggregate<TSource>(

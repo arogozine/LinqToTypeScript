@@ -1,7 +1,7 @@
-import { IAsyncEnumerable } from "../async/async";
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
-import { IOrderedEnumerable } from "./IOrderedEnumerable";
+import { IAsyncEnumerable } from "@async/async";
 import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "@shared/shared";
+import { IOrderedEnumerable } from "./IOrderedEnumerable";
 export interface IEnumerable<TSource> extends Iterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): TSource;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate;
@@ -96,5 +96,5 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>;
     zipAsync<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>;
-    [Symbol.iterator]: () => IterableIterator<TSource>;
+    [Symbol.iterator](): IterableIterator<TSource>;
 }

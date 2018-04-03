@@ -1,5 +1,8 @@
 import { IEqualityComparer } from "./IEqualityComparer"
 
+/**
+ * Common Methods between IAsyncEnumerable and IParallelEnumerable
+ */
 export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>,
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>,
@@ -44,5 +47,5 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     toMap<TKey>(selector: (x: TSource) => TKey): Promise<Map<TKey, TSource[]>>,
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>,
     toSet(): Promise<Set<TSource>>,
-    [Symbol.asyncIterator]: () => AsyncIterableIterator<TSource>
+    [Symbol.asyncIterator](): AsyncIterableIterator<TSource>
 }

@@ -10,6 +10,11 @@ import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
+/**
+ * Container for all IEnumerable methods
+ * to apply to built in ECMAScript collections
+ * and what not
+ */
 export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public aggregate(func: (x: T, y: T) => T): T
     public aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate

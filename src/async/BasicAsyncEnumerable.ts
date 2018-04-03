@@ -5,6 +5,10 @@ import { AsyncEnumerable } from "./AsyncEnumerable"
 import { IAsyncEnumerable } from "./IAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 
+/**
+ * The class behind IAsyncEnumerable<T>
+ * @private
+ */
 export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> {
     constructor(private readonly iterator: () => AsyncIterableIterator<TSource>) {
         //

@@ -1,5 +1,8 @@
 import { ArrayEnumerable } from "./ArrayEnumerable"
 
+/**
+ * Key to Values Enumeration
+ */
 export class Grouping<TKey, TElement> extends ArrayEnumerable<TElement> {
     public readonly key: TKey
     constructor(key: TKey, startingItem: TElement) {

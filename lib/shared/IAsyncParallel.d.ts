@@ -40,5 +40,5 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     toMap<TKey>(selector: (x: TSource) => TKey): Promise<Map<TKey, TSource[]>>;
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>;
     toSet(): Promise<Set<TSource>>;
-    [Symbol.asyncIterator]: () => AsyncIterableIterator<TSource>;
+    [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
 }

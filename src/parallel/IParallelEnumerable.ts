@@ -1,6 +1,6 @@
+import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared"
 import { TypedData } from "./TypedData"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     readonly dataFunc: TypedData<TSource>
@@ -64,7 +64,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     sequenceEquals(second: IAsyncParallel<TSource>,
                    comparer?: IEqualityComparer<TSource>): Promise<boolean>,
     sequenceEqualsAsync(second: IAsyncParallel<TSource>,
-                   comparer?: IAsyncEqualityComparer<TSource>): Promise<boolean>,
+                        comparer?: IAsyncEqualityComparer<TSource>): Promise<boolean>,
     skip(count: number): IParallelEnumerable<TSource>,
     skipWhile(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>,
     skipWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>,
@@ -74,7 +74,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     union(second: IAsyncParallel<TSource>,
           comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     unionAsync(second: IAsyncParallel<TSource>,
-        comparer?: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>,
+               comparer?: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>,
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>
     zip<TSecond, TResult>(

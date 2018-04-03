@@ -4,6 +4,9 @@ import { BasicEnumerable } from "./BasicEnumerable"
 import { Enumerable } from "./Enumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
+/**
+ * Result from the orderByDescending function
+ */
 export class OrderedEnumerableDescending<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
 
     private static *unrollAndSort<T>(

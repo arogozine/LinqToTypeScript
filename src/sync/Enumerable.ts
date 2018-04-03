@@ -30,6 +30,9 @@ import { OrderedEnumerableDescending } from "./OrderedEnumerableDescending"
 // Enumerable class based on,
 // https://msdn.microsoft.com/en-us/library/system.linq.enumerable(v=vs.110).aspx
 
+/**
+ * Container for all static methods dealing with IEnumerable<T> / Iterable type
+ */
 export class Enumerable {
 
     public static aggregate<TSource>(
@@ -500,7 +503,15 @@ export class Enumerable {
         return new BasicEnumerable(() => iterator(source))
     }
 
+    /**
+     * Creates an IEnumerable from an array
+     * @param source Array of Elements
+     */
     public static from<TSource>(source: TSource[]): IEnumerable<TSource>
+    /**
+     * Creates an IEnumerable from an iteration of elements
+     * @param source Iteration of Elements
+     */
     public static from<TSource>(source: IterableIterator<TSource>): IEnumerable<TSource>
     public static from<TSource>(source: TSource[] | IterableIterator<TSource>): IEnumerable<TSource> {
         if (Array.isArray(source)) {
@@ -1676,6 +1687,10 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
+    /**
+     * Reverses an Iterable
+     * @param source Iterable
+     */
     public static reverse<TSource>(source: Iterable<TSource>): IEnumerable<TSource> {
         function* iterator() {
             for (const x of [...source].reverse()) {
@@ -1686,6 +1701,12 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
+    /**
+     * Determines whether or not two sequences are equal
+     * @param first first iterable
+     * @param second second iterable
+     * @param comparer Compare function to use, by default is @see {StrictEqualityComparer}
+     */
     public static sequenceEquals<TSource>(
         first: Iterable<TSource>,
         second: Iterable<TSource>,

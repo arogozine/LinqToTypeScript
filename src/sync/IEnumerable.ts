@@ -121,5 +121,5 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     zipAsync<TSecond, TResult>(
         second: Iterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>,
-    [Symbol.iterator]: () => IterableIterator<TSource>
+    [Symbol.iterator](): IterableIterator<TSource>
 }

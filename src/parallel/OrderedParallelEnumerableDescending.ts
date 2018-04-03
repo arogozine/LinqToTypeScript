@@ -8,6 +8,9 @@ import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
 
+/**
+ * Descending Order Parallel Enumerable
+ */
 export class OrderedParallelEnumerableDescending<T> extends BasicParallelEnumerable<T>
     implements IOrderedParallelEnumerable<T> {
     private static async unrollAndSort<T>(

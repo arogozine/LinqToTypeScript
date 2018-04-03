@@ -22,6 +22,9 @@ import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
 import { OrderedParallelEnumerableDescending } from "./OrderedParallelEnumerableDescending"
 import { TypedData } from "./TypedData"
 
+/**
+ * Contains static methods to work with Parallel Async
+ */
 export class ParallelEnumerable {
 
     private constructor() {
@@ -691,22 +694,31 @@ export class ParallelEnumerable {
         })
     }
 
+    /**
+     * Creates an IParallelEnumerable from a function that returns an Array of Promises
+     */
     public static from<TSource>(
         type: DataType.ArrayOfPromises,
         generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>
+    /**
+     * Creates an IParallelEnumerable from a function that returns a Promise of data values
+     */
     public static from<TSource>(
         type: DataType.PromiseToArray,
         generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>
+    /**
+     * Creates an IParallelEnumerable from a function that returns an promise of an array of promises
+     */
     public static from<TSource>(
         type: DataType.PromiseOfPromises,
         generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>
     public static from<TSource>(
-        type: DataType,
+        type: any,
         generator: () => any) {
         return new BasicParallelEnumerable<TSource>({
             generator,
             type,
-        } as any)
+        })
     }
 
     public static groupBy<TSource>(

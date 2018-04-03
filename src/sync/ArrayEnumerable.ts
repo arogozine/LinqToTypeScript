@@ -14,6 +14,9 @@ import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
+/**
+ * Array backed Enumerable
+ */
 export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public aggregate(func: (x: T, y: T) => T): T
     public aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate

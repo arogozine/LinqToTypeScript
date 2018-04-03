@@ -5,7 +5,16 @@
             true, "never"
         ],
         "member-ordering": [
-            true
+            true,
+            { "order": [
+                "public-static-field",
+                "public-instance-field",
+                "public-constructor",
+                "public-instance-method",
+                "protected-instance-method",
+                "private-instance-method"
+                ]
+            }
         ],
         "max-classes-per-file": [
             false
@@ -17,6 +26,8 @@
         "object-literal-sort-keys": true,
         "no-unnecessary-type-assertion": true,
         "prefer-const": true,
-        "no-duplicate-imports": true
+        "no-duplicate-imports": true,
+        "completed-docs": [true, "classes", "enums"],
+        "jsdoc-format": [true, "check-multiline-start"]
     }
 }

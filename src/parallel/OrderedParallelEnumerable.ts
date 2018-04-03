@@ -8,6 +8,9 @@ import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
 
+/**
+ * Ordered Parallel Enumerable
+ */
 export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> implements IOrderedParallelEnumerable<T> {
     private static async unrollAndSort<T>(
         mapPromise: Promise<RecOrdMap<T>> | RecOrdMap<T>,
@@ -39,8 +42,8 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         comparer?: IComparer<number | string>): TypedData<T> {
         const generator = () => OrderedParallelEnumerable.unrollAndSort(mapFunc(), comparer)
         return {
-            type: DataType.PromiseToArray,
             generator,
+            type: DataType.PromiseToArray,
         }
     }
 
