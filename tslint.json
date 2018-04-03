@@ -27,7 +27,20 @@
         "no-unnecessary-type-assertion": true,
         "prefer-const": true,
         "no-duplicate-imports": true,
-        "completed-docs": [true, "classes", "enums"],
+        "completed-docs": [
+            true,
+            {
+                "classes": true,
+                "enums": true,
+                "functions": {
+                    "visibilities": ["exported"]
+                },
+                "methods": {
+                    "locations": "instance",
+                    "privacies": ["public", "protected"]
+                }
+            }
+        ],
         "jsdoc-format": [true, "check-multiline-start"]
     }
 }

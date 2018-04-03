@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "cd ./node_modules/karma/bin/ && karma start \"..\\..\\..\\karma.conf.js\""
+    "test": "cd ./node_modules/karma/bin/ && karma start \"..\\..\\..\\karma.conf.js\"",
+    "lint": "tslint -p ./"
   },
   "repository": {
     "type": "git",
