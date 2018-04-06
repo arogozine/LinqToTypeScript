@@ -1,6 +1,6 @@
-import { IAsyncEnumerable } from "@async/async"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "@shared/shared"
+import { IAsyncEnumerable } from "./../async/async"
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
+import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "./../shared/shared"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
 export interface IEnumerable<TSource> extends Iterable<TSource> {

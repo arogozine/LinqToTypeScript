@@ -1,4 +1,3 @@
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -14,6 +13,7 @@ import {
     RecOrdMap,
     StrictEqualityComparer } from "../shared/shared"
 import { Grouping } from "../sync/sync"
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { DataType } from "./DataType"
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"

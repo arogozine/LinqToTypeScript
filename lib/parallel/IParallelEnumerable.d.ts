@@ -1,5 +1,5 @@
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { TypedData } from "./TypedData";
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     readonly dataFunc: TypedData<TSource>;

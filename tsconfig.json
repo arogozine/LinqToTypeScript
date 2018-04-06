@@ -19,13 +19,6 @@
             "es2016",
             "esnext.asynciterable"
         ],
-        "baseUrl": "src",
-        "paths": {
-            "@async/*": [ "async/*" ],
-            "@parallel/*": [ "parallel/*" ],
-            "@shared/*": [ "shared/*" ],
-            "@sync/*": [ "sync/*" ],
-        },
     },
     "exclude": [
         "node_modules",

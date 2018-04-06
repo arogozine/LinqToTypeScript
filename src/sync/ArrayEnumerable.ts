@@ -1,5 +1,5 @@
-import { IAsyncEnumerable } from "@async/async"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
+import { IAsyncEnumerable } from "./../async/async"
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     ErrorString,
@@ -8,7 +8,7 @@ import {
     IEqualityComparer,
     IGrouping,
     InvalidOperationException,
-    ITuple } from "@shared/shared"
+    ITuple } from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"

@@ -1,5 +1,5 @@
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
 export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     asParallel(): IAsyncParallel<TSource>;

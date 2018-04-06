@@ -1,5 +1,5 @@
-import { IOrderedAsyncEnumerable } from "@async/IOrderedAsyncEnumerable"
-import { IComparer, RecOrdMap } from "@shared/shared"
+import { IOrderedAsyncEnumerable } from "./../async/IOrderedAsyncEnumerable"
+import { IComparer, RecOrdMap } from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Enumerable } from "./Enumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"

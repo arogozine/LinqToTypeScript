@@ -1,4 +1,4 @@
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
     IAsyncParallel,

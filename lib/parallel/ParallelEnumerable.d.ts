@@ -1,5 +1,5 @@
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer";
 import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { DataType } from "./DataType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";

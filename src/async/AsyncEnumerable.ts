@@ -1,6 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -14,8 +14,8 @@ import {
     ITuple,
     RecOrdMap,
     StrictEqualityComparer,
-} from "@shared/shared"
-import { Grouping } from "@sync/sync"
+} from "./../shared/shared"
+import { Grouping } from "./../sync/sync"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 import { IAsyncEnumerable } from "./IAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"

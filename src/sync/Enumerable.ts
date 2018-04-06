@@ -1,11 +1,3 @@
-import { AsyncEnumerable } from "@async/AsyncEnumerable"
-import {
-    IAsyncEnumerable,
-} from "@async/IAsyncEnumerable"
-import { IOrderedAsyncEnumerable } from "@async/IOrderedAsyncEnumerable"
-import { OrderedAsyncEnumerable } from "@async/OrderedAsyncEnumerable"
-import { OrderedAsyncEnumerableDescending } from "@async/OrderedAsyncEnumerableDescending"
-import { IAsyncEqualityComparer } from "@shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -20,6 +12,14 @@ import {
     RecOrdMap,
     StrictEqualityComparer,
 } from "../shared/shared"
+import { AsyncEnumerable } from "./../async/AsyncEnumerable"
+import {
+    IAsyncEnumerable,
+} from "./../async/IAsyncEnumerable"
+import { IOrderedAsyncEnumerable } from "./../async/IOrderedAsyncEnumerable"
+import { OrderedAsyncEnumerable } from "./../async/OrderedAsyncEnumerable"
+import { OrderedAsyncEnumerableDescending } from "./../async/OrderedAsyncEnumerableDescending"
+import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Grouping } from "./Grouping"
 import { IEnumerable } from "./IEnumerable"
