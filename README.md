@@ -6,6 +6,10 @@ Linq to TypeScript
 
 ### Getting Started
 
+```sh
+npm i linq-to-typescript
+```
+
 #### tsconfig.json
 ```JSON
 "compilerOptions": {
