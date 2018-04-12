@@ -316,6 +316,9 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
+    /**
+     * @throws {ArgumentOutOfRangeException}
+     */
     public static async elementAt<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource> {
         let i = 0
         for await (const item of source) {
@@ -388,6 +391,9 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
+    /**
+     * @throws {InvalidOperationException} There are no elements
+     */
     public static first<TSource>(
         source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {
@@ -417,6 +423,9 @@ export class AsyncEnumerable {
         throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
+    /**
+     * @throws {InvalidOperationException} There are no elements matching predicate
+     */
     public static async firstAsync<T>(
         source: AsyncIterable<T>,
         predicate: (x: T) => Promise<boolean>): Promise<T> {
@@ -494,6 +503,9 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(() => iterator(source))
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements in the Promises Array
+     */
     public static from<TSource>(promises: Array<Promise<TSource>>): IAsyncEnumerable<TSource>
     public static from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>
     public static from<TSource>(promisesOrIterable: Array<Promise<TSource>> | (() => AsyncIterableIterator<TSource>)) {
@@ -946,6 +958,9 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
+    /**
+     * @throws {InvalidOperationException} More than One Element Found or No Matching Elements
+     */
     public static single<TSource>(
         source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {
@@ -998,6 +1013,9 @@ export class AsyncEnumerable {
         return singleValue as TSource
     }
 
+    /**
+     * @throws {InvalidOperationException} More than One Element Found or No Matching Elements
+     */
     public static async singleAsync<TSource>(
         source: AsyncIterable<TSource>,
         predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
@@ -1294,6 +1312,9 @@ export class AsyncEnumerable {
         return new OrderedAsyncEnumerableDescending(AsyncEnumerable.orderByInner(source, keySelector), comparer as any)
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements / No Match
+     */
     public static async last<TSource>(
         source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
         if (predicate) {
@@ -1334,6 +1355,9 @@ export class AsyncEnumerable {
         return last
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements / No Match
+     */
     public static async lastAsync<TSource>(
         source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
         let last: TSource | null = null
@@ -1399,7 +1423,14 @@ export class AsyncEnumerable {
         return last
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements
+     * @param source Async Iteration of Numbers
+     */
     public static max(source: AsyncIterable<number>): Promise<number>
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     public static max<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
     public static max<TSource>(
         source: AsyncIterable<TSource> | AsyncIterable<number>,
@@ -1438,6 +1469,9 @@ export class AsyncEnumerable {
         }
     }
 
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     public static async maxAsync<TSource>(
         source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
         let max: number | null = null
@@ -1488,6 +1522,9 @@ export class AsyncEnumerable {
         }
     }
 
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     public static async minAsync<TSource>(
         source: AsyncIterable<TSource>,
         selector: (x: TSource) => Promise<number>): Promise<number> {
@@ -2274,7 +2311,7 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static ZipAsync<T, Y, OUT>(
+    public static zipAsync<T, Y, OUT>(
         source: AsyncIterable<T>,
         second: AsyncIterable<Y>,
         resultSelector: (x: T, y: Y) => Promise<OUT>): IAsyncEnumerable<OUT> {

@@ -371,7 +371,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public zipAsync<TSecond, TResult>(
         second: AsyncIterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
-        return AsyncEnumerable.ZipAsync(this, second, resultSelector)
+        return AsyncEnumerable.zipAsync(this, second, resultSelector)
     }
 
     public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
