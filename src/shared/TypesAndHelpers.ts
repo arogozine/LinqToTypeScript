@@ -70,7 +70,7 @@ export function AsTuple<X, Y>(first: X, second: Y): ITuple<X, Y> {
  */
 export const ErrorString = Object.freeze({
     MoreThanOneElement: `Sequence contains more than one element`,
-    NoElements: `Sequence contains more than one element`,
+    NoElements: `Sequence contains no elements`,
     NoMatch: `No matching element found`,
 })
 
