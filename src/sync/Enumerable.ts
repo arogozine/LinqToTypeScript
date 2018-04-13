@@ -65,6 +65,9 @@ export class Enumerable {
         }
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     private static aggregate_1<TSource>(
         source: Iterable<TSource>,
         func: (x: TSource, y: TSource) => TSource): TSource | null {
@@ -172,7 +175,14 @@ export class Enumerable {
         return false
     }
 
+    /**
+     * @throws {InvalidOperationException}
+     * @param source Iteration of Numbers
+     */
     public static average(source: Iterable<number>): number
+    /**
+     * @throws {InvalidOperationException}
+     */
     public static average<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
     public static average<TSource>(
         source: Iterable<TSource> | Iterable<number>,
@@ -214,6 +224,9 @@ export class Enumerable {
         return value / (count as number)
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     public static async averageAsync<TSource>(
         source: Iterable<TSource>, func: (x: TSource) => Promise<number>): Promise<number> {
         let value: number | undefined
@@ -337,6 +350,12 @@ export class Enumerable {
         return AsyncEnumerable.from(generator)
     }
 
+    /**
+     * Returns Element at specified position
+     * @throws {ArgumentOutOfRangeException} Index outside of iteration
+     * @param source Iteration of Elements
+     * @param index Index for Element
+     */
     public static elementAt<TSource>(source: Iterable<TSource>, index: number): TSource {
         let i = 0
         for (const item of source) {
@@ -402,7 +421,13 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements in Iteration
+     */
     public static first<TSource>(source: Iterable<TSource>): TSource
+    /**
+     * @throws {InvalidOperationException} No elements in Iteration matching predicate
+     */
     public static first<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource
     public static first<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
@@ -432,6 +457,11 @@ export class Enumerable {
         throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
+    /**
+     * @throws {InvalidOperationException} No Matching Elements in Iteration
+     * @param source Source Iteration
+     * @param predicate Predicate to Select First Element
+     */
     public static async firstAsync<T>(
         source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T> {
         for (const value of source) {
@@ -1079,6 +1109,10 @@ export class Enumerable {
         return AsyncEnumerable.from(generator)
     }
 
+    /**
+     * @throws {InvalidOperationException} More than one element
+     * @throws {InvalidOperationException} More than one element matching predicate
+     */
     public static single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
             return Enumerable.single_2(source, predicate)
@@ -1152,6 +1186,9 @@ export class Enumerable {
         return singleValue as TSource
     }
 
+    /**
+     * @throws {InvalidOperationException} More than one element
+     */
     public static singleOrDefault<TSource>(
         source: Iterable<TSource>,
         predicate?: (x: TSource) => boolean): TSource | null {
@@ -1200,6 +1237,9 @@ export class Enumerable {
         return singleValue
     }
 
+    /**
+     * @throws {InvalidOperationException} More than one element matchines predicate
+     */
     public static async singleOrDefaultAsync<TSource>(
         source: Iterable<TSource>,
         predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
@@ -1352,6 +1392,10 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements
+     * @throws {InvalidOperationException} No Elements Matching Predicate
+     */
     public static last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
             return Enumerable.last_2(source, predicate)
@@ -1390,6 +1434,9 @@ export class Enumerable {
         return last
     }
 
+    /**
+     * @throws {InvalidOperationException} No Matching Element
+     */
     public static async lastAsync<TSource>(
         source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
         let last: TSource | undefined
@@ -1458,7 +1505,13 @@ export class Enumerable {
         return last
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     public static max(source: Iterable<number>): number
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     public static max<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
     public static max<TSource>(
         source: Iterable<TSource> | Iterable<number>,
@@ -1510,7 +1563,13 @@ export class Enumerable {
         }
     }
 
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     public static min(source: Iterable<number>): number
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     public static min<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
     public static min<TSource>(source: Iterable<TSource> | Iterable<number>,
                                selector?: (x: TSource) => number): number {
@@ -1547,6 +1606,9 @@ export class Enumerable {
         }
     }
 
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     public static async minAsync<TSource>(
         source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
         let min: number | null = null
