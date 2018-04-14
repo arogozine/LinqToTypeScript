@@ -998,7 +998,7 @@ export class AsyncEnumerable {
         for await (const value of source) {
             if (predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1025,7 +1025,7 @@ export class AsyncEnumerable {
         for await (const value of source) {
             if (await predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1077,7 +1077,7 @@ export class AsyncEnumerable {
         for await (const value of source) {
             if (predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1098,7 +1098,7 @@ export class AsyncEnumerable {
         for await (const value of source) {
             if (await predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value

@@ -13,7 +13,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     allAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>,
     any(predicate?: (x: TSource) => boolean): boolean,
     anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
     average(this: IEnumerable<number>): number
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
     average(selector: (x: TSource) => number): number,
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
     concat(second: IEnumerable<TSource>): IEnumerable<TSource>,
@@ -53,15 +59,41 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
             innerKeySelector: (x: TInner) => TKey,
             resultSelector: (x: TSource, y: TInner) => TResult,
             comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains no matching element
+     */
     last(predicate?: (x: TSource) => boolean): TSource,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no matching element
+     */
     lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>,
     lastOrDefault(predicate?: (x: TSource) => boolean): TSource | null,
     lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @param this Iteration of Numbers
+     */
     max(this: IEnumerable<number>): number,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
     max(selector: (x: TSource) => number): number,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
     maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
-    min(this: IEnumerable<number>): number | never,
-    min(selector: (x: TSource) => number): number | never,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
+    min(this: IEnumerable<number>): number,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
+    min(selector: (x: TSource) => number): number,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
     /* tslint:disable:ban-types */
     ofType(type: "object"): IEnumerable<Object>
@@ -92,9 +124,25 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     selectManyAsync<TOut>(selector: (x: TSource) => Promise<Iterable<TOut>>): IAsyncEnumerable<TOut>,
     sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean,
     sequenceEqualsAsync(second: IEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one element
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching element
+     * @throws {InvalidOperationException} Sequence contains no elements
+     */
     single(predicate?: (x: TSource) => boolean): TSource,
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching element
+     */
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     */
     singleOrDefault(predicate?: (x: TSource) => boolean): TSource | null,
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     */
     singleOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>,
     skip(count: number): IEnumerable<TSource>,
     skipWhile(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,

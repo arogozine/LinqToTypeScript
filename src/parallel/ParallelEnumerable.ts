@@ -1688,6 +1688,12 @@ export class ParallelEnumerable {
         return true
     }
 
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains more than one element
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     public static async single<TSource>(
         source: IParallelEnumerable<TSource>,
         predicate?: (x: TSource) => boolean): Promise<TSource> {
@@ -1747,7 +1753,7 @@ export class ParallelEnumerable {
         for (const value of results) {
             if (predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1762,6 +1768,10 @@ export class ParallelEnumerable {
         return singleValue as TSource
     }
 
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     public static async singleAsync<TSource>(
         source: IParallelEnumerable<TSource>,
         predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
@@ -1773,7 +1783,7 @@ export class ParallelEnumerable {
         for (const value of results) {
             if (await predicate(value) === true) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value

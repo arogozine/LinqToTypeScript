@@ -1110,8 +1110,10 @@ export class Enumerable {
     }
 
     /**
-     * @throws {InvalidOperationException} More than one element
-     * @throws {InvalidOperationException} More than one element matching predicate
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains more than one element
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
      */
     public static single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
@@ -1148,7 +1150,7 @@ export class Enumerable {
         for (const value of source) {
             if (predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1163,6 +1165,10 @@ export class Enumerable {
         return singleValue as TSource
     }
 
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     public static async singleAsync<TSource>(
         source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
         let hasValue = false
@@ -1171,7 +1177,7 @@ export class Enumerable {
         for (const value of source) {
             if (await predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1226,7 +1232,7 @@ export class Enumerable {
         for (const value of source) {
             if (predicate(value)) {
                 if (hasValue === true) {
-                    throw new InvalidOperationException(ErrorString.MoreThanOneElement)
+                    throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
                 } else {
                     hasValue = true
                     singleValue = value
@@ -1393,8 +1399,8 @@ export class Enumerable {
     }
 
     /**
-     * @throws {InvalidOperationException} No Elements
-     * @throws {InvalidOperationException} No Elements Matching Predicate
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains no matching element
      */
     public static last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
         if (predicate) {
