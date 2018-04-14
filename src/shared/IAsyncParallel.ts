@@ -26,9 +26,19 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>,
     count(predicate?: (x: TSource) => boolean): Promise<number>,
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>,
+    /**
+     * @throws {ArgumentOutOfRangeException}
+     */
     elementAt(index: number): Promise<TSource>,
     elementAtOrDefault(index: number): Promise<TSource | null>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     first(predicate?: (x: TSource) => boolean): Promise<TSource>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>,
     firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>,
     firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>

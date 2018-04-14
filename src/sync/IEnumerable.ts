@@ -27,10 +27,20 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     count(predicate?: (x: TSource) => boolean): number
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>
     distinct(comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
+    /**
+     * @throws {ArgumentOutOfRangeException}
+     */
     elementAt(index: number): TSource,
     elementAtOrDefault(index: number): TSource | null,
     except(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     first(predicate?: (x: TSource) => boolean): TSource,
+    /**
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>,
     firstOrDefault(predicate?: (x: TSource) => boolean): TSource | null,
     firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>,

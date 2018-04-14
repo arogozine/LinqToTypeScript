@@ -92,7 +92,8 @@ export class InvalidOperationException extends Error {
  */
 export class ArgumentOutOfRangeException extends RangeError {
     constructor(public paramName: string) {
-        super(`Argument ${ paramName } is out of range`)
+        super(`${ paramName } was out of range.` +
+            ` Must be non-negative and less than the size of the collection.`)
         this.name = `ArgumentOutOfRangeException`
         this.stack = this.stack || (new Error()).stack
     }
