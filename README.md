@@ -17,10 +17,12 @@ npm i linq-to-typescript
     "lib": [
       "dom",
       "es2016",
-      "esnext.asynciterable"      
+      "esnext.asynciterable"
     ],
 }
 ```
+
+Library is dependent on [core-js](https://github.com/zloirock/core-js) for implementation of `Symbol.asyncIterator`
 
 #### TypeScript
 ```TypeScript
@@ -316,10 +318,33 @@ For fun and to gain understanding of TypeScript and Node Package Manager.
 Why not target ES5?
 
 **A**
-Backward compatibility is not a concern. You are free to target ES5 instead.
+ES5 doesn't have iterators and generators which this library relies on to mimic the lazy nature of IEnumerable.
+You are free to target ES5 instead.
 
 **Q**
 How does this compare to other LINQ libraries?
 
 **A**
 They are more mature, but not made targeting latest ECMAScript features.
+
+**Q**
+Why should I use this instead of lodash or something similar?
+
+**A**
+- TypeScript first. Libraries which target JavaScript first do additional type checking which can have a negative impact on performance.
+- This library uses [iterators and generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators). These are new language features which have no support in legacy browsers like IE11.
+
+**Q**
+Which browsers are supported?
+
+**A**
+- Firefox
+- Chrome
+- Edge
+- IE is **not** supported
+
+**Q**
+Can I contribute?
+
+**A**
+Please do!
