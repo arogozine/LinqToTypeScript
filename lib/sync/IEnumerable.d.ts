@@ -42,8 +42,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     max(this: IEnumerable<number>): number;
     max(selector: (x: TSource) => number): number;
     maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>;
-    min(this: IEnumerable<number>): number | never;
-    min(selector: (x: TSource) => number): number | never;
+    min(this: IEnumerable<number>): number;
+    min(selector: (x: TSource) => number): number;
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>;
     ofType(type: "object"): IEnumerable<Object>;
     ofType(type: "function"): IEnumerable<Function>;

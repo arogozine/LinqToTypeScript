@@ -6,6 +6,7 @@ export declare function NumberComparer(x: number, y: number): number;
 export declare function AsTuple<X, Y>(first: X, second: Y): ITuple<X, Y>;
 export declare const ErrorString: Readonly<{
     MoreThanOneElement: string;
+    MoreThanOneMatchingElement: string;
     NoElements: string;
     NoMatch: string;
 }>;
@@ -14,6 +15,6 @@ export declare class InvalidOperationException extends Error {
     constructor(message: string);
 }
 export declare class ArgumentOutOfRangeException extends RangeError {
-    paramName: string;
+    readonly paramName: string;
     constructor(paramName: string);
 }

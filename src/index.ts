@@ -33,14 +33,14 @@ export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): vo
 
 /**
  * Binds LINQ method to a built in array type
- * @param object Built In JS Array Type
+ * @param jsArray Built In JS Array Type
  */
-export function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(object: IPrototype<T, Y>): void {
+export function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IPrototype<T, Y>): void {
     const propertyNames = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
         .filter((v) => v !== "constructor")
 
     for (const prop of propertyNames) {
-        object.prototype[prop] =  object.prototype[prop] || (ArrayEnumerable.prototype as any)[prop]
+        jsArray.prototype[prop] =  jsArray.prototype[prop] || (ArrayEnumerable.prototype as any)[prop]
     }
 }
 
