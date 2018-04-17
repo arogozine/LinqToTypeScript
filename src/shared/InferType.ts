@@ -1,10 +1,17 @@
 import { IConstructor } from ".."
+// tslint:disable:ban-types
 
+/**
+ * Accepted inputs for the ofType function
+ */
 export type OfType =
     "object" | "function" | "symbol" | "boolean" | "number" | "string" |
     IConstructor<any>
 
-// tslint:disable:ban-types
+/**
+ * Determines the return type based on the input type T.
+ * @see {OfType}
+ */
 export type InferType<T> =
     T extends "object" ? object :
     (T extends "function" ? Function :
