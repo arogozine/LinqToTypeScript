@@ -4,11 +4,12 @@ import {
     EqualityComparer,
     ErrorString,
     IComparer,
-    IConstructor,
     IEqualityComparer,
     IGrouping,
+    InferType,
     InvalidOperationException,
     ITuple,
+    OfType,
     RecOrdMap,
     StrictEqualityComparer,
 } from "../shared/shared"
@@ -1629,15 +1630,15 @@ export class Enumerable {
         }
     }
 
-    public static ofType<TSource, TResult>(
+    public static ofType<TSource, TType extends OfType>(
         source: Iterable<TSource>,
-        type: IConstructor<TResult> | string): IEnumerable<TResult> {
+        type: TType): IEnumerable<InferType<TType>> {
 
         const typeCheck = typeof type === "string" ?
-            ((x) => typeof x === type) as (x: any) => x is TResult :
-            ((x) => x instanceof type) as (x: any) => x is TResult
+            ((x: TSource) => typeof x === type) as (x: TSource) => x is InferType<TType> :
+            ((x: TSource) => x instanceof (type as any)) as (x: TSource) => x is InferType<TType>
 
-        function *iterator(): IterableIterator<TResult> {
+        function *iterator(): IterableIterator<InferType<TType>> {
             for (const item of source) {
                 if (typeCheck(item)) {
                     yield item

@@ -1,4 +1,4 @@
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEnumerable } from "./../async/IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./../async/IOrderedAsyncEnumerable";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
@@ -131,7 +131,7 @@ export declare class Enumerable {
     private static min_1(source);
     private static min_2<TSource>(source, selector);
     static minAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
-    static ofType<TSource, TResult>(source: Iterable<TSource>, type: IConstructor<TResult> | string): IEnumerable<TResult>;
+    static ofType<TSource, TType extends OfType>(source: Iterable<TSource>, type: TType): IEnumerable<InferType<TType>>;
     private static orderByInner<TSource>(source, keySelector);
     static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedEnumerable<TSource>;
     static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>;

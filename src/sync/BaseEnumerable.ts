@@ -2,10 +2,11 @@ import { IAsyncEnumerable } from "./../async/async"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     IComparer,
-    IConstructor,
     IEqualityComparer,
     IGrouping,
-    ITuple } from "./../shared/shared"
+    InferType,
+    ITuple,
+    OfType} from "./../shared/shared"
 import { Enumerable } from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
@@ -191,20 +192,9 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.minAsync(this, selector)
     }
 
-    // tslint:disable:ban-types
-
-    public ofType(type: "object"): IEnumerable<Object>
-    public ofType(type: "function"): IEnumerable<Function>
-    public ofType(type: "symbol"): IEnumerable<Symbol>
-    public ofType(type: "boolean"): IEnumerable<boolean>
-    public ofType(type: "number"): IEnumerable<number>
-    public ofType(type: "string"): IEnumerable<string>
-    public ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>
-    public ofType(type: string | IConstructor<any>) {
+    public ofType<TType extends OfType>(type: TType): IEnumerable<InferType<TType>> {
         return Enumerable.ofType(this, type)
     }
-
-    // tslint:enable:ban-types
 
     public orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>
     public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>

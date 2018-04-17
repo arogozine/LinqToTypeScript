@@ -1,6 +1,6 @@
 import { IAsyncEnumerable } from "./../async/async"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "./../shared/shared"
+import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
 export interface IEnumerable<TSource> extends Iterable<TSource> {
@@ -105,15 +105,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @throws {InvalidOperationException} Sequence contains no elements
      */
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
-    /* tslint:disable:ban-types */
-    ofType(type: "object"): IEnumerable<Object>
-    ofType(type: "function"): IEnumerable<Function>
-    ofType(type: "symbol"): IEnumerable<Symbol>
-    /* tslint:enable:ban-types */
-    ofType(type: "boolean"): IEnumerable<boolean>
-    ofType(type: "number"): IEnumerable<number>
-    ofType(type: "string"): IEnumerable<string>
-    ofType<TResult>(type: IConstructor<TResult>): IEnumerable<TResult>,
+    ofType<T extends OfType>(type: T): IEnumerable<InferType<T>>,
     orderBy(predicate: (x: TSource) => number | string): IOrderedEnumerable<TSource>
     orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>
     orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedEnumerable<TSource>,
