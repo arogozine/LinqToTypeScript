@@ -1,4 +1,4 @@
-import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
@@ -48,13 +48,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     min(this: IAsyncEnumerable<number>): Promise<number | never>;
     min(selector: (x: TSource) => number): Promise<number | never>;
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number | never>;
-    ofType(type: "object"): IAsyncEnumerable<Object>;
-    ofType(type: "function"): IAsyncEnumerable<Function>;
-    ofType(type: "symbol"): IAsyncEnumerable<Symbol>;
-    ofType(type: "boolean"): IAsyncEnumerable<boolean>;
-    ofType(type: "number"): IAsyncEnumerable<number>;
-    ofType(type: "string"): IAsyncEnumerable<string>;
-    ofType<TResult>(type: IConstructor<TResult>): IAsyncEnumerable<TResult>;
+    ofType<TType extends OfType>(type: TType): IAsyncEnumerable<InferType<TType>>;
     orderBy(predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>;
     orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
     orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;

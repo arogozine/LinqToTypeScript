@@ -7,11 +7,12 @@ import {
     EqualityComparer,
     ErrorString,
     IComparer,
-    IConstructor,
     IEqualityComparer,
     IGrouping,
+    InferType,
     InvalidOperationException,
     ITuple,
+    OfType,
     RecOrdMap,
     StrictEqualityComparer,
 } from "./../shared/shared"
@@ -1231,15 +1232,15 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static ofType<TSource, TResult>(
+    public static ofType<TSource, TType extends OfType>(
         source: AsyncIterable<TSource>,
-        type: IConstructor<TResult> | string): IAsyncEnumerable<TResult> {
+        type: TType): IAsyncEnumerable<InferType<TType>> {
 
         const typeCheck = typeof type === "string" ?
-            ((x) => typeof x === type) as (x: any) => x is TResult :
-            ((x) => x instanceof type) as (x: any) => x is TResult
+            ((x: TSource) => typeof x === type) as (x: TSource) => x is InferType<TType> :
+            ((x: TSource) => x instanceof (type as any)) as (x: TSource) => x is InferType<TType>
 
-        async function *iterator(): AsyncIterableIterator<TResult> {
+        async function *iterator(): AsyncIterableIterator<InferType<TType>> {
             for await (const item of source) {
                 if (typeCheck(item)) {
                     yield item

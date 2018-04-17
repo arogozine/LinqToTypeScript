@@ -1,5 +1,5 @@
 import { DataType, ParallelEnumerable } from "../parallel/parallel"
-import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared"
+import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { AsyncEnumerable } from "./AsyncEnumerable"
 import { IAsyncEnumerable } from "./IAsyncEnumerable"
@@ -197,16 +197,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.minAsync(this, selector)
     }
 
-    /* tslint:disable:ban-types */
-    public ofType(type: "object"): IAsyncEnumerable<Object>
-    public ofType(type: "function"): IAsyncEnumerable<Function>
-    public ofType(type: "symbol"): IAsyncEnumerable<Symbol>
-    /* tslint:enable:ban-types */
-    public ofType(type: "boolean"): IAsyncEnumerable<boolean>
-    public ofType(type: "number"): IAsyncEnumerable<number>
-    public ofType(type: "string"): IAsyncEnumerable<string>
-    public ofType<TResult>(type: IConstructor<TResult>): IAsyncEnumerable<TResult>
-    public ofType<TResult>(type: IConstructor<TResult> | string): IAsyncEnumerable<TResult> {
+    public ofType<TType extends OfType>(type: TType): IAsyncEnumerable<InferType<TType>> {
         return AsyncEnumerable.ofType(this, type)
     }
 

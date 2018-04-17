@@ -1,4 +1,4 @@
-import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
 export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
@@ -16,13 +16,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     groupByWithSel<TKey, TElement>(keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;
     intersect(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     joinByKey<TInner, TKey, TResult>(inner: IAsyncEnumerable<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>;
-    ofType(type: "object"): IAsyncEnumerable<Object>;
-    ofType(type: "function"): IAsyncEnumerable<Function>;
-    ofType(type: "symbol"): IAsyncEnumerable<Symbol>;
-    ofType(type: "boolean"): IAsyncEnumerable<boolean>;
-    ofType(type: "number"): IAsyncEnumerable<number>;
-    ofType(type: "string"): IAsyncEnumerable<string>;
-    ofType<TResult>(type: IConstructor<TResult>): IAsyncEnumerable<TResult>;
+    ofType<TType extends OfType>(type: TType): IAsyncEnumerable<InferType<TType>>;
     orderBy(predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>;
     orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
     orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;

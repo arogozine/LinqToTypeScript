@@ -2,10 +2,11 @@ import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
     IAsyncParallel,
     IComparer,
-    IConstructor,
     IEqualityComparer,
     IGrouping,
+    InferType,
     ITuple,
+    OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
@@ -192,15 +193,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.minAsync(this, selector)
     }
 
-    // tslint:disable:ban-types
-    public ofType(type: "object"): IParallelEnumerable<Object>
-    public ofType(type: "function"): IParallelEnumerable<Function>
-    public ofType(type: "symbol"): IParallelEnumerable<Symbol>
-    public ofType(type: "boolean"): IParallelEnumerable<boolean>
-    public ofType(type: "number"): IParallelEnumerable<number>
-    public ofType(type: "string"): IParallelEnumerable<string>
-    public ofType<TResult>(type: IConstructor<TResult>): IParallelEnumerable<TResult>
-    public ofType<TResult>(type: string | IConstructor<TResult>): IParallelEnumerable<any> {
+    public ofType<TType extends OfType>(type: TType): IParallelEnumerable<InferType<TType>> {
         return ParallelEnumerable.ofType(this, type)
     }
 

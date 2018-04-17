@@ -5,13 +5,14 @@ import {
     ErrorString,
     IAsyncParallel,
     IComparer,
-    IConstructor,
     IEqualityComparer,
     IGrouping,
+    InferType,
     InvalidOperationException,
     ITuple,
+    OfType,
     RecOrdMap,
-    StrictEqualityComparer } from "../shared/shared"
+    StrictEqualityComparer} from "../shared/shared"
 import { Grouping } from "../sync/sync"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
@@ -1492,19 +1493,19 @@ export class ParallelEnumerable {
         })
     }
 
-    public static ofType<TSource, TResult>(
+    public static ofType<TSource, TType extends OfType>(
         source: IAsyncParallel<TSource>,
-        type: IConstructor<TResult> | string): IParallelEnumerable<TResult> {
+        type: TType): IParallelEnumerable<InferType<TType>> {
 
-        const typeCheck: (x: TSource) => boolean = typeof type === "string" ?
-            ((x) => typeof x === type) :
-            ((x) => x instanceof type)
+        const typeCheck = typeof type === "string" ?
+            ((x: TSource) => typeof x === type) as (x: TSource) => x is InferType<TType> :
+            ((x: TSource) => x instanceof (type as any)) as (x: TSource) => x is InferType<TType>
 
-        const data: any = async () =>
+        const data = async () =>
             (await source.toArray()).filter(typeCheck)
 
         return new BasicParallelEnumerable({
-            generator: data as (() => Promise<TResult[]>),
+            generator: data,
             type: DataType.PromiseToArray,
         })
     }

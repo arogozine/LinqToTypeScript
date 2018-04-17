@@ -1,6 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
-import { IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "./../shared/shared";
+import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
 export declare class AsyncEnumerable {
@@ -94,7 +94,7 @@ export declare class AsyncEnumerable {
     static skipWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     private static skipWhileAsync_1<TSource>(source, predicate);
     private static skipWhileAsync_2<TSource>(source, predicate);
-    static ofType<TSource, TResult>(source: AsyncIterable<TSource>, type: IConstructor<TResult> | string): IAsyncEnumerable<TResult>;
+    static ofType<TSource, TType extends OfType>(source: AsyncIterable<TSource>, type: TType): IAsyncEnumerable<InferType<TType>>;
     private static orderByInner<TSource>(source, keySelector);
     static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>;
     static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;

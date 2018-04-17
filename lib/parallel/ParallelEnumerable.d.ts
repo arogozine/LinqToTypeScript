@@ -1,4 +1,4 @@
-import { IAsyncParallel, IComparer, IConstructor, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { DataType } from "./DataType";
@@ -85,7 +85,7 @@ export declare class ParallelEnumerable {
         [key: string]: Iterable<TOut>;
     }, TOut>(source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
     static selectManyAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
-    static ofType<TSource, TResult>(source: IAsyncParallel<TSource>, type: IConstructor<TResult> | string): IParallelEnumerable<TResult>;
+    static ofType<TSource, TType extends OfType>(source: IAsyncParallel<TSource>, type: TType): IParallelEnumerable<InferType<TType>>;
     static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IOrderedParallelEnumerable<TSource>;
     static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>;
     static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => number): IOrderedParallelEnumerable<TSource>;
