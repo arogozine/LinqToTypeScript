@@ -5,10 +5,16 @@ import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { BasicEnumerable } from "./BasicEnumerable";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
+/**
+ * Container for all static methods dealing with IEnumerable<T> / Iterable type
+ */
 export declare class Enumerable {
     static aggregate<TSource>(source: Iterable<TSource>, func: (x: TSource, y: TSource) => TSource): TSource;
     static aggregate<TSource, TAccumulate>(source: Iterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate;
     static aggregate<TSource, TAccumulate, TResult>(source: Iterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): TResult;
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     private static aggregate_1<TSource>(source, func);
     private static aggregate_2<TSource, TAccumulate>(source, seed, func);
     private static aggregate_3<TSource, TAccumulate, TResult>(source, seed, func, resultSelector);
@@ -18,10 +24,20 @@ export declare class Enumerable {
     private static any_1<TSource>(source);
     private static any_2<TSource>(source, predicate);
     static anyAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+    /**
+     * @throws {InvalidOperationException}
+     * @param source Iteration of Numbers
+     */
     static average(source: Iterable<number>): number;
+    /**
+     * @throws {InvalidOperationException}
+     */
     static average<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number;
     private static average_1(source);
     private static average_2<TSource>(source, func);
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     static averageAsync<TSource>(source: Iterable<TSource>, func: (x: TSource) => Promise<number>): Promise<number>;
     static concat<TSource>(first: Iterable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
     static contains<TSource>(source: Iterable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): boolean;
@@ -33,14 +49,31 @@ export declare class Enumerable {
     static distinct<TSource>(source: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     static each<TSource>(source: Iterable<TSource>, action: (x: TSource) => void): IEnumerable<TSource>;
     static eachAsync<TSource>(source: Iterable<TSource>, action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource>;
+    /**
+     * Returns Element at specified position
+     * @throws {ArgumentOutOfRangeException} Index outside of iteration
+     * @param source Iteration of Elements
+     * @param index Index for Element
+     */
     static elementAt<TSource>(source: Iterable<TSource>, index: number): TSource;
     static elementAtOrDefault<TSource>(source: Iterable<TSource>, index: number): TSource | null;
     static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    /**
+     * @throws {InvalidOperationException} No Elements in Iteration
+     */
     static first<TSource>(source: Iterable<TSource>): TSource;
+    /**
+     * @throws {InvalidOperationException} No elements in Iteration matching predicate
+     */
     static first<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource;
     private static first_1<T>(source);
     private static first_2<T>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} No Matching Elements in Iteration
+     * @param source Source Iteration
+     * @param predicate Predicate to Select First Element
+     */
     static firstAsync<T>(source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T>;
     static firstOrDefault<T>(source: Iterable<T>): T | null;
     static firstOrDefault<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null;
@@ -50,7 +83,15 @@ export declare class Enumerable {
     static flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>): IEnumerable<TSource>;
     static flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>;
     static flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>;
+    /**
+     * Creates an IEnumerable from an array
+     * @param source Array of Elements
+     */
     static from<TSource>(source: TSource[]): IEnumerable<TSource>;
+    /**
+     * Creates an IEnumerable from an iteration of elements
+     * @param source Iteration of Elements
+     */
     static from<TSource>(source: IterableIterator<TSource>): IEnumerable<TSource>;
     static groupBy<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>;
@@ -97,13 +138,29 @@ export declare class Enumerable {
         [key: string]: Iterable<TResult>;
     }, TResult>(source: Iterable<TSource>, selector: keyof TSource): BasicEnumerable<TResult>;
     static selectManyAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>;
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains more than one element
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     static single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource;
     private static single_1<TSource>(source);
     private static single_2<TSource>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     static singleAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
+    /**
+     * @throws {InvalidOperationException} More than one element
+     */
     static singleOrDefault<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource | null;
     private static singleOrDefault_1<TSource>(source);
     private static singleOrDefault_2<TSource>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} More than one element matchines predicate
+     */
     static singleOrDefaultAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
     static skipWhile<TSource>(source: Iterable<TSource>, predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
     private static skipWhile_1<TSource>(source, predicate);
@@ -113,23 +170,45 @@ export declare class Enumerable {
     private static skipWhileAsync_2<TSource>(source, predicate);
     static skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource>;
     static empty<TSource>(): IEnumerable<TSource>;
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains no matching element
+     */
     static last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource;
     private static last_1<TSource>(source);
     private static last_2<TSource>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} No Matching Element
+     */
     static lastAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     static lastOrDefault<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource | null;
     private static lastOrDefault_1<TSource>(source);
     private static lastOrDefault_2<TSource>(source, predicate);
     static lastOrDefaultAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     static max(source: Iterable<number>): number;
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     static max<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number;
     private static max_1(source);
     private static max_2<TSource>(source, selector);
     static maxAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+    /**
+     * @throws {InvalidOperationException} No Elements
+     */
     static min(source: Iterable<number>): number;
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     static min<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number;
     private static min_1(source);
     private static min_2<TSource>(source, selector);
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     static minAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static ofType<TSource, TType extends OfType>(source: Iterable<TSource>, type: TType): IEnumerable<InferType<TType>>;
     private static orderByInner<TSource>(source, keySelector);
@@ -143,7 +222,17 @@ export declare class Enumerable {
     static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedEnumerable<TSource>;
     static range(start: number, count: number): IEnumerable<number>;
     static repeat<T>(element: T, count: number): IEnumerable<T>;
+    /**
+     * Reverses an Iterable
+     * @param source Iterable
+     */
     static reverse<TSource>(source: Iterable<TSource>): IEnumerable<TSource>;
+    /**
+     * Determines whether or not two sequences are equal
+     * @param first first iterable
+     * @param second second iterable
+     * @param comparer Compare function to use, by default is @see {StrictEqualityComparer}
+     */
     static sequenceEquals<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
     static sequenceEqualsAsync<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     static sum(source: Iterable<number>): number;

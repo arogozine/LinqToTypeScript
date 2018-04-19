@@ -4,6 +4,9 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { DataType } from "./DataType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 import { IParallelEnumerable } from "./IParallelEnumerable";
+/**
+ * Contains static methods to work with Parallel Async
+ */
 export declare class ParallelEnumerable {
     private constructor();
     static aggregate<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
@@ -44,8 +47,17 @@ export declare class ParallelEnumerable {
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: false): IParallelEnumerable<TSource>;
     static flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>;
+    /**
+     * Creates an IParallelEnumerable from a function that returns an Array of Promises
+     */
     static from<TSource>(type: DataType.ArrayOfPromises, generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
+    /**
+     * Creates an IParallelEnumerable from a function that returns a Promise of data values
+     */
     static from<TSource>(type: DataType.PromiseToArray, generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
+    /**
+     * Creates an IParallelEnumerable from a function that returns an promise of an array of promises
+     */
     static from<TSource>(type: DataType.PromiseOfPromises, generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>;
@@ -102,9 +114,19 @@ export declare class ParallelEnumerable {
     static reverse<TSource>(source: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     static sequenceEquals<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     static sequenceEqualsAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
+    /**
+     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {InvalidOperationException} Sequence contains more than one element
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     static single<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static single_1<TSource>(source);
     private static single_2<TSource>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {InvalidOperationException} Sequence contains no matching elements
+     */
     static singleAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     static singleOrDefault<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     private static singleOrDefault_1<TSource>(source);

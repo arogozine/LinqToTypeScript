@@ -2,6 +2,9 @@ import { IOrderedAsyncEnumerable } from "./../async/IOrderedAsyncEnumerable";
 import { IComparer, RecOrdMap } from "./../shared/shared";
 import { BasicEnumerable } from "./BasicEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
+/**
+ * Result from the orderByDescending function
+ */
 export declare class OrderedEnumerableDescending<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
     private readonly map;
     private static unrollAndSort<T>(map, comparer?);

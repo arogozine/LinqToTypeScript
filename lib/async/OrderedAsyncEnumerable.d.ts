@@ -1,6 +1,9 @@
 import { IComparer, RecOrdMap } from "../shared/shared";
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
+/**
+ * Ordered Async Enumerable
+ */
 export declare class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implements IOrderedAsyncEnumerable<T> {
     private readonly map;
     private static unrollAndSort<T>(mapPromise, comparer?);

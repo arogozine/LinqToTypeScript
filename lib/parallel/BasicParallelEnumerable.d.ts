@@ -3,6 +3,10 @@ import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITu
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IParallelEnumerable } from "./IParallelEnumerable";
 import { TypedData } from "./TypedData";
+/**
+ * Base implementation of IParallelEnumerable<T>
+ * @private
+ */
 export declare class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSource> {
     readonly dataFunc: TypedData<TSource>;
     constructor(dataFunc: TypedData<TSource>);

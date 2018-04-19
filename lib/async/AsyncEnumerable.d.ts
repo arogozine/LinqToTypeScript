@@ -3,6 +3,9 @@ import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
+/**
+ * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
+ */
 export declare class AsyncEnumerable {
     static aggregate<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
     static aggregate<TSource, TAccumulate>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
@@ -28,13 +31,22 @@ export declare class AsyncEnumerable {
     private static count_2<T>(source, predicate);
     static countAsync<T>(source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): Promise<number>;
     static distinct<TSource>(source: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    /**
+     * @throws {ArgumentOutOfRangeException}
+     */
     static elementAt<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource>;
     static elementAtOrDefault<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource | null>;
     static enumerateObject<TInput>(source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    /**
+     * @throws {InvalidOperationException} There are no elements
+     */
     static first<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static first_1<T>(source);
     private static first_2<T>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} There are no elements matching predicate
+     */
     static firstAsync<T>(source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T>;
     static firstOrDefault<T>(source: AsyncIterable<T>, predicate?: (x: T) => boolean): Promise<T | null>;
     private static firstOrDefault_1<T>(source);
@@ -43,6 +55,9 @@ export declare class AsyncEnumerable {
     static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>): IAsyncEnumerable<TSource>;
     static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: false): IAsyncEnumerable<TSource>;
     static flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>;
+    /**
+     * @throws {InvalidOperationException} No Elements in the Promises Array
+     */
     static from<TSource>(promises: Array<Promise<TSource>>): IAsyncEnumerable<TSource>;
     static from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>;
     static fromEvent<K extends keyof HTMLElementEventMap>(element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>;
@@ -79,9 +94,15 @@ export declare class AsyncEnumerable {
     private static selectMany_1<TSource, Y>(source, selector);
     private static selectMany_2<TSource, Y>(source, selector);
     static selectManyAsync<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y>;
+    /**
+     * @throws {InvalidOperationException} More than One Element Found or No Matching Elements
+     */
     static single<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static single_1<TSource>(source);
     private static single_2<TSource>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} More than One Element Found or No Matching Elements
+     */
     static singleAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     static singleOrDefault<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     private static singleOrDefault_1<TSource>(source);
@@ -104,23 +125,42 @@ export declare class AsyncEnumerable {
     static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
     static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>;
     static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
+    /**
+     * @throws {InvalidOperationException} No Elements / No Match
+     */
     static last<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static last_1<T>(source);
     private static last_2<TSource>(source, predicate);
+    /**
+     * @throws {InvalidOperationException} No Elements / No Match
+     */
     static lastAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     static lastOrDefault<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     private static lastOrDefault_1<T>(source);
     private static lastOrDefault_2<T>(source, predicate);
     static lastOrDefaultAsync<T>(source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T | null>;
+    /**
+     * @throws {InvalidOperationException} No Elements
+     * @param source Async Iteration of Numbers
+     */
     static max(source: AsyncIterable<number>): Promise<number>;
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     static max<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static max_1(source);
     private static max_2<TSource>(source, selector);
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     static maxAsync<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static min(source: AsyncIterable<number>): Promise<number>;
     static min<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static min_1(source);
     private static min_2(source, selector);
+    /**
+     * @throws {InvalidOperationException} No Matching Elements
+     */
     static minAsync<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static range(start: number, count: number): IAsyncEnumerable<number>;
     static repeat<T>(element: T, count: number, delay?: number): IAsyncEnumerable<T>;

@@ -1,6 +1,9 @@
 import { IComparer, RecOrdMap } from "../shared/shared";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
+/**
+ * Descending Order Parallel Enumerable
+ */
 export declare class OrderedParallelEnumerableDescending<T> extends BasicParallelEnumerable<T> implements IOrderedParallelEnumerable<T> {
     private readonly map;
     private static unrollAndSort<T>(mapPromise, comparer?);

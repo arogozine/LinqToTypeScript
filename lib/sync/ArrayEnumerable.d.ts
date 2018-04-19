@@ -3,6 +3,9 @@ import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
+/**
+ * Array backed Enumerable
+ */
 export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     aggregate(func: (x: T, y: T) => T): T;
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: T) => TAccumulate): TAccumulate;
