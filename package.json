@@ -40,7 +40,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-jasmine": "^1.1.1",
     "karma-typescript": "^3.0.12",
-    "typescript": "^2.8.1"
+    "typescript": "^2.8.3"
   },
   "bugs": {
     "url": "https://github.com/arogozine/LinqToTypeScript/issues"
