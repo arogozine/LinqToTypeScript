@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - 'stable'
+  - '8'
+  - '6'
+sudo: false
+before_script:
+  - npm install -g typescript
+script:
+  - npm install  
+  - tsc
+cache:
+  directories:
+   - "node_modules"
+git:
+  depth: 1
