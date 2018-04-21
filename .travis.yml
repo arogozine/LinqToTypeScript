@@ -5,10 +5,13 @@ node_js:
   - '6'
 sudo: false
 before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
   - npm install -g typescript
 script:
-  - npm install  
+  - npm install
   - tsc
+  - ./node_modules/.bin/karma start --browsers Firefox --single-run
 cache:
   directories:
    - "node_modules"
