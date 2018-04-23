@@ -47,6 +47,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.anyAsync(this, predicate)
     }
 
+    public asAsync(): IAsyncEnumerable<T> {
+        return Enumerable.asAsync(this)
+    }
+
     public average(this: IEnumerable<number>): number
     public average(selector: (x: T) => number): number
     public average(selector?: (x: T) => number): number {

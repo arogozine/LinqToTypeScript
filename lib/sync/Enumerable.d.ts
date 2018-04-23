@@ -25,6 +25,10 @@ export declare class Enumerable {
     private static any_2<TSource>(source, predicate);
     static anyAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
     /**
+     * Converts the iterable to an @see {IAsyncEnumerable}
+     */
+    static asAsync<TSource>(source: Iterable<TSource>): IAsyncEnumerable<TSource>;
+    /**
      * @throws {InvalidOperationException}
      * @param source Iteration of Numbers
      */

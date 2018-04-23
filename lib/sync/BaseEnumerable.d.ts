@@ -16,6 +16,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     allAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean>;
     any(predicate?: (x: T) => boolean): boolean;
     anyAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean>;
+    asAsync(): IAsyncEnumerable<T>;
     average(this: IEnumerable<number>): number;
     average(selector: (x: T) => number): number;
     averageAsync(selector: (x: T) => Promise<number>): Promise<number>;

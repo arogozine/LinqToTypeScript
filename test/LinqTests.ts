@@ -27,6 +27,7 @@ declare function describe(
 // Parallel Issues - Aggregate, Min, Max
 
 // tslint:disable:ordered-imports
+import "./tests/AsAsync"
 import "./tests/AsParallel"
 import "./tests/AsyncEnumerableIteration"
 import "./tests/EnumerateObject"

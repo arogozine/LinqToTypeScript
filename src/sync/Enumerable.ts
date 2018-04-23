@@ -177,6 +177,19 @@ export class Enumerable {
     }
 
     /**
+     * Converts the iterable to an @see {IAsyncEnumerable}
+     */
+    public static asAsync<TSource>(source: Iterable<TSource>): IAsyncEnumerable<TSource> {
+        async function* generator() {
+            for (const value of source) {
+                yield value
+            }
+        }
+
+        return AsyncEnumerable.from(generator)
+    }
+
+    /**
      * @throws {InvalidOperationException}
      * @param source Iteration of Numbers
      */

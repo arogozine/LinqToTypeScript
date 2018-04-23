@@ -13,6 +13,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     allAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>,
     any(predicate?: (x: TSource) => boolean): boolean,
     anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>,
+    asAsync(): IAsyncEnumerable<TSource>
     /**
      * @throws {InvalidOperationException} Sequence contains no elements
      */
