@@ -4,12 +4,21 @@ Linq to TypeScript
 - Implementation of LINQ for TypeScript
 - Targets TypeScript 2.8 and ES 2016
 
+|Release|InDev|
+|:------:|:------:|
+|[![][master-build-badge]][master-build-url]|[![][indev-build-badge]][indev-build-url]|
+
+[master-build-url]: https://travis-ci.org/arogozine/LinqToTypeScript
+[master-build-badge]: https://travis-ci.org/arogozine/LinqToTypeScript.svg?branch=master
+[indev-build-url]: https://travis-ci.org/arogozine/LinqToTypeScript
+[indev-build-badge]: https://travis-ci.org/arogozine/LinqToTypeScript.svg?branch=InDev
+
 ### Getting Started
 
 ```sh
 npm i linq-to-typescript
 ```
-
+[![npm version](https://badge.fury.io/js/linq-to-typescript.svg)](https://badge.fury.io/js/linq-to-typescript)
 #### tsconfig.json
 ```JSON
 "compilerOptions": {
