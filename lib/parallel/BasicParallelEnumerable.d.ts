@@ -17,6 +17,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     allAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
     any(predicate?: (x: TSource) => boolean): Promise<boolean>;
     anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+    asAsync(): IAsyncEnumerable<TSource>;
     average(this: IParallelEnumerable<number>): Promise<number>;
     average(selector: (x: TSource) => number): Promise<number>;
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>;

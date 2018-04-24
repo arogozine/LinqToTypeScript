@@ -1,8 +1,10 @@
+import { IAsyncEnumerable } from "..";
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { TypedData } from "./TypedData";
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     readonly dataFunc: TypedData<TSource>;
+    asAsync(): IAsyncEnumerable<TSource>;
     concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     each(action: (x: TSource) => void): IParallelEnumerable<TSource>;

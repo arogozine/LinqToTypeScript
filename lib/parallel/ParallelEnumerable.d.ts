@@ -1,3 +1,4 @@
+import { IAsyncEnumerable } from "../async/async";
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
@@ -19,6 +20,7 @@ export declare class ParallelEnumerable {
     static allAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
     static any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<boolean>;
     static anyAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+    static asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource>;
     static average(source: IAsyncParallel<number>): Promise<number>;
     static average<TSource>(source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static average_1(source);

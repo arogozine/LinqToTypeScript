@@ -52,6 +52,10 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.anyAsync(this, predicate)
     }
 
+    public asAsync(): IAsyncEnumerable<TSource> {
+        return ParallelEnumerable.asAsync(this)
+    }
+
     public average(this: IParallelEnumerable<number>): Promise<number>
     public average(selector: (x: TSource) => number): Promise<number>
     public average(selector?: any): Promise<number> {
@@ -359,10 +363,10 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     }
 
     public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
-        const toArray = this.toArray
         const thisOuter = this
         async function *iterator() {
-            for (const value of await toArray.apply(thisOuter)) {
+            const values = await thisOuter.toArray()
+            for (const value of values) {
                 yield value
             }
         }

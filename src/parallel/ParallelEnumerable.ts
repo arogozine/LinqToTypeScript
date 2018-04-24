@@ -1,3 +1,4 @@
+import { AsyncEnumerable, IAsyncEnumerable } from "../async/async"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -189,6 +190,15 @@ export class ParallelEnumerable {
                     return values.some((x) => x)
                 })
         }
+    }
+
+    public static asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource> {
+        async function* generator() {
+            for (const value of await source.toArray()) {
+                yield value
+            }
+        }
+        return AsyncEnumerable.from(generator)
     }
 
     public static average(
