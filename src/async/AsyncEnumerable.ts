@@ -1,5 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
+import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
@@ -214,6 +215,18 @@ export class AsyncEnumerable {
         }
 
         return value / (count as number)
+    }
+
+    public static asParallel<TSource>(source: AsyncIterable<TSource>): IParallelEnumerable<TSource> {
+        async function generator() {
+            const data = []
+            for await(const value of source) {
+                data.push(value)
+            }
+            return data
+        }
+
+        return ParallelEnumerable.from(DataType.PromiseToArray, generator)
     }
 
     public static async averageAsync<TSource>(

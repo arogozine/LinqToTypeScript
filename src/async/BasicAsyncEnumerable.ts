@@ -1,4 +1,3 @@
-import { DataType, ParallelEnumerable } from "../parallel/parallel"
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { AsyncEnumerable } from "./AsyncEnumerable"
@@ -15,7 +14,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     }
 
     public asParallel(): IAsyncParallel<TSource> {
-        return ParallelEnumerable.from(DataType.PromiseToArray, () => this.toArray())
+        return AsyncEnumerable.asParallel(this)
     }
 
     public aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>

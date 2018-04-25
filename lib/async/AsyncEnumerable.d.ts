@@ -1,4 +1,5 @@
 import "core-js/modules/es7.symbol.async-iterator";
+import { IParallelEnumerable } from "../parallel/parallel";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
@@ -23,6 +24,7 @@ export declare class AsyncEnumerable {
     static average<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static average_1(source);
     private static average_2<TSource>(source, func);
+    static asParallel<TSource>(source: AsyncIterable<TSource>): IParallelEnumerable<TSource>;
     static averageAsync<TSource>(source: AsyncIterable<TSource>, func: (x: TSource) => Promise<number>): Promise<number>;
     static concat<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>): IAsyncEnumerable<TSource>;
     static contains<TSource>(source: AsyncIterable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
