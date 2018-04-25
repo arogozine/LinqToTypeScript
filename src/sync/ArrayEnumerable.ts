@@ -1,3 +1,4 @@
+import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
 import { IAsyncEnumerable } from "./../async/async"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
@@ -49,6 +50,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
 
     public asAsync(): IAsyncEnumerable<T> {
         return Enumerable.asAsync(this)
+    }
+
+    public asParallel(): IParallelEnumerable<T> {
+        return ParallelEnumerable.from(DataType.PromiseToArray, async () => this)
     }
 
     public average(this: IEnumerable<number>): number

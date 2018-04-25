@@ -1,3 +1,4 @@
+import { IParallelEnumerable } from "../parallel/parallel";
 import { IAsyncEnumerable } from "./../async/async";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
@@ -15,6 +16,7 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     any(predicate?: (x: T) => boolean): boolean;
     anyAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean>;
     asAsync(): IAsyncEnumerable<T>;
+    asParallel(): IParallelEnumerable<T>;
     average(this: IEnumerable<number>): number;
     average(selector: (x: T) => number): number;
     averageAsync(selector: (x: T) => Promise<number>): Promise<number>;

@@ -1,3 +1,4 @@
+import { IParallelEnumerable } from "../parallel/parallel"
 import { IAsyncEnumerable } from "./../async/async"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
@@ -47,6 +48,10 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
 
     public asAsync(): IAsyncEnumerable<T> {
         return Enumerable.asAsync(this)
+    }
+
+    public asParallel(): IParallelEnumerable<T> {
+        return Enumerable.asParallel(this)
     }
 
     public average(this: IEnumerable<number>): number

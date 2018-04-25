@@ -1,3 +1,4 @@
+import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -187,6 +188,21 @@ export class Enumerable {
         }
 
         return AsyncEnumerable.from(generator)
+    }
+
+    /**
+     * Converts an iterable to @see {IAsyncParallel}
+     */
+    public static asParallel<TSource>(source: Iterable<TSource>): IParallelEnumerable<TSource> {
+        async function generator() {
+            const array = []
+            for (const value of source) {
+                array.push(value)
+            }
+            return array
+        }
+
+        return ParallelEnumerable.from(DataType.PromiseToArray, generator)
     }
 
     /**

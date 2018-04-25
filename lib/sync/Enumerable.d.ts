@@ -1,3 +1,4 @@
+import { IParallelEnumerable } from "../parallel/parallel";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEnumerable } from "./../async/IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./../async/IOrderedAsyncEnumerable";
@@ -28,6 +29,10 @@ export declare class Enumerable {
      * Converts the iterable to an @see {IAsyncEnumerable}
      */
     static asAsync<TSource>(source: Iterable<TSource>): IAsyncEnumerable<TSource>;
+    /**
+     * Converts an iterable to @see {IAsyncParallel}
+     */
+    static asParallel<TSource>(source: Iterable<TSource>): IParallelEnumerable<TSource>;
     /**
      * @throws {InvalidOperationException}
      * @param source Iteration of Numbers
