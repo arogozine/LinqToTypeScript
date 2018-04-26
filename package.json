@@ -29,12 +29,12 @@
   "author": "Alexandre Rogozine",
   "license": "FSFUL",
   "dependencies": {
-    "core-js": "^2.5.3"
+    "core-js": "^2.5.5"
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.6",
-    "jasmine-core": "^2.99.1",
-    "karma": "^1.7.1",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.2",
     "karma-chrome-launcher": "^2.2.0",
     "karma-edge-launcher": "^0.4.2",
     "karma-firefox-launcher": "^1.1.0",
