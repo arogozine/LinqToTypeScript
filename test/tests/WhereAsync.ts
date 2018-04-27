@@ -1,5 +1,5 @@
 import { Enumerable } from "../../src/index"
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("WhereAsync", () => {
     itEnumerable("Basic", (asEnumerable) => {
@@ -33,7 +33,7 @@ describe("WhereAsync", () => {
         expect(await values.toArray()).toEqual(asyncValues)
     })
 
-    itAsync("From Parallel", async () => {
+    itParallel("From Parallel", async (asParallel) => {
         const values = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {

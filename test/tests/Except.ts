@@ -1,5 +1,5 @@
 import { EqualityComparer } from "../../src/index"
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("except", () => {
     itEnumerable("basic", (asEnumerable) => {
@@ -11,7 +11,7 @@ describe("except", () => {
         expect(value).toEqual([3])
     })
 
-    itAsync("basicParallel", async () => {
+    itParallel("basicParallel", async (asParallel) => {
         const value = await asParallel([1, 2, 3]).except(asAsync([1, 2])).toArray()
         expect(value).toEqual([3])
     })
@@ -25,7 +25,7 @@ describe("except", () => {
         expect(value).toEqual([3])
     })
 
-    itAsync("with comparer parallel", async () => {
+    itParallel<string | number>("with comparer parallel", async (asParallel) => {
         const value = await asParallel([1, "2", 3]).except(asParallel([1, "2"]), EqualityComparer).toArray()
         expect(value).toEqual([3])
     })

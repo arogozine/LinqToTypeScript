@@ -1,4 +1,4 @@
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "./../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "./../TestHelpers"
 
 describe("any", () => {
     itEnumerable("Empty", (asEnumerable) => {
@@ -17,7 +17,7 @@ describe("any", () => {
         expect(await array.any((_) => false)).toBe(false)
     })
 
-    itAsync("EmptyParallel", async () => {
+    itParallel("EmptyParallel", async (asParallel) => {
         const array = asParallel([])
 
         expect(await array.any()).toBe(false)
@@ -47,7 +47,7 @@ describe("any", () => {
         expect(await array.any((x) => x === 2)).toBe(true)
     })
 
-    itAsync("AnyExistsParallel", async () => {
+    itParallel("AnyExistsParallel", async (asParallel) => {
         const array = asParallel([1, 2])
 
         expect(await array.any()).toBe(true)
@@ -74,7 +74,7 @@ describe("any", () => {
         expect(await asAsync([1]).any()).toBe(true)
     })
 
-    itAsync("basicParallel", async () => {
+    itParallel("basicParallel", async (asParallel) => {
         expect(await asParallel([1]).any()).toBe(true)
     })
 
@@ -87,7 +87,7 @@ describe("any", () => {
         expect.toBe(false)
     })
 
-    itAsync("EmptyPredicateParallel", async () => {
+    itParallel("EmptyPredicateParallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).any((x) => x === 0))
         expect.toBe(false)
     })
@@ -102,7 +102,7 @@ describe("any", () => {
         expect(await asAsync([1]).any((x) => x === 0)).toBe(false)
     })
 
-    itAsync("BasicPredicateParallel", async () => {
+    itParallel("BasicPredicateParallel", async (asParallel) => {
         expect(await asParallel([1]).any((x) => x === 1)).toBe(true)
         expect(await asParallel([1]).any((x) => x === 0)).toBe(false)
     })

@@ -1,5 +1,5 @@
 import { Enumerable } from "../../src/index"
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable } from "../TestHelpers"
 /*
 describe("thenByAsync", () => {
     itEnumerable<string>("string", (asEnumerable) => {

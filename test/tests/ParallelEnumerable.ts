@@ -1,8 +1,8 @@
 import { ParallelEnumerable } from "../../src/index"
-import { asParallel, itAsync } from "../TestHelpers"
+import { itParallel } from "../TestHelpers"
 
 describe("ParallelEnumerable", () => {
-    itAsync("AsyncForEach Manual", async () => {
+    itParallel("AsyncForEach Manual", async (asParallel) => {
         const parallelValues = asParallel([1, 2, 3])
         const asyncIterator = parallelValues[Symbol.asyncIterator]
         expect(asyncIterator).toBeDefined()
@@ -40,7 +40,7 @@ describe("ParallelEnumerable", () => {
         */
     })
 
-    itAsync("AsyncForEach - Automatic", async () => {
+    itParallel("AsyncForEach - Automatic", async (asParallel) => {
         for await (const value of asParallel([1, 2, 3])) {
             expect(value).toBeDefined()
         }

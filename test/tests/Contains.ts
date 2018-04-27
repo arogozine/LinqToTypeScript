@@ -1,5 +1,5 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
-import { EqualityComparer } from "../../src/index";
+import { EqualityComparer } from "../../src/index"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("contains", () => {
     itEnumerable<string | number>("Countains", (asEnumerable) => {
@@ -16,7 +16,7 @@ describe("contains", () => {
         expect(await array.contains(1)).toBe(true)
     })
 
-    itAsync("Countains Parallel", async () => {
+    itParallel<string | number>("Countains Parallel", async (asParallel) => {
         const array = asParallel([1, "2", "3"])
 
         expect(await array.contains(2)).toBe(false)
@@ -39,7 +39,7 @@ describe("contains", () => {
         expect(await array.contains(4, EqualityComparer)).toBe(false)
     })
 
-    itAsync("Contains With Comparer Parallel", async () => {
+    itParallel<string | number>("Contains With Comparer Parallel", async (asParallel) => {
         const array = asParallel([1, "2", "3"])
 
         expect(await array.contains(2, EqualityComparer)).toBe(true)
@@ -55,7 +55,7 @@ describe("contains", () => {
         expect(value).toBe(false)
     })
 
-    itAsync("contains empty to be false async", async () => {
+    itParallel("contains empty to be false async", async (asParallel) => {
         const value = await asParallel([] as number[]).contains(0)
         expect(value).toBe(false)
     })
@@ -66,16 +66,16 @@ describe("contains", () => {
     itAsync("Contains False Async", async () =>
         expect(await asAsync([1, 2]).contains(0)).toBe(false))
 
-    itAsync("Contains False Parallel", async () =>
+    itParallel("Contains False Parallel", async (asParallel) =>
         expect(await asParallel([1, 2]).contains(0)).toBe(false))
 
     itEnumerable("contains true", (asEnumerable) =>
         expect(asEnumerable([1, 2]).contains(1)).toBe(true))
 
-    it("Contains True Async", async () =>
+    itAsync("Contains True Async", async () =>
         expect(await asAsync([1, 2]).contains(1)).toBe(true))
 
-    it("Contains True Parallel", async () =>
+    itParallel("Contains True Parallel", async (asParallel) =>
         expect(await asParallel([1, 2]).contains(1)).toBe(true))
 
 })

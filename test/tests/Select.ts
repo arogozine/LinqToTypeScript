@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("select", () => {
     itEnumerable<string>("select parseInt", (asEnumerable) => {
@@ -9,7 +9,7 @@ describe("select", () => {
         expect(await asAsync(["1", "2", "3"]).select(Number.parseInt).toArray()).toEqual([1, 2, 3])
     })
 
-    itAsync("select parseInt Parallel", async () => {
+    itParallel<string>("select parseInt Parallel", async (asParallel) => {
         expect(await asParallel(["1", "2", "3"]).select(Number.parseInt).toArray()).toEqual([1, 2, 3])
     })
 
@@ -21,7 +21,7 @@ describe("select", () => {
         expect(await asAsync(["1", "22", "333"]).select("length").toArray()).toEqual([1, 2, 3])
     })
 
-    itAsync("select length parallel", async () => {
+    itParallel<string>("select length parallel", async (asParallel) => {
         expect(await asParallel(["1", "22", "333"]).select("length").toArray()).toEqual([1, 2, 3])
     })
 })

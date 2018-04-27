@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, asPromise, expectAsync, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("singleAsync", () => {
     itEnumerableAsync("predicate", async (asEnumerable) => {
@@ -13,7 +13,7 @@ describe("singleAsync", () => {
         expect(await vals.singleAsync((x) => asPromise(true))).toBe(1)
     })
 
-    itAsync("predicate parallel", async () => {
+    itParallel("predicate parallel", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.singleAsync((x) => asPromise(true))).toBe(1)
     })
@@ -42,13 +42,13 @@ describe("singleAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate multiple expection parallel", async () => {
+    itParallel("predicate multiple expection parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleAsync((x) => asPromise(true)))
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate no matches expection parallel", async () => {
+    itParallel("predicate no matches expection parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleAsync((x) => asPromise(false)))
         expect.toThrowError(InvalidOperationException)

@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("zip", () => {
     itEnumerable<string | number>("zip basic", (asEnumerable) => {
@@ -40,7 +40,7 @@ describe("zip", () => {
         }
     })
 
-    itAsync("zip basic parallel", async () => {
+    itParallel<string | number>("zip basic parallel", async (asParallel) => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 
@@ -96,7 +96,7 @@ describe("zip", () => {
         }
     })
 
-    itAsync("zip selector parallal", async () => {
+    itParallel<string | number>("zip selector parallal", async (asParallel) => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 

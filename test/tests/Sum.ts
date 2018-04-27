@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("sum", () => {
     itEnumerable("sum basic", (asEnumerable) => {
@@ -9,7 +9,7 @@ describe("sum", () => {
         expect(await asAsync([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
-    itAsync("sum basic parallel", async () => {
+    itParallel("sum basic parallel", async (asParallel) => {
         expect(await asParallel([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
@@ -23,7 +23,7 @@ describe("sum", () => {
         expect(await zooms.sum((x) => x.a)).toBe(6)
     })
 
-    itAsync("sum Selector parallel", async () => {
+    itParallel<{ a: number }>("sum Selector parallel", async (asParallel) => {
         const zooms = asParallel([ { a: 1}, { a: 2 }, {a: 3} ])
         expect(await zooms.sum((x) => x.a)).toBe(6)
     })

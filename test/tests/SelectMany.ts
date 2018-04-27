@@ -1,4 +1,4 @@
-import { asAsync, itAsync, itEnumerable, asParallel } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("selectMany", () => {
     itEnumerable<{ a: number[] }>("selectMany basic", (asEnumerable) => {
@@ -37,7 +37,7 @@ describe("selectMany", () => {
         expect(await values.selectMany("a").toArray()).toEqual([1, 2, 3, 4])
     })
 
-    itAsync("selectMany basic parallel", async () => {
+    itParallel<{ a: Iterable<number> }>("selectMany basic parallel", async (asParallel) => {
         const values = asParallel([
             { a: [1, 2]},
             { a: [3, 4]},
@@ -46,7 +46,7 @@ describe("selectMany", () => {
         expect(await values.selectMany((x) => x.a).toArray()).toEqual([1, 2, 3, 4])
     })
 
-    itAsync("selectMany string parallel", async () => {
+    itParallel<{ a: Iterable<number> }>("selectMany string parallel", async (asParallel) => {
         const values = asParallel([
             { a: [1, 2]},
             { a: [3, 4]},

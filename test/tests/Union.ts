@@ -1,5 +1,5 @@
 import { EqualityComparer } from "../../src/index"
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("union", () => {
     itEnumerable("=== union", (asEnumerable) => {
@@ -18,7 +18,7 @@ describe("union", () => {
         expect(union).toEqual(result)
     })
 
-    itAsync("=== union parallel", async () => {
+    itParallel("=== union parallel", async (asParallel) => {
         const ints1 = asParallel([ 5, 3, 9, 7, 5, 9, 3, 7 ])
         const ints2 = asParallel([ 8, 3, 6, 4, 4, 9, 1, 0 ])
         const result = [5, 3, 9, 7, 8, 6, 4, 1, 0]
@@ -44,9 +44,9 @@ describe("union", () => {
         expect(union).toEqual(result)
     })
 
-    itAsync("== union parallel", async () => {
-        const ints1 = asParallel<string | number>([ 5, 3, 9, 7, 5, 9, 3, 7 ])
-        const ints2 = asParallel<string | number>([ "8", "3", "6", "4", "4", "9", "1", "0" ])
+    itParallel<string | number>("== union parallel", async (asParallel) => {
+        const ints1 = asParallel([ 5, 3, 9, 7, 5, 9, 3, 7 ])
+        const ints2 = asParallel([ "8", "3", "6", "4", "4", "9", "1", "0" ])
         const result = [5, 3, 9, 7, "8", "6", "4", "1", "0"]
         const union = await ints1.union(ints2, EqualityComparer).toArray()
 

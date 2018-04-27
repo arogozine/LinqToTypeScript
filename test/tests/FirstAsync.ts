@@ -1,6 +1,6 @@
 import { InvalidOperationException } from "../../src/index"
 
-import { asAsync, asParallel, asPromise, expectAsync, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("firstAsync", () => {
     itEnumerableAsync("FirstPredicate", async (asEnumerable) => {
@@ -12,7 +12,7 @@ describe("firstAsync", () => {
         expect(await asAsync([1, 2]).firstAsync((x) => asPromise(x === 2))).toBe(2)
     })
 
-    itAsync("FirstPredicateParallel", async () => {
+    itParallel("FirstPredicateParallel", async (asParallel) => {
         expect(await asParallel([1, 2]).firstAsync((x) => asPromise(x === 2))).toBe(2)
     })
 
@@ -27,7 +27,7 @@ describe("firstAsync", () => {
         value.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty array with predicate causes exception parallel", async () => {
+    itParallel("empty array with predicate causes exception parallel", async (asParallel) => {
         const value = await expectAsync(asParallel([1, 2, 3]).firstAsync((x) => asPromise(x === 4)))
         value.toThrowError(InvalidOperationException)
     })

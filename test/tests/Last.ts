@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("last", () => {
     itEnumerable("Last", (asEnumerable) => {
@@ -10,7 +10,7 @@ describe("last", () => {
         expect(await asAsync([1, 2]).last()).toBe(2)
     })
 
-    itAsync("LastParallel", async () => {
+    itParallel("LastParallel", async (asParallel) => {
         expect(await asParallel([1, 2]).last()).toBe(2)
     })
 
@@ -23,12 +23,12 @@ describe("last", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("LastEmptyParallel", async () => {
+    itParallel("LastEmptyParallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).last())
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("LastEmptyParallel", async () => {
+    itParallel("LastEmptyParallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).last())
         expect.toThrowError(InvalidOperationException)
     })
@@ -41,7 +41,7 @@ describe("last", () => {
         expect(await asAsync([1, 2]).last((x) => x === 1)).toBe(1)
     })
 
-    itAsync("LastPredicateParallel", async () => {
+    itParallel("LastPredicateParallel", async (asParallel) => {
         expect(await asParallel([1, 2]).last((x) => x === 1)).toBe(1)
     })
 })

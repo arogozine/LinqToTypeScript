@@ -1,5 +1,5 @@
-import { ArrayEnumerable } from "../../src/index";
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers";
+import { ArrayEnumerable } from "../../src/index"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("concat", () => {
     itEnumerable("handles two empty arrays", (asEnumerable) =>
@@ -10,7 +10,7 @@ describe("concat", () => {
         expect(value).toEqual([])
     })
 
-    itAsync("handles two empty arrays parallel", async () => {
+    itParallel("handles two empty arrays parallel", async (asParallel) => {
         const value = await asParallel([]).concat(asParallel([])).toArray()
         expect(value).toEqual([])
     })
@@ -23,7 +23,7 @@ describe("concat", () => {
         expect(value).toEqual([1])
     })
 
-    itAsync("handles calling array being empty parallel", async () => {
+    itParallel("handles calling array being empty parallel", async (asParallel) => {
         const value = await asParallel([] as number[]).concat(asParallel([1])).toArray()
         expect(value).toEqual([1])
     })
@@ -36,7 +36,7 @@ describe("concat", () => {
         expect(value).toEqual([2])
     })
 
-    itAsync("handles concat with empty array parallel", async () => {
+    itParallel("handles concat with empty array parallel", async (asParallel) => {
         const value = await asParallel([2]).concat(asParallel([])).toArray()
         expect(value).toEqual([2])
     })
@@ -49,7 +49,7 @@ describe("concat", () => {
         expect(value).toEqual([1, 2, 3])
     })
 
-    itAsync("handle two arrays concat parallel", async () => {
+    itParallel("handle two arrays concat parallel", async (asParallel) => {
         const value = await asParallel([1]).concat(asParallel([2, 3])).toArray()
         expect(value).toEqual([1, 2, 3])
     })

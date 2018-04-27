@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("takeWhile", () => {
     const vals = [1, 2, 3, 4]
@@ -29,15 +29,15 @@ describe("takeWhile", () => {
         expect(await valsAsync.takeWhile((x: number, i: number) => x !== 3).toArray()).toEqual([1, 2])
     })
 
-    const valsParallel = asParallel([1, 2, 3, 4])
-
-    itAsync("by value parallel", async () => {
+    itParallel("by value parallel", async (asParallel) => {
+        const valsParallel = asParallel([1, 2, 3, 4])
         expect(await valsParallel.takeWhile((x) => true).toArray()).toEqual(vals)
         expect(await valsParallel.takeWhile((x) => false).toArray()).toEqual([])
         expect(await valsParallel.takeWhile((x) => x !== 3).toArray()).toEqual([1, 2])
     })
 
-    itAsync("by value and index parallel", async () => {
+    itParallel("by value and index parallel", async (asParallel) => {
+        const valsParallel = asParallel([1, 2, 3, 4])
         expect(await valsParallel.takeWhile((x: number, i: number) => true).toArray()).toEqual(vals)
         expect(await valsParallel.takeWhile((x: number, i: number) => false).toArray()).toEqual([])
         expect(await valsParallel.takeWhile((x: number, i: number) => x !== 3).toArray()).toEqual([1, 2])

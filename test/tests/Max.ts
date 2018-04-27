@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("max", () => {
     itEnumerable("MaxSelectEmptyError", (asEnumerable) => {
@@ -12,7 +12,7 @@ describe("max", () => {
         value.toThrowError(InvalidOperationException)
     })
 
-    itAsync("MaxSelectEmptyErrorParallel", async () => {
+    itParallel("MaxSelectEmptyErrorParallel", async (asParallel) => {
         const value = await expectAsync(asParallel([] as number[]).max((x) => x * x))
         value.toThrowError(InvalidOperationException)
     })
@@ -25,7 +25,7 @@ describe("max", () => {
         expect(await asAsync([1, 2, 3]).max((x) => x * x)).toBe(9)
     })
 
-    itAsync("MaxSelectParallel", async () => {
+    itParallel("MaxSelectParallel", async (asParallel) => {
         expect(await asParallel([1, 2, 3]).max((x) => x * x)).toBe(9)
     })
 
@@ -33,7 +33,7 @@ describe("max", () => {
 
     itAsync("BasicAsync", async () => expect(await asAsync([1, 2, 3]).max()).toBe(3))
 
-    itAsync("BasicParallel", async () => expect(await asParallel([1, 2, 3]).max()).toBe(3))
+    itParallel("BasicParallel", async (asParallel) => expect(await asParallel([1, 2, 3]).max()).toBe(3))
 
     itEnumerable("empty array throws exception", (asEnumerable) =>
         expect(() => asEnumerable([]).max()).toThrowError(InvalidOperationException))
@@ -43,7 +43,7 @@ describe("max", () => {
         value.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty array throws exception parallel", async () => {
+    itParallel("empty array throws exception parallel", async (asParallel) => {
         const value = await expectAsync(asParallel([]).max())
         value.toThrowError(InvalidOperationException)
     })
@@ -55,7 +55,7 @@ describe("max", () => {
         expect(await asAsync([1, 2, 3]).max((x) => x * 2)).toBe(6)
     })
 
-    itAsync("max with selector parallel", async () => {
+    itParallel("max with selector parallel", async (asParallel) => {
         expect(await asParallel([1, 2, 3]).max((x) => x * 2)).toBe(6)
     })
 
@@ -67,7 +67,7 @@ describe("max", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty array throws exception with selector parallel", async () => {
+    itParallel("empty array throws exception with selector parallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([] as number[]).max((x) => x * 2))
         expect.toThrowError(InvalidOperationException)
     })

@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("groupBy", () => {
     itEnumerable("OddEven", (asEnumerable) => {
@@ -25,7 +25,7 @@ describe("groupBy", () => {
         }
     })
 
-    itAsync("OddEvenParallel", async () => {
+    itParallel("OddEvenParallel", async (asParallel) => {
         const groupBy = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9]).groupBy((x) => x % 2)
         for await (const group of groupBy) {
             expect(group.key === 0 || group.key === 1).toBe(true)

@@ -1,5 +1,5 @@
 import { EqualityComparer } from "../../src/index"
-import { asAsync, itAsync, itEnumerable, asParallel } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("intersect", () => {
     itEnumerable<string | number>("IntersectWithEqualityComparer", (asEnumerable) => {
@@ -16,7 +16,7 @@ describe("intersect", () => {
         expect(array).toEqual([1, 2])
     })
 
-    itAsync("IntersectWithEqualityComparerParallel", async () => {
+    itParallel<string | number>("IntersectWithEqualityComparerParallel", async (asParallel) => {
         const array = await asParallel([1, 2, "3"])
             .intersect(asAsync<string | number>(["1", "2"]), EqualityComparer)
             .toArray()

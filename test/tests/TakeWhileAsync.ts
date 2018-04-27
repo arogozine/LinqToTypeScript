@@ -1,4 +1,4 @@
-import { asAsync, asParallel, asPromise, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("takeWhileAsync", () => {
     const vals = [1, 2, 3, 4]
@@ -41,9 +41,9 @@ describe("takeWhileAsync", () => {
             .toEqual([1, 2])
     })
 
-    const valsParallel = asParallel([1, 2, 3, 4])
+    itParallel("by value parallel", async (asParallel) => {
+        const valsParallel = asParallel([1, 2, 3, 4])
 
-    itAsync("by value parallel", async () => {
         expect(await valsParallel.takeWhileAsync((x) => asPromise(true)).toArray())
             .toEqual(vals)
         expect(await valsParallel.takeWhileAsync((x) => asPromise(false)).toArray())
@@ -52,7 +52,9 @@ describe("takeWhileAsync", () => {
             .toEqual([1, 2])
     })
 
-    itAsync("by value and index parallel", async () => {
+    itParallel("by value and index parallel", async (asParallel) => {
+        const valsParallel = asParallel([1, 2, 3, 4])
+
         expect(await valsParallel.takeWhileAsync((x: number, i: number) => asPromise(true)).toArray())
             .toEqual(vals)
         expect(await valsParallel.takeWhileAsync((x: number, i: number) => asPromise(false)).toArray())

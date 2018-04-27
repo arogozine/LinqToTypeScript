@@ -1,5 +1,5 @@
 import { ArgumentOutOfRangeException, ArrayEnumerable } from "../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("elementAtOrDefault", () => {
 
@@ -20,7 +20,7 @@ describe("elementAtOrDefault", () => {
         expect(await asAsync([1, 2]).elementAtOrDefault(1)).toBe(2)
     })
 
-    itAsync("WithElementsParallel", async () => {
+    itParallel("WithElementsParallel", async (asParallel) => {
         expect(await asParallel([1]).elementAtOrDefault(0)).toBe(1)
         expect(await asParallel([1, 2]).elementAtOrDefault(1)).toBe(2)
     })
@@ -33,7 +33,7 @@ describe("elementAtOrDefault", () => {
         expect.toBeNull()
     })
 
-    itAsync("empty to be null parallel", async () => {
+    itParallel("empty to be null parallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).elementAtOrDefault(0))
         expect.toBeNull()
     })

@@ -1,4 +1,4 @@
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "./../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable } from "./../TestHelpers"
 
 describe("count", () => {
     itEnumerable<boolean>("Count Predicate", (asEnumerable) => {

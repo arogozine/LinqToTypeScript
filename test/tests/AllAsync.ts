@@ -1,4 +1,4 @@
-import { asAsync, asParallel, asPromise, expectAsync, itAsync, itEnumerableAsync } from "./../TestHelpers"
+import { asAsync, asPromise, expectAsync, itAsync, itEnumerableAsync, itParallel } from "./../TestHelpers"
 
 describe("AllAsync", () => {
     itEnumerableAsync<{ Age: number, Name: string}>("All", async (asEnumerable) => {
@@ -29,7 +29,7 @@ describe("AllAsync", () => {
         expect(allStartWithB).toBe(false)
     })
 
-    itAsync("AllParallel", async () => {
+    itParallel<{ Age: number, Name: string }>("AllParallel", async (asParallel) => {
         // Create an array of Pets.
         const pets = asParallel([
             { Age: 10, Name: "Barley" },
@@ -70,7 +70,7 @@ describe("AllAsync", () => {
         expect.toBe(true)
     })
 
-    itAsync("EmptyElementTrueParallel", async () => {
+    itParallel("EmptyElementTrueParallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).allAsync((x) => asPromise(x === 1)))
         expect.toBe(true)
     })

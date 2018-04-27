@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, asPromise, expectAsync, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("LastAsync", () => {
     itEnumerableAsync("LastPredicate", async (asEnumerable) => {
@@ -10,7 +10,7 @@ describe("LastAsync", () => {
         expect(await asAsync([1, 2]).lastAsync((x) => asPromise(x === 1))).toBe(1)
     })
 
-    itAsync("LastPredicateParallel", async () => {
+    itParallel("LastPredicateParallel", async (asParallel) => {
         expect(await asParallel([1, 2]).lastAsync((x) => asPromise(x === 1))).toBe(1)
     })
 })

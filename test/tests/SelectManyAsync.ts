@@ -1,4 +1,4 @@
-import { asAsync, asPromise, itAsync, itEnumerable, asParallel, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, itAsync, itEnumerable, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("selectManyAsync", () => {
     itEnumerableAsync<{ a: number[] }>("selectManyAsync basic", async (asEnumerable) => {
@@ -21,7 +21,7 @@ describe("selectManyAsync", () => {
         expect(result).toEqual([1, 2, 3, 4])
     })
 
-    itAsync("selectManyAsync parallel", async () => {
+    itParallel<{ a: number[] }>("selectManyAsync parallel", async (asParallel) => {
         const values = asParallel([
             { a: [1, 2]},
             { a: [3, 4]},

@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("where", () => {
     itEnumerable("item predicate", (asEnumerable) => {
@@ -11,7 +11,7 @@ describe("where", () => {
         expect(await vals.where((x) => x > 8).toArray()).toEqual([9])
     })
 
-    itAsync("item predicate parallel", async () => {
+    itParallel("item predicate parallel", async (asParallel) => {
         const vals = asParallel([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(await vals.where((x) => x > 8).toArray()).toEqual([9])
     })
@@ -26,7 +26,7 @@ describe("where", () => {
         expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
 
-    itAsync("item and index predicate parallel", async () => {
+    itParallel("item and index predicate parallel", async (asParallel) => {
         const vals = asParallel([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
@@ -57,7 +57,7 @@ describe("where", () => {
         expect(noBar).toEqual([ "", "1", "2", "foo" ])
     })
 
-    itAsync("where basic parallel", async () => {
+    itParallel<string>("where basic parallel", async (asParallel) => {
         const stuff = asParallel([ "", "1", "2", "foo", "bar" ])
         const noEmptyStrings = await stuff.where((x) => x !== "").toArray()
 

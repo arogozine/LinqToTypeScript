@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "./../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "./../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "./../TestHelpers"
 
 describe("aggregate", () => {
 
@@ -32,7 +32,7 @@ describe("aggregate", () => {
         expect(reversed).toBe("dog lazy the over jumps fox brown quick the")
     })
 
-    itAsync("BasicParallel", async () => {
+    itParallel<string>("BasicParallel", async (asParallel) => {
         const asyncArray = asParallel(["f", "o", "o"])
         expect(await asyncArray.aggregate((x, y) => x + y)).toBe("foo")
         const sentence = "the quick brown fox jumps over the lazy dog"
@@ -72,7 +72,7 @@ describe("aggregate", () => {
         expect(longestName).toBe("PASSIONFRUIT")
     })
 
-    itAsync("ResultSelectorParallel", async () => {
+    itParallel<string>("ResultSelectorParallel", async (asParallel) => {
         const fruits = asParallel([ "apple", "mango", "orange", "passionfruit", "grape" ])
 
         // Determine whether any string in the array is longer than "banana".
@@ -95,7 +95,7 @@ describe("aggregate", () => {
         expect(val2).toBe(1)
     })
 
-    itAsync("SingleValueParallel", async () => {
+    itParallel<number>("SingleValueParallel", async (asParallel) => {
         const val2 = await asParallel([1]).aggregate((x, y) => x + y)
         expect(val2).toBe(1)
     })
@@ -110,7 +110,7 @@ describe("aggregate", () => {
         expect(val).toBe(6)
     })
 
-    itAsync("MultipleValuesParallel", async () => {
+    itParallel<number>("MultipleValuesParallel", async (asParallel) => {
         const val = await asParallel([1, 2, 3]).aggregate((x, y) => x + y)
         expect(val).toBe(6)
     })
@@ -124,7 +124,7 @@ describe("aggregate", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("ExceptionParallel", async () => {
+    itParallel<number>("ExceptionParallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([] as number[]).aggregate((x, y) => x + y))
         expect.toThrowError(InvalidOperationException)
     })
@@ -151,7 +151,7 @@ describe("aggregate", () => {
         expect(val3).toBe(10)
     })
 
-    itAsync("Aggregate2Parallel", async () => {
+    itParallel("Aggregate2Parallel", async (asParallel) => {
         const val = await asParallel([1, 2, 3]).aggregate(4, (x, y) => x + y)
         expect(val).toBe(10)
 
@@ -172,7 +172,7 @@ describe("aggregate", () => {
         expect(val).toBe(100)
     })
 
-    itAsync("Aggregate3Parallel", async () => {
+    itParallel("Aggregate3Parallel", async (asParallel) => {
         const val = await asParallel([1, 2, 3]).aggregate(4, (x, y) => x + y, (acc) => acc * 10)
         expect(val).toBe(100)
     })

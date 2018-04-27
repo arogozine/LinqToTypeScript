@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("single", () => {
     itEnumerable("basic", (asEnumerable) => {
@@ -12,7 +12,7 @@ describe("single", () => {
         expect(await vals.single()).toBe(1)
     })
 
-    itAsync("basic parallel", async () => {
+    itParallel("basic parallel", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.single()).toBe(1)
     })
@@ -28,7 +28,7 @@ describe("single", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("basic expection parallel", async () => {
+    itParallel("basic expection parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.single())
         expect.toThrowError(InvalidOperationException)
@@ -44,7 +44,7 @@ describe("single", () => {
         expect(await vals.single((x) => true)).toBe(1)
     })
 
-    itAsync("predicate parallel", async () => {
+    itParallel("predicate parallel", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.single((x) => true)).toBe(1)
     })
@@ -71,13 +71,13 @@ describe("single", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate multiple expection parallel", async () => {
+    itParallel("predicate multiple expection parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.single((x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate no matches expection parallel", async () => {
+    itParallel("predicate no matches expection parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.single((x) => false))
         expect.toThrowError(InvalidOperationException)

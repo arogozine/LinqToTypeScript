@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("ofType", () => {
     // tslint:disable-next-line:no-construct
@@ -12,7 +12,7 @@ describe("ofType", () => {
         expect(await asAsync(array).ofType("string").toArray()).toEqual(["str", "str2"])
     })
 
-    itAsync("stringParallel", async () => {
+    itParallel<{}>("stringParallel", async (asParallel) => {
         expect(await asParallel(array).ofType("string").toArray()).toEqual(["str", "str2"])
     })
 
@@ -24,7 +24,7 @@ describe("ofType", () => {
         expect(await asAsync(array).ofType("number").toArray()).toEqual([1, 2, 3])
     })
 
-    itAsync("numberParallel", async () => {
+    itParallel<{}>("numberParallel", async (asParallel) => {
         expect(await asParallel(array).ofType("number").toArray()).toEqual([1, 2, 3])
     })
 
@@ -38,7 +38,7 @@ describe("ofType", () => {
         expect(await asAsync(array).ofType("object").toArray()).toEqual([{}, new Number(1)])
     })
 
-    itAsync("objectParallel", async () => {
+    itParallel<{}>("objectParallel", async (asParallel) => {
         // tslint:disable-next-line:no-construct
         expect(await asParallel(array).ofType("object").toArray()).toEqual([{}, new Number(1)])
     })
@@ -51,7 +51,7 @@ describe("ofType", () => {
         expect(await asAsync(array).ofType("boolean").toArray()).toEqual([true])
     })
 
-    itAsync("booleanParallel", async () => {
+    itParallel<{}>("booleanParallel", async (asParallel) => {
         expect(await asParallel(array).ofType("boolean").toArray()).toEqual([true])
     })
 
@@ -63,7 +63,7 @@ describe("ofType", () => {
         expect(await asAsync(array).ofType(Number).toArray()).toEqual([Number(1)])
     })
 
-    itAsync("Number (Object) Parallel", async () => {
+    itParallel<{}>("Number (Object) Parallel", async (asParallel) => {
         expect(await asParallel(array).ofType(Number).toArray()).toEqual([Number(1)])
     })
 })

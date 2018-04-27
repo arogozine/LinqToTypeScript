@@ -158,9 +158,9 @@ export class ParallelEnumerable {
 
         switch (nextIteration.type) {
             case DataType.PromiseToArray:
-               return nextIteration.generator().then((values) => {
-                   return values.some((x) => x)
-               })
+                return nextIteration.generator().then((values) => {
+                    return values.some((x) => x)
+                })
             case DataType.ArrayOfPromises:
                 return Promise.all(nextIteration.generator()).then((values) => {
                     return values.some((x) => x)

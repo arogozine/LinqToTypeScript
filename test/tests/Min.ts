@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("min", () => {
     itEnumerable("Min", (asEnumerable) => {
@@ -10,7 +10,7 @@ describe("min", () => {
         expect(await asAsync([1, 2, 3, -7]).min()).toBe(-7)
     })
 
-    itAsync("MinParallel", async () => {
+    itParallel("MinParallel", async (asParallel) => {
         expect(await asParallel([1, 2, 3, -7]).min()).toBe(-7)
     })
 
@@ -23,7 +23,7 @@ describe("min", () => {
         expectMin.toThrowError(InvalidOperationException)
     })
 
-    itAsync("MinEmptyErrorParallel", async () => {
+    itParallel("MinEmptyErrorParallel", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).min())
         expectMin.toThrowError(InvalidOperationException)
     })
@@ -37,8 +37,8 @@ describe("min", () => {
         expectMin.toThrowError(InvalidOperationException)
     })
 
-    itAsync("MinPredicate Empty Error Parallel", async () => {
-        const expectMin = await expectAsync(asParallel([] as number[]).min((x) => x * x))
+    itParallel("MinPredicate Empty Error Parallel", async (asParallel) => {
+        const expectMin = await expectAsync(asParallel([]).min((x) => x * x))
         expectMin.toThrowError(InvalidOperationException)
     })
 
@@ -51,7 +51,7 @@ describe("min", () => {
         expectMin.toBe(1)
     })
 
-    itAsync("Min Predicate Parallel", async () => {
+    itParallel("Min Predicate Parallel", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([1, 2, 3, -7]).min(Math.abs))
         expectMin.toBe(1)
     })
@@ -65,7 +65,7 @@ describe("min", () => {
         expectMin.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty exception parallel", async () => {
+    itParallel("empty exception parallel", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).min())
         expectMin.toThrowError(InvalidOperationException)
     })
@@ -79,7 +79,7 @@ describe("min", () => {
         expectMin.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty exception with selector parallel", async () => {
+    itParallel("empty exception with selector parallel", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).min((x) => x))
         expectMin.toThrowError(InvalidOperationException)
     })

@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers";
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("joinByKey", () => {
     itEnumerable<number>("basic", (asEnumerable) => {
@@ -33,7 +33,7 @@ describe("joinByKey", () => {
         expect(joinBy[2].x).toBe(joinBy[2].y)
     })
 
-    itAsync("BasicParallel", async () => {
+    itParallel("BasicParallel", async (asParallel) => {
         const joinBy = await asParallel([1, 2, 3]).joinByKey(asAsync([1, 2, 3]),
             (x) => x,
             (x) => x,

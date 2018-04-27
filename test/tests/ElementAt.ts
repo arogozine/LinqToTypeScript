@@ -1,5 +1,5 @@
 import { ArgumentOutOfRangeException } from "../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("elementAt", () => {
     itEnumerable("Basic", (asEnumerable) => {
@@ -12,7 +12,7 @@ describe("elementAt", () => {
         expect(await asAsync([1, 2]).elementAt(1)).toBe(2)
     })
 
-    itAsync("BasicParallel", async () => {
+    itParallel("BasicParallel", async (asParallel) => {
         expect(await asParallel([1]).elementAt(0)).toBe(1)
         expect(await asParallel([1, 2]).elementAt(1)).toBe(2)
     })
@@ -25,7 +25,7 @@ describe("elementAt", () => {
         expect.toThrowError(ArgumentOutOfRangeException)
     })
 
-    itAsync("empty array throws exception parallel", async () => {
+    itParallel("empty array throws exception parallel", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).elementAt(0))
         expect.toThrowError(ArgumentOutOfRangeException)
     })

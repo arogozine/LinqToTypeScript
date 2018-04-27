@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("toSet", () => {
     itEnumerable("toSet", (asEnumerable) => {
@@ -19,7 +19,7 @@ describe("toSet", () => {
         expect(set.size).toBe(3)
     })
 
-    itAsync("toSetParallel", async () => {
+    itParallel("toSetParallel", async (asParallel) => {
         const set = await asParallel([1, 2, 3]).toSet()
         expect(set instanceof Set).toBe(true)
         expect(set.has(1)).toBe(true)

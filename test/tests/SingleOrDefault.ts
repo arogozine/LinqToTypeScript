@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("singleOrDefault", () => {
     itEnumerable("basic", (asEnumerable) => {
@@ -12,7 +12,7 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault()).toBe(1)
     })
 
-    itAsync("basic parallel", async () => {
+    itParallel("basic parallel", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.singleOrDefault()).toBe(1)
     })
@@ -27,7 +27,7 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault()).toBeNull()
     })
 
-    itAsync("empty parallel", async () => {
+    itParallel("empty parallel", async (asParallel) => {
         const vals = asParallel([])
         expect(await vals.singleOrDefault()).toBeNull()
     })
@@ -43,7 +43,7 @@ describe("singleOrDefault", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("basic expection parallel", async () => {
+    itParallel("basic expection parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleOrDefault())
         expect.toThrowError(InvalidOperationException)
@@ -59,7 +59,7 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault((x) => true)).toBe(1)
     })
 
-    itAsync("predicate parallel", async () => {
+    itParallel("predicate parallel", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.singleOrDefault((x) => true)).toBe(1)
     })
@@ -85,13 +85,13 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault((x) => false)).toBeNull()
     })
 
-    itAsync("predicate multiple exception parallel", async () => {
+    itParallel("predicate multiple exception parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleOrDefault((x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate no matches null parallel", async () => {
+    itParallel("predicate no matches null parallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         expect(await vals.singleOrDefault((x) => false)).toBeNull()
     })

@@ -11,15 +11,6 @@ import {
 
 // There are helper functions to make testing easy
 
-export function asParallel<T>(values: never[]): IParallelEnumerable<number>
-export function asParallel<T>(values: T[]): IParallelEnumerable<T>
-export function asParallel<T>(values: T[]): IParallelEnumerable<T> {
-    const generator = () => {
-        return values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
-    }
-    return ParallelEnumerable.from(DataType.ArrayOfPromises, generator)
-}
-
 /**
  * Wraps a value in a promise. For testing async code.
  * @param value Value to Wrap in a Promise.
@@ -64,6 +55,36 @@ export function asAsync<T>(values: T[]) {
         }
     }
     return AsyncEnumerable.from(promises)
+}
+
+export function itParallel<T = number>(
+    expectation: string,
+    assertion: (asOParallelEnumerable: (x: T[]) => IParallelEnumerable<T>) => void, timeout?: number): void {
+    const a = (x: T[]) => asParallel(DataType.ArrayOfPromises, x)
+    const b = (x: T[]) => asParallel(DataType.PromiseOfPromises, x)
+    const c = (x: T[]) => asParallel(DataType.PromiseToArray, x)
+    it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
+    it(`${ expectation } PromiseOfPromises`, () => assertion(b), timeout)
+    it(`${ expectation } PromiseToArray`, () => assertion(c), timeout)
+}
+
+function asParallel<T>(type: DataType, values: T[]): IParallelEnumerable<T> {
+    const generator1 = () =>
+        values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
+    const generator2 = () =>
+        new Promise<T[]>((resolve) => setTimeout(() => resolve(values), 10))
+    const generator3 = async () =>
+        await generator1()
+    switch (type) {
+        case DataType.ArrayOfPromises:
+            return ParallelEnumerable.from(type, generator1)
+        case DataType.PromiseToArray:
+            return ParallelEnumerable.from(type, generator2)
+        case DataType.PromiseOfPromises:
+        default:
+            return ParallelEnumerable.from(type, generator3)
+    }
+
 }
 
 /**

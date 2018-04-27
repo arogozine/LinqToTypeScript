@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, asPromise, expectAsync, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("minAsync", () => {
 
@@ -13,8 +13,8 @@ describe("minAsync", () => {
         expectMin.toThrowError(InvalidOperationException)
     })
 
-    itAsync("MinPredicate Empty Error Parallel", async () => {
-        const expectMin = await expectAsync(asParallel([] as number[]).minAsync((x) => asPromise(x * x)))
+    itParallel("MinPredicate Empty Error Parallel", async (asParallel) => {
+        const expectMin = await expectAsync(asParallel([]).minAsync((x) => asPromise(x * x)))
         expectMin.toThrowError(InvalidOperationException)
     })
 
@@ -28,7 +28,7 @@ describe("minAsync", () => {
         expectMin.toBe(1)
     })
 
-    itAsync("Min Predicate Parallel", async () => {
+    itParallel("Min Predicate Parallel", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([1, 2, 3, -7]).minAsync((x) => asPromise(Math.abs(x))))
         expectMin.toBe(1)
     })

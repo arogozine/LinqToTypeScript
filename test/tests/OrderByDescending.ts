@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("orderByDescending", () => {
     itEnumerable("basic", (asEnumerable) => {
@@ -12,7 +12,7 @@ describe("orderByDescending", () => {
             .toEqual(await vals.reverse().toArray())
     })
 
-    itAsync("BasicParallel", async () => {
+    itParallel("BasicParallel", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(await vals.orderByDescending((x) => x).toArray())
             .toEqual(await vals.reverse().toArray())

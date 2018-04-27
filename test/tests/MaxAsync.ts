@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, asParallel, asPromise, expectAsync, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("MaxAsync", () => {
     itEnumerableAsync("MaxSelectEmptyError", async (asEnumerable) => {
@@ -12,8 +12,8 @@ describe("MaxAsync", () => {
         value.toThrowError(InvalidOperationException)
     })
 
-    itAsync("MaxSelectEmptyErrorParallel", async () => {
-        const value = await expectAsync(asParallel([] as number[]).maxAsync((x) => asPromise(x * x)))
+    itParallel("MaxSelectEmptyErrorParallel", async (asParallel) => {
+        const value = await expectAsync(asParallel([]).maxAsync((x) => asPromise(x * x)))
         value.toThrowError(InvalidOperationException)
     })
 
@@ -26,7 +26,7 @@ describe("MaxAsync", () => {
         expect(await asAsync([1, 2, 3]).maxAsync((x) => asPromise(x * x))).toBe(9)
     })
 
-    itAsync("MaxSelectParallel", async () => {
+    itParallel("MaxSelectParallel", async (asParallel) => {
         expect(await asParallel([1, 2, 3]).maxAsync((x) => asPromise(x * x))).toBe(9)
     })
 
@@ -39,7 +39,7 @@ describe("MaxAsync", () => {
         expect(await asAsync([1, 2, 3]).maxAsync((x) => asPromise(x * 2))).toBe(6)
     })
 
-    itAsync("max with selector parallel", async () => {
+    itParallel("max with selector parallel", async (asParallel) => {
         expect(await asParallel([1, 2, 3]).maxAsync((x) => asPromise(x * 2))).toBe(6)
     })
 
@@ -53,8 +53,8 @@ describe("MaxAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty array throws exception with selector parallel", async () => {
-        const expect = await expectAsync(asParallel([] as number[]).maxAsync((x) => asPromise(x * 2)))
+    itParallel("empty array throws exception with selector parallel", async (asParallel) => {
+        const expect = await expectAsync(asParallel([]).maxAsync((x) => asPromise(x * 2)))
         expect.toThrowError(InvalidOperationException)
     })
 })

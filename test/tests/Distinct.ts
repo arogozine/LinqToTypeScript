@@ -1,5 +1,5 @@
 import { EqualityComparer } from "../../src/index"
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("distinct", () => {
     itEnumerable("basic", (asEnumerable) => {
@@ -10,7 +10,7 @@ describe("distinct", () => {
         expect(await asAsync([1, 1]).distinct().toArray()).toEqual([1])
     })
 
-    itAsync("Basic Parallel", async () => {
+    itParallel("Basic Parallel", async (asParallel) => {
         expect(await asParallel([1, 1]).distinct().toArray()).toEqual([1])
     })
 
@@ -26,7 +26,7 @@ describe("distinct", () => {
         expect(await array.distinct().toArray()).toEqual(["f", "o"])
     })
 
-    itAsync("DistinctParallel", async () => {
+    itParallel<string>("DistinctParallel", async (asParallel) => {
         const array = asParallel(["f", "o", "o"])
 
         expect(await array.distinct().toArray()).toEqual(["f", "o"])
@@ -44,7 +44,7 @@ describe("distinct", () => {
         expect(await array.distinct(EqualityComparer).toArray()).toEqual(["1", 2, 3])
     })
 
-    itAsync("DistinctWeakEqualityParallel", async () => {
+    itParallel<string | number>("DistinctWeakEqualityParallel", async (asParallel) => {
         const array = asParallel(["1", 1, 2, 2, 3, "3"])
 
         expect(await array.distinct(EqualityComparer).toArray()).toEqual(["1", 2, 3])
@@ -58,7 +58,7 @@ describe("distinct", () => {
         expect(value).toEqual([])
     })
 
-    itAsync("empty array to remain empty parallel", async () => {
+    itParallel("empty array to remain empty parallel", async (asParallel) => {
         const value = await asParallel([]).distinct().toArray()
         expect(value).toEqual([])
     })

@@ -9,7 +9,7 @@ import {
     IEnumerable,
     initializeLinq,
     InvalidOperationException } from "./../src/index"
-import { asAsync, asParallel, expectAsync, itAsync, itEnumerable } from "./TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable } from "./TestHelpers"
 
 initializeLinq()
 

@@ -1,4 +1,4 @@
-import { asAsync, asParallel, itAsync, itEnumerable } from "../TestHelpers";
+import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("take", () => {
     itEnumerable("Take", (asEnumerable) => {
@@ -13,7 +13,7 @@ describe("take", () => {
         expect(array).toEqual([1, 2])
     })
 
-    itAsync("TakeParallel", async () => {
+    itParallel("TakeParallel", async (asParallel) => {
         const array = await asParallel([1, 2, 3, 4, 5]).take(2).toArray()
 
         expect(array).toEqual([1, 2])
@@ -21,7 +21,6 @@ describe("take", () => {
 
     const vals = [1, 2, 3, 4]
     const valsAsync = asAsync(vals)
-    const valsParallel = asParallel(vals)
 
     itEnumerable("various positive amounts", (asEnumerable) => {
         expect(asEnumerable(vals).take(4).toArray()).toEqual(vals)
@@ -35,7 +34,8 @@ describe("take", () => {
         expect(await valsAsync.take(2).toArray()).toEqual([1, 2])
     })
 
-    itAsync("various positive amounts parallel", async () => {
+    itParallel("various positive amounts parallel", async (asParallel) => {
+        const valsParallel = asParallel(vals)
         expect(await valsParallel.take(4).toArray()).toEqual(vals)
         expect(await valsParallel.take(1).toArray()).toEqual([1])
         expect(await valsParallel.take(2).toArray()).toEqual([1, 2])
@@ -47,8 +47,8 @@ describe("take", () => {
     itAsync("zero elements async", async () =>
         expect(await valsAsync.take(0).toArray()).toEqual([]))
 
-    itAsync("zero elements async", async () =>
-        expect(await valsParallel.take(0).toArray()).toEqual([]))
+    itParallel("zero elements async", async (asParallel) =>
+        expect(await asParallel(vals).take(0).toArray()).toEqual([]))
 
     itEnumerable("negative amount", (asEnumerable) =>
         expect(asEnumerable(vals).take(-1).toArray()).toEqual([]))
@@ -56,6 +56,6 @@ describe("take", () => {
     itAsync("negative amount async", async () =>
         expect(await valsAsync.take(-1).toArray()).toEqual([]))
 
-    itAsync("negative amount parallel", async () =>
-        expect(await valsParallel.take(-1).toArray()).toEqual([]))
+    itParallel("negative amount parallel", async (asParallel) =>
+        expect(await asParallel(vals).take(-1).toArray()).toEqual([]))
 })

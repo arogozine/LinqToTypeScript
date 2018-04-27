@@ -1,4 +1,4 @@
-import { asAsync, asParallel, asPromise, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("lastOrDefaultAsync", () => {
     itEnumerableAsync("IEnumerable", async (asEnumerable) => {
@@ -12,7 +12,7 @@ describe("lastOrDefaultAsync", () => {
         expect(await asAsync([1, 2, 3]).lastOrDefaultAsync((x) => asPromise(x === 4))).toBeNull()
     })
 
-    itAsync("IParallelEnumerable", async () => {
+    itParallel("IParallelEnumerable", async (asParallel) => {
         expect(await asParallel([1, 2, 3]).lastOrDefaultAsync((x) => asPromise(x === 4))).toBeNull()
     })
 })

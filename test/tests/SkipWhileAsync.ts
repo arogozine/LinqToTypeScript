@@ -1,4 +1,4 @@
-import { asAsync, asParallel, asPromise, itAsync, itEnumerableAsync } from "../TestHelpers"
+import { asAsync, asPromise, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("skipWhileAsync", () => {
     itEnumerableAsync("basic", async (asEnumerable) => {
@@ -15,7 +15,7 @@ describe("skipWhileAsync", () => {
         expect(values).toEqual([2, 3])
     })
 
-    itAsync("basic parallel", async () => {
+    itParallel("basic parallel", async (asParallel) => {
         const values = await asParallel([ 0, 1, 2, 3 ])
             .skipWhileAsync((x) => asPromise(x < 2))
             .toArray()
@@ -36,7 +36,7 @@ describe("skipWhileAsync", () => {
         expect(values).toEqual([2, 3])
     })
 
-    itAsync("index parallel", async () => {
+    itParallel("index parallel", async (asParallel) => {
         const values = await asParallel([ 0, 1, 2, 3 ])
             .skipWhileAsync((_, i) => asPromise(i < 2))
             .toArray()
