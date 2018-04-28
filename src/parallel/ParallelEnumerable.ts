@@ -128,7 +128,8 @@ export class ParallelEnumerable {
                 return Promise.all(nextIteration.generator())
                     .then(() => true, () => false)
             case DataType.PromiseOfPromises:
-                return nextIteration.generator().then(Promise.all)
+                return nextIteration.generator()
+                    .then(Promise.all.bind(Promise))
                     .then(() => true, () => false)
         }
     }
@@ -145,11 +146,16 @@ export class ParallelEnumerable {
 
         switch (nextIteration.type) {
             case DataType.PromiseToArray:
-                return nextIteration.generator().then(() => true, () => false)
+                return nextIteration
+                    .generator()
+                    .then(() => true, () => false)
             case DataType.ArrayOfPromises:
-                return Promise.all(nextIteration.generator()).then(() => true, () => false)
+                return Promise.all(nextIteration.generator())
+                    .then(() => true, () => false)
             case DataType.PromiseOfPromises:
-                return nextIteration.generator().then(Promise.all).then(() => true, () => false)
+                return nextIteration.generator()
+                    .then(Promise.all.bind(Promise))
+                    .then(() => true, () => false)
         }
     }
 
