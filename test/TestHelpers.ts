@@ -72,7 +72,7 @@ function asParallel<T>(type: DataType, values: T[]): IParallelEnumerable<T> {
     const generator1 = () =>
         values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
     const generator2 = () =>
-        new Promise<T[]>((resolve) => setTimeout(() => resolve(values), 10))
+        new Promise<T[]>((resolve) => setTimeout(() => resolve([... values]), 10))
     const generator3 = async () =>
         await generator1()
     switch (type) {
