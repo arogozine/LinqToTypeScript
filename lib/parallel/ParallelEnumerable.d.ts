@@ -18,6 +18,7 @@ export declare class ParallelEnumerable {
     private static aggregate_3<TSource, TAccumulate, TResult>(source, seed, func, resultSelector);
     static all<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<boolean>;
     static allAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+    static empty<TSource>(): IParallelEnumerable<TSource>;
     static any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<boolean>;
     static anyAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
     static asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource>;

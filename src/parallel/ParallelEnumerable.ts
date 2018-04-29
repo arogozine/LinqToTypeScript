@@ -159,6 +159,15 @@ export class ParallelEnumerable {
         }
     }
 
+    public static empty<TSource>(): IParallelEnumerable<TSource> {
+        const dataFunc: TypedData<TSource> = {
+            generator: async () => [],
+            type: DataType.PromiseToArray,
+        }
+
+        return new BasicParallelEnumerable(dataFunc)
+    }
+
     public static any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean) {
         const nextIteration = ParallelEnumerable.nextIteration(source, predicate || ((_) => true))
 
