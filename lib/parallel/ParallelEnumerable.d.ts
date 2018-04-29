@@ -142,7 +142,7 @@ export declare class ParallelEnumerable {
     private static sum_1(source);
     private static sum_2<TSource>(source, selector);
     static sumAsync<TSource>(source: IAsyncParallel<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
-    static take<TSource>(source: IAsyncParallel<TSource>, amount: number): IParallelEnumerable<TSource>;
+    static take<TSource>(source: IParallelEnumerable<TSource>, amount: number): IParallelEnumerable<TSource>;
     static takeWhile<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
     static takeWhileAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     static thenBy<TSource>(source: IOrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedParallelEnumerable<TSource>;
