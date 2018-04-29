@@ -2046,19 +2046,32 @@ export class ParallelEnumerable {
     }
 
     public static take<TSource>(
-        source: IAsyncParallel<TSource>,
+        source: IParallelEnumerable<TSource>,
         amount: number): IParallelEnumerable<TSource> {
-        const generator = async () => {
-            // negative amounts should yield empty
-            const amountLeft = amount > 0 ? amount : 0
-            const values = await source.toArray()
-            return values.splice(0, amountLeft)
-        }
+        const amountLeft = amount > 0 ? amount : 0
+        const dataFunc = source.dataFunc
 
-        return new BasicParallelEnumerable<TSource>({
-            generator,
-            type: DataType.PromiseToArray,
-        })
+        switch (dataFunc.type) {
+            case DataType.ArrayOfPromises:
+                const generator1 = () => dataFunc.generator().splice(0, amountLeft)
+                return new BasicParallelEnumerable<TSource>({
+                    generator: generator1,
+                    type: DataType.ArrayOfPromises,
+                })
+            case DataType.PromiseOfPromises:
+                const generator2 = () => dataFunc.generator().then((x) => x.splice(0, amountLeft))
+                return new BasicParallelEnumerable<TSource>({
+                    generator: generator2,
+                    type: DataType.PromiseOfPromises,
+                })
+            case DataType.PromiseToArray:
+            default:
+                const generator3 = () => dataFunc.generator().then((x) => x.splice(0, amountLeft))
+                return new BasicParallelEnumerable<TSource>({
+                    generator: generator3,
+                    type: DataType.PromiseToArray,
+                })
+        }
     }
 
     public static takeWhile<TSource>(
