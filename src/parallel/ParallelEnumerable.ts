@@ -2689,7 +2689,13 @@ export class ParallelEnumerable {
         switch (dataFunc.type) {
             case DataType.PromiseToArray:
             {
-                const generator = () => dataFunc.generator().then((x) => x.map(onfulfilled))
+                const generator = () => dataFunc.generator().then((x) => {
+                    const convValues = new Array<TOut>(x.length)
+                    for (let i = 0; i < x.length; i++) {
+                        convValues[i] = onfulfilled(x[i])
+                    }
+                    return convValues
+                })
                 return {
                     generator,
                     type: DataType.PromiseToArray,
