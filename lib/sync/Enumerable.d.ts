@@ -66,6 +66,10 @@ export declare class Enumerable {
      */
     static elementAt<TSource>(source: Iterable<TSource>, index: number): TSource;
     static elementAtOrDefault<TSource>(source: Iterable<TSource>, index: number): TSource | null;
+    /**
+     * Empty Enumerable
+     */
+    static empty<TSource>(): IEnumerable<TSource>;
     static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
     /**
@@ -178,7 +182,6 @@ export declare class Enumerable {
     private static skipWhileAsync_1<TSource>(source, predicate);
     private static skipWhileAsync_2<TSource>(source, predicate);
     static skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource>;
-    static empty<TSource>(): IEnumerable<TSource>;
     /**
      * @throws {InvalidOperationException} Sequence contains no elements
      * @throws {InvalidOperationException} Sequence contains no matching element

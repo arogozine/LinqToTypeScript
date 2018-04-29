@@ -38,6 +38,7 @@ export declare class AsyncEnumerable {
      */
     static elementAt<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource>;
     static elementAtOrDefault<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource | null>;
+    static empty<TSource>(): IAsyncEnumerable<TSource>;
     static enumerateObject<TInput>(source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     /**

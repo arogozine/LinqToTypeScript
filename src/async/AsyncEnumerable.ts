@@ -356,6 +356,16 @@ export class AsyncEnumerable {
         return null
     }
 
+    public static empty<TSource>(): IAsyncEnumerable<TSource> {
+        async function *iterable() {
+            for await (const _ of []) {
+                yield _
+            }
+        }
+
+        return new BasicAsyncEnumerable<TSource>(iterable)
+    }
+
     public static enumerateObject<TInput>(
         source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
         async function *iterable() {

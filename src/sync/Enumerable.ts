@@ -408,6 +408,18 @@ export class Enumerable {
         return null
     }
 
+    /**
+     * Empty Enumerable
+     */
+    public static empty<TSource>(): IEnumerable<TSource> {
+        const iterator = function*() {
+            for (const x of [] as TSource[]) {
+                yield x
+            }
+        }
+        return new BasicEnumerable(iterator)
+    }
+
     public static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
         function *iterable() {
             // tslint:disable-next-line:forin
@@ -1417,15 +1429,6 @@ export class Enumerable {
         }
 
         return new BasicEnumerable<TSource>(iterator)
-    }
-
-    public static empty<TSource>(): IEnumerable<TSource> {
-        const iterator = function*() {
-            for (const x of [] as TSource[]) {
-                yield x
-            }
-        }
-        return new BasicEnumerable(iterator)
     }
 
     /**

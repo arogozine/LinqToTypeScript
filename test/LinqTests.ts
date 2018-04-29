@@ -30,6 +30,7 @@ declare function describe(
 import "./tests/AsAsync"
 import "./tests/AsParallel"
 import "./tests/AsyncEnumerableIteration"
+import "./tests/Empty"
 import "./tests/EnumerateObject"
 import "./tests/Flatten"
 import "./tests/FromEvent"
