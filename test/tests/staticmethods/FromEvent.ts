@@ -1,5 +1,5 @@
-import { AsyncEnumerable } from "./../../src/index"
-import { itAsync } from "./../TestHelpers"
+import { AsyncEnumerable } from "./../../../src/index"
+import { itAsync } from "./../../TestHelpers"
 
 describe("fromEvent", () => {
     it("ClickAsync", (done) => {

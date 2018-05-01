@@ -1,4 +1,4 @@
-import { Enumerable } from "../../src/index"
+import { Enumerable } from "../../../src/index"
 
 describe("enumerateObject", () => {
     it("EnumerateObject", () => {

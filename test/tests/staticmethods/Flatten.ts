@@ -1,5 +1,5 @@
-import { AsyncEnumerable, Enumerable, ParallelEnumerable } from "../../src/index"
-import { asAsync, itAsync, itEnumerable } from "../TestHelpers"
+import { AsyncEnumerable, Enumerable, ParallelEnumerable } from "../../../src/index"
+import { asAsync, itAsync, itEnumerable } from "../../TestHelpers"
 
 describe("flatten", () => {
     itEnumerable<any>("Basic", (asEnumerable) => {
