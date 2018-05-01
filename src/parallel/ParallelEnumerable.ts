@@ -1949,8 +1949,8 @@ export class ParallelEnumerable {
                     generator,
                     type: DataType.PromiseOfPromises,
                 }
-                // TODO: No Idea
-                return new BasicParallelEnumerable<TSource>(dataFuncNew as any)
+
+                return new BasicParallelEnumerable<TSource>(dataFuncNew)
             }
         }
     }
