@@ -377,16 +377,15 @@ export class ParallelEnumerable {
         let countPromise: Promise<boolean[]>
         switch (data.type) {
             case DataType.ArrayOfPromises:
-            countPromise = Promise.all(data.generator())
-            break
+                countPromise = Promise.all(data.generator())
+                break
             case DataType.PromiseOfPromises:
-            countPromise = Promise.all(await data.generator())
-            break
+                countPromise = Promise.all(await data.generator())
+                break
             case DataType.PromiseToArray:
-            countPromise = data.generator()
-            break
             default:
-            throw new Error("Not Possible")
+                countPromise = data.generator()
+                break
         }
 
         let count = 0
