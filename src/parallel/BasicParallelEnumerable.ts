@@ -1,3 +1,4 @@
+import { IOrderedParallelEnumerable } from ".."
 import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
     IAsyncParallel,
@@ -201,9 +202,9 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.ofType(this, type)
     }
 
-    public orderBy(predicate: (x: TSource) => string | number): IParallelEnumerable<TSource>
-    public orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IParallelEnumerable<TSource>
-    public orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IParallelEnumerable<TSource>
+    public orderBy(predicate: (x: TSource) => string | number): IOrderedParallelEnumerable<TSource>
+    public orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
+    public orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>
     public orderBy(predicate: any, comparer?: any): IParallelEnumerable<TSource> {
         return ParallelEnumerable.orderBy(this, predicate, comparer)
     }

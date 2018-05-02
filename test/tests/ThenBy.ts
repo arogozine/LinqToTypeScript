@@ -99,11 +99,10 @@ describe("thenBy", () => {
         }
     })
 
-    /*
-    itParallel<IOrderable>("sync", (asParallel) => {
+    itParallel<IOrderable>("parallel", async (asParallel) => {
         const values = generateValues()
         const enumerable = asParallel(values)
-        const orderby = enumerable
+        const orderby = await enumerable
             .orderBy((x) => x.first ? 0 : 1)
             .thenBy((x) => x.then)
             .toArray()
@@ -138,5 +137,4 @@ describe("thenBy", () => {
             }
         }
     })
-    */
 })
