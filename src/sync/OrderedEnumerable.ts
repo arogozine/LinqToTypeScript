@@ -1,48 +1,34 @@
+import { InferKey } from "../types/InferKeyAsync"
 import { KeySelector } from "../types/KeySelector"
-// import { IOrderedAsyncEnumerable } from "./../async/IOrderedAsyncEnumerable"
 import { IComparer, OrderByMap } from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Enumerable } from "./Enumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
-type InferKey<TSelector> =
-    TSelector extends (x: any) => number ? number : string
-
 /**
  * Represents Ordered Enumeration
+ * @private
  */
 export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
 
     //#region Sync
 
-    private static asSortedKeyValues<TSource>(
+    private static *asSortedKeyValues<TSource>(
         source: Iterable<TSource>,
         keySelector: KeySelector<TSource>,
         ascending: boolean,
         comparer?: IComparer<string | number>) {
-        const sortFunc = ascending ? OrderedEnumerable.sort : OrderedEnumerable.sortDescending
         const map = OrderedEnumerable.asKeyMap(source, keySelector)
-        return sortFunc(map, comparer)
-    }
-
-    private static *sort<TSource>(
-        map: OrderByMap<string | number, TSource>,
-        comparer?: IComparer<string | number>) {
         const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
-        for (const key of sortedKeys) {
-            const values = map.get(key) as TSource[]
-            yield values
-        }
-    }
 
-    private static *sortDescending<TSource>(
-        map: OrderByMap<string | number, TSource>,
-        comparer?: IComparer<string | number>) {
-        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
-        for (let i = sortedKeys.length - 1; i >= 0; i--) {
-            const key = sortedKeys[i]
-            const values = map.get(key) as TSource[]
-            yield values
+        if (ascending) {
+            for (let i = 0; i < sortedKeys.length; i++) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
+        } else {
+            for (let i = sortedKeys.length - 1; i >= 0; i--) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
         }
     }
 
