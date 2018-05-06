@@ -1,5 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator";
 import { IParallelEnumerable } from "../parallel/parallel";
+import { KeySelector } from "../types/KeySelector";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
@@ -119,15 +120,8 @@ export declare class AsyncEnumerable {
     private static skipWhileAsync_1<TSource>(source, predicate);
     private static skipWhileAsync_2<TSource>(source, predicate);
     static ofType<TSource, TType extends OfType>(source: AsyncIterable<TSource>, type: TType): IAsyncEnumerable<InferType<TType>>;
-    private static orderByInner<TSource>(source, keySelector);
-    static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>;
-    static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>;
-    static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
+    static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
+    static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
     /**
      * @throws {InvalidOperationException} No Elements / No Match
      */
@@ -184,22 +178,8 @@ export declare class AsyncEnumerable {
     static takeWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     private static takeWhileAsync_1<T>(source, predicate);
     private static takeWhileAsync_2<T>(source, predicate);
-    static thenBy<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>;
-    static thenBy<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    static thenBy<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>;
-    static thenBy<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    static thenByAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>): IOrderedAsyncEnumerable<TSource>;
-    static thenByAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    static thenByAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>): IOrderedAsyncEnumerable<TSource>;
-    static thenByAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescending<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescending<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescending<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescending<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescendingAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescendingAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescendingAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescendingAsync<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
+    static thenBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
+    static thenByDescending<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
     static toArray<TSource>(source: AsyncIterable<TSource>): Promise<TSource[]>;
     static toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>>;
     static toMapAsync<K, V>(source: AsyncIterable<V>, selector: (x: V) => Promise<K>): Promise<Map<K, V[]>>;

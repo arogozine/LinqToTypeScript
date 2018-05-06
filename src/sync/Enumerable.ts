@@ -1677,30 +1677,6 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
-    /*
-    private static orderByInnerAsync<TSource>(
-        source: IEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<number | string>): () => Promise<Map<number | string, TSource[]>> {
-        const func = async function lazyMap() {
-            const map = new Map<number | string, TSource[]>()
-            for (const item of source) {
-                const key = await keySelector(item)
-                const currentMapping = map.get(key)
-
-                if (currentMapping) {
-                    currentMapping.push(item)
-                } else {
-                    map.set(key, [item])
-                }
-            }
-
-            return map
-        }
-
-        return func
-    }
-    */
-
     public static orderBy<TSource>(
         source: IEnumerable<TSource>,
         keySelector: KeySelector<TSource>,

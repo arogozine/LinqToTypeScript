@@ -13,14 +13,15 @@ type InferKey<TSelector> =
  */
 export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
 
+    //#region Sync
+
     private static asSortedKeyValues<TSource>(
         source: Iterable<TSource>,
         keySelector: KeySelector<TSource>,
         ascending: boolean,
         comparer?: IComparer<string | number>) {
         const sortFunc = ascending ? OrderedEnumerable.sort : OrderedEnumerable.sortDescending
-        const mapFunc = OrderedEnumerable.asKeyMap(source, keySelector)
-        const map = mapFunc()
+        const map = OrderedEnumerable.asKeyMap(source, keySelector)
         return sortFunc(map, comparer)
     }
 
@@ -48,13 +49,8 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
     private static asKeyMap<TSource>(
         source: Iterable<TSource>,
         keySelector: KeySelector<TSource>) {
-        return () => OrderedEnumerable.asKeyMapPrivate(source, keySelector)
-    }
-
-    private static asKeyMapPrivate<TSource>(
-        source: Iterable<TSource>,
-        keySelector: KeySelector<TSource>) {
         type KeyType = InferKey<typeof keySelector>
+
         const map = new OrderByMap<KeyType, TSource>()
         for (const item of source) {
             const key = keySelector(item)
@@ -68,6 +64,8 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         }
         return map
     }
+
+    //#endregion
 
     public static generate<TSource>(
         source: Iterable<TSource> | OrderedEnumerable<TSource>,

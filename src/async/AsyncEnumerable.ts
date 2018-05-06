@@ -1,6 +1,7 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
 import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { KeySelector } from "../types/KeySelector"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
@@ -14,7 +15,6 @@ import {
     InvalidOperationException,
     ITuple,
     OfType,
-    RecOrdMap,
     StrictEqualityComparer,
 } from "./../shared/shared"
 import { Grouping } from "./../sync/sync"
@@ -22,7 +22,6 @@ import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 import { IAsyncEnumerable } from "./IAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
-import { OrderedAsyncEnumerableDescending } from "./OrderedAsyncEnumerableDescending"
 
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
@@ -1274,66 +1273,18 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    private static orderByInner<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number | string): () => Promise<Map<number | string, TSource[]>> {
-        return async function lazyMap(): Promise<Map<number | string, TSource[]>> {
-            const map = new Map<number | string, TSource[]>()
-            for await (const item of source) {
-                const key = keySelector(item)
-                const currentMapping = map.get(key)
-
-                if (currentMapping) {
-                    currentMapping.push(item)
-                } else {
-                    map.set(key, [item])
-                }
-            }
-
-            return map
-        }
-    }
-
     public static orderBy<TSource>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>
-    public static orderBy<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string,
-        comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
-    public static orderBy<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>
-    public static orderBy<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number,
-        comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
-    public static orderBy<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
-        return new OrderedAsyncEnumerable(AsyncEnumerable.orderByInner(source, keySelector), comparer as any)
+        keySelector: KeySelector<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedAsyncEnumerable.generate(source, keySelector, true, comparer)
     }
 
     public static orderByDescending<TSource>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>
-    public static orderByDescending<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string,
-        comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
-    public static orderByDescending<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>
-    public static orderByDescending<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number,
-        comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
-    public static orderByDescending<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number | string,
-        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
-        return new OrderedAsyncEnumerableDescending(AsyncEnumerable.orderByInner(source, keySelector), comparer as any)
+        keySelector: KeySelector<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedAsyncEnumerable.generate(source, keySelector, false, comparer)
     }
 
     /**
@@ -1818,67 +1769,13 @@ export class AsyncEnumerable {
     }
 
     public static thenBy<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>
-    public static thenBy<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string,
-        comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
-    public static thenBy<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>
-    public static thenBy<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number,
-        comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
-    public static thenBy<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
-
-        function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
-
-            if (item instanceof Map) {
-                for (const key of item.keys()) {
-                    item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
-                }
-
-                return item
-            } else {
-                const map = new Map<number | string, TSource[]>()
-                for (let i = 0; i < item.length; i++) {
-                    const value = item[i]
-                    const key = keySelector(value)
-
-                    const mapping = map.get(key)
-                    if (mapping) {
-                        mapping.push(value)
-                    } else {
-                        map.set(key, [value])
-                    }
-                }
-
-                return map
-            }
-        }
-
-        return new OrderedAsyncEnumerable(async () => sortInnerMost(await source.getMap()), comparer as any)
+        source: IAsyncEnumerable<TSource>,
+        keySelector: KeySelector<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedAsyncEnumerable.generate(source, keySelector, true, comparer)
     }
 
-    public static thenByAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<string>): IOrderedAsyncEnumerable<TSource>
-    public static thenByAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<string>,
-        comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
-    public static thenByAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<number>): IOrderedAsyncEnumerable<TSource>
-    public static thenByAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<number>,
-        comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
+    /*
     public static thenByAsync<TSource>(
         source: IOrderedAsyncEnumerable<TSource>,
         keySelector: ((x: TSource) => Promise<number>) | ((x: TSource) => Promise<string>),
@@ -1912,102 +1809,22 @@ export class AsyncEnumerable {
 
         return new OrderedAsyncEnumerable(async () => await sortInnerMost(await source.getMap()), comparer as any)
     }
+    */
 
     public static thenByDescending<TSource>(
         source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string): IOrderedAsyncEnumerable<TSource>
-    public static thenByDescending<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => string,
-        comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
-    public static thenByDescending<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number): IOrderedAsyncEnumerable<TSource>
-    public static thenByDescending<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => number,
-        comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
-    public static thenByDescending<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: ((x: TSource) => number) | ((x: TSource) => string),
-        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
-
-        function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): RecOrdMap<TSource> {
-
-            if (item instanceof Map) {
-                for (const key of item.keys()) {
-                    item.set(key, sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
-                }
-
-                return item
-            } else {
-                const map = new Map<number | string, TSource[]>()
-                for (let i = 0; i < item.length; i++) {
-                    const value = item[i]
-                    const key = keySelector(value)
-
-                    const mapping = map.get(key)
-                    if (mapping) {
-                        mapping.push(value)
-                    } else {
-                        map.set(key, [value])
-                    }
-                }
-
-                return map
-            }
-        }
-
-        return new OrderedAsyncEnumerableDescending(async () => sortInnerMost(await source.getMap()), comparer as any)
+        keySelector: KeySelector<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedAsyncEnumerable.generate(source, keySelector, false, comparer)
     }
 
-    public static thenByDescendingAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<string>): IOrderedAsyncEnumerable<TSource>
-    public static thenByDescendingAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<string>,
-        comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>
-    public static thenByDescendingAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<number>): IOrderedAsyncEnumerable<TSource>
-    public static thenByDescendingAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: (x: TSource) => Promise<number>,
-        comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>
+    /*
     public static thenByDescendingAsync<TSource>(
         source: IOrderedAsyncEnumerable<TSource>,
         keySelector: ((x: TSource) => Promise<number>) | ((x: TSource) => Promise<string>),
         comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
-
-        async function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): Promise<RecOrdMap<TSource>> {
-
-            if (item instanceof Map) {
-                for (const key of item.keys()) {
-                    item.set(key, await sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
-                }
-
-                return item
-            } else {
-                const map = new Map<number | string, TSource[]>()
-                for (let i = 0; i < item.length; i++) {
-                    const value = item[i]
-                    const key = await keySelector(value)
-
-                    const mapping = map.get(key)
-                    if (mapping) {
-                        mapping.push(value)
-                    } else {
-                        map.set(key, [value])
-                    }
-                }
-
-                return map
-            }
-        }
-
-        return new OrderedAsyncEnumerableDescending(async () => sortInnerMost(await source.getMap()), comparer as any)
     }
+    */
 
     public static async toArray<TSource>(source: AsyncIterable<TSource>): Promise<TSource[]> {
         const array = []

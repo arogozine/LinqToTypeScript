@@ -11,7 +11,6 @@ export declare class OrderedEnumerable<T> extends BasicEnumerable<T> implements 
     private static sort<TSource>(map, comparer?);
     private static sortDescending<TSource>(map, comparer?);
     private static asKeyMap<TSource>(source, keySelector);
-    private static asKeyMapPrivate<TSource>(source, keySelector);
     static generate<TSource>(source: Iterable<TSource> | OrderedEnumerable<TSource>, keySelector: KeySelector<TSource>, ascending: boolean, comparer?: IComparer<string | number>): OrderedEnumerable<TSource>;
     private constructor();
     thenBy(keySelector: (x: T) => string | number): IOrderedEnumerable<T>;
