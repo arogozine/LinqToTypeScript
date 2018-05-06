@@ -10,6 +10,7 @@ import {
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
+import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
@@ -202,21 +203,41 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.ofType(this, type)
     }
 
-    public orderBy(predicate: (x: TSource) => string | number): IOrderedParallelEnumerable<TSource>
+    public orderBy(predicate: KeySelector<TSource>): IOrderedParallelEnumerable<TSource>
     public orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
     public orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>
     public orderBy(predicate: any, comparer?: any): IParallelEnumerable<TSource> {
         return ParallelEnumerable.orderBy(this, predicate, comparer)
     }
 
+    public orderByAsync(
+        predicate: KeySelectorAsync<TSource>): IOrderedParallelEnumerable<TSource>
+    public orderByAsync(
+        predicate: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<TSource>
+    public orderByAsync(
+        predicate: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<TSource>
+    public orderByAsync(predicate: any, comparer?: any): IParallelEnumerable<TSource> {
+        return ParallelEnumerable.orderByAsync(this, predicate, comparer)
+    }
+
     public orderByDescending(
-        predicate: (x: TSource) => string | number): IParallelEnumerable<TSource>
+        predicate: KeySelector<TSource>): IParallelEnumerable<TSource>
     public orderByDescending(
         predicate: (x: TSource) => number, comparer: IComparer<number>): IParallelEnumerable<TSource>
     public orderByDescending(
         predicate: (x: TSource) => string, comparer: IComparer<string>): IParallelEnumerable<TSource>
     public orderByDescending(predicate: any, comparer?: any): IParallelEnumerable<TSource> {
         return ParallelEnumerable.orderByDescending(this, predicate, comparer)
+    }
+
+    public orderByDescendingAsync(
+        predicate: KeySelectorAsync<TSource>): IParallelEnumerable<TSource>
+    public orderByDescendingAsync(
+        predicate: (x: TSource) => Promise<number>, comparer: IComparer<number>): IParallelEnumerable<TSource>
+    public orderByDescendingAsync(
+        predicate: (x: TSource) => Promise<string>, comparer: IComparer<string>): IParallelEnumerable<TSource>
+    public orderByDescendingAsync(predicate: any, comparer?: any): IParallelEnumerable<TSource> {
+        return ParallelEnumerable.orderByDescendingAsync(this, predicate, comparer)
     }
 
     public reverse(): IParallelEnumerable<TSource> {

@@ -14,7 +14,7 @@ import {
     OfType,
     StrictEqualityComparer} from "../shared/shared"
 import { Grouping } from "../sync/sync"
-import { KeySelector } from "../types/KeySelector"
+import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { DataType } from "./DataType"
@@ -1540,11 +1540,25 @@ export class ParallelEnumerable {
         return OrderedParallelEnumerable.generate(source, keySelector, true, comparer)
     }
 
+    public static orderByAsync<TSource>(
+        source: IAsyncParallel<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        comparer?: IComparer<number | string>): IOrderedParallelEnumerable<TSource> {
+        return OrderedParallelEnumerable.generateAsync(source, keySelector, true, comparer)
+    }
+
     public static orderByDescending<TSource>(
         source: IAsyncParallel<TSource>,
         keySelector: KeySelector<TSource>,
         comparer?: IComparer<number | string>): IOrderedParallelEnumerable<TSource> {
         return OrderedParallelEnumerable.generate(source, keySelector, false, comparer)
+    }
+
+    public static orderByDescendingAsync<TSource>(
+        source: IAsyncParallel<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        comparer?: IComparer<number | string>): IOrderedParallelEnumerable<TSource> {
+        return OrderedParallelEnumerable.generateAsync(source, keySelector, false, comparer)
     }
 
     public static repeat<T>(
