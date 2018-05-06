@@ -1,4 +1,6 @@
+import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
 import { IParallelEnumerable } from "../parallel/parallel";
+import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEnumerable } from "./../async/async";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
@@ -57,12 +59,18 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     min(selector: (x: T) => number): number | never;
     minAsync(selector: (x: T) => Promise<number>): Promise<number | never>;
     ofType<TType extends OfType>(type: TType): IEnumerable<InferType<TType>>;
-    orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>;
+    orderBy(predicate: KeySelector<T>): IOrderedEnumerable<T>;
     orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>;
     orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
-    orderByDescending(predicate: (x: T) => number | string): IOrderedEnumerable<T>;
+    orderByAsync(predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>;
+    orderByAsync(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
+    orderByAsync(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
+    orderByDescending(predicate: KeySelector<T>): IOrderedEnumerable<T>;
     orderByDescending(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>;
     orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
+    orderByDescendingAsync(predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>;
+    orderByDescendingAsync(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
+    orderByDescendingAsync(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
     reverse(): ArrayEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;
     select<TKey extends keyof T>(this: IEnumerable<{

@@ -1,3 +1,4 @@
+import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
 import {
     ArgumentOutOfRangeException,
@@ -13,7 +14,7 @@ import {
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
-import { KeySelector } from "../types/KeySelector"
+import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { AsyncEnumerable } from "./../async/AsyncEnumerable"
 import {
     IAsyncEnumerable,
@@ -1684,11 +1685,25 @@ export class Enumerable {
         return OrderedEnumerable.generate<TSource>(source, keySelector, true, comparer)
     }
 
+    public static orderByAsync<TSource>(
+        source: IEnumerable<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedEnumerable.generateAsync<TSource>(source, keySelector, true, comparer)
+    }
+
     public static orderByDescending<TSource>(
         source: IEnumerable<TSource>,
         keySelector: KeySelector<TSource>,
         comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
         return OrderedEnumerable.generate<TSource>(source, keySelector, false, comparer)
+    }
+
+    public static orderByDescendingAsync<TSource>(
+        source: IEnumerable<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedEnumerable.generateAsync<TSource>(source, keySelector, false, comparer)
     }
 
     public static range(start: number, count: number): IEnumerable<number> {

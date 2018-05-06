@@ -1,4 +1,6 @@
+import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEnumerable } from "./../async/async"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
@@ -322,18 +324,32 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.ofType(this, type)
     }
 
-    public orderBy(predicate: (x: T) => number | string): IOrderedEnumerable<T>
+    public orderBy(predicate: KeySelector<T>): IOrderedEnumerable<T>
     public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
     public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
     public orderBy(predicate: any, comparer?: IComparer<any>) {
         return Enumerable.orderBy(this, predicate, comparer as any)
     }
 
-    public orderByDescending(predicate: (x: T) => number | string): IOrderedEnumerable<T>
+    public orderByAsync(predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>
+    public orderByAsync(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
+    public orderByAsync(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
+    public orderByAsync(predicate: any, comparer?: IComparer<any>) {
+        return Enumerable.orderByAsync(this, predicate, comparer as any)
+    }
+
+    public orderByDescending(predicate: KeySelector<T>): IOrderedEnumerable<T>
     public orderByDescending(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
     public orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
     public orderByDescending(predicate: any, comparer?: IComparer<any>) {
         return Enumerable.orderByDescending(this, predicate, comparer as any)
+    }
+
+    public orderByDescendingAsync(predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>
+    public orderByDescendingAsync(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
+    public orderByDescendingAsync(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
+    public orderByDescendingAsync(predicate: any, comparer?: IComparer<any>) {
+        return Enumerable.orderByDescendingAsync(this, predicate, comparer as any)
     }
 
     public reverse(): ArrayEnumerable<T> {
