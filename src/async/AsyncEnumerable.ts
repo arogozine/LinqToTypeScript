@@ -1,7 +1,7 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
 import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
-import { KeySelector } from "../types/KeySelector"
+import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
@@ -1280,11 +1280,25 @@ export class AsyncEnumerable {
         return OrderedAsyncEnumerable.generate(source, keySelector, true, comparer)
     }
 
+    public static orderByAsync<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedAsyncEnumerable.generateAsync(source, keySelector, true, comparer)
+    }
+
     public static orderByDescending<TSource>(
         source: IAsyncEnumerable<TSource>,
         keySelector: KeySelector<TSource>,
         comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
         return OrderedAsyncEnumerable.generate(source, keySelector, false, comparer)
+    }
+
+    public static orderByDescendingAsync<TSource>(
+        source: IAsyncEnumerable<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        return OrderedAsyncEnumerable.generateAsync(source, keySelector, false, comparer)
     }
 
     /**
