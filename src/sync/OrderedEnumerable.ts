@@ -18,7 +18,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         source: Iterable<TSource>,
         keySelector: KeySelector<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKey<typeof keySelector>>) {
         const map = OrderedEnumerable.asKeyMap(source, keySelector)
         const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
 
@@ -56,7 +56,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         source: Iterable<TSource> | OrderedEnumerable<TSource>,
         keySelector: KeySelector<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKey<typeof keySelector>>) {
         let orderedPairs: () => IterableIterator<TSource[]>
         if (source instanceof OrderedEnumerable) {
             orderedPairs = function*() {
@@ -82,7 +82,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         source: Iterable<TSource>,
         keySelector: KeySelectorAsync<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKeyAsync<typeof keySelector>>) {
         const map = await OrderedEnumerable.asKeyMapAsync(source, keySelector)
         const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
 
@@ -120,7 +120,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         source: Iterable<TSource> | OrderedEnumerable<TSource>,
         keySelector: KeySelectorAsync<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKeyAsync<typeof keySelector>>) {
         let orderedPairs: () => AsyncIterableIterator<TSource[]>
         if (source instanceof OrderedEnumerable) {
             orderedPairs = async function*() {
@@ -150,25 +150,25 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
 
     public thenBy(
         keySelector: KeySelector<T>,
-        comparer?: IComparer<string | number>): IOrderedEnumerable<T> {
+        comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedEnumerable<T> {
         return OrderedEnumerable.generate(this, keySelector, true, comparer)
     }
 
     public thenByAsync(
         keySelector: KeySelectorAsync<T>,
-        comparer?: IComparer<string | number>): IOrderedAsyncEnumerable<T> {
+        comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<T> {
         return OrderedEnumerable.generateAsync(this, keySelector, true, comparer)
     }
 
     public thenByDescending(
         keySelector: KeySelector<T>,
-        comparer?: IComparer<string | number>): IOrderedEnumerable<T> {
+        comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedEnumerable<T> {
         return OrderedEnumerable.generate(this, keySelector, false, comparer)
     }
 
     public thenByDescendingAsync(
         keySelector: KeySelectorAsync<T>,
-        comparer?: IComparer<string | number>): IOrderedAsyncEnumerable<T> {
+        comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<T> {
         return OrderedEnumerable.generateAsync(this, keySelector, false, comparer)
     }
 }

@@ -219,7 +219,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public orderByAsync(
         predicate: any,
         comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<TSource> {
-        return AsyncEnumerable.orderByAsync(this, predicate as any, comparer as any)
+        return AsyncEnumerable.orderByAsync(this, predicate, comparer as any)
     }
 
     public orderByDescending(
@@ -243,7 +243,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public orderByDescendingAsync(
         predicate: any,
         comparer?: IComparer<string> | IComparer<number>): IOrderedAsyncEnumerable<TSource> {
-        return AsyncEnumerable.orderByDescendingAsync(this, predicate as any, comparer as any)
+        return AsyncEnumerable.orderByDescendingAsync(this, predicate, comparer as any)
     }
 
     public reverse(): IAsyncEnumerable<TSource> {

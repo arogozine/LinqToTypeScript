@@ -14,6 +14,7 @@ import {
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
+import { InferKey, InferKeyAsync } from "../types/InferKeyAsync"
 import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { AsyncEnumerable } from "./../async/AsyncEnumerable"
 import {
@@ -1681,14 +1682,14 @@ export class Enumerable {
     public static orderBy<TSource>(
         source: IEnumerable<TSource>,
         keySelector: KeySelector<TSource>,
-        comparer?: IComparer<number | string>): IOrderedEnumerable<TSource> {
+        comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedEnumerable<TSource> {
         return OrderedEnumerable.generate<TSource>(source, keySelector, true, comparer)
     }
 
     public static orderByAsync<TSource>(
         source: IEnumerable<TSource>,
         keySelector: KeySelectorAsync<TSource>,
-        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
+        comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource> {
         return OrderedEnumerable.generateAsync<TSource>(source, keySelector, true, comparer)
     }
 

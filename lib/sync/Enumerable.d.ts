@@ -1,6 +1,7 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
 import { IParallelEnumerable } from "../parallel/parallel";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
+import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
 import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEnumerable } from "./../async/IAsyncEnumerable";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
@@ -224,8 +225,8 @@ export declare class Enumerable {
      */
     static minAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static ofType<TSource, TType extends OfType>(source: Iterable<TSource>, type: TType): IEnumerable<InferType<TType>>;
-    static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
-    static orderByAsync<TSource>(source: IEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
+    static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedEnumerable<TSource>;
+    static orderByAsync<TSource>(source: IEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
     static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
     static orderByDescendingAsync<TSource>(source: IEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
     static range(start: number, count: number): IEnumerable<number>;
