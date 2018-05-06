@@ -3,7 +3,6 @@ export { ArgumentOutOfRangeException, AsTuple, EqualityComparer, ErrorString, In
 export { IConstructor } from "./IConstructor";
 export { IComparer } from "./IComparer";
 export { ITuple } from "./ITuple";
-export { RecOrdMap } from "./RecOrdMap";
 export { IGrouping } from "./IGrouping";
 export { IAsyncParallel } from "./IAsyncParallel";
 export { OfType, InferType } from "./InferType";

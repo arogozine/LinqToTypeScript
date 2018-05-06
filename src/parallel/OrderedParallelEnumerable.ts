@@ -1,93 +1,255 @@
+import { DataType } from ".."
 import {
     IComparer,
-    RecOrdMap,
+    OrderByMap,
 } from "../shared/shared"
+import { InferKey, InferKeyAsync } from "../types/InferKeyAsync"
+import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
-import { DataType } from "./DataType"
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
-import { ParallelEnumerable } from "./ParallelEnumerable"
-import { TypedData } from "./TypedData"
 
 /**
  * Ordered Parallel Enumerable
+ * @private
  */
 export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> implements IOrderedParallelEnumerable<T> {
-    private static async unrollAndSort<T>(
-        mapPromise: Promise<RecOrdMap<T>> | RecOrdMap<T>,
-        comparer?: IComparer<string | number>): Promise<T[]> {
+    //#region Sync
 
-        const map = await mapPromise
-        const returnValues = new Array<T>()
+    private static async *asAsyncSortedKeyValues<TSource>(
+        source: AsyncIterable<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        ascending: boolean,
+        comparer?: IComparer<string | number>) {
+        const map = await OrderedParallelEnumerable.asAsyncKeyMap(source, keySelector)
 
-        for (const key of [...map.keys()].sort(comparer ? comparer : undefined)) {
-            const values = map.get(key)
+        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
 
-            if (values instanceof Map) {
-                for (const value of await OrderedParallelEnumerable.unrollAndSort(values as RecOrdMap<T>, comparer)) {
-                    returnValues.push(value)
-                }
-            } else {
-                // Because the key is from the same map
-                // as the values, values cannot be undefined
-                for (const value of values as T[]) {
-                    returnValues.push(value)
-                }
+        if (ascending) {
+            for (let i = 0; i < sortedKeys.length; i++) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
+        } else {
+            for (let i = sortedKeys.length - 1; i >= 0; i--) {
+                yield map.get(sortedKeys[i]) as TSource[]
             }
         }
-        return returnValues
     }
 
-    private static generate<T>(
-        mapFunc: () => Promise<RecOrdMap<T>>,
-        comparer?: IComparer<number | string>): TypedData<T> {
-        const generator = () => OrderedParallelEnumerable.unrollAndSort(mapFunc(), comparer)
-        return {
-            generator,
-            type: DataType.PromiseToArray,
+    private static async *asAsyncSortedKeyValuesSync<TSource>(
+        source: Iterable<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        ascending: boolean,
+        comparer?: IComparer<string | number>) {
+        const map = await OrderedParallelEnumerable.asAsyncKeyMapSync(source, keySelector)
+        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
+
+        if (ascending) {
+            for (let i = 0; i < sortedKeys.length; i++) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
+        } else {
+            for (let i = sortedKeys.length - 1; i >= 0; i--) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
         }
     }
 
-    constructor(private readonly map: () => Promise<RecOrdMap<T>>, comparer?: IComparer<number | string>) {
-        super(OrderedParallelEnumerable.generate(map, comparer))
+    private static async asAsyncKeyMapSync<TSource>(
+        source: Iterable<TSource>,
+        keySelector: KeySelectorAsync<TSource>) {
+        type KeyType = InferKeyAsync<typeof keySelector>
+
+        const map = new OrderByMap<KeyType, TSource>()
+        for (const item of source) {
+            const key = await keySelector(item)
+            const currentMapping = map.get(key)
+
+            if (currentMapping) {
+                currentMapping.push(item)
+            } else {
+                map.set(key, [item])
+            }
+        }
+        return map
     }
 
-    public getMap(): Promise<RecOrdMap<T>> {
-        return this.map()
+    private static async asAsyncKeyMap<TSource>(
+        source: AsyncIterable<TSource>,
+        keySelector: KeySelectorAsync<TSource>) {
+        type KeyType = InferKeyAsync<typeof keySelector>
+
+        const map = new OrderByMap<KeyType, TSource>()
+        for await (const item of source) {
+            const key = await keySelector(item)
+            const currentMapping = map.get(key)
+
+            if (currentMapping) {
+                currentMapping.push(item)
+            } else {
+                map.set(key, [item])
+            }
+        }
+        return map
     }
 
-    public thenBy(keySelector: (x: T) => string | number): IOrderedParallelEnumerable<T>
-    public thenBy(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<T>
-    public thenBy(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<T>
-    public thenBy(keySelector: any, comparer?: any): IOrderedParallelEnumerable<T> {
-        return ParallelEnumerable.thenBy(this, keySelector, comparer)
+    //#endregion
+
+    //#region Sync
+
+    private static async *asSortedKeyValues<TSource>(
+        source: AsyncIterable<TSource>,
+        keySelector: KeySelector<TSource>,
+        ascending: boolean,
+        comparer?: IComparer<string | number>) {
+        const map = await OrderedParallelEnumerable.asKeyMap(source, keySelector)
+
+        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
+
+        if (ascending) {
+            for (let i = 0; i < sortedKeys.length; i++) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
+        } else {
+            for (let i = sortedKeys.length - 1; i >= 0; i--) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
+        }
     }
 
-    public thenByAsync(
-        keySelector: (x: T) => Promise<string | number>): IOrderedParallelEnumerable<T>
-    public thenByAsync(
-        keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<T>
-    public thenByAsync(
-        keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<T>
-    public thenByAsync(
-        keySelector: any, comparer?: any): IOrderedParallelEnumerable<T> {
-        return ParallelEnumerable.thenByAsync(this, keySelector, comparer)
+    private static async *asSortedKeyValuesSync<TSource>(
+        source: Iterable<TSource>,
+        keySelector: KeySelector<TSource>,
+        ascending: boolean,
+        comparer?: IComparer<string | number>) {
+        const map = await OrderedParallelEnumerable.asKeyMapSync(source, keySelector)
+        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
+
+        if (ascending) {
+            for (let i = 0; i < sortedKeys.length; i++) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
+        } else {
+            for (let i = sortedKeys.length - 1; i >= 0; i--) {
+                yield map.get(sortedKeys[i]) as TSource[]
+            }
+        }
     }
 
-    public thenByDescending(keySelector: (x: T) => string | number): IOrderedParallelEnumerable<T>
-    public thenByDescending(keySelector: (x: T) => number, comparer: IComparer<number>): IOrderedParallelEnumerable<T>
-    public thenByDescending(keySelector: (x: T) => string, comparer: IComparer<string>): IOrderedParallelEnumerable<T>
-    public thenByDescending(keySelector: any, comparer?: any): IOrderedParallelEnumerable<T> {
-        return ParallelEnumerable.thenByDescending(this, keySelector, comparer)
+    private static asKeyMapSync<TSource>(
+        source: Iterable<TSource>,
+        keySelector: KeySelector<TSource>) {
+        type KeyType = InferKey<typeof keySelector>
+
+        const map = new OrderByMap<KeyType, TSource>()
+        for (const item of source) {
+            const key = keySelector(item)
+            const currentMapping = map.get(key)
+
+            if (currentMapping) {
+                currentMapping.push(item)
+            } else {
+                map.set(key, [item])
+            }
+        }
+        return map
     }
 
-    public thenByDescendingAsync(
-        keySelector: (x: T) => Promise<string | number>): IOrderedParallelEnumerable<T>
-    public thenByDescendingAsync(
-        keySelector: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedParallelEnumerable<T>
-    public thenByDescendingAsync(
-        keySelector: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedParallelEnumerable<T>
-    public thenByDescendingAsync(
-        keySelector: any, comparer?: any): IOrderedParallelEnumerable<T> {
-        return ParallelEnumerable.thenByDescendingAsync(this, keySelector, comparer)
+    private static async asKeyMap<TSource>(
+        source: AsyncIterable<TSource>,
+        keySelector: KeySelector<TSource>) {
+        type KeyType = InferKey<typeof keySelector>
+
+        const map = new OrderByMap<KeyType, TSource>()
+        for await (const item of source) {
+            const key = keySelector(item)
+            const currentMapping = map.get(key)
+
+            if (currentMapping) {
+                currentMapping.push(item)
+            } else {
+                map.set(key, [item])
+            }
+        }
+        return map
+    }
+
+    //#endregion
+
+    public static generateAsync<TSource>(
+        source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>,
+        keySelector: KeySelectorAsync<TSource>,
+        ascending: boolean,
+        comparer?: IComparer<string | number>) {
+        let orderedPairs: () => AsyncIterable<TSource[]>
+        if (source instanceof OrderedParallelEnumerable) {
+            orderedPairs = async function*() {
+                for await (const pair of source.orderedPairs()) {
+                    yield* OrderedParallelEnumerable
+                        .asAsyncSortedKeyValuesSync(pair, keySelector, ascending, comparer)
+                }
+            }
+
+        } else {
+            orderedPairs = () =>
+                OrderedParallelEnumerable.asAsyncSortedKeyValues(source, keySelector, ascending, comparer)
+        }
+
+        return new OrderedParallelEnumerable(orderedPairs)
+    }
+
+    public static generate<TSource>(
+        source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>,
+        keySelector: KeySelector<TSource>,
+        ascending: boolean,
+        comparer?: IComparer<string | number>) {
+        let orderedPairs: () => AsyncIterable<TSource[]>
+        if (source instanceof OrderedParallelEnumerable) {
+            orderedPairs = async function*() {
+                for await (const pair of source.orderedPairs()) {
+                    yield* OrderedParallelEnumerable
+                        .asSortedKeyValuesSync(pair, keySelector, ascending, comparer)
+                }
+            }
+
+        } else {
+            orderedPairs = () =>
+                OrderedParallelEnumerable.asSortedKeyValues(source, keySelector, ascending, comparer)
+        }
+
+        return new OrderedParallelEnumerable(orderedPairs)
+    }
+
+    private constructor(private readonly orderedPairs: () => AsyncIterable<T[]>) {
+        super({
+            generator: async () => {
+                const asyncVals = orderedPairs()
+                const array = []
+                for await (const val of asyncVals) {
+                    array.push(...val)
+                }
+                return array
+            },
+            type: DataType.PromiseToArray,
+        })
+    }
+
+    public thenBy(keySelector: KeySelector<T>,
+                  comparer?: IComparer<number | string>): IOrderedParallelEnumerable<T> {
+        return OrderedParallelEnumerable.generate<T>(this, keySelector, true, comparer)
+    }
+
+    public thenByAsync(keySelector: KeySelectorAsync<T>,
+                       comparer?: IComparer<number | string>): IOrderedParallelEnumerable<T> {
+        return OrderedParallelEnumerable.generateAsync<T>(this, keySelector, true, comparer)
+    }
+
+    public thenByDescending(keySelector: KeySelector<T>,
+                            comparer?: IComparer<number | string>): IOrderedParallelEnumerable<T> {
+        return OrderedParallelEnumerable.generate(this, keySelector, false, comparer)
+    }
+
+    public thenByDescendingAsync(keySelector: KeySelectorAsync<T>,
+                                 comparer?: IComparer<number | string>) {
+        return OrderedParallelEnumerable.generateAsync<T>(this, keySelector, false, comparer)
     }
 }

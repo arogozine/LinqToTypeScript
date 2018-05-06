@@ -1,13 +1,8 @@
 import { IComparer, OrderByMap } from "../shared/shared"
+import { InferKey, InferKeyAsync } from "../types/InferKeyAsync"
 import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
-
-type InferKey<TSelector> =
-    TSelector extends (x: any) => number ? number : string
-
-type InferKeyAsync<TSelector> =
-    TSelector extends (x: any) => Promise<number> ? number : string
 
 /**
  * Ordered Async Enumerable
