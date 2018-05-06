@@ -1768,64 +1768,6 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable<T>(iterator)
     }
 
-    public static thenBy<TSource>(
-        source: IAsyncEnumerable<TSource>,
-        keySelector: KeySelector<TSource>,
-        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
-        return OrderedAsyncEnumerable.generate(source, keySelector, true, comparer)
-    }
-
-    /*
-    public static thenByAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: ((x: TSource) => Promise<number>) | ((x: TSource) => Promise<string>),
-        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
-
-        async function sortInnerMost(item: TSource[] | RecOrdMap<TSource>): Promise<RecOrdMap<TSource>> {
-
-            if (item instanceof Map) {
-                for (const key of item.keys()) {
-                    item.set(key, await sortInnerMost(item.get(key) as TSource[] | RecOrdMap<TSource>))
-                }
-
-                return item
-            } else {
-                const map = new Map<number | string, TSource[]>()
-                for (let i = 0; i < item.length; i++) {
-                    const value = item[i]
-                    const key = await keySelector(value)
-
-                    const mapping = map.get(key)
-                    if (mapping) {
-                        mapping.push(value)
-                    } else {
-                        map.set(key, [value])
-                    }
-                }
-
-                return map
-            }
-        }
-
-        return new OrderedAsyncEnumerable(async () => await sortInnerMost(await source.getMap()), comparer as any)
-    }
-    */
-
-    public static thenByDescending<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: KeySelector<TSource>,
-        comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource> {
-        return OrderedAsyncEnumerable.generate(source, keySelector, false, comparer)
-    }
-
-    /*
-    public static thenByDescendingAsync<TSource>(
-        source: IOrderedAsyncEnumerable<TSource>,
-        keySelector: ((x: TSource) => Promise<number>) | ((x: TSource) => Promise<string>),
-        comparer?: IComparer<number> | IComparer<string>): IOrderedAsyncEnumerable<TSource> {
-    }
-    */
-
     public static async toArray<TSource>(source: AsyncIterable<TSource>): Promise<TSource[]> {
         const array = []
         for await (const item of source) {

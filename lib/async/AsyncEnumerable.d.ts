@@ -178,8 +178,6 @@ export declare class AsyncEnumerable {
     static takeWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     private static takeWhileAsync_1<T>(source, predicate);
     private static takeWhileAsync_2<T>(source, predicate);
-    static thenBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
-    static thenByDescending<TSource>(source: IOrderedAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
     static toArray<TSource>(source: AsyncIterable<TSource>): Promise<TSource[]>;
     static toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>>;
     static toMapAsync<K, V>(source: AsyncIterable<V>, selector: (x: V) => Promise<K>): Promise<Map<K, V[]>>;
