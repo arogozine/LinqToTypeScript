@@ -214,7 +214,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         return new OrderedAsyncEnumerable(orderedPairs)
     }
 
-    private constructor(private readonly orderedPairs: () => AsyncIterable<T[]>) {
+    public constructor(private readonly orderedPairs: () => AsyncIterable<T[]>) {
         super(async function *() {
             for await (const orderedPair of orderedPairs()) {
                 yield* orderedPair

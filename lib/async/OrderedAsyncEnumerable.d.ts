@@ -17,7 +17,7 @@ export declare class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> i
     private static asKeyMap<TSource>(source, keySelector);
     static generateAsync<TSource>(source: AsyncIterable<TSource> | OrderedAsyncEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, ascending: boolean, comparer?: IComparer<string | number>): OrderedAsyncEnumerable<TSource>;
     static generate<TSource>(source: AsyncIterable<TSource> | OrderedAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, ascending: boolean, comparer?: IComparer<string | number>): OrderedAsyncEnumerable<TSource>;
-    private constructor();
+    constructor(orderedPairs: () => AsyncIterable<T[]>);
     thenBy(keySelector: KeySelector<T>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<T>;
     thenByAsync(keySelector: KeySelectorAsync<T>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<T>;
     thenByDescending(keySelector: KeySelector<T>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<T>;

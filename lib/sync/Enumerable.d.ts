@@ -224,7 +224,7 @@ export declare class Enumerable {
     static minAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static ofType<TSource, TType extends OfType>(source: Iterable<TSource>, type: TType): IEnumerable<InferType<TType>>;
     static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: ((x: TSource) => number) | ((x: TSource) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
+    static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
     static range(start: number, count: number): IEnumerable<number>;
     static repeat<T>(element: T, count: number): IEnumerable<T>;
     /**
@@ -252,8 +252,6 @@ export declare class Enumerable {
     static takeWhileAsync<T>(source: Iterable<T>, predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T>;
     private static takeWhileAsync_1<T>(source, predicate);
     private static takeWhileAsync_2<T>(source, predicate);
-    static thenBy<TSource>(source: IOrderedEnumerable<TSource>, keySelector: ((x: TSource) => number) | ((x: TSource) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
-    static thenByDescending<TSource>(source: IOrderedEnumerable<TSource>, keySelector: ((x: TSource) => number) | ((x: TSource) => string), comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
     static toArray<TSource>(source: Iterable<TSource>): TSource[];
     static toMap<K, V>(source: Iterable<V>, selector: (x: V) => K): Map<K, V[]>;
     static toMapAsync<K, V>(source: Iterable<V>, selector: (x: V) => Promise<K>): Promise<Map<K, V[]>>;
