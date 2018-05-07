@@ -1,5 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator";
 import { IParallelEnumerable } from "../parallel/parallel";
+import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
 import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
@@ -120,10 +121,10 @@ export declare class AsyncEnumerable {
     private static skipWhileAsync_1<TSource>(source, predicate);
     private static skipWhileAsync_2<TSource>(source, predicate);
     static ofType<TSource, TType extends OfType>(source: AsyncIterable<TSource>, type: TType): IAsyncEnumerable<InferType<TType>>;
-    static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
-    static orderByAsync<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
-    static orderByDescendingAsync<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
+    static orderBy<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
+    static orderByAsync<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
+    static orderByDescending<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
+    static orderByDescendingAsync<TSource>(source: IAsyncEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
     /**
      * @throws {InvalidOperationException} No Elements / No Match
      */

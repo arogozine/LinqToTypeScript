@@ -1,4 +1,5 @@
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
+import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
 import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
@@ -54,18 +55,10 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     min(selector: (x: TSource) => number): Promise<number | never>;
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number | never>;
     ofType<TType extends OfType>(type: TType): IAsyncEnumerable<InferType<TType>>;
-    orderBy(predicate: KeySelector<TSource>): IOrderedAsyncEnumerable<TSource>;
-    orderBy(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    orderBy(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    orderByAsync(predicate: KeySelectorAsync<TSource>): IOrderedAsyncEnumerable<TSource>;
-    orderByAsync(predicate: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    orderByAsync(predicate: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescending(predicate: (x: TSource) => number | string): IOrderedAsyncEnumerable<TSource>;
-    orderByDescending(predicate: (x: TSource) => number, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescending(predicate: (x: TSource) => string, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescendingAsync(predicate: KeySelectorAsync<TSource>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescendingAsync(predicate: (x: TSource) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescendingAsync(predicate: (x: TSource) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<TSource>;
+    orderBy(predicate: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
+    orderByAsync(predicate: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
+    orderByDescending(predicate: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
+    orderByDescendingAsync(predicate: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
     reverse(): IAsyncEnumerable<TSource>;
     select<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>;
     selectAsync<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>;

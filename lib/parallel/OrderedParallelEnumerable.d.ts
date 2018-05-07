@@ -1,4 +1,5 @@
 import { IComparer } from "../shared/shared";
+import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
 import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
@@ -16,11 +17,11 @@ export declare class OrderedParallelEnumerable<T> extends BasicParallelEnumerabl
     private static asSortedKeyValuesSync<TSource>(source, keySelector, ascending, comparer?);
     private static asKeyMapSync<TSource>(source, keySelector);
     private static asKeyMap<TSource>(source, keySelector);
-    static generateAsync<TSource>(source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, ascending: boolean, comparer?: IComparer<string | number>): OrderedParallelEnumerable<TSource>;
-    static generate<TSource>(source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>, keySelector: KeySelector<TSource>, ascending: boolean, comparer?: IComparer<string | number>): OrderedParallelEnumerable<TSource>;
+    static generateAsync<TSource>(source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, ascending: boolean, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): OrderedParallelEnumerable<TSource>;
+    static generate<TSource>(source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>, keySelector: KeySelector<TSource>, ascending: boolean, comparer?: IComparer<InferKey<typeof keySelector>>): OrderedParallelEnumerable<TSource>;
     private constructor();
-    thenBy(keySelector: KeySelector<T>, comparer?: IComparer<number | string>): IOrderedParallelEnumerable<T>;
-    thenByAsync(keySelector: KeySelectorAsync<T>, comparer?: IComparer<number | string>): IOrderedParallelEnumerable<T>;
-    thenByDescending(keySelector: KeySelector<T>, comparer?: IComparer<number | string>): IOrderedParallelEnumerable<T>;
-    thenByDescendingAsync(keySelector: KeySelectorAsync<T>, comparer?: IComparer<number | string>): OrderedParallelEnumerable<T>;
+    thenBy(keySelector: KeySelector<T>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedParallelEnumerable<T>;
+    thenByAsync(keySelector: KeySelectorAsync<T>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedParallelEnumerable<T>;
+    thenByDescending(keySelector: KeySelector<T>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedParallelEnumerable<T>;
+    thenByDescendingAsync(keySelector: KeySelectorAsync<T>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): OrderedParallelEnumerable<T>;
 }

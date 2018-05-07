@@ -34,7 +34,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         source: Iterable<TSource>,
         keySelector: KeySelectorAsync<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKeyAsync<typeof keySelector>>) {
         const map = await OrderedAsyncEnumerable.asAsyncKeyMapSync(source, keySelector)
         const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
 
@@ -95,7 +95,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         source: AsyncIterable<TSource>,
         keySelector: KeySelector<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKey<typeof keySelector>>) {
         const map = await OrderedAsyncEnumerable.asKeyMap(source, keySelector)
 
         const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
@@ -115,7 +115,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         source: Iterable<TSource>,
         keySelector: KeySelector<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKey<typeof keySelector>>) {
         const map = await OrderedAsyncEnumerable.asKeyMapSync(source, keySelector)
         const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
 
@@ -174,7 +174,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         source: AsyncIterable<TSource> | OrderedAsyncEnumerable<TSource>,
         keySelector: KeySelectorAsync<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKeyAsync<typeof keySelector>>) {
         let orderedPairs: () => AsyncIterable<TSource[]>
         if (source instanceof OrderedAsyncEnumerable) {
             orderedPairs = async function*() {
@@ -196,7 +196,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         source: AsyncIterable<TSource> | OrderedAsyncEnumerable<TSource>,
         keySelector: KeySelector<TSource>,
         ascending: boolean,
-        comparer?: IComparer<string | number>) {
+        comparer?: IComparer<InferKey<typeof keySelector>>) {
         let orderedPairs: () => AsyncIterable<TSource[]>
         if (source instanceof OrderedAsyncEnumerable) {
             orderedPairs = async function*() {
