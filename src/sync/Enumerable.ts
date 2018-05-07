@@ -1563,7 +1563,7 @@ export class Enumerable {
     private static max_1(source: Iterable<number>): number {
         let max: number | null = null
         for (const item of source) {
-            max = Math.max(max || Number.MIN_VALUE, item)
+            max = Math.max(max || Number.NEGATIVE_INFINITY, item)
         }
 
         if (max === null) {
@@ -1576,7 +1576,7 @@ export class Enumerable {
     private static max_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number {
         let max: number | null = null
         for (const item of source) {
-            max = Math.max(max || Number.MIN_VALUE, selector(item))
+            max = Math.max(max || Number.NEGATIVE_INFINITY, selector(item))
         }
 
         if (max === null) {
