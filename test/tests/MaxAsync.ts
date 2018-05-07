@@ -57,4 +57,26 @@ describe("MaxAsync", () => {
         const expect = await expectAsync(asParallel([]).maxAsync((x) => asPromise(x * 2)))
         expect.toThrowError(InvalidOperationException)
     })
+
+    //#region Infinity Test
+
+    itEnumerableAsync("Infinity Test", async (asEnumerable) => {
+        const max = await asEnumerable([ Number.NEGATIVE_INFINITY ])
+            .maxAsync((x) => asPromise(x))
+        expect(max).toBe(Number.NEGATIVE_INFINITY)
+    })
+
+    itAsync("Infinity Test", async () => {
+        const max2 = await asAsync([ Number.NEGATIVE_INFINITY ])
+            .maxAsync((x) => asPromise(x))
+        expect(max2).toBe(Number.NEGATIVE_INFINITY)
+    })
+
+    itParallel("Infinity Test", async (asParallel) => {
+        const max = await asParallel([ Number.NEGATIVE_INFINITY ])
+            .maxAsync((x) => asPromise(x))
+        expect(max).toBe(Number.NEGATIVE_INFINITY)
+    })
+
+    //#endregion
 })
