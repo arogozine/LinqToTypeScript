@@ -83,4 +83,72 @@ describe("min", () => {
         const expectMin = await expectAsync(asParallel([]).min((x) => x))
         expectMin.toThrowError(InvalidOperationException)
     })
+
+    //#region Infinity Test
+
+    itEnumerable("Infinity Test", (asEnumerable) => {
+        const min1 = asEnumerable([ Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ])
+            .min()
+        expect(min1).toBe(Number.NEGATIVE_INFINITY)
+
+        const min2 = asEnumerable([ Number.POSITIVE_INFINITY ])
+            .min()
+        expect(min2).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    itAsync("Infinity Test", async () => {
+        const min1 = await asAsync([ Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ])
+            .min()
+        expect(min1).toBe(Number.NEGATIVE_INFINITY)
+
+        const min2 = await asAsync([ Number.POSITIVE_INFINITY ])
+            .min()
+        expect(min2).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    itParallel("Infinity Test", async (asParallel) => {
+        const min1 = await asParallel([ Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ])
+            .min()
+        expect(min1).toBe(Number.NEGATIVE_INFINITY)
+
+        const min2 = await asParallel([ Number.POSITIVE_INFINITY ])
+            .min()
+        expect(min2).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    //#endregion
+
+    //#region Infinity Test With Selector
+
+    itEnumerable("Infinity Test With Selector", (asEnumerable) => {
+        const min1 = asEnumerable([ Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ])
+            .min((x) => x)
+        expect(min1).toBe(Number.NEGATIVE_INFINITY)
+
+        const min2 = asEnumerable([ Number.POSITIVE_INFINITY ])
+            .min((x) => x)
+        expect(min2).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    itAsync("Infinity Test With Selector", async () => {
+        const min1 = await asAsync([ Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ])
+            .min((x) => x)
+        expect(min1).toBe(Number.NEGATIVE_INFINITY)
+
+        const min2 = await asAsync([ Number.POSITIVE_INFINITY ])
+            .min((x) => x)
+        expect(min2).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    itParallel("Infinity Test With Selector", async (asParallel) => {
+        const min1 = await asParallel([ Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY ])
+            .min((x) => x)
+        expect(min1).toBe(Number.NEGATIVE_INFINITY)
+
+        const min2 = await asParallel([ Number.POSITIVE_INFINITY ])
+            .min((x) => x)
+        expect(min2).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    //#endregion
 })

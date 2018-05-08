@@ -37,4 +37,26 @@ describe("minAsync", () => {
         const expect = await expectAsync(asEnumerable([]).minAsync((x) => asPromise(x)))
         expect.toThrowError(InvalidOperationException)
     })
+
+    //#region Infinity Test
+
+    itEnumerableAsync("Infinity Test", async (asEnumerable) => {
+        const min = await asEnumerable([ Number.POSITIVE_INFINITY ])
+            .minAsync((x) => asPromise(x))
+        expect(min).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    itAsync("Infinity Test", async () => {
+        const min2 = await asAsync([ Number.POSITIVE_INFINITY ])
+            .minAsync((x) => asPromise(x))
+        expect(min2).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    itParallel("Infinity Test", async (asParallel) => {
+        const min = await asParallel([ Number.POSITIVE_INFINITY ])
+            .minAsync((x) => asPromise(x))
+        expect(min).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    //#endregion
 })
