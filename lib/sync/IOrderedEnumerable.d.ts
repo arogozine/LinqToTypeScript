@@ -1,11 +1,9 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
 import { IComparer } from "../shared/shared";
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IEnumerable } from "./IEnumerable";
 export interface IOrderedEnumerable<TSource> extends IEnumerable<TSource> {
-    thenBy(keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedEnumerable<TSource>;
-    thenByAsync(keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
-    thenByDescending(keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedEnumerable<TSource>;
-    thenByDescendingAsync(keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
+    thenBy<TKey>(keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>;
+    thenByAsync<TKey>(keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
+    thenByDescending<TKey>(keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>;
+    thenByDescendingAsync<TKey>(keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
 }

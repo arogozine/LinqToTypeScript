@@ -1,8 +1,6 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
 import { IParallelEnumerable } from "../parallel/parallel";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEnumerable } from "./../async/IAsyncEnumerable";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { BasicEnumerable } from "./BasicEnumerable";
@@ -225,10 +223,10 @@ export declare class Enumerable {
      */
     static minAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static ofType<TSource, TType extends OfType>(source: Iterable<TSource>, type: TType): IEnumerable<InferType<TType>>;
-    static orderBy<TSource>(source: IEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedEnumerable<TSource>;
-    static orderByAsync<TSource>(source: IEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IEnumerable<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<number | string>): IOrderedEnumerable<TSource>;
-    static orderByDescendingAsync<TSource>(source: IEnumerable<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<number | string>): IOrderedAsyncEnumerable<TSource>;
+    static orderBy<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>;
+    static orderByAsync<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
+    static orderByDescending<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>;
+    static orderByDescendingAsync<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
     static range(start: number, count: number): IEnumerable<number>;
     static repeat<T>(element: T, count: number): IEnumerable<T>;
     /**

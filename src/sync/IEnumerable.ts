@@ -1,7 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { IParallelEnumerable } from "../parallel/parallel"
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync"
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEnumerable } from "./../async/async"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared"
@@ -113,18 +111,18 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
     ofType<T extends OfType>(type: T): IEnumerable<InferType<T>>,
 
-    orderBy(
-            predicate: KeySelector<TSource>,
-            comparer?: IComparer<InferKey<typeof predicate>>): IOrderedEnumerable<TSource>
-    orderByAsync(
-            predicate: KeySelectorAsync<TSource>,
-            comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedAsyncEnumerable<TSource>
-    orderByDescending(
-            predicate: KeySelector<TSource>,
-            comparer?: IComparer<InferKey<typeof predicate>>): IOrderedEnumerable<TSource>
-    orderByDescendingAsync(
-            predicate: KeySelectorAsync<TSource>,
-            comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedAsyncEnumerable<TSource>
+    orderBy<TKey>(
+            predicate: (x: TSource) => TKey,
+            comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>
+    orderByAsync<TKey>(
+            predicate: (x: TSource) => Promise<TKey>,
+            comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
+    orderByDescending<TKey>(
+            predicate: (x: TSource) => TKey,
+            comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>
+    orderByDescendingAsync<TKey>(
+            predicate: (x: TSource) => Promise<TKey>,
+            comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
 
     reverse(): IEnumerable<TSource>,
     select<OUT>(selector: (x: TSource) => OUT): IEnumerable<OUT>
