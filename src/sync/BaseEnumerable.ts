@@ -1,6 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { IParallelEnumerable } from "../parallel/parallel"
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEnumerable } from "./../async/async"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
@@ -155,7 +154,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public intersect(second: IEnumerable<T>): IEnumerable<T>
     public intersect(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
     public intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.intersect(this, second, comparer as any)
+        return Enumerable.intersect(this as any, second, comparer as any)
     }
 
     public joinByKey<TInner, TKey, TResult>(
@@ -207,35 +206,27 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.ofType(this, type)
     }
 
-    public orderBy(predicate: KeySelector<T>): IOrderedEnumerable<T>
-    public orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
-    public orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
-    public orderBy(predicate: any, comparer?: IComparer<number> | IComparer<string>) {
-        return Enumerable.orderBy(this, predicate, comparer as any)
+    public orderBy<TKey>(
+        predicate: (x: T) => TKey,
+        comparer?: IComparer<TKey>): IOrderedEnumerable<T> {
+        return Enumerable.orderBy(this, predicate, comparer)
     }
 
-    public orderByAsync(predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>
-    public orderByAsync(predicate: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
-    public orderByAsync(predicate: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public orderByAsync(predicate: any, comparer?: IComparer<number> | IComparer<string>) {
-        return Enumerable.orderByAsync(this, predicate, comparer as any)
+    public orderByAsync<TKey>(
+        predicate: (x: T) => Promise<TKey>,
+        comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T> {
+        return Enumerable.orderByAsync(this, predicate, comparer)
     }
 
-    public orderByDescending(predicate: KeySelector<T>): IOrderedEnumerable<T>
-    public orderByDescending(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>
-    public orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>
-    public orderByDescending(predicate: any, comparer?: IComparer<any>) {
-        return Enumerable.orderByDescending(this, predicate, comparer as any)
+    public orderByDescending<TKey>(
+        predicate: (x: T) => TKey,
+        comparer?: IComparer<TKey>): IOrderedEnumerable<T> {
+        return Enumerable.orderByDescending(this, predicate, comparer)
     }
 
-    public orderByDescendingAsync(
-        predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>
-    public orderByDescendingAsync(
-        predicate: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>
-    public orderByDescendingAsync(
-        predicate: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>
-    public orderByDescendingAsync(
-        predicate: any, comparer?: IComparer<number> | IComparer<string>) {
+    public orderByDescendingAsync<TKey>(
+        predicate: (x: T) => Promise<TKey>,
+        comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T> {
         return Enumerable.orderByAsync(this, predicate, comparer as any)
     }
 

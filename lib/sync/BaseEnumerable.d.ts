@@ -1,6 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
 import { IParallelEnumerable } from "../parallel/parallel";
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEnumerable } from "./../async/async";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
@@ -59,18 +58,10 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     min(selector: (x: T) => number): number | never;
     minAsync(selector: (x: T) => Promise<number>): Promise<number | never>;
     ofType<TType extends OfType>(type: TType): IEnumerable<InferType<TType>>;
-    orderBy(predicate: KeySelector<T>): IOrderedEnumerable<T>;
-    orderBy(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>;
-    orderBy(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
-    orderByAsync(predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>;
-    orderByAsync(predicate: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
-    orderByAsync(predicate: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
-    orderByDescending(predicate: KeySelector<T>): IOrderedEnumerable<T>;
-    orderByDescending(predicate: (x: T) => number, comparer: IComparer<number>): IOrderedEnumerable<T>;
-    orderByDescending(predicate: (x: T) => string, comparer: IComparer<string>): IOrderedEnumerable<T>;
-    orderByDescendingAsync(predicate: KeySelectorAsync<T>): IOrderedAsyncEnumerable<T>;
-    orderByDescendingAsync(predicate: (x: T) => Promise<number>, comparer: IComparer<number>): IOrderedAsyncEnumerable<T>;
-    orderByDescendingAsync(predicate: (x: T) => Promise<string>, comparer: IComparer<string>): IOrderedAsyncEnumerable<T>;
+    orderBy<TKey>(predicate: (x: T) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<T>;
+    orderByAsync<TKey>(predicate: (x: T) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T>;
+    orderByDescending<TKey>(predicate: (x: T) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<T>;
+    orderByDescendingAsync<TKey>(predicate: (x: T) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T>;
     reverse(): IEnumerable<T>;
     select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;
     select<TKey extends keyof T>(this: IEnumerable<{
