@@ -1620,7 +1620,7 @@ export class Enumerable {
     private static min_1(source: Iterable<number>) {
         let min: number | null = null
         for (const item of source) {
-            min = Math.min(min || Number.MAX_VALUE, item)
+            min = Math.min(min || Number.POSITIVE_INFINITY, item)
         }
 
         if (min === null) {
@@ -1633,7 +1633,7 @@ export class Enumerable {
     private static min_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number) {
         let min: number | null = null
         for (const item of source) {
-            min = Math.min(min || Number.MAX_VALUE, selector(item))
+            min = Math.min(min || Number.POSITIVE_INFINITY, selector(item))
         }
 
         if (min === null) {
@@ -1650,7 +1650,7 @@ export class Enumerable {
         source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
         let min: number | null = null
         for (const item of source) {
-            min = Math.min(min || Number.MAX_VALUE, await selector(item))
+            min = Math.min(min || Number.POSITIVE_INFINITY, await selector(item))
         }
 
         if (min === null) {

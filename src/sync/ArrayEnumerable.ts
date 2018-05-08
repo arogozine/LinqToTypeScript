@@ -304,7 +304,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         }
 
         if (selector) {
-            let min = Number.MAX_VALUE
+            let min = Number.POSITIVE_INFINITY
 
             for (let i = 0; i < this.length; i++) {
                 min = Math.min(selector(this[i]), min)

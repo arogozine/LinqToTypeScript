@@ -1489,7 +1489,7 @@ export class AsyncEnumerable {
     private static async min_1(source: AsyncIterable<number>): Promise<number> {
         let min: number | null = null
         for await (const item of source) {
-            min = Math.min(min || Number.MAX_VALUE, item)
+            min = Math.min(min || Number.POSITIVE_INFINITY, item)
         }
 
         if (min === null) {
@@ -1502,7 +1502,7 @@ export class AsyncEnumerable {
     private static async min_2(source: AsyncIterable<number>, selector: (x: number) => number): Promise<number> {
         let min: number | null = null
         for await (const item of source) {
-            min = Math.min(min || Number.MAX_VALUE, selector(item))
+            min = Math.min(min || Number.POSITIVE_INFINITY, selector(item))
         }
 
         if (min === null) {
@@ -1520,7 +1520,7 @@ export class AsyncEnumerable {
         selector: (x: TSource) => Promise<number>): Promise<number> {
         let min: number | null = null
         for await (const item of source) {
-            min = Math.min(min || Number.MAX_VALUE, await selector(item))
+            min = Math.min(min || Number.POSITIVE_INFINITY, await selector(item))
         }
 
         if (min === null) {
