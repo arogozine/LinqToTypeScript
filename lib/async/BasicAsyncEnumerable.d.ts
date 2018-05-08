@@ -1,6 +1,4 @@
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
@@ -55,10 +53,10 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     min(selector: (x: TSource) => number): Promise<number | never>;
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number | never>;
     ofType<TType extends OfType>(type: TType): IAsyncEnumerable<InferType<TType>>;
-    orderBy(predicate: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
-    orderByAsync(predicate: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescending(predicate: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
-    orderByDescendingAsync(predicate: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedAsyncEnumerable<TSource>;
+    orderBy<TKey>(predicate: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
+    orderByAsync<TKey>(predicate: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
+    orderByDescending<TKey>(predicate: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
+    orderByDescendingAsync<TKey>(predicate: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
     reverse(): IAsyncEnumerable<TSource>;
     select<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>;
     selectAsync<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>;

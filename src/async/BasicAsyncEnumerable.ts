@@ -1,6 +1,4 @@
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared"
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync"
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { AsyncEnumerable } from "./AsyncEnumerable"
 import { IAsyncEnumerable } from "./IAsyncEnumerable"
@@ -202,25 +200,25 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.ofType(this, type)
     }
 
-    public orderBy(predicate: KeySelector<TSource>,
-                   comparer?: IComparer<InferKey<typeof predicate>>): IOrderedAsyncEnumerable<TSource> {
+    public orderBy<TKey>(predicate: (x: TSource) => TKey,
+                         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
         return AsyncEnumerable.orderBy(this, predicate as any, comparer as any)
     }
 
-    public orderByAsync(predicate: KeySelectorAsync<TSource>,
-                        comparer?: IComparer<InferKeyAsync<typeof predicate>>,
+    public orderByAsync<TKey>(predicate: (x: TSource) => Promise<TKey>,
+                              comparer?: IComparer<TKey>,
     ): IOrderedAsyncEnumerable<TSource> {
         return AsyncEnumerable.orderByAsync(this, predicate, comparer as any)
     }
 
-    public orderByDescending(predicate: KeySelector<TSource>,
-                             comparer?: IComparer<InferKey<typeof predicate>>): IOrderedAsyncEnumerable<TSource> {
+    public orderByDescending<TKey>(predicate: (x: TSource) => TKey,
+                                   comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
         return AsyncEnumerable.orderByDescending(this, predicate as any, comparer as any)
     }
 
-    public orderByDescendingAsync(
-        predicate: KeySelectorAsync<TSource>,
-        comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedAsyncEnumerable<TSource> {
+    public orderByDescendingAsync<TKey>(
+        predicate: (x: TSource) => Promise<TKey>,
+        comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
         return AsyncEnumerable.orderByDescendingAsync(this, predicate, comparer as any)
     }
 

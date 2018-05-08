@@ -1,8 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
 import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync"
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
@@ -1274,31 +1272,31 @@ export class AsyncEnumerable {
         return new BasicAsyncEnumerable(iterator)
     }
 
-    public static orderBy<TSource>(
+    public static orderBy<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: KeySelector<TSource>,
-        comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedAsyncEnumerable<TSource> {
+        keySelector: (x: TSource) => TKey,
+        comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
         return OrderedAsyncEnumerable.generate(source, keySelector, true, comparer)
     }
 
-    public static orderByAsync<TSource>(
+    public static orderByAsync<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: KeySelectorAsync<TSource>,
-        comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource> {
+        keySelector: (x: TSource) => Promise<TKey>,
+        comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
         return OrderedAsyncEnumerable.generateAsync(source, keySelector, true, comparer)
     }
 
-    public static orderByDescending<TSource>(
+    public static orderByDescending<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: KeySelector<TSource>,
-        comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedAsyncEnumerable<TSource> {
+        keySelector: (x: TSource) => TKey,
+        comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
         return OrderedAsyncEnumerable.generate(source, keySelector, false, comparer)
     }
 
-    public static orderByDescendingAsync<TSource>(
+    public static orderByDescendingAsync<TSource, TKey>(
         source: IAsyncEnumerable<TSource>,
-        keySelector: KeySelectorAsync<TSource>,
-        comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedAsyncEnumerable<TSource> {
+        keySelector: (x: TSource) => Promise<TKey>,
+        comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
         return OrderedAsyncEnumerable.generateAsync(source, keySelector, false, comparer)
     }
 
