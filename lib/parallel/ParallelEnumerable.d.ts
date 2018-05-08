@@ -1,7 +1,5 @@
 import { IAsyncEnumerable } from "../async/async";
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { DataType } from "./DataType";
@@ -103,10 +101,10 @@ export declare class ParallelEnumerable {
     }, TOut>(source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
     static selectManyAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
     static ofType<TSource, TType extends OfType>(source: IAsyncParallel<TSource>, type: TType): IParallelEnumerable<InferType<TType>>;
-    static orderBy<TSource>(source: IAsyncParallel<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedParallelEnumerable<TSource>;
-    static orderByAsync<TSource>(source: IAsyncParallel<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedParallelEnumerable<TSource>;
-    static orderByDescending<TSource>(source: IAsyncParallel<TSource>, keySelector: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof keySelector>>): IOrderedParallelEnumerable<TSource>;
-    static orderByDescendingAsync<TSource>(source: IAsyncParallel<TSource>, keySelector: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof keySelector>>): IOrderedParallelEnumerable<TSource>;
+    static orderBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+    static orderByAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+    static orderByDescending<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+    static orderByDescendingAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
     static repeat<T>(element: T, count: number, delay?: number): IParallelEnumerable<T>;
     private static repeat_1<T>(element, count);
     private static repeat_2<T>(element, count, delay);

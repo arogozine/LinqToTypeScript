@@ -1,7 +1,5 @@
 import { IAsyncEnumerable, IOrderedParallelEnumerable } from "..";
 import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync";
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector";
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
 import { TypedData } from "./TypedData";
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
@@ -20,10 +18,10 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     intersect(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     joinByKey<TInner, TKey, TResult>(inner: IAsyncParallel<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>;
     ofType<TType extends OfType>(type: TType): IParallelEnumerable<InferType<TType>>;
-    orderBy(predicate: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof predicate>>): IOrderedParallelEnumerable<TSource>;
-    orderByAsync(predicate: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof predicate>>): IOrderedParallelEnumerable<TSource>;
-    orderByDescending(predicate: KeySelector<TSource>, comparer?: IComparer<InferKey<typeof predicate>>): IParallelEnumerable<TSource>;
-    orderByDescendingAsync(predicate: KeySelectorAsync<TSource>, comparer?: IComparer<InferKeyAsync<typeof predicate>>): IParallelEnumerable<TSource>;
+    orderBy<TKey>(predicate: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+    orderByAsync<TKey>(predicate: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+    orderByDescending<TKey>(predicate: (x: TSource) => TKey, comparer?: IComparer<TKey>): IParallelEnumerable<TSource>;
+    orderByDescendingAsync<TKey>(predicate: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IParallelEnumerable<TSource>;
     reverse(): IParallelEnumerable<TSource>;
     select<OUT>(selector: (x: TSource) => OUT): IParallelEnumerable<OUT>;
     select<TKey extends keyof TSource>(key: TKey): IParallelEnumerable<TSource[TKey]>;

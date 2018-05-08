@@ -10,8 +10,6 @@ import {
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
-import { InferKey, InferKeyAsync } from "../types/InferKeyAsync"
-import { KeySelector, KeySelectorAsync } from "../types/KeySelector"
 import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
@@ -204,23 +202,23 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.ofType(this, type)
     }
 
-    public orderBy(predicate: KeySelector<TSource>,
-                   comparer: IComparer<InferKey<typeof predicate>>): IOrderedParallelEnumerable<TSource> {
+    public orderBy<TKey>(predicate: (x: TSource) => TKey,
+                         comparer: IComparer<TKey>): IOrderedParallelEnumerable<TSource> {
         return ParallelEnumerable.orderBy(this, predicate, comparer)
     }
 
-    public orderByAsync(predicate: KeySelectorAsync<TSource>,
-                        comparer: IComparer<InferKeyAsync<typeof predicate>>): IOrderedParallelEnumerable<TSource> {
+    public orderByAsync<TKey>(predicate: (x: TSource) => Promise<TKey>,
+                              comparer: IComparer<TKey>): IOrderedParallelEnumerable<TSource> {
         return ParallelEnumerable.orderByAsync(this, predicate, comparer)
     }
 
-    public orderByDescending(predicate: KeySelector<TSource>,
-                             comparer: IComparer<InferKey<typeof predicate>>): IParallelEnumerable<TSource> {
+    public orderByDescending<TKey>(predicate: (x: TSource) => TKey,
+                                   comparer: IComparer<TKey>): IParallelEnumerable<TSource> {
         return ParallelEnumerable.orderByDescending(this, predicate, comparer)
     }
 
-    public orderByDescendingAsync(predicate: KeySelectorAsync<TSource>,
-                                  comparer: IComparer<InferKeyAsync<typeof predicate>>): IParallelEnumerable<TSource> {
+    public orderByDescendingAsync<TKey>(predicate: (x: TSource) => Promise<TKey>,
+                                        comparer: IComparer<TKey>): IParallelEnumerable<TSource> {
         return ParallelEnumerable.orderByDescendingAsync(this, predicate, comparer)
     }
 
