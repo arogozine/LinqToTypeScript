@@ -1,6 +1,6 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { OrderedAsyncEnumerable } from "../async/OrderedAsyncEnumerable"
-import { IComparer, OrderByMap } from "./../shared/shared"
+import { IComparer } from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
@@ -35,7 +35,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         source: Iterable<TSource>,
         keySelector: (x: TSource) => TKey) {
 
-        const map = new OrderByMap<TKey, TSource>()
+        const map = new Map<TKey, TSource[]>()
         for (const item of source) {
             const key = keySelector(item)
             const currentMapping = map.get(key)
@@ -98,7 +98,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         source: Iterable<TSource>,
         keySelector: (x: TSource) => Promise<TKey>) {
 
-        const map = new OrderByMap<TKey, TSource>()
+        const map = new Map<TKey, TSource[]>()
         for (const item of source) {
             const key = await keySelector(item)
             const currentMapping = map.get(key)

@@ -1,7 +1,6 @@
 import { DataType } from ".."
 import {
     IComparer,
-    OrderByMap,
 } from "../shared/shared"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
@@ -56,7 +55,7 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         source: Iterable<TSource>,
         keySelector: (x: TSource) => Promise<TKey>) {
 
-        const map = new OrderByMap<TKey, TSource>()
+        const map = new Map<TKey, TSource[]>()
         for (const item of source) {
             const key = await keySelector(item)
             const currentMapping = map.get(key)
@@ -74,7 +73,7 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => Promise<TKey>) {
 
-        const map = new OrderByMap<TKey, TSource>()
+        const map = new Map<TKey, TSource[]>()
         for await (const item of source) {
             const key = await keySelector(item)
             const currentMapping = map.get(key)
@@ -135,7 +134,7 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         source: Iterable<TSource>,
         keySelector: (x: TSource) => TKey) {
 
-        const map = new OrderByMap<TKey, TSource>()
+        const map = new Map<TKey, TSource[]>()
         for (const item of source) {
             const key = keySelector(item)
             const currentMapping = map.get(key)
@@ -153,7 +152,7 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         source: AsyncIterable<TSource>,
         keySelector: (x: TSource) => TKey) {
 
-        const map = new OrderByMap<TKey, TSource>()
+        const map = new Map<TKey, TSource[]>()
         for await (const item of source) {
             const key = keySelector(item)
             const currentMapping = map.get(key)
