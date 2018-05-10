@@ -1,6 +1,9 @@
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("orderBy", () => {
+    const unsorted = [9, 8, 7, 6, 5, 5, 4, 3, 9, 1, 0]
+    const sorted = [0, 1, 3, 4, 5, 5, 6, 7, 8, 9, 9]
+
     itEnumerable<string>("string", (asEnumerable) => {
         const vals = asEnumerable(["b", "c", "a"]).orderBy((x) => x).toArray()
         expect(vals).toEqual(["a", "b", "c"])
@@ -17,17 +20,37 @@ describe("orderBy", () => {
     })
 
     itEnumerable("basic", (asEnumerable) => {
-        const vals = asEnumerable([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(vals.orderBy((x) => x).toArray()).toEqual(vals.toArray())
+        const vals = asEnumerable(unsorted)
+        expect(vals.orderBy((x) => x).toArray()).toEqual(sorted)
     })
 
     itAsync("basicAsync", async () => {
-        const vals = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(await vals.orderBy((x) => x).toArray()).toEqual(await vals.toArray())
+        const vals = asAsync(unsorted)
+        expect(await vals.orderBy((x) => x).toArray()).toEqual(sorted)
     })
 
     itParallel("basicParallel", async (asParallel) => {
-        const vals = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(await vals.orderBy((x) => x).toArray()).toEqual(await vals.toArray())
+        const vals = asParallel(unsorted)
+        expect(await vals.orderBy((x) => x).toArray()).toEqual(sorted)
     })
+
+    //#region With Comparer
+    const comparer = (x: number, y: number) => x - y
+
+    itEnumerable("With Comparer", (asEnumerable) => {
+        const vals = asEnumerable(unsorted)
+        expect(vals.orderBy((x) => x, comparer).toArray()).toEqual(sorted)
+    })
+
+    itAsync("With Comparer Async", async () => {
+        const vals = asAsync(unsorted)
+        expect(await vals.orderBy((x) => x, comparer).toArray()).toEqual(sorted)
+    })
+
+    itParallel("With Comparer Parallel", async (asParallel) => {
+        const vals = asParallel(unsorted)
+        expect(await vals.orderBy((x) => x, comparer).toArray()).toEqual(sorted)
+    })
+
+    //#endregion
 })

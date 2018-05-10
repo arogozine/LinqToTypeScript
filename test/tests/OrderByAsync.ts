@@ -1,6 +1,10 @@
 import { asAsync, asPromise, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("orderByAsync", () => {
+
+    const unsorted = [9, 8, 7, 6, 5, 5, 4, 3, 9, 1, 0]
+    const sorted = [0, 1, 3, 4, 5, 5, 6, 7, 8, 9, 9]
+
     itEnumerableAsync<string>("string", async (asEnumerable) => {
         const vals = await asEnumerable(["b", "c", "a"]).orderByAsync((x) => asPromise(x)).toArray()
         expect(vals).toEqual(["a", "b", "c"])
@@ -17,17 +21,40 @@ describe("orderByAsync", () => {
     })
 
     itEnumerableAsync("basic", async (asEnumerable) => {
-        const vals = asEnumerable([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(await vals.orderByAsync((x) => asPromise(x)).toArray()).toEqual(vals.toArray())
+        const vals = asEnumerable(unsorted)
+        expect(await vals.orderByAsync((x) => asPromise(x)).toArray()).toEqual(sorted)
     })
 
     itAsync("basicAsync", async () => {
-        const vals = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(await vals.orderByAsync((x) => asPromise(x)).toArray()).toEqual(await vals.toArray())
+        const vals = asAsync(unsorted)
+        expect(await vals.orderByAsync((x) => asPromise(x)).toArray()).toEqual(sorted)
     })
 
     itParallel("basicParallel", async (asParallel) => {
-        const vals = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(await vals.orderByAsync((x) => asPromise(x)).toArray()).toEqual(await vals.toArray())
+        const vals = asParallel(unsorted)
+        expect(await vals.orderByAsync((x) => asPromise(x)).toArray()).toEqual(sorted)
     })
+
+    //#region With Comparer
+    const comparer = (x: number, y: number) => x - y
+
+    itEnumerableAsync("With Comparer Sync", async (asEnumerable) => {
+        const vals = asEnumerable(unsorted)
+        const orderedValues = await vals.orderByAsync((x) => asPromise(x), comparer).toArray()
+        expect(orderedValues).toEqual(sorted)
+    })
+
+    itAsync("With Comparer Async", async () => {
+        const vals = asAsync(unsorted)
+        const orderedValues = await vals.orderByAsync((x) => asPromise(x), comparer).toArray()
+        expect(orderedValues).toEqual(sorted)
+    })
+
+    itParallel("With Comparer Parallel", async (asParallel) => {
+        const vals = asParallel(unsorted)
+        const orderedValues = await vals.orderByAsync((x) => asPromise(x), comparer).toArray()
+        expect(orderedValues).toEqual(sorted)
+    })
+
+    //#endregion
 })
