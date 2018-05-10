@@ -227,7 +227,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public orderByDescendingAsync<TKey>(
         predicate: (x: T) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T> {
-        return Enumerable.orderByAsync(this, predicate, comparer as any)
+        return Enumerable.orderByDescendingAsync(this, predicate, comparer)
     }
 
     public reverse(): IEnumerable<T> {
