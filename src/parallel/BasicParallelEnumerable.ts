@@ -60,7 +60,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     public average(this: IParallelEnumerable<number>): Promise<number>
     public average(selector: (x: TSource) => number): Promise<number>
     public average(selector?: any): Promise<number> {
-        return ParallelEnumerable.average(selector)
+        return ParallelEnumerable.average(this, selector)
     }
 
     public averageAsync(selector: (x: TSource) => Promise<number>): Promise<number> {
