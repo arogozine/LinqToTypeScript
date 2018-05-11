@@ -109,7 +109,7 @@ const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArra
 | except                | No      | [Sync](test/tests/Except.ts)
 | first                 | Yes     | [Sync](test/tests/First.ts), [Async](test/tests/FirstAsync.ts)
 | firstOrDefault        | Yes     | [Sync](test/tests/FirstOrDefault.ts), [Async](test/tests/FirstOrDefaultAsync.ts)
-| each                  | Yes     |
+| each                  | Yes     | [Sync](test/tests/Each.ts), [Async](test/tests/EachAsync.ts)
 | groupBy               | No      | [Sync](test/tests/GroupBy.ts)
 | groupByWithSel        | No      | [Sync](test/tests/GroupByWithSel.ts)
 | intersect             | No      | [Sync](test/tests/Intersect.ts)
@@ -138,6 +138,7 @@ const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArra
 | union                 | Yes     | [Sync](test/tests/Union.ts)
 | where                 | Yes     | [Sync](test/tests/Where.ts), [Async](test/tests/WhereAsync.ts)
 | zip                   | Yes     | [Sync](test/tests/Zip.ts), [Async](test/tests/ZipAsync.ts)
+
 \* Async methods take a function that gives back a promise
 
 ### Examples
