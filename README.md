@@ -105,7 +105,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 - For asynchronous iteration in parallel (where possible)
 - Implements `AsyncIterable<T>` interface.
 
-#### Shared Api Methods
+#### Shared Instance Methods
 
 | Method                | Async\* | Tests Coverage |
 |-----------------------|---------|----------------|
@@ -153,6 +153,15 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | zip                   | Yes     | [Sync](test/tests/Zip.ts), [Async](test/tests/ZipAsync.ts)
 
 \* Async methods take a function that gives back a promise
+
+#### Static Methods
+
+| Method          | Enumerable | Async | Parallel | Tests Coverage |
+|-----------------|------------|-------|----------|----------------|
+| empty           | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Empty.ts)
+| enumerateObject | Yes        | Yes   | No       | [Test](test/tests/staticmethods/EnumerateObject.ts)
+| flatten         | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Flatten.ts)
+| fromEvent       | No         | Yes   | No       | [Test](test/tests/staticmethods/FromEvent.ts)
 
 ### Design
 
