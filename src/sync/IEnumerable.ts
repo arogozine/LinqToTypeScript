@@ -31,6 +31,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     count(predicate?: (x: TSource) => boolean): number
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>
     distinct(comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
+    distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     /**
      * @throws {ArgumentOutOfRangeException}
      */

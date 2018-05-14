@@ -25,6 +25,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     count(predicate?: (x: TSource) => boolean): Promise<number>;
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>;
     distinct(comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     elementAt(index: number): Promise<TSource>;
     elementAtOrDefault(index: number): Promise<TSource | null>;
     each(action: (x: TSource) => void): IAsyncEnumerable<TSource>;

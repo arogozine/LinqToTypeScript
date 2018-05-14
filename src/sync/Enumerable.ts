@@ -353,6 +353,29 @@ export class Enumerable {
         return new BasicEnumerable(iterator)
     }
 
+    public static distinctAsync<TSource>(
+        source: Iterable<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+
+        async function* iterator() {
+            const distinctElements: TSource[] = []
+            outerLoop:
+            for (const item of source) {
+                for (const distinctElement of distinctElements) {
+                    const found = await comparer(distinctElement, item)
+                    if (found) {
+                        continue outerLoop
+                    }
+                }
+
+                distinctElements.push(item)
+                yield item
+            }
+        }
+
+        return AsyncEnumerable.from(iterator)
+    }
+
     public static each<TSource>(source: Iterable<TSource>, action: (x: TSource) => void): IEnumerable<TSource> {
         function *generator() {
             for (const value of source) {

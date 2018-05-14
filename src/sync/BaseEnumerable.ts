@@ -87,6 +87,10 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.distinct(this, comparer)
     }
 
+    public distinctAsync(comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
+        return Enumerable.distinctAsync(this, comparer)
+    }
+
     public elementAt(index: number): T {
         return Enumerable.elementAt(this, index)
     }

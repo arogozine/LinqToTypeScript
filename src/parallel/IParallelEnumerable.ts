@@ -9,6 +9,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     asAsync(): IAsyncEnumerable<TSource>,
     concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>,
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
+    distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     each(action: (x: TSource) => void): IParallelEnumerable<TSource>,
     eachAsync(action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource>,
     except(second: IAsyncParallel<TSource>,

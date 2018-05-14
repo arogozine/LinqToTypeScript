@@ -56,6 +56,7 @@ export declare class Enumerable {
     private static count_2<T>(source, predicate);
     static countAsync<T>(source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<number>;
     static distinct<TSource>(source: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    static distinctAsync<TSource>(source: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     static each<TSource>(source: Iterable<TSource>, action: (x: TSource) => void): IEnumerable<TSource>;
     static eachAsync<TSource>(source: Iterable<TSource>, action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource>;
     /**

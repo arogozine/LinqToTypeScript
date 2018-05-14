@@ -33,6 +33,7 @@ export declare class AsyncEnumerable {
     private static count_2<T>(source, predicate);
     static countAsync<T>(source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): Promise<number>;
     static distinct<TSource>(source: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    static distinctAsync<TSource>(source: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     /**
      * @throws {ArgumentOutOfRangeException}
      */

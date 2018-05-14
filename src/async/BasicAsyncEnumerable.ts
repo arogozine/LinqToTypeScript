@@ -77,6 +77,10 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.distinct(this, comparer)
     }
 
+    public distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.distinctAsync(this, comparer)
+    }
+
     public elementAt(index: number): Promise<TSource> {
         return AsyncEnumerable.elementAt(this, index)
     }

@@ -27,6 +27,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     count(predicate?: (x: TSource) => boolean): Promise<number>;
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>;
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     each(action: (x: TSource) => void): IParallelEnumerable<TSource>;
     eachAsync(action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource>;
     elementAt(index: number): Promise<TSource>;

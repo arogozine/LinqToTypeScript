@@ -29,6 +29,7 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     count(predicate: (x: T) => boolean): number;
     countAsync(predicate: (x: T) => Promise<boolean>): Promise<number>;
     distinct(comparer?: IEqualityComparer<T>): IEnumerable<T>;
+    distinctAsync(comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T>;
     elementAt(index: number): T;
     elementAtOrDefault(index: number): T | null;
     except(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;

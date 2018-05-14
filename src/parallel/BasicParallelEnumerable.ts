@@ -87,6 +87,10 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.distinct(this, comparer)
     }
 
+    public distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+        return ParallelEnumerable.distinctAsync(this, comparer)
+    }
+
     public each(action: (x: TSource) => void): IParallelEnumerable<TSource> {
         return ParallelEnumerable.each(this, action)
     }
