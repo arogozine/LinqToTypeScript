@@ -69,6 +69,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
             elementSelector: (x: TSource) => TElement,
             comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>,
     intersect(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
+    intersectAsync(
+            second: IEnumerable<TSource>,
+            comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     // join in LINQ - but renamed to avoid clash with Array.prototype.join
     joinByKey<TInner, TKey, TResult>(
             inner: IEnumerable<TInner>,

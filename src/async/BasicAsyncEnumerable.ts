@@ -160,6 +160,12 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.intersect(this, second, comparer)
     }
 
+    public intersectAsync(
+        second: IAsyncEnumerable<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.intersectAsync(this, second, comparer)
+    }
+
     public joinByKey<TInner, TKey, TResult>(
         inner: IAsyncEnumerable<TInner>,
         outerKeySelector: (x: TSource) => TKey,

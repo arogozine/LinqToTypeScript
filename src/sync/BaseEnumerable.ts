@@ -161,10 +161,12 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
     }
 
-    public intersect(second: IEnumerable<T>): IEnumerable<T>
-    public intersect(second: IEnumerable<T>, comparer: IEqualityComparer<T>): IEnumerable<T>
     public intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.intersect(this as any, second, comparer as any)
+        return Enumerable.intersect(this, second, comparer)
+    }
+
+    public intersectAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
+        return Enumerable.intersectAsync(this, second, comparer)
     }
 
     public joinByKey<TInner, TKey, TResult>(

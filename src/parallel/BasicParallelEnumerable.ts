@@ -168,6 +168,12 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.intersect(this, second, comparer)
     }
 
+    public intersectAsync(
+        second: IAsyncParallel<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+        return ParallelEnumerable.intersectAsync(this, second, comparer)
+    }
+
     public joinByKey<TInner, TKey, TResult>(
         inner: IAsyncParallel<TInner>,
         outerKeySelector: (x: TSource) => TKey,

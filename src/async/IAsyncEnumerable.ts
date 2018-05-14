@@ -29,6 +29,9 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
             elementSelector: (x: TSource) => TElement,
             comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>,
     intersect(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+    intersectAsync(
+            second: IAsyncEnumerable<TSource>,
+            comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     // join in LINQ - but renamed to avoid clash with Array.prototype.join
     joinByKey<TInner, TKey, TResult>(
             inner: IAsyncEnumerable<TInner>,

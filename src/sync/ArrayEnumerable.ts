@@ -232,6 +232,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.intersect(this, second, comparer)
     }
 
+    public intersectAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
+        return Enumerable.intersectAsync(this, second, comparer)
+    }
+
     public joinByKey<TInner, TKey, TResult>(
             inner: IEnumerable<TInner>,
             outerKeySelector: (x: T) => TKey,

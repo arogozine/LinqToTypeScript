@@ -33,6 +33,8 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
             comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>>,
     intersect(second: IAsyncParallel<TSource>,
               comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
+    intersectAsync(second: IAsyncParallel<TSource>,
+                   comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     // join in LINQ - but renamed to avoid clash with Array.prototype.join
     joinByKey<TInner, TKey, TResult>(
             inner: IAsyncParallel<TInner>,

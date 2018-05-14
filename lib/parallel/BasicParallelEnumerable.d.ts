@@ -46,6 +46,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     groupByWithSel<TElement>(keySelector: (x: TSource) => string, elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string, TElement>>;
     groupByWithSel<TKey, TElement>(keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>>;
     intersect(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    intersectAsync(second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     joinByKey<TInner, TKey, TResult>(inner: IAsyncParallel<TInner>, outerKeySelector: (x: TSource) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TSource, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>;
     last(predicate?: (x: TSource) => boolean): Promise<TSource>;
     lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
