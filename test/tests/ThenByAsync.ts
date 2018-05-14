@@ -1,4 +1,4 @@
-import { asAsync, asPromise, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 interface IOrderable {
     first: boolean,
@@ -26,7 +26,7 @@ describe("thenByAsync", () => {
         const enumerable = asEnumerable(values)
         const orderby = await enumerable
             .orderBy((x) => x.first ? 0 : 1)
-            .thenByAsync((x) => asPromise(x.then))
+            .thenByAsync(async (x) => x.then)
             .toArray()
 
         expect(orderby.length).toBe(values.length)
@@ -64,8 +64,8 @@ describe("thenByAsync", () => {
         const values = generateValues()
         const enumerable = asEnumerable(values)
         const orderby = await enumerable
-            .orderByAsync((x) => asPromise(x.first ? 0 : 1))
-            .thenByAsync((x) => asPromise(x.then))
+            .orderByAsync(async (x) => x.first ? 0 : 1)
+            .thenByAsync(async (x) => x.then)
             .toArray()
 
         expect(orderby.length).toBe(values.length)
@@ -104,7 +104,7 @@ describe("thenByAsync", () => {
         const enumerable = asAsync(values)
         const orderby = await enumerable
             .orderBy((x) => x.first ? 0 : 1)
-            .thenByAsync((x) => asPromise(x.then))
+            .thenByAsync(async (x) => x.then)
             .toArray()
 
         expect(orderby.length).toBe(values.length)
@@ -142,8 +142,8 @@ describe("thenByAsync", () => {
         const values = generateValues()
         const enumerable = asAsync(values)
         const orderby = await enumerable
-            .orderByAsync((x) => asPromise(x.first ? 0 : 1))
-            .thenByAsync((x) => asPromise(x.then))
+            .orderByAsync(async (x) => x.first ? 0 : 1)
+            .thenByAsync(async (x) => x.then)
             .toArray()
 
         expect(orderby.length).toBe(values.length)
@@ -182,7 +182,7 @@ describe("thenByAsync", () => {
         const enumerable = asParallel(values)
         const orderby = await enumerable
             .orderBy((x) => x.first ? 0 : 1)
-            .thenByAsync((x) => asPromise(x.then))
+            .thenByAsync(async (x) => x.then)
             .toArray()
 
         expect(orderby.length).toBe(values.length)
@@ -220,8 +220,8 @@ describe("thenByAsync", () => {
         const values = generateValues()
         const enumerable = asParallel(values)
         const orderby = await enumerable
-            .orderByAsync((x) => asPromise(x.first ? 0 : 1))
-            .thenByAsync((x) => asPromise(x.then))
+            .orderByAsync(async (x) => x.first ? 0 : 1)
+            .thenByAsync(async (x) => x.then)
             .toArray()
 
         expect(orderby.length).toBe(values.length)

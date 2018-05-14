@@ -1,8 +1,8 @@
-import { asAsync, itAsync, itEnumerableAsync, itParallel, asPromise } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("toMapAsync", () => {
     itEnumerableAsync("toMap", async (asEnumerable) => {
-        const map = await asEnumerable([1, 2, 3]).toMapAsync((x) => asPromise(`Key_${ x }`))
+        const map = await asEnumerable([1, 2, 3]).toMapAsync(async (x) => `Key_${ x }`)
         for (const keyValue of map) {
             const key = keyValue[0]
             const value = keyValue[1]
@@ -11,7 +11,7 @@ describe("toMapAsync", () => {
     })
 
     itAsync("toMapAsync", async () => {
-        const map = await asAsync([1, 2, 3]).toMapAsync((x) => asPromise(`Key_${ x }`))
+        const map = await asAsync([1, 2, 3]).toMapAsync(async (x) => `Key_${ x }`)
         for (const keyValue of map) {
             const key = keyValue[0]
             const value = keyValue[1]
@@ -20,7 +20,7 @@ describe("toMapAsync", () => {
     })
 
     itParallel("toMapParallel", async (asParallel) => {
-        const map = await asParallel([1, 2, 3]).toMapAsync((x) => asPromise(`Key_${ x }`))
+        const map = await asParallel([1, 2, 3]).toMapAsync(async (x) => `Key_${ x }`)
         for (const keyValue of map) {
             const key = keyValue[0]
             const value = keyValue[1]

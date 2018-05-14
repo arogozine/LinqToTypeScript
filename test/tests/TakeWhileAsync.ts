@@ -1,65 +1,65 @@
-import { asAsync, asPromise, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("takeWhileAsync", () => {
     const vals = [1, 2, 3, 4]
 
     itEnumerableAsync("by value", async (asEnumerable) => {
-        expect(await asEnumerable(vals).takeWhileAsync((x) => asPromise(true)).toArray())
+        expect(await asEnumerable(vals).takeWhileAsync(async (x) => true).toArray())
             .toEqual(vals)
-        expect(await asEnumerable(vals).takeWhileAsync((x) => asPromise(false)).toArray())
+        expect(await asEnumerable(vals).takeWhileAsync(async (x) => false).toArray())
             .toEqual([])
-        expect(await asEnumerable(vals).takeWhileAsync((x) => asPromise(x !== 3)).toArray())
+        expect(await asEnumerable(vals).takeWhileAsync(async (x) => x !== 3).toArray())
             .toEqual([1, 2])
     })
 
     itEnumerableAsync("by value and index", async (asEnumerable) => {
-        expect(await asEnumerable(vals).takeWhileAsync((x: number, i: number) => asPromise(true)).toArray())
+        expect(await asEnumerable(vals).takeWhileAsync(async (x: number, i: number) => true).toArray())
             .toEqual(vals)
-        expect(await asEnumerable(vals).takeWhileAsync((x: number, i: number) => asPromise(false)).toArray())
+        expect(await asEnumerable(vals).takeWhileAsync(async (x: number, i: number) => false).toArray())
             .toEqual([])
-        expect(await asEnumerable(vals).takeWhileAsync((x: number, i: number) => asPromise(x !== 3)).toArray())
+        expect(await asEnumerable(vals).takeWhileAsync(async (x: number, i: number) => x !== 3).toArray())
             .toEqual([1, 2])
     })
 
     const valsAsync = asAsync([1, 2, 3, 4])
 
     itAsync("by value async", async () => {
-        expect(await valsAsync.takeWhileAsync((x) => asPromise(true)).toArray())
+        expect(await valsAsync.takeWhileAsync(async (x) => true).toArray())
             .toEqual(vals)
-        expect(await valsAsync.takeWhileAsync((x) => asPromise(false)).toArray())
+        expect(await valsAsync.takeWhileAsync(async (x) => false).toArray())
             .toEqual([])
-        expect(await valsAsync.takeWhileAsync((x) => asPromise(x !== 3)).toArray())
+        expect(await valsAsync.takeWhileAsync(async (x) => x !== 3).toArray())
             .toEqual([1, 2])
     })
 
     itAsync("by value and index async", async () => {
-        expect(await valsAsync.takeWhileAsync((x: number, i: number) => asPromise(true)).toArray())
+        expect(await valsAsync.takeWhileAsync(async (x: number, i: number) => true).toArray())
             .toEqual(vals)
-        expect(await valsAsync.takeWhileAsync((x: number, i: number) => asPromise(false)).toArray())
+        expect(await valsAsync.takeWhileAsync(async (x: number, i: number) => false).toArray())
             .toEqual([])
-        expect(await valsAsync.takeWhileAsync((x: number, i: number) => asPromise(x !== 3)).toArray())
+        expect(await valsAsync.takeWhileAsync(async (x: number, i: number) => x !== 3).toArray())
             .toEqual([1, 2])
     })
 
     itParallel("by value parallel", async (asParallel) => {
         const valsParallel = asParallel([1, 2, 3, 4])
 
-        expect(await valsParallel.takeWhileAsync((x) => asPromise(true)).toArray())
+        expect(await valsParallel.takeWhileAsync(async (x) => true).toArray())
             .toEqual(vals)
-        expect(await valsParallel.takeWhileAsync((x) => asPromise(false)).toArray())
+        expect(await valsParallel.takeWhileAsync(async (x) => false).toArray())
             .toEqual([])
-        expect(await valsParallel.takeWhileAsync((x) => asPromise(x !== 3)).toArray())
+        expect(await valsParallel.takeWhileAsync(async (x) => x !== 3).toArray())
             .toEqual([1, 2])
     })
 
     itParallel("by value and index parallel", async (asParallel) => {
         const valsParallel = asParallel([1, 2, 3, 4])
 
-        expect(await valsParallel.takeWhileAsync((x: number, i: number) => asPromise(true)).toArray())
+        expect(await valsParallel.takeWhileAsync(async (x: number, i: number) => true).toArray())
             .toEqual(vals)
-        expect(await valsParallel.takeWhileAsync((x: number, i: number) => asPromise(false)).toArray())
+        expect(await valsParallel.takeWhileAsync(async (x: number, i: number) => false).toArray())
             .toEqual([])
-        expect(await valsParallel.takeWhileAsync((x: number, i: number) => asPromise(x !== 3)).toArray())
+        expect(await valsParallel.takeWhileAsync(async (x: number, i: number) => x !== 3).toArray())
             .toEqual([1, 2])
     })
 })
