@@ -28,6 +28,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
     concat(second: IEnumerable<TSource>): IEnumerable<TSource>,
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): boolean,
+    containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>,
     count(predicate?: (x: TSource) => boolean): number
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>
     distinct(comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,

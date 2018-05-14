@@ -24,6 +24,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>;
     concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     count(predicate?: (x: TSource) => boolean): Promise<number>;
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>;
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;

@@ -305,13 +305,38 @@ export class ParallelEnumerable {
     public static async contains<TSource>(
         source: IParallelEnumerable<TSource>,
         value: TSource,
-        comparer?: IEqualityComparer<TSource>): Promise<boolean> {
+        comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
         let values: TypedData<boolean>
         if (comparer) {
             values = ParallelEnumerable.nextIteration(source, (x) => comparer(value, x))
         } else {
             values = ParallelEnumerable.nextIteration(source, (x) => x === value)
         }
+
+        switch (values.type) {
+            case DataType.PromiseToArray:
+            {
+                const data = await values.generator()
+                return data.some((x) => x)
+            }
+            case DataType.ArrayOfPromises:
+            {
+                const data = await Promise.all(values.generator())
+                return data.some((x) => x)
+            }
+            case DataType.PromiseOfPromises:
+            {
+                const data = await Promise.all(await values.generator())
+                return data.some((x) => x)
+            }
+        }
+    }
+
+    public static async containsAsync<TSource>(
+        source: IParallelEnumerable<TSource>,
+        value: TSource,
+        comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+        const values = ParallelEnumerable.nextIterationAsync(source, (x) => comparer(value, x))
 
         switch (values.type) {
             case DataType.PromiseToArray:

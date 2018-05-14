@@ -268,6 +268,20 @@ export class AsyncEnumerable {
         return false
     }
 
+    public static async containsAsync<TSource>(
+        source: AsyncIterable<TSource>,
+        value: TSource,
+        comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+
+        for await (const item of source) {
+            if (await comparer(value, item)) {
+                return true
+            }
+        }
+
+        return false
+    }
+
     public static count<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<number> {
         if (predicate) {
             return AsyncEnumerable.count_2(source, predicate)

@@ -1,3 +1,4 @@
+import { IAsyncEqualityComparer } from "./IAsyncEqualityComparer";
 import { IEqualityComparer } from "./IEqualityComparer";
 /**
  * Common Methods between IAsyncEnumerable and IParallelEnumerable
@@ -20,6 +21,7 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     average(selector: (x: TSource) => number): Promise<number>;
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>;
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     count(predicate?: (x: TSource) => boolean): Promise<number>;
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>;
     /**

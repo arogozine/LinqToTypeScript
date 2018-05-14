@@ -100,6 +100,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.contains(this, value, comparer)
     }
 
+    public containsAsync(value: T, comparer: IAsyncEqualityComparer<T>): Promise<boolean> {
+        return Enumerable.containsAsync(this, value, comparer)
+    }
+
     public count(): number
     public count(predicate: (x: T) => boolean): number
     public count(predicate?: (x: T) => boolean): number {

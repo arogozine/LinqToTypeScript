@@ -69,10 +69,12 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.concat(this, second)
     }
 
-    public contains(value: T): boolean
-    public contains(value: T, comparer: IEqualityComparer<T>): boolean
     public contains(value: T, comparer?: IEqualityComparer<T>): boolean {
-        return Enumerable.contains(this, value, comparer as any)
+        return Enumerable.contains(this, value, comparer)
+    }
+
+    public containsAsync(value: T, comparer: IAsyncEqualityComparer<T>): Promise<boolean> {
+        return Enumerable.containsAsync(this, value, comparer)
     }
 
     public count(predicate?: (x: T) => boolean): number {

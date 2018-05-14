@@ -25,6 +25,7 @@ export declare class ArrayEnumerable<T> extends Array<T> implements IEnumerable<
     concat(...items: Array<ReadonlyArray<T>>): ArrayEnumerable<T>;
     concat(...items: Array<T | ReadonlyArray<T>>): ArrayEnumerable<T>;
     contains(value: T, comparer?: IEqualityComparer<T>): boolean;
+    containsAsync(value: T, comparer: IAsyncEqualityComparer<T>): Promise<boolean>;
     count(): number;
     count(predicate: (x: T) => boolean): number;
     countAsync(predicate: (x: T) => Promise<boolean>): Promise<number>;

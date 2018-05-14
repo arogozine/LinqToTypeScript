@@ -114,7 +114,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | any                   | Yes     | [Sync](test/tests/Any.ts), [Async](test/tests/AnyAsync.ts)
 | average               | Yes     | [Sync](test/tests/Average.ts), [Async](test/tests/AverageAsync.ts)
 | concat                | No      | [Sync](test/tests/Concat.ts)
-| contains              | No      | [Sync](test/tests/Contains.ts)
+| contains              | Yes     | [Sync](test/tests/Contains.ts), [Async](test/tests/ContainsAsync.ts)
 | count                 | Yes     | [Sync](test/tests/Count.ts), [Async](test/tests/CountAsync.ts)
 | distinct              | Yes     | [Sync](test/tests/Distinct.ts), [Async](test/tests/DistinctAsync.ts)
 | elementAt             | No      | [Sync](test/tests/ElementAt.ts)
@@ -152,7 +152,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | where                 | Yes     | [Sync](test/tests/Where.ts), [Async](test/tests/WhereAsync.ts)
 | zip                   | Yes     | [Sync](test/tests/Zip.ts), [Async](test/tests/ZipAsync.ts)
 
-\* Async methods take a function that gives back a promise
+\* Async methods take an async function
 
 #### Static Methods
 

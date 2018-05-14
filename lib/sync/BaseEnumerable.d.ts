@@ -24,8 +24,8 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     average(selector: (x: T) => number): number;
     averageAsync(selector: (x: T) => Promise<number>): Promise<number>;
     concat(second: IEnumerable<T>): IEnumerable<T>;
-    contains(value: T): boolean;
-    contains(value: T, comparer: IEqualityComparer<T>): boolean;
+    contains(value: T, comparer?: IEqualityComparer<T>): boolean;
+    containsAsync(value: T, comparer: IAsyncEqualityComparer<T>): Promise<boolean>;
     count(predicate?: (x: T) => boolean): number;
     countAsync(predicate: (x: T) => Promise<boolean>): Promise<number>;
     distinct(comparer?: IEqualityComparer<T>): IEnumerable<T>;

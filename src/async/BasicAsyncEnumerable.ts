@@ -65,6 +65,10 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.contains(this, value, comparer)
     }
 
+    public containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+        return AsyncEnumerable.containsAsync(this, value, comparer)
+    }
+
     public count(predicate?: (x: TSource) => boolean): Promise<number> {
         return AsyncEnumerable.count(this, predicate)
     }

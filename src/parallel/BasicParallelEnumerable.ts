@@ -75,6 +75,10 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.contains(this, value, comparer)
     }
 
+    public async containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+        return ParallelEnumerable.containsAsync(this, value, comparer)
+    }
+
     public count(predicate?: (x: TSource) => boolean): Promise<number> {
         return ParallelEnumerable.count(this, predicate)
     }

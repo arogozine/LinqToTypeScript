@@ -50,6 +50,7 @@ export declare class Enumerable {
     static averageAsync<TSource>(source: Iterable<TSource>, func: (x: TSource) => Promise<number>): Promise<number>;
     static concat<TSource>(first: Iterable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
     static contains<TSource>(source: Iterable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): boolean;
+    static containsAsync<TSource>(source: Iterable<TSource>, value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     static count<TSource>(source: Iterable<TSource>): number;
     static count<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): number;
     private static count_1<T>(source);

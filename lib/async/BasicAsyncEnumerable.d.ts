@@ -22,6 +22,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>;
     concat(second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>;
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
+    containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     count(predicate?: (x: TSource) => boolean): Promise<number>;
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>;
     distinct(comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
