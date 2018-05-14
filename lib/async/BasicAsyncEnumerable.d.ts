@@ -32,6 +32,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     each(action: (x: TSource) => void): IAsyncEnumerable<TSource>;
     eachAsync(action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource>;
     except(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    exceptAsync(second: IAsyncEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     first(predicate?: (x: TSource) => boolean): Promise<TSource>;
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;

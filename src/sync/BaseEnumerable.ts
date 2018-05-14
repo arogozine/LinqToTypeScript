@@ -102,7 +102,11 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public except(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return Enumerable.except(this, second, comparer as any)
+        return Enumerable.except(this, second, comparer)
+    }
+
+    public exceptAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
+        return Enumerable.exceptAsync(this, second, comparer)
     }
 
     public first(predicate?: (x: T) => boolean): T {

@@ -148,6 +148,10 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         return Enumerable.except(this, second, comparer)
     }
 
+    public exceptAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
+        return Enumerable.exceptAsync(this, second, comparer)
+    }
+
     public first(predicate?: (x: T) => boolean): T {
         if (predicate) {
             const value = this.find(predicate)

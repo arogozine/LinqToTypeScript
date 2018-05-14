@@ -9,6 +9,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     each(action: (x: TSource) => void): IAsyncEnumerable<TSource>;
     eachAsync(action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource>;
     except(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    exceptAsync(second: IAsyncEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     groupBy(keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
     groupBy(keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
     groupBy<TKey>(keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;

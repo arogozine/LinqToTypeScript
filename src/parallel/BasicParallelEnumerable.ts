@@ -117,6 +117,12 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.except(this, second, comparer)
     }
 
+    public exceptAsync(
+        second: IAsyncParallel<TSource>,
+        comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+        return ParallelEnumerable.exceptAsync(this, second, comparer)
+    }
+
     public first(predicate?: (x: TSource) => boolean): Promise<TSource> {
         return ParallelEnumerable.first(this, predicate)
     }

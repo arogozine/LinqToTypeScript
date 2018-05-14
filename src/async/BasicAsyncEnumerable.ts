@@ -105,6 +105,11 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.except(this, second, comparer)
     }
 
+    public exceptAsync(second: IAsyncEnumerable<TSource>,
+                       comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+        return AsyncEnumerable.exceptAsync(this, second, comparer)
+    }
+
     public first(predicate?: (x: TSource) => boolean): Promise<TSource> {
         return AsyncEnumerable.first(this, predicate)
     }

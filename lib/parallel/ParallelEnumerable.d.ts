@@ -41,6 +41,7 @@ export declare class ParallelEnumerable {
     static elementAt<TSource>(source: IParallelEnumerable<TSource>, index: number): Promise<TSource>;
     static elementAtOrDefault<TSource>(source: IParallelEnumerable<TSource>, index: number): Promise<TSource | null>;
     static except<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    static exceptAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     static first<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
     private static first_1<TSource>(source);
     private static first_2<TSource>(source, predicate);

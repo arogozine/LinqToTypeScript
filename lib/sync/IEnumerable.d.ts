@@ -36,6 +36,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     elementAt(index: number): TSource;
     elementAtOrDefault(index: number): TSource | null;
     except(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    exceptAsync(second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     /**
      * @throws {InvalidOperationException} Sequence contains no elements
      * @throws {InvalidOperationException} Sequence contains no matching elements

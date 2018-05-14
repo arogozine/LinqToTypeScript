@@ -33,6 +33,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     elementAt(index: number): T;
     elementAtOrDefault(index: number): T | null;
     except(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
+    exceptAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T>;
     first(predicate?: (x: T) => boolean): T;
     firstAsync(predicate: (x: T) => Promise<boolean>): Promise<T>;
     firstOrDefault(predicate?: (x: T) => boolean): T | null;

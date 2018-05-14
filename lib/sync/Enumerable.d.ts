@@ -74,6 +74,7 @@ export declare class Enumerable {
     static empty<TSource>(): IEnumerable<TSource>;
     static enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
     static except<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
+    static exceptAsync<TSource>(first: Iterable<TSource>, second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     /**
      * @throws {InvalidOperationException} No Elements in Iteration
      */

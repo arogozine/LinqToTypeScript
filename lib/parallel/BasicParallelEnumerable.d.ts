@@ -34,6 +34,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     elementAt(index: number): Promise<TSource>;
     elementAtOrDefault(index: number): Promise<TSource | null>;
     except(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+    exceptAsync(second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     first(predicate?: (x: TSource) => boolean): Promise<TSource>;
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
