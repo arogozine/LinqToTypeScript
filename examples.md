@@ -42,8 +42,8 @@ Examples after binding functions to Array,
 [1, 2, 3].aggregate("seed", (acc, y) => acc + y, acc => acc + "result") // "seed123result"
 
 // ALL
-[1, 2].all(x => x < 3) // true
-[1, 2].all(x => x < 2) // false
+[1, 2].all((x) => x < 3) // true
+[1, 2].all((x) => x < 2) // false
 
 // ANY
 [0].any() // true
