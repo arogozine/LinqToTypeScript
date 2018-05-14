@@ -12,14 +12,6 @@ import {
 // There are helper functions to make testing easy
 
 /**
- * Wraps a value in a promise. For testing async code.
- * @param value Value to Wrap in a Promise.
- */
-export function asPromise<T>(value: T): Promise<T> {
-    return new Promise((resolve) => resolve(value))
-}
-
-/**
  * Creates an @see {ArrayEnumerable} from passed in values
  * @param values values for the array enumerable
  */

@@ -1,5 +1,5 @@
 import { AsyncEnumerable, InvalidOperationException } from "../../src/index"
-import { asAsync, asPromise, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("max", () => {
     itEnumerable("MaxSelectEmptyError", (asEnumerable) => {
