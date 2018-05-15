@@ -43,6 +43,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>;
     groupBy(keySelector: (x: T) => string): IEnumerable<IGrouping<string, T>>;
     groupBy<TKey>(keySelector: (x: T) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>;
+    groupByAsync<TKey>(keySelector: (x: T) => TKey | Promise<TKey>, comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, T>>;
     groupByWithSel<TElement>(keySelector: ((x: T) => number), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<number, TElement>>;
     groupByWithSel<TElement>(keySelector: ((x: T) => string), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<string, TElement>>;
     groupByWithSel<TKey, TElement>(keySelector: ((x: T) => TKey), elementSelector: (x: T) => TElement, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>;

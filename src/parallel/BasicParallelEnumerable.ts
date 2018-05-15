@@ -148,6 +148,13 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return ParallelEnumerable.groupBy(this, keySelector, comparer)
     }
 
+    public groupByAsync<TKey>(
+        keySelector: (x: TSource) => Promise<TKey> | TKey,
+        comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
+        : IParallelEnumerable<IGrouping<TKey, TSource>> {
+        return ParallelEnumerable.groupByAsync(this, keySelector, comparer as any)
+    }
+
     public groupByWithSel<TElement>(
         keySelector: (x: TSource) => number,
         elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<number, TElement>>

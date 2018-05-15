@@ -40,6 +40,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     groupBy(keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
     groupBy(keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
     groupBy<TKey>(keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
+    groupByAsync<TKey>(keySelector: (x: TSource) => TKey | string | number, comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey | string | number, TSource>>;
     groupByWithSel<TElement>(keySelector: ((x: TSource) => number), elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<number, TElement>>;
     groupByWithSel<TElement>(keySelector: ((x: TSource) => string), elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string, TElement>>;
     groupByWithSel<TKey, TElement>(keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;

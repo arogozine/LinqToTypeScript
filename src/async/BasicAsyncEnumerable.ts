@@ -137,6 +137,13 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return AsyncEnumerable.groupBy(this, keySelector, comparer as any)
     }
 
+    public groupByAsync<TKey>(
+        keySelector: (x: TSource) => TKey | string | number,
+        comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
+        : IAsyncEnumerable<IGrouping<TKey | string | number, TSource>> {
+        return AsyncEnumerable.groupByAsync(this, keySelector, comparer as any)
+    }
+
     public groupByWithSel<TElement>(
         keySelector: ((x: TSource) => number),
         elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<number, TElement>>

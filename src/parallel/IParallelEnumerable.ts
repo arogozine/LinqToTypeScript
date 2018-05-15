@@ -16,11 +16,20 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
            comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>,
     exceptAsync(second: IAsyncParallel<TSource>,
                 comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>,
+
     groupBy(keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>
     groupBy(keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>
     groupBy<TKey>(
             keySelector: (x: TSource) => TKey,
             comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>,
+
+    groupByAsync(keySelector: (x: TSource) => Promise<number> | number): IParallelEnumerable<IGrouping<number, TSource>>
+    groupByAsync(keySelector: (x: TSource) => Promise<string> | string): IParallelEnumerable<IGrouping<string, TSource>>
+    groupByAsync<TKey>(
+            keySelector: (x: TSource) => Promise<TKey> | TKey,
+            comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
+            : IParallelEnumerable<IGrouping<TKey, TSource>>,
+
     groupByWithSel<TElement>(
             keySelector: ((x: TSource) => number),
             elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<number, TElement>>

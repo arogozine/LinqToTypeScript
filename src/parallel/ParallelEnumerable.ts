@@ -931,6 +931,109 @@ export class ParallelEnumerable {
         })
     }
 
+    //#region GroupByAsync
+
+    public static groupByAsync<TSource>(
+        source: IAsyncParallel<TSource>,
+        keySelector: (x: TSource) => Promise<number> | number): IParallelEnumerable<IGrouping<number, TSource>>
+    public static groupByAsync<TSource>(
+        source: IAsyncParallel<TSource>,
+        keySelector: (x: TSource) => Promise<string> | string): IParallelEnumerable<IGrouping<string, TSource>>
+    public static groupByAsync<TSource, TKey>(
+        source: IAsyncParallel<TSource>,
+        keySelector: (x: TSource) => Promise<TKey> | TKey,
+        comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
+    public static groupByAsync<TSource, TKey>(
+        source: IAsyncParallel<TSource>,
+        keySelector: (x: TSource) => Promise<TKey> | TKey,
+        comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
+            : IParallelEnumerable<IGrouping<any, TSource>> {
+
+        if (comparer) {
+            return ParallelEnumerable.groupByAsync_0<TSource, TKey>(source,
+                keySelector, comparer)
+        } else {
+            return ParallelEnumerable.groupByAsync_0_Simple(source,
+                keySelector as (x: TSource) => any)
+        }
+    }
+
+    private static groupByAsync_0_Simple<TSource>(
+        source: IAsyncParallel<TSource>,
+        keySelector: (x: TSource) => Promise<string>):
+            IParallelEnumerable<IGrouping<string | number, TSource>> {
+
+        const generator = async () => {
+            const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
+            for (const value of await source.toArray()) {
+
+                const key = await keySelector(value)
+                const grouping: Grouping<string | number, TSource> = keyMap[key]
+
+                if (grouping) {
+                    grouping.push(value)
+                } else {
+                    keyMap[key] = new Grouping<string | number, TSource>(key, value)
+                }
+            }
+
+            const results = new Array<IGrouping<string | number, TSource>>()
+            /* tslint:disable:forin */
+            for (const value in keyMap) {
+                results.push(keyMap[value])
+            }
+            /* tslint:enable:forin */
+            return results
+        }
+
+        return new BasicParallelEnumerable({
+            generator,
+            type: DataType.PromiseToArray,
+        })
+    }
+
+    private static groupByAsync_0<TSource, TKey>(
+        source: IAsyncParallel<TSource>,
+        keySelector: (x: TSource) => Promise<TKey> | TKey,
+        comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
+            : IParallelEnumerable<IGrouping<TKey, TSource>> {
+
+        const generator = async () => {
+            const keyMap = new Array<Grouping<TKey, TSource>>()
+            for await (const value of source) {
+                const key = await keySelector(value)
+                let found = false
+
+                for (let i = 0; i < keyMap.length; i++) {
+                    const group = keyMap[i]
+                    if (await comparer(group.key, key) === true) {
+                        group.push(value)
+                        found = true
+                        break
+                    }
+                }
+
+                if (found === false) {
+                    keyMap.push(new Grouping<TKey, TSource>(key, value))
+                }
+            }
+
+            const results = new Array<IGrouping<TKey, TSource>>()
+            for (const g of keyMap) {
+                results.push(g)
+            }
+
+            return results
+        }
+
+        return new BasicParallelEnumerable({
+            generator,
+            type: DataType.PromiseToArray,
+        })
+    }
+
+    //#endregion
+
     public static groupByWithSel<TSource, TElement>(
         source: IAsyncParallel<TSource>,
         keySelector: ((x: TSource) => number),
