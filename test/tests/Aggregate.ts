@@ -116,16 +116,16 @@ describe("aggregate", () => {
     })
 
     itEnumerable<any>("Exception", (asEnumerable) => {
-        expect(() => asEnumerable([] as any[]).aggregate((x, y) => x + y)).toThrowError(InvalidOperationException)
+        expect(() => asEnumerable([]).aggregate((x, y) => x + y)).toThrowError(InvalidOperationException)
     })
 
     itAsync("ExceptionAsync", async () => {
-        const expect = await expectAsync(asAsync([] as number[]).aggregate((x, y) => x + y))
+        const expect = await expectAsync(asAsync([]).aggregate((x, y) => x + y))
         expect.toThrowError(InvalidOperationException)
     })
 
     itParallel<number>("ExceptionParallel", async (asParallel) => {
-        const expect = await expectAsync(asParallel([] as number[]).aggregate((x, y) => x + y))
+        const expect = await expectAsync(asParallel([]).aggregate((x, y) => x + y))
         expect.toThrowError(InvalidOperationException)
     })
 

@@ -101,9 +101,9 @@ export declare class ParallelEnumerable {
     static select<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => OUT): IParallelEnumerable<OUT>;
     static select<TSource, TKey extends keyof TSource>(source: IParallelEnumerable<TSource>, key: TKey): IParallelEnumerable<TSource[TKey]>;
     static selectAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
-    static selectAsync<TSource, TKey extends keyof TSource, TResult>(source: IParallelEnumerable<{
+    static selectAsync<TSource extends {
         [key: string]: Promise<TResult>;
-    }>, selector: TKey): IParallelEnumerable<TResult>;
+    }, TKey extends keyof TSource, TResult>(source: IParallelEnumerable<TResult>, selector: TKey): IParallelEnumerable<TResult>;
     static selectMany<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>;
     static selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;

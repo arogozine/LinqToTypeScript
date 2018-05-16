@@ -305,8 +305,6 @@ export class Enumerable {
         return false
     }
 
-    public static count<TSource>(source: Iterable<TSource>): number
-    public static count<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): number
     public static count<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): number {
         if (predicate) {
             return Enumerable.count_2(source, predicate)

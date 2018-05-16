@@ -1620,15 +1620,15 @@ export class ParallelEnumerable {
     public static selectAsync<TSource, OUT>(
         source: IParallelEnumerable<TSource>,
         selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>
-    public static selectAsync<TSource, TKey extends keyof TSource, TResult>(
-        source: IParallelEnumerable<{ [key: string]: Promise<TResult> }>,
+    public static selectAsync<TSource extends { [key: string]: Promise<TResult> }, TKey extends keyof TSource, TResult>(
+        source: IParallelEnumerable<TResult>,
         selector: TKey): IParallelEnumerable<TResult>
-    public static selectAsync<TSource, OUT>(
+    public static selectAsync<TSource extends { [key: string]: Promise<OUT> }, OUT>(
         source: IParallelEnumerable<TSource>,
         keyOrSelector: string | ((x: TSource) => Promise<OUT>)): IParallelEnumerable<OUT> {
         let selector: (x: TSource) => Promise<OUT>
         if (typeof keyOrSelector === "string") {
-            selector = (x: TSource) => (x[keyOrSelector as keyof TSource]) as any
+            selector = (x: TSource) => (x[keyOrSelector])
         } else {
             selector = keyOrSelector
         }

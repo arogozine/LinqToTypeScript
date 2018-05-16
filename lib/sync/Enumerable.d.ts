@@ -51,8 +51,7 @@ export declare class Enumerable {
     static concat<TSource>(first: Iterable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource>;
     static contains<TSource>(source: Iterable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): boolean;
     static containsAsync<TSource>(source: Iterable<TSource>, value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
-    static count<TSource>(source: Iterable<TSource>): number;
-    static count<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): number;
+    static count<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): number;
     private static count_1<T>(source);
     private static count_2<T>(source, predicate);
     static countAsync<T>(source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<number>;

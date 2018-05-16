@@ -78,11 +78,11 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public count(predicate?: (x: T) => boolean): number {
-        return Enumerable.count(this, predicate as any)
+        return Enumerable.count(this, predicate)
     }
 
     public countAsync(predicate: (x: T) => Promise<boolean>): Promise<number> {
-        return Enumerable.countAsync(this, predicate as any)
+        return Enumerable.countAsync(this, predicate)
     }
 
     public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
