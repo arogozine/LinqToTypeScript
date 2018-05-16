@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "2.0.0-beta3",
+  "version": "2.0.0-beta4",
   "description": "LINQ ported to TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -24,10 +24,12 @@
     "javascript",
     "linq",
     "async",
-    "generators"
+    "generators",
+    "enumerable",
+    "es2016"
   ],
   "author": "Alexandre Rogozine",
-  "license": "FSFUL",
+  "license": "MIT",
   "dependencies": {
     "core-js": "^2.5.5"
   },
