@@ -228,24 +228,23 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
 
     public orderBy<TKey>(predicate: (x: TSource) => TKey,
                          comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
-        return AsyncEnumerable.orderBy(this, predicate as any, comparer as any)
+        return AsyncEnumerable.orderBy(this, predicate, comparer)
     }
 
     public orderByAsync<TKey>(predicate: (x: TSource) => Promise<TKey>,
-                              comparer?: IComparer<TKey>,
-    ): IOrderedAsyncEnumerable<TSource> {
-        return AsyncEnumerable.orderByAsync(this, predicate, comparer as any)
+                              comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
+        return AsyncEnumerable.orderByAsync(this, predicate, comparer)
     }
 
     public orderByDescending<TKey>(predicate: (x: TSource) => TKey,
                                    comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
-        return AsyncEnumerable.orderByDescending(this, predicate as any, comparer as any)
+        return AsyncEnumerable.orderByDescending(this, predicate, comparer)
     }
 
     public orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
-        return AsyncEnumerable.orderByDescendingAsync(this, predicate, comparer as any)
+        return AsyncEnumerable.orderByDescendingAsync(this, predicate, comparer)
     }
 
     public reverse(): IAsyncEnumerable<TSource> {

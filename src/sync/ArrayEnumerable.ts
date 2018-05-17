@@ -358,13 +358,13 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
     public orderByDescending<TKey>(
         predicate: (x: T) => TKey,
         comparer?: IComparer<TKey>): IOrderedEnumerable<T> {
-        return Enumerable.orderByDescending(this, predicate, comparer as any)
+        return Enumerable.orderByDescending(this, predicate, comparer)
     }
 
     public orderByDescendingAsync<TKey>(
         predicate: (x: T) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T> {
-        return Enumerable.orderByDescendingAsync(this, predicate, comparer as any)
+        return Enumerable.orderByDescendingAsync(this, predicate, comparer)
     }
 
     public reverse(): ArrayEnumerable<T> {
@@ -393,7 +393,7 @@ export class ArrayEnumerable<T> extends Array<T> implements IEnumerable<T> {
         selector: keyof TBindedSource): IEnumerable<TOut>
     public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>
     public selectMany<OUT>(selector: ((x: T) => Iterable<OUT>) | string): IEnumerable<OUT> {
-        return Enumerable.selectMany(this as any, selector as any)
+        return Enumerable.selectMany(this, selector as any)
     }
 
     public selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {
