@@ -163,6 +163,10 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | flatten         | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Flatten.ts)
 | fromEvent       | No         | Yes   | No       | [Test](test/tests/staticmethods/FromEvent.ts)
 
+#### TypeDoc Documentation
+
+Refer to https://arogozine.github.io/linqtotypescript/
+
 ### Design
 
 #### Binding new APIs to Array Types
