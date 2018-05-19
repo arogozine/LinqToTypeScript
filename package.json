@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "2.0.0-beta4",
+  "version": "2.0.0",
   "description": "LINQ ported to TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,7 +13,8 @@
   "scripts": {
     "build": "tsc",
     "test": "cd ./node_modules/karma/bin/ && karma start \"..\\..\\..\\karma.conf.js\"",
-    "lint": "tslint -p ./"
+    "lint": "tslint -p ./",
+    "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\""
   },
   "repository": {
     "type": "git",
