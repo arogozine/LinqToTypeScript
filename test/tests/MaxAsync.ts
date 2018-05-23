@@ -3,12 +3,12 @@ import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "..
 
 describe("MaxAsync", () => {
     itEnumerableAsync("MaxSelectEmptyError", async (asEnumerable) => {
-        const expect = await expectAsync(asEnumerable([] as number[]).maxAsync(async (x) => x * x))
+        const expect = await expectAsync(asEnumerable([]).maxAsync(async (x) => x * x))
         expect.toThrowError(InvalidOperationException)
     })
 
     itAsync("MaxSelectEmptyErrorAsync", async () => {
-        const value = await expectAsync(asAsync([] as number[]).maxAsync(async (x) => x * x))
+        const value = await expectAsync(asAsync([]).maxAsync(async (x) => x * x))
         value.toThrowError(InvalidOperationException)
     })
 

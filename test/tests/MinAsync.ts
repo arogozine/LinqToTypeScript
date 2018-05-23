@@ -4,12 +4,12 @@ import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "..
 describe("minAsync", () => {
 
     itEnumerableAsync("MinPredicate Empty Error", async (asEnumerable) => {
-        const expect = await expectAsync(asEnumerable([] as number[]).minAsync(async (x) => x * x))
+        const expect = await expectAsync(asEnumerable([]).minAsync(async (x) => x * x))
         expect.toThrowError(InvalidOperationException)
     })
 
     itAsync("MinPredicate Empty Error Async", async () => {
-        const expectMin = await expectAsync(asAsync([] as number[]).minAsync(async (x) => x * x))
+        const expectMin = await expectAsync(asAsync([]).minAsync(async (x) => x * x))
         expectMin.toThrowError(InvalidOperationException)
     })
 
