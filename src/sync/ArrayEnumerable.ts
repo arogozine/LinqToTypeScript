@@ -42,7 +42,11 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
     }
 
     public any(predicate?: (x: TSource) => boolean): boolean {
-        return this.some(predicate || (() => true))
+        if (predicate) {
+            return this.some(predicate)
+        } else {
+            return this.length !== 0
+        }
     }
 
     public anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
@@ -141,7 +145,7 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
     }
 
     public elementAtOrDefault(index: number): TSource | null {
-        return Enumerable.elementAtOrDefault(this, index)
+        return this[index] || null
     }
 
     public except(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource> {
@@ -506,5 +510,4 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
         resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
         return Enumerable.zipAsync(this, second, resultSelector)
     }
-
 }
