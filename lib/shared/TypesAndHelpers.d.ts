@@ -44,7 +44,7 @@ export declare const ErrorString: Readonly<{
  * Invalid Operation Exception
  */
 export declare class InvalidOperationException extends Error {
-    message: string;
+    readonly message: string;
     constructor(message: string);
 }
 /**
