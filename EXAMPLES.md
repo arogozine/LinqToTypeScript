@@ -1,4 +1,9 @@
-Download a few webpages and extract their titles using Node and LinqToTypeScript.
+# Examples
+
+## Extract Website Titles
+
+**Download a few webpages and extract their titles using Node and LinqToTypeScript**
+
 ```TypeScript
 import { Enumerable, } from "linq-to-typescript"
 import * as url from "url"
@@ -33,6 +38,21 @@ const promise = Enumerable
 
 promise.then(console.log)
 ```
+## Calculate Prime Numbers
+
+```TypeScript
+import { Enumerable } from "linq-to-typescript"
+
+const primeNumbers = Enumerable.range(2, 10000)
+    .select((i) => [i, Math.floor(Math.sqrt(i))])
+    .where(([i, iSq]) =>
+        Enumerable.range(2, iSq).all((j) => i % j !== 0))
+    .select(([prime]) => prime)
+    .toArray()
+
+console.log(primeNumbers)
+```
+
 Examples after binding functions to Array,
 ```TypeScript
 // AGGREGATE
