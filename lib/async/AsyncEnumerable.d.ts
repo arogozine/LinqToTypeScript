@@ -169,6 +169,12 @@ export declare class AsyncEnumerable {
      * @throws {InvalidOperationException} No Matching Elements
      */
     static minAsync<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+    /**
+     * Generates a sequence of integral numbers within a specified range.
+     * @param start The value of the first integer in the sequence.
+     * @param count The number of sequential integers to generate.
+     * @throws {ArgumentOutOfRangeException} Start is Less than 0
+     */
     static range(start: number, count: number): IAsyncEnumerable<number>;
     static repeat<T>(element: T, count: number, delay?: number): IAsyncEnumerable<T>;
     private static repeat_1<T>(element, count);

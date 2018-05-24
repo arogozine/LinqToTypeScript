@@ -235,6 +235,12 @@ export declare class Enumerable {
     static orderByAsync<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
     static orderByDescending<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>;
     static orderByDescendingAsync<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
+    /**
+     * Generates a sequence of integral numbers within a specified range.
+     * @param start The value of the first integer in the sequence.
+     * @param count The number of sequential integers to generate.
+     * @throws {ArgumentOutOfRangeException} Start is Less than 0
+     */
     static range(start: number, count: number): IEnumerable<number>;
     static repeat<T>(element: T, count: number): IEnumerable<T>;
     /**
