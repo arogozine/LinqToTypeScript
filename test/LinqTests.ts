@@ -30,6 +30,7 @@ import "./tests/staticmethods/Empty"
 import "./tests/staticmethods/EnumerateObject"
 import "./tests/staticmethods/Flatten"
 import "./tests/staticmethods/FromEvent"
+import "./tests/staticmethods/Range"
 
 import "./tests/AsyncEnumerableIteration"
 import "./tests/ParallelEnumerable"
