@@ -31,6 +31,7 @@ import "./tests/staticmethods/EnumerateObject"
 import "./tests/staticmethods/Flatten"
 import "./tests/staticmethods/FromEvent"
 import "./tests/staticmethods/Range"
+import "./tests/staticmethods/Repeat"
 
 import "./tests/AsyncEnumerableIteration"
 import "./tests/ParallelEnumerable"

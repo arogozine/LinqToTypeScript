@@ -2,7 +2,7 @@ import { ArgumentOutOfRangeException, AsyncEnumerable, Enumerable } from "../../
 import { itAsync, itEnumerable } from "../../TestHelpers"
 
 describe("range", () => {
-    it("Enumerable Range ", () => {
+    it("Enumerable Range", () => {
         const oneToTen = Enumerable.range(1, 10).toArray()
         expect(oneToTen).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     })

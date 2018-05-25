@@ -1743,6 +1743,9 @@ export class AsyncEnumerable {
 
     public static repeat<T>(
         element: T, count: number, delay?: number): IAsyncEnumerable<T> {
+        if (count < 0) {
+            throw new ArgumentOutOfRangeException(`count`)
+        }
         if (delay) {
             return AsyncEnumerable.repeat_2(element, count, delay)
         } else {
