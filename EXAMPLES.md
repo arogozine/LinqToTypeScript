@@ -52,8 +52,8 @@ const primeNumbers = Enumerable.range(2, 10000)
 
 console.log(primeNumbers)
 ```
+## Misc Examples (after binding LINQ to Array)
 
-Examples after binding functions to Array,
 ```TypeScript
 // AGGREGATE
 [1, 2].aggregate((x, y) => x + y) // 3
