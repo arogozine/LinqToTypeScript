@@ -1982,8 +1982,7 @@ export class Enumerable {
         let secondResult = secondIterator.next()
 
         while (!firstResult.done && !secondResult.done) {
-            const comparison = await comparer(firstResult.value, secondResult.value)
-            if (comparison) {
+            if (await comparer(firstResult.value, secondResult.value) === false) {
                 return false
             }
 
@@ -2463,3 +2462,5 @@ export class Enumerable {
         /* */
     }
 }
+
+Object.freeze(Enumerable)
