@@ -165,6 +165,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | fromEvent       | No         | Yes   | No       | [Test](test/tests/staticmethods/FromEvent.ts)
 | range           | Yes        | Yes   | No       | [Test](test/tests/staticmethods/Range.ts)
 | repeat          | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Repeat.ts)
+
 #### TypeDoc Documentation
 
 Refer to https://arogozine.github.io/linqtotypescript/
