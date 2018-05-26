@@ -138,7 +138,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | reverse               | No      | [Sync](test/tests/Reverse.ts)
 | select                | Yes     | [Sync](test/tests/Select.ts), [Async](test/tests/SelectAsync.ts)
 | selectMany            | Yes     | [Sync](test/tests/SelectMany.ts), [Async](test/tests/SelectManyAsync.ts)
-| sequenceEquals        | Yes     |
+| sequenceEquals        | Yes     | [Sync](test/tests/SequenceEquals.ts), [Async](test/tests/SequenceEqualAsync.ts)
 | single                | Yes     | [Sync](test/tests/Single.ts), [Async](test/tests/SingleAsync.ts)
 | singleOrDefault       | Yes     | [Sync](test/tests/SingleOrDefault.ts), [Async](test/tests/SingleOrDefaultAsync.ts)
 | skip                  | No      | [Sync](test/tests/Skip.ts)
