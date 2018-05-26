@@ -2739,3 +2739,5 @@ export class ParallelEnumerable {
         }
     }
 }
+
+Object.freeze(AsyncEnumerable)

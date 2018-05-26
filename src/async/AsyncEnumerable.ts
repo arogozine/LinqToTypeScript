@@ -2338,3 +2338,5 @@ export class AsyncEnumerable {
 
     private constructor() { }
 }
+
+Object.freeze(AsyncEnumerable)
