@@ -1,4 +1,7 @@
+import { IAsyncEnumerable } from ".";
+import { IParallelEnumerable } from "./parallel/parallel";
 import { IConstructor } from "./shared/shared";
+import { IEnumerable } from "./sync/sync";
 export * from "./shared/shared";
 export * from "./sync/sync";
 export * from "./async/async";
@@ -8,6 +11,9 @@ export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{
 }> {
     new (_?: any): Y;
 }
+export declare function isParallelEnumerable(source: any): source is IParallelEnumerable<any>;
+export declare function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any>;
+export declare function isEnumerable(source: any): source is IEnumerable<any>;
 /**
  * Binds LINQ methods to an iterable type
  * @param object Iterable Type
