@@ -4,17 +4,21 @@
         "target": "es2016",
         "module": "commonjs",
         "moduleResolution": "node",
-        "noImplicitReturns": true,
+        "removeComments": true,
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,
-        "forceConsistentCasingInFileNames": true,
         "strict": true,
-        "strictFunctionTypes": true,
+        "alwaysStrict": true,
+        "sourceMap": true,
         "declaration": true,
-        "lib": [
+        "lib": [      
             "dom",
             "es2016",
             "esnext.asynciterable"
         ],
+        "baseUrl": "../src",
     },
     "files": [
         "./LinqTests.ts"
