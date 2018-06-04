@@ -151,7 +151,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>;
     toSet(): Set<TSource>;
     union(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
-    unionAsync(second: Iterable<TSource>, comparer?: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+    unionAsync(second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;

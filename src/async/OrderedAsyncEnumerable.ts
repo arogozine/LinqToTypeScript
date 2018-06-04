@@ -232,7 +232,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
     }
 
     public thenByDescendingAsync<TKey>(keySelector: (x: T) => Promise<TKey>,
-                                       comparer?: IComparer<TKey>) {
+                                       comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T> {
         return OrderedAsyncEnumerable.generateAsync<T, TKey>(this, keySelector, false, comparer)
     }
 }

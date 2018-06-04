@@ -1644,13 +1644,13 @@ export class ParallelEnumerable {
         source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>
     public static selectMany<TSource, OUT>(
         source: IParallelEnumerable<TSource>,
-        selector: ((x: TSource) => Iterable<OUT>) | string): IParallelEnumerable<any> {
+        selector: ((x: TSource) => Iterable<OUT>) | keyof TSource): IParallelEnumerable<any> {
         const generator = async () => {
             let values: TypedData<Iterable<OUT>>
             if (typeof selector === "string") {
                 values = await ParallelEnumerable.nextIteration(source, (x: any) => x[selector])
             } else {
-                values = await ParallelEnumerable.nextIteration(source, selector)
+                values = await ParallelEnumerable.nextIteration(source, selector as (x: TSource) => Iterable<OUT>)
             }
 
             const valuesArray = []

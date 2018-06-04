@@ -271,8 +271,8 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         this: IEnumerable<TBindedSource>,
         selector: keyof TBindedSource): IEnumerable<TOut>
     public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>
-    public selectMany<OUT>(selector: ((x: T) => Iterable<OUT>) | string): IEnumerable<OUT> {
-        return Enumerable.selectMany(this as any, selector as any)
+    public selectMany<OUT>(selector: any): IEnumerable<OUT> {
+        return Enumerable.selectMany(this, selector)
     }
 
     public selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {
