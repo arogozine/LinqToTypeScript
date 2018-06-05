@@ -69,6 +69,7 @@ declare global {
     interface Float64Array extends IEnumerable<number> { }
     interface Map<K, V> extends IEnumerable<[K, V]> { }
     interface Set<T> extends IEnumerable<T> { }
+    interface String extends IEnumerable<string> { }
 }
 // 2. Bind Linq Functions to Array and Map
 initializeLinq()

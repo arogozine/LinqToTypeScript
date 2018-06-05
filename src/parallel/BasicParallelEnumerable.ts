@@ -271,8 +271,8 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>
     public selectMany<TBindedSource extends { [key: string]: Iterable<TOut> }, TOut>(
         this: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>
-    public selectMany<OUT>(selector: ((x: TSource) => Iterable<OUT>) | string): IParallelEnumerable<OUT> {
-        return ParallelEnumerable.selectMany(this as any, selector as any)
+    public selectMany<OUT>(selector: any): IParallelEnumerable<OUT> {
+        return ParallelEnumerable.selectMany(this, selector)
     }
 
     public selectManyAsync<OUT>(

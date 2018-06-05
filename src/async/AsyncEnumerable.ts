@@ -1083,7 +1083,7 @@ export class AsyncEnumerable {
         if (typeof selector === "string") {
             return AsyncEnumerable.selectAsync_2(source, selector)
         } else {
-            return AsyncEnumerable.selectAsync_1(source, selector)
+            return AsyncEnumerable.selectAsync_1(source, selector as (x: TSource) => Promise<TResult>)
         }
     }
 

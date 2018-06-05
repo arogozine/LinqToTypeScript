@@ -398,8 +398,8 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
         this: IEnumerable<TBindedSource>,
         selector: keyof TBindedSource): IEnumerable<TOut>
     public selectMany<OUT>(selector: (x: TSource) => Iterable<OUT>): IEnumerable<OUT>
-    public selectMany<OUT>(selector: ((x: TSource) => Iterable<OUT>) | string): IEnumerable<OUT> {
-        return Enumerable.selectMany(this, selector as any)
+    public selectMany<TOut>(selector: any): IEnumerable<TOut> {
+        return Enumerable.selectMany(this, selector)
     }
 
     public selectManyAsync<OUT>(selector: (x: TSource) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {

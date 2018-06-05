@@ -1210,7 +1210,7 @@ export class Enumerable {
         if (typeof selector === "string") {
             return Enumerable.select_2(source, selector)
         } else {
-            return Enumerable.select_1(source, selector)
+            return Enumerable.select_1(source, selector as (x: TSource) => TResult)
         }
     }
 
@@ -1247,7 +1247,7 @@ export class Enumerable {
         if (typeof selector === "string") {
             return Enumerable.selectAsync_2(source, selector)
         } else {
-            return Enumerable.selectAsync_1(source, selector)
+            return Enumerable.selectAsync_1(source, selector as (x: TSource) => Promise<TResult>)
         }
     }
 

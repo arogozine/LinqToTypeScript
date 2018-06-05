@@ -1,4 +1,4 @@
-import { AsyncEnumerable, Enumerable, ParallelEnumerable } from "index"
+import { AsyncEnumerable, Enumerable, ParallelEnumerable } from "../../../src"
 import { itAsync } from "../../TestHelpers"
 
 describe("empty", () => {

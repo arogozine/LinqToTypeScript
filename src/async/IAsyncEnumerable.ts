@@ -82,7 +82,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     takeWhile(pedicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
     takeWhileAsync(pedicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
     union(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
-    unionAsync(second: AsyncIterable<TSource>, comparer?: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+    unionAsync(second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
     where(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>,
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
     zip<TSecond, TResult>(
