@@ -34,7 +34,9 @@ import "./tests/staticmethods/Range"
 import "./tests/staticmethods/Repeat"
 
 import "./tests/AsyncEnumerableIteration"
+import "./tests/is/isAsyncEnumerable"
 import "./tests/is/IsEnumerable"
+import "./tests/is/isParallelEnumerable"
 import "./tests/ParallelEnumerable"
 
 import "./tests/Aggregate"

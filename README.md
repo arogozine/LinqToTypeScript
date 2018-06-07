@@ -149,7 +149,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | takeWhile          | Yes     | [Sync](test/tests/TakeWhile.ts), [Async](test/tests/TakeWhileAsync.ts)
 | toArray            | No      | [Sync](test/tests/ToArray.ts)
 | toMap              | Yes     | [Sync](test/tests/ToMap.ts), [Async](test/tests/ToMapAsync.ts) | Equivalent to `ToDictionary`
-| toSet              | No      | [Sync](test/tests/ToSet.ts) | Equivalent to `ToHashSet`
+| toSet              | No      | [Sync](test/tests/ToSet.ts) | Equivalent to `ToHashSet`. No comparer overload for JS.
 | union              | Yes     | [Sync](test/tests/Union.ts)
 | where              | Yes     | [Sync](test/tests/Where.ts), [Async](test/tests/WhereAsync.ts)
 | zip                | Yes     | [Sync](test/tests/Zip.ts), [Async](test/tests/ZipAsync.ts)

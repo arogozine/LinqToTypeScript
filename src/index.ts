@@ -22,6 +22,10 @@ export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [ke
     new (_?: any): Y
 }
 
+/**
+ * Determine if the source is IParallelEnumerable
+ * @param source Any value
+ */
 export function isParallelEnumerable(source: any): source is IParallelEnumerable<any> {
     if (!source) {
         return false
@@ -31,15 +35,16 @@ export function isParallelEnumerable(source: any): source is IParallelEnumerable
         return true
     }
 
-    if (!source[Symbol.asyncIterator]) {
+    if (!(source[Symbol.asyncIterator] instanceof Function)) {
         return false
     }
 
     const propertyNames = Object.getOwnPropertyNames(BasicParallelEnumerable.prototype)
         .filter((v) => v !== "constructor")
 
+    const methods = source.prototype || source
     for (const prop of propertyNames) {
-        if (!source.prototype[prop]) {
+        if (!(methods[prop] instanceof Function)) {
             return false
         }
     }
@@ -47,6 +52,10 @@ export function isParallelEnumerable(source: any): source is IParallelEnumerable
     return true
 }
 
+/**
+ * Determine if a type is IAsyncEnumerable
+ * @param source Any Value
+ */
 export function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any> {
     if (!source) {
         return false
@@ -56,15 +65,16 @@ export function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any> 
         return true
     }
 
-    if (!source[Symbol.asyncIterator]) {
+    if (!(source[Symbol.asyncIterator] instanceof Function)) {
         return false
     }
 
     const propertyNames = Object.getOwnPropertyNames(BasicAsyncEnumerable.prototype)
         .filter((v) => v !== "constructor")
 
+    const methods = source.prototype || source
     for (const prop of propertyNames) {
-        if (!source.prototype[prop]) {
+        if (!(methods[prop] instanceof Function)) {
             return false
         }
     }
@@ -72,6 +82,10 @@ export function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any> 
     return true
 }
 
+/**
+ * Determine if a source is a IEnumerable
+ * @param source Any Value
+ */
 export function isEnumerable(source: any): source is IEnumerable<any> {
     if (!source) {
         return false
@@ -85,25 +99,20 @@ export function isEnumerable(source: any): source is IEnumerable<any> {
         return true
     }
 
-    if (!source[Symbol.iterator]) {
-        console.log(`No Iterator ${ source }`)
+    if (!(source[Symbol.iterator] instanceof Function)) {
         return false
     }
 
     const propertyNames = Object.getOwnPropertyNames(BaseEnumerable.prototype)
         .filter((v) => v !== "constructor")
 
-    console.log(propertyNames)
-
     const methods = source.prototype || source
     for (const prop of propertyNames) {
-        if (!methods[prop]) {
-            console.log(prop)
+        if (!(methods[prop] instanceof Function)) {
             return false
         }
     }
 
-    console.log(`Gets to True`)
     return true
 }
 
