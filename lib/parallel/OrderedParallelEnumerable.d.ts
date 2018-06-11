@@ -7,14 +7,14 @@ import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
  */
 export declare class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> implements IOrderedParallelEnumerable<T> {
     private readonly orderedPairs;
-    private static asAsyncSortedKeyValues<TSource, TKey>(source, keySelector, ascending, comparer?);
-    private static asAsyncSortedKeyValuesSync<TSource, TKey>(source, keySelector, ascending, comparer?);
-    private static asAsyncKeyMapSync<TSource, TKey>(source, keySelector);
-    private static asAsyncKeyMap<TSource, TKey>(source, keySelector);
-    private static asSortedKeyValues<TSource, TKey>(source, keySelector, ascending, comparer?);
-    private static asSortedKeyValuesSync<TSource, TKey>(source, keySelector, ascending, comparer?);
-    private static asKeyMapSync<TSource, TKey>(source, keySelector);
-    private static asKeyMap<TSource, TKey>(source, keySelector);
+    private static asAsyncSortedKeyValues;
+    private static asAsyncSortedKeyValuesSync;
+    private static asAsyncKeyMapSync;
+    private static asAsyncKeyMap;
+    private static asSortedKeyValues;
+    private static asSortedKeyValuesSync;
+    private static asKeyMapSync;
+    private static asKeyMap;
     static generateAsync<TSource, TKey>(source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, ascending: boolean, comparer?: IComparer<TKey>): OrderedParallelEnumerable<TSource>;
     static generate<TSource, TKey>(source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>, keySelector: (x: TSource) => TKey, ascending: boolean, comparer?: IComparer<TKey>): OrderedParallelEnumerable<TSource>;
     private constructor();
