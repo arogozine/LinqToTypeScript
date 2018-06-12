@@ -3,8 +3,9 @@ import { BasicAsyncEnumerable } from "./async/BasicAsyncEnumerable"
 import { BasicParallelEnumerable } from "./parallel/BasicParallelEnumerable"
 import { IParallelEnumerable } from "./parallel/parallel"
 import { IConstructor } from "./shared/shared"
+import { BaseEnumerable } from "./sync/BaseEnumerable"
 import { BasicEnumerable } from "./sync/BasicEnumerable"
-import { ArrayEnumerable, BaseEnumerable, IEnumerable } from "./sync/sync"
+import { ArrayEnumerable, IEnumerable } from "./sync/sync"
 
 // Shared Interfacess
 export * from "./shared/shared"

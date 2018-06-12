@@ -9,6 +9,7 @@ import { IOrderedEnumerable } from "./IOrderedEnumerable";
  * Container for all IEnumerable methods
  * to apply to built in ECMAScript collections
  * and what not
+ * @private
  */
 export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     aggregate(func: (x: T, y: T) => T): T;
