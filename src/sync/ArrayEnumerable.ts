@@ -1,10 +1,10 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
 import { IAsyncEnumerable } from "./../async/async"
-import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import {
     ArgumentOutOfRangeException,
     ErrorString,
+    IAsyncEqualityComparer,
     IComparer,
     IEqualityComparer,
     IGrouping,

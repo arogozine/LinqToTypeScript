@@ -5,6 +5,7 @@ import {
     AsTuple,
     EqualityComparer,
     ErrorString,
+    IAsyncEqualityComparer,
     IComparer,
     IEqualityComparer,
     IGrouping,
@@ -18,7 +19,6 @@ import { AsyncEnumerable } from "./../async/AsyncEnumerable"
 import {
     IAsyncEnumerable,
 } from "./../async/IAsyncEnumerable"
-import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Grouping } from "./Grouping"
 import { IEnumerable } from "./IEnumerable"

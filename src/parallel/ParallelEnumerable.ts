@@ -4,6 +4,7 @@ import {
     AsTuple,
     EqualityComparer,
     ErrorString,
+    IAsyncEqualityComparer,
     IAsyncParallel,
     IComparer,
     IEqualityComparer,
@@ -14,7 +15,6 @@ import {
     OfType,
     StrictEqualityComparer} from "../shared/shared"
 import { Grouping } from "../sync/sync"
-import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { DataType } from "./DataType"
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"

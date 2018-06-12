@@ -3,6 +3,7 @@ import { ArrayEnumerable } from "./ArrayEnumerable"
 
 /**
  * Key to Values Enumeration
+ * @private
  */
 export class Grouping<TKey, TElement> extends ArrayEnumerable<TElement> implements IGrouping<TKey, TElement> {
     public readonly key: TKey

@@ -1,6 +1,14 @@
 import { IAsyncEnumerable, IOrderedParallelEnumerable } from ".."
-import { IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared"
-import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer"
+import {
+    IAsyncEqualityComparer,
+    IAsyncParallel,
+    IComparer,
+    IEqualityComparer,
+    IGrouping,
+    InferType,
+    ITuple,
+    OfType,
+} from "../shared/shared"
 import { TypedData } from "./TypedData"
 
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {

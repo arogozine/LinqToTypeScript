@@ -1,7 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator";
 import { IParallelEnumerable } from "../parallel/parallel";
-import { IAsyncEqualityComparer } from "./../shared/IAsyncEqualityComparer";
-import { IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
+import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
 /**
