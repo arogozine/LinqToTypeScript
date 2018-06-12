@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "cd ./node_modules/karma/bin/ && karma start \"..\\..\\..\\karma.conf.js\"",
+    "test": "node ./node_modules/karma/bin/karma start karma.conf.js",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\""
   },
