@@ -167,6 +167,24 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | range           | Yes        | Yes   | No       | [Test](test/tests/staticmethods/Range.ts)
 | repeat          | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Repeat.ts)
 
+#### Index Methods
+
+| Method               | Notes                                                   |
+|----------------------|---------------------------------------------------------|
+| bindArray            | Binds IEnumerable methods to an ArrayLike Iterable type |
+| bindLinq             | Binds IEnumerable methods to an Interable type          |
+| isAsyncEnumerable    | Determines if source implements IAsyncEnumerable        |
+| isEnumerable         | Determines if source implements IEnumerable             |
+| isParallelEnumerable | Determines if source implements IParallelEnumerable     |
+| initializeLinq       | Binds to IEnumerable to Array Types, Map, Set, & String |
+
+#### Exception Types
+
+| Exception                   | Notes                                            |
+|-----------------------------|--------------------------------------------------|
+| ArgumentOutOfRangeException | Thrown when a passed in argument is invalid      |
+| InvalidOperationException   | Thrown when no elements or no precicate match    |
+
 #### TypeDoc Documentation
 
 Refer to https://arogozine.github.io/linqtotypescript/
