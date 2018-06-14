@@ -137,7 +137,7 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
     }
 
     public elementAt(index: number): TSource {
-        if (index >= this.length) {
+        if (index < 0 || index >= this.length) {
             throw new ArgumentOutOfRangeException("index")
         }
 

@@ -417,6 +417,10 @@ export class Enumerable {
      * @param index Index for Element
      */
     public static elementAt<TSource>(source: Iterable<TSource>, index: number): TSource {
+        if (index < 0) {
+            throw new ArgumentOutOfRangeException("index")
+        }
+
         let i = 0
         for (const item of source) {
             if (index === i++) {

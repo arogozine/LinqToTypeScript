@@ -369,6 +369,10 @@ export class AsyncEnumerable {
      * @throws {ArgumentOutOfRangeException}
      */
     public static async elementAt<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource> {
+        if (index < 0) {
+            throw new ArgumentOutOfRangeException("index")
+        }
+
         let i = 0
         for await (const item of source) {
             if (index === i++) {

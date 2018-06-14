@@ -488,6 +488,10 @@ export class ParallelEnumerable {
     public static async elementAt<TSource>(
         source: IParallelEnumerable<TSource>,
         index: number): Promise<TSource> {
+        if (index < 0) {
+            throw new ArgumentOutOfRangeException("index")
+        }
+
         const dataFunc = source.dataFunc
 
         switch (dataFunc.type) {
