@@ -1,6 +1,6 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import { IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
-import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType";
+import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import { IAsyncEnumerable } from "./../async/async"
 import {
     ArgumentOutOfRangeException,

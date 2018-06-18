@@ -16,10 +16,10 @@ import {
     StrictEqualityComparer} from "../shared/shared"
 import { Grouping } from "../sync/sync"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
-import { ParallelGeneratorType } from "./ParallelGeneratorType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
+import { ParallelGeneratorType } from "./ParallelGeneratorType"
 import { TypedData } from "./TypedData"
 
 /**
