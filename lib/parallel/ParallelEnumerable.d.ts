@@ -1,7 +1,7 @@
 import { IAsyncEnumerable } from "../async/async";
 import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
-import { DataType } from "./DataType";
+import { ParallelGeneratorType } from "./ParallelGeneratorType";
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 import { IParallelEnumerable } from "./IParallelEnumerable";
 /**
@@ -55,15 +55,15 @@ export declare class ParallelEnumerable {
     /**
      * Creates an IParallelEnumerable from a function that returns an Array of Promises
      */
-    static from<TSource>(type: DataType.ArrayOfPromises, generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: ParallelGeneratorType.ArrayOfPromises, generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
     /**
      * Creates an IParallelEnumerable from a function that returns a Promise of data values
      */
-    static from<TSource>(type: DataType.PromiseToArray, generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: ParallelGeneratorType.PromiseToArray, generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
     /**
      * Creates an IParallelEnumerable from a function that returns an promise of an array of promises
      */
-    static from<TSource>(type: DataType.PromiseOfPromises, generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
+    static from<TSource>(type: ParallelGeneratorType.PromiseOfPromises, generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>;
     static groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>;
     static groupBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>;

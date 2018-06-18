@@ -1,5 +1,6 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType";
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -198,7 +199,7 @@ export class Enumerable {
             return array
         }
 
-        return ParallelEnumerable.from(DataType.PromiseToArray, generator)
+        return ParallelEnumerable.from(ParallelGeneratorType.PromiseToArray, generator)
     }
 
     /**

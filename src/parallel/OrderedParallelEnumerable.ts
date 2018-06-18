@@ -1,9 +1,9 @@
-import { DataType } from ".."
 import {
     IComparer,
 } from "../shared/shared"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
+import { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 /**
  * Ordered Parallel Enumerable
@@ -222,7 +222,7 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
                 }
                 return array
             },
-            type: DataType.PromiseToArray,
+            type: ParallelGeneratorType.PromiseToArray,
         })
     }
 

@@ -1,11 +1,14 @@
-import { DataType } from "./DataType";
+import { ParallelGeneratorType } from "./ParallelGeneratorType";
+/**
+ * @private
+ */
 export declare type TypedData<T> = {
-    type: DataType.PromiseToArray;
+    type: ParallelGeneratorType.PromiseToArray;
     generator: () => Promise<T[]>;
 } | {
-    type: DataType.ArrayOfPromises;
+    type: ParallelGeneratorType.ArrayOfPromises;
     generator: () => Array<Promise<T>>;
 } | {
-    type: DataType.PromiseOfPromises;
+    type: ParallelGeneratorType.PromiseOfPromises;
     generator: () => Promise<Array<Promise<T>>>;
 };

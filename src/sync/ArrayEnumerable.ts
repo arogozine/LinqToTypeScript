@@ -1,5 +1,6 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { DataType, IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType";
 import { IAsyncEnumerable } from "./../async/async"
 import {
     ArgumentOutOfRangeException,
@@ -58,7 +59,7 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
     }
 
     public asParallel(): IParallelEnumerable<TSource> {
-        return ParallelEnumerable.from(DataType.PromiseToArray, async () => this)
+        return ParallelEnumerable.from(ParallelGeneratorType.PromiseToArray, async () => this)
     }
 
     public average(this: IEnumerable<number>): number
