@@ -1,4 +1,3 @@
-import { DataType } from "../src/parallel/DataType"
 import {
     ArrayEnumerable,
     AsyncEnumerable,
@@ -7,6 +6,7 @@ import {
     IEnumerable,
     IParallelEnumerable,
     ParallelEnumerable,
+    ParallelGeneratorType,
 } from "./../src/index"
 
 // There are helper functions to make testing easy
@@ -52,15 +52,15 @@ export function asAsync<T>(values: T[]) {
 export function itParallel<T = number>(
     expectation: string,
     assertion: (asOParallelEnumerable: (x: T[]) => IParallelEnumerable<T>) => void, timeout?: number): void {
-    const a = (x: T[]) => asParallel(DataType.ArrayOfPromises, x)
-    const b = (x: T[]) => asParallel(DataType.PromiseOfPromises, x)
-    const c = (x: T[]) => asParallel(DataType.PromiseToArray, x)
+    const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
+    const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
+    const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
     it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
     it(`${ expectation } PromiseOfPromises`, () => assertion(b), timeout)
     it(`${ expectation } PromiseToArray`, () => assertion(c), timeout)
 }
 
-function asParallel<T>(type: DataType, values: T[]): IParallelEnumerable<T> {
+function asParallel<T>(type: ParallelGeneratorType, values: T[]): IParallelEnumerable<T> {
     const generator1 = () =>
         values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
     const generator2 = () =>
@@ -68,11 +68,11 @@ function asParallel<T>(type: DataType, values: T[]): IParallelEnumerable<T> {
     const generator3 = async () =>
         await generator1()
     switch (type) {
-        case DataType.ArrayOfPromises:
+        case ParallelGeneratorType.ArrayOfPromises:
             return ParallelEnumerable.from(type, generator1)
-        case DataType.PromiseToArray:
+        case ParallelGeneratorType.PromiseToArray:
             return ParallelEnumerable.from(type, generator2)
-        case DataType.PromiseOfPromises:
+        case ParallelGeneratorType.PromiseOfPromises:
         default:
             return ParallelEnumerable.from(type, generator3)
     }

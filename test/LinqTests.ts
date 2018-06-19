@@ -114,4 +114,6 @@ import "./tests/Where"
 import "./tests/WhereAsync"
 import "./tests/Zip"
 import "./tests/ZipAsync"
+
+import "./tests/parallel/each"
 // tslint:enable:ordered-imports
