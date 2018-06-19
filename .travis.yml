@@ -7,10 +7,11 @@ sudo: false
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - npm install -g typescript
+  - npm install -g typescript tslint
 script:
   - npm install
   - tsc
+  - tslint -p ./
   - ./node_modules/.bin/karma start --browsers Firefox --single-run
 cache:
   directories:
