@@ -1836,16 +1836,40 @@ export class ParallelEnumerable {
     }
 
     public static reverse<TSource>(
-        source: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
-        const generator = async () => {
-            const values = await source.toArray()
-            return values.reverse()
-        }
+        source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource> {
+        const dataFunc = source.dataFunc
+        switch (dataFunc.type) {
+            case ParallelGeneratorType.ArrayOfPromises: {
+                const generator = () => {
+                    return dataFunc.generator().reverse()
+                }
+                return new BasicParallelEnumerable({
+                    generator,
+                    type: dataFunc.type,
+                })
+            }
+            case ParallelGeneratorType.PromiseOfPromises: {
+                const generator: () => Promise<Array<Promise<TSource>>> = async () => {
+                    const array = await dataFunc.generator()
+                    return array.reverse()
+                }
 
-        return new BasicParallelEnumerable({
-            generator,
-            type: ParallelGeneratorType.PromiseToArray,
-        })
+                return new BasicParallelEnumerable<TSource>({
+                    generator,
+                    type: dataFunc.type,
+                })
+            }
+            case ParallelGeneratorType.PromiseToArray: {
+                const generator = async () => {
+                    const array = await dataFunc.generator()
+                    return array.reverse()
+                }
+                return new BasicParallelEnumerable({
+                    generator,
+                    type: dataFunc.type,
+                })
+            }
+        }
     }
 
     public static async sequenceEquals<TSource>(

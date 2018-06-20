@@ -116,7 +116,7 @@ export declare class ParallelEnumerable {
     static repeat<T>(element: T, count: number, delay?: number): IParallelEnumerable<T>;
     private static repeat_1;
     private static repeat_2;
-    static reverse<TSource>(source: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
+    static reverse<TSource>(source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource>;
     static sequenceEquals<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     static sequenceEqualsAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     /**
