@@ -14,6 +14,7 @@ import {
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
 import { TypedData } from "./TypedData"
+import { ParallelGeneratorType } from "./ParallelGeneratorType";
 
 /**
  * Base implementation of IParallelEnumerable<T>
@@ -396,9 +397,24 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
         const thisOuter = this
         async function *iterator() {
-            const values = await thisOuter.toArray()
-            for (const value of values) {
-                yield value
+            const dataFunc = thisOuter.dataFunc
+            switch (dataFunc.type) {
+                case ParallelGeneratorType.ArrayOfPromises:
+                    for (const value of dataFunc.generator()) {
+                        yield value
+                    }
+                    break
+                case ParallelGeneratorType.PromiseOfPromises:
+                    for (const value of await dataFunc.generator()) {
+                        yield value
+                    }
+                    break
+                case ParallelGeneratorType.PromiseToArray:
+                default:
+                    for (const value of await dataFunc.generator()) {
+                        yield value
+                    }
+                    break
             }
         }
 
