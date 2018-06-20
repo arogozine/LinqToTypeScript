@@ -1269,11 +1269,12 @@ export class ParallelEnumerable {
         selector: (x: TSource) => number): Promise<number>
     public static async min<TSource>(
         source: IParallelEnumerable<TSource>,
-        selector?: any): Promise<number> {
+        selector?: (x: TSource) => number): Promise<number> {
         let minInfo: any[]
         if (selector) {
             const dataFunc = ParallelEnumerable.nextIteration(source, selector)
-            minInfo = await new BasicParallelEnumerable(dataFunc).toArray()
+            minInfo = await new BasicParallelEnumerable(dataFunc)
+                .toArray()
         } else {
             minInfo = await source.toArray()
         }
@@ -1563,7 +1564,7 @@ export class ParallelEnumerable {
         selector: (x: TSource) => number): Promise<number>
     public static async max<TSource>(
         source: IParallelEnumerable<TSource>,
-        selector?: any): Promise<number> {
+        selector?: (x: TSource) => number): Promise<number> {
         let maxInfo: any[]
         if (selector) {
             const dataFunc = ParallelEnumerable.nextIteration(source, selector)
