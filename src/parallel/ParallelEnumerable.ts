@@ -207,7 +207,7 @@ export class ParallelEnumerable {
 
     public static asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource> {
         async function* generator() {
-            for (const value of await source.toArray()) {
+            for await (const value of source) {
                 yield value
             }
         }
@@ -231,7 +231,7 @@ export class ParallelEnumerable {
     private static async average_1(source: IAsyncParallel<number>): Promise<number> {
         let value: number | undefined
         let count: number | undefined
-        for await (const item of source) {
+        for (const item of await source.toArray()) {
             value = (value || 0) + item
             count = (count || 0) + 1
         }
@@ -247,7 +247,7 @@ export class ParallelEnumerable {
         source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number> {
         let value: number | undefined
         let count: number | undefined
-        for await (const item of source) {
+        for (const item of await source.toArray()) {
             value = (value || 0) + func(item)
             count = (count || 0) + 1
         }
@@ -260,19 +260,32 @@ export class ParallelEnumerable {
     }
 
     public static async averageAsync<TSource>(
-        source: IAsyncParallel<TSource>, func: (x: TSource) => Promise<number>): Promise<number> {
-        let value: number | undefined
-        let count: number | undefined
-        for await (const item of source) {
-            value = (value || 0) + await func(item)
-            count = (count || 0) + 1
+        source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
+        const nextIteration = ParallelEnumerable.nextIterationAsync(source, selector)
+        let values: Array<number | Promise<number>>
+        switch (nextIteration.type) {
+            case ParallelGeneratorType.ArrayOfPromises:
+                values = nextIteration.generator()
+                break
+            case ParallelGeneratorType.PromiseOfPromises:
+                values = await nextIteration.generator()
+                break
+            case ParallelGeneratorType.PromiseToArray:
+            default:
+                values = await nextIteration.generator()
+                break
         }
 
-        if (value === undefined) {
+        if (values.length === 0) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
 
-        return value / (count as number)
+        let value = 0
+        for (const selectedValue of values) {
+            value += await selectedValue
+        }
+
+        return value / values.length
     }
 
     public static concat<TSource>(
