@@ -13,8 +13,8 @@ import {
 } from "../shared/shared"
 import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelEnumerable } from "./ParallelEnumerable"
+import { ParallelGeneratorType } from "./ParallelGeneratorType"
 import { TypedData } from "./TypedData"
-import { ParallelGeneratorType } from "./ParallelGeneratorType";
 
 /**
  * Base implementation of IParallelEnumerable<T>

@@ -25,7 +25,7 @@ export declare class ParallelEnumerable {
     static average<TSource>(source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number>;
     private static average_1;
     private static average_2;
-    static averageAsync<TSource>(source: IAsyncParallel<TSource>, func: (x: TSource) => Promise<number>): Promise<number>;
+    static averageAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
     static concat<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
     static contains<TSource>(source: IParallelEnumerable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     static containsAsync<TSource>(source: IParallelEnumerable<TSource>, value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
