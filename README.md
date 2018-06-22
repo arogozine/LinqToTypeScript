@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 2.8 and ES 2016**
+- **Targets TypeScript 2.9.2 and ES 2016**
 ```TypeScript
 await Enumerable
     .from([bing, google, quackQuackGo])

@@ -1,5 +1,5 @@
 # ROADMAP
 
-### 3.0
-* Mark certain types as private
-* Switch to TypeScript 2.9
+### 4.0
+* Improve Modularity
+* Switch to TypeScript 3.0
