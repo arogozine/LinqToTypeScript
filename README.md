@@ -254,7 +254,7 @@ You are free to target ES5 instead.
 How does this compare to other LINQ libraries?
 
 **A**
-They are more mature, but not made targeting latest ECMAScript features.
+Other libraries tend to use eager evaluation and work with arrays instead of iterables.
 
 **Q**
 Why should I use this instead of lodash or something similar?
@@ -267,7 +267,8 @@ Why should I use this instead of lodash or something similar?
 Which browsers are supported?
 
 **A**
-Firefox, Chrome, and Edge. IE is **not** supported.
+- Firefox, Chrome, and Edge. IE is **not** supported.
+- A good bundler targeting ES5 might allow IE support (with proper ES6 polyfils).
 
 **Q**
 Can I contribute?
