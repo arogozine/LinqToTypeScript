@@ -16,9 +16,7 @@
                 ]
             }
         ],
-        "max-classes-per-file": [
-            false
-        ],
+        "max-classes-per-file": false,
         "unified-signatures": false,
         "prefer-for-of": false,
         "callable-types": false,

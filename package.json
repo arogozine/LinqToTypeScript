@@ -13,6 +13,7 @@
   "scripts": {
     "build": "tsc",
     "test": "node ./node_modules/karma/bin/karma start karma.conf.js",
+    "quick-test": "./node_modules/.bin/karma start --browsers Chrome --single-run",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\""
   },
