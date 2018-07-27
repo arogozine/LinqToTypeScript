@@ -31,7 +31,7 @@ describe("isAsyncEnumerable", () => {
         expect(isAsyncEnumerable(new Float64Array(1))).toBe(false)
     })
 
-    itParallel("Not Parallel", (asParallel) => {
+    itParallel("Not", (asParallel) => {
         expect(isAsyncEnumerable(asParallel([]))).toBe(false)
     })
 })

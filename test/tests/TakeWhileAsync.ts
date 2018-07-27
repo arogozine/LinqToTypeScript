@@ -41,7 +41,7 @@ describe("takeWhileAsync", () => {
             .toEqual([1, 2])
     })
 
-    itParallel("by value parallel", async (asParallel) => {
+    itParallel("by value", async (asParallel) => {
         const valsParallel = asParallel([1, 2, 3, 4])
 
         expect(await valsParallel.takeWhileAsync(async (x) => true).toArray())
@@ -52,7 +52,7 @@ describe("takeWhileAsync", () => {
             .toEqual([1, 2])
     })
 
-    itParallel("by value and index parallel", async (asParallel) => {
+    itParallel("by value and index", async (asParallel) => {
         const valsParallel = asParallel([1, 2, 3, 4])
 
         expect(await valsParallel.takeWhileAsync(async (x: number, i: number) => true).toArray())

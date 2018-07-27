@@ -10,7 +10,7 @@ describe("LastAsync", () => {
         expect(await asAsync([1, 2]).lastAsync(async (x) => x === 1)).toBe(1)
     })
 
-    itParallel("LastPredicateParallel", async (asParallel) => {
+    itParallel("LastPredicate", async (asParallel) => {
         expect(await asParallel([1, 2]).lastAsync(async (x) => x === 1)).toBe(1)
     })
 })

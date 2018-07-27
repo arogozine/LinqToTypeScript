@@ -16,7 +16,7 @@ describe("contains", () => {
         expect(await array.contains(1)).toBe(true)
     })
 
-    itParallel<string | number>("Countains Parallel", async (asParallel) => {
+    itParallel<string | number>("Countains", async (asParallel) => {
         const array = asParallel([1, "2", "3"])
 
         expect(await array.contains(2)).toBe(false)
@@ -39,7 +39,7 @@ describe("contains", () => {
         expect(await array.contains(4, EqualityComparer)).toBe(false)
     })
 
-    itParallel<string | number>("Contains With Comparer Parallel", async (asParallel) => {
+    itParallel<string | number>("Contains With Comparer", async (asParallel) => {
         const array = asParallel([1, "2", "3"])
 
         expect(await array.contains(2, EqualityComparer)).toBe(true)
@@ -66,7 +66,7 @@ describe("contains", () => {
     itAsync("Contains False Async", async () =>
         expect(await asAsync([1, 2]).contains(0)).toBe(false))
 
-    itParallel("Contains False Parallel", async (asParallel) =>
+    itParallel("Contains False", async (asParallel) =>
         expect(await asParallel([1, 2]).contains(0)).toBe(false))
 
     itEnumerable("contains true", (asEnumerable) =>
@@ -75,7 +75,7 @@ describe("contains", () => {
     itAsync("Contains True Async", async () =>
         expect(await asAsync([1, 2]).contains(1)).toBe(true))
 
-    itParallel("Contains True Parallel", async (asParallel) =>
+    itParallel("Contains True", async (asParallel) =>
         expect(await asParallel([1, 2]).contains(1)).toBe(true))
 
 })

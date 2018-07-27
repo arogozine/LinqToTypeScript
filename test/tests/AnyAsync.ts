@@ -15,7 +15,7 @@ describe("AnyAsync", () => {
         expect(await array.anyAsync(async (_) => false)).toBe(false)
     })
 
-    itParallel("EmptyParallel", async (asParallel) => {
+    itParallel("Empty", async (asParallel) => {
         const array = asParallel([])
 
         expect(await array.anyAsync(async (_) => true)).toBe(false)
@@ -42,7 +42,7 @@ describe("AnyAsync", () => {
         expect(await array.anyAsync(async (x) => x === 2)).toBe(true)
     })
 
-    itParallel("AnyExistsParallel", async (asParallel) => {
+    itParallel("AnyExists", async (asParallel) => {
         const array = asParallel([1, 2])
 
         expect(await array.anyAsync(async (_) => true)).toBe(true)

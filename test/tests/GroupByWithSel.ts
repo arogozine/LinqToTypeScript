@@ -26,7 +26,7 @@ describe("groupByWithSel", () => {
         expect(groupingArray[1].toArray()).toEqual([3])
     })
 
-    itParallel<{ key: string, value: number }>("ObjectSelectParallel", async (asParallel) => {
+    itParallel<{ key: string, value: number }>("ObjectSelect", async (asParallel) => {
         const array = asParallel([{ key: "foo", value: 0 }, { key: "foo", value: 1 }, { key: "bar", value: 3}])
         const grouping = array.groupByWithSel((x) => x.key, (x) => x.value)
         const groupingArray = await grouping.toArray()
@@ -62,7 +62,7 @@ describe("groupByWithSel", () => {
         expect(groupingArray[1].toArray()).toEqual([3])
     })
 
-    itParallel<{ key: string, value: number | string }>("ObjectSelectWithComparerParallel", async (asParallel) => {
+    itParallel<{ key: string, value: number | string }>("ObjectSelectWithComparer", async (asParallel) => {
         const array = asParallel([{ key: "foo", value: "0" }, { key: "foo", value: 1 }, { key: "bar", value: 3}])
         const grouping = array.groupByWithSel((x) => x.key, (x) => x.value, EqualityComparer)
         const groupingArray = await grouping.toArray()

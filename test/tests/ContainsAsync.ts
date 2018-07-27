@@ -20,7 +20,7 @@ describe("containsAsync", () => {
         expect(await array.containsAsync(4, EqualityComparer)).toBe(false)
     })
 
-    itParallel<string | number>("Contains With Comparer Parallel", async (asParallel) => {
+    itParallel<string | number>("Contains With Comparer", async (asParallel) => {
         const array = asParallel([1, "2", "3"])
 
         expect(await array.containsAsync(2, EqualityComparer)).toBe(true)

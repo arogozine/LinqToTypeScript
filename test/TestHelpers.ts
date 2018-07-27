@@ -55,6 +55,10 @@ export function itParallel<T = number>(
     const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
     const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
     const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
+    if (expectation.toLowerCase().endsWith(`parallel`)) {
+        throw new Error(`No need for Parallel`)
+    }
+    expectation = `${ expectation } Parallel`
     it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
     it(`${ expectation } PromiseOfPromises`, () => assertion(b), timeout)
     it(`${ expectation } PromiseToArray`, () => assertion(c), timeout)

@@ -13,7 +13,7 @@ describe("take", () => {
         expect(array).toEqual([1, 2])
     })
 
-    itParallel("TakeParallel", async (asParallel) => {
+    itParallel("Take", async (asParallel) => {
         const array = await asParallel([1, 2, 3, 4, 5]).take(2).toArray()
 
         expect(array).toEqual([1, 2])
@@ -34,7 +34,7 @@ describe("take", () => {
         expect(await valsAsync.take(2).toArray()).toEqual([1, 2])
     })
 
-    itParallel("various positive amounts parallel", async (asParallel) => {
+    itParallel("various positive amounts", async (asParallel) => {
         const valsParallel = asParallel(vals)
         expect(await valsParallel.take(4).toArray()).toEqual(vals)
         expect(await valsParallel.take(1).toArray()).toEqual([1])
@@ -56,6 +56,6 @@ describe("take", () => {
     itAsync("negative amount async", async () =>
         expect(await valsAsync.take(-1).toArray()).toEqual([]))
 
-    itParallel("negative amount parallel", async (asParallel) =>
+    itParallel("negative amount", async (asParallel) =>
         expect(await asParallel(vals).take(-1).toArray()).toEqual([]))
 })

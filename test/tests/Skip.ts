@@ -10,7 +10,7 @@ describe("skip", () => {
     itAsync("first element async", async () =>
         expect(await valsAsync.skip(1).toArray()).toEqual([2, 3, 4]))
 
-    itParallel("first element parallel", async (asParallel) => {
+    itParallel("first element", async (asParallel) => {
         const valsParallel = asParallel(vals)
         expect(await valsParallel.skip(1).toArray()).toEqual([2, 3, 4])
     })
@@ -21,7 +21,7 @@ describe("skip", () => {
     itAsync("first two elements async", async () =>
         expect(await valsAsync.skip(0).toArray()).toEqual(vals))
 
-    itParallel("first two elements parallel", async (asParallel) => {
+    itParallel("first two elements", async (asParallel) => {
         const valsParallel = asParallel(vals)
         expect(await valsParallel.skip(0).toArray()).toEqual(vals)
     })
@@ -32,7 +32,7 @@ describe("skip", () => {
     itAsync("negative value async", async () =>
         expect(await valsAsync.skip(-9).toArray()).toEqual(vals))
 
-    itParallel("negative value parallel", async (asParallel) => {
+    itParallel("negative value", async (asParallel) => {
         const valsParallel = asParallel(vals)
         expect(await valsParallel.skip(-9).toArray()).toEqual(vals)
     })

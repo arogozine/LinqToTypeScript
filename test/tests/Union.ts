@@ -18,7 +18,7 @@ describe("union", () => {
         expect(union).toEqual(result)
     })
 
-    itParallel("=== union parallel", async (asParallel) => {
+    itParallel("=== union", async (asParallel) => {
         const ints1 = asParallel([ 5, 3, 9, 7, 5, 9, 3, 7 ])
         const ints2 = asParallel([ 8, 3, 6, 4, 4, 9, 1, 0 ])
         const result = [5, 3, 9, 7, 8, 6, 4, 1, 0]
@@ -44,7 +44,7 @@ describe("union", () => {
         expect(union).toEqual(result)
     })
 
-    itParallel<string | number>("== union parallel", async (asParallel) => {
+    itParallel<string | number>("== union", async (asParallel) => {
         const ints1 = asParallel([ 5, 3, 9, 7, 5, 9, 3, 7 ])
         const ints2 = asParallel([ "8", "3", "6", "4", "4", "9", "1", "0" ])
         const result = [5, 3, 9, 7, "8", "6", "4", "1", "0"]

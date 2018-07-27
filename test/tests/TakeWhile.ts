@@ -29,14 +29,14 @@ describe("takeWhile", () => {
         expect(await valsAsync.takeWhile((x: number, i: number) => x !== 3).toArray()).toEqual([1, 2])
     })
 
-    itParallel("by value parallel", async (asParallel) => {
+    itParallel("by value", async (asParallel) => {
         const valsParallel = asParallel([1, 2, 3, 4])
         expect(await valsParallel.takeWhile((x) => true).toArray()).toEqual(vals)
         expect(await valsParallel.takeWhile((x) => false).toArray()).toEqual([])
         expect(await valsParallel.takeWhile((x) => x !== 3).toArray()).toEqual([1, 2])
     })
 
-    itParallel("by value and index parallel", async (asParallel) => {
+    itParallel("by value and index", async (asParallel) => {
         const valsParallel = asParallel([1, 2, 3, 4])
         expect(await valsParallel.takeWhile((x: number, i: number) => true).toArray()).toEqual(vals)
         expect(await valsParallel.takeWhile((x: number, i: number) => false).toArray()).toEqual([])

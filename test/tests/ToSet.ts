@@ -19,7 +19,7 @@ describe("toSet", () => {
         expect(set.size).toBe(3)
     })
 
-    itParallel("toSetParallel", async (asParallel) => {
+    itParallel("toSet", async (asParallel) => {
         const set = await asParallel([1, 2, 3]).toSet()
         expect(set instanceof Set).toBe(true)
         expect(set.has(1)).toBe(true)

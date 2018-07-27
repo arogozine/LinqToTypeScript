@@ -27,7 +27,7 @@ describe("groupByAsync", () => {
         }
     })
 
-    itParallel("OddEvenParallel", async (asParallel) => {
+    itParallel("OddEve", async (asParallel) => {
         const groupBy = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
             .groupByAsync(async (x) => x % 2, async (x, y) => x === y)
         for await (const group of groupBy) {

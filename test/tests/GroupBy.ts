@@ -25,7 +25,7 @@ describe("groupBy", () => {
         }
     })
 
-    itParallel("OddEvenParallel", async (asParallel) => {
+    itParallel("OddEven", async (asParallel) => {
         const groupBy = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9]).groupBy((x) => x % 2)
         for await (const group of groupBy) {
             expect(group.key === 0 || group.key === 1).toBe(true)
@@ -37,7 +37,7 @@ describe("groupBy", () => {
         }
     })
 
-    itParallel("OddEvenParallel With Comparer", async (asParallel) => {
+    itParallel("OddEven With Comparer", async (asParallel) => {
         const groupBy = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9]).groupBy((x) => x % 2, (x, y) => x === y)
         for await (const group of groupBy) {
             expect(group.key === 0 || group.key === 1).toBe(true)

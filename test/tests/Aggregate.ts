@@ -32,7 +32,7 @@ describe("aggregate", () => {
         expect(reversed).toBe("dog lazy the over jumps fox brown quick the")
     })
 
-    itParallel<string>("BasicParallel", async (asParallel) => {
+    itParallel<string>("Basic", async (asParallel) => {
         const asyncArray = asParallel(["f", "o", "o"])
         expect(await asyncArray.aggregate((x, y) => x + y)).toBe("foo")
         const sentence = "the quick brown fox jumps over the lazy dog"
@@ -72,7 +72,7 @@ describe("aggregate", () => {
         expect(longestName).toBe("PASSIONFRUIT")
     })
 
-    itParallel<string>("ResultSelectorParallel", async (asParallel) => {
+    itParallel<string>("ResultSelector", async (asParallel) => {
         const fruits = asParallel([ "apple", "mango", "orange", "passionfruit", "grape" ])
 
         // Determine whether any string in the array is longer than "banana".
@@ -95,7 +95,7 @@ describe("aggregate", () => {
         expect(val2).toBe(1)
     })
 
-    itParallel<number>("SingleValueParallel", async (asParallel) => {
+    itParallel<number>("SingleValue", async (asParallel) => {
         const val2 = await asParallel([1]).aggregate((x, y) => x + y)
         expect(val2).toBe(1)
     })
@@ -110,7 +110,7 @@ describe("aggregate", () => {
         expect(val).toBe(6)
     })
 
-    itParallel<number>("MultipleValuesParallel", async (asParallel) => {
+    itParallel<number>("MultipleValues", async (asParallel) => {
         const val = await asParallel([1, 2, 3]).aggregate((x, y) => x + y)
         expect(val).toBe(6)
     })
@@ -124,7 +124,7 @@ describe("aggregate", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel<number>("ExceptionParallel", async (asParallel) => {
+    itParallel<number>("Exception", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).aggregate((x, y) => x + y))
         expect.toThrowError(InvalidOperationException)
     })
@@ -151,7 +151,7 @@ describe("aggregate", () => {
         expect(val3).toBe(10)
     })
 
-    itParallel("Aggregate2Parallel", async (asParallel) => {
+    itParallel("Aggregate2", async (asParallel) => {
         const val = await asParallel([1, 2, 3]).aggregate(4, (x, y) => x + y)
         expect(val).toBe(10)
 
@@ -172,7 +172,7 @@ describe("aggregate", () => {
         expect(val).toBe(100)
     })
 
-    itParallel("Aggregate3Parallel", async (asParallel) => {
+    itParallel("Aggregate3", async (asParallel) => {
         const val = await asParallel([1, 2, 3]).aggregate(4, (x, y) => x + y, (acc) => acc * 10)
         expect(val).toBe(100)
     })

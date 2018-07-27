@@ -9,7 +9,7 @@ describe("sum", () => {
         expect(await asAsync([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
-    itParallel("sum basic parallel", async (asParallel) => {
+    itParallel("sum basic", async (asParallel) => {
         expect(await asParallel([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
@@ -23,7 +23,7 @@ describe("sum", () => {
         expect(await zooms.sum((x) => x.a)).toBe(6)
     })
 
-    itParallel<{ a: number }>("sum Selector parallel", async (asParallel) => {
+    itParallel<{ a: number }>("sum Selector", async (asParallel) => {
         const zooms = asParallel([ { a: 1}, { a: 2 }, {a: 3} ])
         expect(await zooms.sum((x) => x.a)).toBe(6)
     })

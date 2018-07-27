@@ -9,7 +9,7 @@ describe("lastOrDefault", () => {
         expect(await asAsync([]).lastOrDefault()).toBeNull()
     })
 
-    itParallel("LastOrDefaultParallel", async (asParallel) => {
+    itParallel("LastOrDefault", async (asParallel) => {
         expect(await asParallel([]).lastOrDefault()).toBeNull()
     })
 
@@ -25,7 +25,7 @@ describe("lastOrDefault", () => {
 
     })
 
-    itParallel("LastOrDefaultPredicateParallel", async (asParallel) => {
+    itParallel("LastOrDefaultPredicate", async (asParallel) => {
         expect(await asParallel([1, 2, 3]).lastOrDefault((x) => x === 4)).toBeNull()
         expect(await asParallel([1, 2, 3]).lastOrDefault((x) => x === 3)).toBe(3)
     })

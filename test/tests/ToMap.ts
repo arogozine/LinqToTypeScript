@@ -19,7 +19,7 @@ describe("toMap", () => {
         }
     })
 
-    itParallel("toMapParallel", async (asParallel) => {
+    itParallel("toMap", async (asParallel) => {
         const map = await asParallel([1, 2, 3]).toMap((x) => `Key_${ x }`)
         for (const keyValue of map) {
             const key = keyValue[0]

@@ -12,7 +12,7 @@ describe("single", () => {
         expect(await vals.single()).toBe(1)
     })
 
-    itParallel("basic parallel", async (asParallel) => {
+    itParallel("basic", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.single()).toBe(1)
     })
@@ -28,7 +28,7 @@ describe("single", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("basic expection parallel", async (asParallel) => {
+    itParallel("basic expection", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.single())
         expect.toThrowError(InvalidOperationException)
@@ -44,7 +44,7 @@ describe("single", () => {
         expect(await vals.single((x) => true)).toBe(1)
     })
 
-    itParallel("predicate parallel", async (asParallel) => {
+    itParallel("predicate", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.single((x) => true)).toBe(1)
     })
@@ -71,13 +71,13 @@ describe("single", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("predicate multiple expection parallel", async (asParallel) => {
+    itParallel("predicate multiple expection", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.single((x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("predicate no matches expection parallel", async (asParallel) => {
+    itParallel("predicate no matches expection", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.single((x) => false))
         expect.toThrowError(InvalidOperationException)

@@ -37,7 +37,7 @@ describe("selectMany", () => {
         expect(await values.selectMany("a").toArray()).toEqual([1, 2, 3, 4])
     })
 
-    itParallel<{ a: Iterable<number> }>("selectMany basic parallel", async (asParallel) => {
+    itParallel<{ a: Iterable<number> }>("selectMany basic", async (asParallel) => {
         const values = asParallel([
             { a: [1, 2]},
             { a: [3, 4]},
@@ -46,7 +46,7 @@ describe("selectMany", () => {
         expect(await values.selectMany((x) => x.a).toArray()).toEqual([1, 2, 3, 4])
     })
 
-    itParallel<{ a: Iterable<number> }>("selectMany string parallel", async (asParallel) => {
+    itParallel<{ a: Iterable<number> }>("selectMany string", async (asParallel) => {
         const values = asParallel([
             { a: [1, 2]},
             { a: [3, 4]},

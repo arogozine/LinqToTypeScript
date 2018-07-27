@@ -12,7 +12,7 @@ describe("averageAsync", () => {
         expect(value).toBe(50)
     })
 
-    itParallel("selectorParallel", async (asParallel) => {
+    itParallel("selector", async (asParallel) => {
         expect(await asParallel([0, 10]).averageAsync(async (x) => x * 10)).toBe(50)
     })
 
@@ -26,7 +26,7 @@ describe("averageAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("empty array with selector throws exception Parallel", async (asParallel) => {
+    itParallel("empty array with selector throws exception", async (asParallel) => {
         const expect = await expectAsync((asParallel([])).averageAsync(async (x) => x * 10))
         expect.toThrowError(InvalidOperationException)
     })

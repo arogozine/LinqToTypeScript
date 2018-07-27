@@ -13,7 +13,7 @@ describe("minAsync", () => {
         expectMin.toThrowError(InvalidOperationException)
     })
 
-    itParallel("MinPredicate Empty Error Parallel", async (asParallel) => {
+    itParallel("MinPredicate Empty Error", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).minAsync(async (x) => x * x))
         expectMin.toThrowError(InvalidOperationException)
     })
@@ -28,7 +28,7 @@ describe("minAsync", () => {
         expectMin.toBe(1)
     })
 
-    itParallel("Min Predicate Parallel", async (asParallel) => {
+    itParallel("Min Predicate", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([1, 2, 3, -7]).minAsync(async (x) => Math.abs(x)))
         expectMin.toBe(1)
     })

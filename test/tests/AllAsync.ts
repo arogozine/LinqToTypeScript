@@ -29,7 +29,7 @@ describe("AllAsync", () => {
         expect(allStartWithB).toBe(false)
     })
 
-    itParallel<{ Age: number, Name: string }>("AllParallel", async (asParallel) => {
+    itParallel<{ Age: number, Name: string }>("All", async (asParallel) => {
         // Create an array of Pets.
         const pets = asParallel([
             { Age: 10, Name: "Barley" },
@@ -56,9 +56,9 @@ describe("AllAsync", () => {
         expect(await asAsync([0, 1, 2]).allAsync(async (x) => x > 5)).toBe(false)
     })
 
-    itAsync("ManyElementsParallel", async () => {
-        expect(await asAsync([1, 2, 3]).allAsync(async (x) => x !== 0)).toBe(true)
-        expect(await asAsync([0, 1, 2]).allAsync(async (x) => x > 5)).toBe(false)
+    itParallel("ManyElements", async (asParallel) => {
+        expect(await asParallel([1, 2, 3]).allAsync(async (x) => x !== 0)).toBe(true)
+        expect(await asParallel([0, 1, 2]).allAsync(async (x) => x > 5)).toBe(false)
     })
 
     itEnumerableAsync("EmptyElementTrue", async (asEnumerable) => {
@@ -70,7 +70,7 @@ describe("AllAsync", () => {
         expect.toBe(true)
     })
 
-    itParallel("EmptyElementTrueParallel", async (asParallel) => {
+    itParallel("EmptyElementTrue", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).allAsync(async (x) => x === 1))
         expect.toBe(true)
     })

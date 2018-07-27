@@ -16,7 +16,7 @@ describe("intersect", () => {
         expect(array).toEqual([1, 2])
     })
 
-    itParallel<string | number>("IntersectWithEqualityComparerParallel", async (asParallel) => {
+    itParallel<string | number>("IntersectWithEqualityComparer", async (asParallel) => {
         const array = await asParallel([1, 2, "3"])
             .intersect(asAsync<string | number>(["1", "2"]), EqualityComparer)
             .toArray()

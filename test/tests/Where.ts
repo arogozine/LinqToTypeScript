@@ -11,7 +11,7 @@ describe("where", () => {
         expect(await vals.where((x) => x > 8).toArray()).toEqual([9])
     })
 
-    itParallel("item predicate parallel", async (asParallel) => {
+    itParallel("item predicate", async (asParallel) => {
         const vals = asParallel([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(await vals.where((x) => x > 8).toArray()).toEqual([9])
     })
@@ -26,7 +26,7 @@ describe("where", () => {
         expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
 
-    itParallel("item and index predicate parallel", async (asParallel) => {
+    itParallel("item and index predicate", async (asParallel) => {
         const vals = asParallel([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
@@ -57,7 +57,7 @@ describe("where", () => {
         expect(noBar).toEqual([ "", "1", "2", "foo" ])
     })
 
-    itParallel<string>("where basic parallel", async (asParallel) => {
+    itParallel<string>("where basic", async (asParallel) => {
         const stuff = asParallel([ "", "1", "2", "foo", "bar" ])
         const noEmptyStrings = await stuff.where((x) => x !== "").toArray()
 

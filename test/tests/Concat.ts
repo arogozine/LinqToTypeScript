@@ -10,7 +10,7 @@ describe("concat", () => {
         expect(value).toEqual([])
     })
 
-    itParallel("handles two empty arrays parallel", async (asParallel) => {
+    itParallel("handles two empty arrays", async (asParallel) => {
         const value = await asParallel([]).concat(asParallel([])).toArray()
         expect(value).toEqual([])
     })
@@ -23,7 +23,7 @@ describe("concat", () => {
         expect(value).toEqual([1])
     })
 
-    itParallel("handles calling array being empty parallel", async (asParallel) => {
+    itParallel("handles calling array being empty", async (asParallel) => {
         const value = await asParallel([] as number[]).concat(asParallel([1])).toArray()
         expect(value).toEqual([1])
     })
@@ -36,7 +36,7 @@ describe("concat", () => {
         expect(value).toEqual([2])
     })
 
-    itParallel("handles concat with empty array parallel", async (asParallel) => {
+    itParallel("handles concat with empty array", async (asParallel) => {
         const value = await asParallel([2]).concat(asParallel([])).toArray()
         expect(value).toEqual([2])
     })
@@ -49,7 +49,7 @@ describe("concat", () => {
         expect(value).toEqual([1, 2, 3])
     })
 
-    itParallel("handle two arrays concat parallel", async (asParallel) => {
+    itParallel("handle two arrays concat", async (asParallel) => {
         const value = await asParallel([1]).concat(asParallel([2, 3])).toArray()
         expect(value).toEqual([1, 2, 3])
     })

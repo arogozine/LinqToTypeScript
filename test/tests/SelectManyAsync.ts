@@ -21,7 +21,7 @@ describe("selectManyAsync", () => {
         expect(result).toEqual([1, 2, 3, 4])
     })
 
-    itParallel<{ a: number[] }>("selectManyAsync parallel", async (asParallel) => {
+    itParallel<{ a: number[] }>("selectManyAsync", async (asParallel) => {
         const values = asParallel([
             { a: [1, 2]},
             { a: [3, 4]},

@@ -15,7 +15,7 @@ describe("orderByDescending", () => {
             .toEqual(sorted)
     })
 
-    itParallel("BasicParallel", async (asParallel) => {
+    itParallel("Basic", async (asParallel) => {
         const vals = asParallel(unsorted)
         expect(await vals.orderByDescending((x) => x).toArray())
             .toEqual(sorted)
@@ -36,7 +36,7 @@ describe("orderByDescending", () => {
             .toEqual(sorted)
     })
 
-    itParallel("With Comparer Parallel", async (asParallel) => {
+    itParallel("With Comparer", async (asParallel) => {
         const vals = asParallel(unsorted)
         expect(await vals.orderByDescending((x) => x, comparer).toArray())
             .toEqual(sorted)

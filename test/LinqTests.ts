@@ -1,15 +1,8 @@
 import {
-    ArgumentOutOfRangeException,
-    ArrayEnumerable,
     AsyncEnumerable,
     Enumerable,
-    EqualityComparer,
-    ErrorString,
-    IAsyncEnumerable,
     IEnumerable,
-    initializeLinq,
-    InvalidOperationException } from "./../src/index"
-import { asAsync, expectAsync, itAsync, itEnumerable } from "./TestHelpers"
+    initializeLinq } from "./../src/index"
 
 initializeLinq()
 

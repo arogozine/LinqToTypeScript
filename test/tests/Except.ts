@@ -11,7 +11,7 @@ describe("except", () => {
         expect(value).toEqual([3])
     })
 
-    itParallel("basicParallel", async (asParallel) => {
+    itParallel("basic", async (asParallel) => {
         const value = await asParallel([1, 2, 3]).except(asAsync([1, 2])).toArray()
         expect(value).toEqual([3])
     })
@@ -25,7 +25,7 @@ describe("except", () => {
         expect(value).toEqual([3])
     })
 
-    itParallel<string | number>("with comparer parallel", async (asParallel) => {
+    itParallel<string | number>("with comparer", async (asParallel) => {
         const value = await asParallel([1, "2", 3]).except(asParallel([1, "2"]), EqualityComparer).toArray()
         expect(value).toEqual([3])
     })

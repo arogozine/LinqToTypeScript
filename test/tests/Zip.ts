@@ -40,7 +40,7 @@ describe("zip", () => {
         }
     })
 
-    itParallel<string | number>("zip basic parallel", async (asParallel) => {
+    itParallel<string | number>("zip basic", async (asParallel) => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 
@@ -96,7 +96,7 @@ describe("zip", () => {
         }
     })
 
-    itParallel<string | number>("zip selector parallal", async (asParallel) => {
+    itParallel<string | number>("zip selector", async (asParallel) => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 

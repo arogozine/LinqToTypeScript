@@ -33,7 +33,7 @@ describe("WhereAsync", () => {
         expect(await values.toArray()).toEqual(asyncValues)
     })
 
-    itParallel("From Parallel", async (asParallel) => {
+    itParallel("From", async (asParallel) => {
         const values = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {

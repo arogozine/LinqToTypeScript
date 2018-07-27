@@ -12,7 +12,7 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault()).toBe(1)
     })
 
-    itParallel("basic parallel", async (asParallel) => {
+    itParallel("basic", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.singleOrDefault()).toBe(1)
     })
@@ -27,7 +27,7 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault()).toBeNull()
     })
 
-    itParallel("empty parallel", async (asParallel) => {
+    itParallel("empty", async (asParallel) => {
         const vals = asParallel([])
         expect(await vals.singleOrDefault()).toBeNull()
     })
@@ -43,7 +43,7 @@ describe("singleOrDefault", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("basic expection parallel", async (asParallel) => {
+    itParallel("basic expection", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleOrDefault())
         expect.toThrowError(InvalidOperationException)
@@ -59,7 +59,7 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault((x) => true)).toBe(1)
     })
 
-    itParallel("predicate parallel", async (asParallel) => {
+    itParallel("predicate", async (asParallel) => {
         const vals = asParallel([1])
         expect(await vals.singleOrDefault((x) => true)).toBe(1)
     })
@@ -85,13 +85,13 @@ describe("singleOrDefault", () => {
         expect(await vals.singleOrDefault((x) => false)).toBeNull()
     })
 
-    itParallel("predicate multiple exception parallel", async (asParallel) => {
+    itParallel("predicate multiple exception", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleOrDefault((x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("predicate no matches null parallel", async (asParallel) => {
+    itParallel("predicate no matches nulll", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         expect(await vals.singleOrDefault((x) => false)).toBeNull()
     })

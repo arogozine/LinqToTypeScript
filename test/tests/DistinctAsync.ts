@@ -15,7 +15,7 @@ describe("distinctAsync", () => {
         expect(await array.distinctAsync(async (x, y) => x == y).toArray()).toEqual(["1", 2, 3])
     })
 
-    itParallel<string | number>("DistinctWeakEqualityParallel", async (asParallel) => {
+    itParallel<string | number>("DistinctWeakEquality", async (asParallel) => {
         const array = asParallel(["1", 1, 2, 2, 3, "3"])
         const distinct = await array.distinctAsync(async (x, y) => x == y).toArray()
         expect(distinct).toEqual(["1", 2, 3])

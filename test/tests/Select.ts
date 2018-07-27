@@ -9,7 +9,7 @@ describe("select", () => {
         expect(await asAsync(["1", "2", "3"]).select(Number.parseInt).toArray()).toEqual([1, 2, 3])
     })
 
-    itParallel<string>("select parseInt Parallel", async (asParallel) => {
+    itParallel<string>("select parseInt", async (asParallel) => {
         expect(await asParallel(["1", "2", "3"]).select(Number.parseInt).toArray()).toEqual([1, 2, 3])
     })
 
@@ -21,7 +21,7 @@ describe("select", () => {
         expect(await asAsync(["1", "22", "333"]).select("length").toArray()).toEqual([1, 2, 3])
     })
 
-    itParallel<string>("select length parallel", async (asParallel) => {
+    itParallel<string>("select length", async (asParallel) => {
         expect(await asParallel(["1", "22", "333"]).select("length").toArray()).toEqual([1, 2, 3])
     })
 })

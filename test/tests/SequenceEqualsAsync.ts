@@ -18,7 +18,7 @@ describe("sequenceEqualsAsync", () => {
     })
     */
 
-    itParallel<string | number>("Sequence Equals Parallel Basic", async (asParallel) => {
+    itParallel<string | number>("Sequence Equals Basic", async (asParallel) => {
         const sequenceEquals = await asParallel([1, 2, 3, "4", "5"])
             .sequenceEqualsAsync(asParallel(["1", "2", "3", 4, 5]), AsyncEqualityComparer)
         expect(sequenceEquals).toBe(true)

@@ -15,7 +15,7 @@ describe("countAsync", () => {
         expect(await array.countAsync(async (x) => !x)).toBe(1)
     })
 
-    itParallel<boolean>("Count Parallel", async (asParallel) => {
+    itParallel<boolean>("Count", async (asParallel) => {
         const array = asParallel([true, true, false])
 
         expect(await array.countAsync(async (x) => x)).toBe(2)

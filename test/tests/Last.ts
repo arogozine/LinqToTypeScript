@@ -10,7 +10,7 @@ describe("last", () => {
         expect(await asAsync([1, 2]).last()).toBe(2)
     })
 
-    itParallel("LastParallel", async (asParallel) => {
+    itParallel("Last", async (asParallel) => {
         expect(await asParallel([1, 2]).last()).toBe(2)
     })
 
@@ -23,12 +23,7 @@ describe("last", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("LastEmptyParallel", async (asParallel) => {
-        const expect = await expectAsync(asParallel([]).last())
-        expect.toThrowError(InvalidOperationException)
-    })
-
-    itParallel("LastEmptyParallel", async (asParallel) => {
+    itParallel("LastEmpty", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).last())
         expect.toThrowError(InvalidOperationException)
     })
@@ -41,7 +36,7 @@ describe("last", () => {
         expect(await asAsync([1, 2]).last((x) => x === 1)).toBe(1)
     })
 
-    itParallel("LastPredicateParallel", async (asParallel) => {
+    itParallel("LastPredicate", async (asParallel) => {
         expect(await asParallel([1, 2]).last((x) => x === 1)).toBe(1)
     })
 })

@@ -17,7 +17,7 @@ describe("any", () => {
         expect(await array.any((_) => false)).toBe(false)
     })
 
-    itParallel("EmptyParallel", async (asParallel) => {
+    itParallel("Empty", async (asParallel) => {
         const array = asParallel([])
 
         expect(await array.any()).toBe(false)
@@ -47,7 +47,7 @@ describe("any", () => {
         expect(await array.any((x) => x === 2)).toBe(true)
     })
 
-    itParallel("AnyExistsParallel", async (asParallel) => {
+    itParallel("AnyExists", async (asParallel) => {
         const array = asParallel([1, 2])
 
         expect(await array.any()).toBe(true)
@@ -74,7 +74,7 @@ describe("any", () => {
         expect(await asAsync([1]).any()).toBe(true)
     })
 
-    itParallel("basicParallel", async (asParallel) => {
+    itParallel("basic", async (asParallel) => {
         expect(await asParallel([1]).any()).toBe(true)
     })
 
@@ -87,7 +87,7 @@ describe("any", () => {
         expect.toBe(false)
     })
 
-    itParallel("EmptyPredicateParallel", async (asParallel) => {
+    itParallel("Empty", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).any((x) => x === 0))
         expect.toBe(false)
     })
@@ -102,7 +102,7 @@ describe("any", () => {
         expect(await asAsync([1]).any((x) => x === 0)).toBe(false)
     })
 
-    itParallel("BasicPredicateParallel", async (asParallel) => {
+    itParallel("BasicPredicate", async (asParallel) => {
         expect(await asParallel([1]).any((x) => x === 1)).toBe(true)
         expect(await asParallel([1]).any((x) => x === 0)).toBe(false)
     })

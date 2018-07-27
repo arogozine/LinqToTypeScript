@@ -20,7 +20,7 @@ describe("elementAtOrDefault", () => {
         expect(await asAsync([1, 2]).elementAtOrDefault(1)).toBe(2)
     })
 
-    itParallel("WithElementsParallel", async (asParallel) => {
+    itParallel("WithElements", async (asParallel) => {
         expect(await asParallel([1]).elementAtOrDefault(0)).toBe(1)
         expect(await asParallel([1, 2]).elementAtOrDefault(1)).toBe(2)
     })
@@ -33,7 +33,7 @@ describe("elementAtOrDefault", () => {
         expect.toBeNull()
     })
 
-    itParallel("empty to be null parallel", async (asParallel) => {
+    itParallel("empty to be null", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).elementAtOrDefault(0))
         expect.toBeNull()
     })

@@ -12,7 +12,7 @@ describe("firstAsync", () => {
         expect(await asAsync([1, 2]).firstOrDefaultAsync(async (x) => x === 2)).toBe(2)
     })
 
-    itParallel("FirstPredicateParallel", async (asParallel) => {
+    itParallel("FirstPredicate", async (asParallel) => {
         expect(await asParallel([1, 2]).firstOrDefaultAsync(async (x) => x === 2)).toBe(2)
     })
 
@@ -27,7 +27,7 @@ describe("firstAsync", () => {
         value.toBeNull()
     })
 
-    itParallel("empty array with predicate causes exception parallel", async (asParallel) => {
+    itParallel("empty array with predicate causes exception", async (asParallel) => {
         const value = await expectAsync(asParallel([1, 2, 3]).firstOrDefaultAsync(async (x) => x === 4))
         value.toBeNull()
     })
