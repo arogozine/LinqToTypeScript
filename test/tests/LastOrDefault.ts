@@ -5,7 +5,7 @@ describe("lastOrDefault", () => {
         expect(asEnumerable([]).lastOrDefault()).toBeNull()
     })
 
-    itAsync("LastOrDefaultAsync", async () => {
+    itAsync("LastOrDefault", async () => {
         expect(await asAsync([]).lastOrDefault()).toBeNull()
     })
 
@@ -19,7 +19,7 @@ describe("lastOrDefault", () => {
         expect(asEnumerable([1, 2, 3]).lastOrDefault((x) => x === 3)).toBe(3)
     })
 
-    itAsync("LastOrDefaultPredicateAsync", async () => {
+    itAsync("LastOrDefaultPredicate", async () => {
         expect(await asAsync([1, 2, 3]).lastOrDefault((x) => x === 4)).toBeNull()
         expect(await asAsync([1, 2, 3]).lastOrDefault((x) => x === 3)).toBe(3)
 

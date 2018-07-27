@@ -8,7 +8,7 @@ describe("firstAsync", () => {
         .toBe(2)
     })
 
-    itAsync("FirstPredicateAsync", async () => {
+    itAsync("FirstPredicate", async () => {
         expect(await asAsync([1, 2]).firstAsync(async (x) => x === 2)).toBe(2)
     })
 

@@ -9,7 +9,7 @@ describe("any", () => {
         expect(array.any((_) => false)).toBe(false)
     })
 
-    itAsync("EmptyAsync", async () => {
+    itAsync("Empty", async () => {
         const array = asAsync([])
 
         expect(await array.any()).toBe(false)
@@ -36,7 +36,7 @@ describe("any", () => {
         expect(array.any((x) => x === 2)).toBe(true)
     })
 
-    itAsync("AnyExistsAsync", async () => {
+    itAsync("AnyExists", async () => {
         const array = asAsync([1, 2])
 
         expect(await array.any()).toBe(true)
@@ -62,7 +62,7 @@ describe("any", () => {
         expect(asEnumerable([]).any()).toBe(false)
     })
 
-    itAsync("EmptyAsync", async () => {
+    itAsync("Empty", async () => {
         (await expectAsync(asAsync([]).any())).toBe(false)
     })
 
@@ -70,7 +70,7 @@ describe("any", () => {
         expect(asEnumerable([1]).any()).toBe(true)
     })
 
-    itAsync("basicAsync", async () => {
+    itAsync("basic", async () => {
         expect(await asAsync([1]).any()).toBe(true)
     })
 
@@ -82,7 +82,7 @@ describe("any", () => {
         expect(asEnumerable([]).any((x) => x === 0)).toBe(false)
     })
 
-    itAsync("EmptyPredicateAsync", async () => {
+    itAsync("EmptyPredicate", async () => {
         const expect = await expectAsync(asAsync([]).any((x) => x === 0))
         expect.toBe(false)
     })
@@ -97,7 +97,7 @@ describe("any", () => {
         expect(asEnumerable([1]).any((x) => x === 0)).toBe(false)
     })
 
-    itAsync("BasicPredicateAsync", async () => {
+    itAsync("BasicPredicate", async () => {
         expect(await asAsync([1]).any((x) => x === 1)).toBe(true)
         expect(await asAsync([1]).any((x) => x === 0)).toBe(false)
     })

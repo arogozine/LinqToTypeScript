@@ -8,7 +8,7 @@ describe("ofType", () => {
         expect(asEnumerable(array).ofType("string").toArray()).toEqual(["str", "str2"])
     })
 
-    itAsync("stringAsync", async () => {
+    itAsync("string", async () => {
         expect(await asAsync(array).ofType("string").toArray()).toEqual(["str", "str2"])
     })
 
@@ -20,7 +20,7 @@ describe("ofType", () => {
         expect(asEnumerable(array).ofType("number").toArray()).toEqual([1, 2, 3])
     })
 
-    itAsync("numberAsync", async () => {
+    itAsync("number", async () => {
         expect(await asAsync(array).ofType("number").toArray()).toEqual([1, 2, 3])
     })
 
@@ -33,7 +33,7 @@ describe("ofType", () => {
         expect(asEnumerable(array).ofType("object").toArray()).toEqual([{}, new Number(1)])
     })
 
-    itAsync("objectAsync", async () => {
+    itAsync("object", async () => {
         // tslint:disable-next-line:no-construct
         expect(await asAsync(array).ofType("object").toArray()).toEqual([{}, new Number(1)])
     })
@@ -47,7 +47,7 @@ describe("ofType", () => {
         expect(asEnumerable(array).ofType("boolean").toArray()).toEqual([true])
     })
 
-    itAsync("booleanAsync", async () => {
+    itAsync("boolean", async () => {
         expect(await asAsync(array).ofType("boolean").toArray()).toEqual([true])
     })
 
@@ -59,7 +59,7 @@ describe("ofType", () => {
         expect(asEnumerable(array).ofType(Number).toArray()).toEqual([Number(1)])
     })
 
-    itAsync("Number (Object) Async", async () => {
+    itAsync("Number (Object)", async () => {
         expect(await asAsync(array).ofType(Number).toArray()).toEqual([Number(1)])
     })
 

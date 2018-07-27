@@ -7,7 +7,7 @@ describe("sumAsync", () => {
         expect(zooms).toBe(6)
     })
 
-    itAsync("sum Selector Async", async () => {
+    itAsync("sum Selector", async () => {
         const zooms = asAsync([ { a: 1}, { a: 2 }, {a: 3} ])
         expect(await zooms.sumAsync(async (x) => x.a)).toBe(6)
     })

@@ -6,7 +6,7 @@ describe("min", () => {
         expect(asEnumerable([1, 2, 3, -7]).min()).toBe(-7)
     })
 
-    itAsync("MinAsync", async () => {
+    itAsync("Min", async () => {
         expect(await asAsync([1, 2, 3, -7]).min()).toBe(-7)
     })
 
@@ -18,7 +18,7 @@ describe("min", () => {
         expect(() => asEnumerable([]).min()).toThrowError(InvalidOperationException)
     })
 
-    itAsync("MinEmptyErrorAsync", async () => {
+    itAsync("MinEmptyError", async () => {
         const expectMin = await expectAsync(asAsync([]).min())
         expectMin.toThrowError(InvalidOperationException)
     })
@@ -32,7 +32,7 @@ describe("min", () => {
         expect(() => asEnumerable([] as number[]).min((x) => x * x)).toThrowError(InvalidOperationException)
     })
 
-    itAsync("MinPredicate Empty Error Async", async () => {
+    itAsync("MinPredicate Empty Error", async () => {
         const expectMin = await expectAsync(asAsync([] as number[]).min((x) => x * x))
         expectMin.toThrowError(InvalidOperationException)
     })
@@ -46,7 +46,7 @@ describe("min", () => {
         expect(asEnumerable([1, 2, 3, -7]).min(Math.abs)).toBe(1)
     })
 
-    itAsync("Min Predicate Async", async () => {
+    itAsync("Min Predicate", async () => {
         const expectMin = await expectAsync(asAsync([1, 2, 3, -7]).min(Math.abs))
         expectMin.toBe(1)
     })
@@ -60,7 +60,7 @@ describe("min", () => {
         expect(() => asEnumerable([]).min()).toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty exception async", async () => {
+    itAsync("empty exception", async () => {
         const expectMin = await expectAsync(asAsync([]).min())
         expectMin.toThrowError(InvalidOperationException)
     })
@@ -74,7 +74,7 @@ describe("min", () => {
         expect(() => asEnumerable([]).min((x) => x)).toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty exception with selector async", async () => {
+    itAsync("empty exception with selector", async () => {
         const expectMin = await expectAsync(asAsync([]).min((x) => x))
         expectMin.toThrowError(InvalidOperationException)
     })

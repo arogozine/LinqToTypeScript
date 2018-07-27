@@ -5,7 +5,7 @@ describe("select", () => {
         expect(asEnumerable(["1", "2", "3"]).select(Number.parseInt).toArray()).toEqual([1, 2, 3])
     })
 
-    itAsync("select parseInt Async", async () => {
+    itAsync("select parseInt", async () => {
         expect(await asAsync(["1", "2", "3"]).select(Number.parseInt).toArray()).toEqual([1, 2, 3])
     })
 
@@ -17,7 +17,7 @@ describe("select", () => {
         expect(asEnumerable(["1", "22", "333"]).select("length").toArray()).toEqual([1, 2, 3])
     })
 
-    itAsync("select length async", async () => {
+    itAsync("select length", async () => {
         expect(await asAsync(["1", "22", "333"]).select("length").toArray()).toEqual([1, 2, 3])
     })
 

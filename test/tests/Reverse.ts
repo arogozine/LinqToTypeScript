@@ -6,7 +6,7 @@ describe("reverse", () => {
         expect(vals.reverse().toArray()).toEqual([3, 2, 1])
     })
 
-    itAsync("basicAsync", async () => {
+    itAsync("basic", async () => {
         const vals = asAsync([1, 2, 3])
         expect(await vals.reverse().toArray()).toEqual([3, 2, 1])
     })
@@ -19,7 +19,7 @@ describe("reverse", () => {
     it("empty array still empty", () =>
         expect([].reverse()).toEqual([]))
 
-    itAsync("empty array still empty async", async () =>
+    itAsync("empty array still empty", async () =>
         expect(await asAsync([]).reverse().toArray()).toEqual([]))
 
     itParallel("empty array still empty", async (asParallel) =>

@@ -22,7 +22,7 @@ describe("WhereAsync", () => {
         expect(values.toArray()).toEqual(asyncValues)
     })
 
-    itAsync("From Async", async () => {
+    itAsync("From", async () => {
         const values = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {

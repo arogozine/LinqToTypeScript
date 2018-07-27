@@ -7,7 +7,7 @@ describe("averageAsync", () => {
         expect(value).toBe(50)
     })
 
-    itAsync("selectorAsync", async () => {
+    itAsync("selector", async () => {
         const value = await asAsync([0, 10]).averageAsync(async (x) => x * 10)
         expect(value).toBe(50)
     })
@@ -21,7 +21,7 @@ describe("averageAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty array with selector throws exception Async", async () => {
+    itAsync("empty array with selector throws exception", async () => {
         const expect = await expectAsync((asAsync([])).averageAsync(async (x) => x * 10))
         expect.toThrowError(InvalidOperationException)
     })

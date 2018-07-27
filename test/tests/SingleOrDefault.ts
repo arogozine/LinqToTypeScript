@@ -7,7 +7,7 @@ describe("singleOrDefault", () => {
         expect(vals.singleOrDefault()).toBe(1)
     })
 
-    itAsync("basic async", async () => {
+    itAsync("basic", async () => {
         const vals = asAsync([1])
         expect(await vals.singleOrDefault()).toBe(1)
     })
@@ -22,7 +22,7 @@ describe("singleOrDefault", () => {
         expect(vals.singleOrDefault()).toBeNull()
     })
 
-    itAsync("empty async", async () => {
+    itAsync("empty", async () => {
         const vals = asAsync([])
         expect(await vals.singleOrDefault()).toBeNull()
     })
@@ -37,7 +37,7 @@ describe("singleOrDefault", () => {
         expect(() => vals.singleOrDefault()).toThrowError(InvalidOperationException)
     })
 
-    itAsync("basic expection async", async () => {
+    itAsync("basic expection", async () => {
         const vals = asAsync([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleOrDefault())
         expect.toThrowError(InvalidOperationException)
@@ -54,7 +54,7 @@ describe("singleOrDefault", () => {
         expect(vals.singleOrDefault((x) => true)).toBe(1)
     })
 
-    itAsync("predicate async", async () => {
+    itAsync("predicate", async () => {
         const vals = asAsync([1])
         expect(await vals.singleOrDefault((x) => true)).toBe(1)
     })

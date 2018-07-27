@@ -1,4 +1,4 @@
-import { asAsync, expectAsync, itAsync, itEnumerable, itEnumerableAsync } from "./../TestHelpers"
+import { asAsync, itAsync, itEnumerableAsync } from "./../TestHelpers"
 
 describe("AsParallel", () => {
     itEnumerableAsync("SyncBecomesParallel", async (asIEnumerable) => {

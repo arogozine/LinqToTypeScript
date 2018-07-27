@@ -9,7 +9,7 @@ describe("distinctAsync", () => {
         expect(distinct).toEqual(["1", 2, 3])
     })
 
-    itAsync("DistinctWeakEqualityAsync", async () => {
+    itAsync("DistinctWeakEquality", async () => {
         const array = asAsync(["1", 1, 2, 2, 3, "3"])
 
         expect(await array.distinctAsync(async (x, y) => x == y).toArray()).toEqual(["1", 2, 3])

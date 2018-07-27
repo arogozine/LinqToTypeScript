@@ -15,7 +15,7 @@ describe("all", () => {
         expect(allStartWithB).toBe(false)
     })
 
-    itAsync("AllAsync", async () => {
+    itAsync("All", async () => {
         // Create an array of Pets.
         const pets = asAsync([
             { Age: 10, Name: "Barley" },
@@ -48,7 +48,7 @@ describe("all", () => {
         expect(asEnumerable([0, 1, 2]).all((x) => x > 5)).toBe(false)
     })
 
-    itAsync("ManyElementsAsync", async () => {
+    itAsync("ManyElements", async () => {
         expect(await asAsync([1, 2, 3]).all((x) => x !== 0)).toBe(true)
         expect(await asAsync([0, 1, 2]).all((x) => x > 5)).toBe(false)
     })
@@ -62,7 +62,7 @@ describe("all", () => {
         expect(asEnumerable([]).all((x) => x === 1)).toBe(true)
     })
 
-    itAsync("EmptyElementTrueAsync", async () => {
+    itAsync("EmptyElementTrue", async () => {
         const expect = await expectAsync(asAsync([]).all((x) => x === 1))
         expect.toBe(true)
     })

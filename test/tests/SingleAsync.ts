@@ -8,7 +8,7 @@ describe("singleAsync", () => {
         expect.toBe(1)
     })
 
-    itAsync("predicate async", async () => {
+    itAsync("predicate", async () => {
         const vals = asAsync([1])
         expect(await vals.singleAsync(async (x) => true)).toBe(1)
     })
@@ -30,13 +30,13 @@ describe("singleAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate multiple expection async", async () => {
+    itAsync("predicate multiple expection", async () => {
         const vals = asAsync([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleAsync(async (x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate no matches expection async", async () => {
+    itAsync("predicate no matches expection", async () => {
         const vals = asAsync([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleAsync(async (x) => false))
         expect.toThrowError(InvalidOperationException)

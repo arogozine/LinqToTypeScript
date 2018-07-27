@@ -6,7 +6,7 @@ describe("distinct", () => {
         expect(asEnumerable([1, 1]).distinct().toArray()).toEqual([1])
     })
 
-    itAsync("Basic Async", async () => {
+    itAsync("Basic", async () => {
         expect(await asAsync([1, 1]).distinct().toArray()).toEqual([1])
     })
 
@@ -20,7 +20,7 @@ describe("distinct", () => {
         expect(array.distinct().toArray()).toEqual(["f", "o"])
     })
 
-    itAsync("DistinctAsync", async () => {
+    itAsync("Distinct", async () => {
         const array = asAsync(["f", "o", "o"])
 
         expect(await array.distinct().toArray()).toEqual(["f", "o"])
@@ -38,7 +38,7 @@ describe("distinct", () => {
         expect(array.distinct(EqualityComparer).toArray()).toEqual(["1", 2, 3])
     })
 
-    itAsync("DistinctWeakEqualityAsync", async () => {
+    itAsync("DistinctWeakEquality", async () => {
         const array = asAsync(["1", 1, 2, 2, 3, "3"])
 
         expect(await array.distinct(EqualityComparer).toArray()).toEqual(["1", 2, 3])

@@ -8,7 +8,7 @@ describe("skipWhileAsync", () => {
         expect(values).toEqual([2, 3])
     })
 
-    itAsync("basic async", async () => {
+    itAsync("basic", async () => {
         const values = await asAsync([ 0, 1, 2, 3 ])
             .skipWhileAsync(async (x) => x < 2)
             .toArray()
@@ -29,7 +29,7 @@ describe("skipWhileAsync", () => {
         expect(values).toEqual([2, 3])
     })
 
-    itAsync("index async", async () => {
+    itAsync("index", async () => {
         const values = await asAsync([ 0, 1, 2, 3 ])
             .skipWhileAsync(async (_, i) => i < 2)
             .toArray()

@@ -9,7 +9,7 @@ describe("SelectAsync", () => {
         expect(await values.select((x) => x + 1).toArray()).toEqual(asyncValues)
     })
 
-    itAsync("From Async", async () => {
+    itAsync("From", async () => {
         const values = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueValues = values.selectAsync((x) => new Promise<number>((res) => res(x + 1)))
         const asyncValues = await trueValues.toArray()
@@ -34,7 +34,7 @@ describe("SelectAsync", () => {
         expect(await values.select((x) => x + 1).toArray()).toEqual(asyncValues)
     })
 
-    itAsync("From Async String Key", async () => {
+    itAsync("From String Key", async () => {
         const values = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueValues = values
             .select((x) => {

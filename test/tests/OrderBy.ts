@@ -9,7 +9,7 @@ describe("orderBy", () => {
         expect(vals).toEqual(["a", "b", "c"])
     })
 
-    itAsync("StringAsync", async () => {
+    itAsync("String", async () => {
         const vals = await asAsync(["b", "c", "a"]).orderBy((x) => x).toArray()
         expect(vals).toEqual(["a", "b", "c"])
     })
@@ -24,7 +24,7 @@ describe("orderBy", () => {
         expect(vals.orderBy((x) => x).toArray()).toEqual(sorted)
     })
 
-    itAsync("basicAsync", async () => {
+    itAsync("basic", async () => {
         const vals = asAsync(unsorted)
         expect(await vals.orderBy((x) => x).toArray()).toEqual(sorted)
     })
@@ -42,7 +42,7 @@ describe("orderBy", () => {
         expect(vals.orderBy((x) => x, comparer).toArray()).toEqual(sorted)
     })
 
-    itAsync("With Comparer Async", async () => {
+    itAsync("With Comparer", async () => {
         const vals = asAsync(unsorted)
         expect(await vals.orderBy((x) => x, comparer).toArray()).toEqual(sorted)
     })

@@ -9,7 +9,7 @@ describe("contains", () => {
         expect(array.contains(1)).toBe(true)
     })
 
-    itAsync("CountainsAsync", async () => {
+    itAsync("Countains", async () => {
         const array = asAsync([1, "2", "3"])
 
         expect(await array.contains(2)).toBe(false)
@@ -31,7 +31,7 @@ describe("contains", () => {
         expect(array.contains(4, EqualityComparer)).toBe(false)
     })
 
-    itAsync("Contains With Comparer Async", async () => {
+    itAsync("Contains With Comparer", async () => {
         const array = asAsync([1, "2", "3"])
 
         expect(await array.contains(2, EqualityComparer)).toBe(true)
@@ -50,12 +50,12 @@ describe("contains", () => {
     itEnumerable("contains empty to be false", (asEnumerable) =>
         expect(asEnumerable([] as number[]).contains(0)).toBe(false))
 
-    itAsync("contains empty to be false async", async () => {
+    itAsync("contains empty to be false", async () => {
         const value = await asAsync([] as number[]).contains(0)
         expect(value).toBe(false)
     })
 
-    itParallel("contains empty to be false async", async (asParallel) => {
+    itParallel("contains empty to be false", async (asParallel) => {
         const value = await asParallel([] as number[]).contains(0)
         expect(value).toBe(false)
     })
@@ -63,7 +63,7 @@ describe("contains", () => {
     itEnumerable("contains false", (asEnumerable) =>
         expect(asEnumerable([1, 2]).contains(0)).toBe(false))
 
-    itAsync("Contains False Async", async () =>
+    itAsync("Contains False", async () =>
         expect(await asAsync([1, 2]).contains(0)).toBe(false))
 
     itParallel("Contains False", async (asParallel) =>
@@ -72,7 +72,7 @@ describe("contains", () => {
     itEnumerable("contains true", (asEnumerable) =>
         expect(asEnumerable([1, 2]).contains(1)).toBe(true))
 
-    itAsync("Contains True Async", async () =>
+    itAsync("Contains True", async () =>
         expect(await asAsync([1, 2]).contains(1)).toBe(true))
 
     itParallel("Contains True", async (asParallel) =>

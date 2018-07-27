@@ -5,7 +5,7 @@ describe("concat", () => {
     itEnumerable("handles two empty arrays", (asEnumerable) =>
         expect(asEnumerable([]).concat(asEnumerable([])).toArray()).toEqual([]))
 
-    itAsync("handles two empty arrays async", async () => {
+    itAsync("handles two empty arrays", async () => {
         const value = await asAsync([]).concat(asAsync([])).toArray()
         expect(value).toEqual([])
     })
@@ -18,7 +18,7 @@ describe("concat", () => {
     it("handles calling array being empty", () =>
         expect(([] as number[]).concat([1])).toEqual([1]))
 
-    itAsync("handles calling array being empty async", async () => {
+    itAsync("handles calling array being empty", async () => {
         const value = await asAsync([] as number[]).concat(asAsync([1])).toArray()
         expect(value).toEqual([1])
     })
@@ -31,7 +31,7 @@ describe("concat", () => {
     itEnumerable("handles concat with empty array", (asEnumerable) =>
         expect(asEnumerable([2]).concat(asEnumerable([])).toArray()).toEqual([2]))
 
-    itAsync("handles concat with empty array async", async () => {
+    itAsync("handles concat with empty array", async () => {
         const value = await asAsync([2]).concat(asAsync([])).toArray()
         expect(value).toEqual([2])
     })
@@ -44,7 +44,7 @@ describe("concat", () => {
     itEnumerable("handle two arrays concat", (asEnumerable) =>
         expect(asEnumerable([1]).concat(asEnumerable([2, 3])).toArray()).toEqual([1, 2, 3]))
 
-    itAsync("handle two arrays concat async", async () => {
+    itAsync("handle two arrays concat", async () => {
         const value = await asAsync([1]).concat(asAsync([2, 3])).toArray()
         expect(value).toEqual([1, 2, 3])
     })

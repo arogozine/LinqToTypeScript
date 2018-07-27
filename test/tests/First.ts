@@ -7,7 +7,7 @@ describe("first", () => {
         expect(() => asEnumerable([]).first()).toThrowError(InvalidOperationException)
     })
 
-    itAsync("FirstEmptyExceptionAsync", async () => {
+    itAsync("FirstEmptyException", async () => {
         const expect = await expectAsync(asAsync([]).first())
         expect.toThrowError(InvalidOperationException)
     })
@@ -21,7 +21,7 @@ describe("first", () => {
         expect(asEnumerable([1, 2]).first((x) => x === 2)).toBe(2)
     })
 
-    itAsync("FirstPredicateAsync", async () => {
+    itAsync("FirstPredicate", async () => {
         expect(await asAsync([1, 2]).first((x) => x === 2)).toBe(2)
     })
 
@@ -32,7 +32,7 @@ describe("first", () => {
     itEnumerable("basic", (asEnumerable) =>
         expect(asEnumerable([1]).first()).toBe(1))
 
-    itAsync("BasicAsync", async () =>
+    itAsync("Basic", async () =>
         expect(await asAsync([1]).first()).toBe(1))
 
     itParallel("Basic", async (asParallel) =>
@@ -41,7 +41,7 @@ describe("first", () => {
     itEnumerable("predicate", (asEnumerable) =>
         expect(asEnumerable([1, 2, 3]).first((x) => x === 2)).toBe(2))
 
-    itAsync("PredicateAsync", async () =>
+    itAsync("Predicate", async () =>
         expect(await asAsync([1, 2, 3]).first((x) => x === 2)).toBe(2))
 
     itParallel("Predicate", async (asParallel) =>
@@ -50,7 +50,7 @@ describe("first", () => {
     itEnumerable("empty array with predicate causes exception", (asEnumerable) =>
         expect(() => asEnumerable([1, 2, 3]).first((x) => x === 4)).toThrowError(InvalidOperationException))
 
-    itAsync("empty array with predicate causes exception async", async () => {
+    itAsync("empty array with predicate causes exception", async () => {
         const value = await expectAsync(asAsync([1, 2, 3]).first((x) => x === 4))
         value.toThrowError(InvalidOperationException)
     })

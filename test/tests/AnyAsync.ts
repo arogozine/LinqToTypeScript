@@ -8,7 +8,7 @@ describe("AnyAsync", () => {
         expect(await array.anyAsync(async (_) => false)).toBe(false)
     })
 
-    itAsync("EmptyAsync", async () => {
+    itAsync("Empty", async () => {
         const array = asAsync([])
 
         expect(await array.anyAsync(async (_) => true)).toBe(false)
@@ -32,7 +32,7 @@ describe("AnyAsync", () => {
         expect(await array.anyAsync(async (x) => x === 2)).toBe(true)
     })
 
-    itAsync("AnyExistsAsync", async () => {
+    itAsync("AnyExists", async () => {
         const array = asAsync([1, 2])
 
         expect(await array.anyAsync(async (_) => true)).toBe(true)

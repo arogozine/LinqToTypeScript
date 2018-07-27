@@ -6,7 +6,7 @@ describe("LastAsync", () => {
         expect(await  asEnumerable([1, 2]).lastAsync(async (x) => x === 1)).toBe(1)
     })
 
-    itAsync("LastPredicateAsync", async () => {
+    itAsync("LastPredicate", async () => {
         expect(await asAsync([1, 2]).lastAsync(async (x) => x === 1)).toBe(1)
     })
 

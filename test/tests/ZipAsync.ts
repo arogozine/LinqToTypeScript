@@ -17,7 +17,7 @@ describe("zipAsync", () => {
         }
     })
 
-    itAsync("zipAsync Async", async () => {
+    itAsync("zip", async () => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 

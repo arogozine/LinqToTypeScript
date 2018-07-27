@@ -18,7 +18,7 @@ describe("aggregate", () => {
         expect(reversed).toBe("dog lazy the over jumps fox brown quick the")
     })
 
-    itAsync("BasicAsync", async () => {
+    itAsync("Basic", async () => {
         const asyncArray = asAsync(["f", "o", "o"])
         expect(await asyncArray.aggregate((x, y) => x + y)).toBe("foo")
         const sentence = "the quick brown fox jumps over the lazy dog"
@@ -59,7 +59,7 @@ describe("aggregate", () => {
         expect(longestName).toBe("PASSIONFRUIT")
     })
 
-    itAsync("ResultSelectorAsync", async () => {
+    itAsync("ResultSelector", async () => {
         const fruits = asAsync([ "apple", "mango", "orange", "passionfruit", "grape" ])
 
         // Determine whether any string in the array is longer than "banana".
@@ -90,7 +90,7 @@ describe("aggregate", () => {
         expect(val2).toBe(1)
     })
 
-    itAsync("SingleValueAsync", async () => {
+    itAsync("SingleValue", async () => {
         const val2 = await asAsync([1]).aggregate((x, y) => x + y)
         expect(val2).toBe(1)
     })
@@ -105,7 +105,7 @@ describe("aggregate", () => {
         expect(val).toBe(6)
     })
 
-    itAsync("MultipleValuesAsync", async () => {
+    itAsync("MultipleValues", async () => {
         const val = await asAsync([1, 2, 3]).aggregate((x, y) => x + y)
         expect(val).toBe(6)
     })
@@ -119,7 +119,7 @@ describe("aggregate", () => {
         expect(() => asEnumerable([]).aggregate((x, y) => x + y)).toThrowError(InvalidOperationException)
     })
 
-    itAsync("ExceptionAsync", async () => {
+    itAsync("Exception", async () => {
         const expect = await expectAsync(asAsync([]).aggregate((x, y) => x + y))
         expect.toThrowError(InvalidOperationException)
     })
@@ -140,7 +140,7 @@ describe("aggregate", () => {
         expect(val3).toBe(10)
     })
 
-    itAsync("Aggregate2Async", async () => {
+    itAsync("Aggregate2", async () => {
         const val = await asAsync([1, 2, 3]).aggregate(4, (x, y) => x + y)
         expect(val).toBe(10)
 
@@ -167,7 +167,7 @@ describe("aggregate", () => {
         expect(val).toBe(100)
     })
 
-    itAsync("Aggregate3Async", async () => {
+    itAsync("Aggregate3", async () => {
         const val = await asAsync([1, 2, 3]).aggregate(4, (x, y) => x + y, (acc) => acc * 10)
         expect(val).toBe(100)
     })

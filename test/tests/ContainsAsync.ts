@@ -12,7 +12,7 @@ describe("containsAsync", () => {
         expect(await array.containsAsync(4, EqualityComparer)).toBe(false)
     })
 
-    itAsync("Contains With Comparer Async", async () => {
+    itAsync("Contains With Comparer", async () => {
         const array = asAsync([1, "2", "3"])
 
         expect(await array.containsAsync(2, EqualityComparer)).toBe(true)

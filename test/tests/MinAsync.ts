@@ -8,7 +8,7 @@ describe("minAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("MinPredicate Empty Error Async", async () => {
+    itAsync("MinPredicate Empty Error", async () => {
         const expectMin = await expectAsync(asAsync([]).minAsync(async (x) => x * x))
         expectMin.toThrowError(InvalidOperationException)
     })
@@ -23,7 +23,7 @@ describe("minAsync", () => {
         expect.toBe(1)
     })
 
-    itAsync("Min Predicate Async", async () => {
+    itAsync("Min Predicate", async () => {
         const expectMin = await expectAsync(asAsync([1, 2, 3, -7]).min(Math.abs))
         expectMin.toBe(1)
     })

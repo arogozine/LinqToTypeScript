@@ -28,7 +28,7 @@ describe("elementAtOrDefault", () => {
     itEnumerable("empty to be null", (asEnumerable) =>
         expect(asEnumerable([]).elementAtOrDefault(0)).toBeNull())
 
-    itAsync("empty to be null async", async () => {
+    itAsync("empty to be null", async () => {
         const expect = await expectAsync(asAsync([]).elementAtOrDefault(0))
         expect.toBeNull()
     })

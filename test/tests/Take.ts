@@ -7,7 +7,7 @@ describe("take", () => {
         expect(array).toEqual([1, 2])
     })
 
-    itAsync("TakeAsync", async () => {
+    itAsync("Take", async () => {
         const array = await asAsync([1, 2, 3, 4, 5]).take(2).toArray()
 
         expect(array).toEqual([1, 2])
@@ -28,7 +28,7 @@ describe("take", () => {
         expect(asEnumerable(vals).take(2).toArray()).toEqual([1, 2])
     })
 
-    itAsync("various positive amounts async", async () => {
+    itAsync("various positive amounts", async () => {
         expect(await valsAsync.take(4).toArray()).toEqual(vals)
         expect(await valsAsync.take(1).toArray()).toEqual([1])
         expect(await valsAsync.take(2).toArray()).toEqual([1, 2])
@@ -44,16 +44,16 @@ describe("take", () => {
     itEnumerable("zero elements", (asEnumerable) =>
         expect(asEnumerable(vals).take(0).toArray()).toEqual([]))
 
-    itAsync("zero elements async", async () =>
+    itAsync("zero elements", async () =>
         expect(await valsAsync.take(0).toArray()).toEqual([]))
 
-    itParallel("zero elements async", async (asParallel) =>
+    itParallel("zero elements", async (asParallel) =>
         expect(await asParallel(vals).take(0).toArray()).toEqual([]))
 
     itEnumerable("negative amount", (asEnumerable) =>
         expect(asEnumerable(vals).take(-1).toArray()).toEqual([]))
 
-    itAsync("negative amount async", async () =>
+    itAsync("negative amount", async () =>
         expect(await valsAsync.take(-1).toArray()).toEqual([]))
 
     itParallel("negative amount", async (asParallel) =>

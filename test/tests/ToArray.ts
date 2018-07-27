@@ -9,7 +9,7 @@ describe("toArray", () => {
         expect(array1.toArray()).toEqual(array2)
     })
 
-    itAsync("toArrayAsync", async () => {
+    itAsync("toArray", async () => {
         const array1 = [1, 2, 3]
         const array2 = await asAsync(array1).toArray()
         expect(array2.length).toBe(array1.length)

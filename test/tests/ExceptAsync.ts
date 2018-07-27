@@ -11,7 +11,7 @@ describe("exceptAsync", () => {
         expect(exceptResult).toEqual([3])
     })
 
-    itAsync("with comparer async", async () => {
+    itAsync("with comparer", async () => {
         const value = await asAsync([1, "2", 3]).exceptAsync(asAsync([1, "2"]), async (x, y) => x == y).toArray()
         expect(value).toEqual([3])
     })

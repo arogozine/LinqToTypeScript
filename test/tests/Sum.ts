@@ -5,7 +5,7 @@ describe("sum", () => {
         expect(asEnumerable([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
-    itAsync("sum basic async", async () => {
+    itAsync("sum basic ", async () => {
         expect(await asAsync([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
@@ -18,7 +18,7 @@ describe("sum", () => {
         expect(zooms.sum((x) => x.a)).toBe(6)
     })
 
-    itAsync("sum Selector Async", async () => {
+    itAsync("sum Selector", async () => {
         const zooms = asAsync([ { a: 1}, { a: 2 }, {a: 3} ])
         expect(await zooms.sum((x) => x.a)).toBe(6)
     })

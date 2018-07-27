@@ -6,7 +6,7 @@ describe("last", () => {
         expect(asEnumerable([1, 2]).last()).toBe(2)
     })
 
-    itAsync("LastAsync", async () => {
+    itAsync("Last", async () => {
         expect(await asAsync([1, 2]).last()).toBe(2)
     })
 
@@ -18,7 +18,7 @@ describe("last", () => {
         expect(() => asEnumerable([]).last()).toThrowError(InvalidOperationException)
     })
 
-    itAsync("LastEmptyAsync", async () => {
+    itAsync("LastEmpty", async () => {
         const expect = await expectAsync(asAsync([]).last())
         expect.toThrowError(InvalidOperationException)
     })
@@ -32,7 +32,7 @@ describe("last", () => {
         expect(asEnumerable([1, 2]).last((x) => x === 1)).toBe(1)
     })
 
-    itAsync("LastPredicateAsync", async () => {
+    itAsync("LastPredicate", async () => {
         expect(await asAsync([1, 2]).last((x) => x === 1)).toBe(1)
     })
 

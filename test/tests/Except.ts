@@ -20,7 +20,7 @@ describe("except", () => {
         expect(asEnumerable([1, "2", 3]).except(asEnumerable([1, "2"]), EqualityComparer).toArray()).toEqual([3])
     })
 
-    itAsync("with comparer async", async () => {
+    itAsync("with comparer", async () => {
         const value = await asAsync([1, "2", 3]).except(asAsync([1, "2"]), EqualityComparer).toArray()
         expect(value).toEqual([3])
     })

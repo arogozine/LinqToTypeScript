@@ -16,7 +16,7 @@ describe("eachAsync", () => {
         expect(count).toBe(values.length)
     })
 
-    itAsync("async", async () => {
+    itAsync("EachAsync", async () => {
         const values = [1, 2, 3, 4, 5]
 
         let count = 0

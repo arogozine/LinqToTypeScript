@@ -49,21 +49,6 @@ export function asAsync<T>(values: T[]) {
     return AsyncEnumerable.from(promises)
 }
 
-export function itParallel<T = number>(
-    expectation: string,
-    assertion: (asOParallelEnumerable: (x: T[]) => IParallelEnumerable<T>) => void, timeout?: number): void {
-    const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
-    const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
-    const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
-    if (expectation.toLowerCase().endsWith(`parallel`)) {
-        throw new Error(`No need for Parallel`)
-    }
-    expectation = `${ expectation } Parallel`
-    it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
-    it(`${ expectation } PromiseOfPromises`, () => assertion(b), timeout)
-    it(`${ expectation } PromiseToArray`, () => assertion(c), timeout)
-}
-
 function asParallel<T>(type: ParallelGeneratorType, values: T[]): IParallelEnumerable<T> {
     const generator1 = () =>
         values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
@@ -98,6 +83,26 @@ export function itEnumerable<T = number>(
     it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
 }
 
+export function itParallel<T = number>(
+    expectation: string,
+    assertion: (asOParallelEnumerable: (x: T[]) => IParallelEnumerable<T>) => void, timeout?: number): void {
+    const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
+    const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
+    const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
+    if (expectation.toLowerCase().endsWith(`parallel`)) {
+        throw new Error(`No need for Parallel`)
+    }
+
+    if (expectation.toLowerCase().endsWith(`async`)) {
+        console.warn(`itParallel ends with Async: ${ expectation }`)
+    }
+
+    expectation = `${ expectation } Parallel`
+    it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
+    it(`${ expectation } PromiseOfPromises`, () => assertion(b), timeout)
+    it(`${ expectation } PromiseToArray`, () => assertion(c), timeout)
+}
+
 /**
  * Wrapper for @see {it} for async methods
  * @param expectation Textual description of what this spec is checking
@@ -105,6 +110,17 @@ export function itEnumerable<T = number>(
  * @param timeout Custom timeout for an async spec.
  */
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
+    /*
+    if (expectation.toLowerCase().endsWith(`async`)) {
+        throw new Error(`No need for Async`)
+    }
+    */
+    if (expectation.toLowerCase().endsWith(`parallel`)) {
+        console.warn(`itAsync ends with Parallel: ${ expectation }`)
+    }
+
+    expectation = `${ expectation } Async`
+
     it(expectation, (done) => assertion().then(done, fail), timeout)
 }
 
@@ -118,9 +134,9 @@ export function itAsync<T>(expectation: string, assertion: () => Promise<T>, tim
 export function itEnumerableAsync<T = number>(
     expectation: string,
     assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => Promise<void>, timeout?: number): void {
-        itAsync(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
-        itAsync(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
-        itAsync(`${ expectation } array`, () => assertion((x) => x as any), timeout)
+        itAsync(`${ expectation } Array Enumerable`, () => assertion(asArrayEnumerable), timeout)
+        itAsync(`${ expectation } Basic Enumerable`, () => assertion(asBasicEnumerable), timeout)
+        itAsync(`${ expectation } Array`, () => assertion((x) => x as any), timeout)
 }
 
 /**

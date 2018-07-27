@@ -19,7 +19,7 @@ describe("selectMany", () => {
         expect(values.selectMany("a").toArray()).toEqual([1, 2, 3, 4])
     })
 
-    itAsync("selectMany basic async", async () => {
+    itAsync("selectMany basic", async () => {
         const values = asAsync([
             { a: [1, 2]},
             { a: [3, 4]},
@@ -28,7 +28,7 @@ describe("selectMany", () => {
         expect(await values.selectMany((x) => x.a).toArray()).toEqual([1, 2, 3, 4])
     })
 
-    itAsync("selectMany string async", async () => {
+    itAsync("selectMany string", async () => {
         const values = asAsync([
             { a: [1, 2]},
             { a: [3, 4]},

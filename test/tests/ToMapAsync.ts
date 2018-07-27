@@ -10,7 +10,7 @@ describe("toMapAsync", () => {
         }
     })
 
-    itAsync("toMapAsync", async () => {
+    itAsync("toMap", async () => {
         const map = await asAsync([1, 2, 3]).toMapAsync(async (x) => `Key_${ x }`)
         for (const keyValue of map) {
             const key = keyValue[0]

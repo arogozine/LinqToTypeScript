@@ -99,7 +99,7 @@ describe("thenByAsync", () => {
         }
     })
 
-    itAsync("async", async () => {
+    itAsync("ThenByAsync", async () => {
         const values = generateValues()
         const enumerable = asAsync(values)
         const orderby = await enumerable

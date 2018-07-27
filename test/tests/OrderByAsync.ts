@@ -5,12 +5,12 @@ describe("orderByAsync", () => {
     const unsorted = [9, 8, 7, 6, 5, 5, 4, 3, 9, 1, 0]
     const sorted = [0, 1, 3, 4, 5, 5, 6, 7, 8, 9, 9]
 
-    itEnumerableAsync<string>("string", async (asEnumerable) => {
+    itEnumerableAsync<string>("String", async (asEnumerable) => {
         const vals = await asEnumerable(["b", "c", "a"]).orderByAsync(async (x) => x).toArray()
         expect(vals).toEqual(["a", "b", "c"])
     })
 
-    itAsync("StringAsync", async () => {
+    itAsync("String", async () => {
         const vals = await asAsync(["b", "c", "a"]).orderByAsync(async (x) => x).toArray()
         expect(vals).toEqual(["a", "b", "c"])
     })
@@ -25,7 +25,7 @@ describe("orderByAsync", () => {
         expect(await vals.orderByAsync(async (x) => x).toArray()).toEqual(sorted)
     })
 
-    itAsync("basicAsync", async () => {
+    itAsync("basic", async () => {
         const vals = asAsync(unsorted)
         expect(await vals.orderByAsync(async (x) => x).toArray()).toEqual(sorted)
     })
@@ -44,7 +44,7 @@ describe("orderByAsync", () => {
         expect(orderedValues).toEqual(sorted)
     })
 
-    itAsync("With Comparer Async", async () => {
+    itAsync("With Comparer", async () => {
         const vals = asAsync(unsorted)
         const orderedValues = await vals.orderByAsync(async (x) => x, comparer).toArray()
         expect(orderedValues).toEqual(sorted)

@@ -10,7 +10,7 @@ describe("union", () => {
         expect(union).toEqual(result)
     })
 
-    itAsync("=== union async", async () => {
+    itAsync("=== union", async () => {
         const ints1 = asAsync([ 5, 3, 9, 7, 5, 9, 3, 7 ])
         const ints2 = asAsync([ 8, 3, 6, 4, 4, 9, 1, 0 ])
         const result = [5, 3, 9, 7, 8, 6, 4, 1, 0]
@@ -35,7 +35,7 @@ describe("union", () => {
         expect(union).toEqual(result)
     })
 
-    itAsync("== union async", async () => {
+    itAsync("== union", async () => {
         const ints1 = asAsync<string | number>([ 5, 3, 9, 7, 5, 9, 3, 7 ])
         const ints2 = asAsync<string | number>([ "8", "3", "6", "4", "4", "9", "1", "0" ])
         const result = [5, 3, 9, 7, "8", "6", "4", "1", "0"]

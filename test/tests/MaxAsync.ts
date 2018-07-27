@@ -7,7 +7,7 @@ describe("MaxAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("MaxSelectEmptyErrorAsync", async () => {
+    itAsync("MaxSelectEmptyError", async () => {
         const value = await expectAsync(asAsync([]).maxAsync(async (x) => x * x))
         value.toThrowError(InvalidOperationException)
     })
@@ -22,7 +22,7 @@ describe("MaxAsync", () => {
         expect(value).toBe(9)
     })
 
-    itAsync("MaxSelectAsync", async () => {
+    itAsync("MaxSelect", async () => {
         expect(await asAsync([1, 2, 3]).maxAsync(async (x) => x * x)).toBe(9)
     })
 
@@ -35,7 +35,7 @@ describe("MaxAsync", () => {
         expect(value).toBe(6)
     })
 
-    itAsync("max with selector async", async () => {
+    itAsync("max with selector", async () => {
         expect(await asAsync([1, 2, 3]).maxAsync(async (x) => x * 2)).toBe(6)
     })
 
@@ -48,7 +48,7 @@ describe("MaxAsync", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty array throws exception with selector async", async () => {
+    itAsync("empty array throws exception with selector", async () => {
         const expect = await expectAsync(asAsync([]).maxAsync(async (x) => x * 2))
         expect.toThrowError(InvalidOperationException)
     })

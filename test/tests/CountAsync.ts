@@ -8,7 +8,7 @@ describe("countAsync", () => {
         expect(await array.countAsync(async (x) => !x)).toBe(1)
     })
 
-    itAsync("Count Async", async () => {
+    itAsync("Count", async () => {
         const array = asAsync([true, true, false])
 
         expect(await array.countAsync(async (x) => x)).toBe(2)

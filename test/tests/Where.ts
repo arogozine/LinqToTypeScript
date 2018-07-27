@@ -6,7 +6,7 @@ describe("where", () => {
         expect(vals.where((x) => x > 8).toArray()).toEqual([9])
     })
 
-    itAsync("item predicate async", async () => {
+    itAsync("item predicate", async () => {
         const vals = asAsync([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(await vals.where((x) => x > 8).toArray()).toEqual([9])
     })
@@ -21,7 +21,7 @@ describe("where", () => {
         expect(vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
 
-    itAsync("item and index predicate async", async () => {
+    itAsync("item and index predicate", async () => {
         const vals = asAsync([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
@@ -44,7 +44,7 @@ describe("where", () => {
         expect(noBar).toEqual([ "", "1", "2", "foo" ])
     })
 
-    itAsync("where basic async", async () => {
+    itAsync("where basic", async () => {
         const stuff = asAsync([ "", "1", "2", "foo", "bar" ])
         const noEmptyStrings = await stuff.where((x) => x !== "").toArray()
 

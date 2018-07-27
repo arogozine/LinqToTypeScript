@@ -31,14 +31,14 @@ describe("max", () => {
 
     itEnumerable("Basic", (asEnumerable) => expect(asEnumerable([1, 2, 3]).max()).toBe(3))
 
-    itAsync("BasicAsync", async () => expect(await asAsync([1, 2, 3]).max()).toBe(3))
+    itAsync("Basic", async () => expect(await asAsync([1, 2, 3]).max()).toBe(3))
 
     itParallel("Basic", async (asParallel) => expect(await asParallel([1, 2, 3]).max()).toBe(3))
 
     itEnumerable("empty array throws exception", (asEnumerable) =>
         expect(() => asEnumerable([]).max()).toThrowError(InvalidOperationException))
 
-    itAsync("empty array throws exception async", async () => {
+    itAsync("empty array throws exception", async () => {
         const value = await expectAsync(asAsync([]).max())
         value.toThrowError(InvalidOperationException)
     })

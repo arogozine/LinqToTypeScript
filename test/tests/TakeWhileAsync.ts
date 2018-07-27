@@ -23,7 +23,7 @@ describe("takeWhileAsync", () => {
 
     const valsAsync = asAsync([1, 2, 3, 4])
 
-    itAsync("by value async", async () => {
+    itAsync("by value", async () => {
         expect(await valsAsync.takeWhileAsync(async (x) => true).toArray())
             .toEqual(vals)
         expect(await valsAsync.takeWhileAsync(async (x) => false).toArray())
@@ -32,7 +32,7 @@ describe("takeWhileAsync", () => {
             .toEqual([1, 2])
     })
 
-    itAsync("by value and index async", async () => {
+    itAsync("by value and index", async () => {
         expect(await valsAsync.takeWhileAsync(async (x: number, i: number) => true).toArray())
             .toEqual(vals)
         expect(await valsAsync.takeWhileAsync(async (x: number, i: number) => false).toArray())

@@ -10,7 +10,7 @@ describe("toSet", () => {
         expect(set.size).toBe(3)
     })
 
-    itAsync("toSetAsync", async () => {
+    itAsync("toSet", async () => {
         const set = await asAsync([1, 2, 3]).toSet()
         expect(set instanceof Set).toBe(true)
         expect(set.has(1)).toBe(true)

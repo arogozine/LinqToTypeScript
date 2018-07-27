@@ -25,12 +25,12 @@ describe("orderByDescending", () => {
 
     const comparer = (x: number, y: number) => x - y
 
-    itEnumerable("With Comparer Sync", (asEnumerable) => {
+    itEnumerable("With Comparer", (asEnumerable) => {
         const vals = asEnumerable(unsorted)
         expect(vals.orderByDescending((x) => x, comparer).toArray()).toEqual(sorted)
     })
 
-    itAsync("With Comparer Async", async () => {
+    itAsync("With Comparer", async () => {
         const vals = asAsync(unsorted)
         expect(await vals.orderByDescending((x) => x, comparer).toArray())
             .toEqual(sorted)
