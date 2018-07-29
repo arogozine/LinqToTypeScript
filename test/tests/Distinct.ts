@@ -2,7 +2,7 @@ import { EqualityComparer } from "../../src/index"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("distinct", () => {
-    itEnumerable("basic", (asEnumerable) => {
+    itEnumerable("Basic", (asEnumerable) => {
         expect(asEnumerable([1, 1]).distinct().toArray()).toEqual([1])
     })
 
@@ -50,17 +50,16 @@ describe("distinct", () => {
         expect(await array.distinct(EqualityComparer).toArray()).toEqual(["1", 2, 3])
     })
 
-    itEnumerable("empty array to remain empty", (asEnumerable) =>
+    itEnumerable("Empty array to remain empty", (asEnumerable) =>
         expect(asEnumerable([]).distinct().toArray()).toEqual([]))
 
-    itAsync("empty array to remain empty", async () => {
+    itAsync("Empty array to remain empty", async () => {
         const value = await asAsync([]).distinct().toArray()
         expect(value).toEqual([])
     })
 
-    itParallel("empty array to remain empty", async (asParallel) => {
+    itParallel("Empty array to remain empty", async (asParallel) => {
         const value = await asParallel([]).distinct().toArray()
         expect(value).toEqual([])
     })
-
 })

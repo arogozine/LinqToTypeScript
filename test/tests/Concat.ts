@@ -53,9 +53,4 @@ describe("concat", () => {
         const value = await asParallel([1]).concat(asParallel([2, 3])).toArray()
         expect(value).toEqual([1, 2, 3])
     })
-
-    it("ArrayEnumerable Concat", () => {
-        const a = new ArrayEnumerable(1, 2)
-        expect(a.concat(3)).toEqual([1, 2, 3])
-    })
 })

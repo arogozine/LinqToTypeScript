@@ -3,6 +3,17 @@ import { InvalidOperationException } from "../../src/index"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("firstOrDefault", () => {
+    itEnumerable("Basic", (asEnumerable) => {
+        expect(asEnumerable([1, 2]).firstOrDefault()).toBe(1)
+    })
+
+    itAsync("Basic", async () => {
+        expect(await asAsync([1, 2]).firstOrDefault()).toBe(1)
+    })
+
+    itParallel("Basic", async (asParallel) => {
+        expect(await asParallel([1, 2]).firstOrDefault()).toBe(1)
+    })
 
     itEnumerable("FirstPredicate", (asEnumerable) => {
         expect(asEnumerable([1, 2]).firstOrDefault((x) => x === 2)).toBe(2)

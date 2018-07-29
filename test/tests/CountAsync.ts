@@ -20,6 +20,5 @@ describe("countAsync", () => {
 
         expect(await array.countAsync(async (x) => x)).toBe(2)
         expect(await array.countAsync(async (x) => !x)).toBe(1)
-
     })
 })

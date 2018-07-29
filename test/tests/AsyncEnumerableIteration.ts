@@ -53,7 +53,7 @@ describe("AsyncEnumerableIteration", () => {
         expect(nextValue.done).toBe(true)
 
         const generator2 = asyncEnumerable[Symbol.asyncIterator]()
-        for await (const value of generator2) {
+        for await (const _ of generator2) {
             fail("Value Detected In Generator")
         }
     })

@@ -22,23 +22,23 @@ describe("count", () => {
         expect(await array.count((x) => !x)).toBe(1)
     })
 
-    itEnumerable("empty array to be zero", (asEnumerable) =>
+    itEnumerable("Empty array to be zero", (asEnumerable) =>
         expect(asEnumerable([]).count()).toBe(0))
 
-    itAsync("empty array to be zero", async () =>
+    itAsync("Empty array to be zero", async () =>
         (await expectAsync(asAsync([]).count())).toBe(0))
 
-    itParallel("empty array to be zero", async (asParallel) => {
+    itParallel("Empty array to be zero", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).count())
         expect.toBe(0)
     })
 
-    itEnumerable("single element array to be one", (asEnumerable) =>
+    itEnumerable("Single element array to be one", (asEnumerable) =>
         expect(asEnumerable([1]).count()).toBe(1))
 
-    itAsync("single element array to be one", async () =>
+    itAsync("Single element array to be one", async () =>
         expect(await asAsync([1]).count()).toBe(1))
 
-    itParallel("single element array to be one", async (asParallel) =>
+    itParallel("Single element array to be one", async (asParallel) =>
         expect(await asParallel([1]).count()).toBe(1))
 })
