@@ -1,7 +1,7 @@
 import { InvalidOperationException } from "../../src/index"
 import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
-describe("MaxAsync", () => {
+describe("maxAsync", () => {
     itEnumerableAsync("MaxSelectEmptyError", async (asEnumerable) => {
         const expect = await expectAsync(asEnumerable([]).maxAsync(async (x) => x * x))
         expect.toThrowError(InvalidOperationException)

@@ -10,12 +10,12 @@ describe("elementAtOrDefault", () => {
         }
     })
 
-    itEnumerable("with elements", (asEnumerable) => {
+    itEnumerable("WithElements", (asEnumerable) => {
         expect(asEnumerable([1]).elementAtOrDefault(0)).toBe(1)
         expect(asEnumerable([1, 2]).elementAtOrDefault(1)).toBe(2)
     })
 
-    itAsync("WithElementsAsync", async () => {
+    itAsync("WithElements", async () => {
         expect(await asAsync([1]).elementAtOrDefault(0)).toBe(1)
         expect(await asAsync([1, 2]).elementAtOrDefault(1)).toBe(2)
     })

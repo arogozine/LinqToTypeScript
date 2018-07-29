@@ -13,7 +13,7 @@ describe("groupBy", () => {
         }
     })
 
-    itAsync("OddEvenAsync", async () => {
+    itAsync("OddEven", async () => {
         const groupBy = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9]).groupBy((x) => x % 2)
         for await (const group of groupBy) {
             expect(group.key === 0 || group.key === 1).toBe(true)

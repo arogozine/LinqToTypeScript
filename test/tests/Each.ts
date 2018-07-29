@@ -1,7 +1,7 @@
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("each", () => {
-    itEnumerable("sync", (asEnumerable) => {
+    itEnumerable("Basic", (asEnumerable) => {
         const values = [1, 2, 3, 4, 5]
 
         let count = 0
@@ -13,7 +13,7 @@ describe("each", () => {
         expect(count).toBe(values.length)
     })
 
-    itAsync("async", async () => {
+    itAsync("Basic", async () => {
         const values = [1, 2, 3, 4, 5]
 
         let count = 0
@@ -25,7 +25,7 @@ describe("each", () => {
         expect(count).toBe(values.length)
     })
 
-    itParallel("parrallel", async (asParallel) => {
+    itParallel("Basic", async (asParallel) => {
         const values = [1, 2, 3, 4, 5]
 
         let count = 0

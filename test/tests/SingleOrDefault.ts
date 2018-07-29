@@ -74,13 +74,13 @@ describe("singleOrDefault", () => {
         expect(vals.singleOrDefault((x) => false)).toBeNull()
     })
 
-    itAsync("predicate multiple exception async", async () => {
+    itAsync("predicate multiple exception", async () => {
         const vals = asAsync([1, 2, 3, 4])
         const expect = await expectAsync(vals.singleOrDefault((x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
-    itAsync("predicate no matches null async", async () => {
+    itAsync("predicate no matches null", async () => {
         const vals = asAsync([1, 2, 3, 4])
         expect(await vals.singleOrDefault((x) => false)).toBeNull()
     })
@@ -91,7 +91,7 @@ describe("singleOrDefault", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("predicate no matches nulll", async (asParallel) => {
+    itParallel("predicate no matches null", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         expect(await vals.singleOrDefault((x) => false)).toBeNull()
     })

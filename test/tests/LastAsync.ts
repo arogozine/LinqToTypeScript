@@ -1,7 +1,7 @@
 import { InvalidOperationException } from "../../src/index"
 import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
-describe("LastAsync", () => {
+describe("lastAsync", () => {
     itEnumerableAsync("LastPredicate", async (asEnumerable) => {
         expect(await  asEnumerable([1, 2]).lastAsync(async (x) => x === 1)).toBe(1)
     })

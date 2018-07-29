@@ -1,9 +1,9 @@
 import { Enumerable } from "../../src/index"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
-describe("WhereAsync", () => {
+describe("whereAsync", () => {
     itEnumerable("Basic", (asEnumerable) => {
-        const values = asEnumerable([1, 2, 3])
+        const values = asEnumerable([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
             setTimeout(() => e(true), 100)
         }))
@@ -12,7 +12,7 @@ describe("WhereAsync", () => {
         expect(promise instanceof Promise).toBe(true)
     })
 
-    itAsync("From Enumerable", async () => {
+    itAsync("Basic", async () => {
         const values = Enumerable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
             setTimeout(() => e(true), 100)
@@ -22,18 +22,7 @@ describe("WhereAsync", () => {
         expect(values.toArray()).toEqual(asyncValues)
     })
 
-    itAsync("From", async () => {
-        const values = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
-
-        const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
-            setTimeout(() => e(true), 100)
-        }))
-
-        const asyncValues = await trueFilter.toArray()
-        expect(await values.toArray()).toEqual(asyncValues)
-    })
-
-    itParallel("From", async (asParallel) => {
+    itParallel("Basic", async (asParallel) => {
         const values = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {

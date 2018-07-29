@@ -1,7 +1,7 @@
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "./../TestHelpers"
 
 describe("all", () => {
-    itEnumerable<{ Age: number, Name: string}>("All", (asEnumerable) => {
+    itEnumerable<{ Age: number, Name: string}>("Basic", (asEnumerable) => {
         // Create an array of Pets.
         const pets = asEnumerable([
             { Age: 10, Name: "Barley" },
@@ -15,7 +15,7 @@ describe("all", () => {
         expect(allStartWithB).toBe(false)
     })
 
-    itAsync("All", async () => {
+    itAsync("Basic", async () => {
         // Create an array of Pets.
         const pets = asAsync([
             { Age: 10, Name: "Barley" },
@@ -29,7 +29,7 @@ describe("all", () => {
         expect(allStartWithB).toBe(false)
     })
 
-    itParallel<{ Age: number, Name: string }>("All", async (asParallel) => {
+    itParallel<{ Age: number, Name: string }>("Basic", async (asParallel) => {
         // Create an array of Pets.
         const pets = asParallel([
             { Age: 10, Name: "Barley" },

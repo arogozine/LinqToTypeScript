@@ -21,7 +21,7 @@ describe("thenByAsync", () => {
         return values
     }
 
-    itEnumerableAsync<IOrderable>("sync", async (asEnumerable) => {
+    itEnumerableAsync<IOrderable>("Basic", async (asEnumerable) => {
         const values = generateValues()
         const enumerable = asEnumerable(values)
         const orderby = await enumerable
@@ -60,7 +60,7 @@ describe("thenByAsync", () => {
         }
     })
 
-    itEnumerableAsync<IOrderable>("AsyncBoth", async (asEnumerable) => {
+    itEnumerableAsync<IOrderable>("Basic", async (asEnumerable) => {
         const values = generateValues()
         const enumerable = asEnumerable(values)
         const orderby = await enumerable
@@ -99,7 +99,7 @@ describe("thenByAsync", () => {
         }
     })
 
-    itAsync("ThenByAsync", async () => {
+    itAsync("Basic", async () => {
         const values = generateValues()
         const enumerable = asAsync(values)
         const orderby = await enumerable
@@ -138,7 +138,7 @@ describe("thenByAsync", () => {
         }
     })
 
-    itAsync("AsyncBoth", async () => {
+    itAsync("Basic 2", async () => {
         const values = generateValues()
         const enumerable = asAsync(values)
         const orderby = await enumerable
@@ -177,7 +177,7 @@ describe("thenByAsync", () => {
         }
     })
 
-    itParallel<IOrderable>("thenByAsync", async (asParallel) => {
+    itParallel<IOrderable>("Basic 2", async (asParallel) => {
         const values = generateValues()
         const enumerable = asParallel(values)
         const orderby = await enumerable
@@ -216,7 +216,7 @@ describe("thenByAsync", () => {
         }
     })
 
-    itParallel<IOrderable>("AsyncBoth", async (asParallel) => {
+    itParallel<IOrderable>("Basic 2", async (asParallel) => {
         const values = generateValues()
         const enumerable = asParallel(values)
         const orderby = await enumerable

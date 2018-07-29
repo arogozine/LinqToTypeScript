@@ -22,7 +22,7 @@ describe("firstAsync", () => {
         expectExpr.toThrowError(InvalidOperationException)
     })
 
-    itAsync("empty array with predicate causes exception async", async () => {
+    itAsync("empty array with predicate causes exception", async () => {
         const value = await expectAsync(asAsync([1, 2, 3]).firstAsync(async (x) => x === 4))
         value.toThrowError(InvalidOperationException)
     })

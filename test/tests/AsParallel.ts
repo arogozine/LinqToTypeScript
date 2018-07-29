@@ -1,6 +1,6 @@
 import { asAsync, itAsync, itEnumerableAsync } from "./../TestHelpers"
 
-describe("AsParallel", () => {
+describe("asParallel", () => {
     itEnumerableAsync("SyncBecomesParallel", async (asIEnumerable) => {
         const values = [1, 2, 3]
         const valuesTwo = await asIEnumerable(values).asParallel().toArray()

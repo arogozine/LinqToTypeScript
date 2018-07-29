@@ -12,7 +12,7 @@ describe("intersect", () => {
         expect(array).toEqual([1, 2])
     })
 
-    itAsync("IntersectWithEqualityComparerAsync", async () => {
+    itAsync("IntersectWithEqualityComparer", async () => {
         const array = await asAsync([1, 2, "3"])
             .intersectAsync(asAsync<string | number>(["1", "2"]), async (x, y) => x == y)
             .toArray()

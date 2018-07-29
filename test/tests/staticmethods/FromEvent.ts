@@ -2,7 +2,7 @@ import { AsyncEnumerable } from "./../../../src/index"
 import { itAsync } from "./../../TestHelpers"
 
 describe("fromEvent", () => {
-    it("ClickAsync", (done) => {
+    it("Click", (done) => {
         const button = document.createElement("button")
         const body = document.querySelector("body")
         if (body) {
@@ -20,7 +20,7 @@ describe("fromEvent", () => {
         }
     })
 
-    itAsync("ClickAsyncMultiple", async () => {
+    itAsync("ClickMultiple", async () => {
         const button = document.createElement("button")
         const body = document.querySelector("body")
         if (body) {

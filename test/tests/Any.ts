@@ -58,14 +58,6 @@ describe("any", () => {
         expect(await array.any((x) => x === 2)).toBe(true)
     })
 
-    itEnumerable("Empty", (asEnumerable) => {
-        expect(asEnumerable([]).any()).toBe(false)
-    })
-
-    itAsync("Empty", async () => {
-        (await expectAsync(asAsync([]).any())).toBe(false)
-    })
-
     itEnumerable("basic", (asEnumerable) => {
         expect(asEnumerable([1]).any()).toBe(true)
     })
@@ -87,7 +79,7 @@ describe("any", () => {
         expect.toBe(false)
     })
 
-    itParallel("Empty", async (asParallel) => {
+    itParallel("EmptyPredicate", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).any((x) => x === 0))
         expect.toBe(false)
     })

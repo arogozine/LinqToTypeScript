@@ -21,7 +21,7 @@ describe("thenBy", () => {
         return values
     }
 
-    itEnumerable<IOrderable>("sync", (asEnumerable) => {
+    itEnumerable<IOrderable>("Basic", (asEnumerable) => {
         const values = generateValues()
         const enumerable = asEnumerable(values)
         const orderby = enumerable
@@ -60,7 +60,7 @@ describe("thenBy", () => {
         }
     })
 
-    itAsync("ThenBy", async () => {
+    itAsync("Basic", async () => {
         const values = generateValues()
         const enumerable = asAsync(values)
         const orderby = await enumerable
@@ -99,7 +99,7 @@ describe("thenBy", () => {
         }
     })
 
-    itParallel<IOrderable>("thenBy", async (asParallel) => {
+    itParallel<IOrderable>("Basic", async (asParallel) => {
         const values = generateValues()
         const enumerable = asParallel(values)
         const orderby = await enumerable

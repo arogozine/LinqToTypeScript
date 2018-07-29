@@ -1,6 +1,6 @@
 import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "./../TestHelpers"
 
-describe("AnyAsync", () => {
+describe("anyAsync", () => {
     itEnumerableAsync("Empty", async (asEnumerable) => {
         const array = asEnumerable([])
 

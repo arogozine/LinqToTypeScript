@@ -1,7 +1,7 @@
 import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("zipAsync", () => {
-    itEnumerableAsync("zipAsync basic", async (asEnumerable) => {
+    itEnumerableAsync("Basic", async (asEnumerable) => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 
@@ -17,7 +17,7 @@ describe("zipAsync", () => {
         }
     })
 
-    itAsync("zip", async () => {
+    itAsync("Basic", async () => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 
@@ -36,7 +36,7 @@ describe("zipAsync", () => {
         }
     })
 
-    itParallel<string | number>("zip", async (asParallel) => {
+    itParallel<string | number>("Basic", async (asParallel) => {
         const it1 = [1, 2, 3, 4]
         const it2 = ["5", "6", "7", "8"]
 

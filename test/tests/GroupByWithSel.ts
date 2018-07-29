@@ -14,7 +14,7 @@ describe("groupByWithSel", () => {
         expect(groupingArray[1].toArray()).toEqual([3])
     })
 
-    itAsync("ObjectSelectAsync", async () => {
+    itAsync("ObjectSelect", async () => {
         const array = asAsync([{ key: "foo", value: 0 }, { key: "foo", value: 1 }, { key: "bar", value: 3}])
         const grouping = array.groupByWithSel((x) => x.key, (x) => x.value)
         const groupingArray = await grouping.toArray()
@@ -50,7 +50,7 @@ describe("groupByWithSel", () => {
         expect(groupingArray[1].toArray()).toEqual([3])
     })
 
-    itAsync("ObjectSelectWithComparerAsync", async () => {
+    itAsync("ObjectSelectWithComparer", async () => {
         const array = asAsync([{ key: "foo", value: "0" }, { key: "foo", value: 1 }, { key: "bar", value: 3}])
         const grouping = array.groupByWithSel((x) => x.key, (x) => x.value, EqualityComparer)
         const groupingArray = await grouping.toArray()
@@ -84,7 +84,7 @@ describe("groupByWithSel", () => {
         }
     })
 
-    itAsync("SingleKeyAsync", async () => {
+    itAsync("SingleKey", async () => {
         const singleKey = "singleKey"
         const grouping = asAsync([1, 2, 3]).groupByWithSel((x) => singleKey, (x) => x.toString())
 

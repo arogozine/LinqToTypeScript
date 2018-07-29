@@ -1,7 +1,7 @@
 import { EqualityComparer } from "../../src"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
-describe("SequenceEquals", () => {
+describe("sequenceEquals", () => {
     itEnumerable("Sequence Equals Basic", (asEnumerable) => {
         const sequenceEquals = asEnumerable([1, 2, 3, 4, 5])
             .sequenceEquals(asEnumerable([1, 2, 3, 4, 5]))
@@ -14,13 +14,13 @@ describe("SequenceEquals", () => {
         expect(sequenceEquals).toBe(true)
     })
 
-    itAsync("Sequence Equals Async Basic", async () => {
+    itAsync("Sequence Equals Basic", async () => {
         const sequenceEquals = await asAsync([1, 2, 3, 4, 5])
             .sequenceEquals(asAsync([1, 2, 3, 4, 5]))
         expect(sequenceEquals).toBe(true)
     })
 
-    itAsync("Sequence Equals Async Weak Comparer Basic", async () => {
+    itAsync("Sequence Equals Weak Comparer Basic", async () => {
         const sequenceEquals = await asAsync(["1", "2", 3, 4, 5])
             .sequenceEquals(asAsync([1, 2, 3, 4, "5"]), EqualityComparer)
         expect(sequenceEquals).toBe(true)

@@ -1,7 +1,7 @@
 import { asAsync, itAsync, itEnumerable, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("selectManyAsync", () => {
-    itEnumerableAsync<{ a: number[] }>("selectManyAsync", async (asEnumerable) => {
+    itEnumerableAsync<{ a: number[] }>("Basic", async (asEnumerable) => {
         const values = asEnumerable([
             { a: [1, 2]},
             { a: [3, 4]},
@@ -11,7 +11,7 @@ describe("selectManyAsync", () => {
         expect(result).toEqual([1, 2, 3, 4])
     })
 
-    itAsync("selectManyAsync", async () => {
+    itAsync("Basic", async () => {
         const values = asAsync([
             { a: [1, 2]},
             { a: [3, 4]},
@@ -21,7 +21,7 @@ describe("selectManyAsync", () => {
         expect(result).toEqual([1, 2, 3, 4])
     })
 
-    itParallel<{ a: number[] }>("selectManyAsync", async (asParallel) => {
+    itParallel<{ a: number[] }>("Basic", async (asParallel) => {
         const values = asParallel([
             { a: [1, 2]},
             { a: [3, 4]},

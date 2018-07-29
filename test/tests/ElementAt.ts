@@ -7,7 +7,7 @@ describe("elementAt", () => {
         expect(asEnumerable([1, 2]).elementAt(1)).toBe(2)
     })
 
-    itAsync("BasicAsync", async () => {
+    itAsync("Basic", async () => {
         expect(await asAsync([1]).elementAt(0)).toBe(1)
         expect(await asAsync([1, 2]).elementAt(1)).toBe(2)
     })
@@ -20,7 +20,7 @@ describe("elementAt", () => {
     itEnumerable("empty array throws exception", (asEnumerable) =>
         expect(() => asEnumerable([]).elementAt(0)).toThrowError(ArgumentOutOfRangeException))
 
-    itAsync("empty array throws exception async", async () => {
+    itAsync("empty array throws exception", async () => {
         const expect = await expectAsync(asAsync([]).elementAt(0))
         expect.toThrowError(ArgumentOutOfRangeException)
     })
@@ -34,7 +34,7 @@ describe("elementAt", () => {
         expect(() => asEnumerable([1, 2]).elementAt(-1)).toThrowError(ArgumentOutOfRangeException)
     })
 
-    itAsync("negative index throws exception Async", async () => {
+    itAsync("negative index throws exception", async () => {
         const expect = await expectAsync(asAsync([1, 2]).elementAt(-1))
         expect.toThrowError(ArgumentOutOfRangeException)
     })

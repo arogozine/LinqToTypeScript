@@ -12,12 +12,32 @@ initializeLinq()
 // We want the description to be the function
 // being tested
 
-declare function describe(
-    description: (keyof IEnumerable<any>) |
-        (keyof typeof Enumerable) | (keyof typeof AsyncEnumerable) | "AsyncEnumerableIteration",
-    specDefinitions: (this: never) => void): void
+const desc = describe
 
-// Parallel Issues - Aggregate, Min, Max
+function describeWrapper(description: string, specDefinitions: () => void): void {
+    const allowed = [
+        "AsyncEnumerableIteration",
+        "isAsyncEnumerable",
+        "isEnumerable",
+        "isParallelEnumerable",
+        "ParallelEnumerable",
+        "thenBy",
+        "thenByAsync",
+        "joinByKey",
+    ]
+    const syncKeys = Object.getOwnPropertyNames(Enumerable)
+    const asyncKeys = Object.getOwnPropertyNames(AsyncEnumerable)
+    const keys = [ ...syncKeys, ...asyncKeys, ...allowed ]
+
+    if (keys.find((key) => key === description) === undefined) {
+        // tslint:disable-next-line:no-console
+        console.warn(`Describe - "${ description }"`)
+    }
+
+    desc(description, specDefinitions)
+}
+
+(window as any).describe = describeWrapper
 
 import "./tests/staticmethods/Empty"
 import "./tests/staticmethods/EnumerateObject"

@@ -25,4 +25,6 @@ describe("enumerateObject", () => {
             expect(item.second).toBe(object[item.first])
         }
     })
+
+    // TODO: Parallel
 })

@@ -4,13 +4,13 @@ describe("orderByDescendingAsync", () => {
     const unsorted = [9, 8, 7, 6, 5, 5, 4, 3, 9, 1, 0]
     const sorted = [9, 9, 8, 7, 6, 5, 5, 4, 3, 1, 0]
 
-    itEnumerableAsync("basic", async (asEnumerable) => {
+    itEnumerableAsync("Basic", async (asEnumerable) => {
         const vals = asEnumerable(unsorted)
         const sortedValues = await vals.orderByDescendingAsync(async (x) => x).toArray()
         expect(sortedValues).toEqual(sorted)
     })
 
-    itAsync("BasicAsync", async () => {
+    itAsync("Basic", async () => {
         const vals = asAsync(unsorted)
         const sortedValues = await vals.orderByDescendingAsync(async (x) => x).toArray()
         expect(sortedValues).toEqual(sorted)

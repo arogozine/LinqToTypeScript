@@ -6,7 +6,7 @@ describe("except", () => {
         expect(asEnumerable([1, 2, 3]).except(asEnumerable([1, 2])).toArray()).toEqual([3])
     })
 
-    itAsync("basicAsync", async () => {
+    itAsync("basic", async () => {
         const value = await asAsync([1, 2, 3]).except(asAsync([1, 2])).toArray()
         expect(value).toEqual([3])
     })

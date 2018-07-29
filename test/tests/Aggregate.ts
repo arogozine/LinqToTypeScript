@@ -129,7 +129,7 @@ describe("aggregate", () => {
         expect.toThrowError(InvalidOperationException)
     })
 
-    itEnumerable<number>("aggregate2", (asEnumerable) => {
+    itEnumerable<number>("Aggregate2", (asEnumerable) => {
         const val = asEnumerable([1, 2, 3]).aggregate(4, (x, y) => x + y)
         expect(val).toBe(10)
 

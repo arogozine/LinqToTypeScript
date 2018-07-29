@@ -11,7 +11,7 @@ describe("flatten", () => {
         expect(c).toEqual([1, 2, 3])
     })
 
-    itAsync("BasicAsync", async () => {
+    itAsync("Basic", async () => {
         const a = await AsyncEnumerable.flatten(asAsync<any>([1, 2, 3])).toArray()
         const b = await AsyncEnumerable.flatten(asAsync<any>([1, asAsync([2]), "3"])).toArray()
         const c = await AsyncEnumerable.flatten(asAsync([1, asAsync([2, 3])])).toArray()
@@ -39,7 +39,7 @@ describe("flatten", () => {
         expect((shallow[2] as number[])[0]).toBe(3)
     })
 
-    itAsync("ShallowAsync", async () => {
+    itAsync("Shallow", async () => {
         const shallow = await AsyncEnumerable.flatten(asAsync<any>([1, asAsync([2, asAsync([3])])]), true).toArray()
         expect(shallow.length).toBe(3)
         expect(shallow[0]).toBe(1)

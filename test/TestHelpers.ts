@@ -89,11 +89,14 @@ export function itParallel<T = number>(
     const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
     const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
     const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
+
     if (expectation.toLowerCase().endsWith(`parallel`)) {
-        throw new Error(`No need for Parallel`)
+        // tslint:disable-next-line:no-console
+        console.warn(`itAsync ends with Parallel: "${ expectation }"`)
     }
 
     if (expectation.toLowerCase().endsWith(`async`)) {
+        // tslint:disable-next-line:no-console
         console.warn(`itParallel ends with Async: ${ expectation }`)
     }
 
@@ -110,12 +113,14 @@ export function itParallel<T = number>(
  * @param timeout Custom timeout for an async spec.
  */
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
-    /*
+
     if (expectation.toLowerCase().endsWith(`async`)) {
-        throw new Error(`No need for Async`)
+        // tslint:disable-next-line:no-console
+        console.warn(`itAsync ends with Async: "${ expectation }"`)
     }
-    */
+
     if (expectation.toLowerCase().endsWith(`parallel`)) {
+        // tslint:disable-next-line:no-console
         console.warn(`itAsync ends with Parallel: ${ expectation }`)
     }
 

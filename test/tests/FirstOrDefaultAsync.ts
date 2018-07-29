@@ -8,7 +8,7 @@ describe("firstAsync", () => {
         .toBe(2)
     })
 
-    itAsync("FirstPredicateAsync", async () => {
+    itAsync("FirstPredicate", async () => {
         expect(await asAsync([1, 2]).firstOrDefaultAsync(async (x) => x === 2)).toBe(2)
     })
 
@@ -22,7 +22,7 @@ describe("firstAsync", () => {
         expectExpr.toBeNull()
     })
 
-    itAsync("empty array with predicate causes exception async", async () => {
+    itAsync("empty array with predicate causes exception", async () => {
         const value = await expectAsync(asAsync([1, 2, 3]).firstOrDefaultAsync(async (x) => x === 4))
         value.toBeNull()
     })

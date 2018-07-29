@@ -53,7 +53,7 @@ describe("distinct", () => {
     itEnumerable("empty array to remain empty", (asEnumerable) =>
         expect(asEnumerable([]).distinct().toArray()).toEqual([]))
 
-    itAsync("empty array to remain empty async", async () => {
+    itAsync("empty array to remain empty", async () => {
         const value = await asAsync([]).distinct().toArray()
         expect(value).toEqual([])
     })

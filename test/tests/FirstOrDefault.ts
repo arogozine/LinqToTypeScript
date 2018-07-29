@@ -8,7 +8,7 @@ describe("firstOrDefault", () => {
         expect(asEnumerable([1, 2]).firstOrDefault((x) => x === 2)).toBe(2)
     })
 
-    itAsync("FirstPredicateAsync", async () => {
+    itAsync("FirstPredicate", async () => {
         expect(await asAsync([1, 2]).firstOrDefault((x) => x === 2)).toBe(2)
     })
 
@@ -20,7 +20,7 @@ describe("firstOrDefault", () => {
         expect(asEnumerable([]).firstOrDefault()).toBeNull()
     })
 
-    itAsync("FirstOrDefaultEmptyAsync", async () =>  {
+    itAsync("FirstOrDefaultEmpty", async () =>  {
         (await expectAsync(asAsync([]).firstOrDefault())).toBeNull()
     })
 
