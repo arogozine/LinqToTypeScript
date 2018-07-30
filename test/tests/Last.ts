@@ -39,4 +39,19 @@ describe("last", () => {
     itParallel("LastPredicate", async (asParallel) => {
         expect(await asParallel([1, 2]).last((x) => x === 1)).toBe(1)
     })
+
+    itEnumerable("Last Empty With Predicate", (asEnumerable) => {
+        expect(() => asEnumerable([]).last((x) => x > 2))
+            .toThrowError(InvalidOperationException)
+    })
+
+    itAsync("Last Empty With Predicate", async () => {
+        const expect = await expectAsync(asAsync([]).last((x) => x > 2))
+        expect.toThrowError(InvalidOperationException)
+    })
+
+    itParallel("Last Empty With Predicate", async (asParallel) => {
+        const expect = await expectAsync(asParallel([]).last((x) => x > 2))
+        expect.toThrowError(InvalidOperationException)
+    })
 })

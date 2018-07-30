@@ -9,10 +9,18 @@ describe("lastOrDefaultAsync", () => {
     })
 
     itAsync("Basic", async () => {
-        expect(await asAsync([1, 2, 3]).lastOrDefaultAsync(async (x) => x === 4)).toBeNull()
+        expect(await asAsync([1, 2, 3]).lastOrDefaultAsync(async (x) => x === 4))
+            .toBeNull()
+
+        expect(await asAsync([1, 2]).lastOrDefaultAsync(async (x) => x === 1))
+            .toBe(1)
     })
 
     itParallel("Basic", async (asParallel) => {
-        expect(await asParallel([1, 2, 3]).lastOrDefaultAsync(async (x) => x === 4)).toBeNull()
+        expect(await asParallel([1, 2, 3]).lastOrDefaultAsync(async (x) => x === 4))
+            .toBeNull()
+
+        expect(await asParallel([1, 2]).lastOrDefaultAsync(async (x) => x === 1))
+            .toBe(1)
     })
 })
