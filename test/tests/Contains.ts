@@ -60,7 +60,7 @@ describe("contains", () => {
         expect(value).toBe(false)
     })
 
-    itEnumerable("contains False", (asEnumerable) =>
+    itEnumerable("Contains False", (asEnumerable) =>
         expect(asEnumerable([1, 2]).contains(0)).toBe(false))
 
     itAsync("Contains False", async () =>
@@ -69,7 +69,7 @@ describe("contains", () => {
     itParallel("Contains False", async (asParallel) =>
         expect(await asParallel([1, 2]).contains(0)).toBe(false))
 
-    itEnumerable("contains True", (asEnumerable) =>
+    itEnumerable("Contains True", (asEnumerable) =>
         expect(asEnumerable([1, 2]).contains(1)).toBe(true))
 
     itAsync("Contains True", async () =>

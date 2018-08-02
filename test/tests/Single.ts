@@ -17,18 +17,18 @@ describe("single", () => {
         expect(await vals.single()).toBe(1)
     })
 
-    itEnumerable("basic expection", (asEnumerable) => {
+    itEnumerable("basic exception", (asEnumerable) => {
         const vals = asEnumerable([1, 2, 3, 4])
         expect(() => vals.single()).toThrowError(InvalidOperationException)
     })
 
-    itAsync("basic expection", async () => {
+    itAsync("basic exception", async () => {
         const vals = asAsync([1, 2, 3, 4])
         const expect = await expectAsync(vals.single())
         expect.toThrowError(InvalidOperationException)
     })
 
-    itParallel("basic expection", async (asParallel) => {
+    itParallel("basic exception", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
         const expect = await expectAsync(vals.single())
         expect.toThrowError(InvalidOperationException)

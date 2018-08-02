@@ -9,36 +9,6 @@ initializeLinq()
 // Tests use Jasmine framework,
 // https://jasmine.github.io/2.0/introduction.html
 
-// We want the description to be the function
-// being tested
-
-const desc = describe
-
-function describeWrapper(description: string, specDefinitions: () => void): void {
-    const allowed = [
-        "AsyncEnumerableIteration",
-        "isAsyncEnumerable",
-        "isEnumerable",
-        "isParallelEnumerable",
-        "ParallelEnumerable",
-        "thenBy",
-        "thenByAsync",
-        "joinByKey",
-    ]
-    const syncKeys = Object.getOwnPropertyNames(Enumerable)
-    const asyncKeys = Object.getOwnPropertyNames(AsyncEnumerable)
-    const keys = [ ...syncKeys, ...asyncKeys, ...allowed ]
-
-    if (keys.find((key) => key === description) === undefined) {
-        // tslint:disable-next-line:no-console
-        console.warn(`Describe - "${ description }"`)
-    }
-
-    desc(description, specDefinitions)
-}
-
-(window as any).describe = describeWrapper
-
 import "./tests/staticmethods/Empty"
 import "./tests/staticmethods/EnumerateObject"
 import "./tests/staticmethods/Flatten"

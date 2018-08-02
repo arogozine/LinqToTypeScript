@@ -38,7 +38,7 @@ describe("orderByAsync", () => {
     //#region With Comparer
     const comparer = (x: number, y: number) => x - y
 
-    itEnumerableAsync("With Comparer Sync", async (asEnumerable) => {
+    itEnumerableAsync("With Comparer", async (asEnumerable) => {
         const vals = asEnumerable(unsorted)
         const orderedValues = await vals.orderByAsync(async (x) => x, comparer).toArray()
         expect(orderedValues).toEqual(sorted)

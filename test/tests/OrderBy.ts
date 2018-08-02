@@ -9,12 +9,12 @@ describe("orderBy", () => {
         expect(vals).toEqual(["a", "b", "c"])
     })
 
-    itAsync("String", async () => {
+    itAsync("string", async () => {
         const vals = await asAsync(["b", "c", "a"]).orderBy((x) => x).toArray()
         expect(vals).toEqual(["a", "b", "c"])
     })
 
-    itParallel<string>("String", async (asParallel) => {
+    itParallel<string>("string", async (asParallel) => {
         const vals = await asParallel(["b", "c", "a"]).orderBy((x) => x).toArray()
         expect(vals).toEqual(["a", "b", "c"])
     })

@@ -53,9 +53,9 @@ describe("all", () => {
         expect(await asAsync([0, 1, 2]).all((x) => x > 5)).toBe(false)
     })
 
-    itParallel("ManyElements", async () => {
-        expect(await asAsync([1, 2, 3]).all((x) => x !== 0)).toBe(true)
-        expect(await asAsync([0, 1, 2]).all((x) => x > 5)).toBe(false)
+    itParallel("ManyElements", async (asParallel) => {
+        expect(await asParallel([1, 2, 3]).all((x) => x !== 0)).toBe(true)
+        expect(await asParallel([0, 1, 2]).all((x) => x > 5)).toBe(false)
     })
 
     itEnumerable("EmptyElementTrue", (asEnumerable) => {

@@ -18,7 +18,7 @@ describe("joinByKey", () => {
         expect(joinBy[2].x).toBe(joinBy[2].y)
     })
 
-    itAsync("Basic", async () => {
+    itAsync("basic", async () => {
         const joinBy = await asAsync([1, 2, 3]).joinByKey(asAsync([1, 2, 3]),
             (x) => x,
             (x) => x,
@@ -34,7 +34,7 @@ describe("joinByKey", () => {
         expect(joinBy[2].x).toBe(joinBy[2].y)
     })
 
-    itParallel("Basic", async (asParallel) => {
+    itParallel("basic", async (asParallel) => {
         const joinBy = await asParallel([1, 2, 3]).joinByKey(asAsync([1, 2, 3]),
             (x) => x,
             (x) => x,

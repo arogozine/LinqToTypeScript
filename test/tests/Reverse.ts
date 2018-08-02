@@ -16,8 +16,8 @@ describe("reverse", () => {
         expect(await vals.reverse().toArray()).toEqual([3, 2, 1])
     })
 
-    it("empty array still empty", () =>
-        expect([].reverse()).toEqual([]))
+    itEnumerable("empty array still empty", (asEnumerable) =>
+        expect(asEnumerable([]).reverse().toArray()).toEqual([]))
 
     itAsync("empty array still empty", async () =>
         expect(await asAsync([]).reverse().toArray()).toEqual([]))

@@ -23,7 +23,7 @@ describe("selectAsync", () => {
         expect(await values.select((x) => x + 1).toArray()).toEqual(asyncValues)
     })
 
-    itEnumerableAsync("Basic String Key", async (asEnumerable) => {
+    itEnumerableAsync("String Key", async (asEnumerable) => {
         const values = asEnumerable([1, 2, 3])
         const trueValues = values
             .select((x) => {
@@ -34,7 +34,7 @@ describe("selectAsync", () => {
         expect(await values.select((x) => x + 1).toArray()).toEqual(asyncValues)
     })
 
-    itAsync("From String Key", async () => {
+    itAsync("String Key", async () => {
         const values = asAsync([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueValues = values
             .select((x) => {
@@ -45,7 +45,7 @@ describe("selectAsync", () => {
         expect(await values.select((x) => x + 1).toArray()).toEqual(asyncValues)
     })
 
-    itParallel("From String Key", async (asParallel) => {
+    itParallel("String Key", async (asParallel) => {
         const values = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueValues = values
             .select((x) => {

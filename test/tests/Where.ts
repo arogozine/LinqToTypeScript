@@ -38,7 +38,7 @@ describe("where", () => {
         expect(noEmptyStrings).toEqual([ "1", "2", "foo", "bar" ])
 
         const noBar = stuff
-            .where((x: string, i: number) => i !== stuff.count() - 1)
+            .where((_: string, i: number) => i !== stuff.count() - 1)
             .toArray()
 
         expect(noBar).toEqual([ "", "1", "2", "foo" ])

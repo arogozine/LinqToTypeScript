@@ -32,7 +32,7 @@ describe("sequenceEquals", () => {
         expect(sequenceEquals).toBe(true)
     })
 
-    itParallel<string | number>("Sequence Equals Weak Basic", async (asParallel) => {
+    itParallel<string | number>("Sequence Equals Weak Comparer Basic", async (asParallel) => {
         const sequenceEquals = await asParallel([1, 2, 3, "4", "5"])
             .sequenceEquals(asParallel(["1", "2", "3", 4, 5]), EqualityComparer)
         expect(sequenceEquals).toBe(true)

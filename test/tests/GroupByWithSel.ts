@@ -94,7 +94,7 @@ describe("groupByWithSel", () => {
         }
     })
 
-    itParallel("SingleKeyParalel", async (asParallel) => {
+    itParallel("SingleKey", async (asParallel) => {
         const singleKey = "singleKey"
         const grouping = asParallel([1, 2, 3]).groupByWithSel((x) => singleKey, (x) => x.toString())
 

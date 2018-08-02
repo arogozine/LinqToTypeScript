@@ -11,6 +11,62 @@ import {
 
 // There are helper functions to make testing easy
 
+// We want the description to be the function
+// being tested
+
+const desc = describe
+type EnumerationType = "Sync" | "Async" | "Parallel"
+const nameMap = new Map<string, EnumerationType[]>()
+
+const isChecks: ReadonlyArray<string> = [
+    "isAsyncEnumerable",
+    "isEnumerable",
+    "isParallelEnumerable",
+]
+
+const syncKeys = Object.getOwnPropertyNames(Enumerable)
+const asyncKeys = Object.getOwnPropertyNames(AsyncEnumerable)
+const staticMethods = [ ...syncKeys, ...asyncKeys ]
+
+function validateKeys(description: string) {
+    for (const [key, values] of nameMap.entries()) {
+        if (values.length !== 3) {
+            // tslint:disable-next-line:no-console
+            console.warn(`For ${ description }: ${ key } - there is only ${ values.length } entries`)
+        }
+    }
+
+    nameMap.clear()
+}
+
+function describeWrapper(description: string, specDefinitions: () => void): void {
+    const allowed = [
+        "AsyncEnumerableIteration",
+        "ParallelEnumerable",
+        "thenBy",
+        "thenByAsync",
+        "joinByKey",
+        ... isChecks,
+    ]
+    const keys = [ ...staticMethods, ...allowed ]
+
+    if (keys.find((key) => key === description) === undefined) {
+        // tslint:disable-next-line:no-console
+        console.warn(`Describe - "${ description }"`)
+    }
+
+    desc(description, () => {
+        specDefinitions()
+        if (staticMethods.includes(description)) {
+            validateKeys(description)
+        } else {
+            nameMap.clear()
+        }
+    })
+}
+
+(window as any).describe = describeWrapper
+
 /**
  * Creates an @see {ArrayEnumerable} from passed in values
  * @param values values for the array enumerable
@@ -78,21 +134,35 @@ function asParallel<T>(type: ParallelGeneratorType, values: T[]): IParallelEnume
 export function itEnumerable<T = number>(
     expectation: string,
     assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => void, timeout?: number): void {
-    it(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
-    it(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
-    it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
+    const currentValues = nameMap.get(expectation)
+    if (currentValues) {
+        currentValues.push("Sync")
+    } else {
+        nameMap.set(expectation, ["Sync"])
+    }
+
+    if (assertion.length === 0) {
+        it(expectation, () => assertion(asArrayEnumerable), timeout)
+    } else {
+        it(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
+        it(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
+        it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
+    }
 }
 
 export function itParallel<T = number>(
     expectation: string,
-    assertion: (asOParallelEnumerable: (x: T[]) => IParallelEnumerable<T>) => void, timeout?: number): void {
-    const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
-    const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
-    const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
+    assertion: (asParallelEnumerable: (x: T[]) => IParallelEnumerable<T>) => void, timeout?: number): void {
+    const currentValues = nameMap.get(expectation)
+    if (currentValues) {
+        currentValues.push("Parallel")
+    } else {
+        nameMap.set(expectation, ["Parallel"])
+    }
 
     if (expectation.toLowerCase().endsWith(`parallel`)) {
         // tslint:disable-next-line:no-console
-        console.warn(`itAsync ends with Parallel: "${ expectation }"`)
+        console.warn(`itParallel ends with Parallel: "${ expectation }"`)
     }
 
     if (expectation.toLowerCase().endsWith(`async`)) {
@@ -100,10 +170,18 @@ export function itParallel<T = number>(
         console.warn(`itParallel ends with Async: ${ expectation }`)
     }
 
+    const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
+
     expectation = `${ expectation } Parallel`
-    it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
-    it(`${ expectation } PromiseOfPromises`, () => assertion(b), timeout)
-    it(`${ expectation } PromiseToArray`, () => assertion(c), timeout)
+    if (assertion.length === 0) {
+        it(expectation, () => assertion(a), timeout)
+    } else {
+        const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
+        const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
+        it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
+        it(`${ expectation } PromiseOfPromises`, () => assertion(b), timeout)
+        it(`${ expectation } PromiseToArray`, () => assertion(c), timeout)
+    }
 }
 
 /**
@@ -113,6 +191,13 @@ export function itParallel<T = number>(
  * @param timeout Custom timeout for an async spec.
  */
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
+
+    const currentValues = nameMap.get(expectation)
+    if (currentValues) {
+        currentValues.push("Async")
+    } else {
+        nameMap.set(expectation, ["Async"])
+    }
 
     if (expectation.toLowerCase().endsWith(`async`)) {
         // tslint:disable-next-line:no-console
@@ -139,9 +224,23 @@ export function itAsync<T>(expectation: string, assertion: () => Promise<T>, tim
 export function itEnumerableAsync<T = number>(
     expectation: string,
     assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => Promise<void>, timeout?: number): void {
-        itAsync(`${ expectation } Array Enumerable`, () => assertion(asArrayEnumerable), timeout)
-        itAsync(`${ expectation } Basic Enumerable`, () => assertion(asBasicEnumerable), timeout)
-        itAsync(`${ expectation } Array`, () => assertion((x) => x as any), timeout)
+    const currentValues = nameMap.get(expectation)
+    if (currentValues) {
+        currentValues.push("Sync")
+    } else {
+        nameMap.set(expectation, ["Sync"])
+    }
+
+    if (assertion.length === 0) {
+        it(expectation, (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
+    } else {
+        it(`${ expectation } Array Enumerable`,
+        (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
+        it(`${ expectation } Basic Enumerable`,
+            (done) => assertion(asBasicEnumerable).then(done, fail), timeout)
+        it(`${ expectation } Array`,
+            (done) => assertion((x) => x as any).then(done, fail), timeout)
+    }
 }
 
 /**

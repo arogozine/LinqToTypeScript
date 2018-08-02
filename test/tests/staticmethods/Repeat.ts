@@ -1,8 +1,8 @@
 import { ArgumentOutOfRangeException, AsyncEnumerable, Enumerable, ParallelEnumerable } from "../../../src/index"
-import { itAsync, itEnumerable } from "../../TestHelpers"
+import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("repeat", () => {
-    it("Repeat 10", () => {
+    itEnumerable("Repeat 10", () => {
         const oneToTen = Enumerable.repeat(1, 10).toArray()
         expect(oneToTen).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     })
@@ -12,20 +12,20 @@ describe("repeat", () => {
         expect(oneToTen).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     })
 
-    itAsync("Repeat 10", async () => {
+    itParallel("Repeat 10", async () => {
         const oneToTen = await ParallelEnumerable.repeat(1, 10).toArray()
         expect(oneToTen).toEqual([1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
     })
 
-    it("Repeat Throws", () => {
+    itEnumerable("Repeat Throws", () => {
         expect(() => Enumerable.repeat(1, -1)).toThrowError(ArgumentOutOfRangeException)
     })
 
-    it("Repeat Throws", () => {
+    itAsync("Repeat Throws", async () => {
         expect(() => AsyncEnumerable.repeat(1, -1)).toThrowError(ArgumentOutOfRangeException)
     })
 
-    it("Repeat Throws", () => {
+    itParallel("Repeat Throws", () => {
         expect(() => ParallelEnumerable.repeat(1, -1)).toThrowError(ArgumentOutOfRangeException)
     })
 })

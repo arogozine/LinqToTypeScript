@@ -1,13 +1,13 @@
-import { itAsync, itEnumerableAsync, itParallel } from "./../TestHelpers"
+import { itEnumerableAsync, itParallel } from "./../TestHelpers"
 
 describe("asAsync", () => {
-    itEnumerableAsync("IEnumerable", async (asIEnumerable) => {
+    itEnumerableAsync("Basic", async (asIEnumerable) => {
         const values = [1, 2, 3]
         const valuesTwo = await asIEnumerable(values).asAsync().toArray()
         expect(valuesTwo).toEqual(values)
     })
 
-    itParallel("IParallelEnumerable", async (asParallel) => {
+    itParallel("Basic", async (asParallel) => {
         const values = [1, 2, 3]
         const valuesTwo = await asParallel(values).asAsync().toArray()
         expect(valuesTwo).toEqual(values)

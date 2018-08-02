@@ -33,11 +33,6 @@ describe("minAsync", () => {
         expectMin.toBe(1)
     })
 
-    itEnumerableAsync("empty exception with selector", async (asEnumerable) => {
-        const expect = await expectAsync(asEnumerable([]).minAsync(async (x) => x))
-        expect.toThrowError(InvalidOperationException)
-    })
-
     //#region Infinity Test
 
     itEnumerableAsync("Infinity Test", async (asEnumerable) => {

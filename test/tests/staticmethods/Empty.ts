@@ -1,8 +1,8 @@
 import { AsyncEnumerable, Enumerable, ParallelEnumerable } from "../../../src"
-import { itAsync } from "../../TestHelpers"
+import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("empty", () => {
-    it("Empty", () => {
+    itEnumerable("Empty", () => {
         for (const _ of Enumerable.empty<any>()) {
             fail()
         }
@@ -14,7 +14,7 @@ describe("empty", () => {
         }
     })
 
-    itAsync("Paralell Empty", async () => {
+    itParallel("Empty", async () => {
         for await (const _ of ParallelEnumerable.empty<any>()) {
             fail()
         }

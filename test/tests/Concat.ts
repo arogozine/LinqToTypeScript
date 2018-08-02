@@ -15,8 +15,10 @@ describe("concat", () => {
         expect(value).toEqual([])
     })
 
-    it("handles calling array being empty", () =>
-        expect(([] as number[]).concat([1])).toEqual([1]))
+    itEnumerable("handles calling array being empty", (asEnumerable) => {
+        expect(asEnumerable([]).concat(asEnumerable([1])).toArray())
+            .toEqual([1])
+    })
 
     itAsync("handles calling array being empty", async () => {
         const value = await asAsync([] as number[]).concat(asAsync([1])).toArray()

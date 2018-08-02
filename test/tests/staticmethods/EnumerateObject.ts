@@ -1,8 +1,8 @@
 import { AsyncEnumerable, Enumerable } from "../../../src/index"
-import { itAsync } from "../../TestHelpers"
+import { itAsync, itEnumerable } from "../../TestHelpers"
 
 describe("enumerateObject", () => {
-    it("EnumerateObject", () => {
+    itEnumerable("EnumerateObject", () => {
         const object = {
             a: 1,
             b: "foo",
@@ -14,7 +14,7 @@ describe("enumerateObject", () => {
         }
     })
 
-    itAsync("AsyncEnumerateObject", async () => {
+    itAsync("EnumerateObject", async () => {
         const object = {
             a: 1,
             b: "foo",

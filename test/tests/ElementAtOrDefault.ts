@@ -3,13 +3,6 @@ import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../Test
 
 describe("elementAtOrDefault", () => {
 
-    it("ArrayEnumerable", () => {
-        const arrayEnum = new ArrayEnumerable(1, 2, 3)
-        for (const val of arrayEnum) {
-            expect(val).toBeDefined()
-        }
-    })
-
     itEnumerable("WithElements", (asEnumerable) => {
         expect(asEnumerable([1]).elementAtOrDefault(0)).toBe(1)
         expect(asEnumerable([1, 2]).elementAtOrDefault(1)).toBe(2)
@@ -25,15 +18,15 @@ describe("elementAtOrDefault", () => {
         expect(await asParallel([1, 2]).elementAtOrDefault(1)).toBe(2)
     })
 
-    itEnumerable("empty to be null", (asEnumerable) =>
+    itEnumerable("Empty to be null", (asEnumerable) =>
         expect(asEnumerable([]).elementAtOrDefault(0)).toBeNull())
 
-    itAsync("empty to be null", async () => {
+    itAsync("Empty to be null", async () => {
         const expect = await expectAsync(asAsync([]).elementAtOrDefault(0))
         expect.toBeNull()
     })
 
-    itParallel("empty to be null", async (asParallel) => {
+    itParallel("Empty to be null", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).elementAtOrDefault(0))
         expect.toBeNull()
     })

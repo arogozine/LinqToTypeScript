@@ -33,21 +33,6 @@ describe("eachAsync", () => {
     })
 
     itParallel("Basic", async (asParallel) => {
-        const values = [1, 2, 3, 4, 5]
-
-        let count = 0
-        await asParallel(values).eachAsync((x) => {
-            return new Promise((resolve) => {
-                expect(values.find((y) => y === x)).toBeTruthy()
-                count++
-                resolve()
-            })
-        }).toArray()
-
-        expect(count).toBe(values.length)
-    })
-
-    itAsync("Parallel Execution", async () => {
         let canStart = false
         let first = true
         const eachAsync = (x: number) => {
@@ -66,7 +51,8 @@ describe("eachAsync", () => {
             (async () => 2)(),
         ]
 
-        const lazyParallel = ParallelEnumerable.from<number>(ParallelGeneratorType.ArrayOfPromises, generator)
+        const lazyParallel = ParallelEnumerable
+            .from<number>(ParallelGeneratorType.ArrayOfPromises, generator)
             .eachAsync(eachAsync)
         canStart = true
         const result = await lazyParallel.toArray()

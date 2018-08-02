@@ -5,7 +5,7 @@ describe("sum", () => {
         expect(asEnumerable([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
-    itAsync("sum basic ", async () => {
+    itAsync("sum basic", async () => {
         expect(await asAsync([ 43.68, 1.25, 583.7, 6.5 ]).sum()).toBe(635.13)
     })
 
