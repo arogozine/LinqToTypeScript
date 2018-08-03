@@ -1,8 +1,4 @@
-import {
-    AsyncEnumerable,
-    Enumerable,
-    IEnumerable,
-    initializeLinq } from "./../src/index"
+import { initializeLinq } from "./../src/index"
 
 initializeLinq()
 
@@ -98,5 +94,4 @@ import "./tests/WhereAsync"
 import "./tests/Zip"
 import "./tests/ZipAsync"
 
-import "./tests/parallel/each"
 // tslint:enable:ordered-imports

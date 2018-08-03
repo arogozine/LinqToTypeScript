@@ -1806,6 +1806,32 @@ export class ParallelEnumerable {
         return OrderedParallelEnumerable.generateAsync(source, keySelector, false, comparer)
     }
 
+    /**
+     * Generates a sequence of integral numbers within a specified range.
+     * @param start The value of the first integer in the sequence.
+     * @param count The number of sequential integers to generate.
+     * @throws {ArgumentOutOfRangeException} Start is Less than 0
+     */
+    public static range(start: number, count: number): IParallelEnumerable<number> {
+        if (start < 0) {
+            throw new ArgumentOutOfRangeException(`start`)
+        }
+
+        function generator() {
+            const items = []
+            const max = start + count
+            for (let i = start; i < max; i++) {
+                items.push(Promise.resolve(i))
+            }
+            return items
+        }
+
+        return new BasicParallelEnumerable({
+            generator,
+            type: ParallelGeneratorType.ArrayOfPromises,
+        })
+    }
+
     public static repeat<T>(
         element: T, count: number, delay?: number): IParallelEnumerable<T> {
         if (count < 0) {

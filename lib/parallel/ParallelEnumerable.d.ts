@@ -113,6 +113,13 @@ export declare class ParallelEnumerable {
     static orderByAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
     static orderByDescending<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
     static orderByDescendingAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+    /**
+     * Generates a sequence of integral numbers within a specified range.
+     * @param start The value of the first integer in the sequence.
+     * @param count The number of sequential integers to generate.
+     * @throws {ArgumentOutOfRangeException} Start is Less than 0
+     */
+    static range(start: number, count: number): IParallelEnumerable<number>;
     static repeat<T>(element: T, count: number, delay?: number): IParallelEnumerable<T>;
     private static repeat_1;
     private static repeat_2;
