@@ -112,7 +112,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | Method             | Async\* | Tests Coverage | Notes |
 |--------------------|---------|----------------|-------|
 | aggregate          | No      | [Sync](test/tests/Aggregate.ts)
-| all                | Yes     | [Sync](test/tests/All.ts), [Async](test/tests/All.ts)
+| all                | Yes     | [Sync](test/tests/All.ts), [Async](test/tests/AllAsync.ts)
 | any                | Yes     | [Sync](test/tests/Any.ts), [Async](test/tests/AnyAsync.ts)
 | average            | Yes     | [Sync](test/tests/Average.ts), [Async](test/tests/AverageAsync.ts)
 | concat             | No      | [Sync](test/tests/Concat.ts)
@@ -164,7 +164,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | enumerateObject | Yes        | Yes   | No       | [Test](test/tests/staticmethods/EnumerateObject.ts)
 | flatten         | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Flatten.ts)
 | fromEvent       | No         | Yes   | No       | [Test](test/tests/staticmethods/FromEvent.ts)
-| range           | Yes        | Yes   | No       | [Test](test/tests/staticmethods/Range.ts)
+| range           | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Range.ts)
 | repeat          | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Repeat.ts)
 
 #### Index Methods
