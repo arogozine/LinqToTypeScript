@@ -14,9 +14,14 @@ import {
 // We want the description to be the function
 // being tested
 
-const desc = describe
+// Check that there is the same test for
+// Enumerable, AsyncEnumerable, and ParallelEnumerable
 type EnumerationType = "Sync" | "Async" | "Parallel"
 const nameMap = new Map<string, EnumerationType[]>()
+
+//#region Describe Wrapper
+
+const desc = describe
 
 const isChecks: ReadonlyArray<string> = [
     "isAsyncEnumerable",
@@ -66,6 +71,8 @@ function describeWrapper(description: string, specDefinitions: () => void): void
 }
 
 (window as any).describe = describeWrapper
+
+//#endregion
 
 /**
  * Creates an @see {ArrayEnumerable} from passed in values
@@ -141,9 +148,21 @@ export function itEnumerable<T = number>(
         nameMap.set(expectation, ["Sync"])
     }
 
+    if (expectation.toLowerCase().endsWith(`parallel`)) {
+        // tslint:disable-next-line:no-console
+        console.warn(`itEnumerable ends with Parallel: "${ expectation }"`)
+    }
+
+    if (expectation.toLowerCase().endsWith(`async`)) {
+        // tslint:disable-next-line:no-console
+        console.warn(`itEnumerable ends with Async: ${ expectation }`)
+    }
+
     if (assertion.length === 0) {
+        // asIEnumerable is not used
         it(expectation, () => assertion(asArrayEnumerable), timeout)
     } else {
+        // asIEnumerable is used
         it(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
         it(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
         it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
@@ -174,8 +193,10 @@ export function itParallel<T = number>(
 
     expectation = `${ expectation } Parallel`
     if (assertion.length === 0) {
+        // asParallelEnumerable is not used
         it(expectation, () => assertion(a), timeout)
     } else {
+        // asParallelEnumerable is used
         const b = (x: T[]) => asParallel(ParallelGeneratorType.PromiseOfPromises, x)
         const c = (x: T[]) => asParallel(ParallelGeneratorType.PromiseToArray, x)
         it(`${ expectation } ArrayOfPromises`, () => assertion(a), timeout)
@@ -232,8 +253,10 @@ export function itEnumerableAsync<T = number>(
     }
 
     if (assertion.length === 0) {
+        // asIEnumerable is not used
         it(expectation, (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
     } else {
+        // asIEnumerable is used
         it(`${ expectation } Array Enumerable`,
         (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
         it(`${ expectation } Basic Enumerable`,
