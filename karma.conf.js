@@ -9,7 +9,6 @@ module.exports = function(config) {
       'karma-jasmine',
       'karma-firefox-launcher',
       'karma-chrome-launcher',
-      'karma-edge-launcher'
     ],
     files: [
       "./src/**/*.ts",
@@ -27,8 +26,7 @@ module.exports = function(config) {
       tsconfig: "./test/tsconfig.json"
     },
     reporters: [ 'progress', 'karma-typescript' ],
-    browsers: [ 
-//      'Edge', 
+    browsers: [
       'Firefox',
       'Chrome', ],
     port: 9876,
