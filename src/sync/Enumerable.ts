@@ -971,7 +971,7 @@ export class Enumerable {
         comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
 
         if (comparer) {
-            return Enumerable.groupBy_2(source,
+            return Enumerable.groupBy_2<TSource, TKey, TResult>(source,
                 keySelector as (x: TSource) => TKey,
                 resultSelector,
                 comparer)
