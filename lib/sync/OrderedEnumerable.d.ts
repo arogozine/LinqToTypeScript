@@ -9,11 +9,7 @@ import { IOrderedEnumerable } from "./IOrderedEnumerable";
  */
 export declare class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
     private readonly orderedPairs;
-    private static asSortedKeyValues;
-    private static asKeyMap;
     static generate<TSource, TKey>(source: Iterable<TSource> | OrderedEnumerable<TSource>, keySelector: (x: TSource) => TKey, ascending: boolean, comparer?: IComparer<TKey>): OrderedEnumerable<TSource>;
-    private static asSortedKeyValuesAsync;
-    private static asKeyMapAsync;
     static generateAsync<TSource, TKey>(source: Iterable<TSource> | OrderedEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, ascending: boolean, comparer?: IComparer<TKey>): OrderedAsyncEnumerable<TSource>;
     private constructor();
     thenBy<TKey>(keySelector: (x: T) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<T>;

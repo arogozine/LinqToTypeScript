@@ -1,5 +1,5 @@
-import { Enumerable } from "../../src/index"
-import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
+import { from } from "../../src/index"
+import { itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("whereAsync", () => {
     itEnumerable("Basic", (asEnumerable) => {
@@ -13,7 +13,7 @@ describe("whereAsync", () => {
     })
 
     itAsync("Basic", async () => {
-        const values = Enumerable.from([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        const values = from([1, 2, 3, 4, 5, 6, 7, 8, 9])
         const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
             setTimeout(() => e(true), 100)
         }))

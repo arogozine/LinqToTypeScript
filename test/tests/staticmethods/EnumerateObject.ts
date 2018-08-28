@@ -1,4 +1,4 @@
-import { AsyncEnumerable, Enumerable } from "../../../src/index"
+import { AsyncEnumerable, enumerateObject } from "../../../src/index"
 import { itAsync, itEnumerable } from "../../TestHelpers"
 
 describe("enumerateObject", () => {
@@ -9,7 +9,7 @@ describe("enumerateObject", () => {
             z: [1, 2, false],
         }
 
-        for (const item of Enumerable.enumerateObject(object)) {
+        for (const item of enumerateObject(object)) {
             expect(item.second).toBe(object[item.first])
         }
     })

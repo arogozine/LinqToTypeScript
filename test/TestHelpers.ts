@@ -1,7 +1,7 @@
 import {
     ArrayEnumerable,
     AsyncEnumerable,
-    Enumerable,
+    from,
     IAsyncEnumerable,
     IEnumerable,
     IParallelEnumerable,
@@ -29,7 +29,7 @@ const isChecks: ReadonlyArray<string> = [
     "isParallelEnumerable",
 ]
 
-const syncKeys = Object.getOwnPropertyNames(Enumerable)
+const syncKeys = Object.getOwnPropertyNames(ArrayEnumerable)
 const asyncKeys = Object.getOwnPropertyNames(AsyncEnumerable)
 const staticMethods = [ ...syncKeys, ...asyncKeys ]
 
@@ -89,7 +89,7 @@ function asArrayEnumerable<T>(values: T[]): IEnumerable<T> {
  * @param values values for the basic enumerable
  */
 function asBasicEnumerable<T>(values: T[]): IEnumerable<T> {
-    return Enumerable.from(values)
+    return from(values)
 }
 
 /**

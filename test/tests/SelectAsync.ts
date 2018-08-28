@@ -1,4 +1,3 @@
-import { Enumerable } from "../../src/index"
 import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("selectAsync", () => {

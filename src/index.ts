@@ -11,12 +11,7 @@ import { ArrayEnumerable, IEnumerable } from "./sync/sync"
 export * from "./shared/shared"
 
 // Enumerable
-export {
-    IEnumerable,
-    Enumerable,
-    IOrderedEnumerable,
-    ArrayEnumerable,
-} from "./sync/sync"
+export * from "./sync/sync"
 
 // AsyncEnumerable
 export * from "./async/async"

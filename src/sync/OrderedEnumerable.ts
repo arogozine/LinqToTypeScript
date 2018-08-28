@@ -4,6 +4,80 @@ import { IComparer } from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
+const asKeyMap = <TSource, TKey>(
+    source: Iterable<TSource>,
+    keySelector: (x: TSource) => TKey) => {
+
+    const map = new Map<TKey, TSource[]>()
+    for (const item of source) {
+        const key = keySelector(item)
+        const currentMapping = map.get(key)
+
+        if (currentMapping) {
+            currentMapping.push(item)
+        } else {
+            map.set(key, [item])
+        }
+    }
+    return map
+}
+
+async function *asSortedKeyValuesAsync<TSource, TKey>(
+    source: Iterable<TSource>,
+    keySelector: (x: TSource) => Promise<TKey>,
+    ascending: boolean,
+    comparer?: IComparer<TKey>) {
+    const map = await asKeyMapAsync(source, keySelector)
+    const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
+
+    if (ascending) {
+        for (let i = 0; i < sortedKeys.length; i++) {
+            yield map.get(sortedKeys[i]) as TSource[]
+        }
+    } else {
+        for (let i = sortedKeys.length - 1; i >= 0; i--) {
+            yield map.get(sortedKeys[i]) as TSource[]
+        }
+    }
+}
+
+const asKeyMapAsync = async <TSource, TKey>(
+    source: Iterable<TSource>,
+    keySelector: (x: TSource) => Promise<TKey>) => {
+
+    const map = new Map<TKey, TSource[]>()
+    for (const item of source) {
+        const key = await keySelector(item)
+        const currentMapping = map.get(key)
+
+        if (currentMapping) {
+            currentMapping.push(item)
+        } else {
+            map.set(key, [item])
+        }
+    }
+    return map
+}
+
+function *asSortedKeyValues<TSource, TKey>(
+    source: Iterable<TSource>,
+    keySelector: (x: TSource) => TKey,
+    ascending: boolean,
+    comparer?: IComparer<TKey>) {
+    const map = asKeyMap(source, keySelector)
+    const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
+
+    if (ascending) {
+        for (let i = 0; i < sortedKeys.length; i++) {
+            yield map.get(sortedKeys[i]) as TSource[]
+        }
+    } else {
+        for (let i = sortedKeys.length - 1; i >= 0; i--) {
+            yield map.get(sortedKeys[i]) as TSource[]
+        }
+    }
+}
+
 /**
  * Represents Ordered Enumeration
  * @private
@@ -11,43 +85,6 @@ import { IOrderedEnumerable } from "./IOrderedEnumerable"
 export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
 
     //#region Sync
-
-    private static *asSortedKeyValues<TSource, TKey>(
-        source: Iterable<TSource>,
-        keySelector: (x: TSource) => TKey,
-        ascending: boolean,
-        comparer?: IComparer<TKey>) {
-        const map = OrderedEnumerable.asKeyMap(source, keySelector)
-        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
-
-        if (ascending) {
-            for (let i = 0; i < sortedKeys.length; i++) {
-                yield map.get(sortedKeys[i]) as TSource[]
-            }
-        } else {
-            for (let i = sortedKeys.length - 1; i >= 0; i--) {
-                yield map.get(sortedKeys[i]) as TSource[]
-            }
-        }
-    }
-
-    private static asKeyMap<TSource, TKey>(
-        source: Iterable<TSource>,
-        keySelector: (x: TSource) => TKey) {
-
-        const map = new Map<TKey, TSource[]>()
-        for (const item of source) {
-            const key = keySelector(item)
-            const currentMapping = map.get(key)
-
-            if (currentMapping) {
-                currentMapping.push(item)
-            } else {
-                map.set(key, [item])
-            }
-        }
-        return map
-    }
 
     public static generate<TSource, TKey>(
         source: Iterable<TSource> | OrderedEnumerable<TSource>,
@@ -58,14 +95,13 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         if (source instanceof OrderedEnumerable) {
             orderedPairs = function*() {
                 for (const pair of source.orderedPairs()) {
-                    yield* OrderedEnumerable
-                        .asSortedKeyValues(pair, keySelector, ascending, comparer)
+                    yield* asSortedKeyValues(pair, keySelector, ascending, comparer)
                 }
             }
 
         } else {
             orderedPairs = () =>
-                OrderedEnumerable.asSortedKeyValues(source, keySelector, ascending, comparer)
+                asSortedKeyValues(source, keySelector, ascending, comparer)
         }
 
         return new OrderedEnumerable(orderedPairs)
@@ -74,43 +110,6 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
     //#endregion
 
     //#region Async
-
-    private static async *asSortedKeyValuesAsync<TSource, TKey>(
-        source: Iterable<TSource>,
-        keySelector: (x: TSource) => Promise<TKey>,
-        ascending: boolean,
-        comparer?: IComparer<TKey>) {
-        const map = await OrderedEnumerable.asKeyMapAsync(source, keySelector)
-        const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
-
-        if (ascending) {
-            for (let i = 0; i < sortedKeys.length; i++) {
-                yield map.get(sortedKeys[i]) as TSource[]
-            }
-        } else {
-            for (let i = sortedKeys.length - 1; i >= 0; i--) {
-                yield map.get(sortedKeys[i]) as TSource[]
-            }
-        }
-    }
-
-    private static async asKeyMapAsync<TSource, TKey>(
-        source: Iterable<TSource>,
-        keySelector: (x: TSource) => Promise<TKey>) {
-
-        const map = new Map<TKey, TSource[]>()
-        for (const item of source) {
-            const key = await keySelector(item)
-            const currentMapping = map.get(key)
-
-            if (currentMapping) {
-                currentMapping.push(item)
-            } else {
-                map.set(key, [item])
-            }
-        }
-        return map
-    }
 
     public static generateAsync<TSource, TKey>(
         source: Iterable<TSource> | OrderedEnumerable<TSource>,
@@ -121,14 +120,13 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         if (source instanceof OrderedEnumerable) {
             orderedPairs = async function*() {
                 for (const pair of source.orderedPairs()) {
-                    yield* OrderedEnumerable
-                        .asSortedKeyValuesAsync(pair, keySelector, ascending, comparer)
+                    yield* asSortedKeyValuesAsync(pair, keySelector, ascending, comparer)
                 }
             }
 
         } else {
             orderedPairs = () =>
-                OrderedEnumerable.asSortedKeyValuesAsync(source, keySelector, ascending, comparer)
+                asSortedKeyValuesAsync(source, keySelector, ascending, comparer)
         }
 
         return new OrderedAsyncEnumerable(orderedPairs)
