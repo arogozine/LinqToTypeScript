@@ -11,7 +11,7 @@ import {
     OfType} from "./../shared/shared"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
-import { aggregate, all, allAsync, any, anyAsync, asAsync, asParallel, average, averageAsync, concat, contains, containsAsync, count, countAsync, distinct, distinctAsync, elementAt, elementAtOrDefault, except, exceptAsync, first, firstAsync, firstOrDefault, firstOrDefaultAsync, each, eachAsync, groupBy, groupByAsync, groupByWithSel, intersect, intersectAsync, join, last, lastAsync, lastOrDefault, lastOrDefaultAsync, max, maxAsync, min, minAsync, ofType, orderBy, orderByAsync, orderByDescending, orderByDescendingAsync, reverse, select, selectAsync, selectMany, selectManyAsync, sequenceEquals, sequenceEqualsAsync, single, singleAsync, singleOrDefault, singleOrDefaultAsync, skip, skipWhile, skipWhileAsync, sum, sumAsync, take, takeWhile, takeWhileAsync, toArray, toMap, toMapAsync, toSet, union, unionAsync, where, whereAsync, zip, zipAsync } from "./Enumerable";
+import * as Enumerable from "./Enumerable";
 
 /**
  * Container for all IEnumerable methods
@@ -29,109 +29,109 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         seedOrFunc: ((x: T, y: T) => T) | TAccumulate,
         func?: (x: TAccumulate, y: T) => TAccumulate,
         resultSelector?: (x: TAccumulate) => TResult): T | TAccumulate | TResult {
-        return aggregate(this, seedOrFunc, func as any, resultSelector as any)
+        return Enumerable.aggregate(this, seedOrFunc, func as any, resultSelector as any)
     }
 
     public all(predicate: (x: T) => boolean): boolean {
-        return all(this, predicate)
+        return Enumerable.all(this, predicate)
     }
 
     public allAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
-        return allAsync(this, predicate)
+        return Enumerable.allAsync(this, predicate)
     }
 
     public any(predicate?: (x: T) => boolean): boolean {
-        return any(this, predicate)
+        return Enumerable.any(this, predicate)
     }
 
     public anyAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
-        return anyAsync(this, predicate)
+        return Enumerable.anyAsync(this, predicate)
     }
 
     public asAsync(): IAsyncEnumerable<T> {
-        return asAsync(this)
+        return Enumerable.asAsync(this)
     }
 
     public asParallel(): IParallelEnumerable<T> {
-        return asParallel(this)
+        return Enumerable.asParallel(this)
     }
 
     public average(this: IEnumerable<number>): number
     public average(selector: (x: T) => number): number
     public average(selector?: (x: T) => number): number {
-        return average(this, selector as any)
+        return Enumerable.average(this, selector as any)
     }
 
     public averageAsync(selector: (x: T) => Promise<number>): Promise<number> {
-        return averageAsync(this, selector)
+        return Enumerable.averageAsync(this, selector)
     }
 
     public concat(second: IEnumerable<T>): IEnumerable<T> {
-        return concat(this, second)
+        return Enumerable.concat(this, second)
     }
 
     public contains(value: T, comparer?: IEqualityComparer<T>): boolean {
-        return contains(this, value, comparer)
+        return Enumerable.contains(this, value, comparer)
     }
 
     public containsAsync(value: T, comparer: IAsyncEqualityComparer<T>): Promise<boolean> {
-        return containsAsync(this, value, comparer)
+        return Enumerable.containsAsync(this, value, comparer)
     }
 
     public count(predicate?: (x: T) => boolean): number {
-        return count(this, predicate)
+        return Enumerable.count(this, predicate)
     }
 
     public countAsync(predicate: (x: T) => Promise<boolean>): Promise<number> {
-        return countAsync(this, predicate)
+        return Enumerable.countAsync(this, predicate)
     }
 
     public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return distinct(this, comparer)
+        return Enumerable.distinct(this, comparer)
     }
 
     public distinctAsync(comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
-        return distinctAsync(this, comparer)
+        return Enumerable.distinctAsync(this, comparer)
     }
 
     public elementAt(index: number): T {
-        return elementAt(this, index)
+        return Enumerable.elementAt(this, index)
     }
 
     public elementAtOrDefault(index: number): T | null {
-        return elementAtOrDefault(this, index)
+        return Enumerable.elementAtOrDefault(this, index)
     }
 
     public except(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return except(this, second, comparer)
+        return Enumerable.except(this, second, comparer)
     }
 
     public exceptAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
-        return exceptAsync(this, second, comparer)
+        return Enumerable.exceptAsync(this, second, comparer)
     }
 
     public first(predicate?: (x: T) => boolean): T {
-        return first(this, predicate as any)
+        return Enumerable.first(this, predicate as any)
     }
 
     public firstAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
-        return firstAsync(this, predicate)
+        return Enumerable.firstAsync(this, predicate)
     }
 
     public firstOrDefault(predicate?: (x: T) => boolean): T | null {
-        return firstOrDefault(this, predicate as any)
+        return Enumerable.firstOrDefault(this, predicate as any)
     }
 
     public firstOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
-        return firstOrDefaultAsync(this, predicate)
+        return Enumerable.firstOrDefaultAsync(this, predicate)
     }
 
     public each(action: (x: T) => void): IEnumerable<T> {
-        return each(this, action)
+        return Enumerable.each(this, action)
     }
 
     public eachAsync(action: (x: T) => Promise<void>): IAsyncEnumerable<T> {
-        return eachAsync(this, action)
+        return Enumerable.eachAsync(this, action)
     }
 
     public groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>
@@ -142,13 +142,13 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public groupBy<TKey>(
         keySelector: (x: T) => TKey,
         comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>> {
-        return groupBy(this, keySelector, comparer as any)
+        return Enumerable.groupBy(this, keySelector, comparer as any)
     }
 
     public groupByAsync<TKey>(
         keySelector: (x: T) => TKey | Promise<TKey>,
         comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, T>> {
-        return groupByAsync(this, keySelector, comparer as any)
+        return Enumerable.groupByAsync(this, keySelector, comparer as any)
     }
 
     public groupByWithSel<TElement>(
@@ -165,15 +165,15 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         keySelector: ((x: T) => TKey),
         elementSelector: (x: T) => TElement,
         comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
-        return groupByWithSel(this, keySelector, elementSelector, comparer as any)
+        return Enumerable.groupByWithSel(this, keySelector, elementSelector, comparer as any)
     }
 
     public intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return intersect(this, second, comparer)
+        return Enumerable.intersect(this, second, comparer)
     }
 
     public intersectAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
-        return intersectAsync(this, second, comparer)
+        return Enumerable.intersectAsync(this, second, comparer)
     }
 
     public joinByKey<TInner, TKey, TResult>(
@@ -182,75 +182,75 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
             innerKeySelector: (x: TInner) => TKey,
             resultSelector: (x: T, y: TInner) => TResult,
             comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
-        return join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
+        return Enumerable.join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer as any)
     }
 
     public last(predicate?: (x: T) => boolean): T {
-        return last(this, predicate)
+        return Enumerable.last(this, predicate)
     }
 
     public lastAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
-        return lastAsync(this, predicate)
+        return Enumerable.lastAsync(this, predicate)
     }
 
     public lastOrDefault(predicate?: (x: T) => boolean): T | null {
-        return lastOrDefault(this, predicate)
+        return Enumerable.lastOrDefault(this, predicate)
     }
 
     public lastOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
-        return lastOrDefaultAsync(this, predicate)
+        return Enumerable.lastOrDefaultAsync(this, predicate)
     }
 
     public max(this: IEnumerable<number>): number | never
     public max(selector: (x: T) => number): number | never
     public max(selector?: (x: T) => number): number | never {
-        return max(this, selector as any)
+        return Enumerable.max(this, selector as any)
     }
 
     public maxAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
-        return maxAsync(this, selector)
+        return Enumerable.maxAsync(this, selector)
     }
 
     public min(this: IEnumerable<number>): number | never
     public min(selector: (x: T) => number): number | never
     public min(selector?: (x: T) => number): number | never {
-        return min(this, selector as any)
+        return Enumerable.min(this, selector as any)
     }
 
     public minAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
-        return minAsync(this, selector)
+        return Enumerable.minAsync(this, selector)
     }
 
     public ofType<TType extends OfType>(type: TType): IEnumerable<InferType<TType>> {
-        return ofType(this, type)
+        return Enumerable.ofType(this, type)
     }
 
     public orderBy<TKey>(
         predicate: (x: T) => TKey,
         comparer?: IComparer<TKey>): IOrderedEnumerable<T> {
-        return orderBy(this, predicate, comparer)
+        return Enumerable.orderBy(this, predicate, comparer)
     }
 
     public orderByAsync<TKey>(
         predicate: (x: T) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T> {
-        return orderByAsync(this, predicate, comparer)
+        return Enumerable.orderByAsync(this, predicate, comparer)
     }
 
     public orderByDescending<TKey>(
         predicate: (x: T) => TKey,
         comparer?: IComparer<TKey>): IOrderedEnumerable<T> {
-        return orderByDescending(this, predicate, comparer)
+        return Enumerable.orderByDescending(this, predicate, comparer)
     }
 
     public orderByDescendingAsync<TKey>(
         predicate: (x: T) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T> {
-        return orderByDescendingAsync(this, predicate, comparer)
+        return Enumerable.orderByDescendingAsync(this, predicate, comparer)
     }
 
     public reverse(): IEnumerable<T> {
-        return reverse(this)
+        return Enumerable.reverse(this)
     }
 
     public select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>
@@ -258,14 +258,14 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         this: IEnumerable<{ [key: string]: Iterable<T[TKey]>}>,
         selector: TKey): IEnumerable<T[TKey]>
     public select(keyOrSelector: any): IEnumerable<any> {
-        return select(this, keyOrSelector)
+        return Enumerable.select(this, keyOrSelector)
     }
 
     public selectAsync<TKey extends keyof T, TResult>(
         this: IEnumerable<{ [key: string]: Promise<TResult> }>,
         key: TKey): IAsyncEnumerable<T[TKey]>
     public selectAsync<OUT>(selector: (x: T) => Promise<OUT>): IAsyncEnumerable<OUT> {
-        return selectAsync(this, selector)
+        return Enumerable.selectAsync(this, selector)
     }
 
     public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
@@ -273,101 +273,101 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         selector: keyof TBindedSource): IEnumerable<TOut>
     public selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>
     public selectMany<OUT>(selector: any): IEnumerable<OUT> {
-        return selectMany(this, selector)
+        return Enumerable.selectMany(this, selector)
     }
 
     public selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {
-        return selectManyAsync(this, selector)
+        return Enumerable.selectManyAsync(this, selector)
     }
 
     public sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean {
-        return sequenceEquals(this, second, comparer)
+        return Enumerable.sequenceEquals(this, second, comparer)
     }
 
     public sequenceEqualsAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): Promise<boolean> {
-        return sequenceEqualsAsync(this, second, comparer)
+        return Enumerable.sequenceEqualsAsync(this, second, comparer)
     }
 
     public single(predicate?: (x: T) => boolean): T {
-        return single(this, predicate)
+        return Enumerable.single(this, predicate)
     }
 
     public singleAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
-        return singleAsync(this, predicate)
+        return Enumerable.singleAsync(this, predicate)
     }
 
     public singleOrDefault(predicate?: (x: T) => boolean): T | null {
-        return singleOrDefault(this, predicate)
+        return Enumerable.singleOrDefault(this, predicate)
     }
 
     public singleOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
-        return singleOrDefaultAsync(this, predicate)
+        return Enumerable.singleOrDefaultAsync(this, predicate)
     }
 
     public skip(count: number): IEnumerable<T> {
-        return skip(this, count)
+        return Enumerable.skip(this, count)
     }
 
     public skipWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
-        return skipWhile(this, predicate)
+        return Enumerable.skipWhile(this, predicate)
     }
 
     public skipWhileAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
-        return skipWhileAsync(this, predicate)
+        return Enumerable.skipWhileAsync(this, predicate)
     }
 
     public sum(this: IEnumerable<number>): number
     public sum(selector: (x: T) => number): number
     public sum(selector?: (x: T) => number): number {
-        return sum(this, selector as any)
+        return Enumerable.sum(this, selector as any)
     }
 
     public sumAsync(selector: (x: T) => Promise<number>): Promise<number> {
-        return sumAsync(this, selector)
+        return Enumerable.sumAsync(this, selector)
     }
 
     public take(amount: number): IEnumerable<T> {
-        return take(this, amount)
+        return Enumerable.take(this, amount)
     }
 
     public takeWhile(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
-        return takeWhile(this, predicate)
+        return Enumerable.takeWhile(this, predicate)
     }
 
     public takeWhileAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
-        return takeWhileAsync(this, predicate)
+        return Enumerable.takeWhileAsync(this, predicate)
     }
 
     public toArray(): T[] {
-        return toArray(this)
+        return Enumerable.toArray(this)
     }
 
     public toMap<TKey>(selector: (x: T) => TKey): Map<TKey, T[]> {
-        return toMap(this, selector)
+        return Enumerable.toMap(this, selector)
     }
 
     public toMapAsync<TKey>(selector: (x: T) => Promise<TKey>): Promise<Map<TKey, T[]>> {
-        return toMapAsync(this, selector)
+        return Enumerable.toMapAsync(this, selector)
     }
 
     public toSet(): Set<T> {
-        return toSet(this)
+        return Enumerable.toSet(this)
     }
 
     public union(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
-        return union(this, second, comparer as any)
+        return Enumerable.union(this, second, comparer as any)
     }
 
     public unionAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T> {
-        return unionAsync(this, second, comparer)
+        return Enumerable.unionAsync(this, second, comparer)
     }
 
     public where(predicate: (x: T, index: number) => boolean): IEnumerable<T> {
-        return where(this, predicate)
+        return Enumerable.where(this, predicate)
     }
 
     public whereAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
-        return whereAsync(this, predicate)
+        return Enumerable.whereAsync(this, predicate)
     }
 
     public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>
@@ -375,13 +375,13 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         second: Iterable<TSecond>,
         resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>
     public zip<TSecond>(second: Iterable<TSecond>, resultSelector?: (x: T, y: TSecond) => any): IEnumerable<any> {
-        return zip(this, second, resultSelector as any)
+        return Enumerable.zip(this, second, resultSelector as any)
     }
 
     public zipAsync<TSecond, TResult>(
         second: Iterable<TSecond>,
         resultSelector: (x: T, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
-        return zipAsync(this, second, resultSelector)
+        return Enumerable.zipAsync(this, second, resultSelector)
     }
 
     public abstract [Symbol.iterator](): IterableIterator<T>

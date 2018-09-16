@@ -1,4 +1,4 @@
-import { AsyncEnumerable } from "./../../../src/index"
+import { fromEvent } from "../../../src/async/AsyncEnumerable"
 import { itAsync } from "./../../TestHelpers"
 
 describe("fromEvent", () => {
@@ -8,7 +8,7 @@ describe("fromEvent", () => {
         if (body) {
             body.appendChild(button)
 
-            const asyncEnum = AsyncEnumerable.fromEvent(button, "click")
+            const asyncEnum = fromEvent(button, "click")
             asyncEnum.first().then((value) => {
                 expect(value instanceof MouseEvent).toBe(true)
                 done()
@@ -26,7 +26,7 @@ describe("fromEvent", () => {
         if (body) {
             body.appendChild(button)
 
-            const asyncEnum = AsyncEnumerable.fromEvent(button, "click")
+            const asyncEnum = fromEvent(button, "click")
             setTimeout(() => {
                 button.click()
             }, 10)

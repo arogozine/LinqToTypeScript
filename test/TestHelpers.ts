@@ -1,7 +1,8 @@
+import { BasicAsyncEnumerable } from "async/BasicAsyncEnumerable"
 import {
     ArrayEnumerable,
-    AsyncEnumerable,
     from,
+    fromAsync,
     IAsyncEnumerable,
     IEnumerable,
     IParallelEnumerable,
@@ -30,7 +31,7 @@ const isChecks: ReadonlyArray<string> = [
 ]
 
 const syncKeys = Object.getOwnPropertyNames(ArrayEnumerable)
-const asyncKeys = Object.getOwnPropertyNames(AsyncEnumerable)
+const asyncKeys = Object.getOwnPropertyNames(BasicAsyncEnumerable)
 const staticMethods = [ ...syncKeys, ...asyncKeys ]
 
 function validateKeys(description: string) {
@@ -109,7 +110,7 @@ export function asAsync<T>(values: T[]) {
             yield await new Promise<T>((resolve) => setTimeout(() => resolve(value), 10))
         }
     }
-    return AsyncEnumerable.from(promises)
+    return fromAsync(promises)
 }
 
 function asParallel<T>(type: ParallelGeneratorType, values: T[]): IParallelEnumerable<T> {

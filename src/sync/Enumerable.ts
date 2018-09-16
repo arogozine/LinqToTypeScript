@@ -16,10 +16,11 @@ import {
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
-import { AsyncEnumerable } from "./../async/AsyncEnumerable"
+// import { AsyncEnumerable } from "./../async/AsyncEnumerable"
 import {
+    from as fromAsync,
     IAsyncEnumerable,
-} from "./../async/IAsyncEnumerable"
+} from "./../async/async"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Grouping } from "./Grouping"
 import { IEnumerable } from "./IEnumerable"
@@ -181,7 +182,7 @@ export function asAsync<TSource>(source: Iterable<TSource>): IAsyncEnumerable<TS
         }
     }
 
-    return AsyncEnumerable.from(generator)
+    return fromAsync(generator)
 }
 
 /**
@@ -382,7 +383,7 @@ export function distinctAsync<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 export function each<TSource>(source: Iterable<TSource>, action: (x: TSource) => void): IEnumerable<TSource> {
@@ -405,7 +406,7 @@ export function eachAsync<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(generator)
+    return fromAsync(generator)
 }
 
 /**
@@ -521,7 +522,7 @@ export function exceptAsync<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 /**
@@ -890,7 +891,7 @@ function groupByAsync_0_Simple<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 function groupByAsync_0<TSource, TKey>(
@@ -926,7 +927,7 @@ function groupByAsync_0<TSource, TKey>(
         }
     }
 
-    return AsyncEnumerable.from(generate)
+    return fromAsync(generate)
 }
 
 //#endregion
@@ -1104,6 +1105,8 @@ export function join<TOuter, TInner, TKey, TResult>(
     return new BasicEnumerable(iterator)
 }
 
+// tslint:disable:no-shadowed-variable
+
 export function intersect<TSource>(
     first: IEnumerable<TSource>,
     second: Iterable<TSource>,
@@ -1167,7 +1170,7 @@ export function intersectAsync<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 export function partition<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource[][] {
@@ -1261,7 +1264,7 @@ function selectAsync_1<TSource, TResult>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 function selectAsync_2<
@@ -1274,7 +1277,7 @@ function selectAsync_2<
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 export function selectMany<TSource, TResult>(
@@ -1333,7 +1336,7 @@ export function selectManyAsync<TSource, TResult>(
         }
     }
 
-    return AsyncEnumerable.from(generator)
+    return fromAsync(generator)
 }
 
 /**
@@ -1576,7 +1579,7 @@ function skipWhileAsync_1<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 function skipWhileAsync_2<TSource>(
@@ -1599,7 +1602,7 @@ function skipWhileAsync_2<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 export function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
@@ -2117,7 +2120,7 @@ function takeWhileAsync_1<T>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 function takeWhileAsync_2<T>(
@@ -2134,7 +2137,7 @@ function takeWhileAsync_2<T>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 export function toArray<TSource>(source: Iterable<TSource>): TSource[] {
@@ -2299,7 +2302,7 @@ export function unionAsync<TSource>(
         }
     }
 
-    return AsyncEnumerable.from(iterator)
+    return fromAsync(iterator)
 }
 
 export function where<T>(
@@ -2358,7 +2361,7 @@ function whereAsync_1<T>(
         }
     }
 
-    return AsyncEnumerable.from(generator)
+    return fromAsync(generator)
 }
 
 function whereAsync_2<T>(
@@ -2373,7 +2376,7 @@ function whereAsync_2<T>(
         }
     }
 
-    return AsyncEnumerable.from(generator)
+    return fromAsync(generator)
 }
 
 export function zip<T, Y>(
@@ -2457,5 +2460,5 @@ export function zipAsync<T, Y, OUT>(
         }
     }
 
-    return AsyncEnumerable.from(generator)
+    return fromAsync(generator)
 }

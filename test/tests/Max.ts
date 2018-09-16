@@ -1,4 +1,4 @@
-import { AsyncEnumerable, InvalidOperationException } from "../../src/index"
+import { InvalidOperationException } from "../../src/index"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("max", () => {

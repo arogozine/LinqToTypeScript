@@ -8,7 +8,7 @@ import {
     ITuple,
     OfType,
 } from "../shared/shared"
-import { AsyncEnumerable } from "./AsyncEnumerable"
+import * as AsyncEnumerable from "./AsyncEnumerable"
 import { IAsyncEnumerable } from "./IAsyncEnumerable"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 

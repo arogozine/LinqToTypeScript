@@ -1,4 +1,4 @@
-import { AsyncEnumerable, IAsyncEnumerable } from "../async/async"
+import { from as fromAsync, IAsyncEnumerable } from "../async/async"
 import {
     ArgumentOutOfRangeException,
     AsTuple,
@@ -211,7 +211,7 @@ export class ParallelEnumerable {
                 yield value
             }
         }
-        return AsyncEnumerable.from(generator)
+        return fromAsync(generator)
     }
 
     public static average(
@@ -2807,5 +2807,3 @@ export class ParallelEnumerable {
         }
     }
 }
-
-Object.freeze(AsyncEnumerable)

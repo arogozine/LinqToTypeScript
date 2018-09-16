@@ -1,4 +1,4 @@
-import { AsyncEnumerable } from "./../../src/index"
+import { fromAsync } from "../../src"
 import { itAsync } from "./../TestHelpers"
 
 describe("AsyncEnumerableIteration", () => {
@@ -47,7 +47,7 @@ describe("AsyncEnumerableIteration", () => {
             }
         }
 
-        const asyncEnumerable = AsyncEnumerable.from(generatorFunc)
+        const asyncEnumerable = fromAsync(generatorFunc)
         const generator = asyncEnumerable[Symbol.asyncIterator]()
         const nextValue = await generator.next()
         expect(nextValue.done).toBe(true)

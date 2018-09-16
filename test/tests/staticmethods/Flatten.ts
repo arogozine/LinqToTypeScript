@@ -1,4 +1,6 @@
-import { AsyncEnumerable, flatten, ParallelEnumerable } from "../../../src/index"
+import { flatten as flattenAsync } from "../../../src/async/async"
+import { ParallelEnumerable } from "../../../src/index"
+import { flatten } from "../../../src/sync/sync"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("flatten", () => {
@@ -12,9 +14,9 @@ describe("flatten", () => {
     })
 
     itAsync("Basic", async () => {
-        const a = await AsyncEnumerable.flatten(asAsync<any>([1, 2, 3])).toArray()
-        const b = await AsyncEnumerable.flatten(asAsync<any>([1, asAsync([2]), "3"])).toArray()
-        const c = await AsyncEnumerable.flatten(asAsync([1, asAsync([2, 3])])).toArray()
+        const a = await flattenAsync(asAsync<any>([1, 2, 3])).toArray()
+        const b = await flattenAsync(asAsync<any>([1, asAsync([2]), "3"])).toArray()
+        const c = await flattenAsync(asAsync([1, asAsync([2, 3])])).toArray()
         expect(a).toEqual([1, 2, 3])
         expect(b).toEqual([1, 2, "3"])
         expect(c).toEqual([1, 2, 3])
@@ -40,7 +42,7 @@ describe("flatten", () => {
     })
 
     itAsync("Shallow", async () => {
-        const shallow = await AsyncEnumerable.flatten(asAsync<any>([1, asAsync([2, asAsync([3])])]), true).toArray()
+        const shallow = await flattenAsync(asAsync<any>([1, asAsync([2, asAsync([3])])]), true).toArray()
         expect(shallow.length).toBe(3)
         expect(shallow[0]).toBe(1)
         expect(shallow[1]).toBe(2)

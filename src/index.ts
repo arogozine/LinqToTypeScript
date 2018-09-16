@@ -1,4 +1,4 @@
-import { IAsyncEnumerable } from "."
+import { IAsyncEnumerable } from "./async/async"
 import { BasicAsyncEnumerable } from "./async/BasicAsyncEnumerable"
 import { BasicParallelEnumerable } from "./parallel/BasicParallelEnumerable"
 import { IParallelEnumerable } from "./parallel/parallel"
@@ -11,10 +11,10 @@ import { ArrayEnumerable, IEnumerable } from "./sync/sync"
 export * from "./shared/shared"
 
 // Enumerable
-export * from "./sync/sync"
+export { ArrayEnumerable, IEnumerable, from } from "./sync/sync"
 
 // AsyncEnumerable
-export * from "./async/async"
+export { IAsyncEnumerable, from as fromAsync } from "./async/async"
 
 // ParallelEnumerable
 export * from "./parallel/parallel"
