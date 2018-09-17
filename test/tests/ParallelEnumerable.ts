@@ -1,4 +1,3 @@
-import { ParallelEnumerable } from "../../src/index"
 import { itParallel } from "../TestHelpers"
 
 describe("ParallelEnumerable", () => {

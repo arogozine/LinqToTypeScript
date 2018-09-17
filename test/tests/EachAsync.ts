@@ -1,5 +1,8 @@
-import { ParallelEnumerable, ParallelGeneratorType } from "index"
+import { ParallelGeneratorType } from "index"
 import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
+import {
+    from as fromParallel
+} from "./../../src/parallel/parallel"
 
 describe("eachAsync", () => {
     itEnumerableAsync("Basic", async (asEnumerable) => {
@@ -51,8 +54,8 @@ describe("eachAsync", () => {
             (async () => 2)(),
         ]
 
-        const lazyParallel = ParallelEnumerable
-            .from<number>(ParallelGeneratorType.ArrayOfPromises, generator)
+        const lazyParallel =
+            fromParallel<number>(ParallelGeneratorType.ArrayOfPromises, generator)
             .eachAsync(eachAsync)
         canStart = true
         const result = await lazyParallel.toArray()

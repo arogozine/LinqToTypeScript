@@ -12,7 +12,7 @@ import {
     StrictEqualityComparer,
 } from "../shared/shared"
 import { IParallelEnumerable } from "./IParallelEnumerable"
-import { ParallelEnumerable } from "./ParallelEnumerable"
+import * as ParallelEnumerable from "./ParallelEnumerable"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
 import { TypedData } from "./TypedData"
 

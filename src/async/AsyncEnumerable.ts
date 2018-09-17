@@ -1,6 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
-import { IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { IParallelEnumerable, from as parallelFrom } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import {
     ArgumentOutOfRangeException,
@@ -226,7 +226,7 @@ export function asParallel<TSource>(source: AsyncIterable<TSource>): IParallelEn
         return data
     }
 
-    return ParallelEnumerable.from(ParallelGeneratorType.PromiseToArray, generator)
+    return parallelFrom(ParallelGeneratorType.PromiseToArray, generator)
 }
 
 export async function averageAsync<TSource>(

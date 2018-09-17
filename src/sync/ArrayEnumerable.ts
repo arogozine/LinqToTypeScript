@@ -1,5 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { IParallelEnumerable, from as parallelFrom } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import { IAsyncEnumerable } from "./../async/async"
 import {
@@ -59,7 +59,7 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
     }
 
     public asParallel(): IParallelEnumerable<TSource> {
-        return ParallelEnumerable.from(ParallelGeneratorType.PromiseToArray, async () => this)
+        return parallelFrom(ParallelGeneratorType.PromiseToArray, async () => this)
     }
 
     public average(this: IEnumerable<number>): number

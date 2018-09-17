@@ -6,9 +6,11 @@ import {
     IAsyncEnumerable,
     IEnumerable,
     IParallelEnumerable,
-    ParallelEnumerable,
     ParallelGeneratorType,
 } from "./../src/index"
+import {
+    from as fromParallel
+} from "./../src/parallel/parallel"
 
 // There are helper functions to make testing easy
 
@@ -122,12 +124,12 @@ function asParallel<T>(type: ParallelGeneratorType, values: T[]): IParallelEnume
         await generator1()
     switch (type) {
         case ParallelGeneratorType.ArrayOfPromises:
-            return ParallelEnumerable.from(type, generator1)
+            return fromParallel(type, generator1)
         case ParallelGeneratorType.PromiseToArray:
-            return ParallelEnumerable.from(type, generator2)
+            return fromParallel(type, generator2)
         case ParallelGeneratorType.PromiseOfPromises:
         default:
-            return ParallelEnumerable.from(type, generator3)
+            return fromParallel(type, generator3)
     }
 
 }

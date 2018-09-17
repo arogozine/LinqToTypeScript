@@ -1,5 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { IParallelEnumerable, ParallelEnumerable } from "../parallel/parallel"
+import { IParallelEnumerable, from as parallelFrom } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import {
     ArgumentOutOfRangeException,
@@ -197,7 +197,7 @@ export function asParallel<TSource>(source: Iterable<TSource>): IParallelEnumera
         return array
     }
 
-    return ParallelEnumerable.from(ParallelGeneratorType.PromiseToArray, generator)
+    return parallelFrom(ParallelGeneratorType.PromiseToArray, generator)
 }
 
 /**

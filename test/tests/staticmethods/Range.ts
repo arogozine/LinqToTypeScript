@@ -1,5 +1,6 @@
 import { range as rangeAsync } from "../../../src/async/async"
-import { ArgumentOutOfRangeException, ParallelEnumerable } from "../../../src/index"
+import { ArgumentOutOfRangeException } from "../../../src/index"
+import { range as rangeParallel } from "../../../src/parallel/parallel"
 import { range } from "../../../src/sync/sync"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
@@ -15,7 +16,7 @@ describe("range", () => {
     })
 
     itParallel("1 to 10", async () => {
-        const oneToTen = await ParallelEnumerable.range(1, 10).toArray()
+        const oneToTen = await rangeParallel(1, 10).toArray()
         expect(oneToTen).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     })
 
@@ -28,6 +29,6 @@ describe("range", () => {
     })
 
     itParallel("Invalid Input Throws", async () => {
-        expect(() => ParallelEnumerable.range(-1, 99)).toThrowError(ArgumentOutOfRangeException)
+        expect(() => rangeParallel(-1, 99)).toThrowError(ArgumentOutOfRangeException)
     })
 })
