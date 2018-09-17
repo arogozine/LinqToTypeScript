@@ -2,7 +2,6 @@ import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
 import { IParallelEnumerable } from "../parallel/parallel";
 import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEnumerable } from "./../async/async";
-import { BasicEnumerable } from "./BasicEnumerable";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
 export declare function aggregate<TSource>(source: Iterable<TSource>, func: (x: TSource, y: TSource) => TSource): TSource;
@@ -119,9 +118,6 @@ export declare function selectMany<TSource, TResult>(source: Iterable<TSource>, 
 export declare function selectMany<TSource extends {
     [key: string]: Iterable<TResult>;
 }, TResult>(source: Iterable<TSource>, selector: keyof TSource): IEnumerable<TResult>;
-export declare function selectMany_2<TSource extends {
-    [key: string]: Iterable<TResult>;
-}, TResult>(source: Iterable<TSource>, selector: keyof TSource): BasicEnumerable<TResult>;
 export declare function selectManyAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>;
 /**
  * @throws {InvalidOperationException} Sequence contains no elements
@@ -143,9 +139,9 @@ export declare function singleOrDefault<TSource>(source: Iterable<TSource>, pred
  * @throws {InvalidOperationException} More than one element matchines predicate
  */
 export declare function singleOrDefaultAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
+export declare function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource>;
 export declare function skipWhile<TSource>(source: Iterable<TSource>, predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
 export declare function skipWhileAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
-export declare function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource>;
 /**
  * @throws {InvalidOperationException} Sequence contains no elements
  * @throws {InvalidOperationException} Sequence contains no matching element

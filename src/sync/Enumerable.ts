@@ -3,7 +3,6 @@ import { IParallelEnumerable, from as parallelFrom } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import {
     ArgumentOutOfRangeException,
-    AsTuple,
     EqualityComparer,
     ErrorString,
     IAsyncEqualityComparer,
@@ -16,16 +15,15 @@ import {
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
-// import { AsyncEnumerable } from "./../async/AsyncEnumerable"
 import {
     from as fromAsync,
     IAsyncEnumerable,
 } from "./../async/async"
 import { BasicEnumerable } from "./BasicEnumerable"
-import { Grouping } from "./Grouping"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 import { OrderedEnumerable } from "./OrderedEnumerable"
+import * as EnumerablePrivate from "./EnumerablePrivate";
 
 // tslint:disable:no-shadowed-variable
 
@@ -54,62 +52,12 @@ export function aggregate<TSource, TAccumulate, TResult>(
             throw new ReferenceError(`TAccumulate function is undefined`)
         }
 
-        return aggregate_3(source, seedOrFunc as TAccumulate, func, resultSelector)
+        return EnumerablePrivate.aggregate_3(source, seedOrFunc as TAccumulate, func, resultSelector)
     } else if (func) {
-        return aggregate_2(source, seedOrFunc as TAccumulate, func)
+        return EnumerablePrivate.aggregate_2(source, seedOrFunc as TAccumulate, func)
     } else {
-        return aggregate_1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
+        return EnumerablePrivate.aggregate_1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
     }
-}
-
-/**
- * @throws {InvalidOperationException} No Elements
- */
-function aggregate_1<TSource>(
-    source: Iterable<TSource>,
-    func: (x: TSource, y: TSource) => TSource): TSource | null {
-    let aggregateValue: TSource | undefined
-
-    for (const value of source) {
-        if (aggregateValue) {
-            aggregateValue = func(aggregateValue, value)
-        } else {
-            aggregateValue = value
-        }
-    }
-
-    if (aggregateValue === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return aggregateValue
-}
-
-function aggregate_2<TSource, TAccumulate>(
-    source: Iterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate {
-    let aggregateValue = seed
-
-    for (const value of source) {
-        aggregateValue = func(aggregateValue, value)
-    }
-
-    return aggregateValue
-}
-
-function aggregate_3<TSource, TAccumulate, TResult>(
-    source: Iterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector: (x: TAccumulate) => TResult): TResult {
-    let aggregateValue = seed
-
-    for (const value of source) {
-        aggregateValue = func(aggregateValue, value)
-    }
-
-    return resultSelector(aggregateValue)
 }
 
 export function all<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): boolean {
@@ -137,28 +85,10 @@ export function any<TSource>(
     source: Iterable<TSource>,
     predicate?: (x: TSource) => boolean): boolean {
     if (predicate) {
-        return any_2(source, predicate)
+        return EnumerablePrivate.any_2(source, predicate)
     } else {
-        return any_1(source)
+        return EnumerablePrivate.any_1(source)
     }
-}
-
-function any_1<TSource>(source: Iterable<TSource>): boolean {
-    for (const _ of source) {
-        return true
-    }
-
-    return false
-}
-
-function any_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): boolean {
-    for (const item of source) {
-        if (predicate(item) === true) {
-            return true
-        }
-    }
-
-    return false
 }
 
 export async function anyAsync<TSource>(
@@ -213,40 +143,10 @@ export function average<TSource>(
     source: Iterable<TSource> | Iterable<number>,
     selector?: (x: TSource) => number): number {
     if (selector) {
-        return average_2(source as Iterable<TSource>, selector)
+        return EnumerablePrivate.average_2(source as Iterable<TSource>, selector)
     } else {
-        return average_1(source as Iterable<number>)
+        return EnumerablePrivate.average_1(source as Iterable<number>)
     }
-}
-
-function average_1(source: Iterable<number>): number {
-    let value: number | undefined
-    let count: number | undefined
-    for (const item of source) {
-        value = (value || 0) + item
-        count = (count || 0) + 1
-    }
-
-    if (value === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return value / (count as number)
-}
-
-function average_2<TSource>(source: Iterable<TSource>, func: (x: TSource) => number): number {
-    let value: number | undefined
-    let count: number | undefined
-    for (const item of source) {
-        value = (value || 0) + func(item)
-        count = (count || 0) + 1
-    }
-
-    if (value === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return value / (count as number)
 }
 
 /**
@@ -306,30 +206,10 @@ export async function containsAsync<TSource>(
 
 export function count<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): number {
     if (predicate) {
-        return count_2(source, predicate)
+        return EnumerablePrivate.count_2(source, predicate)
     } else {
-        return count_1(source)
+        return EnumerablePrivate.count_1(source)
     }
-}
-
-function count_1<T>(source: Iterable<T>): number {
-    let count = 0
-
-    for (const _ of source) {
-        count++
-    }
-
-    return count
-}
-
-function count_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): number {
-    let count = 0
-    for (const value of source) {
-        if (predicate(value) === true) {
-            count++
-        }
-    }
-    return count
 }
 
 export async function countAsync<T>(
@@ -535,30 +415,10 @@ export function first<TSource>(source: Iterable<TSource>): TSource
 export function first<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource
 export function first<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
     if (predicate) {
-        return first_2(source, predicate)
+        return EnumerablePrivate.first_2(source, predicate)
     } else {
-        return first_1(source)
+        return EnumerablePrivate.first_1(source)
     }
-}
-
-function first_1<T>(source: Iterable<T>) {
-    const first = source[Symbol.iterator]().next()
-
-    if (first.done === true) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return first.value
-}
-
-function first_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): T {
-    for (const value of source) {
-        if (predicate(value) === true) {
-            return value
-        }
-    }
-
-    throw new InvalidOperationException(ErrorString.NoMatch)
 }
 
 /**
@@ -581,25 +441,10 @@ export function firstOrDefault<T>(source: Iterable<T>): T | null
 export function firstOrDefault<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null
 export function firstOrDefault<T>(source: Iterable<T>, predicate?: (x: T) => boolean): T | null {
     if (predicate) {
-        return firstOrDefault_2(source, predicate)
+        return EnumerablePrivate.firstOrDefault_2(source, predicate)
     } else {
-        return firstOrDefault_1(source)
+        return EnumerablePrivate.firstOrDefault_1(source)
     }
-}
-
-function firstOrDefault_1<T>(source: Iterable<T>): T | null {
-    const first = source[Symbol.iterator]().next()
-    return first.value || null
-}
-
-function firstOrDefault_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null {
-    for (const value of source) {
-        if (predicate(value) === true) {
-            return value
-        }
-    }
-
-    return null
 }
 
 export async function firstOrDefaultAsync<T>(
@@ -676,76 +521,12 @@ export function groupBy<TSource, TKey>(
     comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<any, TSource>> {
 
     if (comparer) {
-        return groupBy_0<TSource, TKey>(source,
+        return EnumerablePrivate.groupBy_0<TSource, TKey>(source,
             keySelector as (x: TSource) => TKey, comparer)
     } else {
-        return groupBy_0_Simple(source,
+        return EnumerablePrivate.groupBy_0_Simple(source,
             keySelector as ((x: TSource) => number) | ((x: TSource) => string))
     }
-}
-
-function groupBy_0_Simple<TSource>(
-    source: Iterable<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number)):
-        IEnumerable<IGrouping<string | number, TSource>> {
-
-    function *iterator(): IterableIterator<IGrouping<string | number, TSource>> {
-        const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
-        for (const value of source) {
-
-            const key = keySelector(value)
-            const grouping: Grouping<string | number, TSource> = keyMap[key]
-
-            if (grouping) {
-                grouping.push(value)
-            } else {
-                keyMap[key] = new Grouping<string | number, TSource>(key, value)
-            }
-        }
-
-        // tslint:disable-next-line:forin
-        for (const value in keyMap) {
-            yield keyMap[value]
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-function groupBy_0<TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => TKey,
-    comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>> {
-
-    function *generate(): IterableIterator<IGrouping<TKey, TSource>> {
-
-        const keyMap = new Array<Grouping<TKey, TSource>>()
-
-        for (const value of source) {
-            const key = keySelector(value)
-            let found = false
-
-            for (let i = 0; i < keyMap.length; i++) {
-                const group = keyMap[i]
-                if (comparer(group.key, key)) {
-                    group.push(value)
-                    found = true
-                    break
-                }
-            }
-
-            if (found === false) {
-                keyMap.push(new Grouping<TKey, TSource>(key, value))
-            }
-
-        }
-
-        for (const keyValue of keyMap) {
-            yield keyValue
-        }
-    }
-
-    return new BasicEnumerable(generate)
 }
 
 export function groupByWithSel<TSource, TElement>(
@@ -768,78 +549,12 @@ export function groupByWithSel<TSource, TKey, TElement>(
     comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<any, TElement>> {
 
     if (comparer) {
-        return groupBy_1(source,
+        return EnumerablePrivate.groupBy_1(source,
             keySelector as (x: TSource) => TKey, elementSelector, comparer)
     } else {
-        return groupBy_1_Simple(source,
+        return EnumerablePrivate.groupBy_1_Simple(source,
             keySelector as (x: TSource) => number | string, elementSelector)
     }
-}
-
-function groupBy_1_Simple<TSource, TElement>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => string | number,
-    elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<string | number, TElement>> {
-
-    function *generate(): IterableIterator<IGrouping<string | number, TElement>> {
-        const keyMap: { [key: string]: Grouping<string | number, TElement> } = {}
-        for (const value of source) {
-
-            const key = keySelector(value)
-            const grouping: Grouping<string | number, TElement> = keyMap[key]
-            const element = elementSelector(value)
-
-            if (grouping) {
-                grouping.push(element)
-            } else {
-                keyMap[key] = new Grouping<string | number, TElement>(key, element)
-            }
-        }
-
-        /* tslint:disable:forin */
-        for (const value in keyMap) {
-            yield keyMap[value]
-        }
-        /* tslint:enable */
-    }
-
-    return new BasicEnumerable(generate)
-}
-
-function groupBy_1<TSource, TKey, TElement>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => TKey,
-    elementSelector: (x: TSource) => TElement,
-    comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
-
-    function *generate(): IterableIterator<IGrouping<TKey, TElement>> {
-        const keyMap = new Array<Grouping<TKey, TElement>>()
-        for (const value of source) {
-            const key = keySelector(value)
-            let found = false
-
-            for (let i = 0; i < keyMap.length; i++) {
-                const group = keyMap[i]
-                if (comparer(group.key, key)) {
-                    group.push(elementSelector(value))
-                    found = true
-                    break
-                }
-            }
-
-            if (found === false) {
-                const element = elementSelector(value)
-                keyMap.push(new Grouping<TKey, TElement>(key, element))
-            }
-
-        }
-
-        for (const keyValue of keyMap) {
-            yield keyValue
-        }
-    }
-
-    return new BasicEnumerable(generate)
 }
 
 //#region GroupByAsync
@@ -860,74 +575,11 @@ export function groupByAsync<TSource, TKey>(
     comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TSource>> {
 
     if (comparer) {
-        return groupByAsync_0<TSource, TKey>(source, keySelector, comparer)
+        return EnumerablePrivate.groupByAsync_0<TSource, TKey>(source, keySelector, comparer)
     } else {
-        return groupByAsync_0_Simple(source,
+        return EnumerablePrivate.groupByAsync_0_Simple(source,
             keySelector as (x: TSource) => Promise<any>)
     }
-}
-
-function groupByAsync_0_Simple<TSource>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => Promise<any>): IAsyncEnumerable<IGrouping<any, TSource>> {
-
-    async function *iterator(): AsyncIterableIterator<IGrouping<string, TSource>> {
-        const keyMap: {[key: string]: Grouping<any, TSource>} = {}
-        for (const value of source) {
-
-            const key = await keySelector(value)
-            const grouping: Grouping<any, TSource> = keyMap[key]
-
-            if (grouping) {
-                grouping.push(value)
-            } else {
-                keyMap[key] = new Grouping<any, TSource>(key, value)
-            }
-        }
-
-        // tslint:disable-next-line:forin
-        for (const value in keyMap) {
-            yield keyMap[value]
-        }
-    }
-
-    return fromAsync(iterator)
-}
-
-function groupByAsync_0<TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => Promise<TKey> | TKey,
-    comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {
-
-    async function *generate(): AsyncIterableIterator<IGrouping<TKey, TSource>> {
-
-        const keyMap = new Array<Grouping<TKey, TSource>>()
-
-        for (const value of source) {
-            const key = await keySelector(value)
-            let found = false
-
-            for (let i = 0; i < keyMap.length; i++) {
-                const group = keyMap[i]
-                if (await comparer(group.key, key) === true) {
-                    group.push(value)
-                    found = true
-                    break
-                }
-            }
-
-            if (found === false) {
-                keyMap.push(new Grouping<TKey, TSource>(key, value))
-            }
-
-        }
-
-        for (const keyValue of keyMap) {
-            yield keyValue
-        }
-    }
-
-    return fromAsync(generate)
 }
 
 //#endregion
@@ -969,48 +621,15 @@ export function groupByWithResult<TSource, TKey, TResult>(
     comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
 
     if (comparer) {
-        return groupBy_2<TSource, TKey, TResult>(source,
+        return EnumerablePrivate.groupBy_2<TSource, TKey, TResult>(source,
             keySelector as (x: TSource) => TKey,
             resultSelector,
             comparer)
     } else {
-        return groupBy_2_Simple(source,
+        return EnumerablePrivate.groupBy_2_Simple(source,
             keySelector as ((x: TSource) => string) | ((x: TSource) => number),
             resultSelector)
     }
-}
-
-function groupBy_2_Simple<TSource, TResult>(
-    source: Iterable<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number),
-    resultSelector: (x: string | number, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult> {
-
-    function *iterator(): IterableIterator<TResult> {
-        const groupByResult = groupBy_0_Simple(source, keySelector)
-
-        for (const group of groupByResult) {
-            yield resultSelector(group.key, group)
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-function groupBy_2<TSource, TKey, TResult>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => TKey,
-    resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult,
-    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IEnumerable<TResult> {
-
-    function *iterator(): IterableIterator<TResult> {
-        const groupByResult = groupBy_0(source, keySelector, comparer)
-
-        for (const group of groupByResult) {
-            yield resultSelector(group.key, group)
-        }
-    }
-
-    return new BasicEnumerable(iterator)
 }
 
 export function GroupByWithResultAndSelector<TSource, TKey, TElement, TResult>(
@@ -1021,51 +640,16 @@ export function GroupByWithResultAndSelector<TSource, TKey, TElement, TResult>(
         ((key: string | number, values: IEnumerable<TElement>) => TResult),
     comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
     if (comparer) {
-        return groupBy_3(source,
+        return EnumerablePrivate.groupBy_3(source,
             keySelector as (x: TSource) => TKey,
             elementSelector,
             resultSelector as (key: TKey, values: IEnumerable<TElement>) => TResult)
     } else {
-        return groupBy_3_Simple(source,
+        return EnumerablePrivate.groupBy_3_Simple(source,
             keySelector as ((x: TSource) => string) | ((x: TSource) => number),
             elementSelector,
             resultSelector as (key: string | number, values: IEnumerable<TElement>) => TResult)
     }
-}
-
-function groupBy_3<TSource, TKey, TElement, TResult>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => TKey,
-    elementSelector: (x: TSource) => TElement,
-    resultSelector: (key: TKey, values: IEnumerable<TElement>) => TResult,
-    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IEnumerable<TResult> {
-
-    function *iterator(): IterableIterator<TResult> {
-        const groupByResult = groupBy_1(source, keySelector, elementSelector, comparer)
-
-        for (const group of groupByResult) {
-            yield resultSelector(group.key, group)
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-function groupBy_3_Simple<TSource, TElement, TResult>(
-    source: Iterable<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number),
-    elementSelector: (x: TSource) => TElement,
-    resultSelector: (key: string | number, values: IEnumerable<TElement>) => TResult): IEnumerable<TResult> {
-
-    function *iterator(): IterableIterator<TResult> {
-        const groupByResult = groupBy_1_Simple(source, keySelector, elementSelector)
-
-        for (const group of groupByResult) {
-            yield resultSelector(group.key, group)
-        }
-    }
-
-    return new BasicEnumerable(iterator)
 }
 
 export function join<TOuter, TInner, TKey, TResult>(
@@ -1213,32 +797,10 @@ export function select<TSource, TKey extends keyof TSource, TResult>(
     selector: ((x: TSource) => TResult) | TKey): IEnumerable<TSource[TKey]> | IEnumerable<TResult> {
 
     if (typeof selector === "string") {
-        return select_2(source, selector)
+        return EnumerablePrivate.select_2(source, selector)
     } else {
-        return select_1(source, selector as (x: TSource) => TResult)
+        return EnumerablePrivate.select_1(source, selector as (x: TSource) => TResult)
     }
-}
-
-function select_1<TSource, TResult>(
-    source: Iterable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult> {
-    function* iterator() {
-        for (const value of source) {
-            yield selector(value)
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-function select_2<TSource, TKey extends keyof TSource>(
-    source: Iterable<TSource>, key: TKey): IEnumerable<TSource[TKey]> {
-    function* iterator() {
-        for (const value of source) {
-            yield value[key]
-        }
-    }
-
-    return new BasicEnumerable(iterator)
 }
 
 export function selectAsync<TSource, TResult>(
@@ -1250,34 +812,10 @@ export function selectAsync<TSource extends { [key: string]: Promise<TResult> },
     selector: ((x: TSource) => Promise<TResult>) | TKey): IAsyncEnumerable<any> {
 
     if (typeof selector === "string") {
-        return selectAsync_2(source, selector)
+        return EnumerablePrivate.selectAsync_2(source, selector)
     } else {
-        return selectAsync_1(source, selector as (x: TSource) => Promise<TResult>)
+        return EnumerablePrivate.selectAsync_1(source, selector as (x: TSource) => Promise<TResult>)
     }
-}
-
-function selectAsync_1<TSource, TResult>(
-    source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult> {
-    async function* iterator() {
-        for (const value of source) {
-            yield selector(value)
-        }
-    }
-
-    return fromAsync(iterator)
-}
-
-function selectAsync_2<
-    TSource extends { [ key: string]: Promise<TResult> },
-    TKey extends keyof TSource, TResult>(
-    source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TResult> {
-    async function* iterator() {
-        for (const value of source) {
-            yield value[key]
-        }
-    }
-
-    return fromAsync(iterator)
 }
 
 export function selectMany<TSource, TResult>(
@@ -1291,37 +829,10 @@ export function selectMany<TSource extends { [key: string]: Iterable<TResult>}, 
     source: Iterable<TSource>,
     selector: ((x: TSource) => Iterable<TResult>) | keyof TSource) {
     if (typeof selector === "string") {
-        return selectMany_2(source, selector)
+        return EnumerablePrivate.selectMany_2(source, selector)
     } else {
-        return selectMany_1(source, selector as (x: TSource) => Iterable<TResult>)
+        return EnumerablePrivate.selectMany_1(source, selector as (x: TSource) => Iterable<TResult>)
     }
-}
-
-function selectMany_1<TSource, TResult>(
-    source: Iterable<TSource>,
-    selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult> {
-    function* iterator() {
-        for (const value of source) {
-            for (const selectorValue of selector(value)) {
-                yield selectorValue
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-export function selectMany_2<TSource extends { [key: string]: Iterable<TResult> }, TResult>(
-    source: Iterable<TSource>, selector: keyof TSource) {
-    function* iterator() {
-        for (const value of source) {
-            for (const selectorValue of value[selector]) {
-                yield selectorValue
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
 }
 
 export function selectManyAsync<TSource, TResult>(
@@ -1347,52 +858,10 @@ export function selectManyAsync<TSource, TResult>(
  */
 export function single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
     if (predicate) {
-        return single_2(source, predicate)
+        return EnumerablePrivate.single_2(source, predicate)
     } else {
-        return single_1(source)
+        return EnumerablePrivate.single_1(source)
     }
-}
-
-function single_1<TSource>(source: Iterable<TSource>): TSource {
-    let hasValue = false
-    let singleValue: TSource | null = null
-
-    for (const value of source) {
-        if (hasValue === true) {
-            throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-        } else {
-            hasValue = true
-            singleValue = value
-        }
-    }
-
-    if (hasValue === false) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return singleValue as TSource
-}
-
-function single_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource {
-    let hasValue = false
-    let singleValue: TSource | null = null
-
-    for (const value of source) {
-        if (predicate(value)) {
-            if (hasValue === true) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
-            } else {
-                hasValue = true
-                singleValue = value
-            }
-        }
-    }
-
-    if (hasValue === false) {
-        throw new InvalidOperationException(ErrorString.NoMatch)
-    }
-
-    return singleValue as TSource
 }
 
 /**
@@ -1430,48 +899,12 @@ export function singleOrDefault<TSource>(
     predicate?: (x: TSource) => boolean): TSource | null {
 
     if (predicate) {
-        return singleOrDefault_2(source, predicate)
+        return EnumerablePrivate.singleOrDefault_2(source, predicate)
     } else {
-        return singleOrDefault_1(source)
+        return EnumerablePrivate.singleOrDefault_1(source)
     }
 }
 
-function singleOrDefault_1<TSource>(source: Iterable<TSource>): TSource | null {
-    let hasValue = false
-    let singleValue: TSource | null = null
-
-    for (const value of source) {
-        if (hasValue === true) {
-            throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-        } else {
-            hasValue = true
-            singleValue = value
-        }
-    }
-
-    return singleValue
-}
-
-function singleOrDefault_2<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource) => boolean): TSource | null {
-
-    let hasValue = false
-    let singleValue: TSource | null = null
-
-    for (const value of source) {
-        if (predicate(value)) {
-            if (hasValue === true) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
-            } else {
-                hasValue = true
-                singleValue = value
-            }
-        }
-    }
-
-    return singleValue
-}
 
 /**
  * @throws {InvalidOperationException} More than one element matchines predicate
@@ -1497,113 +930,6 @@ export async function singleOrDefaultAsync<TSource>(
     return singleValue
 }
 
-export function skipWhile<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource> {
-
-    if (predicate.length === 1) {
-        return skipWhile_1(source, predicate as (x: TSource) => boolean)
-    } else {
-        return skipWhile_2(source, predicate)
-    }
-}
-
-function skipWhile_1<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource) => boolean): IEnumerable<TSource> {
-
-    function* iterator() {
-        let skip = true
-        for (const item of source) {
-
-            if (skip === false) {
-                yield item
-            } else if (predicate(item) === false) {
-                skip = false
-                yield item
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-function skipWhile_2<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource> {
-
-    function* iterator() {
-        let index = 0
-        let skip = true
-        for (const item of source) {
-
-            if (skip === false) {
-                yield item
-            } else if (predicate(item, index) === false) {
-                skip = false
-                yield item
-            }
-
-            index++
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-export function skipWhileAsync<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
-
-    if (predicate.length === 1) {
-        return skipWhileAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
-    } else {
-        return skipWhileAsync_2(source, predicate)
-    }
-}
-
-function skipWhileAsync_1<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource> {
-
-    async function* iterator() {
-        let skip = true
-        for (const item of source) {
-
-            if (skip === false) {
-                yield item
-            } else if (await predicate(item) === false) {
-                skip = false
-                yield item
-            }
-        }
-    }
-
-    return fromAsync(iterator)
-}
-
-function skipWhileAsync_2<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
-
-    async function* iterator() {
-        let index = 0
-        let skip = true
-        for (const item of source) {
-
-            if (skip === false) {
-                yield item
-            } else if (await predicate(item, index) === false) {
-                skip = false
-                yield item
-            }
-
-            index++
-        }
-    }
-
-    return fromAsync(iterator)
-}
 
 export function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
 
@@ -1619,46 +945,38 @@ export function skip<TSource>(source: Iterable<TSource>, count: number): IEnumer
     return new BasicEnumerable<TSource>(iterator)
 }
 
+export function skipWhile<TSource>(
+    source: Iterable<TSource>,
+    predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource> {
+
+    if (predicate.length === 1) {
+        return EnumerablePrivate.skipWhile_1(source, predicate as (x: TSource) => boolean)
+    } else {
+        return EnumerablePrivate.skipWhile_2(source, predicate)
+    }
+}
+
+export function skipWhileAsync<TSource>(
+    source: Iterable<TSource>,
+    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+
+    if (predicate.length === 1) {
+        return EnumerablePrivate.skipWhileAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
+    } else {
+        return EnumerablePrivate.skipWhileAsync_2(source, predicate)
+    }
+}
+
 /**
  * @throws {InvalidOperationException} Sequence contains no elements
  * @throws {InvalidOperationException} Sequence contains no matching element
  */
 export function last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
     if (predicate) {
-        return last_2(source, predicate)
+        return EnumerablePrivate.last_2(source, predicate)
     } else {
-        return last_1(source)
+        return EnumerablePrivate.last_1(source)
     }
-}
-
-function last_1<TSource>(source: Iterable<TSource>): TSource {
-    let last: TSource | undefined
-
-    for (const value of source) {
-        last = value
-    }
-
-    if (!last) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return last
-}
-
-function last_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource {
-    let last: TSource | undefined
-
-    for (const value of source) {
-        if (predicate(value) === true) {
-            last = value
-        }
-    }
-
-    if (!last) {
-        throw new InvalidOperationException(ErrorString.NoMatch)
-    }
-
-    return last
 }
 
 /**
@@ -1686,35 +1004,10 @@ export function lastOrDefault<TSource>(
     predicate?: (x: TSource) => boolean): TSource | null {
 
     if (predicate) {
-        return lastOrDefault_2(source, predicate)
+        return EnumerablePrivate.lastOrDefault_2(source, predicate)
     } else {
-        return lastOrDefault_1(source)
+        return EnumerablePrivate.lastOrDefault_1(source)
     }
-}
-
-function lastOrDefault_1<TSource>(source: Iterable<TSource>): TSource | null {
-    let last: TSource | null = null
-
-    for (const value of source) {
-        last = value
-    }
-
-    return last
-}
-
-function lastOrDefault_2<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource) => boolean): TSource | null {
-
-    let last: TSource | null = null
-
-    for (const value of source) {
-        if (predicate(value) === true) {
-            last = value
-        }
-    }
-
-    return last
 }
 
 export async function lastOrDefaultAsync<TSource>(
@@ -1744,35 +1037,9 @@ export function max<TSource>(
     source: Iterable<TSource> | Iterable<number>,
     selector?: (x: TSource) => number): number {
     if (selector) {
-        return max_2<TSource>(source as Iterable<TSource>, selector)
+        return EnumerablePrivate.max_2<TSource>(source as Iterable<TSource>, selector)
     } else {
-        return max_1(source as Iterable<number>)
-    }
-}
-
-function max_1(source: Iterable<number>): number {
-    let max: number | null = null
-    for (const item of source) {
-        max = Math.max(max || Number.NEGATIVE_INFINITY, item)
-    }
-
-    if (max === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return max
-    }
-}
-
-function max_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number {
-    let max: number | null = null
-    for (const item of source) {
-        max = Math.max(max || Number.NEGATIVE_INFINITY, selector(item))
-    }
-
-    if (max === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return max
+        return EnumerablePrivate.max_1(source as Iterable<number>)
     }
 }
 
@@ -1801,35 +1068,9 @@ export function min<TSource>(source: Iterable<TSource>, selector: (x: TSource) =
 export function min<TSource>(source: Iterable<TSource> | Iterable<number>,
                              selector?: (x: TSource) => number): number {
     if (selector) {
-        return min_2(source as Iterable<TSource>, selector)
+        return EnumerablePrivate.min_2(source as Iterable<TSource>, selector)
     } else {
-        return min_1(source as Iterable<number>)
-    }
-}
-
-function min_1(source: Iterable<number>) {
-    let min: number | null = null
-    for (const item of source) {
-        min = Math.min(min || Number.POSITIVE_INFINITY, item)
-    }
-
-    if (min === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return min
-    }
-}
-
-function min_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number) {
-    let min: number | null = null
-    for (const item of source) {
-        min = Math.min(min || Number.POSITIVE_INFINITY, selector(item))
-    }
-
-    if (min === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return min
+        return EnumerablePrivate.min_1(source as Iterable<number>)
     }
 }
 
@@ -2005,28 +1246,10 @@ export function sum<TSource>(
     selector?: (x: TSource) => number): number {
 
     if (selector) {
-        return sum_2(source as Iterable<TSource>, selector)
+        return EnumerablePrivate.sum_2(source as Iterable<TSource>, selector)
     } else {
-        return sum_1(source as Iterable<number>)
+        return EnumerablePrivate.sum_1(source as Iterable<number>)
     }
-}
-
-function sum_1(source: Iterable<number>): number {
-    let sum = 0
-    for (const value of source) {
-        sum += value
-    }
-
-    return sum
-}
-
-function sum_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number {
-    let sum = 0
-    for (const value of source) {
-        sum += selector(value)
-    }
-
-    return sum
 }
 
 export async function sumAsync<TSource>(
@@ -2061,39 +1284,10 @@ export function takeWhile<T>(
     predicate: (x: T, index: number) => boolean): IEnumerable<T> {
 
     if (predicate.length === 1) {
-        return takeWhile_1(source, predicate as (x: T) => boolean)
+        return EnumerablePrivate.takeWhile_1(source, predicate as (x: T) => boolean)
     } else {
-        return takeWhile_2(source, predicate as (x: T, index: number) => boolean)
+        return EnumerablePrivate.takeWhile_2(source, predicate as (x: T, index: number) => boolean)
     }
-}
-
-function takeWhile_1<T>(source: Iterable<T>, predicate: (x: T) => boolean): IEnumerable<T> {
-    function* iterator() {
-        for (const item of source) {
-            if (predicate(item)) {
-                yield item
-            } else {
-                break
-            }
-        }
-    }
-
-    return new BasicEnumerable<T>(iterator)
-}
-
-function takeWhile_2<T>(source: Iterable<T>, predicate: (x: T, index: number) => boolean): IEnumerable<T> {
-    function* iterator() {
-        let index = 0
-        for (const item of source) {
-            if (predicate(item, index++)) {
-                yield item
-            } else {
-                break
-            }
-        }
-    }
-
-    return new BasicEnumerable<T>(iterator)
 }
 
 export function takeWhileAsync<T>(
@@ -2101,43 +1295,10 @@ export function takeWhileAsync<T>(
     predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
 
     if (predicate.length === 1) {
-        return takeWhileAsync_1(source, predicate as (x: T) => Promise<boolean>)
+        return EnumerablePrivate.takeWhileAsync_1(source, predicate as (x: T) => Promise<boolean>)
     } else {
-        return takeWhileAsync_2(source, predicate as (x: T, index: number) => Promise<boolean>)
+        return EnumerablePrivate.takeWhileAsync_2(source, predicate as (x: T, index: number) => Promise<boolean>)
     }
-}
-
-function takeWhileAsync_1<T>(
-    source: Iterable<T>,
-    predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> {
-    async function* iterator() {
-        for (const item of source) {
-            if (await predicate(item)) {
-                yield item
-            } else {
-                break
-            }
-        }
-    }
-
-    return fromAsync(iterator)
-}
-
-function takeWhileAsync_2<T>(
-    source: Iterable<T>,
-    predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
-    async function* iterator() {
-        let index = 0
-        for (const item of source) {
-            if (await predicate(item, index++)) {
-                yield item
-            } else {
-                break
-            }
-        }
-    }
-
-    return fromAsync(iterator)
 }
 
 export function toArray<TSource>(source: Iterable<TSource>): TSource[] {
@@ -2213,66 +1374,10 @@ export function union<TSource>(
     second: Iterable<TSource>,
     comparer?: IEqualityComparer<TSource>): IEnumerable<TSource> {
         if (comparer) {
-            return union_2(first, second, comparer)
+            return EnumerablePrivate.union_2(first, second, comparer)
         } else {
-            return union_1(first, second)
+            return EnumerablePrivate.union_1(first, second)
         }
-}
-
-function union_1<TSource>(
-    first: Iterable<TSource>,
-    second: Iterable<TSource>) {
-
-    function* iterator() {
-
-        const set = new Set<TSource>()
-
-        for (const item of first) {
-            if (set.has(item) === false) {
-                yield item
-                set.add(item)
-            }
-        }
-
-        for (const item of second) {
-            if (set.has(item) === false) {
-                yield item
-                set.add(item)
-            }
-        }
-    }
-
-    return new BasicEnumerable<TSource>(iterator)
-}
-
-function union_2<TSource>(
-    first: Iterable<TSource>,
-    second: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource>) {
-
-    function *iterator(): IterableIterator<TSource> {
-        const result: TSource[] = []
-
-        for (const source of [first, second]) {
-            for (const value of source) {
-                let exists = false
-
-                for (const resultValue of result) {
-                    if (comparer(value, resultValue) === true) {
-                        exists = true
-                        break
-                    }
-                }
-
-                if (exists === false) {
-                    yield value
-                    result.push(value)
-                }
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
 }
 
 export function unionAsync<TSource>(
@@ -2309,74 +1414,20 @@ export function where<T>(
     source: Iterable<T>,
     predicate: (x: T, index: number) => boolean): IEnumerable<T> {
     if (predicate.length === 1) {
-        return where_1(source, predicate as (x: T) => boolean)
+        return EnumerablePrivate.where_1(source, predicate as (x: T) => boolean)
     } else {
-        return where_2(source, predicate as (x: T, index: number) => boolean)
+        return EnumerablePrivate.where_2(source, predicate as (x: T, index: number) => boolean)
     }
-}
-
-function where_1<T>(source: Iterable<T>, predicate: (x: T) => boolean): IEnumerable<T> {
-    function* iterator() {
-        for (const item of source) {
-            if (predicate(item) === true) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicEnumerable<T>(iterator)
-}
-
-function where_2<T>(source: Iterable<T>, predicate: (x: T, index: number) => boolean): IEnumerable<T> {
-    function* iterator() {
-        let i = 0
-        for (const item of source) {
-            if (predicate(item, i++) === true) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicEnumerable<T>(iterator)
 }
 
 export function whereAsync<T>(
     source: Iterable<T>,
     predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
     if (predicate.length === 1) {
-        return whereAsync_1(source, predicate as (x: T) => Promise<boolean>)
+        return EnumerablePrivate.whereAsync_1(source, predicate as (x: T) => Promise<boolean>)
     } else {
-        return whereAsync_2(source, predicate)
+        return EnumerablePrivate.whereAsync_2(source, predicate)
     }
-}
-
-function whereAsync_1<T>(
-    source: Iterable<T>,
-    predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> {
-    async function* generator() {
-        for (const item of source) {
-            if (await predicate(item) === true) {
-                yield item
-            }
-        }
-    }
-
-    return fromAsync(generator)
-}
-
-function whereAsync_2<T>(
-    source: Iterable<T>,
-    predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
-    async function* generator() {
-        let i = 0
-        for (const item of source) {
-            if (await predicate(item, i++) === true) {
-                yield item
-            }
-        }
-    }
-
-    return fromAsync(generator)
 }
 
 export function zip<T, Y>(
@@ -2391,53 +1442,10 @@ export function zip<T, Y, OUT>(
     second: Iterable<Y>,
     resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<ITuple<T, Y>> {
     if (resultSelector) {
-        return zip_2(source, second, resultSelector)
+        return EnumerablePrivate.zip_2(source, second, resultSelector)
     } else {
-        return zip_1(source, second)
+        return EnumerablePrivate.zip_1(source, second)
     }
-}
-
-function zip_1<T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<ITuple<T, Y>> {
-    function* iterator() {
-        const firstIterator = source[Symbol.iterator]()
-        const secondIterator = second[Symbol.iterator]()
-
-        while (true) {
-            const a = firstIterator.next()
-            const b = secondIterator.next()
-
-            if (a.done && b.done) {
-                break
-            } else {
-                yield AsTuple(a.value, b.value)
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-function zip_2<T, Y, OUT>(
-    source: Iterable<T>,
-    second: Iterable<Y>,
-    resultSelector: (x: T, y: Y) => OUT): IEnumerable<OUT> {
-    function* iterator() {
-        const firstIterator = source[Symbol.iterator]()
-        const secondIterator = second[Symbol.iterator]()
-
-        while (true) {
-            const a = firstIterator.next()
-            const b = secondIterator.next()
-
-            if (a.done && b.done) {
-                break
-            } else {
-                yield resultSelector(a.value, b.value)
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
 }
 
 export function zipAsync<T, Y, OUT>(
