@@ -1,5 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { IParallelEnumerable, from as parallelFrom } from "../parallel/parallel"
+import { from as parallelFrom, IParallelEnumerable } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import {
     ArgumentOutOfRangeException,
@@ -20,10 +20,10 @@ import {
     IAsyncEnumerable,
 } from "./../async/async"
 import { BasicEnumerable } from "./BasicEnumerable"
+import * as EnumerablePrivate from "./EnumerablePrivate"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 import { OrderedEnumerable } from "./OrderedEnumerable"
-import * as EnumerablePrivate from "./EnumerablePrivate";
 
 // tslint:disable:no-shadowed-variable
 
@@ -105,7 +105,7 @@ export async function anyAsync<TSource>(
 /**
  * Converts the iterable to an @see {IAsyncEnumerable}
  */
-export function asAsync<TSource>(source: Iterable<TSource>): IAsyncEnumerable<TSource> {
+export const asAsync = <TSource>(source: Iterable<TSource>) => {
     async function* generator() {
         for (const value of source) {
             yield value
@@ -905,7 +905,6 @@ export function singleOrDefault<TSource>(
     }
 }
 
-
 /**
  * @throws {InvalidOperationException} More than one element matchines predicate
  */
@@ -929,7 +928,6 @@ export async function singleOrDefaultAsync<TSource>(
 
     return singleValue
 }
-
 
 export function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
 

@@ -1,6 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
-import { IParallelEnumerable, from as parallelFrom } from "../parallel/parallel"
+import { from as parallelFrom, IParallelEnumerable } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import {
     ArgumentOutOfRangeException,

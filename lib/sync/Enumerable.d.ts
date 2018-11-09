@@ -14,7 +14,7 @@ export declare function anyAsync<TSource>(source: Iterable<TSource>, predicate: 
 /**
  * Converts the iterable to an @see {IAsyncEnumerable}
  */
-export declare function asAsync<TSource>(source: Iterable<TSource>): IAsyncEnumerable<TSource>;
+export declare const asAsync: <TSource>(source: Iterable<TSource>) => IAsyncEnumerable<TSource>;
 /**
  * Converts an iterable to @see {IAsyncParallel}
  */
