@@ -1,10 +1,14 @@
-import { InvalidOperationException, ErrorString, IGrouping, IEqualityComparer, StrictEqualityComparer, AsTuple, ITuple, IAsyncEqualityComparer } from "../shared/shared";
-import { IEnumerable, Grouping } from "./sync";
-import { BasicEnumerable } from "./BasicEnumerable";
+import {
+    AsTuple,
+    ErrorString,
+    IAsyncEqualityComparer,
+    IEqualityComparer, IGrouping, InvalidOperationException, ITuple, StrictEqualityComparer } from "../shared/shared"
 import {
     from as fromAsync,
     IAsyncEnumerable,
 } from "./../async/async"
+import { BasicEnumerable } from "./BasicEnumerable"
+import { Grouping, IEnumerable } from "./sync"
 
 /**
  * @throws {InvalidOperationException} No Elements
@@ -73,7 +77,6 @@ export function any_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource
 
     return false
 }
-
 
 export function average_1(source: Iterable<number>): number {
     let value: number | undefined
@@ -420,7 +423,6 @@ export function groupBy_3<TSource, TKey, TElement, TResult>(
 
     return new BasicEnumerable(iterator)
 }
-
 
 export function select_1<TSource, TResult>(
     source: Iterable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult> {
@@ -813,7 +815,6 @@ export function takeWhile_2<T>(source: Iterable<T>, predicate: (x: T, index: num
 
     return new BasicEnumerable<T>(iterator)
 }
-
 
 export function takeWhileAsync_1<T>(
     source: Iterable<T>,

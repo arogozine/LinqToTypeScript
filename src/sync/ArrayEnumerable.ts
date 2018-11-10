@@ -1,5 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { IParallelEnumerable, from as parallelFrom } from "../parallel/parallel"
+import { from as parallelFrom, IParallelEnumerable } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import { IAsyncEnumerable } from "./../async/async"
 import {

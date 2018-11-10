@@ -13,7 +13,7 @@ import {
     InvalidOperationException,
     ITuple,
     OfType,
-    StrictEqualityComparer} from "../shared/shared"
+    StrictEqualityComparer } from "../shared/shared"
 import { Grouping } from "../sync/sync"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
@@ -130,23 +130,23 @@ export async function all<TSource>(
 export async function allAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    const nextIteration = nextIterationAsync(source, async (x) => {
+    const nextIter = nextIterationAsync(source, async (x) => {
         if (await predicate(x) === false) {
             throw new Error(String(false))
         }
         return true
     })
 
-    switch (nextIteration.type) {
+    switch (nextIter.type) {
         case ParallelGeneratorType.PromiseToArray:
-            return nextIteration
+            return nextIter
                 .generator()
                 .then(() => true, () => false)
         case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIteration.generator())
+            return Promise.all(nextIter.generator())
                 .then(() => true, () => false)
         case ParallelGeneratorType.PromiseOfPromises:
-            return nextIteration.generator()
+            return nextIter.generator()
                 .then(Promise.all.bind(Promise))
                 .then(() => true, () => false)
     }
@@ -182,19 +182,19 @@ export function any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (
 
 export async function anyAsync<TSource>(
     source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    const nextIteration = nextIterationAsync(source, predicate)
+    const nextIter = nextIterationAsync(source, predicate)
 
-    switch (nextIteration.type) {
+    switch (nextIter.type) {
         case ParallelGeneratorType.PromiseToArray:
-            return nextIteration.generator().then((values) => {
+            return nextIter.generator().then((values) => {
                 return values.some((x) => x)
             })
         case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIteration.generator()).then((values) => {
+            return Promise.all(nextIter.generator()).then((values) => {
                 return values.some((x) => x)
             })
         case ParallelGeneratorType.PromiseOfPromises:
-            return nextIteration.generator().then((values) => Promise.all(values)).then((values) => {
+            return nextIter.generator().then((values) => Promise.all(values)).then((values) => {
                 return values.some((x) => x)
             })
     }
@@ -225,22 +225,23 @@ export function average<TSource>(
 
 async function average_1(source: IAsyncParallel<number>): Promise<number> {
     let value: number | undefined
-    let count: number | undefined
+    let itemCount: number | undefined
     for (const item of await source.toArray()) {
         value = (value || 0) + item
-        count = (count || 0) + 1
+        itemCount = (itemCount || 0) + 1
     }
 
     if (value === undefined) {
         throw new InvalidOperationException(ErrorString.NoElements)
     }
 
-    return value / (count as number)
+    return value / (itemCount as number)
 }
 
 async function average_2<TSource>(
     source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number> {
     let value: number | undefined
+    // tslint:disable-next-line:no-shadowed-variable
     let count: number | undefined
     for (const item of await source.toArray()) {
         value = (value || 0) + func(item)
@@ -256,18 +257,18 @@ async function average_2<TSource>(
 
 export async function averageAsync<TSource>(
     source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
-    const nextIteration = nextIterationAsync(source, selector)
+    const nextIter = nextIterationAsync(source, selector)
     let values: Array<number | Promise<number>>
-    switch (nextIteration.type) {
+    switch (nextIter.type) {
         case ParallelGeneratorType.ArrayOfPromises:
-            values = nextIteration.generator()
+            values = nextIter.generator()
             break
         case ParallelGeneratorType.PromiseOfPromises:
-            values = await nextIteration.generator()
+            values = await nextIter.generator()
             break
         case ParallelGeneratorType.PromiseToArray:
         default:
-            values = await nextIteration.generator()
+            values = await nextIter.generator()
             break
     }
 
@@ -284,6 +285,7 @@ export async function averageAsync<TSource>(
 }
 
 export function concat<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
     const generator = async () => {
         // Wait for both enumerables
@@ -392,13 +394,13 @@ async function count_2<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => boolean): Promise<number> {
     const values = await source.toArray()
-    let count = 0
+    let totalCount = 0
     for (let i = 0; i < values.length; i++) {
         if (predicate(values[i]) === true) {
-            count ++
+            totalCount ++
         }
     }
-    return count
+    return totalCount
 }
 
 export async function countAsync<TSource>(
@@ -419,14 +421,14 @@ export async function countAsync<TSource>(
             break
     }
 
-    let count = 0
+    let totalCount = 0
     for (const value of await countPromise) {
         if (value) {
-            count++
+            totalCount++
         }
     }
 
-    return count
+    return totalCount
 }
 
 export function distinct<TSource>(
@@ -564,6 +566,7 @@ export async function elementAtOrDefault<TSource>(
 }
 
 export function except<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource> = EqualityComparer): IParallelEnumerable<TSource> {
@@ -601,6 +604,7 @@ export function except<TSource>(
 }
 
 export function exceptAsync<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
@@ -1197,6 +1201,7 @@ export function join<TOuter, TInner, TKey, TResult>(
 }
 
 export function intersect<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IParallelEnumerable<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
@@ -1234,6 +1239,7 @@ export function intersect<TSource>(
 }
 
 export function intersectAsync<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IParallelEnumerable<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
@@ -1807,6 +1813,7 @@ export function orderByDescendingAsync<TSource, TKey>(
  * @param count The number of sequential integers to generate.
  * @throws {ArgumentOutOfRangeException} Start is Less than 0
  */
+// tslint:disable-next-line:no-shadowed-variable
 export function range(start: number, count: number): IParallelEnumerable<number> {
     if (start < 0) {
         throw new ArgumentOutOfRangeException(`start`)
@@ -1814,8 +1821,8 @@ export function range(start: number, count: number): IParallelEnumerable<number>
 
     function generator() {
         const items = []
-        const max = start + count
-        for (let i = start; i < max; i++) {
+        const maxI = start + count
+        for (let i = start; i < maxI; i++) {
             items.push(Promise.resolve(i))
         }
         return items
@@ -1828,6 +1835,7 @@ export function range(start: number, count: number): IParallelEnumerable<number>
 }
 
 export function repeat<T>(
+    // tslint:disable-next-line:no-shadowed-variable
     element: T, count: number, delay?: number): IParallelEnumerable<T> {
     if (count < 0) {
         throw new ArgumentOutOfRangeException(`count`)
@@ -1839,6 +1847,7 @@ export function repeat<T>(
     }
 }
 
+// tslint:disable-next-line:no-shadowed-variable
 function repeat_1<T>(element: T, count: number): IParallelEnumerable<T> {
     const generator = async () => {
         const values = new Array<T>(count)
@@ -1854,6 +1863,7 @@ function repeat_1<T>(element: T, count: number): IParallelEnumerable<T> {
     })
 }
 
+// tslint:disable-next-line:no-shadowed-variable
 function repeat_2<T>(element: T, count: number, delay: number): IParallelEnumerable<T> {
     const generator = async () => {
         const values = new Array<Promise<T>>(count)
@@ -1907,6 +1917,7 @@ export function reverse<TSource>(
 }
 
 export async function sequenceEquals<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
@@ -1931,6 +1942,7 @@ export async function sequenceEquals<TSource>(
 }
 
 export async function sequenceEqualsAsync<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
@@ -2160,6 +2172,7 @@ export async function singleOrDefaultAsync<TSource>(
 
 export function skip<TSource>(
     source: IParallelEnumerable<TSource>,
+    // tslint:disable-next-line:no-shadowed-variable
     count: number): IParallelEnumerable<TSource> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
@@ -2265,33 +2278,33 @@ export function sum<TSource>(
 
 async function sum_1(
     source: IAsyncParallel<number>): Promise<number> {
-    let sum = 0
+    let totalSum = 0
     for (const value of await source.toArray()) {
-        sum += value
+        totalSum += value
     }
 
-    return sum
+    return totalSum
 }
 
 async function sum_2<TSource>(
     source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number> {
-    let sum = 0
+    let total = 0
     for (const value of await source.toArray()) {
-        sum += selector(value)
+        total += selector(value)
     }
 
-    return sum
+    return total
 }
 
 export async function sumAsync<TSource>(
     source: IAsyncParallel<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<number> {
-    let sum = 0
+    let total = 0
     for (const value of await source.toArray()) {
-        sum += await selector(value)
+        total += await selector(value)
     }
 
-    return sum
+    return total
 }
 
 export function take<TSource>(
@@ -2468,6 +2481,7 @@ export async function toSet<TSource>(
 }
 
 export function union<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource> {
@@ -2479,6 +2493,7 @@ export function union<TSource>(
 }
 
 function union_1<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>) {
 
@@ -2510,6 +2525,7 @@ function union_1<TSource>(
 }
 
 function union_2<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource>) {
@@ -2544,6 +2560,7 @@ function union_2<TSource>(
 }
 
 export function unionAsync<TSource>(
+    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
@@ -2646,12 +2663,12 @@ function zip_1<T, Y>(
     source: IAsyncParallel<T>,
     second: IAsyncParallel<Y>): IParallelEnumerable<ITuple<T, Y>> {
     async function generator() {
-        const items = await Promise.all([source.toArray(), second.toArray()])
-        const max = items[0].length > items[1].length ? items[0].length : items[1].length
-        const results = new Array<ITuple<T, Y>>(max)
-        for (let i = 0; i < max; i++) {
-            const a = items[0][i]
-            const b = items[1][i]
+        const [left, right] = await Promise.all([source.toArray(), second.toArray()])
+        const maxLength = left.length > right.length ? left.length : right.length
+        const results = new Array<ITuple<T, Y>>(maxLength)
+        for (let i = 0; i < maxLength; i++) {
+            const a = left[i]
+            const b = right[i]
             results[i] = AsTuple(a, b)
         }
         return results
@@ -2667,12 +2684,12 @@ function zip_2<T, Y, OUT>(
     second: IAsyncParallel<Y>,
     resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> {
     async function generator() {
-        const items = await Promise.all([source.toArray(), second.toArray()])
-        const max = items[0].length > items[1].length ? items[0].length : items[1].length
-        const results = new Array<OUT>(max)
-        for (let i = 0; i < max; i++) {
-            const a = items[0][i]
-            const b = items[1][i]
+        const [left, right] = await Promise.all([source.toArray(), second.toArray()])
+        const maxLength = left.length > right.length ? left.length : right.length
+        const results = new Array<OUT>(maxLength)
+        for (let i = 0; i < maxLength; i++) {
+            const a = left[i]
+            const b = right[i]
             results[i] = resultSelector(a, b)
         }
         return results
@@ -2684,17 +2701,17 @@ function zip_2<T, Y, OUT>(
     })
 }
 
-export function ZipAsync<T, Y, OUT>(
+export function zipAsync<T, Y, OUT>(
     source: IAsyncParallel<T>,
     second: IAsyncParallel<Y>,
     resultSelector: (x: T, y: Y) => Promise<OUT>): IParallelEnumerable<OUT> {
     async function generator() {
-        const items = await Promise.all([source.toArray(), second.toArray()])
-        const max = items[0].length > items[1].length ? items[0].length : items[1].length
-        const resultPromises = new Array<Promise<OUT>>(max)
-        for (let i = 0; i < max; i++) {
-            const a = items[0][i]
-            const b = items[1][i]
+        const [left, right] = await Promise.all([source.toArray(), second.toArray()])
+        const maxLength = left.length > right.length ? left.length : right.length
+        const resultPromises = new Array<Promise<OUT>>(maxLength)
+        for (let i = 0; i < maxLength; i++) {
+            const a = left[i]
+            const b = right[i]
             resultPromises[i] = resultSelector(a, b)
         }
         return Promise.all(resultPromises)

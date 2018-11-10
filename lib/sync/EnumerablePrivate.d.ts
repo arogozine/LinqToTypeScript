@@ -1,7 +1,7 @@
-import { IGrouping, IEqualityComparer, ITuple, IAsyncEqualityComparer } from "../shared/shared";
-import { IEnumerable } from "./sync";
-import { BasicEnumerable } from "./BasicEnumerable";
+import { IAsyncEqualityComparer, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
 import { IAsyncEnumerable } from "./../async/async";
+import { BasicEnumerable } from "./BasicEnumerable";
+import { IEnumerable } from "./sync";
 /**
  * @throws {InvalidOperationException} No Elements
  */

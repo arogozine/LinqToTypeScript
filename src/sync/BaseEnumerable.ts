@@ -9,9 +9,9 @@ import {
     InferType,
     ITuple,
     OfType} from "./../shared/shared"
+import * as Enumerable from "./Enumerable"
 import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
-import * as Enumerable from "./Enumerable";
 
 /**
  * Container for all IEnumerable methods

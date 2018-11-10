@@ -391,7 +391,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
     public zipAsync<TSecond, TResult>(
         second: IAsyncParallel<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult> {
-        return ParallelEnumerable.ZipAsync(this, second, resultSelector)
+        return ParallelEnumerable.zipAsync(this, second, resultSelector)
     }
 
     public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
