@@ -1,12 +1,18 @@
 import { BasicAsyncEnumerable } from "async/BasicAsyncEnumerable"
 import {
     from as fromAsync,
+    fromEvent,
     IAsyncEnumerable,
 } from "./../src/async/async"
 import {
     ArrayEnumerable,
+    empty,
+    enumerateObject,
+    flatten,
     from,
     IEnumerable,
+    range,
+    repeat,
 } from "./../src/index"
 import {
     from as fromParallel,
@@ -34,9 +40,17 @@ const isChecks: ReadonlyArray<string> = [
     "isParallelEnumerable",
 ]
 
-const syncKeys = Object.getOwnPropertyNames(ArrayEnumerable)
-const asyncKeys = Object.getOwnPropertyNames(BasicAsyncEnumerable)
-const staticMethods = [ ...syncKeys, ...asyncKeys ]
+// Get
+// Static and Instance Methods
+const syncKeys = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
+const asyncKeys = Object.getOwnPropertyNames(BasicAsyncEnumerable.prototype)
+const staticMethods = new Set<string>([ ...syncKeys, ...asyncKeys ])
+staticMethods.add(empty.name)
+staticMethods.add(enumerateObject.name)
+staticMethods.add(flatten.name)
+staticMethods.add(fromEvent.name)
+staticMethods.add(range.name)
+staticMethods.add(repeat.name)
 
 function validateKeys(description: string) {
     for (const [key, values] of nameMap.entries()) {
@@ -56,6 +70,7 @@ function describeWrapper(description: string, specDefinitions: () => void): void
         "thenBy",
         "thenByAsync",
         "joinByKey",
+        "primeNumbers",
         ... isChecks,
     ]
     const keys = [ ...staticMethods, ...allowed ]
@@ -67,7 +82,7 @@ function describeWrapper(description: string, specDefinitions: () => void): void
 
     desc(description, () => {
         specDefinitions()
-        if (staticMethods.includes(description)) {
+        if (staticMethods.has(description)) {
             validateKeys(description)
         } else {
             nameMap.clear()
