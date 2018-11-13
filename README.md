@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 2.9.2 and ES 2016**
+- **Targets TypeScript 3.X and ES 2016**
 ```TypeScript
 await from([bing, google, quackQuackGo])
     .asParallel()
@@ -44,7 +44,7 @@ npm i linq-to-typescript
 import { from } from "linq-to-typescript"
 
 // To Use With Wrappers
-const evenNumbers = Enumerable.from([1, 2, 3, 4, 5, 6, 7, 8, 9]).where((x) => x % 2 === 0).toArray()
+const evenNumbers = from([1, 2, 3, 4, 5, 6, 7, 8, 9]).where((x) => x % 2 === 0).toArray()
 ```
 #### Without Wrappers
 ```TypeScript
