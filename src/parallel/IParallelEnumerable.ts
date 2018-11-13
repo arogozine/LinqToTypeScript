@@ -1,4 +1,5 @@
-import { IAsyncEnumerable, IOrderedParallelEnumerable } from ".."
+import { IAsyncEnumerable } from "../async/async"
+import { IOrderedParallelEnumerable, IParallelEnumerable } from "../parallel/parallel"
 import {
     IAsyncEqualityComparer,
     IAsyncParallel,

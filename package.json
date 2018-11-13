@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "3.1.1",
+  "version": "4.0.0-alpha1",
   "description": "LINQ ported to TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

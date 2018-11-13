@@ -5,7 +5,7 @@
 **Download a few webpages and extract their titles using Node and LinqToTypeScript**
 
 ```TypeScript
-import { Enumerable, } from "linq-to-typescript"
+import { from } from "linq-to-typescript"
 import * as url from "url"
 import * as https from "https"
 
@@ -29,8 +29,7 @@ const getTitle = (html: string) => {
 const bing = new url.URL(`https://www.bing.com/`)
 const google = new url.URL(`https://www.google.com/`)
 const quackQuackGo = new url.URL(`https://duckduckgo.com/`)
-const promise = Enumerable
-    .from([bing, google, quackQuackGo])
+const promise = from([bing, google, quackQuackGo])
     .asParallel()
     .selectAsync(downloadFile)
     .select(getTitle)
@@ -41,12 +40,12 @@ promise.then(console.log)
 ## Calculate Prime Numbers
 
 ```TypeScript
-import { Enumerable } from "linq-to-typescript"
+import { range } from "linq-to-typescript"
 
-const primeNumbers = Enumerable.range(2, 10000)
+const primeNumbers = range(2, 10000)
     .select((i) => [i, Math.floor(Math.sqrt(i))])
     .where(([i, iSq]) =>
-        Enumerable.range(2, iSq).all((j) => i % j !== 0))
+        range(2, iSq).all((j) => i % j !== 0))
     .select(([prime]) => prime)
     .toArray()
 
@@ -55,7 +54,7 @@ console.log(primeNumbers)
 ## Misc Examples (binding LINQ to Array)
 
 ```TypeScript
-import { ArrayEnumerable, initializeLinq, IEnumerable, Enumerable, EqualityComparer } from "linq-to-typescript"
+import { EqualityComparer, enumerateObject, initializeLinq } from "linq-to-typescript"
 
 initializeLinq()
 
@@ -108,7 +107,7 @@ declare global {
 ["1", 1, 2, 2, 3, "3"].distinct(EqualityComparer); // ["1", 2, 3]
 
 // ENUMERATEOBJECT
-for (let item of Enumerable.enumerateObject({ cat: "catto", dog: "doggo" })) {
+for (let item of enumerateObject({ cat: "catto", dog: "doggo" })) {
     console.log(item);
 }
 

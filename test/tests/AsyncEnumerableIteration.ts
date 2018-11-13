@@ -1,4 +1,4 @@
-import { fromAsync } from "../../src"
+import { from as fromAsync } from "../../src/async/async"
 import { itAsync } from "./../TestHelpers"
 
 describe("AsyncEnumerableIteration", () => {

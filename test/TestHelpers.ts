@@ -1,15 +1,17 @@
 import { BasicAsyncEnumerable } from "async/BasicAsyncEnumerable"
 import {
+    from as fromAsync,
+    IAsyncEnumerable,
+} from "./../src/async/async"
+import {
     ArrayEnumerable,
     from,
-    fromAsync,
-    IAsyncEnumerable,
     IEnumerable,
-    IParallelEnumerable,
-    ParallelGeneratorType,
 } from "./../src/index"
 import {
-    from as fromParallel
+    from as fromParallel,
+    IParallelEnumerable,
+    ParallelGeneratorType,
 } from "./../src/parallel/parallel"
 
 // There are helper functions to make testing easy

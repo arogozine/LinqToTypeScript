@@ -1,6 +1,6 @@
 import { empty as emptyAsync } from "async/async"
 import { empty } from "sync/sync"
-import { empty as emptyParallel } from "../../../src"
+import { empty as emptyParallel } from "../../../src/parallel/parallel"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("empty", () => {

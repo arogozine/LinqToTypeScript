@@ -1,4 +1,4 @@
-import { IEnumerable, isEnumerable } from "../../../src/index"
+import {  isEnumerable } from "../../../src/index"
 import { asAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("isEnumerable", () => {

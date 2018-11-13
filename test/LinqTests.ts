@@ -94,4 +94,6 @@ import "./tests/WhereAsync"
 import "./tests/Zip"
 import "./tests/ZipAsync"
 
+import "./tests/examples/PrimeNumbers"
+
 // tslint:enable:ordered-imports

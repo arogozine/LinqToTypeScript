@@ -11,13 +11,7 @@ import { ArrayEnumerable, IEnumerable } from "./sync/sync"
 export * from "./shared/shared"
 
 // Enumerable
-export { ArrayEnumerable, IEnumerable, from } from "./sync/sync"
-
-// AsyncEnumerable
-export { IAsyncEnumerable, from as fromAsync } from "./async/async"
-
-// ParallelEnumerable
-export * from "./parallel/parallel"
+export * from "./sync/sync"
 
 export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
     new (_?: any): Y

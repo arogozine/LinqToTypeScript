@@ -2,8 +2,7 @@
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
 - **Targets TypeScript 2.9.2 and ES 2016**
 ```TypeScript
-await Enumerable
-    .from([bing, google, quackQuackGo])
+await from([bing, google, quackQuackGo])
     .asParallel()
     .selectAsync(downloadHtml)
     .select(getTitle)
@@ -42,7 +41,7 @@ npm i linq-to-typescript
 #### With Wrappers
 ```TypeScript
 // 0. Import Module
-import { ArrayEnumerable, Enumerable, AsyncEnumerable, ParallelEnumerable } from "linq-to-typescript"
+import { from } from "linq-to-typescript"
 
 // To Use With Wrappers
 const evenNumbers = Enumerable.from([1, 2, 3, 4, 5, 6, 7, 8, 9]).where((x) => x % 2 === 0).toArray()
@@ -50,7 +49,7 @@ const evenNumbers = Enumerable.from([1, 2, 3, 4, 5, 6, 7, 8, 9]).where((x) => x 
 #### Without Wrappers
 ```TypeScript
 // 0. Import Module
-import { Enumerable, AsyncEnumerable, ParallelEnumerable, initializeLinq } from "linq-to-typescript"
+import { initializeLinq } from "linq-to-typescript"
 // 1. Declare that the JS types implement the IEnumerable interface
 declare global {
     interface Array<T> extends IEnumerable<T> {
@@ -215,11 +214,16 @@ Wrappers are safer as they won't interfere with other libraries.
 
 ```TypeScript
 // To Create an IEnumerable<T>
-Enumerable.from(iterableIteratorOrArray)
+import { from } from "linq-to-typescript"
+from(iterableIteratorOrArray)
+
 // To Create an IAsyncEnumerable<T>
-AsyncEnumerable.from(asyncIterableIteratorOrPromiseArray)
+import { from } from "linq-to-typescript/async"
+from(asyncIterableIteratorOrPromiseArray)
+
 // To Create an IParallelEnumerable<T>
-ParallelEnumerable.from(arrayOfPromises)
+import { from } from "linq-to-typescript/parallel"
+from(arrayOfPromises)
 ```
 
 The root classes are 

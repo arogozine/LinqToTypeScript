@@ -1,7 +1,7 @@
-import { ParallelGeneratorType } from "index"
 import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 import {
-    from as fromParallel
+    from as fromParallel,
+    ParallelGeneratorType,
 } from "./../../src/parallel/parallel"
 
 describe("eachAsync", () => {
