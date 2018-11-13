@@ -1,7 +1,6 @@
-import { repeat as repeatAsync } from "../../../src/async/async"
-import { ArgumentOutOfRangeException } from "../../../src/index"
-import { repeat as repeatParallel } from "../../../src/parallel/parallel"
-import { repeat } from "../../../src/sync/sync"
+import { repeat as repeatAsync } from "../../../src/async"
+import { ArgumentOutOfRangeException, repeat } from "../../../src/index"
+import { repeat as repeatParallel } from "../../../src/parallel"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("repeat", () => {

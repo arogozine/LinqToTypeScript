@@ -1,4 +1,4 @@
-import { fromEvent } from "../../../src/async/AsyncEnumerable"
+import { fromEvent } from "../../../src/async"
 import { itAsync } from "./../../TestHelpers"
 
 describe("fromEvent", () => {

@@ -1,7 +1,6 @@
-import { range as rangeAsync } from "../../../src/async/async"
-import { ArgumentOutOfRangeException } from "../../../src/index"
-import { range as rangeParallel } from "../../../src/parallel/parallel"
-import { range } from "../../../src/sync/sync"
+import { range as rangeAsync } from "../../../src/async"
+import { ArgumentOutOfRangeException, range } from "../../../src/index"
+import { range as rangeParallel } from "../../../src/parallel"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("range", () => {

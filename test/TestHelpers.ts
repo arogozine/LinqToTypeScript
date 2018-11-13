@@ -3,7 +3,7 @@ import {
     from as fromAsync,
     fromEvent,
     IAsyncEnumerable,
-} from "./../src/async/async"
+} from "./../src/async"
 import {
     ArrayEnumerable,
     empty,
@@ -18,7 +18,7 @@ import {
     from as fromParallel,
     IParallelEnumerable,
     ParallelGeneratorType,
-} from "./../src/parallel/parallel"
+} from "./../src/parallel"
 
 // There are helper functions to make testing easy
 

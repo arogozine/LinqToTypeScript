@@ -2,7 +2,7 @@ import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 import {
     from as fromParallel,
     ParallelGeneratorType,
-} from "./../../src/parallel/parallel"
+} from "./../../src/parallel"
 
 describe("eachAsync", () => {
     itEnumerableAsync("Basic", async (asEnumerable) => {

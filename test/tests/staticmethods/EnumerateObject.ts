@@ -1,4 +1,4 @@
-import { enumerateObject as enumerateObjectAsync } from "async/async"
+import { enumerateObject as enumerateObjectAsync } from "async"
 import { enumerateObject } from "sync/sync"
 import { itAsync, itEnumerable } from "../../TestHelpers"
 
