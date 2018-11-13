@@ -1,8 +1,4 @@
 # ROADMAP
 
-### 4.0
-* Improve Modularity
-* Switch to TypeScript 3.0
-
-### Future
+### 4.1
 * BigInt Support
