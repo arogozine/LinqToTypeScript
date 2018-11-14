@@ -10,6 +10,8 @@ import {
 import { BasicEnumerable } from "./BasicEnumerable"
 import { Grouping, IEnumerable } from "./sync"
 
+// tslint:disable:completed-docs
+
 /**
  * @throws {InvalidOperationException} No Elements
  */
@@ -314,7 +316,7 @@ export function groupBy_1_Simple<TSource, TElement>(
         for (const value in keyMap) {
             yield keyMap[value]
         }
-        /* tslint:enable */
+        /* tslint:enable:forin */
     }
 
     return new BasicEnumerable(generate)
