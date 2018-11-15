@@ -1,6 +1,4 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { from as parallelFrom, IParallelEnumerable } from "../parallel/parallel"
-import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import {
     ArgumentOutOfRangeException,
     EqualityComparer,
@@ -25,246 +23,28 @@ import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 import { OrderedEnumerable } from "./OrderedEnumerable"
 
+export { aggregate } from "./_private/aggregate"
+export { all } from "./_private/all"
+export { allAsync } from "./_private/allAsync"
+export { any } from "./_private/any"
+export { anyAsync } from "./_private/anyAsync"
 // tslint:disable:no-shadowed-variable
 
-// Enumerable class based on,
+// Enumerable module based on,
 // https://msdn.microsoft.com/en-us/library/system.linq.enumerable(v=vs.110).aspx
 
-export function aggregate<TSource>(
-    source: Iterable<TSource>,
-    func: (x: TSource, y: TSource) => TSource): TSource
-export function aggregate<TSource, TAccumulate>(
-    source: Iterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate
-export function aggregate<TSource, TAccumulate, TResult>(
-    source: Iterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector: (x: TAccumulate) => TResult): TResult
-export function aggregate<TSource, TAccumulate, TResult>(
-    source: Iterable<TSource>,
-    seedOrFunc: ((x: TSource, y: TSource) => TSource) | TAccumulate,
-    func?: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector?: (x: TAccumulate) => TResult): TSource | TAccumulate | TResult | null {
-    if (resultSelector) {
-        if (!func) {
-            throw new ReferenceError(`TAccumulate function is undefined`)
-        }
+export { asAsync } from "./_private/asAsync"
+export { asParallel } from "./_private/asParallel"
 
-        return EnumerablePrivate.aggregate_3(source, seedOrFunc as TAccumulate, func, resultSelector)
-    } else if (func) {
-        return EnumerablePrivate.aggregate_2(source, seedOrFunc as TAccumulate, func)
-    } else {
-        return EnumerablePrivate.aggregate_1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
-    }
-}
-
-export function all<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): boolean {
-    for (const item of source) {
-        if (predicate(item) === false) {
-            return false
-        }
-    }
-
-    return true
-}
-
-export async function allAsync<TSource>(
-    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    for (const item of source) {
-        if (await predicate(item) === false) {
-            return false
-        }
-    }
-
-    return true
-}
-
-export function any<TSource>(
-    source: Iterable<TSource>,
-    predicate?: (x: TSource) => boolean): boolean {
-    if (predicate) {
-        return EnumerablePrivate.any_2(source, predicate)
-    } else {
-        return EnumerablePrivate.any_1(source)
-    }
-}
-
-export async function anyAsync<TSource>(
-    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    for (const item of source) {
-        if (await predicate(item) === true) {
-            return true
-        }
-    }
-
-    return false
-}
-
-/**
- * Converts the iterable to an @see {IAsyncEnumerable}
- */
-export const asAsync = <TSource>(source: Iterable<TSource>) => {
-    async function* generator() {
-        for (const value of source) {
-            yield value
-        }
-    }
-
-    return fromAsync(generator)
-}
-
-/**
- * Converts an iterable to @see {IAsyncParallel}
- */
-export function asParallel<TSource>(source: Iterable<TSource>): IParallelEnumerable<TSource> {
-    async function generator() {
-        const array = []
-        for (const value of source) {
-            array.push(value)
-        }
-        return array
-    }
-
-    return parallelFrom(ParallelGeneratorType.PromiseToArray, generator)
-}
-
-/**
- * @throws {InvalidOperationException}
- * @param source Iteration of Numbers
- */
-export function average(source: Iterable<number>): number
-/**
- * @throws {InvalidOperationException}
- */
-export function average<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
-export function average<TSource>(
-    source: Iterable<TSource> | Iterable<number>,
-    selector?: (x: TSource) => number): number {
-    if (selector) {
-        return EnumerablePrivate.average_2(source as Iterable<TSource>, selector)
-    } else {
-        return EnumerablePrivate.average_1(source as Iterable<number>)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Elements
- */
-export async function averageAsync<TSource>(
-    source: Iterable<TSource>, func: (x: TSource) => Promise<number>): Promise<number> {
-    let value: number | undefined
-    let count: number | undefined
-    for (const item of source) {
-        value = (value || 0) + await func(item)
-        count = (count || 0) + 1
-    }
-
-    if (value === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return value / (count as number)
-}
-
-export function concat<TSource>(first: Iterable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource> {
-    function* iterator() {
-        yield* first
-        yield* second
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-export function contains<TSource>(
-    source: Iterable<TSource>,
-    value: TSource,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): boolean {
-
-    for (const item of source) {
-        if (comparer(value, item)) {
-            return true
-        }
-    }
-
-    return false
-}
-
-export async function containsAsync<TSource>(
-    source: Iterable<TSource>,
-    value: TSource,
-    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
-    for (const item of source) {
-        if (await comparer(value, item)) {
-            return true
-        }
-    }
-
-    return false
-}
-
-export function count<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): number {
-    if (predicate) {
-        return EnumerablePrivate.count_2(source, predicate)
-    } else {
-        return EnumerablePrivate.count_1(source)
-    }
-}
-
-export async function countAsync<T>(
-    source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<number> {
-    let count = 0
-    for (const value of source) {
-        if (await predicate(value) === true) {
-            count++
-        }
-    }
-    return count
-}
-
-export function distinct<TSource>(
-    source: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
-
-    function* iterator() {
-        const distinctElements: TSource[] = []
-        for (const item of source) {
-
-            const foundItem = distinctElements.find((x) => comparer(x, item))
-
-            if (!foundItem) {
-                distinctElements.push(item)
-                yield item
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-export function distinctAsync<TSource>(
-    source: Iterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
-
-    async function* iterator() {
-        const distinctElements: TSource[] = []
-        outerLoop:
-        for (const item of source) {
-            for (const distinctElement of distinctElements) {
-                const found = await comparer(distinctElement, item)
-                if (found) {
-                    continue outerLoop
-                }
-            }
-
-            distinctElements.push(item)
-            yield item
-        }
-    }
-
-    return fromAsync(iterator)
-}
+export { average } from "./_private/average"
+export { averageAsync } from "./_private/averageAsync"
+export { concat } from "./_private/concat"
+export { contains } from "./_private/contains"
+export { containsAsync } from "./_private/containsAsync"
+export { count } from "./_private/count"
+export { countAsync } from "./_private/countAsync"
+export { distinct } from "./_private/distinct"
+export { distinctAsync } from "./_private/distinctAsync"
 
 export function each<TSource>(source: Iterable<TSource>, action: (x: TSource) => void): IEnumerable<TSource> {
     function *generator() {
