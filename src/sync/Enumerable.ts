@@ -1,7 +1,6 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import {
     ArgumentOutOfRangeException,
-    EqualityComparer,
     ErrorString,
     IAsyncEqualityComparer,
     IComparer,
@@ -45,177 +44,16 @@ export { count } from "./_private/count"
 export { countAsync } from "./_private/countAsync"
 export { distinct } from "./_private/distinct"
 export { distinctAsync } from "./_private/distinctAsync"
-
-export function each<TSource>(source: Iterable<TSource>, action: (x: TSource) => void): IEnumerable<TSource> {
-    function *generator() {
-        for (const value of source) {
-            action(value)
-            yield value
-        }
-    }
-
-    return new BasicEnumerable(generator)
-}
-
-export function eachAsync<TSource>(
-    source: Iterable<TSource>, action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource> {
-    async function *generator() {
-        for (const value of source) {
-            await action(value)
-            yield value
-        }
-    }
-
-    return fromAsync(generator)
-}
-
-/**
- * Returns Element at specified position
- * @throws {ArgumentOutOfRangeException} Index outside of iteration
- * @param source Iteration of Elements
- * @param index Index for Element
- */
-export function elementAt<TSource>(source: Iterable<TSource>, index: number): TSource {
-    if (index < 0) {
-        throw new ArgumentOutOfRangeException("index")
-    }
-
-    let i = 0
-    for (const item of source) {
-        if (index === i++) {
-            return item
-        }
-    }
-
-    throw new ArgumentOutOfRangeException("index")
-}
-
-export function elementAtOrDefault<TSource>(source: Iterable<TSource>, index: number): TSource | null {
-    let i = 0
-    for (const item of source) {
-        if (index === i++) {
-            return item
-        }
-    }
-
-    return null
-}
-
-/**
- * Empty Enumerable
- */
-export function empty<TSource>(): IEnumerable<TSource> {
-    const iterator = function*() {
-        for (const x of [] as TSource[]) {
-            yield x
-        }
-    }
-    return new BasicEnumerable(iterator)
-}
-
-export function enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
-    function *iterable() {
-        // tslint:disable-next-line:forin
-        for (const key in source) {
-            yield {
-                first: key,
-                second: source[key],
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterable)
-}
-
-export function except<TSource>(
-    first: Iterable<TSource>,
-    second: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource> = EqualityComparer): IEnumerable<TSource> {
-
-    function *iterator() {
-        const secondArray = [...second]
-
-        for (const firstItem of first) {
-
-            let exists = false
-            for (let j = 0; j < secondArray.length; j++) {
-                const secondItem = secondArray[j]
-
-                if (comparer(firstItem, secondItem) === true) {
-                    exists = true
-                    break
-                }
-            }
-
-            if (exists === false) {
-                yield firstItem
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-export function exceptAsync<TSource>(
-    first: Iterable<TSource>,
-    second: Iterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
-
-    async function *iterator() {
-        const secondArray = [...second]
-
-        for (const firstItem of first) {
-
-            let exists = false
-            for (let j = 0; j < secondArray.length; j++) {
-                const secondItem = secondArray[j]
-
-                if (await comparer(firstItem, secondItem) === true) {
-                    exists = true
-                    break
-                }
-            }
-
-            if (exists === false) {
-                yield firstItem
-            }
-        }
-    }
-
-    return fromAsync(iterator)
-}
-
-/**
- * @throws {InvalidOperationException} No Elements in Iteration
- */
-export function first<TSource>(source: Iterable<TSource>): TSource
-/**
- * @throws {InvalidOperationException} No elements in Iteration matching predicate
- */
-export function first<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource
-export function first<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
-    if (predicate) {
-        return EnumerablePrivate.first_2(source, predicate)
-    } else {
-        return EnumerablePrivate.first_1(source)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Matching Elements in Iteration
- * @param source Source Iteration
- * @param predicate Predicate to Select First Element
- */
-export async function firstAsync<T>(
-    source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T> {
-    for (const value of source) {
-        if (await predicate(value) === true) {
-            return value
-        }
-    }
-
-    throw new InvalidOperationException(ErrorString.NoMatch)
-}
+export { each } from "./_private/each"
+export { eachAsync } from "./_private/eachAsync"
+export { elementAt } from "./_private/elementAt"
+export { elementAtOrDefault } from "./_private/elementAtOrDefault"
+export { empty } from "./_private/empty"
+export { enumerateObject } from "./_private/enumerateObject"
+export { except } from "./_private/except"
+export { exceptAsync } from "./_private/exceptAsync"
+export { first } from "./_private/first"
+export { firstAsync } from "./_private/firstAsync"
 
 export function firstOrDefault<T>(source: Iterable<T>): T | null
 export function firstOrDefault<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null

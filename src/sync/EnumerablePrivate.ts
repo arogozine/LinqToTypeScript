@@ -12,26 +12,6 @@ import { Grouping, IEnumerable } from "./sync"
 
 // tslint:disable:completed-docs
 
-export function first_1<T>(source: Iterable<T>) {
-    const first = source[Symbol.iterator]().next()
-
-    if (first.done === true) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return first.value
-}
-
-export function first_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): T {
-    for (const value of source) {
-        if (predicate(value) === true) {
-            return value
-        }
-    }
-
-    throw new InvalidOperationException(ErrorString.NoMatch)
-}
-
 export function firstOrDefault_1<T>(source: Iterable<T>): T | null {
     const first = source[Symbol.iterator]().next()
     return first.value || null
