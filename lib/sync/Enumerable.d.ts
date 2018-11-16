@@ -1,5 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
+import { IAsyncEqualityComparer, IComparer, IEqualityComparer, InferType, ITuple, OfType } from "../shared/shared";
 import { IAsyncEnumerable } from "./../async/async";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
@@ -29,38 +29,15 @@ export { except } from "./_private/except";
 export { exceptAsync } from "./_private/exceptAsync";
 export { first } from "./_private/first";
 export { firstAsync } from "./_private/firstAsync";
-export declare function firstOrDefault<T>(source: Iterable<T>): T | null;
-export declare function firstOrDefault<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null;
-export declare function firstOrDefaultAsync<T>(source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T | null>;
-export declare function flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>): IEnumerable<TSource>;
-export declare function flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>;
-export declare function flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>;
-/**
- * Creates an IEnumerable from an array
- * @param source Array of Elements
- */
-export declare function from<TSource>(source: TSource[]): IEnumerable<TSource>;
-/**
- * Creates an IEnumerable from an iteration of elements
- * @param source Iteration of Elements
- */
-export declare function from<TSource>(source: IterableIterator<TSource>): IEnumerable<TSource>;
-export declare function groupBy<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>;
-export declare function groupBy<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>;
-export declare function groupBy<TSource, TKey>(source: Iterable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>;
-export declare function groupByWithSel<TSource, TElement>(source: Iterable<TSource>, keySelector: ((x: TSource) => number), elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<number, TElement>>;
-export declare function groupByWithSel<TSource, TElement>(source: Iterable<TSource>, keySelector: ((x: TSource) => string), elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<string, TElement>>;
-export declare function groupByWithSel<TSource, TKey, TElement>(source: Iterable<TSource>, keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>;
-export declare function groupByAsync<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => Promise<number> | number): IAsyncEnumerable<IGrouping<number, TSource>>;
-export declare function groupByAsync<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => Promise<string> | string): IAsyncEnumerable<IGrouping<string, TSource>>;
-export declare function groupByAsync<TSource, TKey>(source: Iterable<TSource>, keySelector: (x: TSource) => Promise<TKey> | TKey, comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
-export declare function groupByWithResult<TSource, TResult>(source: Iterable<TSource>, keySelector: (x: TSource) => string, resultSelector: (x: string, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult>;
-export declare function groupByWithResult<TSource, TResult>(source: Iterable<TSource>, keySelector: (x: TSource) => string, resultSelector: (x: string, values: IEnumerable<TSource>) => TResult, comparer: IEqualityComparer<string>): IEnumerable<TResult>;
-export declare function groupByWithResult<TSource, TResult>(source: Iterable<TSource>, keySelector: (x: TSource) => number, resultSelector: (x: number, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult>;
-export declare function groupByWithResult<TSource, TResult>(source: Iterable<TSource>, keySelector: (x: TSource) => number, resultSelector: (x: number, values: IEnumerable<TSource>) => TResult, comparer: IEqualityComparer<number>): IEnumerable<TResult>;
-export declare function groupByWithResult<TSource, TKey, TResult>(source: Iterable<TSource>, keySelector: (x: TSource) => TKey, resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult>;
-export declare function groupByWithResult<TSource, TKey, TResult>(source: Iterable<TSource>, keySelector: (x: TSource) => number, resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult, comparer: IEqualityComparer<TKey>): IEnumerable<TResult>;
-export declare function GroupByWithResultAndSelector<TSource, TKey, TElement, TResult>(source: Iterable<TSource>, keySelector: ((x: TSource) => TKey) | ((x: TSource) => string) | ((x: TSource) => number), elementSelector: (x: TSource) => TElement, resultSelector: ((key: TKey, values: IEnumerable<TElement>) => TResult) | ((key: string | number, values: IEnumerable<TElement>) => TResult), comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
+export { firstOrDefault } from "./_private/firstOrDefault";
+export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync";
+export { flatten } from "./_private/flatten";
+export { from } from "./_private/from";
+export { groupBy } from "./_private/groupBy";
+export { groupByAsync } from "./_private/groupByAsync";
+export { groupByWithSel } from "./_private/groupByWithSel";
+export { groupByWithResult } from "./_private/groupByWithResult";
+export { GroupByWithResultAndSelector } from "./_private/GroupByWithResultAndSelector";
 export declare function join<TOuter, TInner, TKey, TResult>(outer: Iterable<TOuter>, inner: Iterable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult): IEnumerable<TResult>;
 export declare function join<TOuter, TInner, TKey, TResult>(outer: Iterable<TOuter>, inner: Iterable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IEnumerable<TResult>;
 export declare function intersect<TSource>(first: IEnumerable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
