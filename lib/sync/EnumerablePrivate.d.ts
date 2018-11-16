@@ -2,16 +2,6 @@ import { IEqualityComparer, ITuple } from "../shared/shared";
 import { IAsyncEnumerable } from "./../async/async";
 import { BasicEnumerable } from "./BasicEnumerable";
 import { IEnumerable } from "./sync";
-export declare function select_1<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>;
-export declare function select_2<TSource, TKey extends keyof TSource>(source: Iterable<TSource>, key: TKey): IEnumerable<TSource[TKey]>;
-export declare function selectAsync_1<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>;
-export declare function selectAsync_2<TSource extends {
-    [key: string]: Promise<TResult>;
-}, TKey extends keyof TSource, TResult>(source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TResult>;
-export declare function selectMany_1<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>;
-export declare function selectMany_2<TSource extends {
-    [key: string]: Iterable<TResult>;
-}, TResult>(source: Iterable<TSource>, selector: keyof TSource): BasicEnumerable<TResult>;
 export declare function single_1<TSource>(source: Iterable<TSource>): TSource;
 export declare function single_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource;
 export declare function singleOrDefault_1<TSource>(source: Iterable<TSource>): TSource | null;

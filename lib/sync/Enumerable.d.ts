@@ -38,23 +38,15 @@ export { groupByAsync } from "./_private/groupByAsync";
 export { groupByWithSel } from "./_private/groupByWithSel";
 export { groupByWithResult } from "./_private/groupByWithResult";
 export { GroupByWithResultAndSelector } from "./_private/GroupByWithResultAndSelector";
-export declare function join<TOuter, TInner, TKey, TResult>(outer: Iterable<TOuter>, inner: Iterable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult): IEnumerable<TResult>;
-export declare function join<TOuter, TInner, TKey, TResult>(outer: Iterable<TOuter>, inner: Iterable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IEnumerable<TResult>;
-export declare function intersect<TSource>(first: IEnumerable<TSource>, second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>;
-export declare function intersectAsync<TSource>(first: IEnumerable<TSource>, second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
-export declare function partition<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource[][];
-export declare function partitionAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource[][]>;
-export declare function select<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>;
-export declare function select<TSource, TKey extends keyof TSource>(source: Iterable<TSource>, key: TKey): IEnumerable<TSource[TKey]>;
-export declare function selectAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>;
-export declare function selectAsync<TSource extends {
-    [key: string]: Promise<any>;
-}, TKey extends keyof TSource>(source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>;
-export declare function selectMany<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>;
-export declare function selectMany<TSource extends {
-    [key: string]: Iterable<TResult>;
-}, TResult>(source: Iterable<TSource>, selector: keyof TSource): IEnumerable<TResult>;
-export declare function selectManyAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>;
+export { intersect } from "./_private/intersect";
+export { intersectAsync } from "./_private/intersectAsync";
+export { join } from "./_private/join";
+export { partition } from "./_private/partition";
+export { partitionAsync } from "./_private/partitionAsync";
+export { select } from "./_private/select";
+export { selectAsync } from "./_private/selectAsync";
+export { selectMany } from "./_private/selectMany";
+export { selectManyAsync } from "./_private/selectManyAsync";
 /**
  * @throws {InvalidOperationException} Sequence contains no elements
  * @throws {InvalidOperationException} Sequence contains more than one element
