@@ -1,5 +1,5 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, InferType, ITuple, OfType } from "../shared/shared";
+import { IAsyncEqualityComparer, IComparer, IEqualityComparer, ITuple } from "../shared/shared";
 import { IAsyncEnumerable } from "./../async/async";
 import { IEnumerable } from "./IEnumerable";
 import { IOrderedEnumerable } from "./IOrderedEnumerable";
@@ -41,69 +41,29 @@ export { GroupByWithResultAndSelector } from "./_private/GroupByWithResultAndSel
 export { intersect } from "./_private/intersect";
 export { intersectAsync } from "./_private/intersectAsync";
 export { join } from "./_private/join";
+export { last } from "./_private/last";
+export { lastAsync } from "./_private/lastAsync";
+export { lastOrDefault } from "./_private/lastOrDefault";
+export { lastOrDefaultAsync } from "./_private/lastOrDefaultAsync";
+export { max } from "./_private/max";
+export { maxAsync } from "./_private/maxAsync";
+export { min } from "./_private/min";
+export { minAsync } from "./_private/minAsync";
+export { ofType } from "./_private/ofType";
+export { orderBy } from "./_private/orderBy";
 export { partition } from "./_private/partition";
 export { partitionAsync } from "./_private/partitionAsync";
 export { select } from "./_private/select";
 export { selectAsync } from "./_private/selectAsync";
 export { selectMany } from "./_private/selectMany";
 export { selectManyAsync } from "./_private/selectManyAsync";
-/**
- * @throws {InvalidOperationException} Sequence contains no elements
- * @throws {InvalidOperationException} Sequence contains more than one element
- * @throws {InvalidOperationException} Sequence contains more than one matching element
- * @throws {InvalidOperationException} Sequence contains no matching elements
- */
-export declare function single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource;
-/**
- * @throws {InvalidOperationException} Sequence contains more than one matching element
- * @throws {InvalidOperationException} Sequence contains no matching elements
- */
-export declare function singleAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
-/**
- * @throws {InvalidOperationException} More than one element
- */
-export declare function singleOrDefault<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource | null;
-/**
- * @throws {InvalidOperationException} More than one element matchines predicate
- */
-export declare function singleOrDefaultAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
-export declare function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource>;
-export declare function skipWhile<TSource>(source: Iterable<TSource>, predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
-export declare function skipWhileAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
-/**
- * @throws {InvalidOperationException} Sequence contains no elements
- * @throws {InvalidOperationException} Sequence contains no matching element
- */
-export declare function last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource;
-/**
- * @throws {InvalidOperationException} No Matching Element
- */
-export declare function lastAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
-export declare function lastOrDefault<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource | null;
-export declare function lastOrDefaultAsync<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
-/**
- * @throws {InvalidOperationException} No Elements
- */
-export declare function max(source: Iterable<number>): number;
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export declare function max<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number;
-export declare function maxAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
-/**
- * @throws {InvalidOperationException} No Elements
- */
-export declare function min(source: Iterable<number>): number;
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export declare function min<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number;
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export declare function minAsync<TSource>(source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
-export declare function ofType<TSource, TType extends OfType>(source: Iterable<TSource>, type: TType): IEnumerable<InferType<TType>>;
-export declare function orderBy<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>;
+export { single } from "./_private/single";
+export { singleAsync } from "./_private/singleAsync";
+export { singleOrDefault } from "./_private/singleOrDefault";
+export { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync";
+export { skip } from "./_private/skip";
+export { skipWhile } from "./_private/skipWhile";
+export { skipWhileAsync } from "./_private/skipWhileAsync";
 export declare function orderByAsync<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
 export declare function orderByDescending<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>;
 export declare function orderByDescendingAsync<TSource, TKey>(source: IEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;

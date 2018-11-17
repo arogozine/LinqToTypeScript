@@ -1,14 +1,10 @@
 import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
 import {
     ArgumentOutOfRangeException,
-    ErrorString,
     IAsyncEqualityComparer,
     IComparer,
     IEqualityComparer,
-    InferType,
-    InvalidOperationException,
     ITuple,
-    OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
 import {
@@ -21,19 +17,18 @@ import { IEnumerable } from "./IEnumerable"
 import { IOrderedEnumerable } from "./IOrderedEnumerable"
 import { OrderedEnumerable } from "./OrderedEnumerable"
 
-export { aggregate } from "./_private/aggregate"
-export { all } from "./_private/all"
-export { allAsync } from "./_private/allAsync"
-export { any } from "./_private/any"
-export { anyAsync } from "./_private/anyAsync"
 // tslint:disable:no-shadowed-variable
 
 // Enumerable module based on,
 // https://msdn.microsoft.com/en-us/library/system.linq.enumerable(v=vs.110).aspx
 
+export { aggregate } from "./_private/aggregate"
+export { all } from "./_private/all"
+export { allAsync } from "./_private/allAsync"
+export { any } from "./_private/any"
+export { anyAsync } from "./_private/anyAsync"
 export { asAsync } from "./_private/asAsync"
 export { asParallel } from "./_private/asParallel"
-
 export { average } from "./_private/average"
 export { averageAsync } from "./_private/averageAsync"
 export { concat } from "./_private/concat"
@@ -65,277 +60,29 @@ export { GroupByWithResultAndSelector } from "./_private/GroupByWithResultAndSel
 export { intersect } from "./_private/intersect"
 export { intersectAsync } from "./_private/intersectAsync"
 export { join } from "./_private/join"
+export { last } from "./_private/last"
+export { lastAsync } from "./_private/lastAsync"
+export { lastOrDefault } from "./_private/lastOrDefault"
+export { lastOrDefaultAsync } from "./_private/lastOrDefaultAsync"
+export { max } from "./_private/max"
+export { maxAsync } from "./_private/maxAsync"
+export { min } from "./_private/min"
+export { minAsync } from "./_private/minAsync"
+export { ofType } from "./_private/ofType"
+export { orderBy } from "./_private/orderBy"
 export { partition } from "./_private/partition"
 export { partitionAsync } from "./_private/partitionAsync"
 export { select } from "./_private/select"
 export { selectAsync } from "./_private/selectAsync"
 export { selectMany } from "./_private/selectMany"
 export { selectManyAsync } from "./_private/selectManyAsync"
-
-/**
- * @throws {InvalidOperationException} Sequence contains no elements
- * @throws {InvalidOperationException} Sequence contains more than one element
- * @throws {InvalidOperationException} Sequence contains more than one matching element
- * @throws {InvalidOperationException} Sequence contains no matching elements
- */
-export function single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
-    if (predicate) {
-        return EnumerablePrivate.single_2(source, predicate)
-    } else {
-        return EnumerablePrivate.single_1(source)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} Sequence contains more than one matching element
- * @throws {InvalidOperationException} Sequence contains no matching elements
- */
-export async function singleAsync<TSource>(
-    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
-    let hasValue = false
-    let singleValue: TSource | null = null
-
-    for (const value of source) {
-        if (await predicate(value)) {
-            if (hasValue === true) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
-            } else {
-                hasValue = true
-                singleValue = value
-            }
-        }
-    }
-
-    if (hasValue === false) {
-        throw new InvalidOperationException(ErrorString.NoMatch)
-    }
-
-    return singleValue as TSource
-}
-
-/**
- * @throws {InvalidOperationException} More than one element
- */
-export function singleOrDefault<TSource>(
-    source: Iterable<TSource>,
-    predicate?: (x: TSource) => boolean): TSource | null {
-
-    if (predicate) {
-        return EnumerablePrivate.singleOrDefault_2(source, predicate)
-    } else {
-        return EnumerablePrivate.singleOrDefault_1(source)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} More than one element matchines predicate
- */
-export async function singleOrDefaultAsync<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
-
-    let hasValue = false
-    let singleValue: TSource | null = null
-
-    for (const value of source) {
-        if (await predicate(value)) {
-            if (hasValue === true) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneElement)
-            } else {
-                hasValue = true
-                singleValue = value
-            }
-        }
-    }
-
-    return singleValue
-}
-
-export function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
-
-    function* iterator() {
-        let i = 0
-        for (const item of source) {
-            if (i++ >= count) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicEnumerable<TSource>(iterator)
-}
-
-export function skipWhile<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource> {
-
-    if (predicate.length === 1) {
-        return EnumerablePrivate.skipWhile_1(source, predicate as (x: TSource) => boolean)
-    } else {
-        return EnumerablePrivate.skipWhile_2(source, predicate)
-    }
-}
-
-export function skipWhileAsync<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
-
-    if (predicate.length === 1) {
-        return EnumerablePrivate.skipWhileAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
-    } else {
-        return EnumerablePrivate.skipWhileAsync_2(source, predicate)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} Sequence contains no elements
- * @throws {InvalidOperationException} Sequence contains no matching element
- */
-export function last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
-    if (predicate) {
-        return EnumerablePrivate.last_2(source, predicate)
-    } else {
-        return EnumerablePrivate.last_1(source)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Matching Element
- */
-export async function lastAsync<TSource>(
-    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
-    let last: TSource | undefined
-
-    for (const value of source) {
-        if (await predicate(value) === true) {
-            last = value
-        }
-    }
-
-    if (!last) {
-        throw new InvalidOperationException(ErrorString.NoMatch)
-    }
-
-    return last
-}
-
-export function lastOrDefault<TSource>(
-    source: Iterable<TSource>,
-    predicate?: (x: TSource) => boolean): TSource | null {
-
-    if (predicate) {
-        return EnumerablePrivate.lastOrDefault_2(source, predicate)
-    } else {
-        return EnumerablePrivate.lastOrDefault_1(source)
-    }
-}
-
-export async function lastOrDefaultAsync<TSource>(
-    source: Iterable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
-
-    let last: TSource | null = null
-
-    for (const value of source) {
-        if (await predicate(value) === true) {
-            last = value
-        }
-    }
-
-    return last
-}
-
-/**
- * @throws {InvalidOperationException} No Elements
- */
-export function max(source: Iterable<number>): number
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export function max<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
-export function max<TSource>(
-    source: Iterable<TSource> | Iterable<number>,
-    selector?: (x: TSource) => number): number {
-    if (selector) {
-        return EnumerablePrivate.max_2<TSource>(source as Iterable<TSource>, selector)
-    } else {
-        return EnumerablePrivate.max_1(source as Iterable<number>)
-    }
-}
-
-export async function maxAsync<TSource>(
-    source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
-    let max: number | null = null
-    for (const item of source) {
-        max = Math.max(max || Number.NEGATIVE_INFINITY, await selector(item))
-    }
-
-    if (max === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return max
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Elements
- */
-export function min(source: Iterable<number>): number
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export function min<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
-export function min<TSource>(source: Iterable<TSource> | Iterable<number>,
-                             selector?: (x: TSource) => number): number {
-    if (selector) {
-        return EnumerablePrivate.min_2(source as Iterable<TSource>, selector)
-    } else {
-        return EnumerablePrivate.min_1(source as Iterable<number>)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export async function minAsync<TSource>(
-    source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
-    let min: number | null = null
-    for (const item of source) {
-        min = Math.min(min || Number.POSITIVE_INFINITY, await selector(item))
-    }
-
-    if (min === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return min
-    }
-}
-
-export function ofType<TSource, TType extends OfType>(
-    source: Iterable<TSource>,
-    type: TType): IEnumerable<InferType<TType>> {
-
-    const typeCheck = typeof type === "string" ?
-        ((x: TSource) => typeof x === type) as (x: TSource) => x is InferType<TType> :
-        ((x: TSource) => x instanceof (type as any)) as (x: TSource) => x is InferType<TType>
-
-    function *iterator(): IterableIterator<InferType<TType>> {
-        for (const item of source) {
-            if (typeCheck(item)) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicEnumerable(iterator)
-}
-
-export function orderBy<TSource, TKey>(
-    source: IEnumerable<TSource>,
-    keySelector: (x: TSource) => TKey,
-    comparer?: IComparer<TKey>): IOrderedEnumerable<TSource> {
-    return OrderedEnumerable.generate<TSource, TKey>(source, keySelector, true, comparer)
-}
+export { single } from "./_private/single"
+export { singleAsync } from "./_private/singleAsync"
+export { singleOrDefault } from "./_private/singleOrDefault"
+export { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync"
+export { skip } from "./_private/skip"
+export { skipWhile } from "./_private/skipWhile"
+export { skipWhileAsync } from "./_private/skipWhileAsync"
 
 export function orderByAsync<TSource, TKey>(
     source: IEnumerable<TSource>,
