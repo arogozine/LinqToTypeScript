@@ -28,47 +28,8 @@ import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */
 
-export function aggregate<TSource>(
-    source: AsyncIterable<TSource>,
-    func: (x: TSource, y: TSource) => TSource): Promise<TSource>
-export function aggregate<TSource, TAccumulate>(
-    source: AsyncIterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>
-export function aggregate<TSource, TAccumulate, TResult>(
-    source: AsyncIterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector: (x: TAccumulate) => TResult): Promise<TResult>
-export function aggregate<TSource, TAccumulate, TResult>(
-    source: AsyncIterable<TSource>,
-    seedOrFunc: ((x: TSource, y: TSource) => TSource) | TAccumulate,
-    func?: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector?: (x: TAccumulate) => TResult): Promise<TSource | TAccumulate | TResult | null> {
-    if (resultSelector) {
-        if (!func) {
-            throw new ReferenceError(`TAccumulate function is undefined`)
-        }
-
-        return AsyncEnumerablePrivate.aggregate_3(source, seedOrFunc as TAccumulate, func, resultSelector)
-    } else if (func) {
-        return AsyncEnumerablePrivate.aggregate_2(source, seedOrFunc as TAccumulate, func)
-    } else {
-        return AsyncEnumerablePrivate.aggregate_1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
-    }
-}
-
-export async function all<TSource>(
-    source: AsyncIterable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<boolean> {
-    for await (const item of source) {
-        if (predicate(item) === false) {
-            return false
-        }
-    }
-
-    return true
-}
+export { aggregate } from "./_private/aggregate"
+export { all } from "./_private/all"
 
 export async function allAsync<TSource>(
     source: AsyncIterable<TSource>,

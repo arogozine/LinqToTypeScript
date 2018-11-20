@@ -1,9 +1,6 @@
 import { IAsyncEqualityComparer, IEqualityComparer, IGrouping, ITuple } from "./../shared/shared";
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
-export declare function aggregate_1<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
-export declare function aggregate_2<TSource, TAccumulate>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
-export declare function aggregate_3<TSource, TAccumulate, TResult>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): Promise<TResult>;
 export declare function any_1<TSource>(source: AsyncIterable<TSource>): Promise<boolean>;
 export declare function any_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<boolean>;
 export declare function average_1(source: AsyncIterable<number>): Promise<number>;

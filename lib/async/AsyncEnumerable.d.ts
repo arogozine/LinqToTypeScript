@@ -6,10 +6,8 @@ import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */
-export declare function aggregate<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
-export declare function aggregate<TSource, TAccumulate>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
-export declare function aggregate<TSource, TAccumulate, TResult>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): Promise<TResult>;
-export declare function all<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<boolean>;
+export { aggregate } from "./_private/aggregate";
+export { all } from "./_private/all";
 export declare function allAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
 export declare function any<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<boolean>;
 export declare function anyAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
