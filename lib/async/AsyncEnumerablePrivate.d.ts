@@ -1,16 +1,6 @@
 import { IAsyncEqualityComparer, IEqualityComparer, IGrouping, ITuple } from "./../shared/shared";
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable";
 import { IAsyncEnumerable } from "./IAsyncEnumerable";
-export declare function any_1<TSource>(source: AsyncIterable<TSource>): Promise<boolean>;
-export declare function any_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<boolean>;
-export declare function average_1(source: AsyncIterable<number>): Promise<number>;
-export declare function average_2<TSource>(source: AsyncIterable<TSource>, func: (x: TSource) => number): Promise<number>;
-export declare function count_1<T>(source: AsyncIterable<T>): Promise<number>;
-export declare function count_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<number>;
-export declare function first_1<T>(source: AsyncIterable<T>): Promise<T>;
-export declare function first_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T>;
-export declare function firstOrDefault_1<T>(source: AsyncIterable<T>): Promise<T | null>;
-export declare function firstOrDefault_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null>;
 export declare function groupBy_0_Simple<TSource>(source: AsyncIterable<TSource>, keySelector: ((x: TSource) => string) | ((x: TSource) => number)): IAsyncEnumerable<IGrouping<string | number, TSource>>;
 export declare function groupBy_0<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
 export declare function groupByAsync_0_Simple<TSource>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<any>): IAsyncEnumerable<IGrouping<any, TSource>>;
@@ -27,10 +17,6 @@ export declare function selectMany_1<TSource, Y>(source: AsyncIterable<TSource>,
 export declare function selectMany_2<TSource extends {
     [key: string]: Iterable<Y>;
 }, Y>(source: AsyncIterable<TSource>, selector: keyof TSource): IAsyncEnumerable<Y>;
-export declare function single_1<TSource>(source: AsyncIterable<TSource>): Promise<TSource>;
-export declare function single_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;
-export declare function singleOrDefault_1<TSource>(source: AsyncIterable<TSource>): Promise<TSource | null>;
-export declare function singleOrDefault_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource | null>;
 export declare function skipWhile_1<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
 export declare function skipWhile_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
 export declare function skipWhileAsync_1<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>;
