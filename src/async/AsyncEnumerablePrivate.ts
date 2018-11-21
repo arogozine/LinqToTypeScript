@@ -1,6 +1,5 @@
-import { AsTuple, ErrorString, IAsyncEqualityComparer, IEqualityComparer,
+import { AsTuple, IAsyncEqualityComparer, IEqualityComparer,
     IGrouping,
-    InvalidOperationException,
     ITuple} from "./../shared/shared"
 import { Grouping } from "./../sync/Grouping"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
@@ -362,114 +361,6 @@ export function skipWhileAsync_2<TSource>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-export async function last_1<T>(source: AsyncIterable<T>): Promise<T> {
-    let last: T | null = null
-
-    for await (const value of source) {
-        last = value
-    }
-
-    if (!last) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return last
-}
-
-export async function last_2<TSource>(
-    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource> {
-    let last: TSource | null = null
-
-    for await (const value of source) {
-        if (predicate(value) === true) {
-            last = value
-        }
-    }
-
-    if (!last) {
-        throw new InvalidOperationException(ErrorString.NoMatch)
-    }
-
-    return last
-}
-
-export async function lastOrDefault_1<T>(source: AsyncIterable<T>): Promise<T | null> {
-    let last: T | null = null
-
-    for await (const value of source) {
-        last = value
-    }
-
-    return last
-}
-
-export async function lastOrDefault_2<T>(
-    source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null> {
-
-    let last: T | null = null
-
-    for await (const value of source) {
-        if (predicate(value) === true) {
-            last = value
-        }
-    }
-
-    return last
-}
-
-export async function max_1(source: AsyncIterable<number>): Promise<number> {
-    let max: number | null = null
-    for await (const item of source) {
-        max = Math.max(max || Number.NEGATIVE_INFINITY, item)
-    }
-
-    if (max === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return max
-    }
-}
-
-export async function max_2<TSource>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number> {
-    let max: number | null = null
-    for await (const item of source) {
-        max = Math.max(max || Number.NEGATIVE_INFINITY, selector(item))
-    }
-
-    if (max === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return max
-    }
-}
-
-export async function min_1(source: AsyncIterable<number>): Promise<number> {
-    let min: number | null = null
-    for await (const item of source) {
-        min = Math.min(min || Number.POSITIVE_INFINITY, item)
-    }
-
-    if (min === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return min
-    }
-}
-
-export async function min_2(source: AsyncIterable<number>, selector: (x: number) => number): Promise<number> {
-    let min: number | null = null
-    for await (const item of source) {
-        min = Math.min(min || Number.POSITIVE_INFINITY, selector(item))
-    }
-
-    if (min === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return min
-    }
-}
-
 export function repeat_1<T>(element: T, count: number): IAsyncEnumerable<T> {
     async function* iterator() {
         for (let i = 0; i < count; i++) {
@@ -488,26 +379,6 @@ export function repeat_2<T>(element: T, count: number, delay: number): IAsyncEnu
     }
 
     return new BasicAsyncEnumerable(iterator)
-}
-
-export async function sum_1(
-    source: AsyncIterable<number>): Promise<number> {
-    let sum = 0
-    for await (const value of source) {
-        sum += value
-    }
-
-    return sum
-}
-
-export async function sum_2<TSource>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number> {
-    let sum = 0
-    for await (const value of source) {
-        sum += selector(value)
-    }
-
-    return sum
 }
 
 export function takeWhile_1<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> {

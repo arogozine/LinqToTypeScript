@@ -108,17 +108,7 @@ export function distinctAsync<TSource>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-export async function elementAtOrDefault<TSource>(
-    source: AsyncIterable<TSource>, index: number): Promise<TSource | null> {
-    let i = 0
-    for await (const item of source) {
-        if (index === i++) {
-            return item
-        }
-    }
-
-    return null
-}
+export { elementAtOrDefault } from "./_private/elementAtOrDefault"
 
 export function empty<TSource>(): IAsyncEnumerable<TSource> {
     async function *iterable() {
@@ -559,27 +549,7 @@ export function selectManyAsync<TSource, Y>(
 export { single } from "./_private/single"
 export { singleAsync } from "./_private/singleAsync"
 export { singleOrDefault } from "./_private/singleOrDefault"
-
-export async function singleOrDefaultAsync<TSource>(
-    source: AsyncIterable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
-
-    let hasValue = false
-    let singleValue: TSource | null = null
-
-    for await (const value of source) {
-        if (await predicate(value)) {
-            if (hasValue === true) {
-                throw new InvalidOperationException(ErrorString.MoreThanOneMatchingElement)
-            } else {
-                hasValue = true
-                singleValue = value
-            }
-        }
-    }
-
-    return singleValue
-}
+export { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync"
 
 export function skip<TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource> {
 
@@ -664,125 +634,14 @@ export function orderByDescendingAsync<TSource, TKey>(
     return OrderedAsyncEnumerable.generateAsync(source, keySelector, false, comparer)
 }
 
-/**
- * @throws {InvalidOperationException} No Elements / No Match
- */
-export async function last<TSource>(
-    source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
-    if (predicate) {
-        return AsyncEnumerablePrivate.last_2(source, predicate)
-    } else {
-        return AsyncEnumerablePrivate.last_1(source)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Elements / No Match
- */
-export async function lastAsync<TSource>(
-    source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
-    let last: TSource | null = null
-
-    for await (const value of source) {
-        if (await predicate(value) === true) {
-            last = value
-        }
-    }
-
-    if (!last) {
-        throw new InvalidOperationException(ErrorString.NoMatch)
-    }
-
-    return last
-}
-
-export async function lastOrDefault<TSource>(
-    source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null> {
-
-    if (predicate) {
-        return AsyncEnumerablePrivate.lastOrDefault_2(source, predicate)
-    } else {
-        return AsyncEnumerablePrivate.lastOrDefault_1(source)
-    }
-}
-
-export async function lastOrDefaultAsync<T>(
-    source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T | null> {
-
-    let last: T | null = null
-
-    for await (const value of source) {
-        if (await predicate(value) === true) {
-            last = value
-        }
-    }
-
-    return last
-}
-
-/**
- * @throws {InvalidOperationException} No Elements
- * @param source Async Iteration of Numbers
- */
-export function max(source: AsyncIterable<number>): Promise<number>
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export function max<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
-export function max<TSource>(
-    source: AsyncIterable<TSource> | AsyncIterable<number>,
-    selector?: (x: TSource) => number): Promise<number> {
-    if (selector) {
-        return AsyncEnumerablePrivate.max_2<TSource>(source as AsyncIterable<TSource>, selector)
-    } else {
-        return AsyncEnumerablePrivate.max_1(source as AsyncIterable<number>)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export async function maxAsync<TSource>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
-    let max: number | null = null
-    for await (const item of source) {
-        max = Math.max(max || Number.NEGATIVE_INFINITY, await selector(item))
-    }
-
-    if (max === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return max
-    }
-}
-
-export function min(source: AsyncIterable<number>): Promise<number>
-export function min<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
-export function min(source: AsyncIterable<number>, selector?: (x: number) => number): Promise<number> {
-    if (selector) {
-        return AsyncEnumerablePrivate.min_2(source, selector)
-    } else {
-        return AsyncEnumerablePrivate.min_1(source)
-    }
-}
-
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export async function minAsync<TSource>(
-    source: AsyncIterable<TSource>,
-    selector: (x: TSource) => Promise<number>): Promise<number> {
-    let min: number | null = null
-    for await (const item of source) {
-        min = Math.min(min || Number.POSITIVE_INFINITY, await selector(item))
-    }
-
-    if (min === null) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    } else {
-        return min
-    }
-}
+export { last } from "./_private/last"
+export { lastAsync } from "./_private/lastAsync"
+export { lastOrDefault } from "./_private/lastOrDefault"
+export { lastOrDefaultAsync } from "./_private/lastOrDefaultAsync"
+export { max } from "./_private/max"
+export { maxAsync } from "./_private/maxAsync"
+export { min } from "./_private/min"
+export { minAsync } from "./_private/minAsync"
 
 /**
  * Generates a sequence of integral numbers within a specified range.
@@ -833,81 +692,10 @@ export function reverse<TSource>(source: AsyncIterable<TSource>): IAsyncEnumerab
     return new BasicAsyncEnumerable(iterator)
 }
 
-export async function sequenceEquals<TSource>(
-    first: AsyncIterable<TSource>,
-    second: AsyncIterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
-
-    const firstIterator = first[Symbol.asyncIterator]()
-    const secondIterator = second[Symbol.asyncIterator]()
-
-    let results = await Promise.all([ firstIterator.next(), secondIterator.next() ])
-    let firstResult = results[0]
-    let secondResult = results[1]
-
-    while (!firstResult.done && !secondResult.done) {
-        if (!comparer(firstResult.value, secondResult.value)) {
-            return false
-        }
-
-        results = await Promise.all([ firstIterator.next(), secondIterator.next() ])
-        firstResult = results[0]
-        secondResult = results[1]
-    }
-
-    return firstResult.done && secondResult.done
-}
-
-export async function sequenceEqualsAsync<TSource>(
-    first: AsyncIterable<TSource>,
-    second: AsyncIterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
-
-    const firstIterator = first[Symbol.asyncIterator]()
-    const secondIterator = second[Symbol.asyncIterator]()
-
-    let results = await Promise.all([ firstIterator.next(), secondIterator.next() ])
-    let firstResult = results[0]
-    let secondResult = results[1]
-
-    while (!firstResult.done && !secondResult.done) {
-        if (await comparer(firstResult.value, secondResult.value) === false) {
-            return false
-        }
-
-        results = await Promise.all([ firstIterator.next(), secondIterator.next() ])
-        firstResult = results[0]
-        secondResult = results[1]
-    }
-
-    return firstResult.done && secondResult.done
-}
-
-export function sum(
-    source: AsyncIterable<number>): Promise<number>
-export function sum<TSource>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
-export function sum<TSource>(
-    source: AsyncIterable<number> | AsyncIterable<TSource>,
-    selector?: (x: TSource) => number): Promise<number> {
-
-    if (selector) {
-        return AsyncEnumerablePrivate.sum_2(source as AsyncIterable<TSource>, selector)
-    } else {
-        return AsyncEnumerablePrivate.sum_1(source as AsyncIterable<number>)
-    }
-}
-
-export async function sumAsync<TSource>(
-    source: AsyncIterable<TSource>,
-    selector: (x: TSource) => Promise<number>): Promise<number> {
-    let sum = 0
-    for await (const value of source) {
-        sum += await selector(value)
-    }
-
-    return sum
-}
+export { sequenceEquals } from "./_private/sequenceEquals"
+export { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync"
+export { sum } from "./_private/sum"
+export { sumAsync } from "./_private/sumAsync"
 
 export function take<TSource>(source: AsyncIterable<TSource>, amount: number): IAsyncEnumerable<TSource> {
     async function* iterator() {
@@ -947,83 +735,13 @@ export function takeWhileAsync<TSource>(
     }
 }
 
-export async function toArray<TSource>(source: AsyncIterable<TSource>): Promise<TSource[]> {
-    const array = []
-    for await (const item of source) {
-        array.push(item)
-    }
-    return array
-}
+export { toArray } from "./_private/toArray"
+export { toMap } from "./_private/toMap"
+export { toMapAsync } from "./_private/toMapAsync"
 
-export async function toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>> {
-    const map = new Map<K, V[]>()
-
-    for await (const value of source) {
-        const key = selector(value)
-        const array = map.get(key)
-
-        if (array === undefined) {
-            map.set(key, [value])
-        } else {
-            array.push(value)
-        }
-    }
-
-    return map
-}
-
-export async function toMapAsync<K, V>(
-    source: AsyncIterable<V>,
-    selector: (x: V) => Promise<K>): Promise<Map<K, V[]>> {
-    const map = new Map<K, V[]>()
-
-    for await (const value of source) {
-        const key = await selector(value)
-        const array = map.get(key)
-
-        if (array === undefined) {
-            map.set(key, [value])
-        } else {
-            array.push(value)
-        }
-    }
-
-    return map
-}
-
-export async function toObject<TSource>(
-    source: AsyncIterable<TSource>,
-    selector: (x: TSource) => string): Promise<{[key: string]: TSource}> {
-
-    const map: {[key: string]: TSource} = {}
-
-    for await (const value of source) {
-        map[selector(value)] = value
-    }
-
-    return map
-}
-
-export async function toObjectAsync<TSource>(
-    source: AsyncIterable<TSource>,
-    selector: (x: TSource) => Promise<string>): Promise<{[key: string]: TSource}> {
-
-    const map: {[key: string]: TSource} = {}
-
-    for await (const value of source) {
-        map[await selector(value)] = value
-    }
-
-    return map
-}
-
-export async function toSet<TSource>(source: AsyncIterable<TSource>): Promise<Set<TSource>> {
-    const set = new Set<TSource>()
-    for await (const item of source) {
-        set.add(item)
-    }
-    return set
-}
+export { toObject } from "./_private/toObject"
+export { toObjectAsync } from "./_private/toObjectAsync"
+export { toSet } from "./_private/toSet"
 
 export function union<TSource>(
     first: AsyncIterable<TSource>,

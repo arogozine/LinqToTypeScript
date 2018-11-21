@@ -22,7 +22,7 @@ export declare function asParallel<TSource>(source: AsyncIterable<TSource>): IPa
 export declare function concat<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>): IAsyncEnumerable<TSource>;
 export declare function distinct<TSource>(source: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 export declare function distinctAsync<TSource>(source: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
-export declare function elementAtOrDefault<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource | null>;
+export { elementAtOrDefault } from "./_private/elementAtOrDefault";
 export declare function empty<TSource>(): IAsyncEnumerable<TSource>;
 export declare function enumerateObject<TInput>(source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
 export declare function except<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
@@ -70,7 +70,7 @@ export declare function selectManyAsync<TSource, Y>(source: AsyncIterable<TSourc
 export { single } from "./_private/single";
 export { singleAsync } from "./_private/singleAsync";
 export { singleOrDefault } from "./_private/singleOrDefault";
-export declare function singleOrDefaultAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
+export { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync";
 export declare function skip<TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource>;
 export declare function skipWhile<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
 export declare function skipWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
@@ -79,35 +79,14 @@ export declare function orderBy<TSource, TKey>(source: IAsyncEnumerable<TSource>
 export declare function orderByAsync<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
 export declare function orderByDescending<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
 export declare function orderByDescendingAsync<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
-/**
- * @throws {InvalidOperationException} No Elements / No Match
- */
-export declare function last<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
-/**
- * @throws {InvalidOperationException} No Elements / No Match
- */
-export declare function lastAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
-export declare function lastOrDefault<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null>;
-export declare function lastOrDefaultAsync<T>(source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T | null>;
-/**
- * @throws {InvalidOperationException} No Elements
- * @param source Async Iteration of Numbers
- */
-export declare function max(source: AsyncIterable<number>): Promise<number>;
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export declare function max<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export declare function maxAsync<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
-export declare function min(source: AsyncIterable<number>): Promise<number>;
-export declare function min<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
-/**
- * @throws {InvalidOperationException} No Matching Elements
- */
-export declare function minAsync<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+export { last } from "./_private/last";
+export { lastAsync } from "./_private/lastAsync";
+export { lastOrDefault } from "./_private/lastOrDefault";
+export { lastOrDefaultAsync } from "./_private/lastOrDefaultAsync";
+export { max } from "./_private/max";
+export { maxAsync } from "./_private/maxAsync";
+export { min } from "./_private/min";
+export { minAsync } from "./_private/minAsync";
 /**
  * Generates a sequence of integral numbers within a specified range.
  * @param start The value of the first integer in the sequence.
@@ -117,24 +96,19 @@ export declare function minAsync<TSource>(source: AsyncIterable<TSource>, select
 export declare function range(start: number, count: number): IAsyncEnumerable<number>;
 export declare function repeat<T>(element: T, count: number, delay?: number): IAsyncEnumerable<T>;
 export declare function reverse<TSource>(source: AsyncIterable<TSource>): IAsyncEnumerable<TSource>;
-export declare function sequenceEquals<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
-export declare function sequenceEqualsAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
-export declare function sum(source: AsyncIterable<number>): Promise<number>;
-export declare function sum<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
-export declare function sumAsync<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+export { sequenceEquals } from "./_private/sequenceEquals";
+export { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync";
+export { sum } from "./_private/sum";
+export { sumAsync } from "./_private/sumAsync";
 export declare function take<TSource>(source: AsyncIterable<TSource>, amount: number): IAsyncEnumerable<TSource>;
 export declare function takeWhile<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
 export declare function takeWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
-export declare function toArray<TSource>(source: AsyncIterable<TSource>): Promise<TSource[]>;
-export declare function toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>>;
-export declare function toMapAsync<K, V>(source: AsyncIterable<V>, selector: (x: V) => Promise<K>): Promise<Map<K, V[]>>;
-export declare function toObject<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => string): Promise<{
-    [key: string]: TSource;
-}>;
-export declare function toObjectAsync<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<string>): Promise<{
-    [key: string]: TSource;
-}>;
-export declare function toSet<TSource>(source: AsyncIterable<TSource>): Promise<Set<TSource>>;
+export { toArray } from "./_private/toArray";
+export { toMap } from "./_private/toMap";
+export { toMapAsync } from "./_private/toMapAsync";
+export { toObject } from "./_private/toObject";
+export { toObjectAsync } from "./_private/toObjectAsync";
+export { toSet } from "./_private/toSet";
 export declare function union<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 export declare function unionAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 export declare function where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;

@@ -21,18 +21,8 @@ export declare function skipWhile_1<TSource>(source: AsyncIterable<TSource>, pre
 export declare function skipWhile_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
 export declare function skipWhileAsync_1<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>;
 export declare function skipWhileAsync_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
-export declare function last_1<T>(source: AsyncIterable<T>): Promise<T>;
-export declare function last_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;
-export declare function lastOrDefault_1<T>(source: AsyncIterable<T>): Promise<T | null>;
-export declare function lastOrDefault_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null>;
-export declare function max_1(source: AsyncIterable<number>): Promise<number>;
-export declare function max_2<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
-export declare function min_1(source: AsyncIterable<number>): Promise<number>;
-export declare function min_2(source: AsyncIterable<number>, selector: (x: number) => number): Promise<number>;
 export declare function repeat_1<T>(element: T, count: number): IAsyncEnumerable<T>;
 export declare function repeat_2<T>(element: T, count: number, delay: number): IAsyncEnumerable<T>;
-export declare function sum_1(source: AsyncIterable<number>): Promise<number>;
-export declare function sum_2<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>;
 export declare function takeWhile_1<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T>;
 export declare function takeWhile_2<T>(source: AsyncIterable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T>;
 export declare function takeWhileAsync_1<T>(source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T>;
