@@ -1,4 +1,4 @@
-import { IEnumerable } from "../IEnumerable";
+import { IEnumerable } from "../../types";
 /**
  * Generates a sequence of integral numbers within a specified range.
  * @param start The value of the first integer in the sequence.

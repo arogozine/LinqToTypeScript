@@ -1,7 +1,5 @@
 import { from } from "../../async/AsyncEnumerable"
-import { IAsyncEnumerable } from "../../async/IAsyncEnumerable"
-import { IAsyncEqualityComparer } from "../../shared/IAsyncEqualityComparer"
-import { IEnumerable } from "../IEnumerable"
+import { IAsyncEnumerable, IAsyncEqualityComparer, IEnumerable } from "../../types"
 
 export function intersectAsync<TSource>(
     first: IEnumerable<TSource>,

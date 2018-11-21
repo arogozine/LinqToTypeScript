@@ -1,5 +1,5 @@
+import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function takeWhile<T>(
     source: Iterable<T>,

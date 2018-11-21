@@ -1,5 +1,5 @@
+import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function skipWhile<TSource>(
     source: Iterable<TSource>,

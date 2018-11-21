@@ -1,5 +1,5 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
 import { StrictEqualityComparer } from "../../shared/TypesAndHelpers"
+import { IEqualityComparer } from "../../types"
 
 export async function contains<TSource>(
     source: AsyncIterable<TSource>,

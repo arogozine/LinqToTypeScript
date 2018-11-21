@@ -1,7 +1,6 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
 import { EqualityComparer } from "../../shared/TypesAndHelpers"
+import { IEnumerable, IEqualityComparer } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function except<TSource>(
     first: Iterable<TSource>,

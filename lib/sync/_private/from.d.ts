@@ -1,4 +1,4 @@
-import { IEnumerable } from "../IEnumerable";
+import { IEnumerable } from "../../types";
 /**
  * Creates an IEnumerable from an array
  * @param source Array of Elements

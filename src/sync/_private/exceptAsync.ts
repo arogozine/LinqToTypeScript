@@ -1,6 +1,5 @@
 import { from } from "../../async/AsyncEnumerable"
-import { IAsyncEnumerable } from "../../async/IAsyncEnumerable"
-import { IAsyncEqualityComparer } from "../../shared/IAsyncEqualityComparer"
+import { IAsyncEnumerable, IAsyncEqualityComparer } from "../../types"
 
 export function exceptAsync<TSource>(
     first: Iterable<TSource>,

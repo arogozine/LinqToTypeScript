@@ -1,7 +1,6 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
 import { StrictEqualityComparer } from "../../shared/TypesAndHelpers"
+import { IEnumerable, IEqualityComparer } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 import { groupBy_0, groupBy_0_Simple } from "./groupByShared"
 
 export function groupByWithResult<TSource, TResult>(

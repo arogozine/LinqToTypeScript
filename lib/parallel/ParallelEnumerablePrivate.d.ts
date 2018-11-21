@@ -1,6 +1,6 @@
-import { IAsyncEqualityComparer, IAsyncParallel, IEqualityComparer, IGrouping, ITuple } from "../shared/shared";
+import { ITuple } from "../shared/shared";
+import { IAsyncEqualityComparer, IAsyncParallel, IEqualityComparer, IGrouping, IParallelEnumerable } from "../types";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
-import { IParallelEnumerable } from "./IParallelEnumerable";
 import { TypedData } from "./TypedData";
 export declare function aggregate_1<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
 export declare function aggregate_2<TSource, TAccumulate>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;

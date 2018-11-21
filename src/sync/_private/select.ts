@@ -1,5 +1,5 @@
+import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 // tslint:disable:no-shadowed-variable
 export function select<TSource, TResult>(

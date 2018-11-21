@@ -1,4 +1,4 @@
-import { IEnumerable } from "../IEnumerable";
+import { IEnumerable } from "../../types";
 /**
  * Reverses an Iterable
  * @param source Iterable

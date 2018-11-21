@@ -1,6 +1,4 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
-import { IGrouping } from "../../shared/IGrouping"
-import { IEnumerable } from "../IEnumerable"
+import { IEnumerable, IEqualityComparer, IGrouping } from "../../types"
 import { groupBy_0, groupBy_0_Simple } from "./groupByShared"
 
 export function groupBy<TSource>(

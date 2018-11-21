@@ -1,6 +1,6 @@
-import { InferType, OfType } from "../../shared/InferType"
+import { IEnumerable } from "../../types"
+import { InferType, OfType } from "../../types/InferType"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function ofType<TSource, TType extends OfType>(
     source: Iterable<TSource>,

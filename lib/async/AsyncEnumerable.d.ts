@@ -1,8 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator";
-import { IParallelEnumerable } from "../parallel/parallel";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
-import { IAsyncEnumerable } from "./IAsyncEnumerable";
-import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable";
+import { IAsyncEnumerable, IGrouping, InferType, IOrderedAsyncEnumerable, IParallelEnumerable } from "../types";
+import { IAsyncEqualityComparer, IComparer, IEqualityComparer, ITuple, OfType } from "./../shared/shared";
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */

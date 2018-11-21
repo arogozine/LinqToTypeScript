@@ -1,4 +1,4 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer";
+import { IEqualityComparer } from "../../types";
 /**
  * Determines whether or not two sequences are equal
  * @param first first iterable

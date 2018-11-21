@@ -1,5 +1,5 @@
+import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>): IEnumerable<TSource>
 export function flatten<TSource>(

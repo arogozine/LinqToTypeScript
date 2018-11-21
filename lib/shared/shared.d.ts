@@ -1,9 +1,9 @@
-export { IEqualityComparer } from "./IEqualityComparer";
+export { IEqualityComparer } from "../types/IEqualityComparer";
 export { ArgumentOutOfRangeException, AsTuple, EqualityComparer, ErrorString, InvalidOperationException, NumberComparer, StrictEqualityComparer, StringifyComparer, } from "./TypesAndHelpers";
-export { IConstructor } from "./IConstructor";
-export { IComparer } from "./IComparer";
-export { ITuple } from "./ITuple";
-export { IGrouping } from "./IGrouping";
-export { IAsyncParallel } from "./IAsyncParallel";
-export { OfType, InferType } from "./InferType";
-export { IAsyncEqualityComparer } from "./IAsyncEqualityComparer";
+export { IConstructor } from "../types/IConstructor";
+export { IComparer } from "../types/IComparer";
+export { ITuple } from "../types/ITuple";
+export { IGrouping } from "../types/IGrouping";
+export { IAsyncParallel } from "../types/IAsyncParallel";
+export { OfType, InferType } from "../types/InferType";
+export { IAsyncEqualityComparer } from "../types/IAsyncEqualityComparer";

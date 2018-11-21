@@ -1,6 +1,6 @@
-import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { from as parallelFrom, IParallelEnumerable } from "../parallel/parallel"
+import { from as parallelFrom } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
+import { IEnumerable, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable } from "../types"
 import { IAsyncEnumerable } from "./../async/async"
 import {
     ArgumentOutOfRangeException,
@@ -15,8 +15,6 @@ import {
     OfType} from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import * as Enumerable from "./Enumerable"
-import { IEnumerable } from "./IEnumerable"
-import { IOrderedEnumerable } from "./IOrderedEnumerable"
 
 /**
  * Array backed Enumerable

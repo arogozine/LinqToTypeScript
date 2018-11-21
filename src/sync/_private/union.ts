@@ -1,6 +1,5 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
+import { IEnumerable, IEqualityComparer } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function union<TSource>(
     first: Iterable<TSource>,

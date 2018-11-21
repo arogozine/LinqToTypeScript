@@ -1,9 +1,8 @@
-import { AsTuple, IAsyncEqualityComparer, IEqualityComparer,
-    IGrouping,
-    ITuple} from "./../shared/shared"
+import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer,
+    IGrouping } from "../types"
+import { AsTuple, ITuple } from "./../shared/shared"
 import { Grouping } from "./../sync/Grouping"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
-import { IAsyncEnumerable } from "./IAsyncEnumerable"
 
 // tslint:disable:completed-docs
 

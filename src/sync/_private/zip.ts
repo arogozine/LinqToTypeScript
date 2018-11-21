@@ -1,7 +1,6 @@
-import { ITuple } from "../../shared/ITuple"
 import { AsTuple } from "../../shared/TypesAndHelpers"
+import { IEnumerable, ITuple } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function zip<T, Y>(
     source: Iterable<T>,

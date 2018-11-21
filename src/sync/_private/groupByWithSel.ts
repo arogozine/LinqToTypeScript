@@ -1,6 +1,4 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
-import { IGrouping } from "../../shared/IGrouping"
-import { IEnumerable } from "../IEnumerable"
+import { IEnumerable, IEqualityComparer, IGrouping } from "../../types"
 import { groupBy_1, groupBy_1_Simple } from "./groupByShared"
 
 export function groupByWithSel<TSource, TElement>(

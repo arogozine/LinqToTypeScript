@@ -1,8 +1,6 @@
 import { from } from "../../async/AsyncEnumerable"
-import { IAsyncEnumerable } from "../../async/IAsyncEnumerable"
-import { IAsyncEqualityComparer } from "../../shared/IAsyncEqualityComparer"
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
-import { IGrouping } from "../../shared/IGrouping"
+import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer } from "../../types"
+import { IGrouping } from "../../types/IGrouping"
 import { Grouping } from "../Grouping"
 
 export function groupByAsync<TSource>(

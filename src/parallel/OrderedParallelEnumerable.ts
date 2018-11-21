@@ -1,8 +1,5 @@
-import {
-    IComparer,
-} from "../shared/shared"
+import { IComparer, IOrderedParallelEnumerable } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
-import { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 /**

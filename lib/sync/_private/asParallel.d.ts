@@ -1,4 +1,4 @@
-import { IParallelEnumerable } from "../../parallel/IParallelEnumerable";
+import { IParallelEnumerable } from "../../types";
 /**
  * Converts an iterable to @see {IAsyncParallel}
  */

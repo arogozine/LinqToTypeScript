@@ -1,7 +1,5 @@
-import { IAsyncEnumerable } from "../async/IAsyncEnumerable";
-import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "../shared/shared";
-import { IParallelEnumerable } from "./IParallelEnumerable";
-import { IOrderedParallelEnumerable } from "./parallel";
+import { ITuple, OfType } from "../shared/shared";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable } from "../types";
 import { TypedData } from "./TypedData";
 /**
  * Base implementation of IParallelEnumerable<T>

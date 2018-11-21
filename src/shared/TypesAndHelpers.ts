@@ -1,4 +1,4 @@
-import { ITuple } from "./ITuple"
+import { ITuple } from "../types/ITuple"
 
 // ########################
 // ## Equality Comparers ##

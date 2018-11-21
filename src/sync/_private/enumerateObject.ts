@@ -1,6 +1,5 @@
-import { ITuple } from "../../shared/ITuple"
+import { IEnumerable, ITuple } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
     function *iterable() {

@@ -1,7 +1,11 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
-import { from as parallelFrom, IParallelEnumerable } from "../parallel/parallel"
+import { from as parallelFrom } from "../parallel/parallel"
 import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
+import {
+    IAsyncEnumerable, IGrouping,
+    InferType,
+    IOrderedAsyncEnumerable, IParallelEnumerable } from "../types"
 import {
     ArgumentOutOfRangeException,
     EqualityComparer,
@@ -9,8 +13,6 @@ import {
     IAsyncEqualityComparer,
     IComparer,
     IEqualityComparer,
-    IGrouping,
-    InferType,
     InvalidOperationException,
     ITuple,
     OfType,
@@ -18,8 +20,6 @@ import {
 } from "./../shared/shared"
 import * as AsyncEnumerablePrivate from "./AsyncEnumerablePrivate"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
-import { IAsyncEnumerable } from "./IAsyncEnumerable"
-import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
 import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
 
 // tslint:disable:no-shadowed-variable

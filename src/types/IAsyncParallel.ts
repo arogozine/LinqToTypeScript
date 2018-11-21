@@ -1,5 +1,4 @@
-import { IAsyncEqualityComparer } from "./IAsyncEqualityComparer"
-import { IEqualityComparer } from "./IEqualityComparer"
+import { IAsyncEqualityComparer, IEqualityComparer } from "./"
 
 /**
  * Common Methods between IAsyncEnumerable and IParallelEnumerable

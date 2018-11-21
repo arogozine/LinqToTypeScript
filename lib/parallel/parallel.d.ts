@@ -1,4 +1,4 @@
 export * from "./ParallelEnumerable";
-export { IParallelEnumerable } from "./IParallelEnumerable";
-export { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
+export { IParallelEnumerable } from "../types/IParallelEnumerable";
+export { IOrderedParallelEnumerable } from "../types/IOrderedParallelEnumerable";
 export { ParallelGeneratorType } from "./ParallelGeneratorType";

@@ -1,17 +1,15 @@
-import { IAsyncEnumerable } from "../async/IAsyncEnumerable"
 import {
-    IAsyncEqualityComparer,
-    IAsyncParallel,
-    IComparer,
-    IEqualityComparer,
-    IGrouping,
-    InferType,
     ITuple,
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
-import { IParallelEnumerable } from "./IParallelEnumerable"
-import { IOrderedParallelEnumerable } from "./parallel"
+import {
+    IAsyncEnumerable,
+    IAsyncEqualityComparer,
+    IAsyncParallel,
+    IComparer,
+    IEqualityComparer,
+    IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable } from "../types"
 import * as ParallelEnumerable from "./ParallelEnumerable"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
 import { TypedData } from "./TypedData"

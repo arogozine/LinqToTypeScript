@@ -1,6 +1,3 @@
-import { IOrderedAsyncEnumerable } from "../async/IOrderedAsyncEnumerable"
-import { IParallelEnumerable } from "../parallel/parallel"
-import { IAsyncEnumerable } from "./../async/async"
 import {
         IAsyncEqualityComparer,
         IComparer,
@@ -9,8 +6,8 @@ import {
         InferType,
         ITuple,
         OfType,
-} from "./../shared/shared"
-import { IOrderedEnumerable } from "./IOrderedEnumerable"
+} from "../shared/shared"
+import { IAsyncEnumerable, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable } from "./"
 
 export interface IEnumerable<TSource> extends Iterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): TSource,

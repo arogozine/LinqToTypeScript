@@ -1,5 +1,5 @@
 import { from } from "../../async/AsyncEnumerable"
-import { IAsyncEnumerable } from "../../async/IAsyncEnumerable"
+import { IAsyncEnumerable } from "../../types"
 
 export function eachAsync<TSource>(
     source: Iterable<TSource>, action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource> {

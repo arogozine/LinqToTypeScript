@@ -1,5 +1,5 @@
 import { from } from "../../async/AsyncEnumerable"
-import { IAsyncEnumerable } from "../../async/IAsyncEnumerable"
+import { IAsyncEnumerable } from "../../types"
 
 export function selectAsync<TSource, TResult>(
     source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>

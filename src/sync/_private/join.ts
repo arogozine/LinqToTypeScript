@@ -1,7 +1,7 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
 import { StrictEqualityComparer } from "../../shared/TypesAndHelpers"
+import { IEnumerable, IEqualityComparer } from "../../types"
+import {  } from "../../types/IEqualityComparer"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 export function join<TOuter, TInner, TKey, TResult>(
     outer: Iterable<TOuter>,

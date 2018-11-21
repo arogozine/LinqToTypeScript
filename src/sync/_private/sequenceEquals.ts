@@ -1,5 +1,5 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
 import { StrictEqualityComparer } from "../../shared/TypesAndHelpers"
+import { IEqualityComparer } from "../../types"
 
 /**
  * Determines whether or not two sequences are equal

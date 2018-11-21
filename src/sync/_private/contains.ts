@@ -1,5 +1,5 @@
-import { IEqualityComparer } from "../../shared/IEqualityComparer"
 import { StrictEqualityComparer } from "../../shared/shared"
+import { IEqualityComparer } from "../../types/IEqualityComparer"
 
 export function contains<TSource>(
     source: Iterable<TSource>,

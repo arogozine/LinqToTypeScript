@@ -1,5 +1,5 @@
 import { from } from "../../async/AsyncEnumerable"
-import { IAsyncEqualityComparer } from "../../shared/IAsyncEqualityComparer"
+import { IAsyncEqualityComparer } from "../../types/IAsyncEqualityComparer"
 
 export function unionAsync<TSource>(
     first: Iterable<TSource>,

@@ -1,6 +1,6 @@
 import { ArgumentOutOfRangeException } from "../../shared/TypesAndHelpers"
+import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
 
 /**
  * Generates a sequence of integral numbers within a specified range.

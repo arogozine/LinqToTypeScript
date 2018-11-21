@@ -1,2 +1,2 @@
 export * from "./AsyncEnumerable";
-export { IAsyncEnumerable } from "./IAsyncEnumerable";
+export { IAsyncEnumerable } from "../types";

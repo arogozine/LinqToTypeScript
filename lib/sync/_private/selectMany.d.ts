@@ -1,4 +1,4 @@
-import { IEnumerable } from "../IEnumerable";
+import { IEnumerable } from "../../types";
 export declare function selectMany<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>;
 export declare function selectMany<TSource extends {
     [key: string]: Iterable<TResult>;

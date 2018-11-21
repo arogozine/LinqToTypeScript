@@ -1,5 +1,5 @@
 import { BasicEnumerable } from "../BasicEnumerable"
-import { IEnumerable } from "../IEnumerable"
+import { IEnumerable } from "../../types/IEnumerable"
 
 export function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
 

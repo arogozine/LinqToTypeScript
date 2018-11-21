@@ -1,4 +1,4 @@
-import { ITuple } from "./ITuple";
+import { ITuple } from "../types/ITuple";
 /**
  * Does strict (===) comparison between two values.
  * @param x left value

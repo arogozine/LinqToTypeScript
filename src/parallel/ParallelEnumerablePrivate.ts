@@ -1,15 +1,15 @@
 import {
     AsTuple,
     ErrorString,
-    IAsyncEqualityComparer,
-    IAsyncParallel,
-    IEqualityComparer,
-    IGrouping,
     InvalidOperationException,
     ITuple } from "../shared/shared"
 import { Grouping } from "../sync/sync"
+import { IAsyncEqualityComparer,
+    IAsyncParallel,
+    IEqualityComparer,
+    IGrouping,
+IParallelEnumerable } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
-import { IParallelEnumerable } from "./IParallelEnumerable"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
 import { TypedData } from "./TypedData"
 

@@ -1,6 +1,4 @@
-import { IOrderedAsyncEnumerable } from "../../async/IOrderedAsyncEnumerable"
-import { IComparer } from "../../shared/IComparer"
-import { IEnumerable } from "../IEnumerable"
+import { IComparer, IEnumerable, IOrderedAsyncEnumerable } from "../../types"
 import { OrderedEnumerable } from "../OrderedEnumerable"
 
 export function orderByDescendingAsync<TSource, TKey>(

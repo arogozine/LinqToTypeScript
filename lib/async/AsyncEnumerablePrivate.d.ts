@@ -1,6 +1,6 @@
-import { IAsyncEqualityComparer, IEqualityComparer, IGrouping, ITuple } from "./../shared/shared";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer, IGrouping } from "../types";
+import { ITuple } from "./../shared/shared";
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable";
-import { IAsyncEnumerable } from "./IAsyncEnumerable";
 export declare function groupBy_0_Simple<TSource>(source: AsyncIterable<TSource>, keySelector: ((x: TSource) => string) | ((x: TSource) => number)): IAsyncEnumerable<IGrouping<string | number, TSource>>;
 export declare function groupBy_0<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
 export declare function groupByAsync_0_Simple<TSource>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<any>): IAsyncEnumerable<IGrouping<any, TSource>>;

@@ -1,5 +1,4 @@
-import { IComparer } from "../shared/shared"
-import { IParallelEnumerable } from "./IParallelEnumerable"
+import { IComparer, IParallelEnumerable } from "./"
 
 export interface IOrderedParallelEnumerable<TSource> extends IParallelEnumerable<TSource> {
     thenBy<TKey>(

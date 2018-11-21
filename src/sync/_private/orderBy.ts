@@ -1,6 +1,6 @@
-import { IComparer } from "../../shared/IComparer"
-import { IEnumerable } from "../IEnumerable"
-import { IOrderedEnumerable } from "../IOrderedEnumerable"
+import { IComparer } from "../../types/IComparer"
+import { IEnumerable } from "../../types/IEnumerable"
+import { IOrderedEnumerable } from "../../types/IOrderedEnumerable"
 import { OrderedEnumerable } from "../OrderedEnumerable"
 
 export function orderBy<TSource, TKey>(
