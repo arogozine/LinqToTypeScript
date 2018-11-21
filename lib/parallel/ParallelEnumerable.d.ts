@@ -1,5 +1,5 @@
-import { ITuple, OfType } from "../shared/shared";
-import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable } from "../types";
+import { OfType } from "../shared/shared";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, ITuple } from "../types";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { ParallelGeneratorType } from "./ParallelGeneratorType";
 /**

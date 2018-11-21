@@ -13,3 +13,4 @@ export { IOrderedEnumerable } from "./IOrderedEnumerable";
 export { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 export { IParallelEnumerable } from "./IParallelEnumerable";
 export { ITuple } from "./ITuple";
+export { TypedData } from "./TypedData";

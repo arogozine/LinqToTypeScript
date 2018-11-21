@@ -9,10 +9,10 @@ import {
     IAsyncParallel,
     IComparer,
     IEqualityComparer,
-    IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable } from "../types"
+    IGrouping,
+    InferType, IOrderedParallelEnumerable, IParallelEnumerable, TypedData } from "../types"
 import * as ParallelEnumerable from "./ParallelEnumerable"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
-import { TypedData } from "./TypedData"
 
 /**
  * Base implementation of IParallelEnumerable<T>

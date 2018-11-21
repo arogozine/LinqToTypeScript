@@ -1,17 +1,17 @@
 import {
     AsTuple,
     ErrorString,
-    InvalidOperationException,
-    ITuple } from "../shared/shared"
+    InvalidOperationException } from "../shared/shared"
 import { Grouping } from "../sync/sync"
 import { IAsyncEqualityComparer,
     IAsyncParallel,
     IEqualityComparer,
     IGrouping,
-IParallelEnumerable } from "../types"
+    IParallelEnumerable,
+    ITuple,
+    TypedData } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
-import { TypedData } from "./TypedData"
 
 // tslint:disable:completed-docs
 

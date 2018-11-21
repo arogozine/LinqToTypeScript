@@ -4,7 +4,6 @@ import {
     EqualityComparer,
     ErrorString,
     InvalidOperationException,
-    ITuple,
     OfType,
     StrictEqualityComparer } from "../shared/shared"
 import { IAsyncEnumerable,
@@ -13,12 +12,12 @@ import { IAsyncEnumerable,
     IComparer,
     IEqualityComparer,
     IGrouping,
-    InferType, IOrderedParallelEnumerable, IParallelEnumerable } from "../types"
+    InferType,
+    IOrderedParallelEnumerable, IParallelEnumerable, ITuple, TypedData } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
 import * as ParallelEnumerablePrivate from "./ParallelEnumerablePrivate"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
-import { TypedData } from "./TypedData"
 
 /**
  * Contains static methods to work with Parallel Async

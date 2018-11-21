@@ -1,4 +1,3 @@
-import { TypedData } from "../parallel/TypedData"
 import {
     IAsyncEnumerable,
     IAsyncEqualityComparer,
@@ -11,6 +10,7 @@ import {
     IParallelEnumerable,
     ITuple,
     OfType,
+    TypedData,
 } from "./"
 
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
