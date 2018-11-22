@@ -7,9 +7,9 @@ import { IAsyncEqualityComparer,
     IEqualityComparer,
     IGrouping,
     IParallelEnumerable,
+    ParallelGeneratorType,
     TypedData } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
-import { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 // tslint:disable:completed-docs
 

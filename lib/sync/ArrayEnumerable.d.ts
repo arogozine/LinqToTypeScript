@@ -1,6 +1,4 @@
-import { IEnumerable, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable } from "../types";
-import { IAsyncEnumerable } from "./../async/async";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, OfType } from "./../shared/shared";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IComparer, IEnumerable, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType } from "../types";
 /**
  * Array backed Enumerable
  */

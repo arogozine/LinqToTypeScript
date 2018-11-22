@@ -1,4 +1,4 @@
-import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
+import { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 /**
  * @private

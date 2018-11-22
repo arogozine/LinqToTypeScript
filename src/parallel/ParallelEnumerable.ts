@@ -13,11 +13,10 @@ import { IAsyncEnumerable,
     IEqualityComparer,
     IGrouping,
     InferType,
-    IOrderedParallelEnumerable, IParallelEnumerable, TypedData } from "../types"
+    IOrderedParallelEnumerable, IParallelEnumerable, ParallelGeneratorType, TypedData } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
 import * as ParallelEnumerablePrivate from "./ParallelEnumerablePrivate"
-import { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 /**
  * Contains static methods to work with Parallel Async

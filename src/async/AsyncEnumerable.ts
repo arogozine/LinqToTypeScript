@@ -1,20 +1,19 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
 import { from as parallelFrom } from "../parallel/parallel"
-import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
 import {
-    IAsyncEnumerable, IGrouping,
+    IAsyncEnumerable, IAsyncEqualityComparer,
+    IComparer,
+    IEqualityComparer,
+    IGrouping,
     InferType,
-    IOrderedAsyncEnumerable, IParallelEnumerable } from "../types"
+    IOrderedAsyncEnumerable,
+    IParallelEnumerable, OfType, ParallelGeneratorType } from "../types"
 import {
     ArgumentOutOfRangeException,
     EqualityComparer,
     ErrorString,
-    IAsyncEqualityComparer,
-    IComparer,
-    IEqualityComparer,
     InvalidOperationException,
-    OfType,
     StrictEqualityComparer,
 } from "./../shared/shared"
 import * as AsyncEnumerablePrivate from "./AsyncEnumerablePrivate"

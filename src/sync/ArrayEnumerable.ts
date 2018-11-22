@@ -1,17 +1,17 @@
 import { from as parallelFrom } from "../parallel/parallel"
-import { ParallelGeneratorType } from "../parallel/ParallelGeneratorType"
-import { IEnumerable, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable } from "../types"
-import { IAsyncEnumerable } from "./../async/async"
 import {
-    ArgumentOutOfRangeException,
-    ErrorString,
+    IAsyncEnumerable,
     IAsyncEqualityComparer,
     IComparer,
+    IEnumerable,
     IEqualityComparer,
     IGrouping,
     InferType,
-    InvalidOperationException,
-    OfType} from "./../shared/shared"
+    IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType, ParallelGeneratorType } from "../types"
+import {
+    ArgumentOutOfRangeException,
+    ErrorString,
+    InvalidOperationException } from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import * as Enumerable from "./Enumerable"
 

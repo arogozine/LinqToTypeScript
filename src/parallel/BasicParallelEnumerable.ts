@@ -9,9 +9,8 @@ import {
     IComparer,
     IEqualityComparer,
     IGrouping,
-    InferType, IOrderedParallelEnumerable, IParallelEnumerable, TypedData } from "../types"
+    InferType, IOrderedParallelEnumerable, IParallelEnumerable, ParallelGeneratorType, TypedData } from "../types"
 import * as ParallelEnumerable from "./ParallelEnumerable"
-import { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 /**
  * Base implementation of IParallelEnumerable<T>

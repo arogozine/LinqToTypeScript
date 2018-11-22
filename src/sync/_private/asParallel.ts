@@ -1,6 +1,5 @@
 import { from } from "../../parallel/ParallelEnumerable"
-import { ParallelGeneratorType } from "../../parallel/ParallelGeneratorType"
-import { IParallelEnumerable } from "../../types"
+import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 /**
  * Converts an iterable to @see {IAsyncParallel}
