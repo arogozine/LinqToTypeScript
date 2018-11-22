@@ -1,7 +1,5 @@
 import { IAsyncEqualityComparer, IAsyncParallel, IEqualityComparer, IGrouping, IParallelEnumerable } from "../types";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
-export declare function average_1(source: IAsyncParallel<number>): Promise<number>;
-export declare function average_2<TSource>(source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number>;
 export declare function count_1<TSource>(source: IParallelEnumerable<TSource>): Promise<number>;
 export declare function count_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<number>;
 export declare function first_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource>;

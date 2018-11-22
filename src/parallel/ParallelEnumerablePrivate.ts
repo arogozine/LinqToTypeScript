@@ -12,38 +12,6 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 
 // tslint:disable:completed-docs
 
-export async function average_1(source: IAsyncParallel<number>): Promise<number> {
-    let value: number | undefined
-    let itemCount: number | undefined
-    for (const item of await source.toArray()) {
-        value = (value || 0) + item
-        itemCount = (itemCount || 0) + 1
-    }
-
-    if (value === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return value / (itemCount as number)
-}
-
-export async function average_2<TSource>(
-    source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number> {
-    let value: number | undefined
-    // tslint:disable-next-line:no-shadowed-variable
-    let count: number | undefined
-    for (const item of await source.toArray()) {
-        value = (value || 0) + func(item)
-        count = (count || 0) + 1
-    }
-
-    if (value === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return value / (count as number)
-}
-
 export async function count_1<TSource>(source: IParallelEnumerable<TSource>): Promise<number> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {

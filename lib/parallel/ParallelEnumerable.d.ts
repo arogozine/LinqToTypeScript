@@ -5,18 +5,17 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
  * Contains static methods to work with Parallel Async
  */
 export { aggregate } from "./_private/aggregate";
-export declare function all<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<boolean>;
-export declare function allAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+export { all } from "./_private/all";
+export { allAsync } from "./_private//allAsync";
 export declare function empty<TSource>(): IParallelEnumerable<TSource>;
-export declare function any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<boolean>;
-export declare function anyAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean>;
+export { any } from "./_private/any";
+export { anyAsync } from "./_private/anyAsync";
 export declare function asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource>;
-export declare function average(source: IAsyncParallel<number>): Promise<number>;
-export declare function average<TSource>(source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number>;
-export declare function averageAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+export { average } from "./_private/average";
+export { averageAsync } from "./_private/averageAsync";
 export declare function concat<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
-export declare function contains<TSource>(source: IParallelEnumerable<TSource>, value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
-export declare function containsAsync<TSource>(source: IParallelEnumerable<TSource>, value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
+export { contains } from "./_private/contains";
+export { containsAsync } from "./_private/containsAsync";
 export declare function count<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<number>;
 export declare function countAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<number>;
 export declare function distinct<TSource>(source: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;

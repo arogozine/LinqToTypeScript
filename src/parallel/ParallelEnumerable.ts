@@ -25,55 +25,8 @@ import * as ParallelEnumerablePrivate from "./ParallelEnumerablePrivate"
  */
 
 export { aggregate } from "./_private/aggregate"
-
-export async function all<TSource>(
-    source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<boolean> {
-    const nextIter = nextIteration(source, (x) => {
-        if (!predicate(x)) {
-            throw new Error(String(false))
-        }
-        return true
-    })
-
-    switch (nextIter.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            return nextIter.generator()
-                .then(() => true, () => false)
-        case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIter.generator())
-                .then(() => true, () => false)
-        case ParallelGeneratorType.PromiseOfPromises:
-            return nextIter.generator()
-                .then(Promise.all.bind(Promise))
-                .then(() => true, () => false)
-    }
-}
-
-export async function allAsync<TSource>(
-    source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    const nextIter = nextIterationAsync(source, async (x) => {
-        if (await predicate(x) === false) {
-            throw new Error(String(false))
-        }
-        return true
-    })
-
-    switch (nextIter.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            return nextIter
-                .generator()
-                .then(() => true, () => false)
-        case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIter.generator())
-                .then(() => true, () => false)
-        case ParallelGeneratorType.PromiseOfPromises:
-            return nextIter.generator()
-                .then(Promise.all.bind(Promise))
-                .then(() => true, () => false)
-    }
-}
+export { all } from "./_private/all"
+export { allAsync } from "./_private//allAsync"
 
 export function empty<TSource>(): IParallelEnumerable<TSource> {
     const dataFunc: TypedData<TSource> = {
@@ -84,44 +37,8 @@ export function empty<TSource>(): IParallelEnumerable<TSource> {
     return new BasicParallelEnumerable(dataFunc)
 }
 
-export function any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean) {
-    const nextIter = nextIteration(source, predicate || ((_) => true))
-
-    switch (nextIter.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            return nextIter.generator().then((values) => {
-                return values.some((x) => x)
-            })
-        case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIter.generator()).then((values) => {
-                return values.some((x) => x)
-            })
-        case ParallelGeneratorType.PromiseOfPromises:
-            return nextIter.generator().then((values) => Promise.all(values)).then((values) => {
-                return values.some((x) => x)
-            })
-    }
-}
-
-export async function anyAsync<TSource>(
-    source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    const nextIter = nextIterationAsync(source, predicate)
-
-    switch (nextIter.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            return nextIter.generator().then((values) => {
-                return values.some((x) => x)
-            })
-        case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIter.generator()).then((values) => {
-                return values.some((x) => x)
-            })
-        case ParallelGeneratorType.PromiseOfPromises:
-            return nextIter.generator().then((values) => Promise.all(values)).then((values) => {
-                return values.some((x) => x)
-            })
-    }
-}
+export { any } from "./_private/any"
+export { anyAsync } from "./_private/anyAsync"
 
 export function asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource> {
     async function* generator() {
@@ -132,48 +49,8 @@ export function asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEn
     return fromAsync(generator)
 }
 
-export function average(
-    source: IAsyncParallel<number>): Promise<number>
-export function average<TSource>(
-    source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number>
-export function average<TSource>(
-    source: IAsyncParallel<TSource> | IAsyncParallel<number>,
-    selector?: (x: TSource) => number): Promise<number> {
-    if (selector) {
-        return ParallelEnumerablePrivate.average_2(source as IAsyncParallel<TSource>, selector)
-    } else {
-        return ParallelEnumerablePrivate.average_1(source as IAsyncParallel<number>)
-    }
-}
-
-export async function averageAsync<TSource>(
-    source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
-    const nextIter = nextIterationAsync(source, selector)
-    let values: Array<number | Promise<number>>
-    switch (nextIter.type) {
-        case ParallelGeneratorType.ArrayOfPromises:
-            values = nextIter.generator()
-            break
-        case ParallelGeneratorType.PromiseOfPromises:
-            values = await nextIter.generator()
-            break
-        case ParallelGeneratorType.PromiseToArray:
-        default:
-            values = await nextIter.generator()
-            break
-    }
-
-    if (values.length === 0) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    let value = 0
-    for (const selectedValue of values) {
-        value += await selectedValue
-    }
-
-    return value / values.length
-}
+export { average } from "./_private/average"
+export { averageAsync } from "./_private/averageAsync"
 
 export function concat<TSource>(
     // tslint:disable-next-line:no-shadowed-variable
@@ -203,60 +80,8 @@ export function concat<TSource>(
     })
 }
 
-export async function contains<TSource>(
-    source: IParallelEnumerable<TSource>,
-    value: TSource,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
-    let values: TypedData<boolean>
-    if (comparer) {
-        values = nextIteration(source, (x) => comparer(value, x))
-    } else {
-        values = nextIteration(source, (x) => x === value)
-    }
-
-    switch (values.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
-            const data = await values.generator()
-            return data.some((x) => x)
-        }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
-            const data = await Promise.all(values.generator())
-            return data.some((x) => x)
-        }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
-            const data = await Promise.all(await values.generator())
-            return data.some((x) => x)
-        }
-    }
-}
-
-export async function containsAsync<TSource>(
-    source: IParallelEnumerable<TSource>,
-    value: TSource,
-    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
-    const values = nextIterationAsync(source, (x) => comparer(value, x))
-
-    switch (values.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
-            const data = await values.generator()
-            return data.some((x) => x)
-        }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
-            const data = await Promise.all(values.generator())
-            return data.some((x) => x)
-        }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
-            const data = await Promise.all(await values.generator())
-            return data.some((x) => x)
-        }
-    }
-}
+export { contains } from "./_private/contains"
+export { containsAsync } from "./_private/containsAsync"
 
 export function count<TSource>(
     source: IParallelEnumerable<TSource>,
