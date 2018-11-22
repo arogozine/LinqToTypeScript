@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/TypesAndHelpers"
+import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
 import { IEqualityComparer, IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
 import { nextIteration } from "./_nextIteration"
 

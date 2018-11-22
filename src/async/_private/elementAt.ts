@@ -1,4 +1,4 @@
-import { ArgumentOutOfRangeException } from "../../shared/TypesAndHelpers"
+import { ArgumentOutOfRangeException } from "../../shared/ArgumentOutOfRangeException"
 
 /**
  * @throws {ArgumentOutOfRangeException}

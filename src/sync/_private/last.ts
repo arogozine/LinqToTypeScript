@@ -1,4 +1,5 @@
-import { ErrorString, InvalidOperationException } from "../../shared/TypesAndHelpers"
+import { ErrorString } from "../../shared/ErrorString"
+import { InvalidOperationException } from "../../shared/InvalidOperationException"
 
 /**
  * @throws {InvalidOperationException} Sequence contains no elements

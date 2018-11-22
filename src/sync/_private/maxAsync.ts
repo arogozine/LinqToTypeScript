@@ -1,4 +1,5 @@
-import { ErrorString, InvalidOperationException } from "../../shared/TypesAndHelpers"
+import { ErrorString } from "../../shared/ErrorString"
+import { InvalidOperationException } from "../../shared/InvalidOperationException"
 
 export async function maxAsync<TSource>(
     source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {

@@ -1,4 +1,5 @@
-import { ErrorString, InvalidOperationException } from "../../shared/TypesAndHelpers"
+import { ErrorString } from "../../shared/ErrorString"
+import { InvalidOperationException } from "../../shared/InvalidOperationException"
 
 export function min(source: AsyncIterable<number>): Promise<number>
 export function min<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>

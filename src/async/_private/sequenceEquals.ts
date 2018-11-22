@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/TypesAndHelpers"
+import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
 import { IEqualityComparer } from "../../types"
 
 export async function sequenceEquals<TSource>(

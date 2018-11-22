@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/TypesAndHelpers"
+import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
 import { IEnumerable, IEqualityComparer } from "../../types"
 import {  } from "../../types/IEqualityComparer"
 import { BasicEnumerable } from "../BasicEnumerable"
