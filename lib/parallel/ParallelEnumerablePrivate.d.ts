@@ -2,8 +2,6 @@ import { IAsyncEqualityComparer, IAsyncParallel, IEqualityComparer, IGrouping, I
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 export declare function count_1<TSource>(source: IParallelEnumerable<TSource>): Promise<number>;
 export declare function count_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<number>;
-export declare function first_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource>;
-export declare function first_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;
 export declare function firstOrDefault_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource | null>;
 export declare function firstOrDefault_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource | null>;
 export declare function groupBy_0_Simple<TSource>(source: IAsyncParallel<TSource>, keySelector: ((x: TSource) => string) | ((x: TSource) => number)): IParallelEnumerable<IGrouping<string | number, TSource>>;
@@ -20,12 +18,9 @@ export declare function repeat_1<T>(element: T, count: number): IParallelEnumera
 export declare function repeat_2<T>(element: T, count: number, delay: number): IParallelEnumerable<T>;
 export declare function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource>;
 export declare function single_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;
-export declare function singleOrDefault_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource | null>;
-export declare function singleOrDefault_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource | null>;
 export declare function sum_1(source: IAsyncParallel<number>): Promise<number>;
 export declare function sum_2<TSource>(source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number>;
 export declare function union_1<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): BasicParallelEnumerable<TSource>;
 export declare function union_2<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IEqualityComparer<TSource>): BasicParallelEnumerable<TSource>;
 export declare function zip_1<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]>;
 export declare function zip_2<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
-export declare function toArray<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]>;
