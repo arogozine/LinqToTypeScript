@@ -14,6 +14,8 @@ import { IAsyncEnumerable,
     IGrouping,
     InferType,
     IOrderedParallelEnumerable, IParallelEnumerable, ParallelGeneratorType, TypedData } from "../types"
+import { nextIteration } from "./_private/_nextIteration"
+import { nextIterationAsync } from "./_private/_nextIterationAsync"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
 import * as ParallelEnumerablePrivate from "./ParallelEnumerablePrivate"
@@ -22,40 +24,12 @@ import * as ParallelEnumerablePrivate from "./ParallelEnumerablePrivate"
  * Contains static methods to work with Parallel Async
  */
 
-export function aggregate<TSource>(
-    source: AsyncIterable<TSource>,
-    func: (x: TSource, y: TSource) => TSource): Promise<TSource>
-export function aggregate<TSource, TAccumulate>(
-    source: AsyncIterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>
-export function aggregate<TSource, TAccumulate, TResult>(
-    source: AsyncIterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector: (x: TAccumulate) => TResult): Promise<TResult>
-export function aggregate<TSource, TAccumulate, TResult>(
-    source: AsyncIterable<TSource>,
-    seedOrFunc: ((x: TSource, y: TSource) => TSource) | TAccumulate,
-    func?: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector?: (x: TAccumulate) => TResult): Promise<TSource | TAccumulate | TResult | null> {
-    if (resultSelector) {
-        if (!func) {
-            throw new ReferenceError(`TAccumulate function is undefined`)
-        }
-
-        return ParallelEnumerablePrivate.aggregate_3(source, seedOrFunc as TAccumulate, func, resultSelector)
-    } else if (func) {
-        return ParallelEnumerablePrivate.aggregate_2(source, seedOrFunc as TAccumulate, func)
-    } else {
-        return ParallelEnumerablePrivate.aggregate_1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
-    }
-}
+export { aggregate } from "./_private/aggregate"
 
 export async function all<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => boolean): Promise<boolean> {
-    const nextIter = ParallelEnumerablePrivate.nextIteration(source, (x) => {
+    const nextIter = nextIteration(source, (x) => {
         if (!predicate(x)) {
             throw new Error(String(false))
         }
@@ -79,7 +53,7 @@ export async function all<TSource>(
 export async function allAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    const nextIter = ParallelEnumerablePrivate.nextIterationAsync(source, async (x) => {
+    const nextIter = nextIterationAsync(source, async (x) => {
         if (await predicate(x) === false) {
             throw new Error(String(false))
         }
@@ -111,7 +85,7 @@ export function empty<TSource>(): IParallelEnumerable<TSource> {
 }
 
 export function any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean) {
-    const nextIter = ParallelEnumerablePrivate.nextIteration(source, predicate || ((_) => true))
+    const nextIter = nextIteration(source, predicate || ((_) => true))
 
     switch (nextIter.type) {
         case ParallelGeneratorType.PromiseToArray:
@@ -131,7 +105,7 @@ export function any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (
 
 export async function anyAsync<TSource>(
     source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
-    const nextIter = ParallelEnumerablePrivate.nextIterationAsync(source, predicate)
+    const nextIter = nextIterationAsync(source, predicate)
 
     switch (nextIter.type) {
         case ParallelGeneratorType.PromiseToArray:
@@ -174,7 +148,7 @@ export function average<TSource>(
 
 export async function averageAsync<TSource>(
     source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
-    const nextIter = ParallelEnumerablePrivate.nextIterationAsync(source, selector)
+    const nextIter = nextIterationAsync(source, selector)
     let values: Array<number | Promise<number>>
     switch (nextIter.type) {
         case ParallelGeneratorType.ArrayOfPromises:
@@ -235,9 +209,9 @@ export async function contains<TSource>(
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
     let values: TypedData<boolean>
     if (comparer) {
-        values = ParallelEnumerablePrivate.nextIteration(source, (x) => comparer(value, x))
+        values = nextIteration(source, (x) => comparer(value, x))
     } else {
-        values = ParallelEnumerablePrivate.nextIteration(source, (x) => x === value)
+        values = nextIteration(source, (x) => x === value)
     }
 
     switch (values.type) {
@@ -263,7 +237,7 @@ export async function containsAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     value: TSource,
     comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
-    const values = ParallelEnumerablePrivate.nextIterationAsync(source, (x) => comparer(value, x))
+    const values = nextIterationAsync(source, (x) => comparer(value, x))
 
     switch (values.type) {
         case ParallelGeneratorType.PromiseToArray:
@@ -297,7 +271,7 @@ export function count<TSource>(
 export async function countAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => Promise<boolean>): Promise<number> {
-    const data = ParallelEnumerablePrivate.nextIterationAsync(source, predicate)
+    const data = nextIterationAsync(source, predicate)
     let countPromise: Promise<boolean[]>
     switch (data.type) {
         case ParallelGeneratorType.ArrayOfPromises:
@@ -371,7 +345,7 @@ export function distinctAsync<TSource>(
 export function each<TSource>(
     source: IParallelEnumerable<TSource>,
     action: (x: TSource) => void): IParallelEnumerable<TSource> {
-    return new BasicParallelEnumerable(ParallelEnumerablePrivate.nextIteration(source, (x) => {
+    return new BasicParallelEnumerable(nextIteration(source, (x) => {
             action(x)
             return x
         }))
@@ -380,7 +354,7 @@ export function each<TSource>(
 export function eachAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource> {
-    return new BasicParallelEnumerable(ParallelEnumerablePrivate.nextIterationAsync(source, async (x) => {
+    return new BasicParallelEnumerable(nextIterationAsync(source, async (x) => {
             await action(x)
             return x
         }))
@@ -853,7 +827,7 @@ export async function min<TSource>(
     selector?: (x: TSource) => number): Promise<number> {
     let minInfo: any[]
     if (selector) {
-        const dataFunc = ParallelEnumerablePrivate.nextIteration(source, selector)
+        const dataFunc = nextIteration(source, selector)
         minInfo = await new BasicParallelEnumerable(dataFunc)
             .toArray()
     } else {
@@ -988,7 +962,7 @@ export async function max<TSource>(
     selector?: (x: TSource) => number): Promise<number> {
     let maxInfo: any[]
     if (selector) {
-        const dataFunc = ParallelEnumerablePrivate.nextIteration(source, selector)
+        const dataFunc = nextIteration(source, selector)
         maxInfo = await new BasicParallelEnumerable(dataFunc).toArray()
     } else {
         maxInfo = await source.toArray()
@@ -1004,7 +978,7 @@ export async function max<TSource>(
 export async function maxAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<number> {
-    const dataFunc = ParallelEnumerablePrivate.nextIterationAsync(source, selector)
+    const dataFunc = nextIterationAsync(source, selector)
     const maxInfo = await new BasicParallelEnumerable(dataFunc).toArray()
 
     if (maxInfo.length === 0) {
@@ -1017,7 +991,7 @@ export async function maxAsync<TSource>(
 export async function minAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<number> {
-    const dataFunc = ParallelEnumerablePrivate.nextIterationAsync(source, selector)
+    const dataFunc = nextIterationAsync(source, selector)
     const maxInfo = await new BasicParallelEnumerable(dataFunc).toArray()
 
     if (maxInfo.length === 0) {
@@ -1037,9 +1011,9 @@ export function select<TSource, OUT>(
     source: IParallelEnumerable<TSource>,
     key: string | ((x: TSource) => OUT)): IParallelEnumerable<any> {
     if (typeof key === "string") {
-        return new BasicParallelEnumerable(ParallelEnumerablePrivate.nextIteration(source, (x: any) => x[key] as OUT))
+        return new BasicParallelEnumerable(nextIteration(source, (x: any) => x[key] as OUT))
     } else {
-        return new BasicParallelEnumerable(ParallelEnumerablePrivate.nextIteration(source, key))
+        return new BasicParallelEnumerable(nextIteration(source, key))
     }
 }
 
@@ -1059,7 +1033,7 @@ export function selectAsync<TSource extends { [key: string]: Promise<OUT> }, OUT
         selector = keyOrSelector
     }
 
-    const generator = ParallelEnumerablePrivate.nextIterationAsync(source, selector)
+    const generator = nextIterationAsync(source, selector)
     return new BasicParallelEnumerable(generator)
 }
 
@@ -1074,9 +1048,9 @@ export function selectMany<TSource, OUT>(
     const generator = async () => {
         let values: TypedData<Iterable<OUT>>
         if (typeof selector === "string") {
-            values = await ParallelEnumerablePrivate.nextIteration(source, (x: any) => x[selector])
+            values = await nextIteration(source, (x: any) => x[selector])
         } else {
-            values = await ParallelEnumerablePrivate.nextIteration(source, selector as (x: TSource) => Iterable<OUT>)
+            values = await nextIteration(source, selector as (x: TSource) => Iterable<OUT>)
         }
 
         const valuesArray = []
@@ -1125,7 +1099,7 @@ export function selectManyAsync<TSource, OUT>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT> {
     const generator = async () => {
-        const values = await ParallelEnumerablePrivate.nextIterationAsync(source, selector)
+        const values = await nextIterationAsync(source, selector)
 
         const valuesArray = []
         switch (values.type) {

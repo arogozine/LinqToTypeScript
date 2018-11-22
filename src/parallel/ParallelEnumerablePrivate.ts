@@ -7,58 +7,10 @@ import { IAsyncEqualityComparer,
     IEqualityComparer,
     IGrouping,
     IParallelEnumerable,
-    ParallelGeneratorType,
-    TypedData } from "../types"
+    ParallelGeneratorType } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 
 // tslint:disable:completed-docs
-
-export async function aggregate_1<TSource>(
-    source: AsyncIterable<TSource>,
-    func: (x: TSource, y: TSource) => TSource): Promise<TSource> {
-    let aggregateValue: TSource | undefined
-
-    for await (const value of source) {
-        if (aggregateValue) {
-            aggregateValue = func(aggregateValue, value)
-        } else {
-            aggregateValue = value
-        }
-    }
-
-    if (aggregateValue === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return aggregateValue
-}
-
-export async function aggregate_2<TSource, TAccumulate>(
-    source: AsyncIterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate> {
-    let aggregateValue = seed
-
-    for await (const value of source) {
-        aggregateValue = func(aggregateValue, value)
-    }
-
-    return aggregateValue
-}
-
-export async function aggregate_3<TSource, TAccumulate, TResult>(
-    source: AsyncIterable<TSource>,
-    seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector: (x: TAccumulate) => TResult): Promise<TResult> {
-    let aggregateValue = seed
-
-    for await (const value of source) {
-        aggregateValue = func(aggregateValue, value)
-    }
-
-    return resultSelector(aggregateValue)
-}
 
 export async function average_1(source: IAsyncParallel<number>): Promise<number> {
     let value: number | undefined
@@ -880,102 +832,6 @@ export function zip_2<T, Y, OUT>(
         generator,
         type: ParallelGeneratorType.PromiseToArray,
     })
-}
-
-export function nextIterationAsync<TSource, TOut>(
-    source: IParallelEnumerable<TSource>,
-    onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut> {
-    const dataFunc = source.dataFunc
-    switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
-            const generator = async () => {
-                const results = await dataFunc.generator()
-                const newPromises = new Array<Promise<TOut>>(results.length)
-                for (let i = 0; i < results.length; i++) {
-                    newPromises[i] = onfulfilled(results[i])
-                }
-                return newPromises
-            }
-            return {
-                generator,
-                type: ParallelGeneratorType.PromiseOfPromises,
-            }
-        }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
-            const generator = () => dataFunc
-                .generator()
-                .map((promise) => promise.then(onfulfilled))
-            return {
-                generator,
-                type: ParallelGeneratorType.ArrayOfPromises,
-            }
-        }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
-            const generator = async () => {
-                const promises = await dataFunc.generator()
-                return promises.map((promise) => promise.then(onfulfilled))
-            }
-            return {
-                generator,
-                type: ParallelGeneratorType.PromiseOfPromises,
-            }
-        }
-    }
-}
-
-export function nextIteration<TSource, TOut>(
-    source: IParallelEnumerable<TSource>,
-    onfulfilled: (x: TSource) => TOut): TypedData<TOut> {
-    const dataFunc = source.dataFunc
-    switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
-            const generator = () => dataFunc.generator().then((x) => {
-                const convValues = new Array<TOut>(x.length)
-                for (let i = 0; i < x.length; i++) {
-                    convValues[i] = onfulfilled(x[i])
-                }
-                return convValues
-            })
-            return {
-                generator,
-                type: ParallelGeneratorType.PromiseToArray,
-            }
-        }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
-            const generator = () => {
-                const previousData = dataFunc.generator()
-                const newPromises = new Array<Promise<TOut>>(previousData.length)
-                for (let i = 0; i < previousData.length; i++) {
-                    newPromises[i] = previousData[i].then(onfulfilled)
-                }
-                return newPromises
-            }
-            return {
-                generator,
-                type: ParallelGeneratorType.ArrayOfPromises,
-            }
-        }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
-            const generator = async () => {
-                const previousData = await dataFunc.generator()
-                const newPromises = new Array<Promise<TOut>>(previousData.length)
-                for (let i = 0; i < previousData.length; i++) {
-                    newPromises[i] = previousData[i].then(onfulfilled)
-                }
-                return newPromises
-            }
-            return {
-                generator,
-                type: ParallelGeneratorType.PromiseOfPromises,
-            }
-        }
-    }
 }
 
 export function toArray<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]> {

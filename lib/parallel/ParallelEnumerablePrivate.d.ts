@@ -1,8 +1,5 @@
-import { IAsyncEqualityComparer, IAsyncParallel, IEqualityComparer, IGrouping, IParallelEnumerable, TypedData } from "../types";
+import { IAsyncEqualityComparer, IAsyncParallel, IEqualityComparer, IGrouping, IParallelEnumerable } from "../types";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
-export declare function aggregate_1<TSource>(source: AsyncIterable<TSource>, func: (x: TSource, y: TSource) => TSource): Promise<TSource>;
-export declare function aggregate_2<TSource, TAccumulate>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>;
-export declare function aggregate_3<TSource, TAccumulate, TResult>(source: AsyncIterable<TSource>, seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate, resultSelector: (x: TAccumulate) => TResult): Promise<TResult>;
 export declare function average_1(source: IAsyncParallel<number>): Promise<number>;
 export declare function average_2<TSource>(source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number>;
 export declare function count_1<TSource>(source: IParallelEnumerable<TSource>): Promise<number>;
@@ -33,6 +30,4 @@ export declare function union_1<TSource>(first: IAsyncParallel<TSource>, second:
 export declare function union_2<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IEqualityComparer<TSource>): BasicParallelEnumerable<TSource>;
 export declare function zip_1<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]>;
 export declare function zip_2<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
-export declare function nextIterationAsync<TSource, TOut>(source: IParallelEnumerable<TSource>, onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut>;
-export declare function nextIteration<TSource, TOut>(source: IParallelEnumerable<TSource>, onfulfilled: (x: TSource) => TOut): TypedData<TOut>;
 export declare function toArray<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]>;
