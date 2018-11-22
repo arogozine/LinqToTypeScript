@@ -1,6 +1,5 @@
 import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer,
     IGrouping } from "../types"
-import { AsTuple, ITuple } from "./../shared/shared"
 import { Grouping } from "./../sync/Grouping"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 
@@ -553,8 +552,8 @@ export function whereAsync_2<T>(
 }
 
 export function zip_1<T, Y>(
-    source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<ITuple<T, Y>> {
-    async function* iterator() {
+    source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]> {
+    async function* iterator(): AsyncIterableIterator<[T, Y]> {
         const firstIterator = source[Symbol.asyncIterator]()
         const secondIterator = second[Symbol.asyncIterator]()
 
@@ -566,7 +565,7 @@ export function zip_1<T, Y>(
             if (a.done && b.done) {
                 break
             } else {
-                yield AsTuple(a.value, b.value)
+                yield [a.value, b.value]
             }
         }
     }

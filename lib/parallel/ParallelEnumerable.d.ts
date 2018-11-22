@@ -1,5 +1,5 @@
 import { OfType } from "../shared/shared";
-import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, ITuple } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable } from "../types";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 import { ParallelGeneratorType } from "./ParallelGeneratorType";
 /**
@@ -134,6 +134,6 @@ export declare function unionAsync<TSource>(first: IAsyncParallel<TSource>, seco
 export declare function where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource) => boolean): IParallelEnumerable<TSource>;
 export declare function where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
 export declare function whereAsync<T>(source: IAsyncParallel<T>, predicate: (x: T, index: number) => Promise<boolean>): BasicParallelEnumerable<T>;
-export declare function zip<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<ITuple<T, Y>>;
+export declare function zip<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]>;
 export declare function zip<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
 export declare function zipAsync<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => Promise<OUT>): IParallelEnumerable<OUT>;

@@ -11,7 +11,7 @@ describe("enumerateObject", () => {
         }
 
         for (const item of enumerateObject(object)) {
-            expect(item.second).toBe(object[item.first])
+            expect(item[1]).toBe(object[item[0]])
         }
     })
 
@@ -23,7 +23,7 @@ describe("enumerateObject", () => {
         }
 
         for await (const item of enumerateObjectAsync(object)) {
-            expect(item.second).toBe(object[item.first])
+            expect(item[1]).toBe(object[item[0]])
         }
     })
 

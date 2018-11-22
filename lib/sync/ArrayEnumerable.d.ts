@@ -1,6 +1,6 @@
 import { IEnumerable, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable } from "../types";
 import { IAsyncEnumerable } from "./../async/async";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
+import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, OfType } from "./../shared/shared";
 /**
  * Array backed Enumerable
  */
@@ -100,7 +100,7 @@ export declare class ArrayEnumerable<TSource> extends Array<TSource> implements 
     unionAsync(second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     where(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>;
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
-    zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>;
+    zip<TSecond>(second: Iterable<TSecond>): IEnumerable<[TSource, TSecond]>;
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>;
     zipAsync<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>;
 }

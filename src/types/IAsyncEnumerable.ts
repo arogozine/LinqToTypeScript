@@ -5,7 +5,6 @@ import {
     IEqualityComparer,
     IGrouping,
     InferType,
-    ITuple,
     OfType,
 } from "../shared/shared"
 import { IOrderedAsyncEnumerable } from "./IOrderedAsyncEnumerable"
@@ -98,7 +97,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     zip<TSecond, TResult>(
         second: AsyncIterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>,
-    zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>,
+    zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<[TSource, TSecond]>,
     zipAsync<TSecond, TResult>(
         second: AsyncIterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>,

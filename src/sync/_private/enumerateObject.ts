@@ -1,14 +1,11 @@
-import { IEnumerable, ITuple } from "../../types"
+import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
-export function enumerateObject<TInput>(source: TInput): IEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
-    function *iterable() {
+export function enumerateObject<TInput>(source: TInput): IEnumerable<[keyof TInput, TInput[keyof TInput]]> {
+    function *iterable(): IterableIterator<[keyof TInput, TInput[keyof TInput]]> {
         // tslint:disable-next-line:forin
         for (const key in source) {
-            yield {
-                first: key,
-                second: source[key],
-            }
+            yield [ key, source[key] ]
         }
     }
 

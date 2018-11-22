@@ -8,7 +8,6 @@ import {
     InferType,
     IOrderedParallelEnumerable,
     IParallelEnumerable,
-    ITuple,
     OfType,
     TypedData,
 } from "./"
@@ -108,7 +107,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
         second: IAsyncParallel<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>,
     zip<TSecond>(second: IAsyncParallel<TSecond>):
-        IParallelEnumerable<ITuple<TSource, TSecond>>
+        IParallelEnumerable<[TSource, TSecond]>
     zipAsync<TSecond, TResult>(
         second: IAsyncParallel<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult>,

@@ -1,6 +1,6 @@
 import { IAsyncEnumerable, IEnumerable, IOrderedEnumerable, IParallelEnumerable } from "../types";
 import { IOrderedAsyncEnumerable } from "../types/IOrderedAsyncEnumerable";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, ITuple, OfType } from "./../shared/shared";
+import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, OfType } from "./../shared/shared";
 /**
  * Container for all IEnumerable methods
  * to apply to built in ECMAScript collections
@@ -98,7 +98,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     unionAsync(second: Iterable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T>;
     where(predicate: (x: T, index: number) => boolean): IEnumerable<T>;
     whereAsync(predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T>;
-    zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>;
+    zip<TSecond>(second: Iterable<TSecond>): IEnumerable<[T, TSecond]>;
     zip<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>;
     zipAsync<TSecond, TResult>(second: Iterable<TSecond>, resultSelector: (x: T, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>;
     abstract [Symbol.iterator](): IterableIterator<T>;

@@ -13,7 +13,7 @@ import { IAsyncEnumerable,
     IEqualityComparer,
     IGrouping,
     InferType,
-    IOrderedParallelEnumerable, IParallelEnumerable, ITuple, TypedData } from "../types"
+    IOrderedParallelEnumerable, IParallelEnumerable, TypedData } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
 import * as ParallelEnumerablePrivate from "./ParallelEnumerablePrivate"
@@ -1791,7 +1791,7 @@ export function whereAsync<T>(
 
 export function zip<T, Y>(
     source: IAsyncParallel<T>,
-    second: IAsyncParallel<Y>): IParallelEnumerable<ITuple<T, Y>>
+    second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]>
 export function zip<T, Y, OUT>(
     source: IAsyncParallel<T>,
     second: IAsyncParallel<Y>,
@@ -1799,7 +1799,7 @@ export function zip<T, Y, OUT>(
 export function zip<T, Y, OUT>(
     source: IAsyncParallel<T>,
     second: IAsyncParallel<Y>,
-    resultSelector?: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> | IParallelEnumerable<ITuple<T, Y>> {
+    resultSelector?: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> | IParallelEnumerable<[T, Y]> {
     if (resultSelector) {
         return ParallelEnumerablePrivate.zip_2(source, second, resultSelector)
     } else {

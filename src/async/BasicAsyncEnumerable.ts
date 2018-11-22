@@ -5,7 +5,6 @@ import {
     IEqualityComparer,
     IGrouping,
     InferType,
-    ITuple,
     OfType,
 } from "../shared/shared"
 import { IAsyncEnumerable, IOrderedAsyncEnumerable } from "../types"
@@ -384,7 +383,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public zip<TSecond, TResult>(
         second: AsyncIterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IAsyncEnumerable<TResult>
-    public zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<ITuple<TSource, TSecond>>
+    public zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<[TSource, TSecond]>
     public zip<Y, OUT>(
         second: AsyncIterable<Y>,
         resultSelector?: (x: TSource, y: Y) => OUT): IAsyncEnumerable<any>  {

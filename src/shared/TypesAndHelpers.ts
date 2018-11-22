@@ -1,5 +1,3 @@
-import { ITuple } from "../types/ITuple"
-
 // ########################
 // ## Equality Comparers ##
 // ########################
@@ -51,15 +49,6 @@ export function NumberComparer(x: number, y: number) {
 // ############
 // ## Tuples ##
 // ############
-
-/**
- * Creates a tuple.
- * @param X first value
- * @param Y second value
- */
-export function AsTuple<X, Y>(first: X, second: Y): ITuple<X, Y> {
-    return { first, second }
-}
 
 // ###################
 // ## Error Classes ##

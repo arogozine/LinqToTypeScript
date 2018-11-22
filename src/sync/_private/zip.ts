@@ -1,10 +1,9 @@
-import { AsTuple } from "../../shared/TypesAndHelpers"
-import { IEnumerable, ITuple } from "../../types"
+import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 export function zip<T, Y>(
     source: Iterable<T>,
-    second: Iterable<Y>): IEnumerable<ITuple<T, Y>>
+    second: Iterable<Y>): IEnumerable<[T, Y]>
 export function zip<T, Y, OUT>(
     source: Iterable<T>,
     second: Iterable<Y>,
@@ -12,7 +11,7 @@ export function zip<T, Y, OUT>(
 export function zip<T, Y, OUT>(
     source: Iterable<T>,
     second: Iterable<Y>,
-    resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<ITuple<T, Y>> {
+    resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<[T, Y]> {
     if (resultSelector) {
         return zip_2(source, second, resultSelector)
     } else {
@@ -20,8 +19,8 @@ export function zip<T, Y, OUT>(
     }
 }
 
-function zip_1<T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<ITuple<T, Y>> {
-    function* iterator() {
+function zip_1<T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<[T, Y]> {
+    function* iterator(): IterableIterator<[T, Y]> {
         const firstIterator = source[Symbol.iterator]()
         const secondIterator = second[Symbol.iterator]()
 
@@ -32,7 +31,7 @@ function zip_1<T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<ITup
             if (a.done && b.done) {
                 break
             } else {
-                yield AsTuple(a.value, b.value)
+                yield [a.value, b.value]
             }
         }
     }

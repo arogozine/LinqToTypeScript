@@ -1,5 +1,4 @@
 import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer, IGrouping } from "../types";
-import { ITuple } from "./../shared/shared";
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable";
 export declare function groupBy_0_Simple<TSource>(source: AsyncIterable<TSource>, keySelector: ((x: TSource) => string) | ((x: TSource) => number)): IAsyncEnumerable<IGrouping<string | number, TSource>>;
 export declare function groupBy_0<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
@@ -33,5 +32,5 @@ export declare function where_1<T>(source: AsyncIterable<T>, predicate: (x: T) =
 export declare function where_2<T>(source: AsyncIterable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T>;
 export declare function whereAsync_1<T>(source: AsyncIterable<T>, predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T>;
 export declare function whereAsync_2<T>(source: AsyncIterable<T>, predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T>;
-export declare function zip_1<T, Y>(source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<ITuple<T, Y>>;
+export declare function zip_1<T, Y>(source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]>;
 export declare function zip_2<T, Y, OUT>(source: AsyncIterable<T>, second: AsyncIterable<Y>, resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT>;

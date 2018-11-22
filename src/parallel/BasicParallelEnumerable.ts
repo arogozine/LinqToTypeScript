@@ -1,5 +1,4 @@
 import {
-    ITuple,
     OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
@@ -381,7 +380,7 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>
     public zip<TSecond>(
-        second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>
+        second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<[TSource, TSecond]>
     public zip(second: any, resultSelector?: any): IParallelEnumerable<any> {
         return ParallelEnumerable.zip(this, second, resultSelector)
     }

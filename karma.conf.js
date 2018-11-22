@@ -16,7 +16,7 @@ module.exports = function(config) {
     ],
     exclude: [
       "./**/*.d.ts",
-      "./**/IAsyncGrouping.ts",
+      "./**/types/*.ts",
       "./node_modules"
     ],
     preprocessors: {

@@ -1,4 +1,3 @@
-import { ITuple } from "../types/ITuple";
 /**
  * Does strict (===) comparison between two values.
  * @param x left value
@@ -25,12 +24,6 @@ export declare function StringifyComparer<T>(x: T, y: T): boolean;
  * @param y right value
  */
 export declare function NumberComparer(x: number, y: number): number;
-/**
- * Creates a tuple.
- * @param X first value
- * @param Y second value
- */
-export declare function AsTuple<X, Y>(first: X, second: Y): ITuple<X, Y>;
 /**
  * Common Error Strings
  */

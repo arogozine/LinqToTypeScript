@@ -1,4 +1,4 @@
-import { ITuple, OfType } from "../shared/shared";
+import { OfType } from "../shared/shared";
 import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, TypedData } from "../types";
 /**
  * Base implementation of IParallelEnumerable<T>
@@ -96,7 +96,7 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     zip<TSecond, TResult>(second: IParallelEnumerable<TSource> | IAsyncEnumerable<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;
-    zip<TSecond>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>;
+    zip<TSecond>(second: IAsyncEnumerable<TSecond> | IParallelEnumerable<TSecond>): IParallelEnumerable<[TSource, TSecond]>;
     zipAsync<TSecond, TResult>(second: IAsyncParallel<TSecond>, resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult>;
     [Symbol.asyncIterator](): AsyncIterableIterator<TSource>;
 }

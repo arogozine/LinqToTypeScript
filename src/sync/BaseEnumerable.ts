@@ -6,7 +6,6 @@ import {
     IEqualityComparer,
     IGrouping,
     InferType,
-    ITuple,
     OfType} from "./../shared/shared"
 import * as Enumerable from "./Enumerable"
 
@@ -367,7 +366,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return Enumerable.whereAsync(this, predicate)
     }
 
-    public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<T, TSecond>>
+    public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<[T, TSecond]>
     public zip<TSecond, TResult>(
         second: Iterable<TSecond>,
         resultSelector: (x: T, y: TSecond) => TResult): IEnumerable<TResult>

@@ -14,7 +14,6 @@ import {
     IComparer,
     IEqualityComparer,
     InvalidOperationException,
-    ITuple,
     OfType,
     StrictEqualityComparer,
 } from "./../shared/shared"
@@ -121,14 +120,11 @@ export function empty<TSource>(): IAsyncEnumerable<TSource> {
 }
 
 export function enumerateObject<TInput>(
-    source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>> {
-    async function *iterable() {
+    source: TInput): IAsyncEnumerable<[keyof TInput, TInput[keyof TInput]]> {
+    async function *iterable(): AsyncIterableIterator<[keyof TInput, TInput[keyof TInput]]> {
         /* tslint:disable */
         for (const key in source) {
-            yield {
-                first: key,
-                second: source[key]
-            }
+            yield [ key, source[key] ]
         }
         /* tslint:enable */
     }
@@ -818,7 +814,7 @@ export function whereAsync<TSource>(
 
 export function zip<T, Y>(
     source: AsyncIterable<T>,
-    second: AsyncIterable<Y>): IAsyncEnumerable<ITuple<T, Y>>
+    second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]>
 export function zip<T, Y, OUT>(
     source: AsyncIterable<T>,
     second: AsyncIterable<Y>,
@@ -826,7 +822,7 @@ export function zip<T, Y, OUT>(
 export function zip<T, Y, OUT>(
     source: AsyncIterable<T>,
     second: AsyncIterable<Y>,
-    resultSelector?: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT> | IAsyncEnumerable<ITuple<T, Y>> {
+    resultSelector?: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT> | IAsyncEnumerable<[T, Y]> {
     if (resultSelector) {
         return AsyncEnumerablePrivate.zip_2(source, second, resultSelector)
     } else {

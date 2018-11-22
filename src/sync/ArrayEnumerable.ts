@@ -11,7 +11,6 @@ import {
     IGrouping,
     InferType,
     InvalidOperationException,
-    ITuple,
     OfType} from "./../shared/shared"
 import { BasicEnumerable } from "./BasicEnumerable"
 import * as Enumerable from "./Enumerable"
@@ -496,7 +495,7 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
         return Enumerable.whereAsync(this, predicate)
     }
 
-    public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<ITuple<TSource, TSecond>>
+    public zip<TSecond>(second: Iterable<TSecond>): IEnumerable<[TSource, TSecond]>
     public zip<TSecond, TResult>(
         second: Iterable<TSecond>,
         resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>

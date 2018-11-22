@@ -14,8 +14,8 @@ describe("zip", () => {
             const first = it1[i]
             const second = it2[i]
 
-            expect(val.first).toBe(first)
-            expect(val.second).toBe(second)
+            expect(val[0]).toBe(first)
+            expect(val[1]).toBe(second)
         }
     })
 
@@ -35,8 +35,8 @@ describe("zip", () => {
             const first = it1[i]
             const second = it2[i]
 
-            expect(val.first).toBe(first)
-            expect(val.second).toBe(second)
+            expect(val[0]).toBe(first)
+            expect(val[1]).toBe(second)
         }
     })
 
@@ -56,8 +56,8 @@ describe("zip", () => {
             const first = it1[i]
             const second = it2[i]
 
-            expect(val.first).toBe(first)
-            expect(val.second).toBe(second)
+            expect(val[0]).toBe(first)
+            expect(val[1]).toBe(second)
         }
     })
 

@@ -1,6 +1,6 @@
 import "core-js/modules/es7.symbol.async-iterator";
 import { IAsyncEnumerable, IGrouping, InferType, IOrderedAsyncEnumerable, IParallelEnumerable } from "../types";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, ITuple, OfType } from "./../shared/shared";
+import { IAsyncEqualityComparer, IComparer, IEqualityComparer, OfType } from "./../shared/shared";
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */
@@ -22,7 +22,7 @@ export declare function distinct<TSource>(source: AsyncIterable<TSource>, compar
 export declare function distinctAsync<TSource>(source: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 export { elementAtOrDefault } from "./_private/elementAtOrDefault";
 export declare function empty<TSource>(): IAsyncEnumerable<TSource>;
-export declare function enumerateObject<TInput>(source: TInput): IAsyncEnumerable<ITuple<keyof TInput, TInput[keyof TInput]>>;
+export declare function enumerateObject<TInput>(source: TInput): IAsyncEnumerable<[keyof TInput, TInput[keyof TInput]]>;
 export declare function except<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 export declare function exceptAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 export { first } from "./_private/first";
@@ -113,6 +113,6 @@ export declare function where<TSource>(source: AsyncIterable<TSource>, predicate
 export declare function where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
 export declare function whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>;
 export declare function whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
-export declare function zip<T, Y>(source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<ITuple<T, Y>>;
+export declare function zip<T, Y>(source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]>;
 export declare function zip<T, Y, OUT>(source: AsyncIterable<T>, second: AsyncIterable<Y>, resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT>;
 export declare function zipAsync<T, Y, OUT>(source: AsyncIterable<T>, second: AsyncIterable<Y>, resultSelector: (x: T, y: Y) => Promise<OUT>): IAsyncEnumerable<OUT>;

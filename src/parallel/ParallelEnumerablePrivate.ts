@@ -1,5 +1,4 @@
 import {
-    AsTuple,
     ErrorString,
     InvalidOperationException } from "../shared/shared"
 import { Grouping } from "../sync/sync"
@@ -8,7 +7,6 @@ import { IAsyncEqualityComparer,
     IEqualityComparer,
     IGrouping,
     IParallelEnumerable,
-    ITuple,
     TypedData } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
@@ -844,15 +842,15 @@ export function union_2<TSource>(
 
 export function zip_1<T, Y>(
     source: IAsyncParallel<T>,
-    second: IAsyncParallel<Y>): IParallelEnumerable<ITuple<T, Y>> {
+    second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]> {
     async function generator() {
         const [left, right] = await Promise.all([source.toArray(), second.toArray()])
         const maxLength = left.length > right.length ? left.length : right.length
-        const results = new Array<ITuple<T, Y>>(maxLength)
+        const results = new Array<[T, Y]>(maxLength)
         for (let i = 0; i < maxLength; i++) {
             const a = left[i]
             const b = right[i]
-            results[i] = AsTuple(a, b)
+            results[i] = [a, b]
         }
         return results
     }

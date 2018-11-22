@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, ITuple, OfType, TypedData } from "./";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, OfType, TypedData } from "./";
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     readonly dataFunc: TypedData<TSource>;
     asAsync(): IAsyncEnumerable<TSource>;
@@ -51,6 +51,6 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     where(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
     whereAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
     zip<TSecond, TResult>(second: IAsyncParallel<TSecond>, resultSelector: (x: TSource, y: TSecond) => TResult): IParallelEnumerable<TResult>;
-    zip<TSecond>(second: IAsyncParallel<TSecond>): IParallelEnumerable<ITuple<TSource, TSecond>>;
+    zip<TSecond>(second: IAsyncParallel<TSecond>): IParallelEnumerable<[TSource, TSecond]>;
     zipAsync<TSecond, TResult>(second: IAsyncParallel<TSecond>, resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult>;
 }
