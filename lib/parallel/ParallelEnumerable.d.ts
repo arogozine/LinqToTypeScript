@@ -1,5 +1,4 @@
-import { OfType } from "../shared/shared";
-import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, ParallelGeneratorType } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, OfType, ParallelGeneratorType } from "../types";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 /**
  * Contains static methods to work with Parallel Async

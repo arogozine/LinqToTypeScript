@@ -1,7 +1,4 @@
-import { IAsyncEnumerable } from "./async/async";
-import { IParallelEnumerable } from "./parallel/parallel";
-import { IConstructor } from "./shared/shared";
-import { IEnumerable } from "./sync/sync";
+import { IAsyncEnumerable, IConstructor, IEnumerable, IParallelEnumerable } from "./types";
 export * from "./shared/shared";
 export * from "./sync/sync";
 export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{

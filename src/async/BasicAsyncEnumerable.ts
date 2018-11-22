@@ -1,13 +1,12 @@
 import {
+    IAsyncEnumerable,
     IAsyncEqualityComparer,
     IAsyncParallel,
     IComparer,
     IEqualityComparer,
     IGrouping,
     InferType,
-    OfType,
-} from "../shared/shared"
-import { IAsyncEnumerable, IOrderedAsyncEnumerable } from "../types"
+    IOrderedAsyncEnumerable, OfType } from "../types"
 import * as AsyncEnumerable from "./AsyncEnumerable"
 
 /**

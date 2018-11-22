@@ -1,4 +1,4 @@
-import { IConstructor } from "..";
+import { IConstructor } from "./";
 /**
  * Accepted inputs for the ofType function
  */

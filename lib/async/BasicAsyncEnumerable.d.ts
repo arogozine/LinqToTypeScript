@@ -1,5 +1,4 @@
-import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, OfType } from "../shared/shared";
-import { IAsyncEnumerable, IOrderedAsyncEnumerable } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, OfType } from "../types";
 /**
  * The class behind IAsyncEnumerable<T>
  * @private

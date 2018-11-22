@@ -1,5 +1,4 @@
-import { IComparer } from "../shared/shared";
-import { IAsyncEnumerable } from "./IAsyncEnumerable";
+import { IAsyncEnumerable, IComparer } from "./";
 export interface IOrderedAsyncEnumerable<TSource> extends IAsyncEnumerable<TSource> {
     thenBy<TKey>(keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
     thenByAsync<TKey>(keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;

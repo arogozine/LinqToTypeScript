@@ -1,4 +1,4 @@
-import { IGrouping } from "../shared/shared"
+import { IGrouping } from "../types"
 import { ArrayEnumerable } from "./ArrayEnumerable"
 
 /**

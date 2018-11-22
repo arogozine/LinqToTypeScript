@@ -1,6 +1,4 @@
-import { IAsyncEnumerable, IEnumerable, IOrderedEnumerable, IParallelEnumerable } from "../types";
-import { IOrderedAsyncEnumerable } from "../types/IOrderedAsyncEnumerable";
-import { IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, OfType } from "./../shared/shared";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IComparer, IEnumerable, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType } from "../types";
 /**
  * Container for all IEnumerable methods
  * to apply to built in ECMAScript collections

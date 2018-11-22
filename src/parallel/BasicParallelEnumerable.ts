@@ -1,5 +1,4 @@
 import {
-    OfType,
     StrictEqualityComparer,
 } from "../shared/shared"
 import {
@@ -9,7 +8,8 @@ import {
     IComparer,
     IEqualityComparer,
     IGrouping,
-    InferType, IOrderedParallelEnumerable, IParallelEnumerable, ParallelGeneratorType, TypedData } from "../types"
+    InferType,
+    IOrderedParallelEnumerable, IParallelEnumerable, OfType, ParallelGeneratorType, TypedData } from "../types"
 import * as ParallelEnumerable from "./ParallelEnumerable"
 
 /**

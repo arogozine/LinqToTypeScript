@@ -1,4 +1,4 @@
-import { IConstructor } from ".."
+import { IConstructor } from "./"
 // tslint:disable:ban-types
 
 /**

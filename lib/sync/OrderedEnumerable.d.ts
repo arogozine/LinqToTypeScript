@@ -1,6 +1,5 @@
 import { OrderedAsyncEnumerable } from "../async/OrderedAsyncEnumerable";
-import { IOrderedAsyncEnumerable, IOrderedEnumerable } from "../types";
-import { IComparer } from "./../shared/shared";
+import { IComparer, IOrderedAsyncEnumerable, IOrderedEnumerable } from "../types";
 import { BasicEnumerable } from "./BasicEnumerable";
 /**
  * Represents Ordered Enumeration
