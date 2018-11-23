@@ -7,6 +7,40 @@ import {
     IGrouping,
     InferType,
     IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType } from "../types"
+import { all } from "./_private/all"
+import { allAsync } from "./_private/allAsync"
+import { any } from "./_private/any"
+import { anyAsync } from "./_private/anyAsync"
+import { average } from "./_private/average"
+import { averageAsync } from "./_private/averageAsync"
+import { contains } from "./_private/contains"
+import { containsAsync } from "./_private/containsAsync"
+import { count } from "./_private/count"
+import { countAsync } from "./_private/countAsync"
+import { elementAt } from "./_private/elementAt"
+import { elementAtOrDefault } from "./_private/elementAtOrDefault"
+import { first } from "./_private/first"
+import { firstAsync } from "./_private/firstAsync"
+import { firstOrDefault } from "./_private/firstOrDefault"
+import { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
+import { last } from "./_private/last"
+import { lastAsync } from "./_private/lastAsync"
+import { lastOrDefault } from "./_private/lastOrDefault"
+import { lastOrDefaultAsync } from "./_private/lastOrDefaultAsync"
+import { max } from "./_private/max"
+import { maxAsync } from "./_private/maxAsync"
+import { min } from "./_private/min"
+import { minAsync } from "./_private/minAsync"
+import { single } from "./_private/single"
+import { singleAsync } from "./_private/singleAsync"
+import { singleOrDefault } from "./_private/singleOrDefault"
+import { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync"
+import { sum } from "./_private/sum"
+import { sumAsync } from "./_private/sumAsync"
+import { toArray } from "./_private/toArray"
+import { toMap } from "./_private/toMap"
+import { toMapAsync } from "./_private/toMapAsync"
+import { toSet } from "./_private/toSet"
 import * as Enumerable from "./Enumerable"
 
 /**
@@ -29,19 +63,19 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public all(predicate: (x: T) => boolean): boolean {
-        return Enumerable.all(this, predicate)
+        return all(this, predicate)
     }
 
     public allAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
-        return Enumerable.allAsync(this, predicate)
+        return allAsync(this, predicate)
     }
 
     public any(predicate?: (x: T) => boolean): boolean {
-        return Enumerable.any(this, predicate)
+        return any(this, predicate)
     }
 
     public anyAsync(predicate: (x: T) => Promise<boolean>): Promise<boolean> {
-        return Enumerable.anyAsync(this, predicate)
+        return anyAsync(this, predicate)
     }
 
     public asAsync(): IAsyncEnumerable<T> {
@@ -55,11 +89,11 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public average(this: IEnumerable<number>): number
     public average(selector: (x: T) => number): number
     public average(selector?: (x: T) => number): number {
-        return Enumerable.average(this, selector as any)
+        return average(this, selector as any)
     }
 
     public averageAsync(selector: (x: T) => Promise<number>): Promise<number> {
-        return Enumerable.averageAsync(this, selector)
+        return averageAsync(this, selector)
     }
 
     public concat(second: IEnumerable<T>): IEnumerable<T> {
@@ -67,19 +101,19 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public contains(value: T, comparer?: IEqualityComparer<T>): boolean {
-        return Enumerable.contains(this, value, comparer)
+        return contains(this, value, comparer)
     }
 
     public containsAsync(value: T, comparer: IAsyncEqualityComparer<T>): Promise<boolean> {
-        return Enumerable.containsAsync(this, value, comparer)
+        return containsAsync(this, value, comparer)
     }
 
     public count(predicate?: (x: T) => boolean): number {
-        return Enumerable.count(this, predicate)
+        return count(this, predicate)
     }
 
     public countAsync(predicate: (x: T) => Promise<boolean>): Promise<number> {
-        return Enumerable.countAsync(this, predicate)
+        return countAsync(this, predicate)
     }
 
     public distinct(comparer?: IEqualityComparer<T>): IEnumerable<T> {
@@ -91,11 +125,11 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public elementAt(index: number): T {
-        return Enumerable.elementAt(this, index)
+        return elementAt(this, index)
     }
 
     public elementAtOrDefault(index: number): T | null {
-        return Enumerable.elementAtOrDefault(this, index)
+        return elementAtOrDefault(this, index)
     }
 
     public except(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
@@ -107,19 +141,19 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public first(predicate?: (x: T) => boolean): T {
-        return Enumerable.first(this, predicate as any)
+        return first(this, predicate as any)
     }
 
     public firstAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
-        return Enumerable.firstAsync(this, predicate)
+        return firstAsync(this, predicate)
     }
 
     public firstOrDefault(predicate?: (x: T) => boolean): T | null {
-        return Enumerable.firstOrDefault(this, predicate as any)
+        return firstOrDefault(this, predicate as any)
     }
 
     public firstOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
-        return Enumerable.firstOrDefaultAsync(this, predicate)
+        return firstOrDefaultAsync(this, predicate)
     }
 
     public each(action: (x: T) => void): IEnumerable<T> {
@@ -182,39 +216,39 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public last(predicate?: (x: T) => boolean): T {
-        return Enumerable.last(this, predicate)
+        return last(this, predicate)
     }
 
     public lastAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
-        return Enumerable.lastAsync(this, predicate)
+        return lastAsync(this, predicate)
     }
 
     public lastOrDefault(predicate?: (x: T) => boolean): T | null {
-        return Enumerable.lastOrDefault(this, predicate)
+        return lastOrDefault(this, predicate)
     }
 
     public lastOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
-        return Enumerable.lastOrDefaultAsync(this, predicate)
+        return lastOrDefaultAsync(this, predicate)
     }
 
     public max(this: IEnumerable<number>): number | never
     public max(selector: (x: T) => number): number | never
     public max(selector?: (x: T) => number): number | never {
-        return Enumerable.max(this, selector as any)
+        return max(this, selector as any)
     }
 
     public maxAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
-        return Enumerable.maxAsync(this, selector)
+        return maxAsync(this, selector)
     }
 
     public min(this: IEnumerable<number>): number | never
     public min(selector: (x: T) => number): number | never
     public min(selector?: (x: T) => number): number | never {
-        return Enumerable.min(this, selector as any)
+        return min(this, selector as any)
     }
 
     public minAsync(selector: (x: T) => Promise<number>): Promise<number | never> {
-        return Enumerable.minAsync(this, selector)
+        return minAsync(this, selector)
     }
 
     public ofType<TType extends OfType>(type: TType): IEnumerable<InferType<TType>> {
@@ -285,21 +319,22 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public single(predicate?: (x: T) => boolean): T {
-        return Enumerable.single(this, predicate)
+        return single(this, predicate)
     }
 
     public singleAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
-        return Enumerable.singleAsync(this, predicate)
+        return singleAsync(this, predicate)
     }
 
     public singleOrDefault(predicate?: (x: T) => boolean): T | null {
-        return Enumerable.singleOrDefault(this, predicate)
+        return singleOrDefault(this, predicate)
     }
 
     public singleOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {
-        return Enumerable.singleOrDefaultAsync(this, predicate)
+        return singleOrDefaultAsync(this, predicate)
     }
 
+    // tslint:disable-next-line:no-shadowed-variable
     public skip(count: number): IEnumerable<T> {
         return Enumerable.skip(this, count)
     }
@@ -315,11 +350,11 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     public sum(this: IEnumerable<number>): number
     public sum(selector: (x: T) => number): number
     public sum(selector?: (x: T) => number): number {
-        return Enumerable.sum(this, selector as any)
+        return sum(this, selector as any)
     }
 
     public sumAsync(selector: (x: T) => Promise<number>): Promise<number> {
-        return Enumerable.sumAsync(this, selector)
+        return sumAsync(this, selector)
     }
 
     public take(amount: number): IEnumerable<T> {
@@ -335,19 +370,19 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public toArray(): T[] {
-        return Enumerable.toArray(this)
+        return toArray(this)
     }
 
     public toMap<TKey>(selector: (x: T) => TKey): Map<TKey, T[]> {
-        return Enumerable.toMap(this, selector)
+        return toMap(this, selector)
     }
 
     public toMapAsync<TKey>(selector: (x: T) => Promise<TKey>): Promise<Map<TKey, T[]>> {
-        return Enumerable.toMapAsync(this, selector)
+        return toMapAsync(this, selector)
     }
 
     public toSet(): Set<T> {
-        return Enumerable.toSet(this)
+        return toSet(this)
     }
 
     public union(second: Iterable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T> {
