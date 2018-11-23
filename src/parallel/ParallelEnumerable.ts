@@ -230,20 +230,7 @@ export function exceptAsync<TSource>(
 }
 
 export { first } from "./_private/first"
-
-export async function firstAsync<TSource>(
-    source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
-    const data = await toArray(source)
-    for (const value of data) {
-        if (await predicate(value) === true) {
-            return value
-        }
-    }
-
-    throw new InvalidOperationException(ErrorString.NoMatch)
-}
-
+export { firstAsync } from "./_private/firstAsync"
 export { firstOrDefault } from "./_private/firstOrDefault"
 export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
 
@@ -853,56 +840,8 @@ export function reverse<TSource>(
     }
 }
 
-export async function sequenceEquals<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
-    first: IAsyncParallel<TSource>,
-    second: IAsyncParallel<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
-
-    const firstArray = await first.toArray()
-    const secondArray = await second.toArray()
-
-    if (firstArray.length !== secondArray.length) {
-        return false
-    }
-
-    for (let i = 0; i < firstArray.length; i++) {
-        const firstResult = firstArray[i]
-        const secondResult = secondArray[i]
-
-        if (comparer(firstResult, secondResult) === false) {
-            return false
-        }
-    }
-
-    return true
-}
-
-export async function sequenceEqualsAsync<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
-    first: IAsyncParallel<TSource>,
-    second: IAsyncParallel<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
-
-    const firstArray = await first.toArray()
-    const secondArray = await second.toArray()
-
-    if (firstArray.length !== secondArray.length) {
-        return false
-    }
-
-    for (let i = 0; i < firstArray.length; i++) {
-        const firstResult = firstArray[i]
-        const secondResult = secondArray[i]
-
-        if (await comparer(firstResult, secondResult) === false) {
-            return false
-        }
-    }
-
-    return true
-}
-
+export { sequenceEquals } from "./_private/sequenceEquals"
+export { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync"
 export { single } from "./_private/single"
 export { singleAsync } from "./_private/singleAsync"
 export { singleOrDefault } from "./_private/singleOrDefault"
@@ -1098,66 +1037,10 @@ export function takeWhileAsync<TSource>(
 }
 
 export { toArray }
-
-export async function toMap<K, V>(
-    source: AsyncIterable<V>,
-    selector: (x: V) => K): Promise<Map<K, V[]>> {
-    const map = new Map<K, V[]>()
-
-    for await (const value of source) {
-        const key = selector(value)
-        const array = map.get(key)
-
-        if (array === undefined) {
-            map.set(key, [value])
-        } else {
-            array.push(value)
-        }
-    }
-
-    return map
-}
-
-export async function toMapAsync<K, V>(
-    source: AsyncIterable<V>,
-    selector: (x: V) => Promise<K>): Promise<Map<K, V[]>> {
-    const map = new Map<K, V[]>()
-
-    for await (const value of source) {
-        const key = await selector(value)
-        const array = map.get(key)
-
-        if (array === undefined) {
-            map.set(key, [value])
-        } else {
-            array.push(value)
-        }
-    }
-
-    return map
-}
-
-export async function toObject<TSource>(
-    source: AsyncIterable<TSource>,
-    selector: (x: TSource) => string): Promise<{[key: string]: TSource}> {
-
-    const map: {[key: string]: TSource} = {}
-
-    for await (const value of source) {
-        map[selector(value)] = value
-    }
-
-    return map
-}
-
-export async function toSet<TSource>(
-    source: AsyncIterable<TSource>): Promise<Set<TSource>> {
-    const set = new Set<TSource>()
-    for await (const item of source) {
-        set.add(item)
-    }
-    return set
-}
+export { toMap } from "./_private/toMap"
+export { toMapAsync } from "./_private/toMapAsync"
+export { toObject } from "./_private/toObject"
+export { toSet } from "./_private/toSet"
 
 export function union<TSource>(
     // tslint:disable-next-line:no-shadowed-variable

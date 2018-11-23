@@ -27,7 +27,7 @@ export { elementAtOrDefault } from "./_private/elementAtOrDefault";
 export declare function except<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export declare function exceptAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export { first } from "./_private/first";
-export declare function firstAsync<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
+export { firstAsync } from "./_private/firstAsync";
 export { firstOrDefault } from "./_private/firstOrDefault";
 export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync";
 export declare function flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>): IParallelEnumerable<TSource>;
@@ -93,8 +93,8 @@ export declare function orderByDescendingAsync<TSource, TKey>(source: IAsyncPara
 export declare function range(start: number, count: number): IParallelEnumerable<number>;
 export declare function repeat<T>(element: T, count: number, delay?: number): IParallelEnumerable<T>;
 export declare function reverse<TSource>(source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource>;
-export declare function sequenceEquals<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
-export declare function sequenceEqualsAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
+export { sequenceEquals } from "./_private/sequenceEquals";
+export { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync";
 export { single } from "./_private/single";
 export { singleAsync } from "./_private/singleAsync";
 export { singleOrDefault } from "./_private/singleOrDefault";
@@ -108,12 +108,10 @@ export declare function take<TSource>(source: IParallelEnumerable<TSource>, amou
 export declare function takeWhile<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
 export declare function takeWhileAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
 export { toArray };
-export declare function toMap<K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>>;
-export declare function toMapAsync<K, V>(source: AsyncIterable<V>, selector: (x: V) => Promise<K>): Promise<Map<K, V[]>>;
-export declare function toObject<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => string): Promise<{
-    [key: string]: TSource;
-}>;
-export declare function toSet<TSource>(source: AsyncIterable<TSource>): Promise<Set<TSource>>;
+export { toMap } from "./_private/toMap";
+export { toMapAsync } from "./_private/toMapAsync";
+export { toObject } from "./_private/toObject";
+export { toSet } from "./_private/toSet";
 export declare function union<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export declare function unionAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export declare function where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource) => boolean): IParallelEnumerable<TSource>;
