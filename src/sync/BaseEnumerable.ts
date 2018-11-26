@@ -7,6 +7,7 @@ import {
     IGrouping,
     InferType,
     IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType } from "../types"
+import { aggregate } from "./_private/aggregate"
 import { all } from "./_private/all"
 import { allAsync } from "./_private/allAsync"
 import { any } from "./_private/any"
@@ -42,7 +43,7 @@ import { toMap } from "./_private/toMap"
 import { toMapAsync } from "./_private/toMapAsync"
 import { toSet } from "./_private/toSet"
 import {
-    aggregate, asAsync, asParallel,
+    asAsync, asParallel,
     concat,
     distinct, distinctAsync,
     each, eachAsync, except, exceptAsync,
