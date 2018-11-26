@@ -3,4 +3,4 @@
  * @param x left value
  * @param y right value
  */
-export declare function NumberComparer(x: number, y: number): number;
+export declare const NumberComparer: (x: number, y: number) => number;

@@ -4,4 +4,4 @@
  * @param x left value
  * @param y right value
  */
-export declare function StringifyComparer<T>(x: T, y: T): boolean;
+export declare const StringifyComparer: <T>(x: T, y: T) => boolean;

@@ -4,8 +4,6 @@
  * @param x left value
  * @param y right value
  */
-export function EqualityComparer<T>(x: T, y: T): boolean {
-    /* tslint:disable */
-    return x == y
-    /* tslint:enable */
-}
+export const EqualityComparer = <T>(x: T, y: T) =>
+    // tslint:disable-next-line:triple-equals
+    x == y

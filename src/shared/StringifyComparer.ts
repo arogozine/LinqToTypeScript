@@ -4,6 +4,5 @@
  * @param x left value
  * @param y right value
  */
-export function StringifyComparer<T>(x: T, y: T): boolean {
-    return JSON.stringify(x) === JSON.stringify(y)
-}
+export const StringifyComparer = <T>(x: T, y: T) =>
+    JSON.stringify(x) === JSON.stringify(y)

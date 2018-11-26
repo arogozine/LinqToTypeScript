@@ -3,6 +3,5 @@
  * @param x left value
  * @param y right value
  */
-export function StrictEqualityComparer<T>(x: T, y: T): boolean {
-    return x === y
-}
+export const StrictEqualityComparer = <T>(x: T, y: T) =>
+    x === y

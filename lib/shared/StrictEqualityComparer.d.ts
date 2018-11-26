@@ -3,4 +3,4 @@
  * @param x left value
  * @param y right value
  */
-export declare function StrictEqualityComparer<T>(x: T, y: T): boolean;
+export declare const StrictEqualityComparer: <T>(x: T, y: T) => boolean;
