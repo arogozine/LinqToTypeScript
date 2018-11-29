@@ -1,11 +1,10 @@
-import { from as fromAsync } from "../async/async"
 import {
     ArgumentOutOfRangeException,
     EqualityComparer,
     ErrorString,
     InvalidOperationException,
     StrictEqualityComparer } from "../shared/shared"
-import { IAsyncEnumerable,
+import {
     IAsyncEqualityComparer,
     IAsyncParallel,
     IComparer,
@@ -40,16 +39,7 @@ export function empty<TSource>(): IParallelEnumerable<TSource> {
 
 export { any } from "./_private/any"
 export { anyAsync } from "./_private/anyAsync"
-
-export function asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource> {
-    async function* generator() {
-        for await (const value of source) {
-            yield value
-        }
-    }
-    return fromAsync(generator)
-}
-
+export { asAsync } from "./_private/asAsync"
 export { average } from "./_private/average"
 export { averageAsync } from "./_private/averageAsync"
 

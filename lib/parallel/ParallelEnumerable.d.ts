@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, OfType, ParallelGeneratorType } from "../types";
+import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, OfType, ParallelGeneratorType } from "../types";
 import { toArray } from "./_private/toArray";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 /**
@@ -10,7 +10,7 @@ export { allAsync } from "./_private//allAsync";
 export declare function empty<TSource>(): IParallelEnumerable<TSource>;
 export { any } from "./_private/any";
 export { anyAsync } from "./_private/anyAsync";
-export declare function asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource>;
+export { asAsync } from "./_private/asAsync";
 export { average } from "./_private/average";
 export { averageAsync } from "./_private/averageAsync";
 export declare function concat<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
