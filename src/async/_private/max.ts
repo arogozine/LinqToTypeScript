@@ -2,12 +2,18 @@ import { ErrorString } from "../../shared/ErrorString"
 import { InvalidOperationException } from "../../shared/InvalidOperationException"
 
 /**
- * @throws {InvalidOperationException} No Elements
- * @param source Async Iteration of Numbers
+ * Returns the maximum value in a sequence of values.
+ * @param source A sequence of values to determine the maximum value of.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The maximum value in the sequence.
  */
 export function max(source: AsyncIterable<number>): Promise<number>
 /**
- * @throws {InvalidOperationException} No Matching Elements
+ * Invokes a transform function on each element of a sequence and returns the maximum value.
+ * @param source A sequence of values to determine the maximum value of.
+ * @param selector A transform function to apply to each element.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The maximum value in the sequence.
  */
 export function max<TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
 export function max<TSource>(

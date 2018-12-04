@@ -39,7 +39,11 @@ export { count } from "./_private/count"
 export { countAsync } from "./_private/countAsync"
 export { elementAt } from "./_private/elementAt"
 
-// TODO: Circular Dep Issue
+/**
+ * Convers an async iterable to a Parallel Enumerable.
+ * @param source AsyncIterable<T> to conver to IParallelEnumerable<T>
+ * @returns Parallel Enumerable of source
+ */
 export function asParallel<TSource>(source: AsyncIterable<TSource>): IParallelEnumerable<TSource> {
     async function generator() {
         const data = []
@@ -52,7 +56,12 @@ export function asParallel<TSource>(source: AsyncIterable<TSource>): IParallelEn
     return parallelFrom(ParallelGeneratorType.PromiseToArray, generator)
 }
 
-// TODO: Circular Dep Issue
+/**
+ * Concatenates two sequences.
+ * @param first The first sequence to concatenate.
+ * @param second The sequence to concatenate to the first sequence.
+ * @returns An IAsyncEnumerable<T> that contains the concatenated elements of the two input sequences.
+ */
 export function concat<TSource>(
     first: AsyncIterable<TSource>, second: AsyncIterable<TSource>): IAsyncEnumerable<TSource> {
     async function* iterator() {
@@ -526,6 +535,13 @@ export function selectMany(
     }
 }
 
+/**
+ * Projects each element of a sequence to an IAsyncEnumerable<T> and flattens the resulting sequences into one sequence.
+ * @param source A sequence of values to project.
+ * @param selector A transform function to apply to each element.
+ * @returns An IAsyncEnumerable<T> whose elements are the result of invoking the
+ * one-to-many transform function on each element of the input sequence.
+ */
 export function selectManyAsync<TSource, Y>(
     source: AsyncIterable<TSource>,
     selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y> {
@@ -546,6 +562,13 @@ export { singleAsync } from "./_private/singleAsync"
 export { singleOrDefault } from "./_private/singleOrDefault"
 export { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync"
 
+/**
+ * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
+ * @param source An AsyncIterable<T> to return elements from.
+ * @param count The number of elements to skip before returning the remaining elements.
+ * @returns
+ * An IAsyncEnumerable<T> that contains the elements that occur after the specified index in the input sequence.
+ */
 export function skip<TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource> {
 
     async function* iterator() {
@@ -560,6 +583,15 @@ export function skip<TSource>(source: AsyncIterable<TSource>, count: number): IA
     return new BasicAsyncEnumerable(iterator)
 }
 
+/**
+ * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
+ * The element's index is used in the logic of the predicate function.
+ * @param source An AsyncIterable<T> to return elements from.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains the elements from the input sequence starting at the first element
+ * in the linear series that does not pass the test specified by predicate.
+ */
 export function skipWhile<TSource>(
     source: AsyncIterable<TSource>,
     predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
@@ -571,6 +603,15 @@ export function skipWhile<TSource>(
     }
 }
 
+/**
+ * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
+ * The element's index is used in the logic of the predicate function.
+ * @param source An AsyncIterable<T> to return elements from.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains the elements from the input sequence starting
+ * at the first element in the linear series that does not pass the test specified by predicate.
+ */
 export function skipWhileAsync<TSource>(
     source: AsyncIterable<TSource>,
     predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
@@ -659,8 +700,14 @@ export function range(start: number, count: number): IAsyncEnumerable<number> {
     return new BasicAsyncEnumerable(iterator)
 }
 
-export function repeat<T>(
-    element: T, count: number, delay?: number): IAsyncEnumerable<T> {
+/**
+ * Generates a sequence that contains one repeated value.
+ * @param element The value to be repeated.
+ * @param count The number of times to repeat the value in the generated sequence.
+ * @returns An IAsyncEnumerable<T> that contains a repeated value.
+ */
+export function repeat<TResult>(
+    element: TResult, count: number, delay?: number): IAsyncEnumerable<TResult> {
     if (count < 0) {
         throw new ArgumentOutOfRangeException(`count`)
     }

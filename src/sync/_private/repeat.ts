@@ -2,7 +2,13 @@ import { ArgumentOutOfRangeException } from "../../shared/ArgumentOutOfRangeExce
 import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
-export function repeat<T>(element: T, count: number): IEnumerable<T> {
+/**
+ * Generates a sequence that contains one repeated value.
+ * @param element The value to be repeated.
+ * @param count The number of times to repeat the value in the generated sequence.
+ * @returns An IEnumerable<T> that contains a repeated value.
+ */
+export function repeat<TResult>(element: TResult, count: number): IEnumerable<TResult> {
     if (count < 0) {
         throw new ArgumentOutOfRangeException(`count`)
     }

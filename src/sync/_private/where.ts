@@ -18,7 +18,7 @@ export function where<T>(
     }
 }
 
-export function where_1<T>(source: Iterable<T>, predicate: (x: T) => boolean): IEnumerable<T> {
+function where_1<T>(source: Iterable<T>, predicate: (x: T) => boolean): IEnumerable<T> {
     function* iterator() {
         for (const item of source) {
             if (predicate(item) === true) {
@@ -30,7 +30,7 @@ export function where_1<T>(source: Iterable<T>, predicate: (x: T) => boolean): I
     return new BasicEnumerable<T>(iterator)
 }
 
-export function where_2<T>(source: Iterable<T>, predicate: (x: T, index: number) => boolean): IEnumerable<T> {
+function where_2<T>(source: Iterable<T>, predicate: (x: T, index: number) => boolean): IEnumerable<T> {
     function* iterator() {
         let i = 0
         for (const item of source) {

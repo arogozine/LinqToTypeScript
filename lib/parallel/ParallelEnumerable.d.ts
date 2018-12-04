@@ -13,6 +13,12 @@ export { anyAsync } from "./_private/anyAsync";
 export { asAsync } from "./_private/asAsync";
 export { average } from "./_private/average";
 export { averageAsync } from "./_private/averageAsync";
+/**
+ * Concatenates two sequences.
+ * @param first The first sequence to concatenate.
+ * @param second The sequence to concatenate to the first sequence.
+ * @returns An IParallelEnumerable<T> that contains the concatenated elements of the two input sequences.
+ */
 export declare function concat<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
 export { contains } from "./_private/contains";
 export { containsAsync } from "./_private/containsAsync";
@@ -64,7 +70,20 @@ export { last } from "./_private/last";
 export { lastAsync } from "./_private/lastAsync";
 export { lastOrDefault } from "./_private/lastOrDefault";
 export { lastOrDefaultAsync } from "./_private/lastOrDefaultAsync";
+/**
+ * Returns the maximum value in a sequence of values.
+ * @param source A sequence of values to determine the maximum value of.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The maximum value in the sequence.
+ */
 export declare function max(source: IParallelEnumerable<number>): Promise<number>;
+/**
+ * Invokes a transform function on each element of a sequence and returns the maximum value.
+ * @param source A sequence of values to determine the maximum value of.
+ * @param selector A transform function to apply to each element.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The maximum value in the sequence.
+ */
 export declare function max<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
 export declare function maxAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
 export declare function minAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
@@ -78,6 +97,14 @@ export declare function selectMany<TSource, OUT>(source: IParallelEnumerable<TSo
 export declare function selectMany<TBindedSource extends {
     [key: string]: Iterable<TOut>;
 }, TOut>(source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
+/**
+ * Projects each element of a sequence to an IParallelEnumerable<T>
+ * and flattens the resulting sequences into one sequence.
+ * @param source A sequence of values to project.
+ * @param selector A transform function to apply to each element.
+ * @returns An IParallelEnumerable<T> whose elements are the result of invoking the
+ * one-to-many transform function on each element of the input sequence.
+ */
 export declare function selectManyAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
 export declare function ofType<TSource, TType extends OfType>(source: IAsyncParallel<TSource>, type: TType): IParallelEnumerable<InferType<TType>>;
 export declare function orderBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
@@ -91,7 +118,13 @@ export declare function orderByDescendingAsync<TSource, TKey>(source: IAsyncPara
  * @throws {ArgumentOutOfRangeException} Start is Less than 0
  */
 export declare function range(start: number, count: number): IParallelEnumerable<number>;
-export declare function repeat<T>(element: T, count: number, delay?: number): IParallelEnumerable<T>;
+/**
+ * Generates a sequence that contains one repeated value.
+ * @param element The value to be repeated.
+ * @param count The number of times to repeat the value in the generated sequence.
+ * @returns An IParallelEnumerable<T> that contains a repeated value.
+ */
+export declare function repeat<TResult>(element: TResult, count: number, delay?: number): IParallelEnumerable<TResult>;
 export declare function reverse<TSource>(source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource>;
 export { sequenceEquals } from "./_private/sequenceEquals";
 export { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync";
@@ -99,8 +132,33 @@ export { single } from "./_private/single";
 export { singleAsync } from "./_private/singleAsync";
 export { singleOrDefault } from "./_private/singleOrDefault";
 export { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync";
+/**
+ * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
+ * @param source An IParallelEnumerable<T> to return elements from.
+ * @param count The number of elements to skip before returning the remaining elements.
+ * @returns
+ * An IParallelEnumerable<T> that contains the elements that occur after the specified index in the input sequence.
+ */
 export declare function skip<TSource>(source: IParallelEnumerable<TSource>, count: number): IParallelEnumerable<TSource>;
+/**
+ * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
+ * The element's index is used in the logic of the predicate function.
+ * @param source An IAsyncParallel<T> to return elements from.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IParallelEnumerable<T> that contains the elements from the input sequence starting at the first element
+ * in the linear series that does not pass the test specified by predicate.
+ */
 export declare function skipWhile<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
+/**
+ * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
+ * The element's index is used in the logic of the predicate function.
+ * @param source An IAsyncParallel<T> to return elements from.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IParallelEnumerable<T> that contains the elements from the input sequence starting
+ * at the first element in the linear series that does not pass the test specified by predicate.
+ */
 export declare function skipWhileAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
 export { sum } from "./_private/sum";
 export { sumAsync } from "./_private/sumAsync";
