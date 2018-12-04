@@ -1,5 +1,5 @@
 import { IEnumerable } from "../../types";
 /**
- * Empty Enumerable
+ * Returns an empty IEnumerable<TSource>
  */
 export declare function empty<TSource>(): IEnumerable<TSource>;

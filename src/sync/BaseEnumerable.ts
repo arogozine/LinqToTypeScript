@@ -158,7 +158,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public first(predicate?: (x: T) => boolean): T {
-        return first(this, predicate as any)
+        return first(this, predicate)
     }
 
     public firstAsync(predicate: (x: T) => Promise<boolean>): Promise<T> {
@@ -166,7 +166,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
     }
 
     public firstOrDefault(predicate?: (x: T) => boolean): T | null {
-        return firstOrDefault(this, predicate as any)
+        return firstOrDefault(this, predicate)
     }
 
     public firstOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null> {

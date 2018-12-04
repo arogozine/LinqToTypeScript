@@ -1,6 +1,11 @@
 import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
+/**
+ * Returns a specified number of contiguous elements from the start of a sequence.
+ * @param source The sequence to return elements from.
+ * @param amount The number of elements to return.
+ */
 export function take<T>(source: Iterable<T>, amount: number): IEnumerable<T> {
 
     function* iterator() {

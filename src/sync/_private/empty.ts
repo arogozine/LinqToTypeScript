@@ -2,7 +2,7 @@ import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 /**
- * Empty Enumerable
+ * Returns an empty IEnumerable<TSource>
  */
 export function empty<TSource>(): IEnumerable<TSource> {
     const iterator = function*() {

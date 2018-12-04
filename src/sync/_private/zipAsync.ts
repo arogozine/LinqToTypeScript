@@ -1,12 +1,18 @@
 import { from } from "../../async/AsyncEnumerable"
 import { IAsyncEnumerable } from "../../types"
 
-export function zipAsync<T, Y, OUT>(
-    source: Iterable<T>,
-    second: Iterable<Y>,
-    resultSelector: (x: T, y: Y) => Promise<OUT>): IAsyncEnumerable<OUT> {
+/**
+ * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
+ * @param first The first sequence to merge.
+ * @param second The second sequence to merge.
+ * @param resultSelector A function that specifies how to merge the elements from the two sequences.
+ */
+export function zipAsync<TFirst, TSecond, TResult>(
+    first: Iterable<TFirst>,
+    second: Iterable<TSecond>,
+    resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
     async function* generator() {
-        const firstIterator = source[Symbol.iterator]()
+        const firstIterator = first[Symbol.iterator]()
         const secondIterator = second[Symbol.iterator]()
 
         while (true) {
