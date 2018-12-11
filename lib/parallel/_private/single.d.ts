@@ -1,10 +1,12 @@
 import { IParallelEnumerable } from "../../types";
 /**
- * @throws {InvalidOperationException} Sequence contains no elements
- * @throws {InvalidOperationException} Sequence contains more than one element
- * @throws {InvalidOperationException} Sequence contains more than one matching element
- * @throws {InvalidOperationException} Sequence contains no matching elements
+ * Returns the only element of a sequence that satisfies a specified condition (if specified),
+ * and throws an exception if more than one such element exists.
+ * @param source An IParallelEnumerable<T> to return a single element from.
+ * @param predicate A function to test an element for a condition. (Optional)
+ * @throws {InvalidOperationException} No element satisfies the condition in predicate. OR
+ * More than one element satisfies the condition in predicate. OR
+ * The source sequence is empty.
+ * @returns The single element of the input sequence that satisfies a condition.
  */
 export declare function single<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
-export declare function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource>;
-export declare function single_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;

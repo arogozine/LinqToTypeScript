@@ -4,10 +4,14 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { toArray } from "./toArray"
 
 /**
- * @throws {InvalidOperationException} Sequence contains no elements
- * @throws {InvalidOperationException} Sequence contains more than one element
- * @throws {InvalidOperationException} Sequence contains more than one matching element
- * @throws {InvalidOperationException} Sequence contains no matching elements
+ * Returns the only element of a sequence that satisfies a specified condition (if specified),
+ * and throws an exception if more than one such element exists.
+ * @param source An IParallelEnumerable<T> to return a single element from.
+ * @param predicate A function to test an element for a condition. (Optional)
+ * @throws {InvalidOperationException} No element satisfies the condition in predicate. OR
+ * More than one element satisfies the condition in predicate. OR
+ * The source sequence is empty.
+ * @returns The single element of the input sequence that satisfies a condition.
  */
 export async function single<TSource>(
     source: IParallelEnumerable<TSource>,
@@ -19,7 +23,7 @@ export async function single<TSource>(
     }
 }
 
-export async function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource> {
+async function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray:
@@ -58,7 +62,7 @@ export async function single_1<TSource>(source: IParallelEnumerable<TSource>): P
     }
 }
 
-export async function single_2<TSource>(
+async function single_2<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => boolean): Promise<TSource> {
     const results = await toArray(source)

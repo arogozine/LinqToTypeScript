@@ -51,11 +51,54 @@ export declare function from<TSource>(type: ParallelGeneratorType.PromiseToArray
  * Creates an IParallelEnumerable from a function that returns an promise of an array of promises
  */
 export declare function from<TSource>(type: ParallelGeneratorType.PromiseOfPromises, generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
+/**
+ * Groups the elements of a sequence according to a specified key selector function.
+ * @param source An IAsyncParallel<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+ * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+ */
 export declare function groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>;
+/**
+ * Groups the elements of a sequence according to a specified key selector function.
+ * @param source An IAsyncParallel<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+ * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+ */
 export declare function groupBy<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>;
+/**
+ * Groups the elements of a sequence according to a key selector function.
+ * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
+ * @param source An IAsyncParallel<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @param comparer An IEqualityComparer<T> to compare keys.
+ */
 export declare function groupBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>;
+/**
+ * Groups the elements of a sequence according to a specified key selector function.
+ * @param source An IAsyncParallel<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+ * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+ */
 export declare function groupByAsync<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<number> | number): IParallelEnumerable<IGrouping<number, TSource>>;
+/**
+ * Groups the elements of a sequence according to a specified key selector function.
+ * @param source An IAsyncParallel<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+ * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+ */
 export declare function groupByAsync<TSource>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<string> | string): IParallelEnumerable<IGrouping<string, TSource>>;
+/**
+ * Groups the elements of a sequence according to a specified key selector function.
+ * @param source An IAsyncParallel<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @param comparer An IEqualityComparer<T> or IAsyncEqualityComparer<T> to compare keys.
+ * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+ * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+ */
 export declare function groupByAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey> | TKey, comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>;
 export declare function groupByWithSel<TSource, TElement>(source: IAsyncParallel<TSource>, keySelector: ((x: TSource) => number), elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<number, TElement>>;
 export declare function groupByWithSel<TSource, TElement>(source: IAsyncParallel<TSource>, keySelector: ((x: TSource) => string), elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string, TElement>>;
@@ -87,13 +130,43 @@ export declare function max(source: IParallelEnumerable<number>): Promise<number
 export declare function max<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
 export declare function maxAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
 export declare function minAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
+/**
+ * Projects each element of a sequence into a new form.
+ * @param source A sequence of values to invoke a transform function on.
+ * @param selector A transform function to apply to each element.
+ * @returns
+ * An IParallelEnumerable<T> whose elements are the result of invoking the transform function on each element of source.
+ */
 export declare function select<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => OUT): IParallelEnumerable<OUT>;
+/**
+ * Projects each element of a sequence into a new form.
+ * @param source A sequence of values to invoke a transform function on.
+ * @param selector A key of TSource.
+ * @returns
+ * An IParallelEnumerable<T> whose elements are the result of getting the value from the key on each element of source.
+ */
 export declare function select<TSource, TKey extends keyof TSource>(source: IParallelEnumerable<TSource>, key: TKey): IParallelEnumerable<TSource[TKey]>;
 export declare function selectAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
 export declare function selectAsync<TSource extends {
     [key: string]: Promise<TResult>;
 }, TKey extends keyof TSource, TResult>(source: IParallelEnumerable<TResult>, selector: TKey): IParallelEnumerable<TResult>;
+/**
+ * Projects each element of a sequence to an IParallelEnumerable<T>
+ * and flattens the resulting sequences into one sequence.
+ * @param source A sequence of values to project.
+ * @param selector A transform function to apply to each element.
+ * @returns An IParallelEnumerable<T> whose elements are the result of invoking the
+ * one-to-many transform function on each element of the input sequence.
+ */
 export declare function selectMany<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>;
+/**
+ * Projects each element of a sequence to an IParallelEnumerable<T>
+ * and flattens the resulting sequences into one sequence.
+ * @param source A sequence of values to project.
+ * @param selector A string key of TSource.
+ * @returns An IParallelEnumerable<T> whose elements are the result of invoking the
+ * parameter the key is tried to on each element of the input sequence.
+ */
 export declare function selectMany<TBindedSource extends {
     [key: string]: Iterable<TOut>;
 }, TOut>(source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
