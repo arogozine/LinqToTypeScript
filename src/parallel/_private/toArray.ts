@@ -1,5 +1,10 @@
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
+/**
+ * Creates an array from a IParallelEnumerable<T>.
+ * @param source An IParallelEnumerable<T> to create an array from.
+ * @returns An array of elements
+ */
 export function toArray<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {

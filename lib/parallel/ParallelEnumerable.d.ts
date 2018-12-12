@@ -26,7 +26,19 @@ export { count } from "./_private/count";
 export { countAsync } from "./_private/countAsync";
 export declare function distinct<TSource>(source: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export declare function distinctAsync<TSource>(source: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+/**
+ * Performs a specified action on each element of the IParallelEnumerable<TSource>
+ * @param source The source to iterate
+ * @param action The action to take an each element
+ * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
+ */
 export declare function each<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => void): IParallelEnumerable<TSource>;
+/**
+ * Performs a specified action on each element of the IParallelEnumerable<TSource>
+ * @param source The source to iterate
+ * @param action The action to take an each element
+ * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
+ */
 export declare function eachAsync<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource>;
 export { elementAt } from "./_private/elementAt";
 export { elementAtOrDefault } from "./_private/elementAtOrDefault";
