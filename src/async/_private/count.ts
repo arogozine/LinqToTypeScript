@@ -4,6 +4,7 @@
  * if the predicate is specified.
  * @param source A sequence that contains elements to be counted.
  * @param predicate A function to test each element for a condition. Optional.
+ * @returns The number of elements in the input sequence.
  */
 export function count<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<number> {
     if (predicate) {

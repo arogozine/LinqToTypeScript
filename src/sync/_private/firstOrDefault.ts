@@ -7,7 +7,8 @@
  * or the first element that passes the test in the specified predicate function.
  * Returns null if no value found.
  */
-export function firstOrDefault<T>(source: Iterable<T>, predicate?: (x: T) => boolean): T | null {
+export function firstOrDefault<TSource>(
+    source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource | null {
     if (predicate) {
         return firstOrDefault_2(source, predicate)
     } else {

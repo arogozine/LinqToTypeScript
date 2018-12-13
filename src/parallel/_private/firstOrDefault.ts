@@ -1,6 +1,15 @@
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { toArray } from "./toArray"
 
+/**
+ * Returns first element in sequence that satisfies predicate otherwise
+ * returns the first element in the sequence. Returns null if no value found.
+ * @param source An IParallelEnumerable<T> to return an element from.
+ * @param predicate A function to test each element for a condition. Optional.
+ * @returns The first element in the sequence
+ * or the first element that passes the test in the specified predicate function.
+ * Returns null if no value found.
+ */
 export function firstOrDefault<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<TSource | null> {
@@ -11,7 +20,7 @@ export function firstOrDefault<TSource>(
     }
 }
 
-export async function firstOrDefault_1<TSource>(
+async function firstOrDefault_1<TSource>(
     source: IParallelEnumerable<TSource>): Promise<TSource | null> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
@@ -45,7 +54,7 @@ export async function firstOrDefault_1<TSource>(
     }
 }
 
-export async function firstOrDefault_2<TSource>(
+async function firstOrDefault_2<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => boolean): Promise<TSource | null> {
     const data = await toArray(source)

@@ -1,5 +1,12 @@
 import { IAsyncEqualityComparer, IAsyncParallel } from "../../types"
 
+/**
+ * Compares two parallel iterables to see if they are equal using a async comparer function.
+ * @param first First Sequence
+ * @param second Second Sequence
+ * @param comparer Async Comparer
+ * @returns Whether or not the two iterations are equal
+ */
 export async function sequenceEqualsAsync<TSource>(
     // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,

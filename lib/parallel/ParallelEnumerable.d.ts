@@ -191,6 +191,12 @@ export declare function selectMany<TBindedSource extends {
  * one-to-many transform function on each element of the input sequence.
  */
 export declare function selectManyAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
+/**
+ * Applies a type filter to a source iteration
+ * @param source Async Iteration to Filtery by Type
+ * @param type Either value for typeof or a consturctor function
+ * @returns Values that match the type string or are instance of type
+ */
 export declare function ofType<TSource, TType extends OfType>(source: IAsyncParallel<TSource>, type: TType): IParallelEnumerable<InferType<TType>>;
 export declare function orderBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
 export declare function orderByAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
@@ -249,6 +255,15 @@ export { sum } from "./_private/sum";
 export { sumAsync } from "./_private/sumAsync";
 export declare function take<TSource>(source: IParallelEnumerable<TSource>, amount: number): IParallelEnumerable<TSource>;
 export declare function takeWhile<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
+/**
+ * Returns elements from a sequence as long as a specified condition is true.
+ * The element's index is used in the logic of the predicate function.
+ * @param source The sequence to return elements from.
+ * @param predicate An async function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @return An IParallelEnumerable<T> that contains elements
+ * from the input sequence that occur before the element at which the test no longer passes.
+ */
 export declare function takeWhileAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>;
 export { toArray };
 export { toMap } from "./_private/toMap";

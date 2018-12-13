@@ -191,6 +191,12 @@ export declare function skipWhile<TSource>(source: AsyncIterable<TSource>, predi
  * at the first element in the linear series that does not pass the test specified by predicate.
  */
 export declare function skipWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
+/**
+ * Applies a type filter to a source iteration
+ * @param source Async Iteration to Filtery by Type
+ * @param type Either value for typeof or a consturctor function
+ * @returns Values that match the type string or are instance of type
+ */
 export declare function ofType<TSource, TType extends OfType>(source: AsyncIterable<TSource>, type: TType): IAsyncEnumerable<InferType<TType>>;
 export declare function orderBy<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
 export declare function orderByAsync<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;

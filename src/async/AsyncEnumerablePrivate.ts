@@ -152,11 +152,10 @@ export function groupBy_1_Simple<TSource, TElement>(
             }
         }
 
-        /* tslint:disable:forin */
+        // tslint:disable-next-line:forin
         for (const value in keyMap) {
             yield keyMap[value]
         }
-        /* tslint:enable */
     }
 
     return new BasicAsyncEnumerable(generate)
