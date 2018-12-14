@@ -19,7 +19,7 @@ export async function last<TSource>(
     }
 }
 
-export async function last_1<T>(source: AsyncIterable<T>): Promise<T> {
+async function last_1<T>(source: AsyncIterable<T>): Promise<T> {
     let lastItem: T | null = null
 
     for await (const value of source) {
@@ -33,7 +33,7 @@ export async function last_1<T>(source: AsyncIterable<T>): Promise<T> {
     return lastItem
 }
 
-export async function last_2<TSource>(
+async function last_2<TSource>(
     source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource> {
     let lastItem: TSource | null = null
 

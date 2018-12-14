@@ -1,5 +1,10 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
 
+// tslint:disable:completed-docs
+
+/**
+ * @private Don't use directly.
+ */
 export function nextIteration<TSource, TOut>(
     source: IParallelEnumerable<TSource>,
     onfulfilled: (x: TSource) => TOut): TypedData<TOut> {

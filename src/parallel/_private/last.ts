@@ -55,7 +55,7 @@ async function last_1<TSource>(
     }
 }
 
-export async function last_2<TSource>(
+async function last_2<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => boolean): Promise<TSource> {
     const dataFunc = source.dataFunc

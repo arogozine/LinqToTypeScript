@@ -1,5 +1,8 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
 
+/**
+ * @private Next Iteration for Parallel Enumerable
+ */
 export function nextIterationAsync<TSource, TOut>(
     source: IParallelEnumerable<TSource>,
     onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut> {

@@ -9,4 +9,3 @@ import { IParallelEnumerable } from "../../types";
  * or the last element in the sequence that passes the test in the specified predicate function.
  */
 export declare function last<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource>;
-export declare function last_2<TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource>;

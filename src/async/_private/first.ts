@@ -20,7 +20,7 @@ export function first<TSource>(
     }
 }
 
-export async function first_1<T>(source: AsyncIterable<T>): Promise<T> {
+async function first_1<T>(source: AsyncIterable<T>): Promise<T> {
     const firstElement = await source[Symbol.asyncIterator]().next()
 
     if (firstElement.done === true) {
@@ -30,7 +30,7 @@ export async function first_1<T>(source: AsyncIterable<T>): Promise<T> {
     return firstElement.value
 }
 
-export async function first_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T> {
+async function first_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T> {
     for await (const value of source) {
         if (predicate(value) === true) {
             return value

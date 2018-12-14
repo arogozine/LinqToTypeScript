@@ -2,6 +2,9 @@ import { IEnumerable, IEqualityComparer, IGrouping } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 import { Grouping } from "../Grouping"
 
+/**
+ * @private Don't Use Directly
+ */
 export function groupBy_0<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
@@ -38,6 +41,9 @@ export function groupBy_0<TSource, TKey>(
     return new BasicEnumerable(generate)
 }
 
+/**
+ * @private Don't Use Directly
+ */
 export function groupBy_0_Simple<TSource>(
     source: Iterable<TSource>,
     keySelector: ((x: TSource) => string) | ((x: TSource) => number)):
@@ -66,6 +72,9 @@ export function groupBy_0_Simple<TSource>(
     return new BasicEnumerable(iterator)
 }
 
+/**
+ * @private Don't Use Directly
+ */
 export function groupBy_1_Simple<TSource, TElement>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => string | number,
@@ -96,6 +105,9 @@ export function groupBy_1_Simple<TSource, TElement>(
     return new BasicEnumerable(generate)
 }
 
+/**
+ * @private Don't Use Directly
+ */
 export function groupBy_1<TSource, TKey, TElement>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,

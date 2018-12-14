@@ -23,7 +23,7 @@ export function singleOrDefault<TSource>(
     }
 }
 
-export async function singleOrDefault_1<TSource>(source: AsyncIterable<TSource>): Promise<TSource | null> {
+async function singleOrDefault_1<TSource>(source: AsyncIterable<TSource>): Promise<TSource | null> {
     let hasValue = false
     let singleValue: TSource | null = null
 
@@ -39,7 +39,7 @@ export async function singleOrDefault_1<TSource>(source: AsyncIterable<TSource>)
     return singleValue
 }
 
-export async function singleOrDefault_2<TSource>(
+async function singleOrDefault_2<TSource>(
     source: AsyncIterable<TSource>,
     predicate: (x: TSource) => boolean): Promise<TSource | null> {
 

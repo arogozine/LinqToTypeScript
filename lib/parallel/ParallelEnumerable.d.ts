@@ -7,7 +7,11 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 export { aggregate } from "./_private/aggregate";
 export { all } from "./_private/all";
 export { allAsync } from "./_private//allAsync";
-export declare function empty<TSource>(): IParallelEnumerable<TSource>;
+/**
+ * Returns an empty IParallelEnumerable<T> that has the specified type argument.
+ * @returns An empty IParallelEnumerable<T> whose type argument is TResult.
+ */
+export declare function empty<TResult>(): IParallelEnumerable<TResult>;
 export { any } from "./_private/any";
 export { anyAsync } from "./_private/anyAsync";
 export { asAsync } from "./_private/asAsync";
@@ -24,7 +28,19 @@ export { contains } from "./_private/contains";
 export { containsAsync } from "./_private/containsAsync";
 export { count } from "./_private/count";
 export { countAsync } from "./_private/countAsync";
+/**
+ * Returns distinct elements from a sequence by using the default or specified equality comparer to compare values.
+ * @param source The sequence to remove duplicate elements from.
+ * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
+ * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
+ */
 export declare function distinct<TSource>(source: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+/**
+ * Returns distinct elements from a sequence by using the specified equality comparer to compare values.
+ * @param source The sequence to remove duplicate elements from.
+ * @param comparer An IAsyncEqualityComparer<T> to compare values.
+ * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
+ */
 export declare function distinctAsync<TSource>(source: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 /**
  * Performs a specified action on each element of the IParallelEnumerable<TSource>
@@ -42,7 +58,24 @@ export declare function each<TSource>(source: IParallelEnumerable<TSource>, acti
 export declare function eachAsync<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource>;
 export { elementAt } from "./_private/elementAt";
 export { elementAtOrDefault } from "./_private/elementAtOrDefault";
+/**
+ * Produces the set difference of two sequences by using the comparer provided
+ * or EqualityComparer to compare values.
+ * @param first An IAsyncParallel<T> whose elements that are not also in second will be returned.
+ * @param second An IAsyncParallel<T> whose elements that also occur in the first sequence
+ * will cause those elements to be removed from the returned sequence.
+ * @param comparer An IEqualityComparer<T> to compare values. Optional.
+ * @returns A sequence that contains the set difference of the elements of two sequences.
+ */
 export declare function except<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+/**
+ * Produces the set difference of two sequences by using the comparer provided to compare values.
+ * @param first An IAsyncParallel<T> whose elements that are not also in second will be returned.
+ * @param second An IAsyncParallel<T> whose elements that also occur in the first sequence
+ * will cause those elements to be removed from the returned sequence.
+ * @param comparer An IAsyncEqualityComparer<T> to compare values.
+ * @returns A sequence that contains the set difference of the elements of two sequences.
+ */
 export declare function exceptAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export { first } from "./_private/first";
 export { firstAsync } from "./_private/firstAsync";
@@ -115,9 +148,35 @@ export declare function groupByAsync<TSource, TKey>(source: IAsyncParallel<TSour
 export declare function groupByWithSel<TSource, TElement>(source: IAsyncParallel<TSource>, keySelector: ((x: TSource) => number), elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<number, TElement>>;
 export declare function groupByWithSel<TSource, TElement>(source: IAsyncParallel<TSource>, keySelector: ((x: TSource) => string), elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string, TElement>>;
 export declare function groupByWithSel<TSource, TKey, TElement>(source: IAsyncParallel<TSource>, keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>>;
-export declare function join<TOuter, TInner, TKey, TResult>(outer: IAsyncParallel<TOuter>, inner: IAsyncParallel<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult): IParallelEnumerable<TResult>;
-export declare function join<TOuter, TInner, TKey, TResult>(outer: IAsyncParallel<TOuter>, inner: IAsyncParallel<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer: IEqualityComparer<TKey>): IParallelEnumerable<TResult>;
+/**
+ * Correlates the elements of two sequences based on matching keys.
+ * A specified IEqualityComparer<T> is used to compare keys or the strict equality comparer.
+ * @param outer The first sequence to join.
+ * @param inner The sequence to join to the first sequence.
+ * @param outerKeySelector A function to extract the join key from each element of the first sequence.
+ * @param innerKeySelector A function to extract the join key from each element of the second sequence.
+ * @param resultSelector A function to create a result element from two matching elements.
+ * @param comparer An IEqualityComparer<T> to hash and compare keys. Optional.
+ * @returns An IParallelEnumerable<T> that has elements of type TResult that
+ * are obtained by performing an inner join on two sequences.
+ */
+export declare function join<TOuter, TInner, TKey, TResult>(outer: IAsyncParallel<TOuter>, inner: IAsyncParallel<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>;
+/**
+ * Produces the set intersection of two sequences by using the specified IEqualityComparer<T> to compare values.
+ * If not comparer is specified, uses the @see {StrictEqualityComparer}
+ * @param first An IParallelEnumerable<T> whose distinct elements that also appear in second will be returned.
+ * @param second An IAsyncParallel<T> whose distinct elements that also appear in the first sequence will be returned.
+ * @param comparer An IAsyncEqualityComparer<T> to compare values. Optional.
+ * @returns A sequence that contains the elements that form the set intersection of two sequences.
+ */
 export declare function intersect<TSource>(first: IParallelEnumerable<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+/**
+ * Produces the set intersection of two sequences by using the specified IAsyncEqualityComparer<T> to compare values.
+ * @param first An IParallelEnumerable<T> whose distinct elements that also appear in second will be returned.
+ * @param second An IAsyncParallel<T> whose distinct elements that also appear in the first sequence will be returned.
+ * @param comparer An IAsyncEqualityComparer<T> to compare values.
+ * @returns A sequence that contains the elements that form the set intersection of two sequences.
+ */
 export declare function intersectAsync<TSource>(first: IParallelEnumerable<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export declare function min(source: IParallelEnumerable<number>): Promise<number>;
 export declare function min<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
@@ -140,6 +199,13 @@ export declare function max(source: IParallelEnumerable<number>): Promise<number
  * @returns The maximum value in the sequence.
  */
 export declare function max<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
+/**
+ * Invokes an async transform function on each element of a sequence and returns the maximum value.
+ * @param source A sequence of values to determine the maximum value of.
+ * @param selector A transform function to apply to each element.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The maximum value in the sequence.
+ */
 export declare function maxAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
 export declare function minAsync<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number>;
 /**
@@ -158,7 +224,21 @@ export declare function select<TSource, OUT>(source: IParallelEnumerable<TSource
  * An IParallelEnumerable<T> whose elements are the result of getting the value from the key on each element of source.
  */
 export declare function select<TSource, TKey extends keyof TSource>(source: IParallelEnumerable<TSource>, key: TKey): IParallelEnumerable<TSource[TKey]>;
+/**
+ * Projects each element of a sequence into a new form.
+ * @param source A sequence of values to invoke a transform function on.
+ * @param selector An async transform function to apply to each element.
+ * @returns An IParallelEnumerable<T> whose elements are the result of invoking
+ * the transform function on each element of source.
+ */
 export declare function selectAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
+/**
+ * Projects each element of a sequence into a new form.
+ * @param source A sequence of values to invoke a transform function on.
+ * @param key A key of the elements in the sequence
+ * @returns An IParallelEnumerable<T> whoe elements are the result of getting the value for key
+ * on each element of source.
+ */
 export declare function selectAsync<TSource extends {
     [key: string]: Promise<TResult>;
 }, TKey extends keyof TSource, TResult>(source: IParallelEnumerable<TResult>, selector: TKey): IParallelEnumerable<TResult>;
@@ -198,9 +278,37 @@ export declare function selectManyAsync<TSource, OUT>(source: IParallelEnumerabl
  * @returns Values that match the type string or are instance of type
  */
 export declare function ofType<TSource, TType extends OfType>(source: IAsyncParallel<TSource>, type: TType): IParallelEnumerable<InferType<TType>>;
+/**
+ * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
+ * @param source A sequence of values to order.
+ * @param keySelector A function to extract a key from an element.
+ * @param comparer An IComparer<T> to compare keys. Optional.
+ * @returns An IOrderedParallelEnumerable<TElement> whose elements are sorted according to a key.
+ */
 export declare function orderBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+/**
+ * Sorts the elements of a sequence in ascending order by using a specified comparer.
+ * @param source A sequence of values to order.
+ * @param keySelector An async function to extract a key from an element.
+ * @param comparer An IComparer<T> to compare keys.
+ * @returns An IOrderedParallelEnumerable<TElement> whose elements are sorted according to a key.
+ */
 export declare function orderByAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+/**
+ * Sorts the elements of a sequence in descending order by using a specified or default comparer.
+ * @param source A sequence of values to order.
+ * @param keySelector A function to extract a key from an element.
+ * @param comparer An IComparer<T> to compare keys. Optional.
+ * @return An IOrderedParallelEnumerable<TElement> whose elements are sorted in descending order according to a key.
+ */
 export declare function orderByDescending<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+/**
+ * Sorts the elements of a sequence in descending order by using a specified comparer.
+ * @param source A sequence of values to order.
+ * @param keySelector An async function to extract a key from an element.
+ * @param comparer An IComparer<T> to compare keys.
+ * @return An IOrderedParallelEnumerable<TElement> whose elements are sorted in descending order according to a key.
+ */
 export declare function orderByDescendingAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
 /**
  * Generates a sequence of integral numbers within a specified range.
@@ -277,4 +385,12 @@ export declare function where<TSource>(source: IAsyncParallel<TSource>, predicat
 export declare function whereAsync<T>(source: IAsyncParallel<T>, predicate: (x: T, index: number) => Promise<boolean>): BasicParallelEnumerable<T>;
 export declare function zip<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]>;
 export declare function zip<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
+/**
+ * Applies a specified async function to the corresponding elements of two sequences,
+ * producing a sequence of the results.
+ * @param source The first sequence to merge.
+ * @param second The second sequence to merge.
+ * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
+ * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
+ */
 export declare function zipAsync<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => Promise<OUT>): IParallelEnumerable<OUT>;
