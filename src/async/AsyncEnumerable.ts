@@ -296,26 +296,6 @@ export function from<TSource>(promisesOrIterable: Array<Promise<TSource>> | (() 
     }
 }
 
-export function fromEvent<K extends keyof HTMLElementEventMap>(
-    element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>
-export function fromEvent(element: Element, type: string): IAsyncEnumerable<Event>
-export function fromEvent(element: Element, type: string) {
-    async function *eventGenerator() {
-        let resolve: (e: Event) => void
-        const nextPromise = () => new Promise<Event>((r) => resolve = r)
-        let promise: Promise<Event> = nextPromise()
-
-        element.addEventListener(type, (e) => {
-            resolve(e)
-            promise = nextPromise()
-        })
-
-        yield await promise
-    }
-
-    return new BasicAsyncEnumerable(eventGenerator)
-}
-
 export function each<TSource>(
     source: AsyncIterable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
     async function *iterator() {

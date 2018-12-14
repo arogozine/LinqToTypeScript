@@ -1,7 +1,6 @@
 import { BasicAsyncEnumerable } from "async/BasicAsyncEnumerable"
 import {
     from as fromAsync,
-    fromEvent,
     IAsyncEnumerable,
 } from "./../src/async"
 import {
@@ -48,7 +47,6 @@ const staticMethods = new Set<string>([ ...syncKeys, ...asyncKeys ])
 staticMethods.add(empty.name)
 staticMethods.add(enumerateObject.name)
 staticMethods.add(flatten.name)
-staticMethods.add(fromEvent.name)
 staticMethods.add(range.name)
 staticMethods.add(repeat.name)
 

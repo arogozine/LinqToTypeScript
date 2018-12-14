@@ -80,8 +80,6 @@ export declare function flatten<TSource>(source: AsyncIterable<TSource | AsyncIt
  */
 export declare function from<TSource>(promises: Array<Promise<TSource>>): IAsyncEnumerable<TSource>;
 export declare function from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>;
-export declare function fromEvent<K extends keyof HTMLElementEventMap>(element: Element, type: K): IAsyncEnumerable<HTMLElementEventMap[K]>;
-export declare function fromEvent(element: Element, type: string): IAsyncEnumerable<Event>;
 export declare function each<TSource>(source: AsyncIterable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource>;
 /**
  * Performs a specified action on each element of the AsyncIterable<TSource>
