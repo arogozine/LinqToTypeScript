@@ -7,9 +7,11 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param start The value of the first integer in the sequence.
  * @param count The number of sequential integers to generate.
  * @throws {ArgumentOutOfRangeException} Start is Less than 0
+ * OR start + count -1 is larger than MAX_SAFE_INTEGER.
+ * @returns An IEnumerable<number> that contains a range of sequential integral numbers.
  */
 export function range(start: number, count: number): IEnumerable<number> {
-    if (start < 0) {
+    if (start < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
         throw new ArgumentOutOfRangeException(`start`)
     }
 

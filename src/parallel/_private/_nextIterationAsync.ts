@@ -1,5 +1,7 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
 
+// tslint:disable:completed-docs
+
 /**
  * @private Next Iteration for Parallel Enumerable
  */

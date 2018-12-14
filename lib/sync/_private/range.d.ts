@@ -4,5 +4,7 @@ import { IEnumerable } from "../../types";
  * @param start The value of the first integer in the sequence.
  * @param count The number of sequential integers to generate.
  * @throws {ArgumentOutOfRangeException} Start is Less than 0
+ * OR start + count -1 is larger than MAX_SAFE_INTEGER.
+ * @returns An IEnumerable<number> that contains a range of sequential integral numbers.
  */
 export declare function range(start: number, count: number): IEnumerable<number>;

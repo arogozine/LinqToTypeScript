@@ -7,6 +7,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param source An IEnumerable<T> to filter.
  * @param predicate A function to test each source element for a condition;
  * the second parameter of the function represents the index of the source element.
+ * @returns An IEnumerable<T> that contains elements from the input sequence that satisfy the condition.
  */
 export function where<T>(
     source: Iterable<T>,

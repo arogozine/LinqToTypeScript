@@ -178,7 +178,20 @@ export declare function intersect<TSource>(first: IParallelEnumerable<TSource>, 
  * @returns A sequence that contains the elements that form the set intersection of two sequences.
  */
 export declare function intersectAsync<TSource>(first: IParallelEnumerable<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+/**
+ * Returns the minimum value in a sequence of values.
+ * @param source A sequence of values to determine the minimum value of.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The minimum value in the sequence.
+ */
 export declare function min(source: IParallelEnumerable<number>): Promise<number>;
+/**
+ * Invokes a transform function on each element of a sequence and returns the minimum value.
+ * @param source A sequence of values to determine the minimum value of.
+ * @param selector A transform function to apply to each element.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The minimum value in the sequence.
+ */
 export declare function min<TSource>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => number): Promise<number>;
 export { last } from "./_private/last";
 export { lastAsync } from "./_private/lastAsync";
@@ -315,6 +328,8 @@ export declare function orderByDescendingAsync<TSource, TKey>(source: IAsyncPara
  * @param start The value of the first integer in the sequence.
  * @param count The number of sequential integers to generate.
  * @throws {ArgumentOutOfRangeException} Start is Less than 0
+ * OR start + count -1 is larger than MAX_SAFE_INTEGER.
+ * @returns An IParallelEnumerable<number> that contains a range of sequential integral numbers.
  */
 export declare function range(start: number, count: number): IParallelEnumerable<number>;
 /**
@@ -380,17 +395,37 @@ export { toObject } from "./_private/toObject";
 export { toSet } from "./_private/toSet";
 export declare function union<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
 export declare function unionAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
-export declare function where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource) => boolean): IParallelEnumerable<TSource>;
+/**
+ * Filters a sequence of values based on a predicate.
+ * Each element's index is used in the logic of the predicate function.
+ * @param source An IAsyncParallel<T> to filter.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
+ */
 export declare function where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
 export declare function whereAsync<T>(source: IAsyncParallel<T>, predicate: (x: T, index: number) => Promise<boolean>): BasicParallelEnumerable<T>;
-export declare function zip<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]>;
-export declare function zip<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;
+/**
+ * Creates tuples from th corresponding elements of two sequences, producing a sequence of the results.
+ * @param first The first sequence to merge.
+ * @param second The second sequence to merge.
+ * @returns An IParallelEnumerable<T> that contains merged elements of two input sequences.
+ */
+export declare function zip<TFirst, TSecond>(first: IAsyncParallel<TFirst>, second: IAsyncParallel<TSecond>): IParallelEnumerable<[TFirst, TSecond]>;
+/**
+ * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
+ * @param first The first sequence to merge.
+ * @param second The second sequence to merge.
+ * @param resultSelector A function that specifies how to merge the elements from the two sequences.
+ * @returns An IParallelEnumerable<T> that contains merged elements of two input sequences.
+ */
+export declare function zip<TFirst, TSecond, TResult>(first: IAsyncParallel<TFirst>, second: IAsyncParallel<TSecond>, resultSelector: (x: TFirst, y: TSecond) => TResult): IParallelEnumerable<TResult>;
 /**
  * Applies a specified async function to the corresponding elements of two sequences,
  * producing a sequence of the results.
- * @param source The first sequence to merge.
+ * @param first The first sequence to merge.
  * @param second The second sequence to merge.
  * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
  * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
  */
-export declare function zipAsync<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => Promise<OUT>): IParallelEnumerable<OUT>;
+export declare function zipAsync<TFirst, TSecond, TResult>(first: IAsyncParallel<TFirst>, second: IAsyncParallel<TSecond>, resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult>;

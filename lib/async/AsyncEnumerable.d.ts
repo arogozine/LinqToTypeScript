@@ -314,6 +314,8 @@ export { minAsync } from "./_private/minAsync";
  * @param start The value of the first integer in the sequence.
  * @param count The number of sequential integers to generate.
  * @throws {ArgumentOutOfRangeException} Start is Less than 0
+ * OR start + count -1 is larger than MAX_SAFE_INTEGER.
+ * @returns An IAsyncEnumerable<number> that contains a range of sequential integral numbers.
  */
 export declare function range(start: number, count: number): IAsyncEnumerable<number>;
 /**
@@ -339,24 +341,38 @@ export { toObjectAsync } from "./_private/toObjectAsync";
 export { toSet } from "./_private/toSet";
 export declare function union<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 export declare function unionAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
-export declare function where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
+/**
+ * Filters a sequence of values based on a predicate.
+ * Each element's index is used in the logic of the predicate function.
+ * @param source An AsyncIterable<T> to filter.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
+ */
 export declare function where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
 export declare function whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>;
 export declare function whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
 /**
  * Creates tuples from th corresponding elements of two sequences, producing a sequence of the results.
- * @param source The first sequence to merge.
+ * @param first The first sequence to merge.
  * @param second The second sequence to merge.
  * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
  */
-export declare function zip<T, Y>(source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]>;
-export declare function zip<T, Y, OUT>(source: AsyncIterable<T>, second: AsyncIterable<Y>, resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT>;
+export declare function zip<T, Y>(first: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]>;
+/**
+ * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
+ * @param first The first sequence to merge.
+ * @param second The second sequence to merge.
+ * @param resultSelector A function that specifies how to merge the elements from the two sequences.
+ * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
+ */
+export declare function zip<TFirst, TSecond, TResult>(first: AsyncIterable<TFirst>, second: AsyncIterable<TSecond>, resultSelector: (x: TFirst, y: TSecond) => TResult): IAsyncEnumerable<TResult>;
 /**
  * Applies a specified async function to the corresponding elements of two sequences,
  * producing a sequence of the results.
- * @param source The first sequence to merge.
+ * @param first The first sequence to merge.
  * @param second The second sequence to merge.
  * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
  * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
  */
-export declare function zipAsync<T, Y, OUT>(source: AsyncIterable<T>, second: AsyncIterable<Y>, resultSelector: (x: T, y: Y) => Promise<OUT>): IAsyncEnumerable<OUT>;
+export declare function zipAsync<TFirst, TSecond, TResult>(first: AsyncIterable<TFirst>, second: AsyncIterable<TSecond>, resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>;
