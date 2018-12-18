@@ -1,80 +1,8 @@
 import { OrderedAsyncEnumerable } from "../async/OrderedAsyncEnumerable"
 import { IComparer, IOrderedAsyncEnumerable, IOrderedEnumerable } from "../types"
+import { asSortedKeyValues } from "./_ordered/asSortedKeyValues"
+import { asSortedKeyValuesAsync } from "./_ordered/asSortedKeyValuesAsync"
 import { BasicEnumerable } from "./BasicEnumerable"
-
-const asKeyMap = <TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => TKey) => {
-
-    const map = new Map<TKey, TSource[]>()
-    for (const item of source) {
-        const key = keySelector(item)
-        const currentMapping = map.get(key)
-
-        if (currentMapping) {
-            currentMapping.push(item)
-        } else {
-            map.set(key, [item])
-        }
-    }
-    return map
-}
-
-async function *asSortedKeyValuesAsync<TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => Promise<TKey>,
-    ascending: boolean,
-    comparer?: IComparer<TKey>) {
-    const map = await asKeyMapAsync(source, keySelector)
-    const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
-
-    if (ascending) {
-        for (let i = 0; i < sortedKeys.length; i++) {
-            yield map.get(sortedKeys[i]) as TSource[]
-        }
-    } else {
-        for (let i = sortedKeys.length - 1; i >= 0; i--) {
-            yield map.get(sortedKeys[i]) as TSource[]
-        }
-    }
-}
-
-const asKeyMapAsync = async <TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => Promise<TKey>) => {
-
-    const map = new Map<TKey, TSource[]>()
-    for (const item of source) {
-        const key = await keySelector(item)
-        const currentMapping = map.get(key)
-
-        if (currentMapping) {
-            currentMapping.push(item)
-        } else {
-            map.set(key, [item])
-        }
-    }
-    return map
-}
-
-function *asSortedKeyValues<TSource, TKey>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => TKey,
-    ascending: boolean,
-    comparer?: IComparer<TKey>) {
-    const map = asKeyMap(source, keySelector)
-    const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
-
-    if (ascending) {
-        for (let i = 0; i < sortedKeys.length; i++) {
-            yield map.get(sortedKeys[i]) as TSource[]
-        }
-    } else {
-        for (let i = sortedKeys.length - 1; i >= 0; i--) {
-            yield map.get(sortedKeys[i]) as TSource[]
-        }
-    }
-}
 
 /**
  * Represents Ordered Enumeration
