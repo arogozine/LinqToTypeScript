@@ -3,7 +3,7 @@ import { IEnumerable, IEqualityComparer } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 import { groupBy_1, groupBy_1_Simple } from "./groupByShared"
 
-export function GroupByWithResultAndSelector<TSource, TKey, TElement, TResult>(
+export function groupByWithResultAndSelector<TSource, TKey, TElement, TResult>(
     source: Iterable<TSource>,
     keySelector: ((x: TSource) => TKey) | ((x: TSource) => string) | ((x: TSource) => number),
     elementSelector: (x: TSource) => TElement,
