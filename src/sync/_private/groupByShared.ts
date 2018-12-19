@@ -2,15 +2,21 @@ import { IEnumerable, IEqualityComparer, IGrouping } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 import { Grouping } from "../Grouping"
 
+// tslint:disable:variable-name
+
 /**
+ * Group and Iterable Based on a Generic Key and an equality comparer
+ * @param source Iteration
+ * @param keySelector Key Selector
+ * @param comparer Key Comparer
  * @private Don't Use Directly
  */
-export function groupBy_0<TSource, TKey>(
+export const groupBy_0 = <TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
-    comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>> {
+    comparer: IEqualityComparer<TKey>) => {
 
-    function *generate(): IterableIterator<IGrouping<TKey, TSource>> {
+    return function *generate() {
 
         const keyMap = new Array<Grouping<TKey, TSource>>()
 
@@ -28,7 +34,7 @@ export function groupBy_0<TSource, TKey>(
             }
 
             if (found === false) {
-                keyMap.push(new Grouping<TKey, TSource>(key, value))
+                keyMap.push(new Grouping(key, value))
             }
 
         }
@@ -37,19 +43,16 @@ export function groupBy_0<TSource, TKey>(
             yield keyValue
         }
     }
-
-    return new BasicEnumerable(generate)
 }
 
 /**
  * @private Don't Use Directly
  */
-export function groupBy_0_Simple<TSource>(
+export const groupBy_0_Simple = <TSource>(
     source: Iterable<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number)):
-        IEnumerable<IGrouping<string | number, TSource>> {
+    keySelector: ((x: TSource) => string) | ((x: TSource) => number)) => {
 
-    function *iterator(): IterableIterator<IGrouping<string | number, TSource>> {
+    return function *iterator() {
         const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
         for (const value of source) {
 
@@ -69,7 +72,7 @@ export function groupBy_0_Simple<TSource>(
         }
     }
 
-    return new BasicEnumerable(iterator)
+//    return new BasicEnumerable(iterator)
 }
 
 /**

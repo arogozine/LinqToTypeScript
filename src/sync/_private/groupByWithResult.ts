@@ -59,7 +59,7 @@ export function groupBy_2_Simple<TSource, TResult>(
     function *iterator(): IterableIterator<TResult> {
         const groupByResult = groupBy_0_Simple(source, keySelector)
 
-        for (const group of groupByResult) {
+        for (const group of groupByResult()) {
             yield resultSelector(group.key, group)
         }
     }
@@ -76,7 +76,7 @@ export function groupBy_2<TSource, TKey, TResult>(
     function *iterator(): IterableIterator<TResult> {
         const groupByResult = groupBy_0(source, keySelector, comparer)
 
-        for (const group of groupByResult) {
+        for (const group of groupByResult()) {
             yield resultSelector(group.key, group)
         }
     }

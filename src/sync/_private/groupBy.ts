@@ -1,4 +1,5 @@
 import { IEnumerable, IEqualityComparer, IGrouping } from "../../types"
+import { BasicEnumerable } from "../BasicEnumerable"
 import { groupBy_0, groupBy_0_Simple } from "./groupByShared"
 
 /**
@@ -35,13 +36,17 @@ export function groupBy<TSource, TKey>(
 export function groupBy<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
-    comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<any, TSource>> {
+    comparer?: IEqualityComparer<TKey>): IEnumerable<IGrouping<ReturnType<typeof keySelector>, TSource>> {
+
+    let iterable: () => IterableIterator<IGrouping<ReturnType<typeof keySelector>, TSource>>
 
     if (comparer) {
-        return groupBy_0<TSource, TKey>(source,
+        iterable = groupBy_0<TSource, TKey>(source,
             keySelector as (x: TSource) => TKey, comparer)
     } else {
-        return groupBy_0_Simple(source,
+        iterable = groupBy_0_Simple(source,
             keySelector as ((x: TSource) => number) | ((x: TSource) => string))
     }
+
+    return new BasicEnumerable(iterable)
 }
