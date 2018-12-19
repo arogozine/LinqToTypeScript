@@ -1,12 +1,20 @@
 import { IComparer } from "../../types"
 import { asKeyMapSync } from "./asKeyMapSync"
 
+/**
+ * Sorts values in an Iterable based on key and a key comparer.
+ * @param source Iterable
+ * @param keySelector Key Selector
+ * @param ascending Ascending or Descending Sort
+ * @param comparer Key Comparer for Sorting. Optional.
+ * @returns Async Iterable Iterator
+ */
 export async function *asSortedKeyValuesSync<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
     ascending: boolean,
     comparer?: IComparer<TKey>) {
-    const map = await asKeyMapSync(source, keySelector)
+    const map = asKeyMapSync(source, keySelector)
     const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
 
     if (ascending) {

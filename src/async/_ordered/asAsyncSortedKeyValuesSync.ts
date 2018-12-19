@@ -1,6 +1,14 @@
 import { IComparer } from "../../types"
 import { asAsyncKeyMapSync } from "./asAsyncKeyMapSync"
 
+/**
+ * Sorts values in an Async Iterable based on key and a key comparer.
+ * @param source Iterable
+ * @param keySelector Async Key Selector
+ * @param ascending Ascending or Descending Sort
+ * @param comparer Key Comparer for Sorting. Optional.
+ * @returns Async Iterable Iterator of arrays
+ */
 export async function *asAsyncSortedKeyValuesSync<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => Promise<TKey>,

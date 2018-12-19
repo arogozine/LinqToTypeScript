@@ -1,3 +1,9 @@
+/**
+ * Converts values to a key values map.
+ * @param source Iterable
+ * @param keySelector Key Selector for Map
+ * @returns Map for Key to Values
+ */
 export const asKeyMapSync = <TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey) => {
