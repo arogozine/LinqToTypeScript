@@ -1,10 +1,10 @@
-import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer, IGrouping } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer, IGrouping, SelectorKeyType } from "../types";
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable";
-export declare function groupBy_0_Simple<TSource>(source: AsyncIterable<TSource>, keySelector: ((x: TSource) => string) | ((x: TSource) => number)): IAsyncEnumerable<IGrouping<string | number, TSource>>;
+export declare function groupBy_0_Simple<TSource, TKey extends SelectorKeyType>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>;
 export declare function groupBy_0<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
-export declare function groupByAsync_0_Simple<TSource>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<any>): IAsyncEnumerable<IGrouping<any, TSource>>;
+export declare function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
 export declare function groupByAsync_0<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<TKey> | TKey, comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
-export declare function groupBy_1_Simple<TSource, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => string | number, elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string | number, TElement>>;
+export declare function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>>;
 export declare function groupBy_1<TSource, TKey, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;
 export declare function select_1<TSource, TResult>(source: AsyncIterable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult>;
 export declare function select_2<TSource, TKey extends keyof TSource>(source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>;

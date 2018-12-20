@@ -8,7 +8,7 @@ import {
     IGrouping,
     InferType,
     IOrderedAsyncEnumerable,
-    IParallelEnumerable, OfType, ParallelGeneratorType } from "../types"
+    IParallelEnumerable, OfType, ParallelGeneratorType, SelectorKeyType } from "../types"
 import {
     ArgumentOutOfRangeException,
     EqualityComparer,
@@ -333,19 +333,9 @@ export function eachAsync<TSource>(
  * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
-export function groupBy<TSource>(
+export function groupBy<TSource, TKey extends SelectorKeyType>(
     source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An IAsyncParallel<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupBy<TSource>(
-    source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>
+    keySelector: (x: TSource) => TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>
 /**
  * Groups the elements of a sequence according to a key selector function.
  * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
@@ -359,7 +349,7 @@ export function groupBy<TSource, TKey>(
     comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
 export function groupBy<TSource, TKey>(
     source: AsyncIterable<TSource>,
-    keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
+    keySelector: (x: TSource) => TKey,
     comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TSource>> {
 
     if (comparer) {
@@ -367,7 +357,7 @@ export function groupBy<TSource, TKey>(
             keySelector as (x: TSource) => TKey, comparer)
     } else {
         return AsyncEnumerablePrivate.groupBy_0_Simple(source,
-            keySelector as ((x: TSource) => number) | ((x: TSource) => string))
+            keySelector as (x: TSource) => any)
     }
 }
 
@@ -378,19 +368,9 @@ export function groupBy<TSource, TKey>(
  * @returns An AsyncIterable<IGrouping<TKey, TSource>>
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
-export function groupByAsync<TSource>(
+export function groupByAsync<TSource, TKey extends SelectorKeyType>(
     source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => Promise<number> | number): IAsyncEnumerable<IGrouping<number, TSource>>
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupByAsync<TSource>(
-    source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => Promise<string> | string): IAsyncEnumerable<IGrouping<string, TSource>>
+    keySelector: (x: TSource) => Promise<TKey> | TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>
 /**
  * Groups the elements of a sequence according to a specified key selector function.
  * @param source An AsyncIterable<T> whose elements to group.
@@ -416,14 +396,29 @@ export function groupByAsync<TSource, TKey>(
     }
 }
 
-export function groupByWithSel<TSource, TElement>(
+/**
+ * Groups the elements of a sequence according to a specified key selector function and
+ * projects the elements for each group by using a specified function.
+ * @param source An AsyncIterable<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
+ * @returns An IAsyncEnumerable<IGrouping<TKey, TElement>>
+ * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
+ */
+export function groupByWithSel<TSource, TKey extends SelectorKeyType, TElement>(
     source: AsyncIterable<TSource>,
-    keySelector: ((x: TSource) => number),
-    elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<number, TElement>>
-export function groupByWithSel<TSource, TElement>(
-    source: AsyncIterable<TSource>,
-    keySelector: ((x: TSource) => string),
-    elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string, TElement>>
+    keySelector: (x: TSource) => TKey,
+    elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>>
+/**
+ * Groups the elements of a sequence according to a key selector function.
+ * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
+ * @param source An AsyncIterable<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
+ * @param comparer An IEqualityComparer<T> to compare keys.
+ * @returns An IAsyncEnumerable<IGrouping<TKey,TElement>>
+ * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
+ */
 export function groupByWithSel<TSource, TKey, TElement>(
     source: AsyncIterable<TSource>,
     keySelector: ((x: TSource) => TKey),

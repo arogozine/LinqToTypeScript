@@ -1,26 +1,27 @@
 import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer,
-    IGrouping } from "../types"
+    IGrouping,
+    SelectorKeyType} from "../types"
 import { Grouping } from "./../sync/Grouping"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 
 // tslint:disable:completed-docs
 
-export function groupBy_0_Simple<TSource>(
+export function groupBy_0_Simple<TSource, TKey extends SelectorKeyType>(
     source: AsyncIterable<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number)):
-        IAsyncEnumerable<IGrouping<string | number, TSource>> {
+    keySelector: (x: TSource) => TKey):
+        IAsyncEnumerable<IGrouping<TKey, TSource>> {
 
-    async function *iterator(): AsyncIterableIterator<IGrouping<string | number, TSource>> {
-        const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
+    async function *iterator(): AsyncIterableIterator<IGrouping<TKey, TSource>> {
+        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
         for await (const value of source) {
 
             const key = keySelector(value)
-            const grouping: Grouping<string | number, TSource> = keyMap[key]
+            const grouping: Grouping<TKey, TSource> = keyMap[key]
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<string | number, TSource>(key, value)
+                keyMap[key] = new Grouping<TKey, TSource>(key, value)
             }
         }
 
@@ -69,21 +70,21 @@ export function groupBy_0<TSource, TKey>(
     return new BasicAsyncEnumerable(generate)
 }
 
-export function groupByAsync_0_Simple<TSource>(
+export function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
     source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => Promise<any>): IAsyncEnumerable<IGrouping<any, TSource>> {
+    keySelector: (x: TSource) => Promise<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {
 
-    async function *iterator(): AsyncIterableIterator<IGrouping<string, TSource>> {
-        const keyMap: {[key: string]: Grouping<any, TSource>} = {}
+    async function *iterator(): AsyncIterableIterator<IGrouping<TKey, TSource>> {
+        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
         for await (const value of source) {
 
             const key = await keySelector(value)
-            const grouping: Grouping<any, TSource> = keyMap[key]
+            const grouping: Grouping<TKey, TSource> = keyMap[key]
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<any, TSource>(key, value)
+                keyMap[key] = new Grouping<TKey, TSource>(key, value)
             }
         }
 
@@ -132,23 +133,23 @@ export function groupByAsync_0<TSource, TKey>(
     return new BasicAsyncEnumerable(generate)
 }
 
-export function groupBy_1_Simple<TSource, TElement>(
+export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
     source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => string | number,
-    elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string | number, TElement>> {
+    keySelector: (x: TSource) => TKey,
+    elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>> {
 
-    async function *generate(): AsyncIterableIterator<IGrouping<string | number, TElement>> {
-        const keyMap: { [key: string]: Grouping<string | number, TElement> } = {}
+    async function *generate(): AsyncIterableIterator<IGrouping<TKey, TElement>> {
+        const keyMap: { [key: string]: Grouping<TKey, TElement> } = {}
         for await (const value of source) {
 
             const key = keySelector(value)
-            const grouping: Grouping<string | number, TElement> = keyMap[key]
+            const grouping: Grouping<TKey, TElement> = keyMap[key]
             const element = elementSelector(value)
 
             if (grouping) {
                 grouping.push(element)
             } else {
-                keyMap[key] = new Grouping<string | number, TElement>(key, element)
+                keyMap[key] = new Grouping<TKey, TElement>(key, element)
             }
         }
 
