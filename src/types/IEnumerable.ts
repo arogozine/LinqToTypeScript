@@ -5,7 +5,7 @@ import {
         IEqualityComparer,
         IGrouping,
         InferType,
-        IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType } from "./"
+        IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "./"
 
 export interface IEnumerable<TSource> extends Iterable<TSource> {
     aggregate(func: (x: TSource, y: TSource) => TSource): TSource,
@@ -55,27 +55,22 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>,
     each(action: (x: TSource) => void): IEnumerable<TSource>,
     eachAsync(action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource>,
-    groupBy(keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>
-    groupBy(keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>
+    groupBy<TKey extends SelectorKeyType>(
+            keySelector: (x: TSource) => TKey): IEnumerable<IGrouping<TKey, TSource>>
     groupBy<TKey>(
             keySelector: (x: TSource) => TKey,
             comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>,
 
-    groupByAsync(
-            keySelector: (x: TSource) => Promise<number> | number): IAsyncEnumerable<IGrouping<number, TSource>>
-    groupByAsync(
-            keySelector: (x: TSource) => Promise<string> | string): IAsyncEnumerable<IGrouping<string, TSource>>
+    groupByAsync<TKey extends SelectorKeyType>(
+            keySelector: (x: TSource) => Promise<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
     groupByAsync<TKey>(
             keySelector: (x: TSource) => Promise<TKey> | TKey,
             comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
             : IAsyncEnumerable<IGrouping<TKey, TSource>>,
 
-    groupByWithSel<TElement>(
-            keySelector: ((x: TSource) => number),
-            elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<number, TElement>>
-    groupByWithSel<TElement>(
-            keySelector: ((x: TSource) => string),
-            elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<string, TElement>>
+    groupByWithSel<TElement, TKey extends SelectorKeyType>(
+            keySelector: ((x: TSource) => TKey),
+            elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<TKey, TElement>>
     groupByWithSel<TKey, TElement>(
             keySelector: ((x: TSource) => TKey),
             elementSelector: (x: TSource) => TElement,

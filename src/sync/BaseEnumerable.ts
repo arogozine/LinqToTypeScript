@@ -6,7 +6,7 @@ import {
     IEqualityComparer,
     IGrouping,
     InferType,
-    IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType } from "../types"
+    IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "../types"
 import { aggregate } from "./_private/aggregate"
 import { all } from "./_private/all"
 import { allAsync } from "./_private/allAsync"
@@ -181,8 +181,8 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return eachAsync(this, action)
     }
 
-    public groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>
-    public groupBy(keySelector: (x: T) => string): IEnumerable<IGrouping<string, T>>
+    public groupBy<TKey extends SelectorKeyType>(
+        keySelector: (x: T) => TKey): IEnumerable<IGrouping<TKey, T>>
     public groupBy<TKey>(
         keySelector: (x: T) => TKey,
         comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>

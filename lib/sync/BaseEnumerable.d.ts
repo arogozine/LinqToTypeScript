@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IAsyncEqualityComparer, IComparer, IEnumerable, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IComparer, IEnumerable, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "../types";
 /**
  * Container for all IEnumerable methods
  * to apply to built in ECMAScript collections
@@ -35,8 +35,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     firstOrDefaultAsync(predicate: (x: T) => Promise<boolean>): Promise<T | null>;
     each(action: (x: T) => void): IEnumerable<T>;
     eachAsync(action: (x: T) => Promise<void>): IAsyncEnumerable<T>;
-    groupBy(keySelector: (x: T) => number): IEnumerable<IGrouping<number, T>>;
-    groupBy(keySelector: (x: T) => string): IEnumerable<IGrouping<string, T>>;
+    groupBy<TKey extends SelectorKeyType>(keySelector: (x: T) => TKey): IEnumerable<IGrouping<TKey, T>>;
     groupBy<TKey>(keySelector: (x: T) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>;
     groupByAsync<TKey>(keySelector: (x: T) => TKey | Promise<TKey>, comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, T>>;
     groupByWithSel<TElement>(keySelector: ((x: T) => number), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<number, TElement>>;

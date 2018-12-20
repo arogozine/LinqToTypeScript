@@ -1,4 +1,4 @@
-import { IEnumerable, IEqualityComparer, IGrouping } from "../../types"
+import { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 import { Grouping } from "../Grouping"
 
@@ -48,21 +48,21 @@ export const groupBy_0 = <TSource, TKey>(
 /**
  * @private Don't Use Directly
  */
-export const groupBy_0_Simple = <TSource>(
+export const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
     source: Iterable<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number)) => {
+    keySelector: (x: TSource) => TKey) => {
 
     return function *iterator() {
-        const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
+        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
         for (const value of source) {
 
             const key = keySelector(value)
-            const grouping: Grouping<string | number, TSource> = keyMap[key]
+            const grouping: Grouping<TKey, TSource> = keyMap[key]
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<string | number, TSource>(key, value)
+                keyMap[key] = new Grouping<TKey, TSource>(key, value)
             }
         }
 
@@ -78,23 +78,23 @@ export const groupBy_0_Simple = <TSource>(
 /**
  * @private Don't Use Directly
  */
-export function groupBy_1_Simple<TSource, TElement>(
+export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
     source: Iterable<TSource>,
-    keySelector: (x: TSource) => string | number,
-    elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<string | number, TElement>> {
+    keySelector: (x: TSource) => TKey,
+    elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<TKey, TElement>> {
 
-    function *generate(): IterableIterator<IGrouping<string | number, TElement>> {
-        const keyMap: { [key: string]: Grouping<string | number, TElement> } = {}
+    function *generate(): IterableIterator<IGrouping<TKey, TElement>> {
+        const keyMap: { [key: string]: Grouping<TKey, TElement> } = {}
         for (const value of source) {
 
             const key = keySelector(value)
-            const grouping: Grouping<string | number, TElement> = keyMap[key]
+            const grouping: Grouping<TKey, TElement> = keyMap[key]
             const element = elementSelector(value)
 
             if (grouping) {
                 grouping.push(element)
             } else {
-                keyMap[key] = new Grouping<string | number, TElement>(key, element)
+                keyMap[key] = new Grouping<TKey, TElement>(key, element)
             }
         }
 

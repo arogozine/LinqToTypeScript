@@ -1,4 +1,4 @@
-import { IEnumerable, IEqualityComparer, IGrouping } from "../../types";
+import { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types";
 import { Grouping } from "../Grouping";
 /**
  * Group and Iterable Based on a Generic Key and an equality comparer
@@ -11,11 +11,11 @@ export declare const groupBy_0: <TSource, TKey>(source: Iterable<TSource>, keySe
 /**
  * @private Don't Use Directly
  */
-export declare const groupBy_0_Simple: <TSource>(source: Iterable<TSource>, keySelector: ((x: TSource) => string) | ((x: TSource) => number)) => () => IterableIterator<Grouping<string | number, TSource>>;
+export declare const groupBy_0_Simple: <TSource, TKey extends string | number>(source: Iterable<TSource>, keySelector: (x: TSource) => TKey) => () => IterableIterator<Grouping<TKey, TSource>>;
 /**
  * @private Don't Use Directly
  */
-export declare function groupBy_1_Simple<TSource, TElement>(source: Iterable<TSource>, keySelector: (x: TSource) => string | number, elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<string | number, TElement>>;
+export declare function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(source: Iterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<TKey, TElement>>;
 /**
  * @private Don't Use Directly
  */

@@ -1,2 +1,2 @@
-import { IEnumerable, IEqualityComparer } from "../../types";
-export declare function groupByWithResultAndSelector<TSource, TKey, TElement, TResult>(source: Iterable<TSource>, keySelector: ((x: TSource) => TKey) | ((x: TSource) => string) | ((x: TSource) => number), elementSelector: (x: TSource) => TElement, resultSelector: ((key: TKey, values: IEnumerable<TElement>) => TResult) | ((key: string | number, values: IEnumerable<TElement>) => TResult), comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;
+import { IEnumerable, IEqualityComparer, SelectorKeyType } from "../../types";
+export declare function groupByWithResultAndSelector<TSource, TKey extends SelectorKeyType, TElement, TResult>(source: Iterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement, resultSelector: (key: TKey, values: IEnumerable<TElement>) => TResult, comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>;

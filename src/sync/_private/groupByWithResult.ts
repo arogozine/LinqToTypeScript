@@ -1,60 +1,41 @@
 import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
-import { IEnumerable, IEqualityComparer } from "../../types"
+import { IEnumerable, IEqualityComparer, SelectorKeyType } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 import { groupBy_0, groupBy_0_Simple } from "./groupByShared"
 
-export function groupByWithResult<TSource, TResult>(
+export function groupByWithResult<TSource, TKey extends SelectorKeyType, TResult>(
     source: Iterable<TSource>,
-    keySelector: (x: TSource) => string,
-    resultSelector: (x: string, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult>
-export function groupByWithResult<TSource, TResult>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => string,
-    resultSelector: (x: string, values: IEnumerable<TSource>) => TResult,
-    comparer: IEqualityComparer<string>): IEnumerable<TResult>
-
-export function groupByWithResult<TSource, TResult>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => number,
-    resultSelector: (x: number, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult>
-export function groupByWithResult<TSource, TResult>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => number,
-    resultSelector: (x: number, values: IEnumerable<TSource>) => TResult,
-    comparer: IEqualityComparer<number>): IEnumerable<TResult>
+    keySelector: (x: TSource) => TKey,
+    resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult>
 
 export function groupByWithResult<TSource, TKey, TResult>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
-    resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult>
-export function groupByWithResult<TSource, TKey, TResult>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => number,
     resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult,
     comparer: IEqualityComparer<TKey>): IEnumerable<TResult>
 
 export function groupByWithResult<TSource, TKey, TResult>(
     source: Iterable<TSource>,
-    keySelector: ((x: TSource) => TKey) | ((x: TSource) => string) | ((x: TSource) => number),
-    resultSelector: (x: string | number | TKey, values: IEnumerable<TSource>) => TResult,
+    keySelector: (x: TSource) => TKey,
+    resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult,
     comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
 
     if (comparer) {
         return groupBy_2<TSource, TKey, TResult>(source,
-            keySelector as (x: TSource) => TKey,
+            keySelector,
             resultSelector,
             comparer)
     } else {
-        return groupBy_2_Simple(source,
-            keySelector as ((x: TSource) => string) | ((x: TSource) => number),
-            resultSelector)
+        return groupBy_2_Simple<TSource, any, TResult>(source,
+            keySelector,
+            resultSelector as (x: TKey, values: IEnumerable<TSource>) => TResult)
     }
 }
 
-export function groupBy_2_Simple<TSource, TResult>(
+export function groupBy_2_Simple<TSource, TKey extends SelectorKeyType, TResult>(
     source: Iterable<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number),
-    resultSelector: (x: string | number, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult> {
+    keySelector: (x: TSource) => TKey,
+    resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult> {
 
     function *iterator(): IterableIterator<TResult> {
         const groupByResult = groupBy_0_Simple(source, keySelector)

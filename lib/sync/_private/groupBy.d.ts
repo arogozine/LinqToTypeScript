@@ -1,12 +1,4 @@
-import { IEnumerable, IEqualityComparer, IGrouping } from "../../types";
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An Iterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export declare function groupBy<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => number): IEnumerable<IGrouping<number, TSource>>;
+import { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types";
 /**
  * Groups the elements of a sequence according to a specified key selector function.
  * @param source An IAsyncParallel<T> whose elements to group.
@@ -14,7 +6,7 @@ export declare function groupBy<TSource>(source: Iterable<TSource>, keySelector:
  * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
-export declare function groupBy<TSource>(source: Iterable<TSource>, keySelector: (x: TSource) => string): IEnumerable<IGrouping<string, TSource>>;
+export declare function groupBy<TSource, TKey extends SelectorKeyType>(source: Iterable<TSource>, keySelector: (x: TSource) => TKey): IEnumerable<IGrouping<TKey, TSource>>;
 /**
  * Groups the elements of a sequence according to a key selector function.
  * The keys are compared by using a comparer and each group's elements are projected by using a specified function.

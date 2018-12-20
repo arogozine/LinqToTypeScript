@@ -14,4 +14,4 @@ export { IOrderedParallelEnumerable } from "./IOrderedParallelEnumerable";
 export { IParallelEnumerable } from "./IParallelEnumerable";
 export { ParallelGeneratorType } from "./ParallelGeneratorType";
 export { TypedData } from "./TypedData";
-export { KeyType } from "./KeyType";
+export { SelectorKeyType } from "./SelectorKeyType";

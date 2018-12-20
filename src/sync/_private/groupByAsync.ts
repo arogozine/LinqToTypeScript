@@ -1,5 +1,5 @@
 import { from } from "../../async/AsyncEnumerable"
-import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer } from "../../types"
+import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer, SelectorKeyType } from "../../types"
 import { IGrouping } from "../../types/IGrouping"
 import { Grouping } from "../Grouping"
 
@@ -10,19 +10,9 @@ import { Grouping } from "../Grouping"
  * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
-export function groupByAsync<TSource>(
+export function groupByAsync<TSource, TKey extends SelectorKeyType>(
     source: Iterable<TSource>,
-    keySelector: (x: TSource) => Promise<number> | number): IAsyncEnumerable<IGrouping<number, TSource>>
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An Iterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupByAsync<TSource>(
-    source: Iterable<TSource>,
-    keySelector: (x: TSource) => Promise<string> | string): IAsyncEnumerable<IGrouping<string, TSource>>
+    keySelector: (x: TSource) => Promise<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
 /**
  * Groups the elements of a sequence according to a specified key selector function.
  * @param source An IAsyncParallel<T> whose elements to group.
@@ -48,11 +38,11 @@ export function groupByAsync<TSource, TKey>(
     }
 }
 
-export function groupByAsync_0_Simple<TSource>(
+function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
     source: Iterable<TSource>,
-    keySelector: (x: TSource) => Promise<any>): IAsyncEnumerable<IGrouping<any, TSource>> {
+    keySelector: (x: TSource) => Promise<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {
 
-    async function *iterator(): AsyncIterableIterator<IGrouping<string, TSource>> {
+    async function *iterator(): AsyncIterableIterator<IGrouping<TKey, TSource>> {
         const keyMap: {[key: string]: Grouping<any, TSource>} = {}
         for (const value of source) {
 
@@ -75,7 +65,7 @@ export function groupByAsync_0_Simple<TSource>(
     return from(iterator)
 }
 
-export function groupByAsync_0<TSource, TKey>(
+function groupByAsync_0<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey,
     comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {
