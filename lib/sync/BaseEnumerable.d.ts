@@ -38,8 +38,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     groupBy<TKey extends SelectorKeyType>(keySelector: (x: T) => TKey): IEnumerable<IGrouping<TKey, T>>;
     groupBy<TKey>(keySelector: (x: T) => TKey, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, T>>;
     groupByAsync<TKey>(keySelector: (x: T) => TKey | Promise<TKey>, comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, T>>;
-    groupByWithSel<TElement>(keySelector: ((x: T) => number), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<number, TElement>>;
-    groupByWithSel<TElement>(keySelector: ((x: T) => string), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<string, TElement>>;
+    groupByWithSel<TElement, TKey extends SelectorKeyType>(keySelector: ((x: T) => TKey), elementSelector: (x: T) => TElement): IEnumerable<IGrouping<TKey, TElement>>;
     groupByWithSel<TKey, TElement>(keySelector: ((x: T) => TKey), elementSelector: (x: T) => TElement, comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>>;
     intersect(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): IEnumerable<T>;
     intersectAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): IAsyncEnumerable<T>;

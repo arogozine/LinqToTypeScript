@@ -6,7 +6,7 @@ import {
     IEqualityComparer,
     IGrouping,
     InferType,
-    IOrderedAsyncEnumerable, OfType } from "../types"
+    IOrderedAsyncEnumerable, OfType, SelectorKeyType } from "../types"
 import { aggregate } from "./_private/aggregate"
 import { all } from "./_private/all"
 import { allAsync } from "./_private/allAsync"
@@ -182,8 +182,8 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return firstOrDefaultAsync(this, predicate)
     }
 
-    public groupBy(keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>
-    public groupBy(keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>
+    public groupBy<TKey extends SelectorKeyType>(
+        keySelector: (x: TSource) => TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>
     public groupBy<TKey>(
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
@@ -200,12 +200,9 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return groupByAsync(this, keySelector, comparer as any)
     }
 
-    public groupByWithSel<TElement>(
-        keySelector: ((x: TSource) => number),
-        elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<number, TElement>>
-    public groupByWithSel<TElement>(
-        keySelector: ((x: TSource) => string),
-        elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string, TElement>>
+    public groupByWithSel<TElement, TKey extends SelectorKeyType>(
+        keySelector: ((x: TSource) => TKey),
+        elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>>
     public groupByWithSel<TKey, TElement>(
         keySelector: ((x: TSource) => TKey),
         elementSelector: (x: TSource) => TElement,

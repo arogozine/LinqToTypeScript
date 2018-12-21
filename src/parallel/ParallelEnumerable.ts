@@ -12,7 +12,7 @@ import {
     IGrouping,
     InferType,
     IOrderedParallelEnumerable,
-    IParallelEnumerable, OfType, ParallelGeneratorType, TypedData } from "../types"
+    IParallelEnumerable, OfType, ParallelGeneratorType, SelectorKeyType, TypedData } from "../types"
 import { nextIteration } from "./_private/_nextIteration"
 import { nextIterationAsync } from "./_private/_nextIterationAsync"
 import { toArray } from "./_private/toArray"
@@ -351,19 +351,9 @@ export function from<TSource>(
  * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
-export function groupBy<TSource>(
+export function groupBy<TSource, TKey extends SelectorKeyType>(
     source: IAsyncParallel<TSource>,
-    keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An IAsyncParallel<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupBy<TSource>(
-    source: IAsyncParallel<TSource>,
-    keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>
+    keySelector: (x: TSource) => TKey): IParallelEnumerable<IGrouping<TKey, TSource>>
 /**
  * Groups the elements of a sequence according to a key selector function.
  * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
@@ -377,15 +367,15 @@ export function groupBy<TSource, TKey>(
     comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
 export function groupBy<TSource, TKey>(
     source: IAsyncParallel<TSource>,
-    keySelector: ((x: TSource) => TKey) | ((x: TSource) => number) | ((x: TSource) => string),
-    comparer?: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<any, TSource>> {
+    keySelector: (x: TSource) => TKey,
+    comparer?: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>> {
 
     if (comparer) {
         return ParallelEnumerablePrivate.groupBy_0<TSource, TKey>(source,
             keySelector as (x: TSource) => TKey, comparer)
     } else {
         return ParallelEnumerablePrivate.groupBy_0_Simple(source,
-            keySelector as ((x: TSource) => number) | ((x: TSource) => string))
+            keySelector as (x: TSource) => any)
     }
 }
 
@@ -396,19 +386,9 @@ export function groupBy<TSource, TKey>(
  * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
-export function groupByAsync<TSource>(
+export function groupByAsync<TSource, TKey extends SelectorKeyType>(
     source: IAsyncParallel<TSource>,
-    keySelector: (x: TSource) => Promise<number> | number): IParallelEnumerable<IGrouping<number, TSource>>
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An IAsyncParallel<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupByAsync<TSource>(
-    source: IAsyncParallel<TSource>,
-    keySelector: (x: TSource) => Promise<string> | string): IParallelEnumerable<IGrouping<string, TSource>>
+    keySelector: (x: TSource) => Promise<TKey> | TKey): IParallelEnumerable<IGrouping<TKey, TSource>>
 /**
  * Groups the elements of a sequence according to a specified key selector function.
  * @param source An IAsyncParallel<T> whose elements to group.

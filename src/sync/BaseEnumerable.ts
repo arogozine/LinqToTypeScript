@@ -198,12 +198,9 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return groupByAsync(this, keySelector, comparer as any)
     }
 
-    public groupByWithSel<TElement>(
-        keySelector: ((x: T) => number),
-        elementSelector: (x: T) => TElement): IEnumerable<IGrouping<number, TElement>>
-    public groupByWithSel<TElement>(
-        keySelector: ((x: T) => string),
-        elementSelector: (x: T) => TElement): IEnumerable<IGrouping<string, TElement>>
+    public groupByWithSel<TElement, TKey extends SelectorKeyType>(
+        keySelector: ((x: T) => TKey),
+        elementSelector: (x: T) => TElement): IEnumerable<IGrouping<TKey, TElement>>
     public groupByWithSel<TKey, TElement>(
         keySelector: ((x: T) => TKey),
         elementSelector: (x: T) => TElement,

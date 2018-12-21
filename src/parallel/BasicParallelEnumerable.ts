@@ -9,7 +9,9 @@ import {
     IEqualityComparer,
     IGrouping,
     InferType,
-    IOrderedParallelEnumerable, IParallelEnumerable, OfType, ParallelGeneratorType, TypedData } from "../types"
+    IOrderedParallelEnumerable,
+    IParallelEnumerable,
+    OfType, ParallelGeneratorType, SelectorKeyType, TypedData } from "../types"
 import { aggregate } from "./_private/aggregate"
 import { all } from "./_private/all"
 import { allAsync } from "./_private/allAsync"
@@ -190,8 +192,8 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return firstOrDefaultAsync(this, predicate)
     }
 
-    public groupBy(keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>
-    public groupBy(keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>
+    public groupBy<TKey extends SelectorKeyType>(
+        keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>
     public groupBy<TKey>(
         keySelector: (x: TSource) => TKey,
         comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
@@ -206,12 +208,9 @@ export class BasicParallelEnumerable<TSource> implements IParallelEnumerable<TSo
         return groupByAsync(this, keySelector, comparer as any)
     }
 
-    public groupByWithSel<TElement>(
-        keySelector: (x: TSource) => number,
-        elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<number, TElement>>
-    public groupByWithSel<TElement>(
-        keySelector: (x: TSource) => string,
-        elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string, TElement>>
+    public groupByWithSel<TElement, TKey extends SelectorKeyType>(
+        keySelector: (x: TSource) => TKey,
+        elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<TKey, TElement>>
     public groupByWithSel<TKey, TElement>(
         keySelector: (x: TSource) => TKey,
         elementSelector: (x: TSource) => TElement,

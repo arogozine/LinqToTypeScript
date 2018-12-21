@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, OfType } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, OfType, SelectorKeyType } from "../types";
 /**
  * The class behind IAsyncEnumerable<T>
  * @private
@@ -34,12 +34,10 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
-    groupBy(keySelector: (x: TSource) => number): IAsyncEnumerable<IGrouping<number, TSource>>;
-    groupBy(keySelector: (x: TSource) => string): IAsyncEnumerable<IGrouping<string, TSource>>;
+    groupBy<TKey extends SelectorKeyType>(keySelector: (x: TSource) => TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>;
     groupBy<TKey>(keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
     groupByAsync<TKey>(keySelector: (x: TSource) => TKey | string | number, comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey | string | number, TSource>>;
-    groupByWithSel<TElement>(keySelector: ((x: TSource) => number), elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<number, TElement>>;
-    groupByWithSel<TElement>(keySelector: ((x: TSource) => string), elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<string, TElement>>;
+    groupByWithSel<TElement, TKey extends SelectorKeyType>(keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>>;
     groupByWithSel<TKey, TElement>(keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;
     intersect(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
     intersectAsync(second: IAsyncEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;

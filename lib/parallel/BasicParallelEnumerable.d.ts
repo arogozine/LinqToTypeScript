@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, OfType, TypedData } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, OfType, SelectorKeyType, TypedData } from "../types";
 /**
  * Base implementation of IParallelEnumerable<T>
  * @private
@@ -34,12 +34,10 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>;
     firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>;
     firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>;
-    groupBy(keySelector: (x: TSource) => number): IParallelEnumerable<IGrouping<number, TSource>>;
-    groupBy(keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>;
+    groupBy<TKey extends SelectorKeyType>(keySelector: (x: TSource) => string): IParallelEnumerable<IGrouping<string, TSource>>;
     groupBy<TKey>(keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>;
     groupByAsync<TKey>(keySelector: (x: TSource) => Promise<TKey> | TKey, comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>;
-    groupByWithSel<TElement>(keySelector: (x: TSource) => number, elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<number, TElement>>;
-    groupByWithSel<TElement>(keySelector: (x: TSource) => string, elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string, TElement>>;
+    groupByWithSel<TElement, TKey extends SelectorKeyType>(keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<TKey, TElement>>;
     groupByWithSel<TKey, TElement>(keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>>;
     intersect(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
     intersectAsync(second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;

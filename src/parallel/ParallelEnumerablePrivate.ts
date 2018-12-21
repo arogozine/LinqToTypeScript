@@ -4,31 +4,32 @@ import { IAsyncEqualityComparer,
     IEqualityComparer,
     IGrouping,
     IParallelEnumerable,
-    ParallelGeneratorType } from "../types"
+    ParallelGeneratorType,
+    SelectorKeyType} from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 
 // tslint:disable:completed-docs
 
-export function groupBy_0_Simple<TSource>(
+export function groupBy_0_Simple<TSource, TKey extends SelectorKeyType>(
     source: IAsyncParallel<TSource>,
-    keySelector: ((x: TSource) => string) | ((x: TSource) => number)):
-        IParallelEnumerable<IGrouping<string | number, TSource>> {
+    keySelector: (x: TSource) => TKey):
+        IParallelEnumerable<IGrouping<TKey, TSource>> {
 
     const generator = async () => {
-        const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
+        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
         for (const value of await source.toArray()) {
 
             const key = keySelector(value)
-            const grouping: Grouping<string | number, TSource> = keyMap[key]
+            const grouping: Grouping<TKey, TSource> = keyMap[key]
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<string | number, TSource>(key, value)
+                keyMap[key] = new Grouping<TKey, TSource>(key, value)
             }
         }
 
-        const results = new Array<IGrouping<string | number, TSource>>()
+        const results = new Array<IGrouping<TKey, TSource>>()
         /* tslint:disable:forin */
         for (const value in keyMap) {
             results.push(keyMap[value])
@@ -84,26 +85,26 @@ export function groupBy_0<TSource, TKey>(
     })
 }
 
-export function groupByAsync_0_Simple<TSource>(
+export function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
     source: IAsyncParallel<TSource>,
-    keySelector: (x: TSource) => Promise<string>):
-        IParallelEnumerable<IGrouping<string | number, TSource>> {
+    keySelector: (x: TSource) => Promise<TKey>):
+        IParallelEnumerable<IGrouping<TKey, TSource>> {
 
     const generator = async () => {
-        const keyMap: {[key: string]: Grouping<string | number, TSource>} = {}
+        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
         for (const value of await source.toArray()) {
 
             const key = await keySelector(value)
-            const grouping: Grouping<string | number, TSource> = keyMap[key]
+            const grouping: Grouping<TKey, TSource> = keyMap[key]
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<string | number, TSource>(key, value)
+                keyMap[key] = new Grouping<TKey, TSource>(key, value)
             }
         }
 
-        const results = new Array<IGrouping<string | number, TSource>>()
+        const results = new Array<IGrouping<TKey, TSource>>()
         /* tslint:disable:forin */
         for (const value in keyMap) {
             results.push(keyMap[value])
