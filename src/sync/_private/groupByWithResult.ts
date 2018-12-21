@@ -32,7 +32,7 @@ export function groupByWithResult<TSource, TKey, TResult>(
     }
 }
 
-export function groupBy_2_Simple<TSource, TKey extends SelectorKeyType, TResult>(
+function groupBy_2_Simple<TSource, TKey extends SelectorKeyType, TResult>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
     resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult): IEnumerable<TResult> {
@@ -48,7 +48,7 @@ export function groupBy_2_Simple<TSource, TKey extends SelectorKeyType, TResult>
     return new BasicEnumerable(iterator)
 }
 
-export function groupBy_2<TSource, TKey, TResult>(
+function groupBy_2<TSource, TKey, TResult>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
     resultSelector: (x: TKey, values: IEnumerable<TSource>) => TResult,
