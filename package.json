@@ -45,6 +45,9 @@
     "karma-typescript": "^3.0.13",
     "typescript": "^3.2.2"
   },
+  "engines": {
+    "node": ">= 8.9.0"
+  },
   "bugs": {
     "url": "https://github.com/arogozine/LinqToTypeScript/issues"
   },
