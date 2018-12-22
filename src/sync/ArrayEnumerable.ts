@@ -130,7 +130,7 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
     public concat(items: IEnumerable<TSource>): IEnumerable<TSource>
     public concat(...items: Array<ReadonlyArray<TSource>>): ArrayEnumerable<TSource>
     public concat(...items: Array<TSource | ReadonlyArray<TSource>>): ArrayEnumerable<TSource>
-    public concat() {
+    public concat(): IEnumerable<TSource> | TSource[] {
         let items: any
         if (arguments.length === 1) {
             items = arguments[0]
