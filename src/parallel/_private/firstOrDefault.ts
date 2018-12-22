@@ -24,8 +24,7 @@ async function firstOrDefault_1<TSource>(
     source: IParallelEnumerable<TSource>): Promise<TSource | null> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const values = await dataFunc.generator()
             if (values.length === 0) {
                 return null
@@ -33,8 +32,7 @@ async function firstOrDefault_1<TSource>(
                 return values[0]
             }
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const promises = dataFunc.generator()
             if (promises.length === 0) {
                 return null
@@ -42,8 +40,7 @@ async function firstOrDefault_1<TSource>(
                 return await promises[0]
             }
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const promises = await dataFunc.generator()
             if (promises.length === 0) {
                 return null

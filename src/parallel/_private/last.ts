@@ -25,8 +25,7 @@ async function last_1<TSource>(
     source: IParallelEnumerable<TSource>): Promise<TSource> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const values = await dataFunc.generator()
             if (values.length === 0) {
                 throw new InvalidOperationException(ErrorString.NoElements)
@@ -34,8 +33,7 @@ async function last_1<TSource>(
                 return values[values.length - 1]
             }
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const promises = dataFunc.generator()
             if (promises.length === 0) {
                 throw new InvalidOperationException(ErrorString.NoElements)
@@ -43,8 +41,7 @@ async function last_1<TSource>(
                 return await promises[promises.length - 1]
             }
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const promises = await dataFunc.generator()
             if (promises.length === 0) {
                 throw new InvalidOperationException(ErrorString.NoElements)
@@ -60,8 +57,7 @@ async function last_2<TSource>(
     predicate: (x: TSource) => boolean): Promise<TSource> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const values = await dataFunc.generator()
             // Promise Array - Predicate
             for (let i = values.length - 1; i >= 0; i--) {
@@ -72,8 +68,7 @@ async function last_2<TSource>(
             }
             break
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const promises = dataFunc.generator()
             // Promise Array - Predicate
             for (let i = promises.length - 1; i >= 0; i--) {
@@ -84,8 +79,7 @@ async function last_2<TSource>(
             }
             break
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const promises = await dataFunc.generator()
             // Promise Array - Predicate
             for (let i = promises.length - 1; i >= 0; i--) {

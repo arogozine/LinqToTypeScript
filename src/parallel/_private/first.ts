@@ -27,8 +27,7 @@ async function first_1<TSource>(
     source: IParallelEnumerable<TSource>): Promise<TSource> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const values = await dataFunc.generator()
             if (values.length === 0) {
                 throw new InvalidOperationException(ErrorString.NoElements)
@@ -36,8 +35,7 @@ async function first_1<TSource>(
                 return values[0]
             }
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const promises = dataFunc.generator()
             if (promises.length === 0) {
                 throw new InvalidOperationException(ErrorString.NoElements)
@@ -45,8 +43,7 @@ async function first_1<TSource>(
                 return await promises[0]
             }
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const promises = await dataFunc.generator()
             if (promises.length === 0) {
                 throw new InvalidOperationException(ErrorString.NoElements)

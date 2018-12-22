@@ -22,8 +22,7 @@ async function lastOrDefault_1<TSource>(
     source: IParallelEnumerable<TSource>): Promise<TSource | null> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const values = await dataFunc.generator()
             if (values.length === 0) {
                 return null
@@ -31,8 +30,7 @@ async function lastOrDefault_1<TSource>(
                 return values[values.length - 1]
             }
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const promises = dataFunc.generator()
             if (promises.length === 0) {
                 return null
@@ -40,8 +38,7 @@ async function lastOrDefault_1<TSource>(
                 return await promises[promises.length - 1]
             }
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const promises = await dataFunc.generator()
             if (promises.length === 0) {
                 return null
@@ -57,8 +54,7 @@ async function lastOrDefault_2<TSource>(
     predicate: (x: TSource) => boolean): Promise<TSource | null> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const values = await dataFunc.generator()
             for (let i = values.length - 1; i >= 0; i--) {
                 const value = values[i]
@@ -69,8 +65,7 @@ async function lastOrDefault_2<TSource>(
 
             break
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const promises = dataFunc.generator()
             for (let i = promises.length - 1; i >= 0; i--) {
                 const value = await promises[i]
@@ -81,8 +76,7 @@ async function lastOrDefault_2<TSource>(
 
             break
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const promises = await dataFunc.generator()
             for (let i = promises.length - 1; i >= 0; i--) {
                 const value = await promises[i]

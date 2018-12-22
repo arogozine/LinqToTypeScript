@@ -827,8 +827,7 @@ export function selectMany<TSource, OUT>(
 
         const valuesArray = []
         switch (values.type) {
-            case ParallelGeneratorType.PromiseToArray:
-            {
+            case ParallelGeneratorType.PromiseToArray: {
                 for (const outer of await values.generator()) {
                     for (const y of outer) {
                         valuesArray.push(y)
@@ -837,8 +836,7 @@ export function selectMany<TSource, OUT>(
 
                 break
             }
-            case ParallelGeneratorType.ArrayOfPromises:
-            {
+            case ParallelGeneratorType.ArrayOfPromises: {
                 for (const outer of values.generator()) {
                     for (const y of await outer) {
                         valuesArray.push(y)
@@ -847,8 +845,7 @@ export function selectMany<TSource, OUT>(
 
                 break
             }
-            case ParallelGeneratorType.PromiseOfPromises:
-            {
+            case ParallelGeneratorType.PromiseOfPromises: {
                 for (const outer of await values.generator()) {
                     for (const y of await outer) {
                         valuesArray.push(y)
@@ -883,8 +880,7 @@ export function selectManyAsync<TSource, OUT>(
 
         const valuesArray = []
         switch (values.type) {
-            case ParallelGeneratorType.PromiseToArray:
-            {
+            case ParallelGeneratorType.PromiseToArray: {
                 for (const outer of await values.generator()) {
                     for (const y of outer) {
                         valuesArray.push(y)
@@ -893,8 +889,7 @@ export function selectManyAsync<TSource, OUT>(
 
                 break
             }
-            case ParallelGeneratorType.ArrayOfPromises:
-            {
+            case ParallelGeneratorType.ArrayOfPromises: {
                 for (const outer of values.generator()) {
                     for (const y of await outer) {
                         valuesArray.push(y)
@@ -903,8 +898,7 @@ export function selectManyAsync<TSource, OUT>(
 
                 break
             }
-            case ParallelGeneratorType.PromiseOfPromises:
-            {
+            case ParallelGeneratorType.PromiseOfPromises: {
                 for (const outer of await values.generator()) {
                     for (const y of await outer) {
                         valuesArray.push(y)
@@ -1112,24 +1106,21 @@ export function skip<TSource>(
     count: number): IParallelEnumerable<TSource> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const generator = async () => (await dataFunc.generator()).slice(count)
             return new BasicParallelEnumerable({
                 generator,
                 type: ParallelGeneratorType.PromiseToArray,
             })
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const generator = () => dataFunc.generator().slice(count)
             return new BasicParallelEnumerable({
                 generator,
                 type: ParallelGeneratorType.ArrayOfPromises,
             })
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const generator = async () => {
                 const dataInner = await dataFunc.generator()
                 return dataInner.slice(count)

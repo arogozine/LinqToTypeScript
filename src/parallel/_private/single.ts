@@ -26,8 +26,7 @@ export async function single<TSource>(
 async function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const results = await dataFunc.generator()
             if (results.length > 1) {
                 throw new InvalidOperationException(ErrorString.MoreThanOneElement)
@@ -37,8 +36,7 @@ async function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<
 
             return results[0]
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const results = dataFunc.generator()
             if (results.length > 1) {
                 throw new InvalidOperationException(ErrorString.MoreThanOneElement)
@@ -48,8 +46,7 @@ async function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<
 
             return results[0]
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const results = await dataFunc.generator()
             if (results.length > 1) {
                 throw new InvalidOperationException(ErrorString.MoreThanOneElement)

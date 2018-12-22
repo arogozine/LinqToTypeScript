@@ -10,8 +10,7 @@ export function nextIterationAsync<TSource, TOut>(
     onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut> {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-        {
+        case ParallelGeneratorType.PromiseToArray: {
             const generator = async () => {
                 const results = await dataFunc.generator()
                 const newPromises = new Array<Promise<TOut>>(results.length)
@@ -25,8 +24,7 @@ export function nextIterationAsync<TSource, TOut>(
                 type: ParallelGeneratorType.PromiseOfPromises,
             }
         }
-        case ParallelGeneratorType.ArrayOfPromises:
-        {
+        case ParallelGeneratorType.ArrayOfPromises: {
             const generator = () => dataFunc
                 .generator()
                 .map((promise) => promise.then(onfulfilled))
@@ -35,8 +33,7 @@ export function nextIterationAsync<TSource, TOut>(
                 type: ParallelGeneratorType.ArrayOfPromises,
             }
         }
-        case ParallelGeneratorType.PromiseOfPromises:
-        {
+        case ParallelGeneratorType.PromiseOfPromises: {
             const generator = async () => {
                 const promises = await dataFunc.generator()
                 return promises.map((promise) => promise.then(onfulfilled))
