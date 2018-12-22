@@ -1,7 +1,8 @@
 /**
  * Converts the Iteration to an Object. Duplicate values will be overriden.
  * @param source An Iterable<T> to filter.
- * @param selector A function to determine the Key based on the value.
+ * @param selector A async function to determine the Key based on the value.
+ * @returns Promise for Mapping of Key to Value derived from the source iterable
  */
 export async function toObjectAsync<TSource>(
     source: Iterable<TSource>,

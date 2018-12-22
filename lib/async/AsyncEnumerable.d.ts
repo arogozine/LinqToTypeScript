@@ -1,5 +1,5 @@
 import "core-js/modules/es7.symbol.async-iterator";
-import { IAsyncEnumerable, IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "../types";
+import { IAsyncEnumerable, IAsyncEqualityComparer, IAsyncFlatten, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "../types";
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */
@@ -48,6 +48,11 @@ export { elementAtOrDefault } from "./_private/elementAtOrDefault";
  * @returns An empty IAsyncEnumerable<T> whose type argument is TResult.
  */
 export declare function empty<TResult>(): IAsyncEnumerable<TResult>;
+/**
+ * Iterates through the object
+ * @param source Source Object
+ * @returns IAsyncEnumerabe<[TKey, TValue]> of Key Value pairs
+ */
 export declare function enumerateObject<TInput>(source: TInput): IAsyncEnumerable<[keyof TInput, TInput[keyof TInput]]>;
 /**
  * Produces the set difference of two sequences by using the comparer provided
@@ -72,14 +77,37 @@ export { first } from "./_private/first";
 export { firstAsync } from "./_private/firstAsync";
 export { firstOrDefault } from "./_private/firstOrDefault";
 export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync";
-export declare function flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>): IAsyncEnumerable<TSource>;
-export declare function flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: false): IAsyncEnumerable<TSource>;
+/**
+ * Flattens an async iterable
+ * @param source AsyncIterable to flatten
+ * @param shallow When false - recurses the iterable types
+ */
+export declare function flatten<TSource>(source: IAsyncFlatten<TSource>, shallow?: false): IAsyncEnumerable<TSource>;
+/**
+ * Flattens an async iterable
+ * @param source AsyncIterable to flatten
+ * @param shallow When false - recurses the iterable types
+ */
 export declare function flatten<TSource>(source: AsyncIterable<TSource | AsyncIterable<TSource>>, shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>;
 /**
+ * Converts the input array of promises to an async iterable
+ * @param promises Array of Promises to Convert to an IAsyncEnumerable<T>
  * @throws {InvalidOperationException} No Elements in the Promises Array
+ * @returns IAsyncEnumerable<T>
  */
 export declare function from<TSource>(promises: Array<Promise<TSource>>): IAsyncEnumerable<TSource>;
+/**
+ * Converts the input method to an async iterable
+ * @param asyncIterable Function which returns an AsyncIterableIterator<TSource>
+ * @returns IAsyncEnumerable<T>
+ */
 export declare function from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>;
+/**
+ * Performs a specified action on each element of the Iterable<TSource>
+ * @param source The source to iterate
+ * @param action The action to take an each element
+ * @returns A new IAsyncEnumerable<T> that executes the action lazily as you iterate.
+ */
 export declare function each<TSource>(source: AsyncIterable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource>;
 /**
  * Performs a specified action on each element of the AsyncIterable<TSource>
@@ -327,13 +355,42 @@ export declare function range(start: number, count: number): IAsyncEnumerable<nu
  * @returns An IAsyncEnumerable<T> that contains a repeated value.
  */
 export declare function repeat<TResult>(element: TResult, count: number, delay?: number): IAsyncEnumerable<TResult>;
+/**
+ * Inverts the order of the elements in a sequence.
+ * @param source A sequence of values to reverse.
+ * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
+ */
 export declare function reverse<TSource>(source: AsyncIterable<TSource>): IAsyncEnumerable<TSource>;
 export { sequenceEquals } from "./_private/sequenceEquals";
 export { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync";
 export { sum } from "./_private/sum";
 export { sumAsync } from "./_private/sumAsync";
+/**
+ * Returns a specified number of contiguous elements from the start of a sequence.
+ * @param source The sequence to return elements from.
+ * @param amount The number of elements to return.
+ * @returns An IAsyncEnumerable<T> that contains the specified number of elements from the start of the input sequence.
+ */
 export declare function take<TSource>(source: AsyncIterable<TSource>, amount: number): IAsyncEnumerable<TSource>;
+/**
+ * Returns elements from a sequence as long as a specified condition is true.
+ * The element's index is used in the logic of the predicate function.
+ * @param source The sequence to return elements from.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
+ * that occur before the element at which the test no longer passes.
+ */
 export declare function takeWhile<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
+/**
+ * Returns elements from a sequence as long as a specified condition is true.
+ * The element's index is used in the logic of the predicate function.
+ * @param source The sequence to return elements from.
+ * @param predicate A async function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
+ * that occur before the element at which the test no longer passes.
+ */
 export declare function takeWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
 export { toArray } from "./_private/toArray";
 export { toMap } from "./_private/toMap";
@@ -341,7 +398,21 @@ export { toMapAsync } from "./_private/toMapAsync";
 export { toObject } from "./_private/toObject";
 export { toObjectAsync } from "./_private/toObjectAsync";
 export { toSet } from "./_private/toSet";
+/**
+ * Produces the set union of two sequences by using scrict equality comparison or a specified IEqualityComparer<T>.
+ * @param first An AsyncIterable<T> whose distinct elements form the first set for the union.
+ * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.
+ * @param comparer The IEqualityComparer<T> to compare values. Optional.
+ * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
+ */
 export declare function union<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+/**
+ * Produces the set union of two sequences by using a specified IAsyncEqualityComparer<T>.
+ * @param first An AsyncIterable<T> whose distinct elements form the first set for the union.
+ * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.
+ * @param comparer The IAsyncEqualityComparer<T> to compare values.
+ * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
+ */
 export declare function unionAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
 /**
  * Filters a sequence of values based on a predicate.
@@ -352,7 +423,14 @@ export declare function unionAsync<TSource>(first: AsyncIterable<TSource>, secon
  * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
  */
 export declare function where<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
-export declare function whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>;
+/**
+ * Filters a sequence of values based on a predicate.
+ * Each element's index is used in the logic of the predicate function.
+ * @param source An AsyncIterable<T> to filter.
+ * @param predicate A async function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
+ */
 export declare function whereAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
 /**
  * Creates tuples from th corresponding elements of two sequences, producing a sequence of the results.

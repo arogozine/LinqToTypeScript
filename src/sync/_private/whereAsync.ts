@@ -4,15 +4,16 @@ import { IAsyncEnumerable } from "../../types"
 /**
  * Filters a sequence of values based on a predicate.
  * Each element's index is used in the logic of the predicate function.
- * @param source An IEnumerable<T> to filter.
- * @param predicate A function to test each source element for a condition;
+ * @param source An Iterable<T> to filter.
+ * @param predicate A async function to test each source element for a condition;
  * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
  */
-export function whereAsync<T>(
-    source: Iterable<T>,
-    predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+export function whereAsync<TSource>(
+    source: Iterable<TSource>,
+    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
     if (predicate.length === 1) {
-        return whereAsync_1(source, predicate as (x: T) => Promise<boolean>)
+        return whereAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
     } else {
         return whereAsync_2(source, predicate)
     }

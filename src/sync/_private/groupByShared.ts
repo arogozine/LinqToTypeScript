@@ -2,6 +2,7 @@ import { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../.
 import { BasicEnumerable } from "../BasicEnumerable"
 import { Grouping } from "../Grouping"
 
+// tslint:disable:completed-docs
 // tslint:disable:variable-name
 
 /**

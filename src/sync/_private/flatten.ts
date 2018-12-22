@@ -1,18 +1,13 @@
-import { IEnumerable } from "../../types"
+import { IEnumerable, IFlatten } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
-/**
- * Flattens an Iterable to one level
- * @param source Iterable to flatten
- */
-export function flatten<TSource>(source: Iterable<TSource | Iterable<TSource>>): IEnumerable<TSource>
 /**
  * Flattens an iterable
  * @param source Iterable to flatten
  * @param shallow When false - recurses the iterable types
  */
 export function flatten<TSource>(
-    source: Iterable<TSource | Iterable<TSource>>, shallow: false): IEnumerable<TSource>
+    source: IFlatten<TSource>, shallow?: false): IEnumerable<TSource>
 /**
  * Flattens an iterable
  * @param source Iterable to flatten

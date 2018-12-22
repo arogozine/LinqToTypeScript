@@ -7,6 +7,8 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param source The sequence to return elements from.
  * @param predicate A function to test each source element for a condition;
  * the second parameter of the function represents the index of the source element.
+ * @returns An IEnumerable<T> that contains elements from the input sequence
+ * that occur before the element at which the test no longer passes.
  */
 export function takeWhile<T>(
     source: Iterable<T>,

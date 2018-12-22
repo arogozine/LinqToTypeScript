@@ -15,3 +15,4 @@ export { IParallelEnumerable } from "./IParallelEnumerable";
 export { ParallelGeneratorType } from "./ParallelGeneratorType";
 export { TypedData } from "./TypedData";
 export { SelectorKeyType } from "./SelectorKeyType";
+export { IFlatten, IAsyncFlatten, IParallelFlatten } from "./Flatten";

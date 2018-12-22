@@ -12,7 +12,8 @@ import {
     IGrouping,
     InferType,
     IOrderedParallelEnumerable,
-    IParallelEnumerable, OfType, ParallelGeneratorType, SelectorKeyType, TypedData } from "../types"
+    IParallelEnumerable,
+    IParallelFlatten, OfType, ParallelGeneratorType, SelectorKeyType, TypedData } from "../types"
 import { nextIteration } from "./_private/_nextIteration"
 import { nextIterationAsync } from "./_private/_nextIterationAsync"
 import { toArray } from "./_private/toArray"
@@ -277,11 +278,19 @@ export { firstAsync } from "./_private/firstAsync"
 export { firstOrDefault } from "./_private/firstOrDefault"
 export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
 
+/**
+ * Flattens a parallel iterable
+ * @param source IAsyncParallel to flatten
+ * @param shallow When false - recurses the iterable types
+ */
 export function flatten<TSource>(
-    source: IAsyncParallel<TSource | IAsyncParallel<TSource>>): IParallelEnumerable<TSource>
-export function flatten<TSource>(
-    source: IAsyncParallel<TSource | IAsyncParallel<TSource>>,
-    shallow: false): IParallelEnumerable<TSource>
+    source: IParallelFlatten<TSource>,
+    shallow?: false): IParallelEnumerable<TSource>
+/**
+ * Flattens a parallel iterable
+ * @param source IAsyncParallel to flatten
+ * @param shallow When false - recurses the iterable types
+ */
 export function flatten<TSource>(
     source: IAsyncParallel<TSource | IAsyncParallel<TSource>>,
     shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>
@@ -319,18 +328,27 @@ export function flatten<TSource>(
 
 /**
  * Creates an IParallelEnumerable from a function that returns an Array of Promises
+ * @param type Array of Promises
+ * @param generator Function that gives back an array of promises
+ * @returns IParallelEnumerable<T>
  */
 export function from<TSource>(
     type: ParallelGeneratorType.ArrayOfPromises,
     generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>
 /**
- * Creates an IParallelEnumerable from a function that returns a Promise of data values
+ * Creates an IParallelEnumerable from a function that returns a Array Promise
+ * @param type Promise to Array
+ * @param generator Async function which returns an array of values
+ * @returns IParallelEnumerable<T>
  */
 export function from<TSource>(
     type: ParallelGeneratorType.PromiseToArray,
     generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>
 /**
- * Creates an IParallelEnumerable from a function that returns an promise of an array of promises
+ * Creates an IParallelEnumerable from a function that returns an promise of an promise array of valus
+ * @param type Promise of Promises
+ * @param generator Async function that returns an array of value promises
+ * @returns IParallelEnumerable<T>
  */
 export function from<TSource>(
     type: ParallelGeneratorType.PromiseOfPromises,
@@ -416,14 +434,29 @@ export function groupByAsync<TSource, TKey>(
     }
 }
 
-export function groupByWithSel<TSource, TElement>(
+/**
+ * Groups the elements of a sequence according to a specified key selector function and
+ * projects the elements for each group by using a specified function.
+ * @param source An AsyncIterable<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
+ * @returns An IParallelEnumerable<IGrouping<TKey, TElement>>
+ * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
+ */
+export function groupByWithSel<TSource, TKey extends SelectorKeyType, TElement>(
     source: IAsyncParallel<TSource>,
-    keySelector: ((x: TSource) => number),
-    elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<number, TElement>>
-export function groupByWithSel<TSource, TElement>(
-    source: IAsyncParallel<TSource>,
-    keySelector: ((x: TSource) => string),
-    elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string, TElement>>
+    keySelector: ((x: TSource) => TKey),
+    elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<TKey, TElement>>
+/**
+ * Groups the elements of a sequence according to a key selector function.
+ * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
+ * @param source An AsyncIterable<T> whose elements to group.
+ * @param keySelector A function to extract the key for each element.
+ * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
+ * @param comparer An IEqualityComparer<T> to compare keys.
+ * @returns An IParallelEnumerable<IGrouping<TKey,TElement>>
+ * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
+ */
 export function groupByWithSel<TSource, TKey, TElement>(
     source: IAsyncParallel<TSource>,
     keySelector: ((x: TSource) => TKey),
@@ -676,6 +709,13 @@ export async function maxAsync<TSource>(
     return Math.max.apply(null, maxInfo)
 }
 
+/**
+ * Invokes a transform function on each element of a sequence and returns the minimum value.
+ * @param source A sequence of values to determine the minimum value of.
+ * @param selector A transform function to apply to each element.
+ * @throws {InvalidOperationException} source contains no elements.
+ * @returns The minimum value in the sequence.
+ */
 export async function minAsync<TSource>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<number> {
@@ -1011,6 +1051,11 @@ export function repeat<TResult>(
     }
 }
 
+/**
+ * Inverts the order of the elements in a sequence.
+ * @param source A sequence of values to reverse.
+ * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
+ */
 export function reverse<TSource>(
     source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource> {
     const dataFunc = source.dataFunc
@@ -1172,6 +1217,13 @@ export function skipWhileAsync<TSource>(
 export { sum } from "./_private/sum"
 export { sumAsync } from "./_private/sumAsync"
 
+/**
+ * Returns a specified number of contiguous elements from the start of a sequence.
+ * @param source The sequence to return elements from.
+ * @param amount The number of elements to return.
+ * @returns An IParallelEnumerable<T> that contains the specified number of elements
+ * from the start of the input sequence.
+ */
 export function take<TSource>(
     source: IParallelEnumerable<TSource>,
     amount: number): IParallelEnumerable<TSource> {
@@ -1201,6 +1253,15 @@ export function take<TSource>(
     }
 }
 
+/**
+ * Returns elements from a sequence as long as a specified condition is true.
+ * The element's index is used in the logic of the predicate function.
+ * @param source The sequence to return elements from.
+ * @param predicate A function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
+ * that occur before the element at which the test no longer passes.
+ */
 export function takeWhile<TSource>(
     source: IAsyncParallel<TSource>,
     predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
@@ -1283,8 +1344,14 @@ export { toMapAsync } from "./_private/toMapAsync"
 export { toObject } from "./_private/toObject"
 export { toSet } from "./_private/toSet"
 
+/**
+ * Produces the set union of two sequences by using scrict equality comparison or a specified IEqualityComparer<T>.
+ * @param first An IAsyncParallel<T> whose distinct elements form the first set for the union.
+ * @param second An IAsyncParallel<T> whose distinct elements form the second set for the union.
+ * @param comparer The IEqualityComparer<T> to compare values. Optional.
+ * @returns An IParallelEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
+ */
 export function union<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource> {
@@ -1295,6 +1362,13 @@ export function union<TSource>(
     }
 }
 
+/**
+ * Produces the set union of two sequences by using a specified IAsyncEqualityComparer<T>.
+ * @param first An AsyncIterable<T> whose distinct elements form the first set for the union.
+ * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.
+ * @param comparer The IAsyncEqualityComparer<T> to compare values.
+ * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
+ */
 export function unionAsync<TSource>(
     // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
@@ -1352,9 +1426,17 @@ export function where<TSource>(
     })
 }
 
-export function whereAsync<T>(
-    source: IAsyncParallel<T>,
-    predicate: (x: T, index: number) => Promise<boolean>) {
+/**
+ * Filters a sequence of values based on a predicate.
+ * Each element's index is used in the logic of the predicate function.
+ * @param source An IAsyncParallel<T> to filter.
+ * @param predicate A async function to test each source element for a condition;
+ * the second parameter of the function represents the index of the source element.
+ * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
+ */
+export function whereAsync<TSource>(
+    source: IAsyncParallel<TSource>,
+    predicate: (x: TSource, index: number) => Promise<boolean>) {
     const generator = async () => {
         const values = await source.toArray()
         const valuesAsync = values.map(async (x, i) => {
