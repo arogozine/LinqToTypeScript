@@ -138,7 +138,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
             comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
 
     reverse(): IEnumerable<TSource>,
-    select<OUT>(selector: (x: TSource) => OUT): IEnumerable<OUT>
+    select<OUT>(selector: (x: TSource, index: number) => OUT): IEnumerable<OUT>
     select<TKey extends keyof TSource>(key: TKey): IEnumerable<TSource[TKey]>,
     selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IAsyncEnumerable<OUT>
     selectAsync<TKey extends keyof TSource, TResult>(

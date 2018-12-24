@@ -30,17 +30,22 @@ export function select<TSource, TKey extends keyof TSource>(
  */
 export function select<TSource, TKey extends keyof TSource, TResult>(
     source: Iterable<TSource>,
-    selector: ((x: TSource) => TResult) | TKey): IEnumerable<TSource[TKey]> | IEnumerable<TResult> {
+    selector: ((x: TSource, index: number) => TResult) | TKey): IEnumerable<TSource[TKey]> | IEnumerable<TResult> {
 
-    if (typeof selector === "string") {
-        return select_2(source, selector)
+    if (typeof selector === "function") {
+        const { length } = selector
+        if (length === 1) {
+            return select1(source, selector as (x: TSource) => TResult)
+        } else {
+            return select2(source, selector)
+        }
     } else {
-        return select_1(source, selector as (x: TSource) => TResult)
+        return select3(source, selector)
     }
 }
 
-function select_1<TSource, TResult>(
-    source: Iterable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult> {
+const select1 = <TSource, TResult>(
+    source: Iterable<TSource>, selector: (x: TSource) => TResult) => {
     function* iterator() {
         for (const value of source) {
             yield selector(value)
@@ -50,8 +55,21 @@ function select_1<TSource, TResult>(
     return new BasicEnumerable(iterator)
 }
 
-function select_2<TSource, TKey extends keyof TSource>(
-    source: Iterable<TSource>, key: TKey): IEnumerable<TSource[TKey]> {
+const select2 = <TSource, TResult>(
+    source: Iterable<TSource>, selector: (x: TSource, index: number) => TResult) => {
+    function* iterator() {
+        let index = 0
+        for (const value of source) {
+            yield selector(value, index)
+            index++
+        }
+    }
+
+    return new BasicEnumerable(iterator)
+}
+
+const select3 = <TSource, TKey extends keyof TSource>(
+    source: Iterable<TSource>, key: TKey) => {
     function* iterator() {
         for (const value of source) {
             yield value[key]

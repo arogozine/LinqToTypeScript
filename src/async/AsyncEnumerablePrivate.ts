@@ -198,8 +198,8 @@ export function groupBy_1<TSource, TKey, TElement>(
     return new BasicAsyncEnumerable(generate)
 }
 
-export function select_1<TSource, TResult>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult> {
+export const select1 = <TSource, TResult>(
+    source: AsyncIterable<TSource>, selector: (x: TSource) => TResult) => {
     async function* iterator() {
         for await (const value of source) {
             yield selector(value)
@@ -209,8 +209,21 @@ export function select_1<TSource, TResult>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-export function select_2<TSource, TKey extends keyof TSource>(
-    source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]> {
+export const select2 = <TSource, TResult>(
+    source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => TResult) => {
+    async function* iterator() {
+        let index = 0
+        for await (const value of source) {
+            yield selector(value, index)
+            index++
+        }
+    }
+
+    return new BasicAsyncEnumerable(iterator)
+}
+
+export const select3 = <TSource, TKey extends keyof TSource>(
+    source: AsyncIterable<TSource>, key: TKey) => {
     async function* iterator() {
         for await (const value of source) {
             yield value[key]

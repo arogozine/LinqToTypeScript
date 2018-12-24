@@ -6,8 +6,9 @@ export declare function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyT
 export declare function groupByAsync_0<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<TKey> | TKey, comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
 export declare function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>>;
 export declare function groupBy_1<TSource, TKey, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;
-export declare function select_1<TSource, TResult>(source: AsyncIterable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult>;
-export declare function select_2<TSource, TKey extends keyof TSource>(source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>;
+export declare const select1: <TSource, TResult>(source: AsyncIterable<TSource>, selector: (x: TSource) => TResult) => BasicAsyncEnumerable<TResult>;
+export declare const select2: <TSource, TResult>(source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => TResult) => BasicAsyncEnumerable<TResult>;
+export declare const select3: <TSource, TKey extends keyof TSource>(source: AsyncIterable<TSource>, key: TKey) => BasicAsyncEnumerable<TSource[TKey]>;
 export declare function selectAsync_1<TSource, TResult>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>;
 export declare function selectAsync_2<TSource extends {
     [key: string]: Promise<TResult>;

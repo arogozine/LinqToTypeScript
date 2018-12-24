@@ -58,7 +58,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     orderByDescending<TKey>(predicate: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
     orderByDescendingAsync<TKey>(predicate: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
     reverse(): IAsyncEnumerable<TSource>;
-    select<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>;
+    select<OUT>(selector: (x: TSource, index: number) => OUT): IAsyncEnumerable<OUT>;
     selectAsync<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT>;
     selectAsync<TKey extends keyof TSource, TResult>(this: IAsyncEnumerable<{
         [key: string]: Promise<TResult>;

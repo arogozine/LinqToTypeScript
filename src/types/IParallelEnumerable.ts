@@ -75,7 +75,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
         comparer?: IComparer<TKey>): IParallelEnumerable<TSource>
 
     reverse(): IParallelEnumerable<TSource>,
-    select<OUT>(selector: (x: TSource) => OUT): IParallelEnumerable<OUT>
+    select<OUT>(selector: (x: TSource, index: number) => OUT): IParallelEnumerable<OUT>
     select<TKey extends keyof TSource>(key: TKey): IParallelEnumerable<TSource[TKey]>,
     selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>
     selectAsync<TKey extends keyof TSource, TResult>(

@@ -16,6 +16,7 @@ import {
     IParallelFlatten, OfType, ParallelGeneratorType, SelectorKeyType, TypedData } from "../types"
 import { nextIteration } from "./_private/_nextIteration"
 import { nextIterationAsync } from "./_private/_nextIterationAsync"
+import { nextIterationWithIndex } from "./_private/_nextIterationWithIndex"
 import { toArray } from "./_private/toArray"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
@@ -751,11 +752,15 @@ export function select<TSource, TKey extends keyof TSource>(
     key: TKey): IParallelEnumerable<TSource[TKey]>
 export function select<TSource, OUT>(
     source: IParallelEnumerable<TSource>,
-    key: string | ((x: TSource) => OUT)): IParallelEnumerable<any> {
-    if (typeof key === "string") {
-        return new BasicParallelEnumerable(nextIteration(source, (x: any) => x[key] as OUT))
+    key: string | ((x: TSource, index: number) => OUT)): IParallelEnumerable<any> {
+    if (typeof key === "function") {
+        if (key.length === 1) {
+            return new BasicParallelEnumerable(nextIteration(source, key as (x: TSource) => OUT))
+        } else {
+            return new BasicParallelEnumerable(nextIterationWithIndex(source, key))
+        }
     } else {
-        return new BasicParallelEnumerable(nextIteration(source, key))
+        return new BasicParallelEnumerable(nextIteration(source, (x: any) => x[key] as OUT))
     }
 }
 

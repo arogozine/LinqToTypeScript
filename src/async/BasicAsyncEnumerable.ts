@@ -304,7 +304,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
         return reverse(this)
     }
 
-    public select<OUT>(selector: (x: TSource) => OUT): IAsyncEnumerable<OUT> {
+    public select<OUT>(selector: (x: TSource, index: number) => OUT): IAsyncEnumerable<OUT> {
         return select(this, selector)
     }
 

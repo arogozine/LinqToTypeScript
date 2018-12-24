@@ -596,7 +596,7 @@ export function intersectAsync<TSource>(
  * An IAsyncEnumerable<T> whose elements are the result of invoking the transform function on each element of source.
  */
 export function select<TSource, TResult>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => TResult): IAsyncEnumerable<TResult>
+    source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => TResult): IAsyncEnumerable<TResult>
 /**
  * Projects each element of a sequence into a new form.
  * @param source A sequence of values to invoke a transform function on.
@@ -606,13 +606,18 @@ export function select<TSource, TResult>(
  */
 export function select<TSource, TKey extends keyof TSource>(
     source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>
-export function select<T, Y>(
-    source: IAsyncEnumerable<T> | AsyncIterable<T>, selector: (x: T) => Y | string): IAsyncEnumerable<any> {
+export function select<TSource, Y>(
+    source: AsyncIterable<TSource>,
+    selector: ((x: TSource, index: number) => Y) | keyof TSource): IAsyncEnumerable<any> {
 
-    if (typeof selector === "string") {
-        return AsyncEnumerablePrivate.select_2(source, selector)
+    if (typeof selector === "function") {
+        if (selector.length === 1) {
+            return AsyncEnumerablePrivate.select1(source, selector as (x: TSource) => Y)
+        } else {
+            return AsyncEnumerablePrivate.select2(source, selector)
+        }
     } else {
-        return AsyncEnumerablePrivate.select_1(source, selector)
+        return AsyncEnumerablePrivate.select3(source, selector)
     }
 }
 
