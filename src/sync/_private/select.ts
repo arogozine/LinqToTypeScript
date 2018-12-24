@@ -1,8 +1,6 @@
 import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
-// TODO: Index
-
 /**
  * Projects each element of a sequence into a new form.
  * @param source A sequence of values to invoke a transform function on.
@@ -11,7 +9,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * An IEnumerable<T> whose elements are the result of invoking the transform function on each element of source.
  */
 export function select<TSource, TResult>(
-    source: Iterable<TSource>, selector: (x: TSource) => TResult): IEnumerable<TResult>
+    source: Iterable<TSource>, selector: (x: TSource, index: number) => TResult): IEnumerable<TResult>
 /**
  * Projects each element of a sequence into a new form.
  * @param source A sequence of values to invoke a transform function on.
