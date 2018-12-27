@@ -138,9 +138,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
             comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
 
     reverse(): IEnumerable<TSource>,
-    select<OUT>(selector: (x: TSource, index: number) => OUT): IEnumerable<OUT>
+    select<TResult>(selector: (x: TSource, index: number) => TResult): IEnumerable<TResult>
     select<TKey extends keyof TSource>(key: TKey): IEnumerable<TSource[TKey]>,
-    selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IAsyncEnumerable<OUT>
+    selectAsync<OUT>(selector: (x: TSource, index: number) => Promise<OUT>): IAsyncEnumerable<OUT>
     selectAsync<TKey extends keyof TSource, TResult>(
                 this: IEnumerable<{ [key: string]: Promise<TResult> }>,
                 key: TKey): IAsyncEnumerable<TResult>,
@@ -148,7 +148,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
         this: IEnumerable<TBindedSource>,
         selector: keyof TBindedSource): IEnumerable<TOut>,
-    selectManyAsync<TOut>(selector: (x: TSource) => Promise<Iterable<TOut>>): IAsyncEnumerable<TOut>,
+    selectManyAsync<TResult>(
+            selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>,
     sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean,
     sequenceEqualsAsync(second: IEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>,
     /**

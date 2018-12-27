@@ -74,7 +74,7 @@ export declare class ArrayEnumerable<TSource> extends Array<TSource> implements 
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
     selectMany<OUT>(selector: (x: TSource, index: number) => Iterable<OUT>): IEnumerable<OUT>;
-    selectManyAsync<OUT>(selector: (x: TSource) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT>;
+    selectManyAsync<TResult>(selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>;
     sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean;
     sequenceEqualsAsync(second: IEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     single(predicate?: (x: TSource) => boolean): TSource;

@@ -24,9 +24,9 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     orderByDescending<TKey>(predicate: (x: TSource) => TKey, comparer?: IComparer<TKey>): IParallelEnumerable<TSource>;
     orderByDescendingAsync<TKey>(predicate: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IParallelEnumerable<TSource>;
     reverse(): IParallelEnumerable<TSource>;
-    select<OUT>(selector: (x: TSource, index: number) => OUT): IParallelEnumerable<OUT>;
+    select<TResult>(selector: (x: TSource, index: number) => TResult): IParallelEnumerable<TResult>;
     select<TKey extends keyof TSource>(key: TKey): IParallelEnumerable<TSource[TKey]>;
-    selectAsync<OUT>(selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
+    selectAsync<TResult>(selector: (x: TSource, index: number) => Promise<TResult>): IParallelEnumerable<TResult>;
     selectAsync<TKey extends keyof TSource, TResult>(this: IParallelEnumerable<{
         [key: string]: Promise<TResult>;
     }>, selector: TKey): IParallelEnumerable<TResult>;
@@ -34,7 +34,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
-    selectManyAsync<OUT>(selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
+    selectManyAsync<TResult>(selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IParallelEnumerable<TResult>;
     sequenceEquals(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     sequenceEqualsAsync(second: IAsyncParallel<TSource>, comparer?: IAsyncEqualityComparer<TSource>): Promise<boolean>;
     skip(count: number): IParallelEnumerable<TSource>;

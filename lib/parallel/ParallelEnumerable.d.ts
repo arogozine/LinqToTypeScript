@@ -271,7 +271,7 @@ export declare function select<TSource, TKey extends keyof TSource>(source: IPar
  * @returns An IParallelEnumerable<T> whose elements are the result of invoking
  * the transform function on each element of source.
  */
-export declare function selectAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>;
+export declare function selectAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource, index: number) => Promise<OUT>): IParallelEnumerable<OUT>;
 /**
  * Projects each element of a sequence into a new form.
  * @param source A sequence of values to invoke a transform function on.
@@ -310,7 +310,7 @@ export declare function selectMany<TBindedSource extends {
  * @returns An IParallelEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export declare function selectManyAsync<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
+export declare function selectManyAsync<TSource, TResult>(source: IParallelEnumerable<TSource>, selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IParallelEnumerable<TResult>;
 /**
  * Applies a type filter to a source iteration
  * @param source Async Iteration to Filtery by Type

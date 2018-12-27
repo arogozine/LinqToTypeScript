@@ -259,7 +259,7 @@ export declare function selectMany<TSource extends {
  * @returns An IAsyncEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export declare function selectManyAsync<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y>;
+export declare function selectManyAsync<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => Promise<Iterable<Y>>): IAsyncEnumerable<Y>;
 export { single } from "./_private/single";
 export { singleAsync } from "./_private/singleAsync";
 export { singleOrDefault } from "./_private/singleOrDefault";

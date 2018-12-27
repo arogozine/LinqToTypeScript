@@ -297,7 +297,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return reverse(this)
     }
 
-    public select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>
+    public select<OUT>(selector: (x: T, index: number) => OUT): IEnumerable<OUT>
     public select<TKey extends keyof T>(
         this: IEnumerable<{ [key: string]: Iterable<T[TKey]>}>,
         selector: TKey): IEnumerable<T[TKey]>
@@ -305,10 +305,11 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return select(this, keyOrSelector)
     }
 
+    public selectAsync<TResult>(selector: (x: T, index: number) => Promise<TResult>): IAsyncEnumerable<TResult>
     public selectAsync<TKey extends keyof T, TResult>(
         this: IEnumerable<{ [key: string]: Promise<TResult> }>,
         key: TKey): IAsyncEnumerable<T[TKey]>
-    public selectAsync<OUT>(selector: (x: T) => Promise<OUT>): IAsyncEnumerable<OUT> {
+    public selectAsync<TResult>(selector: (x: T, index: number) => Promise<TResult>): IAsyncEnumerable<TResult> {
         return selectAsync(this, selector)
     }
 
@@ -320,7 +321,7 @@ export abstract class BaseEnumerable<T> implements IEnumerable<T> {
         return selectMany(this, selector)
     }
 
-    public selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {
+    public selectManyAsync<OUT>(selector: (x: T, index: number) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {
         return selectManyAsync(this, selector)
     }
 

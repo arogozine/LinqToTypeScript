@@ -458,7 +458,8 @@ export class ArrayEnumerable<TSource> extends Array<TSource> implements IEnumera
         return selectMany(this, selector)
     }
 
-    public selectManyAsync<OUT>(selector: (x: TSource) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT> {
+    public selectManyAsync<TResult>(
+        selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult> {
         return selectManyAsync(this, selector)
     }
 

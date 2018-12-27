@@ -1,8 +1,6 @@
 import { from } from "../../async/AsyncEnumerable"
 import { IAsyncEnumerable } from "../../types"
 
-// TODO - Additional Overloads
-
 /**
  * Projects each element of a sequence to an IAsyncEnumerable<T> and flattens the resulting sequences into one sequence.
  * @param source A sequence of values to project.
@@ -12,13 +10,40 @@ import { IAsyncEnumerable } from "../../types"
  */
 export function selectManyAsync<TSource, TResult>(
     source: Iterable<TSource>,
-    selector: (x: TSource) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult> {
+    selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult> {
+    if (selector.length === 1) {
+        return selectManyAsync1(source, selector as (x: TSource) => Promise<Iterable<TResult>>)
+    } else {
+        return selectManyAsync2(source, selector)
+    }
+}
+
+const selectManyAsync1 = <TSource, TResult>(
+    source: Iterable<TSource>,
+    selector: (x: TSource) => Promise<Iterable<TResult>>) => {
     async function* generator() {
         for (const value of source) {
             const innerValues = await selector(value)
             for (const innerValue of innerValues) {
                 yield innerValue
             }
+        }
+    }
+
+    return from(generator)
+}
+
+const selectManyAsync2 = <TSource, TResult>(
+    source: Iterable<TSource>,
+    selector: (x: TSource, index: number) => Promise<Iterable<TResult>>) => {
+    async function* generator() {
+        let index = 0
+        for (const value of source) {
+            const innerValues = await selector(value, index)
+            for (const innerValue of innerValues) {
+                yield innerValue
+            }
+            index++
         }
     }
 

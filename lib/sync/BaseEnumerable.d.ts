@@ -59,10 +59,11 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     orderByDescending<TKey>(predicate: (x: T) => TKey, comparer?: IComparer<TKey>): IOrderedEnumerable<T>;
     orderByDescendingAsync<TKey>(predicate: (x: T) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<T>;
     reverse(): IEnumerable<T>;
-    select<OUT>(selector: (x: T) => OUT): IEnumerable<OUT>;
+    select<OUT>(selector: (x: T, index: number) => OUT): IEnumerable<OUT>;
     select<TKey extends keyof T>(this: IEnumerable<{
         [key: string]: Iterable<T[TKey]>;
     }>, selector: TKey): IEnumerable<T[TKey]>;
+    selectAsync<TResult>(selector: (x: T, index: number) => Promise<TResult>): IAsyncEnumerable<TResult>;
     selectAsync<TKey extends keyof T, TResult>(this: IEnumerable<{
         [key: string]: Promise<TResult>;
     }>, key: TKey): IAsyncEnumerable<T[TKey]>;
@@ -70,7 +71,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
     selectMany<OUT>(selector: (x: T, index: number) => Iterable<OUT>): IEnumerable<OUT>;
-    selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT>;
+    selectManyAsync<OUT>(selector: (x: T, index: number) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT>;
     sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean;
     sequenceEqualsAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): Promise<boolean>;
     single(predicate?: (x: T) => boolean): T;

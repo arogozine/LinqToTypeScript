@@ -17,6 +17,7 @@ import {
 import { nextIteration } from "./_private/_nextIteration"
 import { nextIterationAsync } from "./_private/_nextIterationAsync"
 import { nextIterationWithIndex } from "./_private/_nextIterationWithIndex"
+import { nextIterationWithIndexAsync } from "./_private/_nextIterationWithIndexAsync"
 import { toArray } from "./_private/toArray"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 import { OrderedParallelEnumerable } from "./OrderedParallelEnumerable"
@@ -773,7 +774,7 @@ export function select<TSource, OUT>(
  */
 export function selectAsync<TSource, OUT>(
     source: IParallelEnumerable<TSource>,
-    selector: (x: TSource) => Promise<OUT>): IParallelEnumerable<OUT>
+    selector: (x: TSource, index: number) => Promise<OUT>): IParallelEnumerable<OUT>
 /**
  * Projects each element of a sequence into a new form.
  * @param source A sequence of values to invoke a transform function on.
@@ -784,17 +785,20 @@ export function selectAsync<TSource, OUT>(
 export function selectAsync<TSource extends { [key: string]: Promise<TResult> }, TKey extends keyof TSource, TResult>(
     source: IParallelEnumerable<TResult>,
     selector: TKey): IParallelEnumerable<TResult>
-export function selectAsync<TSource extends { [key: string]: Promise<OUT> }, OUT>(
+export function selectAsync<TSource extends { [key: string]: Promise<TResult> }, TResult>(
     source: IParallelEnumerable<TSource>,
-    keyOrSelector: string | ((x: TSource) => Promise<OUT>)): IParallelEnumerable<OUT> {
-    let selector: (x: TSource) => Promise<OUT>
-    if (typeof keyOrSelector === "string") {
-        selector = (x: TSource) => (x[keyOrSelector])
+    keyOrSelector: string | ((x: TSource, index: number) => Promise<TResult>)): IParallelEnumerable<TResult> {
+    let generator: TypedData<TResult>
+    if (typeof keyOrSelector === "function") {
+        if (keyOrSelector.length === 1) {
+            generator = nextIterationAsync(source, keyOrSelector as (x: TSource) => Promise<TResult>)
+        } else {
+            generator = nextIterationWithIndexAsync(source, keyOrSelector)
+        }
     } else {
-        selector = keyOrSelector
+        generator = nextIterationAsync(source, (x: TSource) => (x[keyOrSelector]))
     }
 
-    const generator = nextIterationAsync(source, selector)
     return new BasicParallelEnumerable(generator)
 }
 
@@ -881,11 +885,16 @@ export function selectMany<TSource, OUT>(
  * @returns An IParallelEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export function selectManyAsync<TSource, OUT>(
+export function selectManyAsync<TSource, TResult>(
     source: IParallelEnumerable<TSource>,
-    selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT> {
+    selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IParallelEnumerable<TResult> {
     const generator = async () => {
-        const values = await nextIterationAsync(source, selector)
+        let values: TypedData<Iterable<TResult>>
+        if (selector.length === 1) {
+            values = await nextIterationAsync(source, selector as (x: TSource) => Promise<Iterable<TResult>>)
+        } else {
+            values = await nextIterationWithIndexAsync(source, selector)
+        }
 
         const valuesArray = []
         switch (values.type) {

@@ -1,8 +1,6 @@
 import { from } from "../../async/AsyncEnumerable"
 import { IAsyncEnumerable } from "../../types"
 
-// TODO: Index Selector
-
 /**
  * Projects each element of a sequence into a new form.
  * @param source A sequence of values to invoke a transform function on.
@@ -11,7 +9,7 @@ import { IAsyncEnumerable } from "../../types"
  * the transform function on each element of source.
  */
 export function selectAsync<TSource, TResult>(
-    source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>
+    source: Iterable<TSource>, selector: (x: TSource, index: number) => Promise<TResult>): IAsyncEnumerable<TResult>
 /**
  * Projects each element of a sequence into a new form.
  * @param source A sequence of values to invoke a transform function on.
@@ -23,17 +21,21 @@ export function selectAsync<TSource extends { [key: string]: Promise<any> }, TKe
     source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>
 export function selectAsync<TSource extends { [key: string]: Promise<TResult> }, TKey extends keyof TSource, TResult>(
     source: Iterable<TSource>,
-    selector: ((x: TSource) => Promise<TResult>) | TKey): IAsyncEnumerable<any> {
+    selector: ((x: TSource, index: number) => Promise<TResult>) | TKey): IAsyncEnumerable<any> {
 
-    if (typeof selector === "string") {
-        return selectAsync_2(source, selector)
+    if (typeof selector === "function") {
+        if (selector.length === 1) {
+            return selectAsync1(source, selector as (x: TSource) => Promise<TResult>)
+        } else {
+            return selectAsync2(source, selector)
+        }
     } else {
-        return selectAsync_1(source, selector as (x: TSource) => Promise<TResult>)
+        return selectAsync3(source, selector)
     }
 }
 
-function selectAsync_1<TSource, TResult>(
-    source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult> {
+const selectAsync1 = <TSource, TResult>(
+    source: Iterable<TSource>, selector: (x: TSource) => Promise<TResult>) => {
     async function* iterator() {
         for (const value of source) {
             yield selector(value)
@@ -43,10 +45,23 @@ function selectAsync_1<TSource, TResult>(
     return from(iterator)
 }
 
-function selectAsync_2<
+const selectAsync2 = <TSource, TResult>(
+    source: Iterable<TSource>, selector: (x: TSource, index: number) => Promise<TResult>) => {
+    async function* iterator() {
+        let index = 0
+        for (const value of source) {
+            yield selector(value, index)
+            index++
+        }
+    }
+
+    return from(iterator)
+}
+
+const selectAsync3 = <
     TSource extends { [ key: string]: Promise<TResult> },
     TKey extends keyof TSource, TResult>(
-    source: Iterable<TSource>, key: TKey): IAsyncEnumerable<TResult> {
+    source: Iterable<TSource>, key: TKey) => {
     async function* iterator() {
         for (const value of source) {
             yield value[key]

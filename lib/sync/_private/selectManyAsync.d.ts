@@ -6,4 +6,4 @@ import { IAsyncEnumerable } from "../../types";
  * @returns An IAsyncEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export declare function selectManyAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>;
+export declare function selectManyAsync<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>;
