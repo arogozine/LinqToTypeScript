@@ -66,7 +66,7 @@ export declare class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<T
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IAsyncEnumerable<TBindedSource>, selector: keyof TBindedSource): IAsyncEnumerable<TOut>;
-    selectMany<Y>(selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>;
+    selectMany<Y>(selector: (x: TSource, index: number) => Iterable<Y>): IAsyncEnumerable<Y>;
     selectManyAsync<Y>(selector: (x: TSource) => Promise<Iterable<Y>>): IAsyncEnumerable<Y>;
     sequenceEquals(second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     sequenceEqualsAsync(second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;

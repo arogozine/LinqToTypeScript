@@ -1,8 +1,6 @@
 import { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
-// TODO
-
 /**
  * Projects each element of a sequence to an IEnumerable<T> and flattens the resulting sequences into one sequence.
  * @param source A sequence of values to project.
@@ -12,7 +10,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  */
 export function selectMany<TSource, TResult>(
     source: Iterable<TSource>,
-    selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>
+    selector: (x: TSource, index: number) => Iterable<TResult>): IEnumerable<TResult>
 /**
  * Projects each element of a sequence to an IEnumerable<T> and flattens the resulting sequences into one sequence.
  * @param source A sequence of values to project.
@@ -26,17 +24,21 @@ export function selectMany<
         selector: keyof TSource): IEnumerable<TResult>
 export function selectMany<TSource extends { [key: string]: Iterable<TResult>}, TResult>(
     source: Iterable<TSource>,
-    selector: ((x: TSource) => Iterable<TResult>) | keyof TSource) {
-    if (typeof selector === "string") {
-        return selectMany_2(source, selector)
+    selector: ((x: TSource, index: number) => Iterable<TResult>) | keyof TSource) {
+    if (typeof selector === "function") {
+        if (selector.length === 1)  {
+            return selectMany1(source, selector as (x: TSource) => Iterable<TResult>)
+        } else {
+            return selectMany2(source, selector)
+        }
     } else {
-        return selectMany_1(source, selector as (x: TSource) => Iterable<TResult>)
+        return selectMany3(source, selector)
     }
 }
 
-function selectMany_1<TSource, TResult>(
+const selectMany1 = <TSource, TResult>(
     source: Iterable<TSource>,
-    selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult> {
+    selector: (x: TSource) => Iterable<TResult>) => {
     function* iterator() {
         for (const value of source) {
             for (const selectorValue of selector(value)) {
@@ -48,8 +50,24 @@ function selectMany_1<TSource, TResult>(
     return new BasicEnumerable(iterator)
 }
 
-function selectMany_2<TSource extends { [key: string]: Iterable<TResult> }, TResult>(
-    source: Iterable<TSource>, selector: keyof TSource) {
+const selectMany2 = <TSource, TResult>(
+    source: Iterable<TSource>,
+    selector: (x: TSource, index: number) => Iterable<TResult>) => {
+    function* iterator() {
+        let index = 0
+        for (const value of source) {
+            for (const selectorValue of selector(value, index)) {
+                yield selectorValue
+            }
+            index++
+        }
+    }
+
+    return new BasicEnumerable(iterator)
+}
+
+const selectMany3 = <TSource extends { [key: string]: Iterable<TResult> }, TResult>(
+    source: Iterable<TSource>, selector: keyof TSource) => {
     function* iterator() {
         for (const value of source) {
             for (const selectorValue of value[selector]) {

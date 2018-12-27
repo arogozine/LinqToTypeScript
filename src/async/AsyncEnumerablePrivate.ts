@@ -257,9 +257,9 @@ export function selectAsync_2<
     return new BasicAsyncEnumerable(iterator)
 }
 
-export function selectMany_1<TSource, Y>(
+export const selectMany1 = <TSource, Y>(
     source: AsyncIterable<TSource>,
-    selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y> {
+    selector: (x: TSource) => Iterable<Y>) => {
     async function* iterator() {
         for await (const value of source) {
             for (const selectorValue of selector(value)) {
@@ -271,10 +271,26 @@ export function selectMany_1<TSource, Y>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-export function selectMany_2
+export const selectMany2 = <TSource, TCollection>(
+    source: AsyncIterable<TSource>,
+    selector: (x: TSource, index: number) => Iterable<TCollection>) => {
+    async function* iterator() {
+        let index = 0
+        for await (const value of source) {
+            for (const selectorValue of selector(value, index)) {
+                yield selectorValue
+            }
+            index++
+        }
+    }
+
+    return new BasicAsyncEnumerable(iterator)
+}
+
+export const selectMany3 =
     <TSource extends { [key: string]: Iterable<Y> }, Y>(
     source: AsyncIterable<TSource>,
-    selector: keyof TSource): IAsyncEnumerable<Y> {
+    selector: keyof TSource) => {
     async function* iterator() {
         for await (const value of source) {
             for (const selectorValue of value[selector]) {

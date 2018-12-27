@@ -13,10 +13,11 @@ export declare function selectAsync_1<TSource, TResult>(source: AsyncIterable<TS
 export declare function selectAsync_2<TSource extends {
     [key: string]: Promise<TResult>;
 }, TKey extends keyof TSource, TResult>(source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TResult>;
-export declare function selectMany_1<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>;
-export declare function selectMany_2<TSource extends {
+export declare const selectMany1: <TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource) => Iterable<Y>) => BasicAsyncEnumerable<Y>;
+export declare const selectMany2: <TSource, TCollection>(source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => Iterable<TCollection>) => BasicAsyncEnumerable<TCollection>;
+export declare const selectMany3: <TSource extends {
     [key: string]: Iterable<Y>;
-}, Y>(source: AsyncIterable<TSource>, selector: keyof TSource): IAsyncEnumerable<Y>;
+}, Y>(source: AsyncIterable<TSource>, selector: keyof TSource) => BasicAsyncEnumerable<Y>;
 export declare function skipWhile_1<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
 export declare function skipWhile_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
 export declare function skipWhileAsync_1<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource>;

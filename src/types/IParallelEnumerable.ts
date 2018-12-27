@@ -81,7 +81,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     selectAsync<TKey extends keyof TSource, TResult>(
         this: IParallelEnumerable<{ [key: string]: Promise<TResult> }>,
         selector: TKey): IParallelEnumerable<TResult>
-    selectMany<OUT>(selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>,
+    selectMany<TResult>(selector: (x: TSource, index: number) => Iterable<TResult>): IParallelEnumerable<TResult>,
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
             this: IParallelEnumerable<TBindedSource>,
             selector: keyof TBindedSource): IParallelEnumerable<TOut>,

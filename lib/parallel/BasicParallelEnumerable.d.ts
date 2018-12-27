@@ -64,10 +64,10 @@ export declare class BasicParallelEnumerable<TSource> implements IParallelEnumer
     selectAsync<TKey extends keyof TSource, TResult>(this: IParallelEnumerable<{
         [key: string]: Promise<TResult>;
     }>, selector: TKey): IParallelEnumerable<TResult>;
-    selectMany<OUT>(selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>;
+    selectMany<TResult>(selector: (x: TSource, index: number) => Iterable<TResult>): IParallelEnumerable<TResult>;
     selectMany<TBindedSource extends {
-        [key: string]: Iterable<TOut>;
-    }, TOut>(this: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>;
+        [key: string]: Iterable<TResult>;
+    }, TResult>(this: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TResult>;
     selectManyAsync<OUT>(selector: (x: TSource) => Promise<Iterable<OUT>>): IParallelEnumerable<OUT>;
     sequenceEquals(second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): Promise<boolean>;
     sequenceEqualsAsync(second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>;

@@ -1,8 +1,6 @@
 import { from } from "../../async/AsyncEnumerable"
 import { IAsyncEnumerable, IAsyncEqualityComparer, IEnumerable } from "../../types"
 
-// TODO: Verify Logic
-
 /**
  * Produces the set intersection of two sequences by using the specified IAsyncEqualityComparer<T> to compare values.
  * @param first An IEnumerable<T> whose distinct elements that also appear in second will be returned.
@@ -16,7 +14,7 @@ export function intersectAsync<TSource>(
     comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
 
     async function *iterator(): AsyncIterableIterator<TSource> {
-        const firstResults = []
+        const firstResults: TSource[] = []
         for await (const item of first.distinctAsync(comparer)) {
             firstResults.push(item)
         }

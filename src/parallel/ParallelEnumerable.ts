@@ -808,7 +808,7 @@ export function selectAsync<TSource extends { [key: string]: Promise<OUT> }, OUT
  */
 export function selectMany<TSource, OUT>(
     source: IParallelEnumerable<TSource>,
-    selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>
+    selector: (x: TSource, index: number) => Iterable<OUT>): IParallelEnumerable<OUT>
 /**
  * Projects each element of a sequence to an IParallelEnumerable<T>
  * and flattens the resulting sequences into one sequence.
@@ -821,13 +821,17 @@ export function selectMany<TBindedSource extends { [key: string]: Iterable<TOut>
     source: IParallelEnumerable<TBindedSource>, selector: keyof TBindedSource): IParallelEnumerable<TOut>
 export function selectMany<TSource, OUT>(
     source: IParallelEnumerable<TSource>,
-    selector: ((x: TSource) => Iterable<OUT>) | keyof TSource): IParallelEnumerable<any> {
+    selector: ((x: TSource, index: number) => Iterable<OUT>) | keyof TSource): IParallelEnumerable<any> {
     const generator = async () => {
         let values: TypedData<Iterable<OUT>>
-        if (typeof selector === "string") {
-            values = await nextIteration(source, (x: any) => x[selector])
+        if (typeof selector === "function") {
+            if (selector.length === 1) {
+                values = await nextIteration(source, selector as (x: TSource) => Iterable<OUT>)
+            } else {
+                values = await nextIterationWithIndex(source, selector)
+            }
         } else {
-            values = await nextIteration(source, selector as (x: TSource) => Iterable<OUT>)
+            values = await nextIteration(source, (x: any) => x[selector])
         }
 
         const valuesArray = []

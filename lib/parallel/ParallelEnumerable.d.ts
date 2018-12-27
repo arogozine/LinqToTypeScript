@@ -290,7 +290,7 @@ export declare function selectAsync<TSource extends {
  * @returns An IParallelEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export declare function selectMany<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource) => Iterable<OUT>): IParallelEnumerable<OUT>;
+export declare function selectMany<TSource, OUT>(source: IParallelEnumerable<TSource>, selector: (x: TSource, index: number) => Iterable<OUT>): IParallelEnumerable<OUT>;
 /**
  * Projects each element of a sequence to an IParallelEnumerable<T>
  * and flattens the resulting sequences into one sequence.

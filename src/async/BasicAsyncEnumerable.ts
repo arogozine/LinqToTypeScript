@@ -319,7 +319,7 @@ export class BasicAsyncEnumerable<TSource> implements IAsyncEnumerable<TSource> 
     public selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
         this: IAsyncEnumerable<TBindedSource>,
         selector: keyof TBindedSource): IAsyncEnumerable<TOut>
-    public selectMany<Y>(selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>
+    public selectMany<Y>(selector: (x: TSource, index: number) => Iterable<Y>): IAsyncEnumerable<Y>
     public selectMany<Y>(selector: any): IAsyncEnumerable<Y> {
         return selectMany(this, selector)
     }

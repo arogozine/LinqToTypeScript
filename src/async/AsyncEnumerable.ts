@@ -659,7 +659,7 @@ export function selectAsync<TSource extends { [key: string]: Promise<TResult> },
  */
 export function selectMany<TSource, Y>(
     source: AsyncIterable<TSource>,
-    selector: (x: TSource) => Iterable<Y>): IAsyncEnumerable<Y>
+    selector: (x: TSource, index: number) => Iterable<Y>): IAsyncEnumerable<Y>
 /**
  * Projects each element of a sequence to an AsyncIterable<T> and flattens the resulting sequences into one sequence.
  * @param source A sequence of values to project.
@@ -671,13 +671,17 @@ export function selectMany
     <TSource extends { [key: string]: Iterable<Y> }, Y>(
     source: AsyncIterable<TSource>,
     selector: keyof TSource): IAsyncEnumerable<Y>
-export function selectMany(
+export function selectMany<TCollection>(
     source: AsyncIterable<any>,
-    selector: any): IAsyncEnumerable<any> {
-    if (typeof selector === "string") {
-        return AsyncEnumerablePrivate.selectMany_2(source, selector)
+    selector: any): IAsyncEnumerable<TCollection> {
+    if (typeof selector === "function") {
+        if (selector.length === 1) {
+            return AsyncEnumerablePrivate.selectMany1(source, selector)
+        } else {
+            return AsyncEnumerablePrivate.selectMany2(source, selector)
+        }
     } else {
-        return AsyncEnumerablePrivate.selectMany_1(source, selector)
+        return AsyncEnumerablePrivate.selectMany3(source, selector)
     }
 }
 

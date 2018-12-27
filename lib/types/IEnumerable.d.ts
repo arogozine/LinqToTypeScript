@@ -102,7 +102,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     selectAsync<TKey extends keyof TSource, TResult>(this: IEnumerable<{
         [key: string]: Promise<TResult>;
     }>, key: TKey): IAsyncEnumerable<TResult>;
-    selectMany<OUT>(selector: (x: TSource) => Iterable<OUT>): IEnumerable<OUT>;
+    selectMany<OUT>(selector: (x: TSource, index: number) => Iterable<OUT>): IEnumerable<OUT>;
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;

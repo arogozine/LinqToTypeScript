@@ -6,7 +6,7 @@ import { IEnumerable } from "../../types";
  * @returns An IEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export declare function selectMany<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource) => Iterable<TResult>): IEnumerable<TResult>;
+export declare function selectMany<TSource, TResult>(source: Iterable<TSource>, selector: (x: TSource, index: number) => Iterable<TResult>): IEnumerable<TResult>;
 /**
  * Projects each element of a sequence to an IEnumerable<T> and flattens the resulting sequences into one sequence.
  * @param source A sequence of values to project.

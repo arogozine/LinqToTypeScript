@@ -69,7 +69,7 @@ export declare abstract class BaseEnumerable<T> implements IEnumerable<T> {
     selectMany<TBindedSource extends {
         [key: string]: Iterable<TOut>;
     }, TOut>(this: IEnumerable<TBindedSource>, selector: keyof TBindedSource): IEnumerable<TOut>;
-    selectMany<OUT>(selector: (x: T) => Iterable<OUT>): IEnumerable<OUT>;
+    selectMany<OUT>(selector: (x: T, index: number) => Iterable<OUT>): IEnumerable<OUT>;
     selectManyAsync<OUT>(selector: (x: T) => Promise<Iterable<OUT>>): IAsyncEnumerable<OUT>;
     sequenceEquals(second: IEnumerable<T>, comparer?: IEqualityComparer<T>): boolean;
     sequenceEqualsAsync(second: IEnumerable<T>, comparer: IAsyncEqualityComparer<T>): Promise<boolean>;
