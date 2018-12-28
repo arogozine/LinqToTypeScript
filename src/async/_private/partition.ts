@@ -1,5 +1,3 @@
-// TODO - Async and Parallel Implementations
-
 /**
  * Paritions the Iterable<T> into a tuple of failing and passing arrays
  * based on the predicate.
@@ -7,12 +5,12 @@
  * @param predicate Pass / Fail condition
  * @returns [pass, fail]
  */
-export const partition = <TSource>(source: Iterable<TSource>,
-                                   predicate: (x: TSource) => boolean): [TSource[], TSource[]] => {
+export const partition = async <TSource>(
+    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<[TSource[], TSource[]]> => {
     const fail: TSource[] = []
     const pass: TSource[] = []
 
-    for (const value of source) {
+    for await (const value of source) {
         if (predicate(value) === true) {
             pass.push(value)
         } else {

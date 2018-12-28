@@ -5,4 +5,4 @@
  * @param predicate Pass / Fail condition
  * @returns [pass, fail]
  */
-export declare const partition: <TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean) => [TSource[], TSource[]];
+export declare const partition: <TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean) => Promise<[TSource[], TSource[]]>;

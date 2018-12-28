@@ -339,6 +339,8 @@ export { max } from "./_private/max";
 export { maxAsync } from "./_private/maxAsync";
 export { min } from "./_private/min";
 export { minAsync } from "./_private/minAsync";
+export { partition } from "./_private/partition";
+export { partitionAsync } from "./_private/partitionAsync";
 /**
  * Generates a sequence of integral numbers within a specified range.
  * @param start The value of the first integer in the sequence.

@@ -8,6 +8,8 @@ initializeLinq()
 import "./tests/staticmethods/Empty"
 import "./tests/staticmethods/EnumerateObject"
 import "./tests/staticmethods/Flatten"
+import "./tests/staticmethods/Partition"
+import "./tests/staticmethods/PartitionAsync"
 import "./tests/staticmethods/Range"
 import "./tests/staticmethods/Repeat"
 

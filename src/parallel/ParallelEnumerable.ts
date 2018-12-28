@@ -1014,6 +1014,9 @@ export function orderByDescendingAsync<TSource, TKey>(
     return OrderedParallelEnumerable.generateAsync(source, keySelector, false, comparer)
 }
 
+export { partition } from "./_private/partition"
+export { partitionAsync } from "./_private/partitionAsync"
+
 // TODO: More range tests
 
 /**

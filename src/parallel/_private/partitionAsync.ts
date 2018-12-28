@@ -1,4 +1,4 @@
-// TODO - Async and Parallel Implementations
+import { IParallelEnumerable } from "../../types"
 
 /**
  * Paritions the Iterable<T> into a tuple of failing and passing arrays
@@ -7,13 +7,14 @@
  * @param predicate Pass / Fail condition
  * @returns [pass, fail]
  */
-export const partition = <TSource>(source: Iterable<TSource>,
-                                   predicate: (x: TSource) => boolean): [TSource[], TSource[]] => {
+export const partitionAsync = async <TSource>(
+    source: IParallelEnumerable<TSource>,
+    predicate: (x: TSource) => Promise<boolean>): Promise<[TSource[], TSource[]]> => {
     const fail: TSource[] = []
     const pass: TSource[] = []
 
-    for (const value of source) {
-        if (predicate(value) === true) {
+    for await (const value of source) {
+        if (await predicate(value) === true) {
             pass.push(value)
         } else {
             fail.push(value)

@@ -350,6 +350,8 @@ export declare function orderByDescending<TSource, TKey>(source: IAsyncParallel<
  * @return An IOrderedParallelEnumerable<TElement> whose elements are sorted in descending order according to a key.
  */
 export declare function orderByDescendingAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+export { partition } from "./_private/partition";
+export { partitionAsync } from "./_private/partitionAsync";
 /**
  * Generates a sequence of integral numbers within a specified range.
  * @param start The value of the first integer in the sequence.
