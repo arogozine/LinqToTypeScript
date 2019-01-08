@@ -1,6 +1,5 @@
 import {
     ArgumentOutOfRangeException,
-    EqualityComparer,
     ErrorString,
     InvalidOperationException,
     StrictEqualityComparer } from "../shared/shared"
@@ -180,8 +179,6 @@ export function eachAsync<TSource>(
 export { elementAt } from "./_private/elementAt"
 export { elementAtOrDefault } from "./_private/elementAtOrDefault"
 
-// TODO: Why Equality Comparer and not Strict Equality Comparer?
-
 /**
  * Produces the set difference of two sequences by using the comparer provided
  * or EqualityComparer to compare values.
@@ -195,7 +192,7 @@ export function except<TSource>(
     // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
-    comparer: IEqualityComparer<TSource> = EqualityComparer): IParallelEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
 
     const generator = async () => {
         const values = await Promise.all([ first.toArray(), second.toArray() ])

@@ -1,4 +1,4 @@
-import { EqualityComparer } from "../../shared/EqualityComparer"
+import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
 import { IEnumerable, IEqualityComparer } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
@@ -14,7 +14,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
 export function except<TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource> = EqualityComparer): IEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
 
     function *iterator() {
         const secondArray = [...second]

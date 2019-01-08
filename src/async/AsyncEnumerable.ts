@@ -12,7 +12,6 @@ import {
     IParallelEnumerable, OfType, ParallelGeneratorType, SelectorKeyType } from "../types"
 import {
     ArgumentOutOfRangeException,
-    EqualityComparer,
     ErrorString,
     InvalidOperationException,
     StrictEqualityComparer,
@@ -176,7 +175,7 @@ export function enumerateObject<TInput>(
 export function except<TSource>(
     first: AsyncIterable<TSource>,
     second: AsyncIterable<TSource>,
-    comparer: IEqualityComparer<TSource> = EqualityComparer): IAsyncEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
 
     async function *iterator() {
         // TODO: async eq of [...second] ?
