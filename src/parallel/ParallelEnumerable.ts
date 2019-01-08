@@ -1017,8 +1017,6 @@ export function orderByDescendingAsync<TSource, TKey>(
 export { partition } from "./_private/partition"
 export { partitionAsync } from "./_private/partitionAsync"
 
-// TODO: More range tests
-
 /**
  * Generates a sequence of integral numbers within a specified range.
  * @param start The value of the first integer in the sequence.
