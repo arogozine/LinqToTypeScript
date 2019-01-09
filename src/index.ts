@@ -16,11 +16,13 @@
 // Create Commons Attribution 4.0 International
 // https://github.com/dotnet/docs/blob/master/LICENSE
 
-import { BasicAsyncEnumerable } from "./async/BasicAsyncEnumerable"
-import { BasicParallelEnumerable } from "./parallel/BasicParallelEnumerable"
+import { ArrayEnumerable } from "./sync/sync"
+
 import { BaseEnumerable } from "./sync/BaseEnumerable"
 import { BasicEnumerable } from "./sync/BasicEnumerable"
-import { ArrayEnumerable } from "./sync/sync"
+
+import { BasicAsyncEnumerable } from "./async/BasicAsyncEnumerable"
+import { BasicParallelEnumerable } from "./parallel/BasicParallelEnumerable"
 import { IAsyncEnumerable, IConstructor, IEnumerable, IParallelEnumerable } from "./types"
 
 // Shared Interfacess
