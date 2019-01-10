@@ -23,17 +23,13 @@ import { BasicEnumerable } from "./sync/BasicEnumerable"
 
 import { BasicAsyncEnumerable } from "./async/BasicAsyncEnumerable"
 import { BasicParallelEnumerable } from "./parallel/BasicParallelEnumerable"
-import { IAsyncEnumerable, IConstructor, IEnumerable, IParallelEnumerable } from "./types"
+import { IAsyncEnumerable, IEnumerable, IParallelEnumerable, IPrototype } from "./types"
 
 // Shared Interfacess
 export * from "./shared/shared"
 
 // Enumerable
 export * from "./sync/sync"
-
-export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{ [key: string]: any }> {
-    new (_?: any): Y
-}
 
 /**
  * Determine if the source is IParallelEnumerable

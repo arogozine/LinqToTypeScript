@@ -1,11 +1,6 @@
-import { IAsyncEnumerable, IConstructor, IEnumerable, IParallelEnumerable } from "./types";
+import { IAsyncEnumerable, IEnumerable, IParallelEnumerable, IPrototype } from "./types";
 export * from "./shared/shared";
 export * from "./sync/sync";
-export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{
-    [key: string]: any;
-}> {
-    new (_?: any): Y;
-}
 /**
  * Determine if the source is IParallelEnumerable
  * @param source Any value
