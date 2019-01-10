@@ -16,14 +16,14 @@
 // Create Commons Attribution 4.0 International
 // https://github.com/dotnet/docs/blob/master/LICENSE
 
-import { ArrayEnumerable } from "./sync/sync"
+import { ArrayEnumerable, bindArray, bindLinq } from "./sync/sync"
 
 import { BaseEnumerable } from "./sync/BaseEnumerable"
 import { BasicEnumerable } from "./sync/BasicEnumerable"
 
 import { BasicAsyncEnumerable } from "./async/BasicAsyncEnumerable"
 import { BasicParallelEnumerable } from "./parallel/BasicParallelEnumerable"
-import { IAsyncEnumerable, IEnumerable, IParallelEnumerable, IPrototype } from "./types"
+import { IAsyncEnumerable, IEnumerable, IParallelEnumerable } from "./types"
 
 // Shared Interfacess
 export * from "./shared/shared"
@@ -123,33 +123,6 @@ export function isEnumerable(source: any): source is IEnumerable<any> {
     }
 
     return true
-}
-
-/**
- * Binds LINQ methods to an iterable type
- * @param object Iterable Type
- */
-export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
-
-    const propertyNames = Object.getOwnPropertyNames(BaseEnumerable.prototype)
-        .filter((v) => v !== "constructor")
-
-    for (const prop of propertyNames) {
-        object.prototype[prop] =  object.prototype[prop] || (BaseEnumerable.prototype as any)[prop]
-    }
-}
-
-/**
- * Binds LINQ method to a built in array type
- * @param jsArray Built In JS Array Type
- */
-export function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IPrototype<T, Y>): void {
-    const propertyNames = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
-        .filter((v) => v !== "constructor")
-
-    for (const prop of propertyNames) {
-        jsArray.prototype[prop] =  jsArray.prototype[prop] || (ArrayEnumerable.prototype as any)[prop]
-    }
 }
 
 /**

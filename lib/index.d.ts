@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IEnumerable, IParallelEnumerable, IPrototype } from "./types";
+import { IAsyncEnumerable, IEnumerable, IParallelEnumerable } from "./types";
 export * from "./shared/shared";
 export * from "./sync/sync";
 /**
@@ -16,16 +16,6 @@ export declare function isAsyncEnumerable(source: any): source is IAsyncEnumerab
  * @param source Any Value
  */
 export declare function isEnumerable(source: any): source is IEnumerable<any>;
-/**
- * Binds LINQ methods to an iterable type
- * @param object Iterable Type
- */
-export declare function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void;
-/**
- * Binds LINQ method to a built in array type
- * @param jsArray Built In JS Array Type
- */
-export declare function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IPrototype<T, Y>): void;
 /**
  * Binds LINQ methods to Array Types, Map, Set, and String
  */
