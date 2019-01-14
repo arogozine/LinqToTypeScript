@@ -1,15 +1,20 @@
-import { BaseEnumerable } from "./BaseEnumerable"
+import { IEnumerable } from "../types"
 
 /**
  * Basic Enumerable. Usually returned from the Enumerable class.
  * @private Use @see {IEnumerable} instead
  */
-export class BasicEnumerable<TSource> extends BaseEnumerable<TSource> {
+export class BasicEnumerable<TSource> {
     constructor(private readonly iterator: () => IterableIterator<TSource>) {
-        super()
+        //
     }
 
     public [Symbol.iterator](): IterableIterator<TSource> {
         return this.iterator()
     }
+}
+
+// tslint:disable-next-line:interface-name
+export interface BasicEnumerable<TSource> extends IEnumerable<TSource> {
+
 }

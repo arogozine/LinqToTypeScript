@@ -22,6 +22,8 @@ import { BasicAsyncEnumerable } from "./async/BasicAsyncEnumerable"
 import { BasicParallelEnumerable } from "./parallel/BasicParallelEnumerable"
 import { IAsyncEnumerable, IParallelEnumerable } from "./types"
 
+import { BasicEnumerable } from "./sync/BasicEnumerable"
+
 // Shared Interfacess
 export * from "./shared/shared"
 
@@ -109,3 +111,5 @@ export function initializeLinq() {
     bindArray(Float32Array)
     bindArray(Float64Array)
 }
+
+bindLinq(BasicEnumerable)

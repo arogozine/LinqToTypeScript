@@ -1,5 +1,4 @@
 import { IEnumerable } from "../types"
-import { BaseEnumerable } from "./BaseEnumerable"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { ArrayEnumerable } from "./sync"
 
@@ -24,7 +23,7 @@ export function isEnumerable(source: any): source is IEnumerable<any> {
         return false
     }
 
-    const propertyNames = Object.getOwnPropertyNames(BaseEnumerable.prototype)
+    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
         .filter((v) => v !== "constructor")
 
     const methods = source.prototype || source

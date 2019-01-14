@@ -1,4 +1,4 @@
-import { IEnumerable, IPrototype } from "../types"
+import { IEnumerable, IEqualityComparer, IPrototype } from "../types"
 import { ArrayEnumerable } from "./sync"
 
 import { aggregate } from "./_private/aggregate"
@@ -82,7 +82,7 @@ import { zipAsync } from "./_private/zipAsync"
  */
 export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): void {
 
-    const { prototype } = object
+    const prototype = object.prototype as IEnumerable<T>
 
     const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, optKey?: keyof IEnumerable<T>) => {
         const key = optKey || func.name as keyof IEnumerable<T>
@@ -128,11 +128,15 @@ export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): vo
     bind(average)
     bind(averageAsync)
     bind(concat)
-    bind(contains)
+    prototype.contains = function(value: T, comparer?: IEqualityComparer<T>) {
+        return contains(this, value, comparer)
+    }
     bind(containsAsync)
     bind(count)
     bind(countAsync)
-    bind(distinct)
+    prototype.distinct = function(comparer?: IEqualityComparer<T>) {
+        return distinct(this, comparer)
+    }
     bind(distinctAsync)
     bind(each)
     bind(eachAsync)
@@ -147,9 +151,18 @@ export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): vo
     bind(groupBy)
     bind(groupByAsync)
     bind(groupByWithSel)
-    bind(intersect)
+    prototype.intersect = function(second: IEnumerable<T>, comparer?: IEqualityComparer<T>) {
+        return intersect(this, second, comparer)
+    }
     bind(intersectAsync)
-    bind(join, "joinByKey")
+    prototype.joinByKey = function<TInner, TKey, TResult>(
+        inner: IEnumerable<TInner>,
+        outerKeySelector: (x: T) => TKey,
+        innerKeySelector: (x: TInner) => TKey,
+        resultSelector: (x: T, y: TInner) => TResult,
+        comparer?: IEqualityComparer<TKey>) {
+        return join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer)
+    }
     bind(last)
     bind(lastAsync)
     bind(lastOrDefault)
@@ -168,7 +181,9 @@ export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<T, Y>): vo
     bind(selectAsync)
     bind(selectMany)
     bind(selectManyAsync)
-    bind(sequenceEquals)
+    prototype.sequenceEquals = function(second: IEnumerable<T>, comparer?: IEqualityComparer<T>) {
+        return sequenceEquals(this, second, comparer)
+    }
     bind(sequenceEqualsAsync)
     bind(single)
     bind(singleAsync)
