@@ -1,5 +1,5 @@
 import { IConstructor } from ".";
-export interface IPrototype<T, Y extends Iterable<T>> extends IConstructor<{
+export interface IPrototype<Y> extends IConstructor<{
     [key: string]: any;
 }> {
     new (_?: any): Y;
