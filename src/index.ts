@@ -24,6 +24,10 @@ import { IAsyncEnumerable, IParallelEnumerable } from "./types"
 
 import { BasicEnumerable } from "./sync/BasicEnumerable"
 
+import { initializeTypes } from "./sync/initialize"
+
+initializeTypes()
+
 // Shared Interfacess
 export * from "./shared/shared"
 
