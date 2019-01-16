@@ -1,6 +1,5 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
-import { from as parallelFrom } from "../parallel/parallel"
 import {
     IAsyncEnumerable, IAsyncEqualityComparer,
     IAsyncFlatten,
@@ -9,7 +8,7 @@ import {
     IGrouping,
     InferType,
     IOrderedAsyncEnumerable,
-    IParallelEnumerable, OfType, ParallelGeneratorType, SelectorKeyType } from "../types"
+    OfType, SelectorKeyType } from "../types"
 import {
     ArgumentOutOfRangeException,
     ErrorString,
@@ -38,95 +37,10 @@ export { containsAsync } from "./_private/containsAsync"
 export { count } from "./_private/count"
 export { countAsync } from "./_private/countAsync"
 export { elementAt } from "./_private/elementAt"
-
-/**
- * Convers an async iterable to a Parallel Enumerable.
- * @param source AsyncIterable<T> to conver to IParallelEnumerable<T>
- * @returns Parallel Enumerable of source
- */
-export function asParallel<TSource>(source: AsyncIterable<TSource>): IParallelEnumerable<TSource> {
-    async function generator() {
-        const data = []
-        for await(const value of source) {
-            data.push(value)
-        }
-        return data
-    }
-
-    return parallelFrom(ParallelGeneratorType.PromiseToArray, generator)
-}
-
-/**
- * Concatenates two sequences.
- * @param first The first sequence to concatenate.
- * @param second The sequence to concatenate to the first sequence.
- * @returns An IAsyncEnumerable<T> that contains the concatenated elements of the two input sequences.
- */
-export function concat<TSource>(
-    first: AsyncIterable<TSource>, second: AsyncIterable<TSource>): IAsyncEnumerable<TSource> {
-    async function* iterator() {
-        yield* first
-        yield* second
-    }
-
-    return new BasicAsyncEnumerable(iterator)
-}
-
-/**
- * Returns distinct elements from a sequence by using the default or specified equality comparer to compare values.
- * @param source The sequence to remove duplicate elements from.
- * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
- * @returns An IAsyncEnumerable<T> that contains distinct elements from the source sequence.
- */
-export function distinct<TSource>(
-    source: AsyncIterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
-
-    async function* iterator() {
-        const distinctElements: TSource[] = []
-        for await (const item of source) {
-
-            const foundItem = distinctElements.find((x) => comparer(x, item))
-
-            if (!foundItem) {
-                distinctElements.push(item)
-                yield item
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable(iterator)
-}
-
-/**
- * Returns distinct elements from a sequence by using the specified equality comparer to compare values.
- * @param source The sequence to remove duplicate elements from.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns An IAsyncEnumerable<T> that contains distinct elements from the source sequence.
- */
-export function distinctAsync<TSource>(
-    source: AsyncIterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
-
-    async function* iterator() {
-        const distinctElements: TSource[] = []
-        outerLoop:
-        for await (const item of source) {
-            for (const distinctElement of distinctElements) {
-                const found = await comparer(distinctElement, item)
-                if (found) {
-                    continue outerLoop
-                }
-            }
-
-            distinctElements.push(item)
-            yield item
-        }
-    }
-
-    return new BasicAsyncEnumerable(iterator)
-}
-
+export { asParallel } from "./_private/asParallel"
+export { concat } from "./_private/concat"
+export { distinct } from "./_private/distinct"
+export { distinctAsync } from "./_private/distinctAsync"
 export { elementAtOrDefault } from "./_private/elementAtOrDefault"
 
 /**
@@ -161,91 +75,8 @@ export function enumerateObject<TInput>(
     return new BasicAsyncEnumerable(iterable)
 }
 
-// tslint:disable:no-shadowed-variable
-
-/**
- * Produces the set difference of two sequences by using the comparer provided
- * or EqualityComparer to compare values.
- * @param first An AsyncIterable<T> whose elements that are not also in second will be returned.
- * @param second An AsyncIterable<T> whose elements that also occur in the first sequence
- * will cause those elements to be removed from the returned sequence.
- * @param comparer An IEqualityComparer<T> to compare values. Optional.
- * @returns A sequence that contains the set difference of the elements of two sequences.
- */
-export function except<TSource>(
-    first: AsyncIterable<TSource>,
-    second: AsyncIterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
-
-    async function *iterator() {
-        // TODO: async eq of [...second] ?
-        const secondArray = []
-        for await (const x of second) {
-            secondArray.push(x)
-        }
-
-        for await (const firstItem of first) {
-
-            let exists = false
-            for (let j = 0; j < secondArray.length; j++) {
-                const secondItem = secondArray[j]
-
-                if (comparer(firstItem, secondItem) === true) {
-                    exists = true
-                    break
-                }
-            }
-
-            if (exists === false) {
-                yield firstItem
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable(iterator)
-}
-
-/**
- * Produces the set difference of two sequences by using the comparer provided to compare values.
- * @param first An AsyncIterable<T> whose elements that are not also in second will be returned.
- * @param second An AsyncIterable<T> whose elements that also occur in the first sequence
- * will cause those elements to be removed from the returned sequence.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns A sequence that contains the set difference of the elements of two sequences.
- */
-export function exceptAsync<TSource>(
-    first: AsyncIterable<TSource>,
-    second: AsyncIterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
-
-    async function *iterator() {
-        // TODO: async eq of [...second] ?
-        const secondArray = []
-        for await (const x of second) {
-            secondArray.push(x)
-        }
-
-        for await (const firstItem of first) {
-
-            let exists = false
-            for (let j = 0; j < secondArray.length; j++) {
-                const secondItem = secondArray[j]
-
-                if (await comparer(firstItem, secondItem) === true) {
-                    exists = true
-                    break
-                }
-            }
-
-            if (exists === false) {
-                yield firstItem
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable(iterator)
-}
-
+export { except } from "./_private/except"
+export { exceptAsync } from "./_private/exceptAsync"
 export { first } from "./_private/first"
 export { firstAsync } from "./_private/firstAsync"
 export { firstOrDefault } from "./_private/firstOrDefault"
@@ -317,41 +148,8 @@ export function from<TSource>(promisesOrIterable: Array<Promise<TSource>> | (() 
     }
 }
 
-/**
- * Performs a specified action on each element of the Iterable<TSource>
- * @param source The source to iterate
- * @param action The action to take an each element
- * @returns A new IAsyncEnumerable<T> that executes the action lazily as you iterate.
- */
-export function each<TSource>(
-    source: AsyncIterable<TSource>, action: (x: TSource) => void): IAsyncEnumerable<TSource> {
-    async function *iterator() {
-        for await (const value of source) {
-            action(value)
-            yield value
-        }
-    }
-
-    return new BasicAsyncEnumerable(iterator)
-}
-
-/**
- * Performs a specified action on each element of the AsyncIterable<TSource>
- * @param source The source to iterate
- * @param action The action to take an each element
- * @returns A new IAsyncEnumerable<T> that executes the action lazily as you iterate.
- */
-export function eachAsync<TSource>(
-    source: AsyncIterable<TSource>, action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource> {
-    async function *iterator() {
-        for await (const value of source) {
-            await action(value)
-            yield value
-        }
-    }
-
-    return new BasicAsyncEnumerable(iterator)
-}
+export { each } from "./_private/each"
+export { eachAsync } from "./_private/eachAsync"
 
 /**
  * Groups the elements of a sequence according to a specified key selector function.
