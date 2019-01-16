@@ -2,7 +2,6 @@ import "core-js/modules/es7.symbol.async-iterator"
 
 import {
     IAsyncEnumerable, IAsyncEqualityComparer,
-    IAsyncFlatten,
     IComparer,
     IEqualityComparer,
     IGrouping,
@@ -11,8 +10,6 @@ import {
     OfType, SelectorKeyType } from "../types"
 import {
     ArgumentOutOfRangeException,
-    ErrorString,
-    InvalidOperationException,
     StrictEqualityComparer,
 } from "./../shared/shared"
 import * as AsyncEnumerablePrivate from "./AsyncEnumerablePrivate"
@@ -42,112 +39,16 @@ export { concat } from "./_private/concat"
 export { distinct } from "./_private/distinct"
 export { distinctAsync } from "./_private/distinctAsync"
 export { elementAtOrDefault } from "./_private/elementAtOrDefault"
-
-/**
- * Returns an empty IAsyncEnumerable<T> that has the specified type argument.
- * @returns An empty IAsyncEnumerable<T> whose type argument is TResult.
- */
-export function empty<TResult>(): IAsyncEnumerable<TResult> {
-    async function *iterable() {
-        for await (const _ of []) {
-            yield _
-        }
-    }
-
-    return new BasicAsyncEnumerable<TResult>(iterable)
-}
-
-/**
- * Iterates through the object
- * @param source Source Object
- * @returns IAsyncEnumerabe<[TKey, TValue]> of Key Value pairs
- */
-export function enumerateObject<TInput>(
-    source: TInput): IAsyncEnumerable<[keyof TInput, TInput[keyof TInput]]> {
-    async function *iterable(): AsyncIterableIterator<[keyof TInput, TInput[keyof TInput]]> {
-        /* tslint:disable */
-        for (const key in source) {
-            yield [ key, source[key] ]
-        }
-        /* tslint:enable */
-    }
-
-    return new BasicAsyncEnumerable(iterable)
-}
-
+export { empty } from "./_private/empty"
+export { enumerateObject } from "./_private/enumerateObject"
 export { except } from "./_private/except"
 export { exceptAsync } from "./_private/exceptAsync"
 export { first } from "./_private/first"
 export { firstAsync } from "./_private/firstAsync"
 export { firstOrDefault } from "./_private/firstOrDefault"
 export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
-
-/**
- * Flattens an async iterable
- * @param source AsyncIterable to flatten
- * @param shallow When false - recurses the iterable types
- */
-export function flatten<TSource>(
-    source: IAsyncFlatten<TSource>,
-    shallow?: false): IAsyncEnumerable<TSource>
-/**
- * Flattens an async iterable
- * @param source AsyncIterable to flatten
- * @param shallow When false - recurses the iterable types
- */
-export function flatten<TSource>(
-    source: AsyncIterable<TSource | AsyncIterable<TSource>>,
-    shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>
-export function flatten<TSource>(
-    source: AsyncIterable<TSource | AsyncIterable<TSource>>,
-    shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
-
-    async function* iterator(sourceInner: AsyncIterable<any>)
-        : AsyncIterableIterator<TSource | AsyncIterable<TSource>> {
-        for await (const item of sourceInner) {
-            if (item[Symbol.asyncIterator] !== undefined) {
-                const items = shallow ? item : iterator(item as AsyncIterable<any>)
-                for await (const inner of items) {
-                    yield inner
-                }
-            } else {
-                yield item
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable(() => iterator(source))
-}
-
-/**
- * Converts the input array of promises to an async iterable
- * @param promises Array of Promises to Convert to an IAsyncEnumerable<T>
- * @throws {InvalidOperationException} No Elements in the Promises Array
- * @returns IAsyncEnumerable<T>
- */
-export function from<TSource>(promises: Array<Promise<TSource>>): IAsyncEnumerable<TSource>
-/**
- * Converts the input method to an async iterable
- * @param asyncIterable Function which returns an AsyncIterableIterator<TSource>
- * @returns IAsyncEnumerable<T>
- */
-export function from<TSource>(asyncIterable: () => AsyncIterableIterator<TSource>): IAsyncEnumerable<TSource>
-export function from<TSource>(promisesOrIterable: Array<Promise<TSource>> | (() => AsyncIterableIterator<TSource>)) {
-    if (Array.isArray(promisesOrIterable)) {
-        if (promisesOrIterable.length === 0) {
-            throw new InvalidOperationException(ErrorString.NoElements)
-        }
-
-        return new BasicAsyncEnumerable(async function*() {
-            for await (const value of promisesOrIterable) {
-                yield value
-            }
-        })
-    } else {
-        return new BasicAsyncEnumerable(promisesOrIterable)
-    }
-}
-
+export { flatten } from "./_private/flatten"
+export { from } from "./_private/from"
 export { each } from "./_private/each"
 export { eachAsync } from "./_private/eachAsync"
 
@@ -868,41 +769,8 @@ export function unionAsync<TSource>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-/**
- * Filters a sequence of values based on a predicate.
- * Each element's index is used in the logic of the predicate function.
- * @param source An AsyncIterable<T> to filter.
- * @param predicate A function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
- */
-export function where<TSource>(
-    source: AsyncIterable<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
-    if (predicate.length === 1) {
-        return AsyncEnumerablePrivate.where_1(source, predicate as (x: TSource) => boolean)
-    } else {
-        return AsyncEnumerablePrivate.where_2(source, predicate as (x: TSource, index: number) => boolean)
-    }
-}
-
-/**
- * Filters a sequence of values based on a predicate.
- * Each element's index is used in the logic of the predicate function.
- * @param source An AsyncIterable<T> to filter.
- * @param predicate A async function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
- */
-export function whereAsync<TSource>(
-    source: AsyncIterable<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
-    if (predicate.length === 1) {
-        return AsyncEnumerablePrivate.whereAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
-    } else {
-        return AsyncEnumerablePrivate.whereAsync_2(source, predicate)
-    }
-}
+export { where } from "./_private/where"
+export { whereAsync } from "./_private/whereAsync"
 
 /**
  * Creates tuples from th corresponding elements of two sequences, producing a sequence of the results.

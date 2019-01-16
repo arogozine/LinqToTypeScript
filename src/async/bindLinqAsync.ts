@@ -12,7 +12,6 @@ import {
     skip, skipWhile, skipWhileAsync,
     take, takeWhile, takeWhileAsync,
     union, unionAsync,
-    where, whereAsync,
     zip, zipAsync,
 } from "./AsyncEnumerable"
 
@@ -85,8 +84,8 @@ import { toMapAsync } from "./_private/toMapAsync"
 import { toSet } from "./_private/toSet"
 // import { union } from "./_private/union"
 // import { unionAsync } from "./_private/unionAsync"
-// import { where } from "./_private/where"
-// import { whereAsync } from "./_private/whereAsync"
+import { where } from "./_private/where"
+import { whereAsync } from "./_private/whereAsync"
 // import { zip } from "./_private/zip"
 // import { zipAsync } from "./_private/zipAsync"
 

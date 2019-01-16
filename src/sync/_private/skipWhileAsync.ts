@@ -1,4 +1,4 @@
-import { from } from "../../async/AsyncEnumerable"
+import { from } from "../../async/_private/from"
 import { IAsyncEnumerable } from "../../types"
 
 /**

@@ -525,61 +525,6 @@ export function union_2<TSource>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-export function where_1<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> {
-    async function* iterator() {
-        for await (const item of source) {
-            if (predicate(item) === true) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable<T>(iterator)
-}
-
-export function where_2<T>(
-    source: AsyncIterable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T> {
-    async function* iterator() {
-        let i = 0
-        for await (const item of source) {
-            if (predicate(item, i++) === true) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable<T>(iterator)
-}
-
-export function whereAsync_1<T>(
-    source: AsyncIterable<T>,
-    predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> {
-    async function* iterator() {
-        for await (const item of source) {
-            if (await predicate(item) === true) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable<T>(iterator)
-}
-
-export function whereAsync_2<T>(
-    source: AsyncIterable<T>,
-    predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
-    async function* iterator() {
-        let i = 0
-        for await (const item of source) {
-            if (await predicate(item, i++) === true) {
-                yield item
-            }
-        }
-    }
-
-    return new BasicAsyncEnumerable<T>(iterator)
-}
-
 export function zip_1<T, Y>(
     source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]> {
     async function* iterator(): AsyncIterableIterator<[T, Y]> {
