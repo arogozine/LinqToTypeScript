@@ -1,4 +1,4 @@
-import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, IParallelFlatten, OfType, ParallelGeneratorType, SelectorKeyType } from "../types";
+import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, IParallelFlatten, OfType, SelectorKeyType } from "../types";
 import { toArray } from "./_private/toArray";
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 /**
@@ -93,27 +93,7 @@ export declare function flatten<TSource>(source: IParallelFlatten<TSource>, shal
  * @param shallow When false - recurses the iterable types
  */
 export declare function flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>;
-/**
- * Creates an IParallelEnumerable from a function that returns an Array of Promises
- * @param type Array of Promises
- * @param generator Function that gives back an array of promises
- * @returns IParallelEnumerable<T>
- */
-export declare function from<TSource>(type: ParallelGeneratorType.ArrayOfPromises, generator: () => Array<Promise<TSource>>): IParallelEnumerable<TSource>;
-/**
- * Creates an IParallelEnumerable from a function that returns a Array Promise
- * @param type Promise to Array
- * @param generator Async function which returns an array of values
- * @returns IParallelEnumerable<T>
- */
-export declare function from<TSource>(type: ParallelGeneratorType.PromiseToArray, generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>;
-/**
- * Creates an IParallelEnumerable from a function that returns an promise of an promise array of valus
- * @param type Promise of Promises
- * @param generator Async function that returns an array of value promises
- * @returns IParallelEnumerable<T>
- */
-export declare function from<TSource>(type: ParallelGeneratorType.PromiseOfPromises, generator: () => Promise<Array<Promise<TSource>>>): IParallelEnumerable<TSource>;
+export { from } from "./_private/from";
 /**
  * Groups the elements of a sequence according to a specified key selector function.
  * @param source An IAsyncParallel<T> whose elements to group.

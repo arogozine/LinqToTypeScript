@@ -15,9 +15,11 @@ module.exports = function(config) {
       "./test/**/*.ts"
     ],
     exclude: [
+      // Karma is not made by smart people???
       "./**/*.d.ts",
       "./**/types/*.ts",
-      "./node_modules"
+      "./node_modules",
+      "./**/parallel.ts"
     ],
     preprocessors: {
       "./**/*.ts": "karma-typescript",
