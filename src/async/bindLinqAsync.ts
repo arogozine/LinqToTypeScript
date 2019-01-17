@@ -1,18 +1,7 @@
 import { IAsyncEnumerable, IEqualityComparer, IPrototype } from "../types"
 
 import {
-    groupBy,
-    groupByAsync,
-    groupByWithSel,
-    intersect, intersectAsync,
-    join,
-    ofType, orderBy, orderByAsync, orderByDescending, orderByDescendingAsync,
-    reverse,
-    select, selectAsync, selectMany, selectManyAsync, // , sequenceEquals, sequenceEqualsAsync,
-    skip, skipWhile, skipWhileAsync,
-    take, takeWhile, takeWhileAsync,
-    union, unionAsync,
-    zip, zipAsync,
+    orderBy, orderByAsync, orderByDescending, orderByDescendingAsync,
 } from "./AsyncEnumerable"
 
 import { aggregate } from "./_private/aggregate"
@@ -40,12 +29,12 @@ import { first } from "./_private/first"
 import { firstAsync } from "./_private/firstAsync"
 import { firstOrDefault } from "./_private/firstOrDefault"
 import { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
-// import { groupBy } from "./_private/groupBy"
-// import { groupByAsync } from "./_private/groupByAsync"
-// import { groupByWithSel } from "./_private/groupByWithSel"
-// import { intersect } from "./_private/intersect"
-// import { intersectAsync } from "./_private/intersectAsync"
-// import { join } from "./_private/join"
+import { groupBy } from "./_private/groupBy"
+import { groupByAsync } from "./_private/groupByAsync"
+import { groupByWithSel } from "./_private/groupByWithSel"
+import { intersect } from "./_private/intersect"
+import { intersectAsync } from "./_private/intersectAsync"
+import { join } from "./_private/join"
 import { last } from "./_private/last"
 import { lastAsync } from "./_private/lastAsync"
 import { lastOrDefault } from "./_private/lastOrDefault"
@@ -54,40 +43,40 @@ import { max } from "./_private/max"
 import { maxAsync } from "./_private/maxAsync"
 import { min } from "./_private/min"
 import { minAsync } from "./_private/minAsync"
-// import { ofType } from "./_private/ofType"
+import { ofType } from "./_private/ofType"
 // import { orderBy } from "./_private/orderBy"
 // import { orderByAsync } from "./_private/orderByAsync"
 // import { orderByDescending } from "./_private/orderByDescending"
 // import { orderByDescendingAsync } from "./_private/orderByDescendingAsync"
-// import { reverse } from "./_private/reverse"
-// import { select } from "./_private/select"
-// import { selectAsync } from "./_private/selectAsync"
-// import { selectMany } from "./_private/selectMany"
-// import { selectManyAsync } from "./_private/selectManyAsync"
+import { reverse } from "./_private/reverse"
+import { select } from "./_private/select"
+import { selectAsync } from "./_private/selectAsync"
+import { selectMany } from "./_private/selectMany"
+import { selectManyAsync } from "./_private/selectManyAsync"
 import { sequenceEquals } from "./_private/sequenceEquals"
 import { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync"
 import { single } from "./_private/single"
 import { singleAsync } from "./_private/singleAsync"
 import { singleOrDefault } from "./_private/singleOrDefault"
 import { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync"
-// import { skip } from "./_private/skip"
-// import { skipWhile } from "./_private/skipWhile"
-// import { skipWhileAsync } from "./_private/skipWhileAsync"
+import { skip } from "./_private/skip"
+import { skipWhile } from "./_private/skipWhile"
+import { skipWhileAsync } from "./_private/skipWhileAsync"
 import { sum } from "./_private/sum"
 import { sumAsync } from "./_private/sumAsync"
-// import { take } from "./_private/take"
-// import { takeWhile } from "./_private/takeWhile"
-// import { takeWhileAsync } from "./_private/takeWhileAsync"
+import { take } from "./_private/take"
+import { takeWhile } from "./_private/takeWhile"
+import { takeWhileAsync } from "./_private/takeWhileAsync"
 import { toArray } from "./_private/toArray"
 import { toMap } from "./_private/toMap"
 import { toMapAsync } from "./_private/toMapAsync"
 import { toSet } from "./_private/toSet"
-// import { union } from "./_private/union"
-// import { unionAsync } from "./_private/unionAsync"
+import { union } from "./_private/union"
+import { unionAsync } from "./_private/unionAsync"
 import { where } from "./_private/where"
 import { whereAsync } from "./_private/whereAsync"
-// import { zip } from "./_private/zip"
-// import { zipAsync } from "./_private/zipAsync"
+import { zip } from "./_private/zip"
+import { zipAsync } from "./_private/zipAsync"
 
 /**
  * Binds LINQ methods to an iterable type

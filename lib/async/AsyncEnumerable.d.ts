@@ -1,5 +1,5 @@
 import "core-js/modules/es7.symbol.async-iterator";
-import { IAsyncEnumerable, IAsyncEqualityComparer, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedAsyncEnumerable, OfType, SelectorKeyType } from "../types";
+import { IAsyncEnumerable, IComparer, IOrderedAsyncEnumerable } from "../types";
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */
@@ -32,189 +32,24 @@ export { flatten } from "./_private/flatten";
 export { from } from "./_private/from";
 export { each } from "./_private/each";
 export { eachAsync } from "./_private/eachAsync";
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export declare function groupBy<TSource, TKey extends SelectorKeyType>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>;
-/**
- * Groups the elements of a sequence according to a key selector function.
- * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @param comparer An IEqualityComparer<T> to compare keys.
- */
-export declare function groupBy<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An Iterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An AsyncIterable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export declare function groupByAsync<TSource, TKey extends SelectorKeyType>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<TKey> | TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>;
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @param comparer An IEqualityComparer<T> or IAsyncEqualityComparer<T> to compare keys.
- * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export declare function groupByAsync<TSource, TKey>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => Promise<TKey> | TKey, comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>;
-/**
- * Groups the elements of a sequence according to a specified key selector function and
- * projects the elements for each group by using a specified function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
- * @returns An IAsyncEnumerable<IGrouping<TKey, TElement>>
- * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
- */
-export declare function groupByWithSel<TSource, TKey extends SelectorKeyType, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>>;
-/**
- * Groups the elements of a sequence according to a key selector function.
- * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
- * @param comparer An IEqualityComparer<T> to compare keys.
- * @returns An IAsyncEnumerable<IGrouping<TKey,TElement>>
- * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
- */
-export declare function groupByWithSel<TSource, TKey, TElement>(source: AsyncIterable<TSource>, keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;
-/**
- * Correlates the elements of two sequences based on matching keys.
- * A specified IEqualityComparer<T> is used to compare keys or the strict equality comparer.
- * @param outer The first sequence to join.
- * @param inner The sequence to join to the first sequence.
- * @param outerKeySelector A function to extract the join key from each element of the first sequence.
- * @param innerKeySelector A function to extract the join key from each element of the second sequence.
- * @param resultSelector A function to create a result element from two matching elements.
- * @param comparer An IEqualityComparer<T> to hash and compare keys. Optional.
- * @returns An IAsyncEnumerable<T> that has elements of type TResult that
- * are obtained by performing an inner join on two sequences.
- */
-export declare function join<TOuter, TInner, TKey, TResult>(outer: AsyncIterable<TOuter>, inner: AsyncIterable<TInner>, outerKeySelector: (x: TOuter) => TKey, innerKeySelector: (x: TInner) => TKey, resultSelector: (x: TOuter, y: TInner) => TResult, comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>;
-/**
- * Produces the set intersection of two sequences by using the specified IEqualityComparer<T> to compare values.
- * If not comparer is specified, uses the @see {StrictEqualityComparer}
- * @param first An IAsyncEnumerable<T> whose distinct elements that also appear in second will be returned.
- * @param second An IAsyncEnumerable<T> whose distinct elements that also appear in the first sequence will be returned.
- * @param comparer An IAsyncEqualityComparer<T> to compare values. Optional.
- * @returns A sequence that contains the elements that form the set intersection of two sequences.
- */
-export declare function intersect<TSource>(first: IAsyncEnumerable<TSource>, second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
-/**
- * Produces the set intersection of two sequences by using the specified IAsyncEqualityComparer<T> to compare values.
- * @param first An IAsyncEnumerable<T> whose distinct elements that also appear in second will be returned.
- * @param second An IAsyncEnumerable<T> whose distinct elements that also appear in the first sequence will be returned.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns A sequence that contains the elements that form the set intersection of two sequences.
- */
-export declare function intersectAsync<TSource>(first: IAsyncEnumerable<TSource>, second: IAsyncEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
-/**
- * Projects each element of a sequence into a new form.
- * @param source A sequence of values to invoke a transform function on.
- * @param selector A transform function to apply to each element.
- * @returns
- * An IAsyncEnumerable<T> whose elements are the result of invoking the transform function on each element of source.
- */
-export declare function select<TSource, TResult>(source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => TResult): IAsyncEnumerable<TResult>;
-/**
- * Projects each element of a sequence into a new form.
- * @param source A sequence of values to invoke a transform function on.
- * @param selector A key of TSource.
- * @returns
- * An IAsyncEnumerable<T> whose elements are the result of getting the value from the key on each element of source.
- */
-export declare function select<TSource, TKey extends keyof TSource>(source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>;
-/**
- * Projects each element of a sequence into a new form.
- * @param source A sequence of values to invoke a transform function on.
- * @param selector An async transform function to apply to each element.
- * @returns An IAsyncEnumerable<T> whose elements are the result of invoking
- * the transform function on each element of source.
- */
-export declare function selectAsync<TSource, TResult>(source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult>;
-/**
- * Projects each element of a sequence into a new form.
- * @param source A sequence of values to invoke a transform function on.
- * @param key A key of the elements in the sequence
- * @returns An IAsyncEnumerable<T> whoe elements are the result of getting the value for key
- * on each element of source.
- */
-export declare function selectAsync<TSource extends {
-    [key: string]: Promise<any>;
-}, TKey extends keyof TSource>(source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TSource[TKey]>;
-/**
- * Projects each element of a sequence to an IAsyncEnumerable<T> and flattens the resulting sequences into one sequence.
- * @param source A sequence of values to project.
- * @param selector A transform function to apply to each element.
- * @returns An IAsyncEnumerable<T> whose elements are the result of invoking the
- * one-to-many transform function on each element of the input sequence.
- */
-export declare function selectMany<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => Iterable<Y>): IAsyncEnumerable<Y>;
-/**
- * Projects each element of a sequence to an AsyncIterable<T> and flattens the resulting sequences into one sequence.
- * @param source A sequence of values to project.
- * @param selector A string key of TSource.
- * @returns An AsyncIterable<T> whose elements are the result of invoking the
- * parameter the key is tried to on each element of the input sequence.
- */
-export declare function selectMany<TSource extends {
-    [key: string]: Iterable<Y>;
-}, Y>(source: AsyncIterable<TSource>, selector: keyof TSource): IAsyncEnumerable<Y>;
-/**
- * Projects each element of a sequence to an IAsyncEnumerable<T> and flattens the resulting sequences into one sequence.
- * @param source A sequence of values to project.
- * @param selector A transform function to apply to each element.
- * @returns An IAsyncEnumerable<T> whose elements are the result of invoking the
- * one-to-many transform function on each element of the input sequence.
- */
-export declare function selectManyAsync<TSource, Y>(source: AsyncIterable<TSource>, selector: (x: TSource, index: number) => Promise<Iterable<Y>>): IAsyncEnumerable<Y>;
+export { groupBy } from "./_private/groupBy";
+export { groupByAsync } from "./_private/groupByAsync";
+export { groupByWithSel } from "./_private/groupByWithSel";
+export { join } from "./_private/join";
+export { intersect } from "./_private/intersect";
+export { intersectAsync } from "./_private/intersectAsync";
+export { select } from "./_private/select";
+export { selectAsync } from "./_private/selectAsync";
+export { selectMany } from "./_private/selectMany";
+export { selectManyAsync } from "./_private/selectManyAsync";
 export { single } from "./_private/single";
 export { singleAsync } from "./_private/singleAsync";
 export { singleOrDefault } from "./_private/singleOrDefault";
 export { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync";
-/**
- * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
- * @param source An AsyncIterable<T> to return elements from.
- * @param count The number of elements to skip before returning the remaining elements.
- * @returns
- * An IAsyncEnumerable<T> that contains the elements that occur after the specified index in the input sequence.
- */
-export declare function skip<TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource>;
-/**
- * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
- * The element's index is used in the logic of the predicate function.
- * @param source An AsyncIterable<T> to return elements from.
- * @param predicate A function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IAsyncEnumerable<T> that contains the elements from the input sequence starting at the first element
- * in the linear series that does not pass the test specified by predicate.
- */
-export declare function skipWhile<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
-/**
- * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
- * The element's index is used in the logic of the predicate function.
- * @param source An AsyncIterable<T> to return elements from.
- * @param predicate A function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IAsyncEnumerable<T> that contains the elements from the input sequence starting
- * at the first element in the linear series that does not pass the test specified by predicate.
- */
-export declare function skipWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
-/**
- * Applies a type filter to a source iteration
- * @param source Async Iteration to Filtery by Type
- * @param type Either value for typeof or a consturctor function
- * @returns Values that match the type string or are instance of type
- */
-export declare function ofType<TSource, TType extends OfType>(source: AsyncIterable<TSource>, type: TType): IAsyncEnumerable<InferType<TType>>;
+export { skip } from "./_private/skip";
+export { skipWhile } from "./_private/skipWhile";
+export { skipWhileAsync } from "./_private/skipWhileAsync";
+export { ofType } from "./_private/ofType";
 /**
  * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
  * @param source A sequence of values to order.
@@ -257,104 +92,25 @@ export { min } from "./_private/min";
 export { minAsync } from "./_private/minAsync";
 export { partition } from "./_private/partition";
 export { partitionAsync } from "./_private/partitionAsync";
-/**
- * Generates a sequence of integral numbers within a specified range.
- * @param start The value of the first integer in the sequence.
- * @param count The number of sequential integers to generate.
- * @throws {ArgumentOutOfRangeException} Start is Less than 0
- * OR start + count -1 is larger than MAX_SAFE_INTEGER.
- * @returns An IAsyncEnumerable<number> that contains a range of sequential integral numbers.
- */
-export declare function range(start: number, count: number): IAsyncEnumerable<number>;
-/**
- * Generates a sequence that contains one repeated value.
- * @param element The value to be repeated.
- * @param count The number of times to repeat the value in the generated sequence.
- * @returns An IAsyncEnumerable<T> that contains a repeated value.
- */
-export declare function repeat<TResult>(element: TResult, count: number, delay?: number): IAsyncEnumerable<TResult>;
-/**
- * Inverts the order of the elements in a sequence.
- * @param source A sequence of values to reverse.
- * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
- */
-export declare function reverse<TSource>(source: AsyncIterable<TSource>): IAsyncEnumerable<TSource>;
+export { range } from "./_private/range";
+export { repeat } from "./_private/repeat";
+export { reverse } from "./_private/reverse";
 export { sequenceEquals } from "./_private/sequenceEquals";
 export { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync";
 export { sum } from "./_private/sum";
 export { sumAsync } from "./_private/sumAsync";
-/**
- * Returns a specified number of contiguous elements from the start of a sequence.
- * @param source The sequence to return elements from.
- * @param amount The number of elements to return.
- * @returns An IAsyncEnumerable<T> that contains the specified number of elements from the start of the input sequence.
- */
-export declare function take<TSource>(source: AsyncIterable<TSource>, amount: number): IAsyncEnumerable<TSource>;
-/**
- * Returns elements from a sequence as long as a specified condition is true.
- * The element's index is used in the logic of the predicate function.
- * @param source The sequence to return elements from.
- * @param predicate A function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
- * that occur before the element at which the test no longer passes.
- */
-export declare function takeWhile<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
-/**
- * Returns elements from a sequence as long as a specified condition is true.
- * The element's index is used in the logic of the predicate function.
- * @param source The sequence to return elements from.
- * @param predicate A async function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
- * that occur before the element at which the test no longer passes.
- */
-export declare function takeWhileAsync<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>;
+export { take } from "./_private/take";
+export { takeWhile } from "./_private/takeWhile";
+export { takeWhileAsync } from "./_private/takeWhileAsync";
 export { toArray } from "./_private/toArray";
 export { toMap } from "./_private/toMap";
 export { toMapAsync } from "./_private/toMapAsync";
 export { toObject } from "./_private/toObject";
 export { toObjectAsync } from "./_private/toObjectAsync";
 export { toSet } from "./_private/toSet";
-/**
- * Produces the set union of two sequences by using scrict equality comparison or a specified IEqualityComparer<T>.
- * @param first An AsyncIterable<T> whose distinct elements form the first set for the union.
- * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.
- * @param comparer The IEqualityComparer<T> to compare values. Optional.
- * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
- */
-export declare function union<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
-/**
- * Produces the set union of two sequences by using a specified IAsyncEqualityComparer<T>.
- * @param first An AsyncIterable<T> whose distinct elements form the first set for the union.
- * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.
- * @param comparer The IAsyncEqualityComparer<T> to compare values.
- * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
- */
-export declare function unionAsync<TSource>(first: AsyncIterable<TSource>, second: AsyncIterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>;
+export { union } from "./_private/union";
+export { unionAsync } from "./_private/unionAsync";
 export { where } from "./_private/where";
 export { whereAsync } from "./_private/whereAsync";
-/**
- * Creates tuples from th corresponding elements of two sequences, producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
- */
-export declare function zip<T, Y>(first: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]>;
-/**
- * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @param resultSelector A function that specifies how to merge the elements from the two sequences.
- * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
- */
-export declare function zip<TFirst, TSecond, TResult>(first: AsyncIterable<TFirst>, second: AsyncIterable<TSecond>, resultSelector: (x: TFirst, y: TSecond) => TResult): IAsyncEnumerable<TResult>;
-/**
- * Applies a specified async function to the corresponding elements of two sequences,
- * producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
- * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
- */
-export declare function zipAsync<TFirst, TSecond, TResult>(first: AsyncIterable<TFirst>, second: AsyncIterable<TSecond>, resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>;
+export { zip } from "./_private/zip";
+export { zipAsync } from "./_private/zipAsync";
