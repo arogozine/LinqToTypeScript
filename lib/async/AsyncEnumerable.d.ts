@@ -50,30 +50,9 @@ export { skip } from "./_private/skip";
 export { skipWhile } from "./_private/skipWhile";
 export { skipWhileAsync } from "./_private/skipWhileAsync";
 export { ofType } from "./_private/ofType";
-/**
- * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
- * @param source A sequence of values to order.
- * @param keySelector A function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys. Optional.
- * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted according to a key.
- */
-export declare function orderBy<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
-/**
- * Sorts the elements of a sequence in ascending order by using a specified comparer.
- * @param source A sequence of values to order.
- * @param keySelector An async function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys.
- * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted according to a key.
- */
-export declare function orderByAsync<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
-/**
- * Sorts the elements of a sequence in descending order by using a specified or default comparer.
- * @param source A sequence of values to order.
- * @param keySelector A function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys. Optional.
- * @return An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
- */
-export declare function orderByDescending<TSource, TKey>(source: IAsyncEnumerable<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>;
+export { orderBy } from "./_private/orderBy";
+export { orderByAsync } from "./_private/orderByAsync";
+export { orderByDescending } from "./_private/orderByDescending";
 /**
  * Sorts the elements of a sequence in descending order by using a specified comparer.
  * @param source A sequence of values to order.

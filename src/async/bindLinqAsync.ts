@@ -1,7 +1,7 @@
 import { IAsyncEnumerable, IEqualityComparer, IPrototype } from "../types"
 
 import {
-    orderBy, orderByAsync, orderByDescending, orderByDescendingAsync,
+    orderByDescendingAsync,
 } from "./AsyncEnumerable"
 
 import { aggregate } from "./_private/aggregate"
@@ -44,9 +44,9 @@ import { maxAsync } from "./_private/maxAsync"
 import { min } from "./_private/min"
 import { minAsync } from "./_private/minAsync"
 import { ofType } from "./_private/ofType"
-// import { orderBy } from "./_private/orderBy"
-// import { orderByAsync } from "./_private/orderByAsync"
-// import { orderByDescending } from "./_private/orderByDescending"
+import { orderBy } from "./_private/orderBy"
+import { orderByAsync } from "./_private/orderByAsync"
+import { orderByDescending } from "./_private/orderByDescending"
 // import { orderByDescendingAsync } from "./_private/orderByDescendingAsync"
 import { reverse } from "./_private/reverse"
 import { select } from "./_private/select"
