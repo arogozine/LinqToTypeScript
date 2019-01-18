@@ -29,122 +29,19 @@ import * as ParallelEnumerablePrivate from "./ParallelEnumerablePrivate"
 export { aggregate } from "./_private/aggregate"
 export { all } from "./_private/all"
 export { allAsync } from "./_private//allAsync"
-
-/**
- * Returns an empty IParallelEnumerable<T> that has the specified type argument.
- * @returns An empty IParallelEnumerable<T> whose type argument is TResult.
- */
-export function empty<TResult>(): IParallelEnumerable<TResult> {
-    const dataFunc: TypedData<TResult> = {
-        generator: async () => [],
-        type: ParallelGeneratorType.PromiseToArray,
-    }
-
-    return new BasicParallelEnumerable(dataFunc)
-}
-
+export { empty } from "./_private/empty"
 export { any } from "./_private/any"
 export { anyAsync } from "./_private/anyAsync"
 export { asAsync } from "./_private/asAsync"
 export { average } from "./_private/average"
 export { averageAsync } from "./_private/averageAsync"
-
-/**
- * Concatenates two sequences.
- * @param first The first sequence to concatenate.
- * @param second The sequence to concatenate to the first sequence.
- * @returns An IParallelEnumerable<T> that contains the concatenated elements of the two input sequences.
- */
-export function concat<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
-    first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
-    const generator = async () => {
-        // Wait for both enumerables
-        const promiseResults = await Promise.all([ first.toArray(), second.toArray() ])
-        // Concat
-        const firstData = promiseResults[0]
-        const secondData = promiseResults[1]
-        const data = new Array(firstData.length + secondData.length)
-        let i = 0
-        for (; i < firstData.length; i++) {
-            data[i] = firstData[i]
-        }
-
-        for (let j = 0; j < secondData.length; j++, i++) {
-            data[i] = secondData[j]
-        }
-
-        return data
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
-
+export { concat } from "./_private/concat"
 export { contains } from "./_private/contains"
 export { containsAsync } from "./_private/containsAsync"
 export { count } from "./_private/count"
 export { countAsync } from "./_private/countAsync"
-
-/**
- * Returns distinct elements from a sequence by using the default or specified equality comparer to compare values.
- * @param source The sequence to remove duplicate elements from.
- * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
- * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
- */
-export function distinct<TSource>(
-    source: IAsyncParallel<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
-    const generator = async () => {
-        const distinctElements: TSource[] = []
-        for (const item of await source.toArray()) {
-            const foundItem = distinctElements.find((x) => comparer(x, item))
-            if (!foundItem) {
-                distinctElements.push(item)
-            }
-        }
-        return distinctElements
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
-
-/**
- * Returns distinct elements from a sequence by using the specified equality comparer to compare values.
- * @param source The sequence to remove duplicate elements from.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
- */
-export function distinctAsync<TSource>(
-    source: IAsyncParallel<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
-    const generator = async () => {
-        const distinctElements: TSource[] = []
-        outerLoop:
-        for (const item of await source.toArray()) {
-            for (const distinctElement of distinctElements) {
-                const found = await comparer(distinctElement, item)
-                if (found) {
-                    continue outerLoop
-                }
-            }
-
-            distinctElements.push(item)
-        }
-
-        return distinctElements
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
+export { distinct } from "./_private/distinct"
+export { distinctAsync } from "./_private/distinctAsync"
 
 /**
  * Performs a specified action on each element of the IParallelEnumerable<TSource>

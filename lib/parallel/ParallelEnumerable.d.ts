@@ -7,41 +7,19 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 export { aggregate } from "./_private/aggregate";
 export { all } from "./_private/all";
 export { allAsync } from "./_private//allAsync";
-/**
- * Returns an empty IParallelEnumerable<T> that has the specified type argument.
- * @returns An empty IParallelEnumerable<T> whose type argument is TResult.
- */
-export declare function empty<TResult>(): IParallelEnumerable<TResult>;
+export { empty } from "./_private/empty";
 export { any } from "./_private/any";
 export { anyAsync } from "./_private/anyAsync";
 export { asAsync } from "./_private/asAsync";
 export { average } from "./_private/average";
 export { averageAsync } from "./_private/averageAsync";
-/**
- * Concatenates two sequences.
- * @param first The first sequence to concatenate.
- * @param second The sequence to concatenate to the first sequence.
- * @returns An IParallelEnumerable<T> that contains the concatenated elements of the two input sequences.
- */
-export declare function concat<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>;
+export { concat } from "./_private/concat";
 export { contains } from "./_private/contains";
 export { containsAsync } from "./_private/containsAsync";
 export { count } from "./_private/count";
 export { countAsync } from "./_private/countAsync";
-/**
- * Returns distinct elements from a sequence by using the default or specified equality comparer to compare values.
- * @param source The sequence to remove duplicate elements from.
- * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
- * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
- */
-export declare function distinct<TSource>(source: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
-/**
- * Returns distinct elements from a sequence by using the specified equality comparer to compare values.
- * @param source The sequence to remove duplicate elements from.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
- */
-export declare function distinctAsync<TSource>(source: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+export { distinct } from "./_private/distinct";
+export { distinctAsync } from "./_private/distinctAsync";
 /**
  * Performs a specified action on each element of the IParallelEnumerable<TSource>
  * @param source The source to iterate

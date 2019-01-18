@@ -1,10 +1,7 @@
 import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, IPrototype } from "../types"
 
 import {
-    // asParallel,
-    asAsync,
-    concat, distinct,
-    distinctAsync, each, eachAsync, except,
+    each, eachAsync, except,
     exceptAsync, groupBy, groupByAsync,
     groupByWithSel, intersect,
     intersectAsync,
@@ -24,16 +21,16 @@ import { all } from "./_private/all"
 import { allAsync } from "./_private/allAsync"
 import { any } from "./_private/any"
 import { anyAsync } from "./_private/anyAsync"
-// import { asParallel } from "./_private/asParallel"
+import { asAsync } from "./_private/asAsync"
 import { average } from "./_private/average"
 import { averageAsync } from "./_private/averageAsync"
-// import { concat } from "./_private/concat"
+import { concat } from "./_private/concat"
 import { contains } from "./_private/contains"
 import { containsAsync } from "./_private/containsAsync"
 import { count } from "./_private/count"
 import { countAsync } from "./_private/countAsync"
-// import { distinct } from "./_private/distinct"
-// import { distinctAsync } from "./_private/distinctAsync"
+import { distinct } from "./_private/distinct"
+import { distinctAsync } from "./_private/distinctAsync"
 // import { each } from "./_private/each"
 // import { eachAsync } from "./_private/eachAsync"
 import { elementAt } from "./_private/elementAt"
