@@ -1,8 +1,7 @@
 import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, IPrototype } from "../types"
 
 import {
-    each, eachAsync, except,
-    exceptAsync, groupBy, groupByAsync,
+    groupBy, groupByAsync,
     groupByWithSel, intersect,
     intersectAsync,
     join, max, maxAsync, min, minAsync,
@@ -13,7 +12,6 @@ import {
     skipWhile, skipWhileAsync,
     take, takeWhile,
     takeWhileAsync, union, unionAsync,
-    where, whereAsync, zip, zipAsync,
 } from "./ParallelEnumerable"
 
 import { aggregate } from "./_private/aggregate"
@@ -31,12 +29,12 @@ import { count } from "./_private/count"
 import { countAsync } from "./_private/countAsync"
 import { distinct } from "./_private/distinct"
 import { distinctAsync } from "./_private/distinctAsync"
-// import { each } from "./_private/each"
-// import { eachAsync } from "./_private/eachAsync"
+import { each } from "./_private/each"
+import { eachAsync } from "./_private/eachAsync"
 import { elementAt } from "./_private/elementAt"
 import { elementAtOrDefault } from "./_private/elementAtOrDefault"
-// import { except } from "./_private/except"
-// import { exceptAsync } from "./_private/exceptAsync"
+import { except } from "./_private/except"
+import { exceptAsync } from "./_private/exceptAsync"
 import { first } from "./_private/first"
 import { firstAsync } from "./_private/firstAsync"
 import { firstOrDefault } from "./_private/firstOrDefault"
@@ -85,10 +83,10 @@ import { toMapAsync } from "./_private/toMapAsync"
 import { toSet } from "./_private/toSet"
 // import { union } from "./_private/union"
 // import { unionAsync } from "./_private/unionAsync"
-// import { where } from "./_private/where"
-// import { whereAsync } from "./_private/whereAsync"
-// import { zip } from "./_private/zip"
-// import { zipAsync } from "./_private/zipAsync"
+import { where } from "./_private/where"
+import { whereAsync } from "./_private/whereAsync"
+import { zip } from "./_private/zip"
+import { zipAsync } from "./_private/zipAsync"
 
 /**
  * Binds LINQ methods to an iterable type

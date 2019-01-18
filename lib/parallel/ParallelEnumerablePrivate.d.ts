@@ -10,5 +10,3 @@ export declare function repeat_1<T>(element: T, count: number): IParallelEnumera
 export declare function repeat_2<T>(element: T, count: number, delay: number): IParallelEnumerable<T>;
 export declare function union_1<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): BasicParallelEnumerable<TSource>;
 export declare function union_2<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IEqualityComparer<TSource>): BasicParallelEnumerable<TSource>;
-export declare function zip_1<T, Y>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]>;
-export declare function zip_2<T, Y, OUT>(source: IAsyncParallel<T>, second: IAsyncParallel<Y>, resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT>;

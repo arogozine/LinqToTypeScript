@@ -1,6 +1,5 @@
-import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, IParallelFlatten, OfType, SelectorKeyType } from "../types";
+import { IAsyncEqualityComparer, IAsyncParallel, IComparer, IEqualityComparer, IGrouping, InferType, IOrderedParallelEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "../types";
 import { toArray } from "./_private/toArray";
-import { BasicParallelEnumerable } from "./BasicParallelEnumerable";
 /**
  * Contains static methods to work with Parallel Async
  */
@@ -20,57 +19,17 @@ export { count } from "./_private/count";
 export { countAsync } from "./_private/countAsync";
 export { distinct } from "./_private/distinct";
 export { distinctAsync } from "./_private/distinctAsync";
-/**
- * Performs a specified action on each element of the IParallelEnumerable<TSource>
- * @param source The source to iterate
- * @param action The action to take an each element
- * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
- */
-export declare function each<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => void): IParallelEnumerable<TSource>;
-/**
- * Performs a specified action on each element of the IParallelEnumerable<TSource>
- * @param source The source to iterate
- * @param action The action to take an each element
- * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
- */
-export declare function eachAsync<TSource>(source: IParallelEnumerable<TSource>, action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource>;
+export { each } from "./_private/each";
+export { eachAsync } from "./_private/eachAsync";
 export { elementAt } from "./_private/elementAt";
 export { elementAtOrDefault } from "./_private/elementAtOrDefault";
-/**
- * Produces the set difference of two sequences by using the comparer provided
- * or EqualityComparer to compare values.
- * @param first An IAsyncParallel<T> whose elements that are not also in second will be returned.
- * @param second An IAsyncParallel<T> whose elements that also occur in the first sequence
- * will cause those elements to be removed from the returned sequence.
- * @param comparer An IEqualityComparer<T> to compare values. Optional.
- * @returns A sequence that contains the set difference of the elements of two sequences.
- */
-export declare function except<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>;
-/**
- * Produces the set difference of two sequences by using the comparer provided to compare values.
- * @param first An IAsyncParallel<T> whose elements that are not also in second will be returned.
- * @param second An IAsyncParallel<T> whose elements that also occur in the first sequence
- * will cause those elements to be removed from the returned sequence.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns A sequence that contains the set difference of the elements of two sequences.
- */
-export declare function exceptAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
+export { except } from "./_private/except";
+export { exceptAsync } from "./_private/exceptAsync";
 export { first } from "./_private/first";
 export { firstAsync } from "./_private/firstAsync";
 export { firstOrDefault } from "./_private/firstOrDefault";
 export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync";
-/**
- * Flattens a parallel iterable
- * @param source IAsyncParallel to flatten
- * @param shallow When false - recurses the iterable types
- */
-export declare function flatten<TSource>(source: IParallelFlatten<TSource>, shallow?: false): IParallelEnumerable<TSource>;
-/**
- * Flattens a parallel iterable
- * @param source IAsyncParallel to flatten
- * @param shallow When false - recurses the iterable types
- */
-export declare function flatten<TSource>(source: IAsyncParallel<TSource | IAsyncParallel<TSource>>, shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>;
+export { flatten } from "./_private/flatten";
 export { from } from "./_private/from";
 /**
  * Groups the elements of a sequence according to a specified key selector function.
@@ -417,45 +376,7 @@ export declare function union<TSource>(first: IAsyncParallel<TSource>, second: I
  * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
  */
 export declare function unionAsync<TSource>(first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>, comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>;
-/**
- * Filters a sequence of values based on a predicate.
- * Each element's index is used in the logic of the predicate function.
- * @param source An IAsyncParallel<T> to filter.
- * @param predicate A function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
- */
-export declare function where<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>;
-/**
- * Filters a sequence of values based on a predicate.
- * Each element's index is used in the logic of the predicate function.
- * @param source An IAsyncParallel<T> to filter.
- * @param predicate A async function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
- */
-export declare function whereAsync<TSource>(source: IAsyncParallel<TSource>, predicate: (x: TSource, index: number) => Promise<boolean>): BasicParallelEnumerable<TSource>;
-/**
- * Creates tuples from th corresponding elements of two sequences, producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @returns An IParallelEnumerable<T> that contains merged elements of two input sequences.
- */
-export declare function zip<TFirst, TSecond>(first: IAsyncParallel<TFirst>, second: IAsyncParallel<TSecond>): IParallelEnumerable<[TFirst, TSecond]>;
-/**
- * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @param resultSelector A function that specifies how to merge the elements from the two sequences.
- * @returns An IParallelEnumerable<T> that contains merged elements of two input sequences.
- */
-export declare function zip<TFirst, TSecond, TResult>(first: IAsyncParallel<TFirst>, second: IAsyncParallel<TSecond>, resultSelector: (x: TFirst, y: TSecond) => TResult): IParallelEnumerable<TResult>;
-/**
- * Applies a specified async function to the corresponding elements of two sequences,
- * producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
- * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
- */
-export declare function zipAsync<TFirst, TSecond, TResult>(first: IAsyncParallel<TFirst>, second: IAsyncParallel<TSecond>, resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult>;
+export { where } from "./_private/where";
+export { whereAsync } from "./_private/whereAsync";
+export { zip } from "./_private/zip";
+export { zipAsync } from "./_private/zipAsync";

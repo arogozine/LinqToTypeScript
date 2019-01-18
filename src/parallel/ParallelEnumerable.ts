@@ -12,7 +12,7 @@ import {
     InferType,
     IOrderedParallelEnumerable,
     IParallelEnumerable,
-    IParallelFlatten, OfType, ParallelGeneratorType, SelectorKeyType, TypedData } from "../types"
+    OfType, ParallelGeneratorType, SelectorKeyType, TypedData } from "../types"
 import { nextIteration } from "./_private/_nextIteration"
 import { nextIterationAsync } from "./_private/_nextIterationAsync"
 import { nextIterationWithIndex } from "./_private/_nextIterationWithIndex"
@@ -42,186 +42,17 @@ export { count } from "./_private/count"
 export { countAsync } from "./_private/countAsync"
 export { distinct } from "./_private/distinct"
 export { distinctAsync } from "./_private/distinctAsync"
-
-/**
- * Performs a specified action on each element of the IParallelEnumerable<TSource>
- * @param source The source to iterate
- * @param action The action to take an each element
- * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
- */
-export function each<TSource>(
-    source: IParallelEnumerable<TSource>,
-    action: (x: TSource) => void): IParallelEnumerable<TSource> {
-    return new BasicParallelEnumerable(nextIteration(source, (x) => {
-            action(x)
-            return x
-        }))
-}
-
-/**
- * Performs a specified action on each element of the IParallelEnumerable<TSource>
- * @param source The source to iterate
- * @param action The action to take an each element
- * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
- */
-export function eachAsync<TSource>(
-    source: IParallelEnumerable<TSource>,
-    action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource> {
-    return new BasicParallelEnumerable(nextIterationAsync(source, async (x) => {
-            await action(x)
-            return x
-        }))
-}
-
+export { each } from "./_private/each"
+export { eachAsync } from "./_private/eachAsync"
 export { elementAt } from "./_private/elementAt"
 export { elementAtOrDefault } from "./_private/elementAtOrDefault"
-
-/**
- * Produces the set difference of two sequences by using the comparer provided
- * or EqualityComparer to compare values.
- * @param first An IAsyncParallel<T> whose elements that are not also in second will be returned.
- * @param second An IAsyncParallel<T> whose elements that also occur in the first sequence
- * will cause those elements to be removed from the returned sequence.
- * @param comparer An IEqualityComparer<T> to compare values. Optional.
- * @returns A sequence that contains the set difference of the elements of two sequences.
- */
-export function except<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
-    first: IAsyncParallel<TSource>,
-    second: IAsyncParallel<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
-
-    const generator = async () => {
-        const values = await Promise.all([ first.toArray(), second.toArray() ])
-        const firstValues = values[0]
-        const secondValues = values[1]
-        const resultValues = []
-
-        for (const firstItem of firstValues) {
-
-            let exists = false
-            for (let j = 0; j < secondValues.length; j++) {
-                const secondItem = secondValues[j]
-
-                if (comparer(firstItem, secondItem) === true) {
-                    exists = true
-                    break
-                }
-            }
-
-            if (exists === false) {
-                resultValues.push(firstItem)
-            }
-        }
-
-        return resultValues
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
-
-/**
- * Produces the set difference of two sequences by using the comparer provided to compare values.
- * @param first An IAsyncParallel<T> whose elements that are not also in second will be returned.
- * @param second An IAsyncParallel<T> whose elements that also occur in the first sequence
- * will cause those elements to be removed from the returned sequence.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns A sequence that contains the set difference of the elements of two sequences.
- */
-export function exceptAsync<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
-    first: IAsyncParallel<TSource>,
-    second: IAsyncParallel<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
-
-    const generator = async () => {
-        const values = await Promise.all([ first.toArray(), second.toArray() ])
-        const firstValues = values[0]
-        const secondValues = values[1]
-        const resultValues = []
-
-        for (const firstItem of firstValues) {
-
-            let exists = false
-            for (let j = 0; j < secondValues.length; j++) {
-                const secondItem = secondValues[j]
-
-                if (await comparer(firstItem, secondItem) === true) {
-                    exists = true
-                    break
-                }
-            }
-
-            if (exists === false) {
-                resultValues.push(firstItem)
-            }
-        }
-
-        return resultValues
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
-
+export { except } from "./_private/except"
+export { exceptAsync } from "./_private/exceptAsync"
 export { first } from "./_private/first"
 export { firstAsync } from "./_private/firstAsync"
 export { firstOrDefault } from "./_private/firstOrDefault"
 export { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
-
-/**
- * Flattens a parallel iterable
- * @param source IAsyncParallel to flatten
- * @param shallow When false - recurses the iterable types
- */
-export function flatten<TSource>(
-    source: IParallelFlatten<TSource>,
-    shallow?: false): IParallelEnumerable<TSource>
-/**
- * Flattens a parallel iterable
- * @param source IAsyncParallel to flatten
- * @param shallow When false - recurses the iterable types
- */
-export function flatten<TSource>(
-    source: IAsyncParallel<TSource | IAsyncParallel<TSource>>,
-    shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>
-export function flatten<TSource>(
-    source: IAsyncParallel<TSource | IAsyncParallel<TSource>>,
-    shallow?: boolean): IParallelEnumerable<TSource | AsyncIterable<TSource>> {
-
-    async function* iterator(sourceInner: AsyncIterable<any>)
-        : AsyncIterableIterator<TSource | AsyncIterable<TSource>> {
-        for await (const item of sourceInner) {
-            if (item[Symbol.asyncIterator] !== undefined) {
-                const items = shallow ? item : iterator(item as AsyncIterable<any>)
-                for await (const inner of items) {
-                    yield inner
-                }
-            } else {
-                yield item
-            }
-        }
-    }
-
-    const generator = async () => {
-        const results = new Array()
-        for await (const x of iterator(source)) {
-            results.push(x)
-        }
-        return results
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
-
+export { flatten } from "./_private/flatten"
 export { from } from "./_private/from"
 
 /**
@@ -1275,120 +1106,7 @@ export function unionAsync<TSource>(
     })
 }
 
-/**
- * Filters a sequence of values based on a predicate.
- * Each element's index is used in the logic of the predicate function.
- * @param source An IAsyncParallel<T> to filter.
- * @param predicate A function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
- */
-export function where<TSource>(
-    source: IAsyncParallel<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
-    const generator = async () => {
-        const values = await source.toArray()
-        return values.filter(predicate)
-    }
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
-
-/**
- * Filters a sequence of values based on a predicate.
- * Each element's index is used in the logic of the predicate function.
- * @param source An IAsyncParallel<T> to filter.
- * @param predicate A async function to test each source element for a condition;
- * the second parameter of the function represents the index of the source element.
- * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
- */
-export function whereAsync<TSource>(
-    source: IAsyncParallel<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>) {
-    const generator = async () => {
-        const values = await source.toArray()
-        const valuesAsync = values.map(async (x, i) => {
-            const keep = await predicate(x, i)
-            return {
-                keep,
-                x,
-            }
-        })
-        const filteredValues = []
-        for (const value of await Promise.all(valuesAsync)) {
-            if (value.keep) {
-                filteredValues.push(value.x)
-            }
-        }
-        return filteredValues
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
-
-/**
- * Creates tuples from th corresponding elements of two sequences, producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @returns An IParallelEnumerable<T> that contains merged elements of two input sequences.
- */
-export function zip<TFirst, TSecond>(
-    first: IAsyncParallel<TFirst>,
-    second: IAsyncParallel<TSecond>): IParallelEnumerable<[TFirst, TSecond]>
-/**
- * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @param resultSelector A function that specifies how to merge the elements from the two sequences.
- * @returns An IParallelEnumerable<T> that contains merged elements of two input sequences.
- */
-export function zip<TFirst, TSecond, TResult>(
-    first: IAsyncParallel<TFirst>,
-    second: IAsyncParallel<TSecond>,
-    resultSelector: (x: TFirst, y: TSecond) => TResult): IParallelEnumerable<TResult>
-export function zip<TFirst, TSecond, TResult>(
-    first: IAsyncParallel<TFirst>,
-    second: IAsyncParallel<TSecond>,
-    resultSelector?: (x: TFirst, y: TSecond) => TResult)
-    : IParallelEnumerable<TResult> | IParallelEnumerable<[TFirst, TSecond]> {
-    if (resultSelector) {
-        return ParallelEnumerablePrivate.zip_2(first, second, resultSelector)
-    } else {
-        return ParallelEnumerablePrivate.zip_1(first, second)
-    }
-}
-
-/**
- * Applies a specified async function to the corresponding elements of two sequences,
- * producing a sequence of the results.
- * @param first The first sequence to merge.
- * @param second The second sequence to merge.
- * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
- * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
- */
-export function zipAsync<TFirst, TSecond, TResult>(
-    first: IAsyncParallel<TFirst>,
-    second: IAsyncParallel<TSecond>,
-    resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult> {
-    async function generator() {
-        const [left, right] = await Promise.all([first.toArray(), second.toArray()])
-        const maxLength = left.length > right.length ? left.length : right.length
-        const resultPromises = new Array<Promise<TResult>>(maxLength)
-        for (let i = 0; i < maxLength; i++) {
-            const a = left[i]
-            const b = right[i]
-            resultPromises[i] = resultSelector(a, b)
-        }
-        return Promise.all(resultPromises)
-    }
-
-    return new BasicParallelEnumerable({
-        generator,
-        type: ParallelGeneratorType.PromiseToArray,
-    })
-}
+export { where } from "./_private/where"
+export { whereAsync } from "./_private/whereAsync"
+export { zip } from "./_private/zip"
+export { zipAsync } from "./_private/zipAsync"

@@ -39,6 +39,7 @@
                 }
             }
         ],
-        "jsdoc-format": [true, "check-multiline-start"]
+        "jsdoc-format": [true, "check-multiline-start"],
+        "import-blacklist": [true, ".."]
     }
 }
