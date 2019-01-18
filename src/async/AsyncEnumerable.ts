@@ -1,13 +1,5 @@
 import "core-js/modules/es7.symbol.async-iterator"
 
-import {
-    IAsyncEnumerable,
-    IComparer,
-    IOrderedAsyncEnumerable } from "../types"
-import { OrderedAsyncEnumerable } from "./OrderedAsyncEnumerable"
-
-// tslint:disable:no-shadowed-variable
-
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */
@@ -62,21 +54,7 @@ export { ofType } from "./_private/ofType"
 export { orderBy } from "./_private/orderBy"
 export { orderByAsync } from "./_private/orderByAsync"
 export { orderByDescending } from "./_private/orderByDescending"
-
-/**
- * Sorts the elements of a sequence in descending order by using a specified comparer.
- * @param source A sequence of values to order.
- * @param keySelector An async function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys.
- * @return An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
- */
-export function orderByDescendingAsync<TSource, TKey>(
-    source: IAsyncEnumerable<TSource>,
-    keySelector: (x: TSource) => Promise<TKey>,
-    comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
-    return OrderedAsyncEnumerable.generateAsync(source, keySelector, false, comparer)
-}
-
+export { orderByDescendingAsync } from "./_private/orderByDescendingAsync"
 export { last } from "./_private/last"
 export { lastAsync } from "./_private/lastAsync"
 export { lastOrDefault } from "./_private/lastOrDefault"
