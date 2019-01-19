@@ -69,6 +69,8 @@ import { ArrayEnumerable } from "./ArrayEnumerable"
 import { BasicEnumerable } from "./BasicEnumerable"
 import { bindLinq } from "./bindLinq"
 
+// tslint:disable:completed-docs
+
 /**
  * @private
  */
@@ -284,7 +286,7 @@ export function initializeTypes<T>(): void {
 
             return max
         } else {
-            return Math.max.apply(null, this as ArrayEnumerable<any>)
+            return Math.max.apply(null, this)
         }
     }
 
@@ -304,7 +306,7 @@ export function initializeTypes<T>(): void {
 
             return min
         } else {
-            return Math.min.apply(null, this as ArrayEnumerable<any>)
+            return Math.min.apply(null, this)
         }
     }
 

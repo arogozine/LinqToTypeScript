@@ -64,7 +64,7 @@ function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-export function groupByAsync_0<TSource, TKey>(
+function groupByAsync_0<TSource, TKey>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey,
     comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {

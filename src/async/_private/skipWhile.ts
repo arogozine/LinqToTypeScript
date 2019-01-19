@@ -21,7 +21,7 @@ export function skipWhile<TSource>(
     }
 }
 
-export function skipWhile_1<TSource>(
+function skipWhile_1<TSource>(
     source: AsyncIterable<TSource>,
     predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource> {
 
@@ -41,7 +41,7 @@ export function skipWhile_1<TSource>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-export function skipWhile_2<TSource>(
+function skipWhile_2<TSource>(
     source: AsyncIterable<TSource>,
     predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
 

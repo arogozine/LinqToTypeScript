@@ -9,5 +9,3 @@ import { IAsyncEnumerable } from "../../types";
  * in the linear series that does not pass the test specified by predicate.
  */
 export declare function skipWhile<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;
-export declare function skipWhile_1<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): IAsyncEnumerable<TSource>;
-export declare function skipWhile_2<TSource>(source: AsyncIterable<TSource>, predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>;

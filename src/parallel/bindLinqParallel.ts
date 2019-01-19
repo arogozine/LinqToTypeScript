@@ -4,14 +4,10 @@ import {
     groupBy, groupByAsync,
     groupByWithSel, intersect,
     intersectAsync,
-    join, max, maxAsync, min, minAsync,
-    ofType,
+    join,
     orderBy, orderByAsync, orderByDescending, orderByDescendingAsync, // , sequenceEquals, sequenceEqualsAsync,
     reverse, select, selectAsync,
-    selectMany, selectManyAsync, skip,
-    skipWhile, skipWhileAsync,
-    take, takeWhile,
-    takeWhileAsync, union, unionAsync,
+    selectMany, selectManyAsync,
 } from "./ParallelEnumerable"
 
 import { aggregate } from "./_private/aggregate"
@@ -49,11 +45,11 @@ import { last } from "./_private/last"
 import { lastAsync } from "./_private/lastAsync"
 import { lastOrDefault } from "./_private/lastOrDefault"
 import { lastOrDefaultAsync } from "./_private/lastOrDefaultAsync"
-// import { max } from "./_private/max"
-// import { maxAsync } from "./_private/maxAsync"
-// import { min } from "./_private/min"
-// import { minAsync } from "./_private/minAsync"
-// import { ofType } from "./_private/ofType"
+import { max } from "./_private/max"
+import { maxAsync } from "./_private/maxAsync"
+import { min } from "./_private/min"
+import { minAsync } from "./_private/minAsync"
+import { ofType } from "./_private/ofType"
 // import { orderBy } from "./_private/orderBy"
 // import { orderByAsync } from "./_private/orderByAsync"
 // import { orderByDescending } from "./_private/orderByDescending"
@@ -69,20 +65,20 @@ import { single } from "./_private/single"
 import { singleAsync } from "./_private/singleAsync"
 import { singleOrDefault } from "./_private/singleOrDefault"
 import { singleOrDefaultAsync } from "./_private/singleOrDefaultAsync"
-// import { skip } from "./_private/skip"
-// import { skipWhile } from "./_private/skipWhile"
-// import { skipWhileAsync } from "./_private/skipWhileAsync"
+import { skip } from "./_private/skip"
+import { skipWhile } from "./_private/skipWhile"
+import { skipWhileAsync } from "./_private/skipWhileAsync"
 import { sum } from "./_private/sum"
 import { sumAsync } from "./_private/sumAsync"
-// import { take } from "./_private/take"
-// import { takeWhile } from "./_private/takeWhile"
-// import { takeWhileAsync } from "./_private/takeWhileAsync"
+import { take } from "./_private/take"
+import { takeWhile } from "./_private/takeWhile"
+import { takeWhileAsync } from "./_private/takeWhileAsync"
 import { toArray } from "./_private/toArray"
 import { toMap } from "./_private/toMap"
 import { toMapAsync } from "./_private/toMapAsync"
 import { toSet } from "./_private/toSet"
-// import { union } from "./_private/union"
-// import { unionAsync } from "./_private/unionAsync"
+import { union } from "./_private/union"
+import { unionAsync } from "./_private/unionAsync"
 import { where } from "./_private/where"
 import { whereAsync } from "./_private/whereAsync"
 import { zip } from "./_private/zip"

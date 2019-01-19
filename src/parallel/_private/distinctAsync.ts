@@ -1,4 +1,4 @@
-import { ParallelGeneratorType, IAsyncParallel, IAsyncEqualityComparer, IParallelEnumerable } from "../../types"
+import { IAsyncEqualityComparer, IAsyncParallel, IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 /**

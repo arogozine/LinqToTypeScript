@@ -20,5 +20,3 @@ export declare function groupByWithSel<TSource, TKey extends SelectorKeyType, TE
  * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
  */
 export declare function groupByWithSel<TSource, TKey, TElement>(source: AsyncIterable<TSource>, keySelector: ((x: TSource) => TKey), elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;
-export declare function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>>;
-export declare function groupBy_1<TSource, TKey, TElement>(source: AsyncIterable<TSource>, keySelector: (x: TSource) => TKey, elementSelector: (x: TSource) => TElement, comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>;

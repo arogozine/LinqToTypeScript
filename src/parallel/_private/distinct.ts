@@ -1,6 +1,6 @@
-import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
-import { ParallelGeneratorType, IAsyncParallel, IEqualityComparer, IParallelEnumerable } from "../../types"
 import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
+import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 /**
  * Returns distinct elements from a sequence by using the default or specified equality comparer to compare values.
@@ -27,4 +27,3 @@ export function distinct<TSource>(
         type: ParallelGeneratorType.PromiseToArray,
     })
 }
-

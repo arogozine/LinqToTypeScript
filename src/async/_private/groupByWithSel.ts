@@ -45,7 +45,7 @@ export function groupByWithSel<TSource, TKey, TElement>(
     }
 }
 
-export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
+function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => TKey,
     elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>> {
@@ -74,7 +74,7 @@ export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement
     return new BasicAsyncEnumerable(generate)
 }
 
-export function groupBy_1<TSource, TKey, TElement>(
+function groupBy_1<TSource, TKey, TElement>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => TKey,
     elementSelector: (x: TSource) => TElement,

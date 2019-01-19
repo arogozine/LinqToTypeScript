@@ -1,4 +1,4 @@
-import { IAsyncParallel, IAsyncEqualityComparer, IParallelEnumerable } from "../../types";
+import { IAsyncEqualityComparer, IAsyncParallel, IParallelEnumerable } from "../../types";
 /**
  * Returns distinct elements from a sequence by using the specified equality comparer to compare values.
  * @param source The sequence to remove duplicate elements from.
