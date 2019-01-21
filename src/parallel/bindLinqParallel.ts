@@ -1,13 +1,9 @@
 import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, IPrototype } from "../types"
 
 import {
-    groupBy, groupByAsync,
-    groupByWithSel, intersect,
+    intersect,
     intersectAsync,
-    join,
     orderBy, orderByAsync, orderByDescending, orderByDescendingAsync, // , sequenceEquals, sequenceEqualsAsync,
-    reverse, select, selectAsync,
-    selectMany, selectManyAsync,
 } from "./ParallelEnumerable"
 
 import { aggregate } from "./_private/aggregate"
@@ -35,12 +31,12 @@ import { first } from "./_private/first"
 import { firstAsync } from "./_private/firstAsync"
 import { firstOrDefault } from "./_private/firstOrDefault"
 import { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
-// import { groupBy } from "./_private/groupBy"
-// import { groupByAsync } from "./_private/groupByAsync"
-// import { groupByWithSel } from "./_private/groupByWithSel"
+import { groupBy } from "./_private/groupBy"
+import { groupByAsync } from "./_private/groupByAsync"
+import { groupByWithSel } from "./_private/groupByWithSel"
 // import { intersect } from "./_private/intersect"
 // import { intersectAsync } from "./_private/intersectAsync"
-// import { join } from "./_private/join"
+import { join } from "./_private/join"
 import { last } from "./_private/last"
 import { lastAsync } from "./_private/lastAsync"
 import { lastOrDefault } from "./_private/lastOrDefault"
@@ -54,11 +50,11 @@ import { ofType } from "./_private/ofType"
 // import { orderByAsync } from "./_private/orderByAsync"
 // import { orderByDescending } from "./_private/orderByDescending"
 // import { orderByDescendingAsync } from "./_private/orderByDescendingAsync"
-// import { reverse } from "./_private/reverse"
-// import { select } from "./_private/select"
-// import { selectAsync } from "./_private/selectAsync"
-// import { selectMany } from "./_private/selectMany"
-// import { selectManyAsync } from "./_private/selectManyAsync"
+import { reverse } from "./_private/reverse"
+import { select } from "./_private/select"
+import { selectAsync } from "./_private/selectAsync"
+import { selectMany } from "./_private/selectMany"
+import { selectManyAsync } from "./_private/selectManyAsync"
 import { sequenceEquals } from "./_private/sequenceEquals"
 import { sequenceEqualsAsync } from "./_private/sequenceEqualsAsync"
 import { single } from "./_private/single"
