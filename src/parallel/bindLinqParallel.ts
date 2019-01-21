@@ -1,9 +1,4 @@
 import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, IPrototype } from "../types"
-
-import {
-    orderBy, orderByAsync, orderByDescending, orderByDescendingAsync, // , sequenceEquals, sequenceEqualsAsync,
-} from "./ParallelEnumerable"
-
 import { aggregate } from "./_private/aggregate"
 import { all } from "./_private/all"
 import { allAsync } from "./_private/allAsync"
@@ -44,10 +39,10 @@ import { maxAsync } from "./_private/maxAsync"
 import { min } from "./_private/min"
 import { minAsync } from "./_private/minAsync"
 import { ofType } from "./_private/ofType"
-// import { orderBy } from "./_private/orderBy"
-// import { orderByAsync } from "./_private/orderByAsync"
-// import { orderByDescending } from "./_private/orderByDescending"
-// import { orderByDescendingAsync } from "./_private/orderByDescendingAsync"
+import { orderBy } from "./_private/orderBy"
+import { orderByAsync } from "./_private/orderByAsync"
+import { orderByDescending } from "./_private/orderByDescending"
+import { orderByDescendingAsync } from "./_private/orderByDescendingAsync"
 import { reverse } from "./_private/reverse"
 import { select } from "./_private/select"
 import { selectAsync } from "./_private/selectAsync"
