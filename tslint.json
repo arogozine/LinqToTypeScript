@@ -40,6 +40,6 @@
             }
         ],
         "jsdoc-format": [true, "check-multiline-start"],
-        "import-blacklist": [true, ".."]
+        "import-blacklist": [true, "..", ".", "../.."]
     }
 }

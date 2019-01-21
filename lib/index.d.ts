@@ -1,17 +1,5 @@
-import { IAsyncEnumerable, IParallelEnumerable } from "./types";
 export * from "./shared/shared";
 export * from "./sync/sync";
-/**
- * Determine if the source is IParallelEnumerable
- * @param source Any value
- */
-export declare function isParallelEnumerable(source: any): source is IParallelEnumerable<any>;
-/**
- * Determine if a type is IAsyncEnumerable
- * @param source Any Value
- */
-export declare function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any>;
-/**
- * Binds LINQ methods to Array Types, Map, Set, and String
- */
-export declare function initializeLinq(): void;
+export * from "./initializer/initializer";
+export { isParallelEnumerable } from "./parallel/isParallelEnumerable";
+export { isAsyncEnumerable } from "./async/isAsyncEnumerable";
