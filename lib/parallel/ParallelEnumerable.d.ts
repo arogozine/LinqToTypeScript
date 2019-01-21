@@ -1,5 +1,3 @@
-import { IAsyncParallel, IComparer, IOrderedParallelEnumerable } from "../types";
-import { toArray } from "./_private/toArray";
 /**
  * Contains static methods to work with Parallel Async
  */
@@ -49,38 +47,10 @@ export { selectAsync } from "./_private/selectAsync";
 export { selectMany } from "./_private/selectMany";
 export { selectManyAsync } from "./_private/selectManyAsync";
 export { ofType } from "./_private/ofType";
-/**
- * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
- * @param source A sequence of values to order.
- * @param keySelector A function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys. Optional.
- * @returns An IOrderedParallelEnumerable<TElement> whose elements are sorted according to a key.
- */
-export declare function orderBy<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
-/**
- * Sorts the elements of a sequence in ascending order by using a specified comparer.
- * @param source A sequence of values to order.
- * @param keySelector An async function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys.
- * @returns An IOrderedParallelEnumerable<TElement> whose elements are sorted according to a key.
- */
-export declare function orderByAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
-/**
- * Sorts the elements of a sequence in descending order by using a specified or default comparer.
- * @param source A sequence of values to order.
- * @param keySelector A function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys. Optional.
- * @return An IOrderedParallelEnumerable<TElement> whose elements are sorted in descending order according to a key.
- */
-export declare function orderByDescending<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => TKey, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
-/**
- * Sorts the elements of a sequence in descending order by using a specified comparer.
- * @param source A sequence of values to order.
- * @param keySelector An async function to extract a key from an element.
- * @param comparer An IComparer<T> to compare keys.
- * @return An IOrderedParallelEnumerable<TElement> whose elements are sorted in descending order according to a key.
- */
-export declare function orderByDescendingAsync<TSource, TKey>(source: IAsyncParallel<TSource>, keySelector: (x: TSource) => Promise<TKey>, comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>;
+export { orderBy } from "./_private/orderBy";
+export { orderByAsync } from "./_private/orderByAsync";
+export { orderByDescending } from "./_private/orderByDescending";
+export { orderByDescendingAsync } from "./_private/orderByDescendingAsync";
 export { partition } from "./_private/partition";
 export { partitionAsync } from "./_private/partitionAsync";
 export { range } from "./_private/range";
@@ -100,7 +70,7 @@ export { sumAsync } from "./_private/sumAsync";
 export { take } from "./_private/take";
 export { takeWhile } from "./_private/takeWhile";
 export { takeWhileAsync } from "./_private/takeWhileAsync";
-export { toArray };
+export { toArray } from "./_private/toArray";
 export { toMap } from "./_private/toMap";
 export { toMapAsync } from "./_private/toMapAsync";
 export { toObject } from "./_private/toObject";

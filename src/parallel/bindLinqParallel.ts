@@ -1,8 +1,6 @@
 import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, IPrototype } from "../types"
 
 import {
-    intersect,
-    intersectAsync,
     orderBy, orderByAsync, orderByDescending, orderByDescendingAsync, // , sequenceEquals, sequenceEqualsAsync,
 } from "./ParallelEnumerable"
 
@@ -34,8 +32,8 @@ import { firstOrDefaultAsync } from "./_private/firstOrDefaultAsync"
 import { groupBy } from "./_private/groupBy"
 import { groupByAsync } from "./_private/groupByAsync"
 import { groupByWithSel } from "./_private/groupByWithSel"
-// import { intersect } from "./_private/intersect"
-// import { intersectAsync } from "./_private/intersectAsync"
+import { intersect } from "./_private/intersect"
+import { intersectAsync } from "./_private/intersectAsync"
 import { join } from "./_private/join"
 import { last } from "./_private/last"
 import { lastAsync } from "./_private/lastAsync"
