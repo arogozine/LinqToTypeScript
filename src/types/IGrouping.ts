@@ -1,4 +1,4 @@
-import { IEnumerable } from "../sync/sync"
+import { IEnumerable } from "../types"
 
 /**
  * Represents a grouping based on a key

@@ -1,5 +1,5 @@
-import { enumerateObject as enumerateObjectAsync } from "async"
-import { enumerateObject } from "sync/sync"
+import { enumerateObject as enumerateObjectAsync } from "../../../src/async"
+import { enumerateObject } from "../../../src/sync"
 import { itAsync, itEnumerable } from "../../TestHelpers"
 
 describe("enumerateObject", () => {

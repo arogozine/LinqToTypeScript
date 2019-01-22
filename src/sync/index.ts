@@ -16,14 +16,16 @@
 // Create Commons Attribution 4.0 International
 // https://github.com/dotnet/docs/blob/master/LICENSE
 
-// Shared Interfacess
-export * from "./types"
+// Initializers First
+export * from "./../initializer/initializer"
 
-// Types and Stuff
-export * from "./shared/shared"
-export * from "./sync/Enumerable"
-export { ArrayEnumerable } from "./sync/ArrayEnumerable"
-export * from "./initializer/initializer"
-export { isEnumerable } from "./sync/isEnumerable"
-export { isParallelEnumerable } from "./parallel/isParallelEnumerable"
-export { isAsyncEnumerable } from "./async/isAsyncEnumerable"
+// Interfaces and Types
+export * from "./../types"
+
+// Shared Functions and Classes
+export * from "./../shared/shared"
+
+// Sync Specific
+export * from "./Enumerable"
+export { ArrayEnumerable } from "./ArrayEnumerable"
+export { isEnumerable } from "./isEnumerable"

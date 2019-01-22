@@ -1,6 +1,6 @@
 import { IEnumerable } from "../types"
+import { ArrayEnumerable } from "./ArrayEnumerable"
 import { BasicEnumerable } from "./BasicEnumerable"
-import { ArrayEnumerable } from "./sync"
 
 /**
  * Determine if a source is a IEnumerable

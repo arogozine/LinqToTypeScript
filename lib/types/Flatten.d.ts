@@ -1,5 +1,4 @@
-import { IParallelEnumerable } from "../parallel";
-import { IEnumerable } from "../sync/sync";
+import { IEnumerable, IParallelEnumerable } from "../types";
 export interface IFlatten<TElement> extends IEnumerable<TElement | IFlatten<TElement>> {
 }
 export interface IAsyncFlatten<TElement> extends AsyncIterable<TElement | IAsyncFlatten<TElement>> {

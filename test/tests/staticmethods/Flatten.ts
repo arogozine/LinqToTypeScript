@@ -1,6 +1,6 @@
 import { flatten as flattenAsync } from "../../../src/async"
 import { flatten as flattenParallel } from "../../../src/parallel"
-import { flatten } from "../../../src/sync/sync"
+import { flatten } from "../../../src/sync"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("flatten", () => {

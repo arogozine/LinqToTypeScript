@@ -1,5 +1,4 @@
-import { IComparer, IOrderedAsyncEnumerable } from "../../types"
-import { IAsyncEnumerable } from "../async"
+import { IAsyncEnumerable, IComparer, IOrderedAsyncEnumerable } from "../../types"
 import { OrderedAsyncEnumerable } from "../OrderedAsyncEnumerable"
 
 /**

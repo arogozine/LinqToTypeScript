@@ -1,5 +1,4 @@
-import { IComparer, IOrderedAsyncEnumerable } from "../../types";
-import { IAsyncEnumerable } from "../async";
+import { IAsyncEnumerable, IComparer, IOrderedAsyncEnumerable } from "../../types";
 /**
  * Sorts the elements of a sequence in descending order by using a specified or default comparer.
  * @param source A sequence of values to order.

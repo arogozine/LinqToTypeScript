@@ -1,2 +1,5 @@
+export * from "./../initializer/initializer";
+export * from "./../types";
+export * from "./../shared/shared";
 export * from "./ParallelEnumerable";
-export { IOrderedParallelEnumerable, IParallelEnumerable, ParallelGeneratorType } from "../types";
+export { isParallelEnumerable } from "./isParallelEnumerable";
