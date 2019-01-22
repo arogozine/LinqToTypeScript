@@ -17,7 +17,6 @@ module.exports = function(config) {
     exclude: [
       // Karma is not made by smart people???
       "./**/*.d.ts",
-      "./**/types/*.ts",
       "./node_modules",
       "./**/parallel.ts"
     ],
