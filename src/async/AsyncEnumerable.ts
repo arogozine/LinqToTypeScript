@@ -1,5 +1,3 @@
-import "core-js/modules/es7.symbol.async-iterator"
-
 /**
  * Provides static methods that work with IAsyncEnumerable<T> and AsyncIterable<T>
  */

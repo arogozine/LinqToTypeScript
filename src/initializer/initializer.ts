@@ -1,3 +1,6 @@
+// Not Yet Supported By Anything
+import "core-js/modules/es7.symbol.async-iterator"
+
 import { BasicAsyncEnumerable } from "../async/BasicAsyncEnumerable"
 import { BasicParallelEnumerable } from "../parallel/BasicParallelEnumerable"
 import { BasicEnumerable } from "../sync/BasicEnumerable"
