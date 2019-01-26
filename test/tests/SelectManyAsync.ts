@@ -1,4 +1,4 @@
-import { asAsync, itAsync, itEnumerable, itEnumerableAsync, itParallel } from "../TestHelpers"
+import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("selectManyAsync", () => {
     itEnumerableAsync<{ a: number[] }>("Basic", async (asEnumerable) => {

@@ -1,11 +1,13 @@
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
+// tslint:disable:variable-name
+
 describe("select", () => {
     itEnumerable<string>("select parseInt", (asEnumerable) => {
         expect(asEnumerable(["1", "2", "3"]).select((num) => Number.parseInt(num, undefined))
             .toArray()).toEqual([1, 2, 3])
 
-        expect(asEnumerable(["1", "2", "3"]).select((num, index) => Number.parseInt(num, undefined))
+        expect(asEnumerable(["1", "2", "3"]).select((num, _index) => Number.parseInt(num, undefined))
             .toArray()).toEqual([1, 2, 3])
     })
 
@@ -13,7 +15,7 @@ describe("select", () => {
         expect(await asAsync(["1", "2", "3"]).select((num) => Number.parseInt(num, undefined))
             .toArray()).toEqual([1, 2, 3])
 
-        expect(await asAsync(["1", "2", "3"]).select((num, index) => Number.parseInt(num, undefined))
+        expect(await asAsync(["1", "2", "3"]).select((num, _index) => Number.parseInt(num, undefined))
             .toArray()).toEqual([1, 2, 3])
     })
 
@@ -21,7 +23,7 @@ describe("select", () => {
         expect(await asParallel(["1", "2", "3"]).select((num) => Number.parseInt(num, undefined))
             .toArray()).toEqual([1, 2, 3])
 
-        expect(await asParallel(["1", "2", "3"]).select((num, index) => Number.parseInt(num, undefined))
+        expect(await asParallel(["1", "2", "3"]).select((num, _index) => Number.parseInt(num, undefined))
             .toArray()).toEqual([1, 2, 3])
     })
 

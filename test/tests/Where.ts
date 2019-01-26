@@ -1,5 +1,7 @@
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
+// tslint:disable:variable-name
+
 describe("where", () => {
     itEnumerable("item predicate", (asEnumerable) => {
         const vals = asEnumerable([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -18,17 +20,17 @@ describe("where", () => {
 
     itEnumerable("item and index predicate", (asEnumerable) => {
         const vals = asEnumerable([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
+        expect(vals.where((_x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
 
     itAsync("item and index predicate", async () => {
         const vals = asAsync([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
+        expect(await vals.where((_x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
 
     itParallel("item and index predicate", async (asParallel) => {
         const vals = asParallel([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-        expect(await vals.where((x: number, i: number) => i === 9).toArray()).toEqual([9])
+        expect(await vals.where((_x: number, i: number) => i === 9).toArray()).toEqual([9])
     })
 
     itEnumerable<string>("where basic", (asEnumerable) => {
@@ -51,7 +53,7 @@ describe("where", () => {
         expect(noEmptyStrings).toEqual([ "1", "2", "foo", "bar" ])
 
         const noBar = await stuff
-            .where((x: string, i: number) => i !== 4)
+            .where((_x: string, i: number) => i !== 4)
             .toArray()
 
         expect(noBar).toEqual([ "", "1", "2", "foo" ])
@@ -64,7 +66,7 @@ describe("where", () => {
         expect(noEmptyStrings).toEqual([ "1", "2", "foo", "bar" ])
 
         const noBar = await stuff
-            .where((x: string, i: number) => i !== 4)
+            .where((_x: string, i: number) => i !== 4)
             .toArray()
 
         expect(noBar).toEqual([ "", "1", "2", "foo" ])

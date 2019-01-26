@@ -14,7 +14,8 @@ describe("AsyncEnumerableIteration", () => {
         expect(nextValue.done).toBe(true)
 
         const generator2 = generatorFunc()
-        for await (const value of generator2) {
+        // tslint:disable-next-line:variable-name
+        for await (const _value of generator2) {
             fail("Value Detected In Generator")
         }
     })

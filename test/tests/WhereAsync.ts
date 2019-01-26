@@ -1,10 +1,12 @@
 import { from } from "../../src/index"
 import { itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
+// tslint:disable:variable-name
+
 describe("whereAsync", () => {
     itEnumerable("Basic", (asEnumerable) => {
         const values = asEnumerable([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
+        const trueFilter = values.whereAsync((_x, _i) => new Promise((e) => {
             setTimeout(() => e(true), 100)
         }))
 
@@ -14,7 +16,7 @@ describe("whereAsync", () => {
 
     itAsync("Basic", async () => {
         const values = from([1, 2, 3, 4, 5, 6, 7, 8, 9])
-        const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
+        const trueFilter = values.whereAsync((_x, _i) => new Promise((e) => {
             setTimeout(() => e(true), 100)
         }))
 
@@ -25,7 +27,7 @@ describe("whereAsync", () => {
     itParallel("Basic", async (asParallel) => {
         const values = asParallel([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
-        const trueFilter = values.whereAsync((x, i) => new Promise((e) => {
+        const trueFilter = values.whereAsync((_x, _i) => new Promise((e) => {
             setTimeout(() => e(true), 100)
         }))
 

@@ -1,6 +1,8 @@
 import { EqualityComparer } from "../../src/index"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
+// tslint:disable:variable-name
+
 describe("groupByWithSel", () => {
     itEnumerable<{ key: string, value: number }>("ObjectSelect", (asEnumerable) => {
         const array = asEnumerable([{ key: "foo", value: 0 }, { key: "foo", value: 1 }, { key: "bar", value: 3}])
@@ -76,7 +78,7 @@ describe("groupByWithSel", () => {
 
     itEnumerable<number>("SingleKey", (asEnumerable) => {
         const singleKey = "singleKey"
-        const grouping = asEnumerable([1, 2, 3]).groupByWithSel((x) => singleKey, (x) => x.toString())
+        const grouping = asEnumerable([1, 2, 3]).groupByWithSel((_x) => singleKey, (x) => x.toString())
 
         for (const group of grouping) {
             expect(group.key).toBe(singleKey)
@@ -86,7 +88,7 @@ describe("groupByWithSel", () => {
 
     itAsync("SingleKey", async () => {
         const singleKey = "singleKey"
-        const grouping = asAsync([1, 2, 3]).groupByWithSel((x) => singleKey, (x) => x.toString())
+        const grouping = asAsync([1, 2, 3]).groupByWithSel((_x) => singleKey, (x) => x.toString())
 
         for await (const group of grouping) {
             expect(group.key).toBe(singleKey)
@@ -96,7 +98,7 @@ describe("groupByWithSel", () => {
 
     itParallel("SingleKey", async (asParallel) => {
         const singleKey = "singleKey"
-        const grouping = asParallel([1, 2, 3]).groupByWithSel((x) => singleKey, (x) => x.toString())
+        const grouping = asParallel([1, 2, 3]).groupByWithSel((_x) => singleKey, (x) => x.toString())
 
         for await (const group of grouping) {
             expect(group.key).toBe(singleKey)

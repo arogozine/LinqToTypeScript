@@ -1,5 +1,5 @@
-import { EqualityComparer } from "index"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
+import { EqualityComparer } from "./../../src/index"
 
 describe("joinByKey", () => {
     itEnumerable("basic", (asEnumerable) => {

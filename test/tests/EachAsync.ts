@@ -35,7 +35,8 @@ describe("eachAsync", () => {
         expect(count).toBe(values.length)
     })
 
-    itParallel("Basic", async (asParallel) => {
+    // tslint:disable-next-line:variable-name
+    itParallel("Basic", async (_asParallel) => {
         let canStart = false
         let first = true
         const eachAsync = (x: number) => {

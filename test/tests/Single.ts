@@ -1,6 +1,8 @@
 import { InvalidOperationException } from "../../src/index"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
+// tslint:disable:variable-name
+
 describe("single", () => {
     itEnumerable("basic", (asEnumerable) => {
         const vals = asEnumerable([1])
@@ -36,50 +38,50 @@ describe("single", () => {
 
     itEnumerable("predicate", (asEnumerable) => {
         const vals = asEnumerable([1])
-        expect(vals.single((x) => true)).toBe(1)
+        expect(vals.single((_x) => true)).toBe(1)
     })
 
     itAsync("predicate", async () => {
         const vals = asAsync([1])
-        expect(await vals.single((x) => true)).toBe(1)
+        expect(await vals.single((_x) => true)).toBe(1)
     })
 
     itParallel("predicate", async (asParallel) => {
         const vals = asParallel([1])
-        expect(await vals.single((x) => true)).toBe(1)
+        expect(await vals.single((_x) => true)).toBe(1)
     })
 
     itEnumerable("predicate multiple expection", (asEnumerable) => {
         const vals = asEnumerable([1, 2, 3, 4])
-        expect(() => vals.single((x) => true)).toThrowError(InvalidOperationException)
+        expect(() => vals.single((_x) => true)).toThrowError(InvalidOperationException)
     })
 
     itEnumerable("predicate no matches expection", (asEnumerable) => {
         const vals = asEnumerable([1, 2, 3, 4])
-        expect(() => vals.single((x) => false)).toThrowError(InvalidOperationException)
+        expect(() => vals.single((_x) => false)).toThrowError(InvalidOperationException)
     })
 
     itAsync("predicate multiple expection", async () => {
         const vals = asAsync([1, 2, 3, 4])
-        const expect = await expectAsync(vals.single((x) => true))
+        const expect = await expectAsync(vals.single((_x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
     itAsync("predicate no matches expection", async () => {
         const vals = asAsync([1, 2, 3, 4])
-        const expect = await expectAsync(vals.single((x) => false))
+        const expect = await expectAsync(vals.single((_x) => false))
         expect.toThrowError(InvalidOperationException)
     })
 
     itParallel("predicate multiple expection", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
-        const expect = await expectAsync(vals.single((x) => true))
+        const expect = await expectAsync(vals.single((_x) => true))
         expect.toThrowError(InvalidOperationException)
     })
 
     itParallel("predicate no matches expection", async (asParallel) => {
         const vals = asParallel([1, 2, 3, 4])
-        const expect = await expectAsync(vals.single((x) => false))
+        const expect = await expectAsync(vals.single((_x) => false))
         expect.toThrowError(InvalidOperationException)
     })
 })

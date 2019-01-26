@@ -1,4 +1,3 @@
-import { EqualityComparer } from "../../src/index"
 import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("exceptAsync", () => {

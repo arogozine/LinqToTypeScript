@@ -1,5 +1,3 @@
-import { InvalidOperationException } from "../../src/index"
-
 import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("firstAsync", () => {

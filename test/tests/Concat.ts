@@ -1,4 +1,3 @@
-import { ArrayEnumerable } from "../../src/index"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("concat", () => {

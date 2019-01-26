@@ -1,5 +1,5 @@
 import { isAsyncEnumerable } from "../../../src/index"
-import { asAsync, itAsync, itParallel } from "../../TestHelpers"
+import { asAsync, itParallel } from "../../TestHelpers"
 
 describe("isAsyncEnumerable", () => {
     it("Not Async Enumerable", () => {

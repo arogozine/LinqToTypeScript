@@ -1,7 +1,8 @@
-import {  isEnumerable } from "../../../src/index"
+import { isEnumerable } from "../../../src/index"
 import { asAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("isEnumerable", () => {
+
     it("Not Enumerable", () => {
         expect(isEnumerable(undefined)).toBe(false)
         expect(isEnumerable(null)).toBe(false)

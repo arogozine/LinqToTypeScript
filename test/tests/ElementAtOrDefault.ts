@@ -1,4 +1,3 @@
-import { ArgumentOutOfRangeException, ArrayEnumerable } from "../../src/index"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("elementAtOrDefault", () => {

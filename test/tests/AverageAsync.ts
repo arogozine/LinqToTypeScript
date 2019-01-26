@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "../../src/index"
-import { asAsync, expectAsync, itAsync, itEnumerable, itEnumerableAsync, itParallel } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("averageAsync", () => {
     itEnumerableAsync("selector", async (asEnumerable) => {
