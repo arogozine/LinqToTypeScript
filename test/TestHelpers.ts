@@ -91,7 +91,7 @@ export function itEnumerable<T = number>(
         // asIEnumerable is used
         it(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
         it(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
-        // it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
+        it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
     }
 }
 
@@ -121,7 +121,6 @@ export function itParallel<T = number>(
  * @param timeout Custom timeout for an async spec.
  */
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
-
     it(`${ expectation } Async`, (done) => assertion().then(done, fail), timeout)
 }
 
@@ -145,8 +144,8 @@ export function itEnumerableAsync<T = number>(
         (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
         it(`${ expectation } Basic Enumerable`,
             (done) => assertion(asBasicEnumerable).then(done, fail), timeout)
-        // it(`${ expectation } Array`,
-        //    (done) => assertion((x) => x as any).then(done, fail), timeout)
+        it(`${ expectation } Array`,
+            (done) => assertion((x) => x as any).then(done, fail), timeout)
     }
 }
 

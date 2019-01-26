@@ -19,8 +19,5 @@
             "esnext.asynciterable"
         ],
         "baseUrl": "../src",
-    },
-    "files": [
-        "./LinqTests.ts"
-    ],
+    }
 }
