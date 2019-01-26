@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "4.0.0-alpha1",
+  "version": "4.0.0-alpha2",
   "description": "LINQ ported to TypeScript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -36,13 +36,9 @@
     "core-js": "^2.5.5"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.8.6",
-    "jasmine-core": "^3.1.0",
-    "karma": "^3.1.1",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-jasmine": "^1.1.2",
-    "karma-typescript": "^3.0.13",
+    "@types/jest": "^23.3.13",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.5",
     "typescript": "^3.2.2"
   },
   "engines": {

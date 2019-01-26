@@ -1,18 +1,13 @@
-import { BasicAsyncEnumerable } from "async/BasicAsyncEnumerable"
+import {
+    ArrayEnumerable,
+    from,
+    IEnumerable,
+} from "./../src/index"
+
 import {
     from as fromAsync,
     IAsyncEnumerable,
 } from "./../src/async"
-import {
-    ArrayEnumerable,
-    empty,
-    enumerateObject,
-    flatten,
-    from,
-    IEnumerable,
-    range,
-    repeat,
-} from "./../src/index"
 import {
     from as fromParallel,
     IParallelEnumerable,
@@ -20,77 +15,6 @@ import {
 } from "./../src/parallel"
 
 // There are helper functions to make testing easy
-
-// We want the description to be the function
-// being tested
-
-// Check that there is the same test for
-// Enumerable, AsyncEnumerable, and ParallelEnumerable
-type EnumerationType = "Sync" | "Async" | "Parallel"
-const nameMap = new Map<string, EnumerationType[]>()
-
-//#region Describe Wrapper
-
-const desc = describe
-
-const isChecks: ReadonlyArray<string> = [
-    "isAsyncEnumerable",
-    "isEnumerable",
-    "isParallelEnumerable",
-]
-
-// Get
-// Static and Instance Methods
-const syncKeys = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
-const asyncKeys = Object.getOwnPropertyNames(BasicAsyncEnumerable.prototype)
-const staticMethods = new Set<string>([ ...syncKeys, ...asyncKeys ])
-staticMethods.add(empty.name)
-staticMethods.add(enumerateObject.name)
-staticMethods.add(flatten.name)
-staticMethods.add(range.name)
-staticMethods.add(repeat.name)
-
-function validateKeys(description: string) {
-    for (const [key, values] of nameMap.entries()) {
-        if (values.length !== 3) {
-            // tslint:disable-next-line:no-console
-            console.warn(`For ${ description }: ${ key } - there is only ${ values.length } entries`)
-        }
-    }
-
-    nameMap.clear()
-}
-
-function describeWrapper(description: string, specDefinitions: () => void): void {
-    const allowed = [
-        "AsyncEnumerableIteration",
-        "ParallelEnumerable",
-        "thenBy",
-        "thenByAsync",
-        "joinByKey",
-        "primeNumbers",
-        ... isChecks,
-    ]
-    const keys = [ ...staticMethods, ...allowed ]
-
-    if (keys.find((key) => key === description) === undefined) {
-        // tslint:disable-next-line:no-console
-        console.warn(`Describe - "${ description }"`)
-    }
-
-    desc(description, () => {
-        specDefinitions()
-        if (staticMethods.has(description)) {
-            validateKeys(description)
-        } else {
-            nameMap.clear()
-        }
-    })
-}
-
-(window as any).describe = describeWrapper
-
-//#endregion
 
 /**
  * Creates an @see {ArrayEnumerable} from passed in values
@@ -159,22 +83,6 @@ function asParallel<T>(type: ParallelGeneratorType, values: T[]): IParallelEnume
 export function itEnumerable<T = number>(
     expectation: string,
     assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => void, timeout?: number): void {
-    const currentValues = nameMap.get(expectation)
-    if (currentValues) {
-        currentValues.push("Sync")
-    } else {
-        nameMap.set(expectation, ["Sync"])
-    }
-
-    if (expectation.toLowerCase().endsWith(`parallel`)) {
-        // tslint:disable-next-line:no-console
-        console.warn(`itEnumerable ends with Parallel: "${ expectation }"`)
-    }
-
-    if (expectation.toLowerCase().endsWith(`async`)) {
-        // tslint:disable-next-line:no-console
-        console.warn(`itEnumerable ends with Async: ${ expectation }`)
-    }
 
     if (assertion.length === 0) {
         // asIEnumerable is not used
@@ -183,30 +91,13 @@ export function itEnumerable<T = number>(
         // asIEnumerable is used
         it(`${ expectation } array enumerable`, () => assertion(asArrayEnumerable), timeout)
         it(`${ expectation } basic enumerable`, () => assertion(asBasicEnumerable), timeout)
-        it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
+        // it(`${ expectation } array`, () => assertion((x) => x as any), timeout)
     }
 }
 
 export function itParallel<T = number>(
     expectation: string,
     assertion: (asParallelEnumerable: (x: T[]) => IParallelEnumerable<T>) => void, timeout?: number): void {
-    const currentValues = nameMap.get(expectation)
-    if (currentValues) {
-        currentValues.push("Parallel")
-    } else {
-        nameMap.set(expectation, ["Parallel"])
-    }
-
-    if (expectation.toLowerCase().endsWith(`parallel`)) {
-        // tslint:disable-next-line:no-console
-        console.warn(`itParallel ends with Parallel: "${ expectation }"`)
-    }
-
-    if (expectation.toLowerCase().endsWith(`async`)) {
-        // tslint:disable-next-line:no-console
-        console.warn(`itParallel ends with Async: ${ expectation }`)
-    }
-
     const a = (x: T[]) => asParallel(ParallelGeneratorType.ArrayOfPromises, x)
 
     expectation = `${ expectation } Parallel`
@@ -231,26 +122,7 @@ export function itParallel<T = number>(
  */
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
 
-    const currentValues = nameMap.get(expectation)
-    if (currentValues) {
-        currentValues.push("Async")
-    } else {
-        nameMap.set(expectation, ["Async"])
-    }
-
-    if (expectation.toLowerCase().endsWith(`async`)) {
-        // tslint:disable-next-line:no-console
-        console.warn(`itAsync ends with Async: "${ expectation }"`)
-    }
-
-    if (expectation.toLowerCase().endsWith(`parallel`)) {
-        // tslint:disable-next-line:no-console
-        console.warn(`itAsync ends with Parallel: ${ expectation }`)
-    }
-
-    expectation = `${ expectation } Async`
-
-    it(expectation, (done) => assertion().then(done, fail), timeout)
+    it(`${ expectation } Async`, (done) => assertion().then(done, fail), timeout)
 }
 
 /**
@@ -263,12 +135,6 @@ export function itAsync<T>(expectation: string, assertion: () => Promise<T>, tim
 export function itEnumerableAsync<T = number>(
     expectation: string,
     assertion: (asIEnumerable: (x: T[]) => IEnumerable<T>) => Promise<void>, timeout?: number): void {
-    const currentValues = nameMap.get(expectation)
-    if (currentValues) {
-        currentValues.push("Sync")
-    } else {
-        nameMap.set(expectation, ["Sync"])
-    }
 
     if (assertion.length === 0) {
         // asIEnumerable is not used
@@ -279,18 +145,18 @@ export function itEnumerableAsync<T = number>(
         (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
         it(`${ expectation } Basic Enumerable`,
             (done) => assertion(asBasicEnumerable).then(done, fail), timeout)
-        it(`${ expectation } Array`,
-            (done) => assertion((x) => x as any).then(done, fail), timeout)
+        // it(`${ expectation } Array`,
+        //    (done) => assertion((x) => x as any).then(done, fail), timeout)
     }
 }
 
 /**
  * Asyc wrapper for @see {expect}
  */
-export async function expectAsync<T>(promise: Promise<T>): Promise<jasmine.Matchers<T>> {
+export async function expectAsync<T>(promise: Promise<T>): Promise<jest.Matchers<T>> {
     try {
         return expect(await promise)
     } catch (e) {
-        return expect(() => { throw e })
+        return expect((() => { throw e }) as any)
     }
 }
