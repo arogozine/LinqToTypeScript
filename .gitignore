@@ -45,6 +45,7 @@ test/*.js
 test/*.js.map
 src/*.js
 src/*.js.map
+!test/jest.config.js
 
 # Browser Test Results
 coverage
