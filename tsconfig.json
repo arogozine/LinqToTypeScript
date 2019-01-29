@@ -1,28 +1,30 @@
 {
-    "compileOnSave": true,
     "compilerOptions": {
-        "target": "es2016",
-        "module": "commonjs",
         "moduleResolution": "node",
-        "noImplicitReturns": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "./lib",
-        "strict": true,
-        "strictFunctionTypes": true,
-        "declaration": true,
+        "module": "esnext",
+        "target": "es2018",
         "lib": [
             "dom",
             "es2016",
             "esnext.asynciterable"
         ],
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        "declarationDir": "./dist/types",
+        "strict": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "strictFunctionTypes": true,
+        "forceConsistentCasingInFileNames": true,
+        "outDir": "./dist/esm2015",
+        "resolveJsonModule": true,
+        "importHelpers": true
     },
-    "exclude": [
-        "node_modules",
-        ".npm",
-        "test",
-        "lib"
-    ]
+    "include": [
+        "./src"
+    ],
+    "compileOnSave": false
 }
