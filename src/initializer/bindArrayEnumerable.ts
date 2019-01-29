@@ -139,7 +139,7 @@ export function bindArrayEnumerable<T>(): void {
         if (items instanceof BasicEnumerable) {
             // this scoping
             const enumerable = this
-            function *iterator() {
+            const iterator = function *() {
                 for (const x of enumerable) {
                     yield x
                 }

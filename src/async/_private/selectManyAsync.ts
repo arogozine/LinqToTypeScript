@@ -12,7 +12,7 @@ export function selectManyAsync<TSource, Y>(
     source: AsyncIterable<TSource>,
     selector: (x: TSource, index: number) => Promise<Iterable<Y>>): IAsyncEnumerable<Y> {
     if (selector.length === 1) {
-        async function* iterator() {
+        const iterator = async function*() {
             for await (const value of source) {
                 const many = await (selector as (x: TSource) => Promise<Iterable<Y>>)(value)
                 for (const innerValue of many) {
@@ -23,7 +23,7 @@ export function selectManyAsync<TSource, Y>(
 
         return new BasicAsyncEnumerable(iterator)
     } else {
-        async function* iterator() {
+        const iterator = async function*() {
             let index = 0
             for await (const value of source) {
                 const many = await selector(value, index)

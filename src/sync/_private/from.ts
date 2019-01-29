@@ -15,7 +15,7 @@ export function from<TSource>(source: TSource[]): IEnumerable<TSource>
 export function from<TSource>(source: IterableIterator<TSource>): IEnumerable<TSource>
 export function from<TSource>(source: TSource[] | IterableIterator<TSource>): IEnumerable<TSource> {
     if (Array.isArray(source)) {
-        function *iterator() {
+        const iterator = function *() {
             for (const value of source) {
                 yield value
             }
