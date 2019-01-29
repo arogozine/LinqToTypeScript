@@ -13,7 +13,6 @@
     }
   ],
   "scripts": {
-    "postinstall": "node scripts/init",
     "build": "tsc --target es5 --downlevelIteration --outDir dist/esm5 && tsc && rollup -c config/rollup.config.js && rollup -c config/rollup.config.js --environment NODE_ENV:production",
     "postbuild": "node scripts/copy && npm run size",
     "size": "node scripts/file-size ./dist/bundles/index.umd.min.js ./dist/bundles/index.esm.min.js",
