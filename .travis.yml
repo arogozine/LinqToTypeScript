@@ -2,12 +2,13 @@ language: node_js
 node_js:
   - 'stable'
   - '10'
+  - '8'
 sudo: false
 before_script:
-  - npm install -g typescript tslint jest
+  - npm install -g typescript tslint jest rollup
 script:
   - npm install
-  - tsc
+  - npm run build
   - tslint -p ./
   - npm run test
 cache:

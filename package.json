@@ -2,8 +2,10 @@
   "name": "linq-to-typescript",
   "version": "4.0.0-alpha2",
   "description": "LINQ ported to TypeScript",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "./bundles/index.umd.js",
+  "module": "./esm5/index.js",
+  "es2015": "./esm2015/index.js",
+  "typings": "./types/index.d.ts",
   "maintainers": [
     {
       "name": "Alexandre Rogozine",
@@ -13,6 +15,8 @@
   "scripts": {
     "postinstall": "node scripts/init",
     "build": "tsc --target es5 --downlevelIteration --outDir dist/esm5 && tsc && rollup -c config/rollup.config.js && rollup -c config/rollup.config.js --environment NODE_ENV:production",
+    "postbuild": "node scripts/copy && npm run size",
+    "size": "node scripts/file-size ./dist/bundles/index.umd.min.js ./dist/bundles/index.esm.min.js",
     "test": "jest -c ./test/jest.config.js --runInBand",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\""
@@ -40,7 +44,10 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.13",
+    "brotli-size": "0.0.3",
+    "gzip-size": "^5.0.0",
     "jest": "^23.6.0",
+    "pretty-bytes": "^5.1.0",
     "rollup": "^1.1.2",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-json": "^3.1.0",
