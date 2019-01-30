@@ -1,9 +1,10 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "target": "es2016",
-        "module": "commonjs",
         "moduleResolution": "node",
+        "target": "es2016",
+        "module": "esnext",
+        "esModuleInterop": true,
         "removeComments": true,
         "noImplicitAny": true,
         "experimentalDecorators": true,
@@ -18,6 +19,7 @@
             "es2016",
             "esnext.asynciterable"
         ],
+        "importHelpers": true,
         "baseUrl": "../src",
     }
 }

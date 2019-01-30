@@ -124,4 +124,22 @@ const FESMconfig = {
   ),
 }
 
+// const CJSConfig = {
+//   ...CommonConfig,
+//   input: resolve(PATHS.entry.esm5, 'index.js'),
+//   output: [
+//     {
+//       file: getOutputFileName(
+//         resolve(PATHS.bundles, 'index.cjs.js'),
+//         ifProduction()
+//       ),
+//       format: 'cjs',
+//       sourcemap: true,
+//     }  
+//   ],
+//   plugins: removeEmpty(
+//     /** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())])
+//   ),
+// }
+
 export default [UMDconfig, FESMconfig]

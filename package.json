@@ -3,7 +3,7 @@
   "version": "4.0.0-alpha2",
   "description": "LINQ ported to TypeScript",
   "main": "./bundles/index.umd.js",
-  "module": "./esm5/index.js",
+  "module": "./bundles/index.esm.js",
   "es2015": "./esm2015/index.js",
   "typings": "./types/index.d.ts",
   "maintainers": [
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.13",
+    "@types/webpack-config-utils": "^2.3.0",
     "brotli-size": "0.0.3",
     "gzip-size": "^5.0.0",
     "jest": "^23.6.0",
