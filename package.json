@@ -16,7 +16,7 @@
     "build": "tsc --target es5 --downlevelIteration --outDir dist/esm5 && tsc && rollup -c config/rollup.config.js && rollup -c config/rollup.config.js --environment NODE_ENV:production",
     "postbuild": "node scripts/copy && npm run size",
     "size": "node scripts/file-size ./dist/bundles/index.umd.min.js ./dist/bundles/index.esm.min.js",
-    "test": "jest -c ./test/jest.config.js",
+    "test": "jest -c ./test/jest.config.js --forceExit --detectOpenHandles --maxWorkers=10",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\"",
     "release:npm": "npm publish dist",
