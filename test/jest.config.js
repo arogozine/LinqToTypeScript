@@ -2,7 +2,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: [ "<rootDir>" ],
-  verbose: true,
+  // verbose: true,
   // bail: true,
   testRegex: "(/tests/.*)$",
   testMatch: null,
