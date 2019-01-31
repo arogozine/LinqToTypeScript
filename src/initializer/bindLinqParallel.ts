@@ -84,8 +84,7 @@ export function bindLinqParallel<T, Y extends AsyncIterable<T>>(object: IPrototy
     const prototype = wPrototype as IParallelEnumerable<T>
 
     const bind = (func: (x: IParallelEnumerable<T>, ...params: any[]) => any,
-                  optKey: keyof IParallelEnumerable<T>) => {
-        const key = optKey || func.name as keyof IParallelEnumerable<T>
+                  key: keyof IParallelEnumerable<T>) => {
         switch (func.length) {
             case 1:
                 wPrototype[key] = function(this: IParallelEnumerable<T>) {

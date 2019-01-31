@@ -82,8 +82,7 @@ export function bindLinqAsync<T, Y extends AsyncIterable<T>>(object: IPrototype<
 
     const prototype = object.prototype as IAsyncEnumerable<T>
 
-    const bind = (func: (x: IAsyncEnumerable<T>, ...params: any[]) => any, optKey: keyof IAsyncEnumerable<T>) => {
-        const key = optKey || func.name as keyof IAsyncEnumerable<T>
+    const bind = (func: (x: IAsyncEnumerable<T>, ...params: any[]) => any, key: keyof IAsyncEnumerable<T>) => {
         switch (func.length) {
             case 1:
                 prototype[key] = function(this: IAsyncEnumerable<T>) {

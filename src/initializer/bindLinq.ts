@@ -82,8 +82,7 @@ import { zipAsync } from "./../sync/_private/zipAsync"
 export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<Y>): void {
     const prototype = object.prototype as IEnumerable<T>
 
-    const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, optKey: keyof IEnumerable<T>) => {
-        const key = optKey || func.name as keyof IEnumerable<T>
+    const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, key: keyof IEnumerable<T>) => {
         switch (func.length) {
             case 1:
                 prototype[key] = function(this: IEnumerable<T>) {

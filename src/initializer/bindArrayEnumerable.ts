@@ -77,8 +77,7 @@ export function bindArrayEnumerable<T>(): void {
 
     const prototype = ArrayEnumerable.prototype
 
-    const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, optKey?: keyof IEnumerable<T>) => {
-        const key = optKey || func.name as keyof IEnumerable<T>
+    const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, key: keyof IEnumerable<T>) => {
         switch (func.length) {
             case 1:
                 prototype[key] = function(this: IEnumerable<T>) {
@@ -110,11 +109,11 @@ export function bindArrayEnumerable<T>(): void {
         }
     }
 
-    bind(aggregate)
+    bind(aggregate, "aggregate")
     prototype.all = function(this: ArrayEnumerable<T>, predicate: (x: T) => boolean): boolean {
         return this.every(predicate)
     }
-    bind(allAsync)
+    bind(allAsync, "allAsync")
     prototype.any = function(predicate?: (x: T) => boolean): boolean {
         if (predicate) {
             return this.some(predicate)
@@ -122,12 +121,12 @@ export function bindArrayEnumerable<T>(): void {
             return this.length !== 0
         }
     }
-    bind(anyAsync)
+    bind(anyAsync, "anyAsync")
     // TODO - Browsers not naming arrow functions properly
     bind(asAsync, "asAsync")
-    bind(asParallel)
-    bind(average)
-    bind(averageAsync)
+    bind(asParallel, "asParallel")
+    bind(average, "average")
+    bind(averageAsync, "averageAsync")
     prototype.concat = function(this: ArrayEnumerable<T>) {
         let items: any
         if (arguments.length === 1) {
@@ -156,7 +155,7 @@ export function bindArrayEnumerable<T>(): void {
     prototype.contains = function(value: T, comparer?: IEqualityComparer<T>) {
         return contains(this, value, comparer)
     }
-    bind(containsAsync)
+    bind(containsAsync, "containsAsync")
     prototype.count = function(predicate?: (x: T) => boolean) {
         if (predicate) {
             // tslint:disable-next-line:no-shadowed-variable
@@ -171,13 +170,13 @@ export function bindArrayEnumerable<T>(): void {
             return this.length
         }
     }
-    bind(countAsync)
+    bind(countAsync, "countAsync")
     prototype.distinct = function(comparer?: IEqualityComparer<T>) {
         return distinct(this, comparer)
     }
-    bind(distinctAsync)
-    bind(each)
-    bind(eachAsync)
+    bind(distinctAsync, "distinctAsync")
+    bind(each, "each")
+    bind(eachAsync, "eachAsync")
     prototype.elementAt = function(index: number): T {
         if (index < 0 || index >= this.length) {
             throw new ArgumentOutOfRangeException("index")
@@ -188,8 +187,8 @@ export function bindArrayEnumerable<T>(): void {
     prototype.elementAtOrDefault = function(index: number): T | null {
         return this[index] || null
     }
-    bind(except)
-    bind(exceptAsync)
+    bind(except, "except")
+    bind(exceptAsync, "exceptAsync")
     prototype.first = function(predicate?: (x: T) => boolean): T {
         if (predicate) {
             const value = this.find(predicate)
@@ -206,7 +205,7 @@ export function bindArrayEnumerable<T>(): void {
             return this[0]
         }
     }
-    bind(firstAsync)
+    bind(firstAsync, "firstAsync")
     prototype.firstOrDefault = function(predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             const value = this.find(predicate)
@@ -219,14 +218,14 @@ export function bindArrayEnumerable<T>(): void {
             return this.length === 0 ? null : this[0]
         }
     }
-    bind(firstOrDefaultAsync)
-    bind(groupBy)
-    bind(groupByAsync)
-    bind(groupByWithSel)
+    bind(firstOrDefaultAsync, "firstOrDefaultAsync")
+    bind(groupBy, "groupBy")
+    bind(groupByAsync, "groupByAsync")
+    bind(groupByWithSel, "groupByWithSel")
     prototype.intersect = function(second: IEnumerable<T>, comparer?: IEqualityComparer<T>) {
         return intersect(this, second, comparer)
     }
-    bind(intersectAsync)
+    bind(intersectAsync, "intersectAsync")
     prototype.joinByKey = function<TInner, TKey, TResult>(
         inner: IEnumerable<TInner>,
         outerKeySelector: (x: T) => TKey,
@@ -253,7 +252,7 @@ export function bindArrayEnumerable<T>(): void {
             return this[this.length - 1]
         }
     }
-    bind(lastAsync)
+    bind(lastAsync, "lastAsync")
     prototype.lastOrDefault = function(predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             for (let i = this.length - 1; i >= 0; i--) {
@@ -269,7 +268,7 @@ export function bindArrayEnumerable<T>(): void {
         }
     }
 
-    bind(lastOrDefaultAsync)
+    bind(lastOrDefaultAsync, "lastOrDefaultAsync")
     prototype.max = function(selector?: (x: T) => number): number | never {
         if (this.length === 0) {
             throw new InvalidOperationException(ErrorString.NoElements)
@@ -289,7 +288,7 @@ export function bindArrayEnumerable<T>(): void {
         }
     }
 
-    bind(maxAsync)
+    bind(maxAsync, "maxAsync")
     prototype.min = function(selector?: (x: T) => number): number | never {
         if (this.length === 0) {
             throw new InvalidOperationException(ErrorString.NoElements)
@@ -309,44 +308,44 @@ export function bindArrayEnumerable<T>(): void {
         }
     }
 
-    bind(minAsync)
-    bind(ofType)
-    bind(orderBy)
-    bind(orderByAsync)
-    bind(orderByDescending)
-    bind(orderByDescendingAsync)
+    bind(minAsync, "minAsync")
+    bind(ofType, "ofType")
+    bind(orderBy, "orderBy")
+    bind(orderByAsync, "orderByAsync")
+    bind(orderByDescending, "orderByDescending")
+    bind(orderByDescendingAsync, "orderByDescendingAsync")
     prototype.reverse = function() {
         Array.prototype.reverse.apply(this)
         return this
     }
-    bind(select)
-    bind(selectAsync)
-    bind(selectMany)
-    bind(selectManyAsync)
+    bind(select, "select")
+    bind(selectAsync, "selectAsync")
+    bind(selectMany, "selectMany")
+    bind(selectManyAsync, "selectManyAsync")
     prototype.sequenceEquals = function(second: IEnumerable<T>, comparer?: IEqualityComparer<T>) {
         return sequenceEquals(this, second, comparer)
     }
-    bind(sequenceEqualsAsync)
-    bind(single)
-    bind(singleAsync)
-    bind(singleOrDefault)
-    bind(singleOrDefaultAsync)
-    bind(skip)
-    bind(skipWhile)
-    bind(skipWhileAsync)
-    bind(sum)
-    bind(sumAsync)
-    bind(take)
-    bind(takeWhile)
-    bind(takeWhileAsync)
-    bind(toArray)
-    bind(toMap)
-    bind(toMapAsync)
-    bind(toSet)
-    bind(union)
-    bind(unionAsync)
-    bind(where)
-    bind(whereAsync)
-    bind(zip)
-    bind(zipAsync)
+    bind(sequenceEqualsAsync, "sequenceEqualsAsync")
+    bind(single, "single")
+    bind(singleAsync, "singleAsync")
+    bind(singleOrDefault, "singleOrDefault")
+    bind(singleOrDefaultAsync, "singleOrDefaultAsync")
+    bind(skip, "skip")
+    bind(skipWhile, "skipWhile")
+    bind(skipWhileAsync, "skipWhileAsync")
+    bind(sum, "sum")
+    bind(sumAsync, "sumAsync")
+    bind(take, "take")
+    bind(takeWhile, "takeWhile")
+    bind(takeWhileAsync, "takeWhileAsync")
+    bind(toArray, "toArray")
+    bind(toMap, "toMap")
+    bind(toMapAsync, "toMapAsync")
+    bind(toSet, "toSet")
+    bind(union, "union")
+    bind(unionAsync, "unionAsync")
+    bind(where, "where")
+    bind(whereAsync, "whereAsync")
+    bind(zip, "zip")
+    bind(zipAsync, "zipAsync")
 }
