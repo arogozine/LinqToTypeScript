@@ -5,6 +5,7 @@
   "main": "./bundles/index.umd.js",
   "module": "./bundles/index.esm.js",
   "es2015": "./esm2015/index.js",
+  "browser": "./esm5/index.js",
   "typings": "./types/index.d.ts",
   "maintainers": [
     {
@@ -13,7 +14,11 @@
     }
   ],
   "scripts": {
-    "build": "tsc --target es5 --downlevelIteration --outDir dist/esm5 && tsc && rollup -c config/rollup.config.js && rollup -c config/rollup.config.js --environment NODE_ENV:production",
+    "build:es2015": "tsc --outDir dist/esm2015",
+    "build:esm": "tsc --module es2015 --target es5 --downlevelIteration --outDir dist/esm5",
+    "build:cjs": "tsc --module commonjs --target es5 --downlevelIteration --outDir dist/cjs",
+    "build:rollup": "rollup -c config/rollup.config.js && rollup -c config/rollup.config.js --environment NODE_ENV:production",
+    "build": "npm run build:cjs && npm run build:esm && npm run build:es2015 && npm run build:rollup",
     "postbuild": "node scripts/copy && npm run size",
     "size": "node scripts/file-size ./dist/bundles/index.umd.min.js ./dist/bundles/index.esm.min.js",
     "test": "jest -c ./test/jest.config.js --forceExit --detectOpenHandles --maxWorkers=10",

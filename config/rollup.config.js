@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import sourceMaps from 'rollup-plugin-sourcemaps'
 import nodeResolve from 'rollup-plugin-node-resolve'
-import json from 'rollup-plugin-json'
+// import json from 'rollup-plugin-json'
 import commonjs from 'rollup-plugin-commonjs'
 import replace from 'rollup-plugin-replace'
 import { uglify } from 'rollup-plugin-uglify'
@@ -32,10 +32,11 @@ const DIST = resolve(ROOT, 'dist') //
 
 /**
  * Object literals are open-ended for js checking, so we need to be explicit
- * @type {{entry:{esm5: string, esm2015: string},bundles:string}}
+ * @type {{entry:{esm5: string, esm2015: string, cjs: string},bundles:string}}
  */
 const PATHS = {
   entry: {
+    cjs: resolve(DIST, 'cjs'),
     esm5: resolve(DIST, 'esm5'),
     esm2015: resolve(DIST, 'esm2015'),
   },
@@ -52,7 +53,7 @@ const external = Object.keys(pkg.peerDependencies || {}) || []
  */
 const plugins = /** @type {Plugin[]} */ ([
   // Allow json resolution
-  json(),
+  // json(),
 
   // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
   commonjs(),
@@ -124,22 +125,22 @@ const FESMconfig = {
   ),
 }
 
-// const CJSConfig = {
-//   ...CommonConfig,
-//   input: resolve(PATHS.entry.esm5, 'index.js'),
-//   output: [
-//     {
-//       file: getOutputFileName(
-//         resolve(PATHS.bundles, 'index.cjs.js'),
-//         ifProduction()
-//       ),
-//       format: 'cjs',
-//       sourcemap: true,
-//     }  
-//   ],
-//   plugins: removeEmpty(
-//     /** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())])
-//   ),
-// }
+const CJSConfig = {
+  ...CommonConfig,
+  input: resolve(PATHS.entry.cjs, 'index.js'),
+  output: [
+    {
+      file: getOutputFileName(
+        resolve(PATHS.bundles, 'index.cjs.js'),
+        ifProduction()
+      ),
+      format: 'cjs',
+      sourcemap: true,
+    }  
+  ],
+  plugins: removeEmpty(
+    /** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())])
+  ),
+}
 
-export default [UMDconfig, FESMconfig]
+export default [UMDconfig, FESMconfig, CJSConfig]
