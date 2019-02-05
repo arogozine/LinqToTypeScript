@@ -1,5 +1,5 @@
 import { resolve } from 'path'
-import sourceMaps from 'rollup-plugin-sourcemaps'
+// import sourceMaps from 'rollup-plugin-sourcemaps'
 import nodeResolve from 'rollup-plugin-node-resolve'
 // import json from 'rollup-plugin-json'
 import commonjs from 'rollup-plugin-commonjs'
@@ -11,8 +11,8 @@ import { getIfUtils, removeEmpty } from 'webpack-config-utils'
 import pkg from '../package.json'
 
 const {
-  pascalCase,
-  normalizePackageName,
+//  pascalCase,
+//  normalizePackageName,
   getOutputFileName,
 } = require('./helpers')
 
@@ -26,7 +26,7 @@ const {
 const env = process.env.NODE_ENV || 'development'
 const { ifProduction } = getIfUtils(env)
 
-const LIB_NAME = pascalCase(normalizePackageName(pkg.name))
+// const LIB_NAME = pascalCase(normalizePackageName(pkg.name))
 const ROOT = resolve(__dirname, '..')
 const DIST = resolve(ROOT, 'dist') // 
 
@@ -64,7 +64,7 @@ const plugins = /** @type {Plugin[]} */ ([
   nodeResolve(),
 
   // Resolve source maps to the original source
-  sourceMaps(),
+  // sourceMaps(),
 
   // properly set process.env.NODE_ENV within `./environment.ts`
   replace({
@@ -84,25 +84,25 @@ const CommonConfig = {
   external,
 }
 
-/**
- * @type {Config}
- */
-const UMDconfig = {
-  ...CommonConfig,
-  input: resolve(PATHS.entry.esm5, 'index.js'),
-  output: {
-    file: getOutputFileName(
-      resolve(PATHS.bundles, 'index.umd.js'),
-      ifProduction()
-    ),
-    format: 'umd',
-    name: LIB_NAME,
-    sourcemap: true,
-  },
-  plugins: removeEmpty(
-    /** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())])
-  ),
-}
+// /**
+//  * @type {Config}
+//  */
+// const UMDconfig = {
+//   ...CommonConfig,
+//   input: resolve(PATHS.entry.esm5, 'index.js'),
+//   output: {
+//     file: getOutputFileName(
+//       resolve(PATHS.bundles, 'index.umd.js'),
+//       ifProduction()
+//     ),
+//     format: 'umd',
+//     name: LIB_NAME,
+//     // sourcemap: true,
+//   },
+//   plugins: removeEmpty(
+//     /** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())])
+//   ),
+// }
 
 /**
  * @type {Config}
@@ -117,7 +117,7 @@ const FESMconfig = {
         ifProduction()
       ),
       format: 'es',
-      sourcemap: true,
+      // sourcemap: true,
     },
   ],
   plugins: removeEmpty(
@@ -135,7 +135,7 @@ const CJSConfig = {
         ifProduction()
       ),
       format: 'cjs',
-      sourcemap: true,
+      // sourcemap: true,
     }  
   ],
   plugins: removeEmpty(
@@ -143,4 +143,4 @@ const CJSConfig = {
   ),
 }
 
-export default [UMDconfig, FESMconfig, CJSConfig]
+export default [FESMconfig, CJSConfig]

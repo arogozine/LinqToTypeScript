@@ -9,9 +9,8 @@
             "es2016",
             "esnext.asynciterable"
         ],
-        "sourceMap": true,
         "declaration": true,
-        "declarationMap": true,
+        "declarationDir": "dist/types",
         "strict": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
