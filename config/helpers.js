@@ -5,8 +5,6 @@ module.exports = {
     camelCaseToDash,
     dashToCamelCase,
     toUpperCase,
-    pascalCase,
-    normalizePackageName,
     getOutputFileName,
 }
 
@@ -34,23 +32,6 @@ function toUpperCase(myStr) {
     return `${myStr.charAt(0).toUpperCase()}${myStr.substr(1)}`
 }
 
-/**
- *
- * @param {string} myStr
- */
-function pascalCase(myStr) {
-    return toUpperCase(dashToCamelCase(myStr))
-}
-
-/**
- *
- * @param {string} rawPackageName
- */
-function normalizePackageName(rawPackageName) {
-    const scopeEnd = rawPackageName.indexOf('/') + 1
-
-    return rawPackageName.substring(scopeEnd)
-}
 
 /**
  *
