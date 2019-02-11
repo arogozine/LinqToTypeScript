@@ -20,7 +20,7 @@
     "build:cjs": "tsc --module commonjs --target es5 --downlevelIteration --outDir dist/cjs",
     "build:rollup": "rollup -c config/rollup.config.js --environment NODE_ENV:production",
     "build": "npm run build:module && npm run build:main && npm run build:cjs && npm run build:es2015 && npm run build:rollup",
-    "postbuild": "node scripts/copy",
+    "postbuild": "node config/copy",
     "test": "jest -c ./test/jest.config.js --runInBand --useStderr",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\"",
