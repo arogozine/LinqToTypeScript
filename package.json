@@ -1,12 +1,11 @@
 {
   "name": "linq-to-typescript",
-  "version": "4.0.0-alpha2",
+  "version": "4.0.0-alpha3",
   "description": "LINQ ported to TypeScript",
   "main": "./lib/index.js",
-  "module": "./module/index.esm.js",
   "es2015": "./bundles/index.esm.min.js",
   "browser": "./bundles/index.cjs.min.js",
-  "typings": "./types/index.d.ts",
+  "typings": "./index.d.ts",
   "maintainers": [
     {
       "name": "Alexandre Rogozine",
@@ -15,13 +14,13 @@
   ],
   "scripts": {
     "build:module": "tsc --target esnext --module esnext --outDir dist/module",
-    "build:main": "tsc --module commonjs --target es2016 --outDir dist/lib",
+    "build:main": "tsc --module commonjs --target es2016 --outDir dist --declaration",
     "build:es2015": "tsc --outDir dist/esm2015",
     "build:cjs": "tsc --module commonjs --target es5 --downlevelIteration --outDir dist/cjs",
     "build:rollup": "rollup -c config/rollup.config.js --environment NODE_ENV:production",
-    "build": "npm run build:module && npm run build:main && npm run build:cjs && npm run build:es2015 && npm run build:rollup",
+    "build": "npm run build:cjs && npm run build:es2015 && npm run build:main && npm run build:rollup",
     "postbuild": "node config/copy",
-    "test": "jest -c ./test/jest.config.js --runInBand --useStderr",
+    "test": "jest -c ./test/jest.config.js",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\"",
     "release:npm": "npm publish dist",
