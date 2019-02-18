@@ -36,6 +36,7 @@ npm i linq-to-typescript
 ```
 * The `strict` TS option is recommended.
 * Library is dependent on [core-js](https://github.com/zloirock/core-js) for implementation of `Symbol.asyncIterator`
+* Library is dependent on [tslib](https://github.com/Microsoft/tslib) for async iteration polyfills.
 
 ### Using the Library
 #### With Wrappers
@@ -171,8 +172,9 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 |----------------------|---------------------------------------------------------|
 | bindArray            | Binds IEnumerable methods to an ArrayLike Iterable type |
 | bindLinq             | Binds IEnumerable methods to an Interable type          |
-| isAsyncEnumerable    | Determines if source implements IAsyncEnumerable        |
+| bindLinqAsync        | Binds IAsyncEnumerable methods to an AsyncIterable type |
 | isEnumerable         | Determines if source implements IEnumerable             |
+| isAsyncEnumerable    | Determines if source implements IAsyncEnumerable        |
 | isParallelEnumerable | Determines if source implements IParallelEnumerable     |
 | initializeLinq       | Binds to IEnumerable to Array Types, Map, Set, & String |
 
@@ -221,24 +223,24 @@ import { from } from "linq-to-typescript/async"
 from(asyncIterableIteratorOrPromiseArray)
 
 // To Create an IParallelEnumerable<T>
-import { from } from "linq-to-typescript/parallel"
-from(arrayOfPromises)
+// You have to specify the parallel generator function type
+import { from, ParallelGeneratorType } from "linq-to-typescript/parallel"
+from(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
 ```
-
-The root classes are 
-- ```Enumerable```
-- ```AsyncEnumerable```
-- ```ParallelEnumerable```
-
-Collections simply call the static methods defined on these base types.
 
 ### F.A.Q.
 
 **Q**
-I am getting a `Cannot find module 'core-js/modules/es7.symbol.async-iterator'`
+I am getting a `Cannot find module 'core-js/modules/es7.symbol.async-iterator'` error.
 
 **A**
-Ensure you have `core-js` NPM package installed.
+This library depends on the Async Iterator defined in core js. Run `npm i core-js` to solve this error.
+
+**Q**
+I am getting a `Error: Cannot find module 'tslib'` error.
+
+**A**
+This library depends on tslib. Run `npm i tslib` to solve the error.
 
 **Q**
 Why did you create this?
@@ -247,11 +249,11 @@ Why did you create this?
 For fun and to gain understanding of TypeScript and Node Package Manager.
 
 **Q**
-Why not target ES5?
+Can this run in an ES5 browser like Internet Explorer.
 
 **A**
-ES5 doesn't have iterators and generators which this library relies on to mimic the lazy nature of IEnumerable.
-You are free to target ES5 instead.
+With the right transpiler, polyfills, and bundler. Its not recommended due to the size and most likely performance.
+This package comes with a Common JS bundle in `bundles/index.cjs.min.js`.
 
 **Q**
 How does this compare to other LINQ libraries?
@@ -271,7 +273,7 @@ Which browsers are supported?
 
 **A**
 - Firefox, Chrome, and Edge. IE is **not** supported.
-- A good bundler targeting ES5 might allow IE support (with proper ES6 polyfils).
+- A good bundler targeting ES5 should allow IE support (with proper ES6 polyfils).
 
 **Q**
 Can I contribute?
