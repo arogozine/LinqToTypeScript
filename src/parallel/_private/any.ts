@@ -8,20 +8,43 @@ import { nextIteration } from "./_nextIteration"
  * @param predicate A function to test each element for a condition.
  */
 export function any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (x: TSource) => boolean) {
-    const nextIter = nextIteration(source, predicate || ((_) => true))
+    if (predicate) {
+        return any2(source, predicate)
+    } else {
+        return any1(source)
+    }
+}
 
-    switch (nextIter.type) {
+const any1 = async <TSource>(source: IParallelEnumerable<TSource>) => {
+    const dataFunc = source.dataFunc
+    let values: TSource[] | Array<Promise<TSource>>
+
+    switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray:
-            return nextIter.generator().then((values) => {
-                return values.some((x) => x)
-            })
+            values = await dataFunc.generator()
+            return values.length !== 0
         case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIter.generator()).then((values) => {
-                return values.some((x) => x)
-            })
+            values = dataFunc.generator()
+            return values.length !== 0
         case ParallelGeneratorType.PromiseOfPromises:
-            return nextIter.generator().then((values) => Promise.all(values)).then((values) => {
-                return values.some((x) => x)
-            })
+            values = await dataFunc.generator()
+            return values.length !== 0
+    }
+}
+
+const any2 = async <TSource>(source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean) => {
+    const dataFunc = nextIteration(source, predicate)
+    let values: boolean[]
+
+    switch (dataFunc.type) {
+        case ParallelGeneratorType.PromiseToArray:
+            values = await dataFunc.generator()
+            return values.includes(true)
+        case ParallelGeneratorType.ArrayOfPromises:
+            values = await Promise.all(dataFunc.generator())
+            return values.includes(true)
+        case ParallelGeneratorType.PromiseOfPromises:
+            values = await Promise.all(await dataFunc.generator())
+            return values.includes(true)
     }
 }
