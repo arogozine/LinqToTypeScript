@@ -1,8 +1,9 @@
 /**
  * Determines whether a sequence contains any elements.
  * If predicate is specified, determines whether any element of a sequence satisfies a condition.
- * @param source The IEnumerable<T> to check for emptiness or apply the predicate to.
+ * @param source The Iterable<T> to check for emptiness or apply the predicate to.
  * @param predicate A function to test each element for a condition.
+ * @returns true if the source sequence contains any elements or passes the test specified; otherwise, false.
  */
 export function any<TSource>(
     source: Iterable<TSource>,

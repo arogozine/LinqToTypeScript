@@ -5,6 +5,7 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
  * Computes the average of a sequence of number values.
  * @param source A sequence of values to calculate the average of.
  * @throws {InvalidOperationException} source contains no elements.
+ * @returns The average of the sequence of values.
  */
 export function average(source: Iterable<number>): number
 /**
@@ -13,6 +14,7 @@ export function average(source: Iterable<number>): number
  * @param source A sequence of values to calculate the average of.
  * @param selector A transform function to apply to each element.
  * @throws {InvalidOperationException} source contains no elements.
+ * @returns The average of the sequence of values.
  */
 export function average<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
 export function average<TSource>(

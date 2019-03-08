@@ -1,7 +1,7 @@
 import { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 /**
- * @private
+ * Specifies how data is stored in the parallel enumerable.
  */
 export type TypedData<T> = {
     readonly type: ParallelGeneratorType.PromiseToArray,

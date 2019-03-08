@@ -2,7 +2,9 @@ import { from } from "../../parallel/ParallelEnumerable" // TODO
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 /**
- * Converts an iterable to @see {IAsyncParallel}
+ * Converts an iterable to @see {IParallelEnumerable}
+ * @param source Sequence to convert
+ * @returns An IParallelEnumerable<T>
  */
 export function asParallel<TSource>(source: Iterable<TSource>): IParallelEnumerable<TSource> {
     async function generator() {

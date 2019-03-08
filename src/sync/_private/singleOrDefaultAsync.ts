@@ -2,8 +2,8 @@ import { ErrorString } from "../../shared/ErrorString"
 import { InvalidOperationException } from "../../shared/InvalidOperationException"
 
 /**
- * If predicate is specified returns the only element of a sequence that satisfies a specified condition,
- * ootherwise returns the only element of a sequence. Returns a default value if no such element exists.
+ * Returns the only element of a sequence that satisfies a specified condition.
+ * Returns a default value if no such element exists.
  * @param source An Iterable<T> to return a single element from.
  * @param predicate A function to test an element for a condition. Optional.
  * @throws {InvalidOperationException}

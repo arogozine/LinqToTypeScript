@@ -5,6 +5,7 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
  * Applies an accumulator function over a sequence.
  * @param source An IEnumerable<T> to aggregate over.
  * @param func An accumulator function to be invoked on each element.
+ * @returns The final accumulator value.
  */
 export function aggregate<TSource>(
     source: AsyncIterable<TSource>,
@@ -15,6 +16,7 @@ export function aggregate<TSource>(
  * @param source An IEnumerable<T> to aggregate over.
  * @param seed The initial accumulator value.
  * @param func An accumulator function to be invoked on each element.
+ * @returns The final accumulator value.
  */
 export function aggregate<TSource, TAccumulate>(
     source: AsyncIterable<TSource>,
@@ -28,6 +30,7 @@ export function aggregate<TSource, TAccumulate>(
  * @param seed The initial accumulator value.
  * @param func An accumulator function to be invoked on each element.
  * @param resultSelector A function to transform the final accumulator value into the result value.
+ * @returns The transformed final accumulator value.
  */
 export function aggregate<TSource, TAccumulate, TResult>(
     source: AsyncIterable<TSource>,

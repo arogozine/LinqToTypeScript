@@ -1,6 +1,6 @@
 /**
  * Determines whether all elements of a sequence satisfy a condition.
- * @param source An IEnumerable<T> that contains the elements to apply the predicate to.
+ * @param source An AsyncIterable<T> that contains the elements to apply the predicate to.
  * @param predicate A function to test each element for a condition.
  */
 export async function allAsync<TSource>(

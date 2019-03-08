@@ -3,8 +3,10 @@ import { nextIteration } from "./_nextIteration"
 
 /**
  * Determines whether all elements of a sequence satisfy a condition.
- * @param source An IEnumerable<T> that contains the elements to apply the predicate to.
+ * @param source An IParallelEnumerable<T> that contains the elements to apply the predicate to.
  * @param predicate A function to test each element for a condition.
+ * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
+ * or if the sequence is empty; otherwise, ``false``.
  */
 export async function all<TSource>(
     source: IParallelEnumerable<TSource>,

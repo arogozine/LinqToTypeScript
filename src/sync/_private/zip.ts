@@ -5,6 +5,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * Creates a tuple of corresponding elements of two sequences, producing a sequence of the results.
  * @param first The first sequence to merge.
  * @param second The second sequence to merge.
+ * @returns An IEnumerable<[T, Y]> that contains merged elements of two input sequences.
  */
 export function zip<T, Y>(
     first: Iterable<T>,
@@ -14,6 +15,7 @@ export function zip<T, Y>(
  * @param first The first sequence to merge.
  * @param second The second sequence to merge.
  * @param resultSelector A function that specifies how to merge the elements from the two sequences.
+ * @returns An IEnumerable<TResult> that contains merged elements of two input sequences.
  */
 export function zip<TFirst, TSecond, TResult>(
     first: Iterable<TFirst>,

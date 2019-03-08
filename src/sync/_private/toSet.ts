@@ -1,5 +1,5 @@
 /**
- * Converts the Async Itertion to a Set
+ * Converts the Itertion to a Set
  * @param source Iteration
  * @returns Set containing the iteration values
  */

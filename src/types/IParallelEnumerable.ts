@@ -14,6 +14,9 @@ import {
 } from "./"
 
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
+    /**
+     * Used for processing.
+     */
     readonly dataFunc: TypedData<TSource>
 
     asAsync(): IAsyncEnumerable<TSource>,

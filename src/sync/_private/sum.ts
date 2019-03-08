@@ -1,6 +1,7 @@
 /**
  * Computes the sum of the sequence of numeric values.
  * @param source A sequence of numeric values to calculate the sum of.
+ * @returns The sum of the values in the sequence.
  */
 export function sum(source: Iterable<number>): number
 /**
@@ -8,6 +9,7 @@ export function sum(source: Iterable<number>): number
  * on each element of the input sequence.
  * @param source A sequence of values that are used to calculate a sum.
  * @param selector A transform function to apply to each element.
+ * @returns The sum of the projected values.
  */
 export function sum<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
 export function sum<TSource>(
