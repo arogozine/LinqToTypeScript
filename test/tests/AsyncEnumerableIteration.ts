@@ -1,4 +1,4 @@
-import { from } from "../../src/async"
+import { from } from "linq-to-typescript/async"
 import { itAsync } from "./../TestHelpers"
 
 describe("AsyncEnumerableIteration", () => {

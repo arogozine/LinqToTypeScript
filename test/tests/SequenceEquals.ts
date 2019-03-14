@@ -1,4 +1,4 @@
-import { EqualityComparer } from "../../src"
+import { EqualityComparer } from "linq-to-typescript"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("sequenceEquals", () => {

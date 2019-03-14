@@ -1,6 +1,6 @@
 import { empty as emptyAsync } from "linq-to-typescript/async"
 import { empty as emptyParallel } from "linq-to-typescript/parallel"
-import { empty } from "../../../src/sync"
+import { empty } from "linq-to-typescript/sync"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("empty", () => {

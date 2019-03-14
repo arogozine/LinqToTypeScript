@@ -1,5 +1,5 @@
+import { enumerateObject } from "linq-to-typescript"
 import { enumerateObject as enumerateObjectAsync } from "linq-to-typescript/async"
-import { enumerateObject } from "../../../src/sync"
 import { itAsync, itEnumerable } from "../../TestHelpers"
 
 describe("enumerateObject", () => {
