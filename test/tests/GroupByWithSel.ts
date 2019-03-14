@@ -1,4 +1,4 @@
-import { EqualityComparer } from "../../src/index"
+import { EqualityComparer } from "linq-to-typescript"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 // tslint:disable:variable-name

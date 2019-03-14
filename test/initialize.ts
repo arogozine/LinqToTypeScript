@@ -1,3 +1,3 @@
-import { initializeLinq } from "./../src/index"
+import { initializeLinq } from "linq-to-typescript"
 
 initializeLinq()

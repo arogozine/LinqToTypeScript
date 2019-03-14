@@ -1,5 +1,5 @@
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
-import { EqualityComparer } from "./../../src/index"
+import { EqualityComparer } from "linq-to-typescript"
 
 describe("joinByKey", () => {
     itEnumerable("basic", (asEnumerable) => {

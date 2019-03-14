@@ -1,4 +1,4 @@
-import { ArgumentOutOfRangeException } from "../../src/index"
+import { ArgumentOutOfRangeException } from "linq-to-typescript"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("elementAt", () => {

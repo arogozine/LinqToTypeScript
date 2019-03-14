@@ -1,6 +1,6 @@
-import { flatten as flattenAsync } from "../../../src/async"
-import { flatten as flattenParallel } from "../../../src/parallel"
-import { flatten } from "../../../src/sync"
+import { flatten } from "linq-to-typescript"
+import { flatten as flattenAsync } from "linq-to-typescript/async"
+import { flatten as flattenParallel } from "linq-to-typescript/parallel"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("flatten", () => {

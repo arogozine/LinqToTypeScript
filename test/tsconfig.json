@@ -20,6 +20,5 @@
             "esnext.asynciterable"
         ],
         "importHelpers": true,
-        "baseUrl": "../src",
     }
 }

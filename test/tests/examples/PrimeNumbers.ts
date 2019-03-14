@@ -1,4 +1,4 @@
-import { range } from "../../../src/index"
+import { range } from "linq-to-typescript"
 
 describe("primeNumbers", () => {
     it("primeNumbers", () => {

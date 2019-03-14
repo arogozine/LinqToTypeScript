@@ -1,4 +1,4 @@
-import { from } from "../../src/index"
+import { from } from "linq-to-typescript"
 import { itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 // tslint:disable:variable-name

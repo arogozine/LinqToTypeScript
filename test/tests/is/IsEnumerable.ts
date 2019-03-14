@@ -1,4 +1,4 @@
-import { isEnumerable } from "../../../src/index"
+import { isEnumerable } from "linq-to-typescript"
 import { asAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("isEnumerable", () => {

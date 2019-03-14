@@ -1,0 +1,24 @@
+{
+  "name": "linq-to-typescript-test",
+  "version": "1.0.0",
+  "description": "Test",
+  "main": "jest.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest -c ./jest.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "linq-to-typescript": "file:../dist",
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "jest": "^24.5.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.3333"
+  }
+}

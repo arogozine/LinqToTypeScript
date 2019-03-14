@@ -1,5 +1,5 @@
-import { empty as emptyAsync } from "../../../src/async"
-import { empty as emptyParallel } from "../../../src/parallel"
+import { empty as emptyAsync } from "linq-to-typescript/async"
+import { empty as emptyParallel } from "linq-to-typescript/parallel"
 import { empty } from "../../../src/sync"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 

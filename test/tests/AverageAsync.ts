@@ -1,4 +1,4 @@
-import { InvalidOperationException } from "../../src/index"
+import { InvalidOperationException } from "linq-to-typescript"
 import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("averageAsync", () => {

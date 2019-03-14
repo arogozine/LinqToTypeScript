@@ -1,6 +1,6 @@
-import { partition as partitionAsync } from "../../../src/async"
-import { partition } from "../../../src/index"
-import { partition as partitionParallel } from "../../../src/parallel"
+import { partition } from "linq-to-typescript"
+import { partition as partitionAsync } from "linq-to-typescript/async"
+import { partition as partitionParallel } from "linq-to-typescript/parallel"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("partition", () => {
