@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "4.0.0-alpha5",
+  "version": "4.0.0-beta1",
   "description": "LINQ ported to TypeScript",
   "main": "./index.js",
   "es2015": "./bundles/index.esm.min.js",
@@ -20,7 +20,6 @@
     "build:rollup": "rollup -c config/rollup.config.js --environment NODE_ENV:production",
     "build": "npm run build:cjs && npm run build:es2015 && npm run build:main && npm run build:rollup",
     "postbuild": "node config/copy",
-    "test": "jest -c ./test/jest.config.js",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\"",
     "release:npm": "npm publish dist",
@@ -48,16 +47,13 @@
     "tslib": ">=1.9.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.10",
     "@types/webpack-config-utils": "^2.3.0",
-    "jest": "^24.3.1",
     "rollup": "^1.6.0",
     "rollup-plugin-commonjs": "^9.2.1",
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-replace": "^2.1.0",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-uglify": "^6.0.2",
-    "ts-jest": "^23.10.5",
     "tslib": "^1.9.3",
     "typescript": "^3.2.2",
     "webpack-config-utils": "^2.3.1"

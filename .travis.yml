@@ -9,6 +9,8 @@ script:
   - npm install
   - npm run build
   - tslint -p ./
+  - cd test
+  - npm install
   - npm run test
 cache:
   directories:
