@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Test",
   "main": "jest.config.js",
+  "private": true,
   "directories": {
     "test": "tests"
   },
