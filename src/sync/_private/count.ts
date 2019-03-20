@@ -8,13 +8,13 @@
  */
 export function count<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): number {
     if (predicate) {
-        return count_2(source, predicate)
+        return count2(source, predicate)
     } else {
-        return count_1(source)
+        return count1(source)
     }
 }
 
-function count_1<T>(source: Iterable<T>): number {
+const count1 = <T>(source: Iterable<T>): number => {
     // tslint:disable-next-line:no-shadowed-variable
     let count = 0
 
@@ -25,7 +25,7 @@ function count_1<T>(source: Iterable<T>): number {
     return count
 }
 
-function count_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): number {
+const count2 = <T>(source: Iterable<T>, predicate: (x: T) => boolean): number => {
     // tslint:disable-next-line:no-shadowed-variable
     let count = 0
     for (const value of source) {

@@ -12,13 +12,13 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
  */
 export function first<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
     if (predicate) {
-        return first_2(source, predicate)
+        return first2(source, predicate)
     } else {
-        return first_1(source)
+        return first1(source)
     }
 }
 
-function first_1<T>(source: Iterable<T>) {
+const first1 = <T>(source: Iterable<T>) => {
     // tslint:disable-next-line:no-shadowed-variable
     const first = source[Symbol.iterator]().next()
 
@@ -29,7 +29,7 @@ function first_1<T>(source: Iterable<T>) {
     return first.value
 }
 
-function first_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): T {
+const first2 = <T>(source: Iterable<T>, predicate: (x: T) => boolean): T => {
     for (const value of source) {
         if (predicate(value) === true) {
             return value

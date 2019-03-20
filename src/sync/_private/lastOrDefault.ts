@@ -11,13 +11,13 @@ export function lastOrDefault<TSource>(
     predicate?: (x: TSource) => boolean): TSource | null {
 
     if (predicate) {
-        return lastOrDefault_2(source, predicate)
+        return lastOrDefault2(source, predicate)
     } else {
-        return lastOrDefault_1(source)
+        return lastOrDefault1(source)
     }
 }
 
-function lastOrDefault_1<TSource>(source: Iterable<TSource>): TSource | null {
+const lastOrDefault1 = <TSource>(source: Iterable<TSource>): TSource | null => {
     let last: TSource | null = null
 
     for (const value of source) {
@@ -27,9 +27,9 @@ function lastOrDefault_1<TSource>(source: Iterable<TSource>): TSource | null {
     return last
 }
 
-function lastOrDefault_2<TSource>(
+const lastOrDefault2 = <TSource>(
     source: Iterable<TSource>,
-    predicate: (x: TSource) => boolean): TSource | null {
+    predicate: (x: TSource) => boolean): TSource | null => {
 
     let last: TSource | null = null
 

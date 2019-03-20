@@ -10,18 +10,18 @@
 export function firstOrDefault<TSource>(
     source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource | null {
     if (predicate) {
-        return firstOrDefault_2(source, predicate)
+        return firstOrDefault2(source, predicate)
     } else {
-        return firstOrDefault_1(source)
+        return firstOrDefault1(source)
     }
 }
 
-function firstOrDefault_1<T>(source: Iterable<T>): T | null {
+const firstOrDefault1 = <T>(source: Iterable<T>): T | null => {
     const first = source[Symbol.iterator]().next()
     return first.value || null
 }
 
-function firstOrDefault_2<T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null {
+const firstOrDefault2 = <T>(source: Iterable<T>, predicate: (x: T) => boolean): T | null => {
     for (const value of source) {
         if (predicate(value) === true) {
             return value
