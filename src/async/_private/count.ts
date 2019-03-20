@@ -8,13 +8,13 @@
  */
 export function count<TSource>(source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<number> {
     if (predicate) {
-        return count_2(source, predicate)
+        return count2(source, predicate)
     } else {
-        return count_1(source)
+        return count1(source)
     }
 }
 
-async function count_1<T>(source: AsyncIterable<T>): Promise<number> {
+const count1 = async <T>(source: AsyncIterable<T>) => {
     let total = 0
 
     for await (const _ of source) {
@@ -24,7 +24,7 @@ async function count_1<T>(source: AsyncIterable<T>): Promise<number> {
     return total
 }
 
-async function count_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<number> {
+const count2 = async <T>(source: AsyncIterable<T>, predicate: (x: T) => boolean) => {
     let total = 0
     for await (const value of source) {
         if (predicate(value) === true) {

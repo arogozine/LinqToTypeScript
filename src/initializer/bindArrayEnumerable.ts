@@ -73,7 +73,7 @@ import { BasicEnumerable } from "../sync/BasicEnumerable"
 /**
  * @private
  */
-export function bindArrayEnumerable<T>(): void {
+export const bindArrayEnumerable = <T>() => {
 
     const prototype = ArrayEnumerable.prototype
 

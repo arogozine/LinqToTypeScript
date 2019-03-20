@@ -4,7 +4,7 @@ import { bindLinq } from "./bindLinq"
 /**
  * Binds LINQ methods to Array Types, Map, Set, and String
  */
-export function initializeLinq() {
+export const initializeLinq = () => {
     bindArray(Array)
     bindLinq(Map)
     bindLinq(Set)

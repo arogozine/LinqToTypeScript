@@ -10,19 +10,19 @@
 export function firstOrDefault<TSource>(
     source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null> {
     if (predicate) {
-        return firstOrDefault_2(source, predicate)
+        return firstOrDefault2(source, predicate)
     } else {
-        return firstOrDefault_1(source)
+        return firstOrDefault1(source)
     }
 }
 
-async function firstOrDefault_1<T>(source: AsyncIterable<T>): Promise<T | null> {
+const firstOrDefault1 = async <T>(source: AsyncIterable<T>) => {
     const first = await source[Symbol.asyncIterator]().next()
     return first.value || null
 }
 
-async function firstOrDefault_2<T>(
-    source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null> {
+const firstOrDefault2 = async <T>(
+    source: AsyncIterable<T>, predicate: (x: T) => boolean) => {
     for await (const value of source) {
         if (predicate(value) === true) {
             return value

@@ -20,13 +20,13 @@ export function max<TSource>(
     source: AsyncIterable<TSource> | AsyncIterable<number>,
     selector?: (x: TSource) => number): Promise<number> {
     if (selector) {
-        return max_2<TSource>(source as AsyncIterable<TSource>, selector)
+        return max2<TSource>(source as AsyncIterable<TSource>, selector)
     } else {
-        return max_1(source as AsyncIterable<number>)
+        return max1(source as AsyncIterable<number>)
     }
 }
 
-async function max_1(source: AsyncIterable<number>): Promise<number> {
+const max1 = async (source: AsyncIterable<number>) => {
     let maxItem: number | null = null
     for await (const item of source) {
         maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, item)
@@ -39,8 +39,8 @@ async function max_1(source: AsyncIterable<number>): Promise<number> {
     }
 }
 
-async function max_2<TSource>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number> {
+const max2 = async <TSource>(
+    source: AsyncIterable<TSource>, selector: (x: TSource) => number) => {
     let maxItem: number | null = null
     for await (const item of source) {
         maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, selector(item))

@@ -14,13 +14,13 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
 export function first<TSource>(
     source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
     if (predicate) {
-        return first_2(source, predicate)
+        return first2(source, predicate)
     } else {
-        return first_1(source)
+        return first1(source)
     }
 }
 
-async function first_1<T>(source: AsyncIterable<T>): Promise<T> {
+const first1 = async <T>(source: AsyncIterable<T>) => {
     const firstElement = await source[Symbol.asyncIterator]().next()
 
     if (firstElement.done === true) {
@@ -30,7 +30,7 @@ async function first_1<T>(source: AsyncIterable<T>): Promise<T> {
     return firstElement.value
 }
 
-async function first_2<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T> {
+const first2 = async <T>(source: AsyncIterable<T>, predicate: (x: T) => boolean) => {
     for await (const value of source) {
         if (predicate(value) === true) {
             return value

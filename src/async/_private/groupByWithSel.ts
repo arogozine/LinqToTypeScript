@@ -37,18 +37,18 @@ export function groupByWithSel<TSource, TKey, TElement>(
     comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TElement>> {
 
     if (comparer) {
-        return groupBy_1(source,
+        return groupBy1(source,
             keySelector as (x: TSource) => TKey, elementSelector, comparer)
     } else {
-        return groupBy_1_Simple(source,
+        return groupBy1Simple(source,
             keySelector as (x: TSource) => number | string, elementSelector)
     }
 }
 
-function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
+const groupBy1Simple = <TSource, TKey extends SelectorKeyType, TElement>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => TKey,
-    elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>> {
+    elementSelector: (x: TSource) => TElement): IAsyncEnumerable<IGrouping<TKey, TElement>> => {
 
     async function *generate(): AsyncIterableIterator<IGrouping<TKey, TElement>> {
         const keyMap: { [key: string]: Grouping<TKey, TElement> } = {}
@@ -74,11 +74,11 @@ function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
     return new BasicAsyncEnumerable(generate)
 }
 
-function groupBy_1<TSource, TKey, TElement>(
+const groupBy1 = <TSource, TKey, TElement>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => TKey,
     elementSelector: (x: TSource) => TElement,
-    comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>> {
+    comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>> => {
 
     async function *generate(): AsyncIterableIterator<IGrouping<TKey, TElement>> {
         const keyMap = new Array<Grouping<TKey, TElement>>()

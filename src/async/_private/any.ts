@@ -10,13 +10,13 @@ export function any<TSource>(
     source: AsyncIterable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<boolean> {
     if (predicate) {
-        return any_2(source, predicate)
+        return any2(source, predicate)
     } else {
-        return any_1(source)
+        return any1(source)
     }
 }
 
-async function any_1<TSource>(source: AsyncIterable<TSource>): Promise<boolean> {
+const any1 = async <TSource>(source: AsyncIterable<TSource>) => {
     for await (const _ of source) {
         return true
     }
@@ -24,9 +24,9 @@ async function any_1<TSource>(source: AsyncIterable<TSource>): Promise<boolean> 
     return false
 }
 
-async function any_2<TSource>(
+const any2 = async <TSource>(
     source: AsyncIterable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<boolean> {
+    predicate: (x: TSource) => boolean) => {
     for await (const item of source) {
         if (predicate(item) === true) {
             return true

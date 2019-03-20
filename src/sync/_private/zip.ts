@@ -26,13 +26,13 @@ export function zip<T, Y, OUT>(
     second: Iterable<Y>,
     resultSelector?: (x: T, y: Y) => OUT): IEnumerable<OUT> | IEnumerable<[T, Y]> {
     if (resultSelector) {
-        return zip_2(source, second, resultSelector)
+        return zip2(source, second, resultSelector)
     } else {
-        return zip_1(source, second)
+        return zip1(source, second)
     }
 }
 
-function zip_1<T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<[T, Y]> {
+const zip1 = <T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<[T, Y]> => {
     function* iterator(): IterableIterator<[T, Y]> {
         const firstIterator = source[Symbol.iterator]()
         const secondIterator = second[Symbol.iterator]()
@@ -52,10 +52,10 @@ function zip_1<T, Y>(source: Iterable<T>, second: Iterable<Y>): IEnumerable<[T, 
     return new BasicEnumerable(iterator)
 }
 
-function zip_2<T, Y, OUT>(
+const zip2 = <T, Y, OUT>(
     source: Iterable<T>,
     second: Iterable<Y>,
-    resultSelector: (x: T, y: Y) => OUT): IEnumerable<OUT> {
+    resultSelector: (x: T, y: Y) => OUT) => {
     function* iterator() {
         const firstIterator = source[Symbol.iterator]()
         const secondIterator = second[Symbol.iterator]()

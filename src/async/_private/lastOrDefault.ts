@@ -10,13 +10,13 @@ export async function lastOrDefault<TSource>(
     source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null> {
 
     if (predicate) {
-        return lastOrDefault_2(source, predicate)
+        return lastOrDefault2(source, predicate)
     } else {
-        return lastOrDefault_1(source)
+        return lastOrDefault1(source)
     }
 }
 
-async function lastOrDefault_1<T>(source: AsyncIterable<T>): Promise<T | null> {
+const lastOrDefault1 = async <T>(source: AsyncIterable<T>) => {
     let last: T | null = null
 
     for await (const value of source) {
@@ -26,8 +26,8 @@ async function lastOrDefault_1<T>(source: AsyncIterable<T>): Promise<T | null> {
     return last
 }
 
-async function lastOrDefault_2<T>(
-    source: AsyncIterable<T>, predicate: (x: T) => boolean): Promise<T | null> {
+const lastOrDefault2 = async <T>(
+    source: AsyncIterable<T>, predicate: (x: T) => boolean) => {
 
     let last: T | null = null
 

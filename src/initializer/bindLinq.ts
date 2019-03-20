@@ -79,7 +79,7 @@ import { zipAsync } from "./../sync/_private/zipAsync"
  * Binds LINQ methods to an iterable type
  * @param object Iterable Type
  */
-export function bindLinq<T, Y extends Iterable<T>>(object: IPrototype<Y>): void {
+export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     const prototype = object.prototype as IEnumerable<T>
 
     const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, key: keyof IEnumerable<T>) => {

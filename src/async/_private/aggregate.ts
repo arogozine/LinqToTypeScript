@@ -47,17 +47,17 @@ export function aggregate<TSource, TAccumulate, TResult>(
             throw new ReferenceError(`TAccumulate function is undefined`)
         }
 
-        return aggregate_3(source, seedOrFunc as TAccumulate, func, resultSelector)
+        return aggregate3(source, seedOrFunc as TAccumulate, func, resultSelector)
     } else if (func) {
-        return aggregate_2(source, seedOrFunc as TAccumulate, func)
+        return aggregate2(source, seedOrFunc as TAccumulate, func)
     } else {
-        return aggregate_1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
+        return aggregate1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
     }
 }
 
-async function aggregate_1<TSource>(
+const aggregate1 = async <TSource>(
     source: AsyncIterable<TSource>,
-    func: (x: TSource, y: TSource) => TSource): Promise<TSource> {
+    func: (x: TSource, y: TSource) => TSource): Promise<TSource> => {
     let aggregateValue: TSource | undefined
 
     for await (const value of source) {
@@ -75,10 +75,10 @@ async function aggregate_1<TSource>(
     return aggregateValue
 }
 
-async function aggregate_2<TSource, TAccumulate>(
+const aggregate2 = async <TSource, TAccumulate>(
     source: AsyncIterable<TSource>,
     seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate> {
+    func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate> => {
     let aggregateValue = seed
 
     for await (const value of source) {
@@ -88,11 +88,11 @@ async function aggregate_2<TSource, TAccumulate>(
     return aggregateValue
 }
 
-async function aggregate_3<TSource, TAccumulate, TResult>(
+const aggregate3 = async <TSource, TAccumulate, TResult>(
     source: AsyncIterable<TSource>,
     seed: TAccumulate,
     func: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector: (x: TAccumulate) => TResult): Promise<TResult> {
+    resultSelector: (x: TAccumulate) => TResult): Promise<TResult> => {
     let aggregateValue = seed
 
     for await (const value of source) {

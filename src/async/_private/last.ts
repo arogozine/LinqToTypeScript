@@ -13,13 +13,13 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
 export async function last<TSource>(
     source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
     if (predicate) {
-        return last_2(source, predicate)
+        return last2(source, predicate)
     } else {
-        return last_1(source)
+        return last1(source)
     }
 }
 
-async function last_1<T>(source: AsyncIterable<T>): Promise<T> {
+const last1 = async <T>(source: AsyncIterable<T>) => {
     let lastItem: T | null = null
 
     for await (const value of source) {
@@ -33,8 +33,8 @@ async function last_1<T>(source: AsyncIterable<T>): Promise<T> {
     return lastItem
 }
 
-async function last_2<TSource>(
-    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource> {
+const last2 = async <TSource>(
+    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean) => {
     let lastItem: TSource | null = null
 
     for await (const value of source) {

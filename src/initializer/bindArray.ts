@@ -5,7 +5,7 @@ import { IPrototype } from "../types"
  * Binds LINQ method to a built in array type
  * @param jsArray Built In JS Array Type
  */
-export function bindArray<T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IPrototype<Y>): void {
+export const bindArray = <T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IPrototype<Y>) => {
     const propertyNames = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
         .filter((v) => v !== "constructor")
 

@@ -77,7 +77,7 @@ import { zipAsync } from "./../parallel/_private/zipAsync"
  * Binds LINQ methods to an iterable type
  * @param object Iterable Type
  */
-export function bindLinqParallel<T, Y extends AsyncIterable<T>>(object: IPrototype<Y>): void {
+export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
 
     type Writeable<TType> = { -readonly [P in keyof TType]-?: TType[P] }
     const wPrototype = object.prototype as Writeable<IParallelEnumerable<T>>

@@ -27,14 +27,14 @@ export function zip<TFirst, TSecond, TResult>(
     resultSelector?: (x: TFirst, y: TSecond) => TResult)
     : IAsyncEnumerable<TResult> | IAsyncEnumerable<[TFirst, TSecond]> {
     if (resultSelector) {
-        return zip_2(first, second, resultSelector)
+        return zip2(first, second, resultSelector)
     } else {
-        return zip_1(first, second)
+        return zip1(first, second)
     }
 }
 
-function zip_1<T, Y>(
-    source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]> {
+const zip1 = <T, Y>(
+    source: AsyncIterable<T>, second: AsyncIterable<Y>): IAsyncEnumerable<[T, Y]> => {
     async function* iterator(): AsyncIterableIterator<[T, Y]> {
         const firstIterator = source[Symbol.asyncIterator]()
         const secondIterator = second[Symbol.asyncIterator]()
@@ -55,10 +55,10 @@ function zip_1<T, Y>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-function zip_2<T, Y, OUT>(
+const zip2 = <T, Y, OUT>(
     source: AsyncIterable<T>,
     second: AsyncIterable<Y>,
-    resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT> {
+    resultSelector: (x: T, y: Y) => OUT): IAsyncEnumerable<OUT> => {
     async function* iterator() {
         const firstIterator = source[Symbol.asyncIterator]()
         const secondIterator = second[Symbol.asyncIterator]()
