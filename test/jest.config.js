@@ -7,5 +7,5 @@ module.exports = {
   testRegex: "(/tests/.*)$",
   testMatch: null,
   // Setup File
-  setupTestFrameworkScriptFile: "./initialize.ts"
+  setupFilesAfterEnv: [ "./initialize.ts" ]
 };
