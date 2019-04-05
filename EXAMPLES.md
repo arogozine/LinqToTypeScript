@@ -54,7 +54,7 @@ console.log(primeNumbers)
 ## Misc Examples (binding LINQ to Array)
 
 ```TypeScript
-import { EqualityComparer, enumerateObject, initializeLinq } from "linq-to-typescript"
+import { EqualityComparer, enumerateObject, flatten, initializeLinq } from "linq-to-typescript"
 
 initializeLinq()
 
@@ -133,7 +133,7 @@ let y = 0;
 [].firstOrDefault(); // null
 
 // FLATTEN
-Enumerable.flatten([1, [2, 3]]); // [1, 2, 3]
+flatten([1, [2, 3]]); // [1, 2, 3]
 
 // GROUPBY
 const cats = [] as Array<{ breed: string, age: number }>;
