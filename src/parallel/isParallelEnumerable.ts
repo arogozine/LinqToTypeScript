@@ -5,7 +5,7 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
  * Determine if the source is IParallelEnumerable
  * @param source Any value
  */
-export function isParallelEnumerable(source: any): source is IParallelEnumerable<any> {
+export const isParallelEnumerable = (source: any): source is IParallelEnumerable<any> => {
     if (!source) {
         return false
     }

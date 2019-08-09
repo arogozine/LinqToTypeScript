@@ -13,13 +13,13 @@ export function where<TSource>(
     source: AsyncIterable<TSource>,
     predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
     if (predicate.length === 1) {
-        return where_1(source, predicate as (x: TSource) => boolean)
+        return where1(source, predicate as (x: TSource) => boolean)
     } else {
-        return where_2(source, predicate as (x: TSource, index: number) => boolean)
+        return where2(source, predicate as (x: TSource, index: number) => boolean)
     }
 }
 
-function where_1<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> {
+const where1 = <T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAsyncEnumerable<T> => {
     async function* iterator() {
         for await (const item of source) {
             if (predicate(item) === true) {
@@ -31,8 +31,8 @@ function where_1<T>(source: AsyncIterable<T>, predicate: (x: T) => boolean): IAs
     return new BasicAsyncEnumerable<T>(iterator)
 }
 
-function where_2<T>(
-    source: AsyncIterable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T> {
+const where2 = <T>(
+    source: AsyncIterable<T>, predicate: (x: T, index: number) => boolean): IAsyncEnumerable<T> => {
     async function* iterator() {
         let i = 0
         for await (const item of source) {
