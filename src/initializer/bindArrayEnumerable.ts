@@ -80,29 +80,29 @@ export const bindArrayEnumerable = <T>() => {
     const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, key: keyof IEnumerable<T>) => {
         switch (func.length) {
             case 1:
-                prototype[key] = function(this: IEnumerable<T>) {
+                prototype[key] = function(this: IEnumerable<any>) {
                     return func(this)
                 }
                 return
             case 2:
                 prototype[key] = function(this: IEnumerable<T>, a: any) {
                     return func(this, a)
-                }
+                } as any
                 return
             case 3:
                 prototype[key] = function(this: IEnumerable<T>, a: any, b: any) {
                     return func(this, a, b)
-                }
+                } as any
                 return
             case 4:
                 prototype[key] = function(this: IEnumerable<T>, a: any, b: any, c: any) {
                     return func(this, a, b, c)
-                }
+                } as any
                 return
             case 5:
                 prototype[key] = function(this: IEnumerable<T>, a: any, b: any, c: any, d: any) {
                     return func(this, a, b, c, d)
-                }
+                } as any
                 return
             default:
                 throw new Error("Invalid Function")

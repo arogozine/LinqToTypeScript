@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "4.0.0",
+  "version": "5.0.0-beta",
   "description": "LINQ ported to TypeScript",
   "main": "./index.js",
   "es2015": "./bundles/index.esm.min.js",
@@ -55,7 +55,7 @@
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-uglify": "^6.0.2",
     "tslib": "^1.10.0",
-    "typescript": "^3.2.2",
+    "typescript": "^3.5.3",
     "webpack-config-utils": "^2.3.1"
   },
   "engines": {

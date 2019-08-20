@@ -89,27 +89,27 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
             case 1:
                 wPrototype[key] = function(this: IParallelEnumerable<T>) {
                     return func(this)
-                }
+                } as any
                 return
             case 2:
                 wPrototype[key] = function(this: IParallelEnumerable<T>, a: any) {
                     return func(this, a)
-                }
+                } as any
                 return
             case 3:
                 wPrototype[key] = function(this: IParallelEnumerable<T>, a: any, b: any) {
                     return func(this, a, b)
-                }
+                } as any
                 return
             case 4:
                 wPrototype[key] = function(this: IParallelEnumerable<T>, a: any, b: any, c: any) {
                     return func(this, a, b, c)
-                }
+                } as any
                 return
             case 5:
                 wPrototype[key] = function(this: IParallelEnumerable<T>, a: any, b: any, c: any, d: any) {
                     return func(this, a, b, c, d)
-                }
+                } as any
                 return
             default:
                 throw new Error("Invalid Function")
