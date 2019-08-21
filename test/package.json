@@ -14,12 +14,12 @@
   "license": "ISC",
   "dependencies": {
     "linq-to-typescript": "file:../dist",
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.17",
-    "jest": "^24.8.0",
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.5.3"
   }
 }
