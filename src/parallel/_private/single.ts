@@ -13,17 +13,17 @@ import { toArray } from "./toArray"
  * The source sequence is empty.
  * @returns The single element of the input sequence that satisfies a condition.
  */
-export async function single<TSource>(
+export function single<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<TSource> {
     if (predicate) {
-        return single_2(source, predicate)
+        return single2(source, predicate)
     } else {
-        return single_1(source)
+        return single1(source)
     }
 }
 
-async function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource> {
+const single1 = async <TSource>(source: IParallelEnumerable<TSource>): Promise<TSource> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {
@@ -59,9 +59,9 @@ async function single_1<TSource>(source: IParallelEnumerable<TSource>): Promise<
     }
 }
 
-async function single_2<TSource>(
+const single2 = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<TSource> {
+    predicate: (x: TSource) => boolean): Promise<TSource> => {
     const results = await toArray(source)
     let hasValue = false
     let singleValue: TSource | null = null

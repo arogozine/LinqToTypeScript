@@ -13,15 +13,15 @@ export function union<TSource>(
     second: Iterable<TSource>,
     comparer?: IEqualityComparer<TSource>): IEnumerable<TSource> {
         if (comparer) {
-            return union_2(first, second, comparer)
+            return union2(first, second, comparer)
         } else {
-            return union_1(first, second)
+            return union1(first, second)
         }
 }
 
-function union_1<TSource>(
+const union1 = <TSource>(
     first: Iterable<TSource>,
-    second: Iterable<TSource>) {
+    second: Iterable<TSource>) => {
 
     function* iterator() {
 
@@ -45,10 +45,10 @@ function union_1<TSource>(
     return new BasicEnumerable<TSource>(iterator)
 }
 
-function union_2<TSource>(
+const union2 = <TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource>) {
+    comparer: IEqualityComparer<TSource>) => {
 
     function *iterator(): IterableIterator<TSource> {
         const result: TSource[] = []

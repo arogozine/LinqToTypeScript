@@ -21,13 +21,13 @@ export function average<TSource>(
     source: Iterable<TSource> | Iterable<number>,
     selector?: (x: TSource) => number): number {
     if (selector) {
-        return average_2(source as Iterable<TSource>, selector)
+        return average2(source as Iterable<TSource>, selector)
     } else {
-        return average_1(source as Iterable<number>)
+        return average1(source as Iterable<number>)
     }
 }
 
-function average_1(source: Iterable<number>): number {
+const average1 = (source: Iterable<number>): number => {
     let value: number | undefined
     let count: number | undefined
     for (const item of source) {
@@ -42,7 +42,7 @@ function average_1(source: Iterable<number>): number {
     return value / (count as number)
 }
 
-function average_2<TSource>(source: Iterable<TSource>, func: (x: TSource) => number): number {
+const average2 = <TSource>(source: Iterable<TSource>, func: (x: TSource) => number): number => {
     let value: number | undefined
     let count: number | undefined
     for (const item of source) {

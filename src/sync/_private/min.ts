@@ -19,13 +19,13 @@ export function min<TSource>(source: Iterable<TSource>, selector: (x: TSource) =
 export function min<TSource>(source: Iterable<TSource> | Iterable<number>,
                              selector?: (x: TSource) => number): number {
     if (selector) {
-        return min_2(source as Iterable<TSource>, selector)
+        return min2(source as Iterable<TSource>, selector)
     } else {
-        return min_1(source as Iterable<number>)
+        return min1(source as Iterable<number>)
     }
 }
 
-function min_1(source: Iterable<number>) {
+const min1 = (source: Iterable<number>) => {
     let minItem: number | null = null
     for (const item of source) {
         minItem = Math.min(minItem || Number.POSITIVE_INFINITY, item)
@@ -38,7 +38,7 @@ function min_1(source: Iterable<number>) {
     }
 }
 
-function min_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number) {
+const min2 = <TSource>(source: Iterable<TSource>, selector: (x: TSource) => number) => {
     let minItem: number | null = null
     for (const item of source) {
         minItem = Math.min(minItem || Number.POSITIVE_INFINITY, selector(item))

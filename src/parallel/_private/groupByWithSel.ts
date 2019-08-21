@@ -38,19 +38,19 @@ export function groupByWithSel<TSource, TKey, TElement>(
     comparer?: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<any, TElement>> {
 
     if (comparer) {
-        return groupBy_1(source,
+        return groupBy1(source,
             keySelector as (x: TSource) => TKey, elementSelector, comparer)
     } else {
-        return groupBy_1_Simple(source,
+        return groupBy1Simple(source,
             keySelector as (x: TSource) => number | string, elementSelector)
     }
 }
 
-function groupBy_1<TSource, TKey, TElement>(
+const groupBy1 = <TSource, TKey, TElement>(
     source: IAsyncParallel<TSource>,
     keySelector: (x: TSource) => TKey,
     elementSelector: (x: TSource) => TElement,
-    comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>> {
+    comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>> => {
 
     const generator = async () => {
         const keyMap = new Array<Grouping<TKey, TElement>>()
@@ -87,10 +87,10 @@ function groupBy_1<TSource, TKey, TElement>(
     })
 }
 
-function groupBy_1_Simple<TSource, TElement>(
+const groupBy1Simple = <TSource, TElement>(
     source: IAsyncParallel<TSource>,
     keySelector: (x: TSource) => string | number,
-    elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string | number, TElement>> {
+    elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<string | number, TElement>> => {
 
     // generate(): AsyncIterableIterator<IGrouping<string | number, TElement>>
     const generator = async () => {

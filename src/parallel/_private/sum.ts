@@ -22,14 +22,14 @@ export function sum<TSource>(
     selector?: (x: TSource) => number): Promise<number> {
 
     if (selector) {
-        return sum_2(source as IAsyncParallel<TSource>, selector)
+        return sum2(source as IAsyncParallel<TSource>, selector)
     } else {
-        return sum_1(source as IAsyncParallel<number>)
+        return sum1(source as IAsyncParallel<number>)
     }
 }
 
-async function sum_1(
-    source: IAsyncParallel<number>): Promise<number> {
+const sum1 = async (
+    source: IAsyncParallel<number>): Promise<number> => {
     let totalSum = 0
     for (const value of await source.toArray()) {
         totalSum += value
@@ -38,8 +38,8 @@ async function sum_1(
     return totalSum
 }
 
-async function sum_2<TSource>(
-    source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number> {
+const sum2 = async <TSource>(
+    source: IAsyncParallel<TSource>, selector: (x: TSource) => number): Promise<number> => {
     let total = 0
     for (const value of await source.toArray()) {
         total += selector(value)

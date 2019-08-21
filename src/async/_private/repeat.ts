@@ -14,13 +14,13 @@ export function repeat<TResult>(
         throw new ArgumentOutOfRangeException(`count`)
     }
     if (delay) {
-        return repeat_2(element, count, delay)
+        return repeat2(element, count, delay)
     } else {
-        return repeat_1(element, count)
+        return repeat1(element, count)
     }
 }
 
-function repeat_1<T>(element: T, count: number): IAsyncEnumerable<T> {
+const repeat1 = <T>(element: T, count: number): IAsyncEnumerable<T> => {
     async function* iterator() {
         for (let i = 0; i < count; i++) {
             yield element
@@ -30,7 +30,7 @@ function repeat_1<T>(element: T, count: number): IAsyncEnumerable<T> {
     return new BasicAsyncEnumerable(iterator)
 }
 
-function repeat_2<T>(element: T, count: number, delay: number): IAsyncEnumerable<T> {
+const repeat2 = <T>(element: T, count: number, delay: number): IAsyncEnumerable<T> => {
     async function* iterator() {
         for (let i = 0; i < count; i++) {
             yield await new Promise<T>((resolve) => setTimeout(() => resolve(element), delay))

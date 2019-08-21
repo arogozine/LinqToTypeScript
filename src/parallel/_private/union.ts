@@ -13,15 +13,15 @@ export function union<TSource>(
     second: IAsyncParallel<TSource>,
     comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource> {
     if (comparer) {
-        return union_2(first, second, comparer)
+        return union2(first, second, comparer)
     } else {
-        return union_1(first, second)
+        return union1(first, second)
     }
 }
 
-function union_1<TSource>(
+const union1 = <TSource>(
     first: IAsyncParallel<TSource>,
-    second: IAsyncParallel<TSource>) {
+    second: IAsyncParallel<TSource>) => {
 
     async function generator() {
 
@@ -50,11 +50,11 @@ function union_1<TSource>(
     })
 }
 
-function union_2<TSource>(
+const union2 = <TSource>(
     // tslint:disable-next-line:no-shadowed-variable
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
-    comparer: IEqualityComparer<TSource>) {
+    comparer: IEqualityComparer<TSource>) => {
 
     const generator = async () => {
         const result: TSource[] = []

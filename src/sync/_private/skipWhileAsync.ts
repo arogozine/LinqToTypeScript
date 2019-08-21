@@ -15,15 +15,15 @@ export function skipWhileAsync<TSource>(
     predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
 
     if (predicate.length === 1) {
-        return skipWhileAsync_1(source, predicate as (x: TSource) => Promise<boolean>)
+        return skipWhileAsync1(source, predicate as (x: TSource) => Promise<boolean>)
     } else {
-        return skipWhileAsync_2(source, predicate)
+        return skipWhileAsync2(source, predicate)
     }
 }
 
-function skipWhileAsync_1<TSource>(
+const skipWhileAsync1 = <TSource>(
     source: Iterable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource> {
+    predicate: (x: TSource) => Promise<boolean>): IAsyncEnumerable<TSource> => {
 
     async function* iterator() {
         let skip = true
@@ -41,9 +41,9 @@ function skipWhileAsync_1<TSource>(
     return from(iterator)
 }
 
-function skipWhileAsync_2<TSource>(
+const skipWhileAsync2 = <TSource>(
     source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> => {
 
     async function* iterator() {
         let index = 0

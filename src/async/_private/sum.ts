@@ -19,14 +19,14 @@ export function sum<TSource>(
     selector?: (x: TSource) => number): Promise<number> {
 
     if (selector) {
-        return sum_2(source as AsyncIterable<TSource>, selector)
+        return sum2(source as AsyncIterable<TSource>, selector)
     } else {
-        return sum_1(source as AsyncIterable<number>)
+        return sum1(source as AsyncIterable<number>)
     }
 }
 
-async function sum_1(
-    source: AsyncIterable<number>): Promise<number> {
+const sum1 = async (
+    source: AsyncIterable<number>): Promise<number> => {
     let total = 0
     for await (const value of source) {
         total += value
@@ -35,8 +35,8 @@ async function sum_1(
     return total
 }
 
-async function sum_2<TSource>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number> {
+const sum2 = async<TSource>(
+    source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number> => {
     let total = 0
     for await (const value of source) {
         total += selector(value)

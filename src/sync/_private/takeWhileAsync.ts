@@ -15,15 +15,15 @@ export function takeWhileAsync<T>(
     predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
 
     if (predicate.length === 1) {
-        return takeWhileAsync_1(source, predicate as (x: T) => Promise<boolean>)
+        return takeWhileAsync1(source, predicate as (x: T) => Promise<boolean>)
     } else {
-        return takeWhileAsync_2(source, predicate as (x: T, index: number) => Promise<boolean>)
+        return takeWhileAsync2(source, predicate as (x: T, index: number) => Promise<boolean>)
     }
 }
 
-function takeWhileAsync_1<T>(
+const takeWhileAsync1 = <T>(
     source: Iterable<T>,
-    predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> {
+    predicate: (x: T) => Promise<boolean>): IAsyncEnumerable<T> => {
     async function* iterator() {
         for (const item of source) {
             if (await predicate(item)) {
@@ -37,9 +37,9 @@ function takeWhileAsync_1<T>(
     return from(iterator)
 }
 
-function takeWhileAsync_2<T>(
+const takeWhileAsync2 = <T>(
     source: Iterable<T>,
-    predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> {
+    predicate: (x: T, index: number) => Promise<boolean>): IAsyncEnumerable<T> => {
     async function* iterator() {
         let index = 0
         for (const item of source) {

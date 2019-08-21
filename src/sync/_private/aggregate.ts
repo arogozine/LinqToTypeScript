@@ -47,20 +47,17 @@ export function aggregate<TSource, TAccumulate, TResult>(
             throw new ReferenceError(`TAccumulate function is undefined`)
         }
 
-        return aggregate_3(source, seedOrFunc as TAccumulate, func, resultSelector)
+        return aggregate3(source, seedOrFunc as TAccumulate, func, resultSelector)
     } else if (func) {
-        return aggregate_2(source, seedOrFunc as TAccumulate, func)
+        return aggregate2(source, seedOrFunc as TAccumulate, func)
     } else {
-        return aggregate_1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
+        return aggregate1(source, seedOrFunc as ((x: TSource, y: TSource) => TSource))
     }
 }
 
-/**
- * @throws {InvalidOperationException} No Elements
- */
-function aggregate_1<TSource>(
+const aggregate1 = <TSource>(
     source: Iterable<TSource>,
-    func: (x: TSource, y: TSource) => TSource): TSource | null {
+    func: (x: TSource, y: TSource) => TSource): TSource | null => {
     let aggregateValue: TSource | undefined
 
     for (const value of source) {
@@ -78,10 +75,10 @@ function aggregate_1<TSource>(
     return aggregateValue
 }
 
-function aggregate_2<TSource, TAccumulate>(
+const aggregate2 = <TSource, TAccumulate>(
     source: Iterable<TSource>,
     seed: TAccumulate,
-    func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate {
+    func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate => {
     let aggregateValue = seed
 
     for (const value of source) {
@@ -91,11 +88,11 @@ function aggregate_2<TSource, TAccumulate>(
     return aggregateValue
 }
 
-function aggregate_3<TSource, TAccumulate, TResult>(
+const aggregate3 = <TSource, TAccumulate, TResult>(
     source: Iterable<TSource>,
     seed: TAccumulate,
     func: (x: TAccumulate, y: TSource) => TAccumulate,
-    resultSelector: (x: TAccumulate) => TResult): TResult {
+    resultSelector: (x: TAccumulate) => TResult): TResult => {
     let aggregateValue = seed
 
     for (const value of source) {

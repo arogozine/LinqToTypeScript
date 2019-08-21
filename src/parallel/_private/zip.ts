@@ -27,15 +27,15 @@ export function zip<TFirst, TSecond, TResult>(
     resultSelector?: (x: TFirst, y: TSecond) => TResult)
     : IParallelEnumerable<TResult> | IParallelEnumerable<[TFirst, TSecond]> {
     if (resultSelector) {
-        return zip_2(first, second, resultSelector)
+        return zip2(first, second, resultSelector)
     } else {
-        return zip_1(first, second)
+        return zip1(first, second)
     }
 }
 
-function zip_1<T, Y>(
+const zip1 = <T, Y>(
     source: IAsyncParallel<T>,
-    second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]> {
+    second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]> => {
     async function generator() {
         const [left, right] = await Promise.all([source.toArray(), second.toArray()])
         const maxLength = left.length > right.length ? left.length : right.length
@@ -53,10 +53,10 @@ function zip_1<T, Y>(
     })
 }
 
-function zip_2<T, Y, OUT>(
+const zip2 = <T, Y, OUT>(
     source: IAsyncParallel<T>,
     second: IAsyncParallel<Y>,
-    resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> {
+    resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> => {
     async function generator() {
         const [left, right] = await Promise.all([source.toArray(), second.toArray()])
         const maxLength = left.length > right.length ? left.length : right.length

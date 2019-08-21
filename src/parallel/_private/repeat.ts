@@ -15,13 +15,13 @@ export function repeat<TResult>(
         throw new ArgumentOutOfRangeException(`count`)
     }
     if (delay) {
-        return repeat_2(element, count, delay)
+        return repeat2(element, count, delay)
     } else {
-        return repeat_1(element, count)
+        return repeat1(element, count)
     }
 }
 
-function repeat_1<T>(element: T, count: number): IParallelEnumerable<T> {
+const repeat1 = <T>(element: T, count: number): IParallelEnumerable<T> => {
     const generator = async () => {
         const values = new Array<T>(count)
         for (let i = 0; i < count; i++) {
@@ -36,7 +36,7 @@ function repeat_1<T>(element: T, count: number): IParallelEnumerable<T> {
     })
 }
 
-function repeat_2<T>(element: T, count: number, delay: number): IParallelEnumerable<T> {
+const repeat2 = <T>(element: T, count: number, delay: number): IParallelEnumerable<T> => {
     const generator = async () => {
         const values = new Array<Promise<T>>(count)
         for (let i = 0; i < count; i++) {

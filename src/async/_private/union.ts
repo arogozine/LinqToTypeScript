@@ -13,15 +13,15 @@ export function union<TSource>(
     second: AsyncIterable<TSource>,
     comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
     if (comparer) {
-        return union_2(first, second, comparer)
+        return union2(first, second, comparer)
     } else {
-        return union_1(first, second)
+        return union1(first, second)
     }
 }
 
-function union_1<TSource>(
+const union1 = <TSource>(
     first: AsyncIterable<TSource>,
-    second: AsyncIterable<TSource>) {
+    second: AsyncIterable<TSource>) => {
 
     async function* iterator() {
 
@@ -45,10 +45,10 @@ function union_1<TSource>(
     return new BasicAsyncEnumerable<TSource>(iterator)
 }
 
-function union_2<TSource>(
+const union2 = <TSource>(
     first: AsyncIterable<TSource>,
     second: AsyncIterable<TSource>,
-    comparer: IEqualityComparer<TSource>) {
+    comparer: IEqualityComparer<TSource>) => {
 
     async function *iterator(): AsyncIterableIterator<TSource> {
         const result: TSource[] = []

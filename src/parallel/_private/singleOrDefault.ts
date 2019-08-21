@@ -18,14 +18,14 @@ export function singleOrDefault<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<TSource | null> {
     if (predicate) {
-        return singleOrDefault_2(source, predicate)
+        return singleOrDefault2(source, predicate)
     } else {
-        return singleOrDefault_1(source)
+        return singleOrDefault1(source)
     }
 }
 
-async function singleOrDefault_1<TSource>(
-    source: IParallelEnumerable<TSource>): Promise<TSource | null> {
+const singleOrDefault1 = async <TSource>(
+    source: IParallelEnumerable<TSource>): Promise<TSource | null> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {
@@ -61,9 +61,9 @@ async function singleOrDefault_1<TSource>(
     }
 }
 
-async function singleOrDefault_2<TSource>(
+const singleOrDefault2 = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<TSource | null> {
+    predicate: (x: TSource) => boolean): Promise<TSource | null> => {
     const results = await toArray(source)
 
     let hasValue = false

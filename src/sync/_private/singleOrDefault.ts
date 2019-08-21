@@ -17,13 +17,13 @@ export function singleOrDefault<TSource>(
     predicate?: (x: TSource) => boolean): TSource | null {
 
     if (predicate) {
-        return singleOrDefault_2(source, predicate)
+        return singleOrDefault2(source, predicate)
     } else {
-        return singleOrDefault_1(source)
+        return singleOrDefault1(source)
     }
 }
 
-function singleOrDefault_1<TSource>(source: Iterable<TSource>): TSource | null {
+const singleOrDefault1 = <TSource>(source: Iterable<TSource>): TSource | null => {
     let hasValue = false
     let singleValue: TSource | null = null
 
@@ -39,9 +39,9 @@ function singleOrDefault_1<TSource>(source: Iterable<TSource>): TSource | null {
     return singleValue
 }
 
-function singleOrDefault_2<TSource>(
+const singleOrDefault2 = <TSource>(
     source: Iterable<TSource>,
-    predicate: (x: TSource) => boolean): TSource | null {
+    predicate: (x: TSource) => boolean): TSource | null => {
 
     let hasValue = false
     let singleValue: TSource | null = null

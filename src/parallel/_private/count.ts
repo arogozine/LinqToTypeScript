@@ -12,13 +12,13 @@ export function count<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<number> {
     if (predicate) {
-        return count_2(source, predicate)
+        return count2(source, predicate)
     } else {
-        return count_1(source)
+        return count1(source)
     }
 }
 
-async function count_1<TSource>(source: IParallelEnumerable<TSource>): Promise<number> {
+const count1 = async <TSource>(source: IParallelEnumerable<TSource>): Promise<number> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray:
@@ -31,9 +31,9 @@ async function count_1<TSource>(source: IParallelEnumerable<TSource>): Promise<n
     }
 }
 
-async function count_2<TSource>(
+const count2 = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<number> {
+    predicate: (x: TSource) => boolean): Promise<number> => {
     const values = await source.toArray()
     let totalCount = 0
     for (let i = 0; i < values.length; i++) {

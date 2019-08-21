@@ -9,13 +9,13 @@ export function any<TSource>(
     source: Iterable<TSource>,
     predicate?: (x: TSource) => boolean): boolean {
     if (predicate) {
-        return any_2(source, predicate)
+        return any2(source, predicate)
     } else {
-        return any_1(source)
+        return any1(source)
     }
 }
 
-function any_1<TSource>(source: Iterable<TSource>): boolean {
+const any1 = <TSource>(source: Iterable<TSource>) => {
     for (const _ of source) {
         return true
     }
@@ -23,7 +23,7 @@ function any_1<TSource>(source: Iterable<TSource>): boolean {
     return false
 }
 
-function any_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): boolean {
+const any2 = <TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean) => {
     for (const item of source) {
         if (predicate(item) === true) {
             return true

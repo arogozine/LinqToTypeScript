@@ -20,13 +20,13 @@ export function max<TSource>(
     source: Iterable<TSource> | Iterable<number>,
     selector?: (x: TSource) => number): number {
     if (selector) {
-        return max_2<TSource>(source as Iterable<TSource>, selector)
+        return max2<TSource>(source as Iterable<TSource>, selector)
     } else {
-        return max_1(source as Iterable<number>)
+        return max1(source as Iterable<number>)
     }
 }
 
-function max_1(source: Iterable<number>): number {
+const max1 = (source: Iterable<number>): number => {
     let maxItem: number | null = null
     for (const item of source) {
         maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, item)
@@ -39,7 +39,7 @@ function max_1(source: Iterable<number>): number {
     }
 }
 
-function max_2<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number {
+const max2 = <TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number => {
     let maxItem: number | null = null
     for (const item of source) {
         maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, selector(item))

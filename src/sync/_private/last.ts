@@ -12,13 +12,13 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
  */
 export function last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
     if (predicate) {
-        return last_2(source, predicate)
+        return last2(source, predicate)
     } else {
-        return last_1(source)
+        return last1(source)
     }
 }
 
-function last_1<TSource>(source: Iterable<TSource>): TSource {
+const last1 = <TSource>(source: Iterable<TSource>): TSource => {
     let lastItem: TSource | undefined
 
     for (const value of source) {
@@ -32,7 +32,7 @@ function last_1<TSource>(source: Iterable<TSource>): TSource {
     return lastItem
 }
 
-function last_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource {
+const last2 = <TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource => {
     let lastItem: TSource | undefined
 
     for (const value of source) {

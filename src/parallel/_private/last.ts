@@ -15,14 +15,14 @@ export function last<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<TSource> {
     if (predicate) {
-        return last_2(source, predicate)
+        return last2(source, predicate)
     } else {
-        return last_1(source)
+        return last1(source)
     }
 }
 
-async function last_1<TSource>(
-    source: IParallelEnumerable<TSource>): Promise<TSource> {
+const last1 = async <TSource>(
+    source: IParallelEnumerable<TSource>): Promise<TSource> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {
@@ -52,9 +52,9 @@ async function last_1<TSource>(
     }
 }
 
-async function last_2<TSource>(
+const last2 = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<TSource> {
+    predicate: (x: TSource) => boolean): Promise<TSource> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {

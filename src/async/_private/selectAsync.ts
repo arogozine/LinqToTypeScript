@@ -24,14 +24,14 @@ export function selectAsync<TSource extends { [key: string]: Promise<TResult> },
     selector: ((x: TSource) => Promise<TResult>) | TKey): IAsyncEnumerable<any> {
 
     if (typeof selector === "string") {
-        return selectAsync_2(source, selector)
+        return selectAsync2(source, selector)
     } else {
-        return selectAsync_1(source, selector as (x: TSource) => Promise<TResult>)
+        return selectAsync1(source, selector as (x: TSource) => Promise<TResult>)
     }
 }
 
-function selectAsync_1<TSource, TResult>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult> {
+const selectAsync1 = <TSource, TResult>(
+    source: AsyncIterable<TSource>, selector: (x: TSource) => Promise<TResult>): IAsyncEnumerable<TResult> => {
     async function* iterator() {
         for await (const value of source) {
             yield selector(value)
@@ -41,10 +41,10 @@ function selectAsync_1<TSource, TResult>(
     return new BasicAsyncEnumerable(iterator)
 }
 
-function selectAsync_2<
+const selectAsync2 = <
     TSource extends { [ key: string]: Promise<TResult> },
     TKey extends keyof TSource, TResult>(
-    source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TResult> {
+    source: AsyncIterable<TSource>, key: TKey): IAsyncEnumerable<TResult> => {
     async function* iterator() {
         for await (const value of source) {
             yield value[key]

@@ -22,13 +22,13 @@ export function average<TSource>(
     source: IAsyncParallel<TSource> | IAsyncParallel<number>,
     selector?: (x: TSource) => number): Promise<number> {
     if (selector) {
-        return average_2(source as IAsyncParallel<TSource>, selector)
+        return average2(source as IAsyncParallel<TSource>, selector)
     } else {
-        return average_1(source as IAsyncParallel<number>)
+        return average1(source as IAsyncParallel<number>)
     }
 }
 
-async function average_1(source: IAsyncParallel<number>): Promise<number> {
+const average1 = async (source: IAsyncParallel<number>): Promise<number> => {
     let value: number | undefined
     let itemCount: number | undefined
     for (const item of await source.toArray()) {
@@ -43,8 +43,8 @@ async function average_1(source: IAsyncParallel<number>): Promise<number> {
     return value / (itemCount as number)
 }
 
-async function average_2<TSource>(
-    source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number> {
+const average2 = async <TSource>(
+    source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number> => {
     let value: number | undefined
     // tslint:disable-next-line:no-shadowed-variable
     let count: number | undefined

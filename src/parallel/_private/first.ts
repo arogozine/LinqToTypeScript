@@ -17,14 +17,14 @@ export function first<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<TSource> {
     if (predicate) {
-        return first_2(source, predicate)
+        return first2(source, predicate)
     } else {
-        return first_1(source)
+        return first1(source)
     }
 }
 
-async function first_1<TSource>(
-    source: IParallelEnumerable<TSource>): Promise<TSource> {
+const first1 = async <TSource>(
+    source: IParallelEnumerable<TSource>): Promise<TSource> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {
@@ -54,9 +54,9 @@ async function first_1<TSource>(
     }
 }
 
-async function first_2<TSource>(
+const first2 = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<TSource> {
+    predicate: (x: TSource) => boolean): Promise<TSource> => {
     const data = await toArray(source)
     for (const value of data) {
         if (predicate(value) === true) {

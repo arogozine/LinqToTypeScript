@@ -14,13 +14,13 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
 export function single<TSource>(
     source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
     if (predicate) {
-        return single_2(source, predicate)
+        return single2(source, predicate)
     } else {
-        return single_1(source)
+        return single1(source)
     }
 }
 
-async function single_1<TSource>(source: AsyncIterable<TSource>): Promise<TSource> {
+const single1 = async <TSource>(source: AsyncIterable<TSource>): Promise<TSource> => {
     let hasValue = false
     let singleValue: TSource | null = null
 
@@ -40,8 +40,8 @@ async function single_1<TSource>(source: AsyncIterable<TSource>): Promise<TSourc
     return singleValue as TSource
 }
 
-async function single_2<TSource>(
-    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource> {
+const single2 = async <TSource>(
+    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<TSource> => {
     let hasValue = false
     let singleValue: TSource | null = null
 

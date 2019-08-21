@@ -8,18 +8,18 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @returns The value at the last position in the source sequence
  * or the last element in the sequence that passes the test in the specified predicate function.
  */
-export async function lastOrDefault<TSource>(
+export function lastOrDefault<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate?: (x: TSource) => boolean): Promise<TSource | null> {
     if (predicate) {
-        return lastOrDefault_2(source, predicate)
+        return lastOrDefault2(source, predicate)
     } else {
-        return lastOrDefault_1(source)
+        return lastOrDefault1(source)
     }
 }
 
-async function lastOrDefault_1<TSource>(
-    source: IParallelEnumerable<TSource>): Promise<TSource | null> {
+const lastOrDefault1 = async <TSource>(
+    source: IParallelEnumerable<TSource>): Promise<TSource | null> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {
@@ -49,9 +49,9 @@ async function lastOrDefault_1<TSource>(
     }
 }
 
-async function lastOrDefault_2<TSource>(
+const lastOrDefault2 = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => boolean): Promise<TSource | null> {
+    predicate: (x: TSource) => boolean): Promise<TSource | null> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {

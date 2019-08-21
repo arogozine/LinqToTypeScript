@@ -13,13 +13,13 @@ import { InvalidOperationException } from "../../shared/InvalidOperationExceptio
  */
 export function single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
     if (predicate) {
-        return single_2(source, predicate)
+        return single2(source, predicate)
     } else {
-        return single_1(source)
+        return single1(source)
     }
 }
 
-function single_1<TSource>(source: Iterable<TSource>): TSource {
+const single1 = <TSource>(source: Iterable<TSource>): TSource => {
     let hasValue = false
     let singleValue: TSource | null = null
 
@@ -39,7 +39,7 @@ function single_1<TSource>(source: Iterable<TSource>): TSource {
     return singleValue as TSource
 }
 
-function single_2<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource {
+const single2 = <TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource => {
     let hasValue = false
     let singleValue: TSource | null = null
 
