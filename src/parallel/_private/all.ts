@@ -8,7 +8,7 @@ import { nextIteration } from "./_nextIteration"
  * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
  * or if the sequence is empty; otherwise, ``false``.
  */
-export async function all<TSource>(
+export function all<TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => boolean): Promise<boolean> {
     const nextIter = nextIteration(source, (x) => {

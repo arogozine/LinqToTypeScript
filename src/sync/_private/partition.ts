@@ -1,5 +1,3 @@
-// TODO - Async and Parallel Implementations
-
 /**
  * Paritions the Iterable<T> into a tuple of failing and passing arrays
  * based on the predicate.

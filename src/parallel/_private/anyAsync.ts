@@ -6,7 +6,7 @@ import { nextIterationAsync } from "./_nextIterationAsync"
  * @param source An IEnumerable<T> whose elements to apply the predicate to.
  * @param predicate A function to test each element for a condition.
  */
-export async function anyAsync<TSource>(
+export function anyAsync<TSource>(
     source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
     const nextIter = nextIterationAsync(source, predicate)
 
