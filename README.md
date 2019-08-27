@@ -28,6 +28,8 @@ npm i linq-to-typescript
 ```
 [![npm version](https://badge.fury.io/js/linq-to-typescript.svg)](https://badge.fury.io/js/linq-to-typescript)
 ![bundle size](https://img.shields.io/bundlephobia/min/linq-to-typescript.svg)
+[![dependencies Status](https://david-dm.org/arogozine/linqtotypescript/status.svg)](https://david-dm.org/arogozine/linqtotypescript)
+
 ### tsconfig.json
 ```JSON
 "compilerOptions": {
