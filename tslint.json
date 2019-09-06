@@ -1,6 +1,7 @@
 {
     "extends": "tslint:recommended",
     "rules": {
+        "no-promise-as-boolean": true,
         "semicolon": [
             true, "never"
         ],
@@ -30,6 +31,8 @@
             {
                 "classes": true,
                 "enums": true,
+                "types": true,
+                "interfaces": true,
                 "functions": {
                     "visibilities": ["exported"]
                 },
