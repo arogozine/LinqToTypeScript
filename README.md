@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 3.X and ES 2016**
+- **Targets TypeScript 3.5.X and ES 2016**
 ```TypeScript
 await from([bing, google, quackQuackGo])
     .asParallel()
@@ -39,6 +39,7 @@ npm i linq-to-typescript
       "es2016",
       "esnext.asynciterable"
     ],
+    "importHelpers": true
 }
 ```
 * The `strict` TS option is recommended.
