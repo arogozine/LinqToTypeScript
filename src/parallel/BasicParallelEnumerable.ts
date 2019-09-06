@@ -1,5 +1,7 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../types"
 
+// tslint:disable:interface-name
+
 /**
  * Base implementation of IParallelEnumerable<T>
  * @private
@@ -39,7 +41,10 @@ export class BasicParallelEnumerable<TSource> {
     }
 }
 
-// tslint:disable-next-line:interface-name
+/**
+ * Workaround for circular reference issues in JS
+ * @private
+ */
 export interface BasicParallelEnumerable<TSource> extends IParallelEnumerable<TSource> {
 
 }

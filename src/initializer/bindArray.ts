@@ -1,13 +1,13 @@
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
-import { IPrototype } from "../types"
+import { IConstructor } from "../types"
 
 /**
  * Binds LINQ method to a built in array type
  * @param jsArray Built In JS Array Type
  */
-export const bindArray = <T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IPrototype<Y>) => {
+export const bindArray = <T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IConstructor<Y>) => {
     const propertyNames = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
-        .filter((v) => v !== "constructor")
+        .filter((v) => v !== "constructor") as Array<keyof Y>
 
     for (const prop of propertyNames) {
         jsArray.prototype[prop] =  jsArray.prototype[prop] || (ArrayEnumerable.prototype as any)[prop]

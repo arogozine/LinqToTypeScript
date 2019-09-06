@@ -2,8 +2,8 @@ import { from } from "../../parallel/_private/from"
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 /**
- * Convers an async iterable to a Parallel Enumerable.
- * @param source AsyncIterable<T> to conver to IParallelEnumerable<T>
+ * Converts an async iterable to a Parallel Enumerable.
+ * @param source AsyncIterable<T> to convert to IParallelEnumerable<T>
  * @returns Parallel Enumerable of source
  */
 export function asParallel<TSource>(source: AsyncIterable<TSource>): IParallelEnumerable<TSource> {

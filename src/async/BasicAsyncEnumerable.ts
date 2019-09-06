@@ -1,5 +1,7 @@
 import { IAsyncEnumerable } from "../types"
 
+// tslint:disable:interface-name
+
 /**
  * The class behind IAsyncEnumerable<T>
  * @private
@@ -14,7 +16,10 @@ export class BasicAsyncEnumerable<TSource> {
     }
 }
 
-// tslint:disable-next-line:interface-name
+/**
+ * Workaround for circular reference issues in JS
+ * @private
+ */
 export interface BasicAsyncEnumerable<TSource> extends IAsyncEnumerable<TSource> {
 
 }

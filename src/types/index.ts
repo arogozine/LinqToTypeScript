@@ -1,6 +1,5 @@
 export { IAsyncEnumerable } from "./IAsyncEnumerable"
 export { IAsyncEqualityComparer } from "./IAsyncEqualityComparer"
-export { IAsyncGrouping } from "./IAsyncGrouping"
 export { IAsyncParallel } from "./IAsyncParallel"
 export { IComparer } from "./IComparer"
 export { IConstructor } from "./IConstructor"

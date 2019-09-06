@@ -1,5 +1,8 @@
 import { IComparer, IEnumerable, IOrderedAsyncEnumerable } from "./"
 
+/**
+ * Ordered Iterable type with methods from LINQ.
+ */
 export interface IOrderedEnumerable<TSource> extends IEnumerable<TSource> {
     thenBy<TKey>(
         keySelector: (x: TSource) => TKey,

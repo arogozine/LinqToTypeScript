@@ -6,6 +6,9 @@ import { IAsyncEnumerable,
     InferType,
     IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "./"
 
+/**
+ * Iterable type with methods from LINQ.
+ */
 export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Applies an accumulator function over a sequence.
@@ -95,7 +98,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Concatenates two sequences.
      * @param second The sequence to concatenate to the first sequence.
-     * @returns An IEnumerable<T> that contains the concatenated elements of the two input sequences.
+     * @returns An IEnumerable<T> that contains the concatenated elements of the two sequences.
      */
     concat(second: IEnumerable<TSource>): IEnumerable<TSource>,
     /**
@@ -216,14 +219,14 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     each(action: (x: TSource) => void): IEnumerable<TSource>,
     /**
      * Performs a specified action on each element of the Iterable<TSource>
-     * @param action The action to take an each element
+     * @param action The async action to take an each element
      * @returns A new IAsyncEnumerable<T> that executes the action lazily as you iterate.
      */
     eachAsync(action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource>
     /**
      * Groups the elements of a sequence according to a specified key selector function.
      * @param keySelector A function to extract the key for each element.
-     * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+     * @returns An IEnumerable<IGrouping<TKey, TSource>>
      * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
      */
     groupBy<TKey extends SelectorKeyType>(
@@ -471,7 +474,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns An IEnumerable<T> whose elements are the result of invoking the
      * one-to-many transform function on each element of the input sequence.
      */
-    selectMany<OUT>(selector: (x: TSource, index: number) => Iterable<OUT>): IEnumerable<OUT>,
+    selectMany<TResult>(selector: (x: TSource, index: number) => Iterable<TResult>): IEnumerable<TResult>,
     /**
      * Projects each element of a sequence to an IEnumerable<T> and flattens the resulting sequences into one sequence.
      * @param selector A string key of TSource.
@@ -494,10 +497,11 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Determines whether or not two sequences are equal
      * @param second second iterable
      * @param comparer Compare function to use, by default is @see {StrictEqualityComparer}
+     * @returns Whether or not the two iterations are equal
      */
     sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean,
     /**
-     * Compares two sequences to see if they are equal using a async comparer function.
+     * Compares two sequences to see if they are equal using an async comparer function.
      * @param second Second Sequence
      * @param comparer Async Comparer
      * @returns Whether or not the two iterations are equal

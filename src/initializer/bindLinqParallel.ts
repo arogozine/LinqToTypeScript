@@ -79,6 +79,8 @@ import { zipAsync } from "./../parallel/_private/zipAsync"
  */
 export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
 
+    // TODO: Make TypeScript Safe
+    // tslint:disable-next-line: completed-docs
     type Writeable<TType> = { -readonly [P in keyof TType]-?: TType[P] }
     const wPrototype = object.prototype as Writeable<IParallelEnumerable<T>>
     const prototype = wPrototype as IParallelEnumerable<T>

@@ -1,5 +1,7 @@
 import { IEnumerable } from "../types"
 
+// tslint:disable:interface-name
+
 /**
  * Array backed Enumerable
  */
@@ -7,7 +9,10 @@ export class ArrayEnumerable<TSource> extends Array<TSource> {
 
 }
 
-// tslint:disable-next-line:interface-name
+/**
+ * Workaround
+ * @private
+ */
 export interface ArrayEnumerable<TSource> extends IEnumerable<TSource> {
     reverse(): ArrayEnumerable<TSource>
     concat(items: IEnumerable<TSource>): IEnumerable<TSource>

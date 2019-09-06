@@ -1,5 +1,8 @@
 import { IComparer, IParallelEnumerable } from "./"
 
+/**
+ * Represents an async parallel enumeration that has been ordered.
+ */
 export interface IOrderedParallelEnumerable<TSource> extends IParallelEnumerable<TSource> {
     thenBy<TKey>(
         keySelector: (x: TSource) => TKey,

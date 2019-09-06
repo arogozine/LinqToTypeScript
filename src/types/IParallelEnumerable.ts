@@ -13,6 +13,9 @@ import {
     TypedData,
 } from "./"
 
+/**
+ * Parallel Async Iterable type with methods from LINQ.
+ */
 export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Used for processing.

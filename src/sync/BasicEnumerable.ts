@@ -1,5 +1,7 @@
 import { IEnumerable } from "../types"
 
+// tslint:disable:interface-name
+
 /**
  * Basic Enumerable. Usually returned from the Enumerable class.
  * @private Use @see {IEnumerable} instead
@@ -14,7 +16,10 @@ export class BasicEnumerable<TSource> {
     }
 }
 
-// tslint:disable-next-line:interface-name
+/**
+ * Work around for lack of good support for circular module references in JS.
+ * private Use @see {IEnumerable} instead
+ */
 export interface BasicEnumerable<TSource> extends IEnumerable<TSource> {
 
 }
