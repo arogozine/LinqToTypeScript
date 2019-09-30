@@ -6,9 +6,7 @@ import { uglify } from 'rollup-plugin-uglify'
 import { terser } from 'rollup-plugin-terser'
 import { getIfUtils, removeEmpty } from 'webpack-config-utils'
 
-import pkg from '../package.json'
-
-const { getOutputFileName } = require('./helpers')
+import { peerDependencies } from '../package.json'
 
 /**
  * @typedef {import('./types').RollupConfig} Config
@@ -35,11 +33,7 @@ const PATHS = {
   bundles: resolve(DIST, 'bundles'),
 }
 
-/**
- * @type {string[]}
- */
-const external = Object.keys(pkg.peerDependencies || {}) || []
-
+const external = Object.keys(peerDependencies || {}) || []
 /**
  *  @type {Plugin[]}
  */
@@ -106,6 +100,15 @@ const CJSConfig = {
   plugins: removeEmpty(
     /** @type {Plugin[]} */ ([...plugins, ifProduction(uglify())])
   ),
+}
+
+/**
+ * 
+ * @param {string} fileName 
+ * @param {boolean} isProd 
+ */
+function getOutputFileName(fileName, isProd = false) {
+  return isProd ? fileName.replace(/\.js$/, '.min.js') : fileName
 }
 
 export default [FESMconfig, CJSConfig]
