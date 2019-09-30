@@ -21,7 +21,7 @@
     "build": "npm run build:cjs && npm run build:es2015 && npm run build:main && npm run build:rollup",
     "postbuild": "node config/copy",
     "lint": "tslint -p ./",
-    "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --ignoreCompilerErrors --name \"LINQ To TypeScript\"",
+    "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --name \"LINQ To TypeScript\"",
     "release:npm": "npm publish dist",
     "release:preflight": "npm pack ./dist --dry-run"
   },
