@@ -27,5 +27,5 @@ export async function sequenceEqualsAsync<TSource>(
         secondResult = secondIterator.next()
     }
 
-    return firstResult.done && secondResult.done
+    return firstResult.done === true && secondResult.done === true
 }
