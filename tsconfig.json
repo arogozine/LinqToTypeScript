@@ -16,9 +16,10 @@
         "noFallthroughCasesInSwitch": true,
         "strictFunctionTypes": true,
         "forceConsistentCasingInFileNames": true,
-        "outDir": "./dist/esm2015",
+        "outDir": "./dist/esm",
         "resolveJsonModule": true,
-        "importHelpers": true
+        "importHelpers": true,
+        "stripInternal": true
     },
     "include": [
         "./src"

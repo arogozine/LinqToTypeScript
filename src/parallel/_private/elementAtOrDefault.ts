@@ -7,7 +7,7 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * default(TSource) if the index is outside the bounds of the source sequence;
  * otherwise, the element at the specified position in the source sequence.
  */
-export async function elementAtOrDefault<TSource>(
+export function elementAtOrDefault<TSource>(
     source: IParallelEnumerable<TSource>,
     index: number): Promise<TSource | null> {
     const dataFunc = source.dataFunc

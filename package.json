@@ -1,11 +1,11 @@
 {
   "name": "linq-to-typescript",
-  "version": "5.0.0",
+  "version": "6.0.0-alpha",
   "description": "LINQ ported to TypeScript",
   "main": "./index.js",
-  "es2015": "./bundles/index.esm.min.js",
-  "browser": "./bundles/index.cjs.min.js",
-  "typings": "./index.d.ts",
+  "esnext": "./esnext/index.js",
+  "type": "commonjs",
+  "types": "./index.d.ts",
   "maintainers": [
     {
       "name": "Alexandre Rogozine",
@@ -13,12 +13,9 @@
     }
   ],
   "scripts": {
-    "build:module": "tsc --target esnext --module esnext --outDir dist/module",
-    "build:main": "tsc --module commonjs --target es2016 --outDir dist --declaration",
-    "build:es2015": "tsc --outDir dist/esm2015",
-    "build:cjs": "tsc --module commonjs --target es5 --downlevelIteration --outDir dist/cjs",
-    "build:rollup": "rollup -c config/rollup.config.js --environment NODE_ENV:production",
-    "build": "npm run build:cjs && npm run build:es2015 && npm run build:main && npm run build:rollup",
+    "build": "npm run build:main && npm run build:esnext",
+    "build:main": "tsc --module commonjs --target es2017 --outDir dist --declaration",
+    "build:esnext": "tsc -t esnext --outDir dist/esnext",
     "postbuild": "node config/copy",
     "lint": "tslint -p ./",
     "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --name \"LINQ To TypeScript\"",
