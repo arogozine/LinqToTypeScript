@@ -43,6 +43,7 @@ jspm_packages
 test/compiled
 test/*.js
 test/*.js.map
+nodetest/*.js
 src/*.js
 src/*.js.map
 !test/jest.config.js

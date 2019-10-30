@@ -1,0 +1,18 @@
+{
+  "name": "nodetest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "linq-to-typescript": "file:../dist",
+    "tslib": "^1.10.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.6.4"
+  }
+}

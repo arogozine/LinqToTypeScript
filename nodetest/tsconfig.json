@@ -3,7 +3,7 @@
     "compilerOptions": {
         "moduleResolution": "node",
         "target": "es2017",
-        "module": "esnext", 
+        "module": "commonjs",
         "esModuleInterop": true,
         "removeComments": true,
         "noImplicitAny": true,
@@ -12,8 +12,8 @@
         "noFallthroughCasesInSwitch": true,
         "strict": true,
         "alwaysStrict": true,
-        "sourceMap": true,
-        "declaration": true,
+        "sourceMap": false,
+        "declaration": false,
         "lib": [      
             "dom",
             "es2017",

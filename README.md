@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 3.5.X and ES 2016**
+- **Targets TypeScript 3.6.X and ES 2017**
 ```TypeScript
 await from([bing, google, quackQuackGo])
     .asParallel()
