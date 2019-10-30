@@ -12,6 +12,10 @@ script:
   - cd test
   - npm install
   - npm run test
+  - cd ../nodetest
+  - npm install
+  - tsc
+  - node index.js
 cache:
   directories:
    - "node_modules"
