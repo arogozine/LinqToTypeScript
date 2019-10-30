@@ -22,13 +22,13 @@ steps:
     npm install -g typescript tslint@5.12.1 jest rollup
   displayName: 'Install Globals'
 - script: |
-  npm install
-  npm run build
+    npm install
+    npm run build
   displayName: 'Build Library'
 - script: tslint -p ./
   displayName: 'Run Lint'
 - script: |
-  cd test
-  npm install
-  npm run test
+    cd test
+    npm install
+    npm run test
   displayName: 'Run Tests'
