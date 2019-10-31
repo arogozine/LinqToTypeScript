@@ -1,6 +1,7 @@
-name: LinqToTypeScriptInDev
+name: LinqToTypeScript
 
 trigger:
+  - master
   - InDev
 
 pool:
@@ -32,3 +33,9 @@ steps:
     npm install
     npm run test
   displayName: 'Run Tests'
+- script: |
+    cd nodetest
+    npm install
+    tsc
+    node index.js
+  displayName: 'Test Node'
