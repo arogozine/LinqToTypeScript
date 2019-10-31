@@ -43,7 +43,6 @@ npm i linq-to-typescript
 }
 ```
 * The `strict` TS option is recommended.
-* Library is dependent on [core-js](https://github.com/zloirock/core-js) for implementation of `Symbol.asyncIterator`
 * Library is dependent on [tslib](https://github.com/Microsoft/tslib) for async iteration polyfills.
 
 ### Using the Library
@@ -237,12 +236,6 @@ from(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
 ```
 
 ### F.A.Q.
-
-**Q**
-I am getting a `Cannot find module 'core-js/modules/es7.symbol.async-iterator'` error.
-
-**A**
-This library depends on the Async Iterator defined in core js. Run `npm i core-js` to solve this error.
 
 **Q**
 I am getting a `Error: Cannot find module 'tslib'` error.

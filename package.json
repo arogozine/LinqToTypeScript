@@ -37,9 +37,7 @@
   ],
   "author": "Alexandre Rogozine",
   "license": "MIT",
-  "dependencies": {
-    "core-js": "^3.2.1"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "tslib": ">=1.10.0"
   },
