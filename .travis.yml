@@ -16,6 +16,9 @@ script:
   - npm install
   - tsc
   - node index.js
+  - cd ../reacttest
+  - npm install
+  - npm run build
 cache:
   directories:
    - "node_modules"

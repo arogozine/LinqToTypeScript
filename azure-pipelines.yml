@@ -38,4 +38,8 @@ steps:
     npm install
     tsc
     node index.js
-  displayName: 'Test Node'
+  displayName: 'Test React'
+- script: |
+  - cd reacttest
+  - npm install
+  - npm run build
