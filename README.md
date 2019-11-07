@@ -14,14 +14,13 @@ await from([bing, google, quackQuackGo])
 |[![][master-build-badge]][master-build-url]|[![][indev-build-badge]][indev-build-url]|
 
 [master-build-url]: https://travis-ci.org/arogozine/LinqToTypeScript
-[master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=6&branchName=master
 [master-build-badge]: https://travis-ci.org/arogozine/LinqToTypeScript.svg?branch=master
-[master-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/Prod%20Build?branchName=master
+[master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=master
+[master-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=master
 [indev-build-url]: https://travis-ci.org/arogozine/LinqToTypeScript
 [indev-build-badge]: https://travis-ci.org/arogozine/LinqToTypeScript.svg?branch=InDev
-[indev-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=5&branchName=InDev
-[indev-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/InDev%20Build?branchName=InDev
-
+[indev-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=InDev
+[indev-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=InDev
 ## Getting Started
 ```sh
 npm i linq-to-typescript
