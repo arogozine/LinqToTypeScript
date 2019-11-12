@@ -32,11 +32,10 @@ npm i linq-to-typescript
 ### tsconfig.json
 ```JSON
 "compilerOptions": {
-    "target": "es2016",
+    "target": "es2017",
     "lib": [
       "dom",
-      "es2016",
-      "esnext.asynciterable"
+      "es2017"
     ],
     "importHelpers": true
 }
@@ -189,7 +188,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | Exception                   | Notes                                            |
 |-----------------------------|--------------------------------------------------|
 | ArgumentOutOfRangeException | Thrown when a passed in argument is invalid      |
-| InvalidOperationException   | Thrown when no elements or no precicate match    |
+| InvalidOperationException   | Thrown when no elements or no predicate match    |
 
 #### TypeDoc Documentation
 
@@ -217,7 +216,7 @@ The following collections support ```IEnumerable```,
 * `Float64Array`
 
 #### Using Wrappers
-Wrappers are safer as they won't interfere with other libraries.
+NOTE: Wrappers are safer as they won't interfere with other libraries.
 
 ```TypeScript
 // To Create an IEnumerable<T>
@@ -253,7 +252,6 @@ Can this run in an ES5 browser like Internet Explorer.
 
 **A**
 With the right transpiler, polyfills, and bundler. Its not recommended due to the size and most likely performance.
-This package comes with a Common JS bundle in `bundles/index.cjs.min.js`.
 
 **Q**
 How does this compare to other LINQ libraries?
@@ -266,14 +264,14 @@ Why should I use this instead of lodash or something similar?
 
 **A**
 - TypeScript first. Libraries which target JavaScript first do additional type checking which can have a negative impact on performance.
-- This library uses [iterators and generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators). These are new language features which have no support in legacy browsers like IE11.
+- This library uses [iterators and generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators). Evaluation is lazy, not eager like JS array operations. These are new language features which have no support in legacy browsers like IE11.
 
 **Q**
 Which browsers are supported?
 
 **A**
 - Firefox, Chrome, and Edge. IE is **not** supported.
-- A good bundler targeting ES5 should allow IE support (with proper ES6 polyfils).
+- A good bundler targeting ES5 should allow IE support (with proper ES6/ES7 polyfils).
 
 **Q**
 Can I contribute?
