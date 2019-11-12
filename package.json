@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "6.0.0-beta",
+  "version": "6.0.0",
   "description": "LINQ ported to TypeScript",
   "main": "./index.js",
   "esnext": "./esnext/index.js",
