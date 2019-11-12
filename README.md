@@ -248,6 +248,13 @@ Why did you create this?
 For fun and to gain understanding of TypeScript and Node Package Manager.
 
 **Q**
+What's needed to target ES2016?
+
+**A**
+This libraries uses async iteration.
+You will need the `Symbol.asyncIterator` polyfill. Libraries such as core js have this.
+
+**Q**
 Can this run in an ES5 browser like Internet Explorer.
 
 **A**
