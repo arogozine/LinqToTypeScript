@@ -7,7 +7,6 @@ import {
     IGrouping,
     InferType,
     IOrderedParallelEnumerable,
-    IParallelEnumerable,
     OfType,
     SelectorKeyType,
     TypedData,
