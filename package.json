@@ -18,7 +18,7 @@
     "build:esnext": "tsc -t esnext --outDir dist/esnext",
     "postbuild": "node config/copy",
     "lint": "tslint -p ./",
-    "doc": "typedoc ./src --out ./doc --excludePrivate --readme none --name \"LINQ To TypeScript\"",
+    "doc": "typedoc ./src --exclude \"**/_*/*.ts\" --out ./doc --excludePrivate --excludeNotExported --readme none --name \"LINQ To TypeScript\"",
     "release:npm": "npm publish dist",
     "release:preflight": "npm pack ./dist --dry-run"
   },
