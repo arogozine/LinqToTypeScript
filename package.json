@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "LINQ ported to TypeScript",
   "main": "./index.js",
   "esnext": "./esnext/index.js",
@@ -33,7 +33,7 @@
     "async",
     "generators",
     "enumerable",
-    "es2016"
+    "es2017"
   ],
   "author": "Alexandre Rogozine",
   "license": "MIT",
@@ -42,16 +42,8 @@
     "tslib": ">=1.10.0"
   },
   "devDependencies": {
-    "@types/webpack-config-utils": "^2.3.0",
-    "rollup": "^1.22.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-uglify": "^6.0.2",
     "tslib": "^1.10.0",
-    "typescript": "^3.6.4",
-    "webpack-config-utils": "^2.3.1"
+    "typescript": "^3.6.4"
   },
   "engines": {
     "node": ">=10.17.0"
