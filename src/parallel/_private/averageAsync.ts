@@ -13,6 +13,7 @@ import { nextIterationAsync } from "./_nextIterationAsync"
 export async function averageAsync<TSource>(
     source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
     const nextIter = nextIterationAsync(source, selector)
+    // tslint:disable-next-line: array-type
     let values: Array<number | Promise<number>>
     switch (nextIter.type) {
         case ParallelGeneratorType.ArrayOfPromises:

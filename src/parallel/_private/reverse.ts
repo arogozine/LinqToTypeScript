@@ -20,7 +20,7 @@ export function reverse<TSource>(
             })
         }
         case ParallelGeneratorType.PromiseOfPromises: {
-            const generator: () => Promise<Array<Promise<TSource>>> = async () => {
+            const generator: () => Promise<Promise<TSource>[]> = async () => {
                 const array = await dataFunc.generator()
                 return array.reverse()
             }

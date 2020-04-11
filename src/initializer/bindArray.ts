@@ -7,6 +7,7 @@ import { IConstructor } from "../types"
  */
 export const bindArray = <T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: IConstructor<Y>) => {
     const propertyNames = Object.getOwnPropertyNames(ArrayEnumerable.prototype)
+        // tslint:disable-next-line: array-type
         .filter((v) => v !== "constructor") as Array<keyof Y>
 
     for (const prop of propertyNames) {

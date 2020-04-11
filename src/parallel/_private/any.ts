@@ -17,7 +17,7 @@ export function any<TSource>(source: IParallelEnumerable<TSource>, predicate?: (
 
 const any1 = async <TSource>(source: IParallelEnumerable<TSource>) => {
     const dataFunc = source.dataFunc
-    let values: TSource[] | Array<Promise<TSource>>
+    let values: TSource[] | Promise<TSource>[]
 
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray:

@@ -104,7 +104,7 @@ function groupBy_0<TSource, TKey>(
         for (const g of keyMap) {
             results.push(g)
         }
-        return results as Array<IGrouping<TKey, TSource>>
+        return results as IGrouping<TKey, TSource>[]
     }
 
     return new BasicParallelEnumerable({

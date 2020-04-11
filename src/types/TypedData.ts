@@ -8,8 +8,8 @@ export type TypedData<T> = {
     readonly generator: () => Promise<T[]>,
 } | {
     readonly type: ParallelGeneratorType.ArrayOfPromises,
-    readonly generator: () => Array<Promise<T>>,
+    readonly generator: () => Promise<T>[],
 } | {
     readonly type: ParallelGeneratorType.PromiseOfPromises,
-    readonly generator: () => Promise<Array<Promise<T>>>,
+    readonly generator: () => Promise<Promise<T>[]>,
 }
