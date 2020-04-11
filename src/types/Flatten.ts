@@ -1,19 +1,20 @@
 import { IEnumerable, IParallelEnumerable } from "../types"
+import { IAsyncEnumerable } from '../sync'
 
 /**
  * Represents an iteration that can be flattened.
  */
-export interface IFlatten<TElement> extends IEnumerable<TElement | IFlatten<TElement>> {
-}
+export type IFlatten<TElement> =
+    IEnumerable<TElement> | IEnumerable<IFlatten<TElement>>
 
 /**
  * Represents an async iteration that can be flattened.
  */
-export interface IAsyncFlatten<TElement> extends AsyncIterable<TElement | IAsyncFlatten<TElement>> {
-}
+export type IAsyncFlatten<TElement> =
+    IAsyncEnumerable<TElement> | IAsyncEnumerable<IAsyncFlatten<TElement>>
 
 /**
  * Represents an async parallel iteration that can be flattened.
  */
-export interface IParallelFlatten<TElement> extends IParallelEnumerable<TElement | IParallelFlatten<TElement>> {
-}
+export type IParallelFlatten<TElement> =
+    IParallelEnumerable<TElement> | IParallelEnumerable<IParallelEnumerable<TElement>>

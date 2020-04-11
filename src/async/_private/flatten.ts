@@ -15,10 +15,10 @@ export function flatten<TSource>(
  * @param shallow When false - recurses the iterable types
  */
 export function flatten<TSource>(
-    source: AsyncIterable<TSource | AsyncIterable<TSource>>,
+    source: IAsyncFlatten<TSource>,
     shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>
 export function flatten<TSource>(
-    source: AsyncIterable<TSource | AsyncIterable<TSource>>,
+    source: IAsyncFlatten<TSource>,
     shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
 
     async function* iterator(sourceInner: AsyncIterable<any>)

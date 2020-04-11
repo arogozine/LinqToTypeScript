@@ -15,10 +15,10 @@ export function flatten<TSource>(
  * @param shallow When false - recurses the iterable types
  */
 export function flatten<TSource>(
-    source: IAsyncParallel<TSource | IAsyncParallel<TSource>>,
+    source: IParallelFlatten<TSource>,
     shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>
 export function flatten<TSource>(
-    source: IAsyncParallel<TSource | IAsyncParallel<TSource>>,
+    source: IParallelFlatten<TSource>,
     shallow?: boolean): IParallelEnumerable<TSource | AsyncIterable<TSource>> {
 
     async function* iterator(sourceInner: AsyncIterable<any>)

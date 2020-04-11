@@ -14,9 +14,9 @@ export function flatten<TSource>(
  * @param shallow When false - recurses the iterable types
  */
 export function flatten<TSource>(
-    source: Iterable<TSource | Iterable<TSource>>, shallow: true): IEnumerable<TSource | Iterable<TSource>>
+    source: IFlatten<TSource>, shallow: true): IEnumerable<TSource | Iterable<TSource>>
 export function flatten<TSource>(
-    source: Iterable<TSource | Iterable<TSource>>, shallow?: boolean): IEnumerable<TSource | Iterable<TSource>> {
+    source: IFlatten<TSource>, shallow?: boolean): IEnumerable<TSource | Iterable<TSource>> {
 
     // tslint:disable-next-line:no-shadowed-variable
     function* iterator(source: Iterable<any>): IterableIterator<TSource | Iterable<TSource>> {
