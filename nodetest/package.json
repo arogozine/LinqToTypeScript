@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,6 +13,6 @@
     "tslib": "^1.10.0"
   },
   "devDependencies": {
-    "typescript": "^3.6.4"
+    "typescript": "^3.8.3"
   }
 }
