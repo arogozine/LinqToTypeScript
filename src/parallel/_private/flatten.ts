@@ -1,9 +1,9 @@
-import { IAsyncParallel, IParallelEnumerable, IParallelFlatten, ParallelGeneratorType } from "../../types"
+import { IParallelEnumerable, IParallelFlatten, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 /**
  * Flattens a parallel iterable
- * @param source IAsyncParallel to flatten
+ * @param source IParallelFlatten to flatten
  * @param shallow When false - recurses the iterable types
  */
 export function flatten<TSource>(
@@ -11,7 +11,7 @@ export function flatten<TSource>(
     shallow?: false): IParallelEnumerable<TSource>
 /**
  * Flattens a parallel iterable
- * @param source IAsyncParallel to flatten
+ * @param source IParallelFlatten to flatten
  * @param shallow When false - recurses the iterable types
  */
 export function flatten<TSource>(
