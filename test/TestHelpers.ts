@@ -152,7 +152,7 @@ export function itEnumerableAsync<T = number>(
 /**
  * Asyc wrapper for @see {expect}
  */
-export async function expectAsync<T>(promise: Promise<T>): Promise<jest.Matchers<T>> {
+export async function expectAsync<T>(promise: Promise<T>) {
     try {
         return expect(await promise)
     } catch (e) {
