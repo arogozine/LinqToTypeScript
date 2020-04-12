@@ -20,7 +20,7 @@ steps:
     versionSpec: $(node_version)
 
 - script: |
-    npm install -g typescript tslint@5.12.1 jest rollup
+    npm install -g typescript tslint jest rollup
   displayName: 'Install Globals'
 - script: |
     npm install
