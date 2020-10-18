@@ -56,14 +56,14 @@ describe("ofType", () => {
     })
 
     itEnumerable<any>("Number (Object)", (asEnumerable) => {
-        expect(asEnumerable(array).ofType(Number).toArray()).toEqual([Number(1)])
+        expect(asEnumerable(array).ofType(Number).toArray()).toEqual([new Number(1)])
     })
 
     itAsync("Number (Object)", async () => {
-        expect(await asAsync(array).ofType(Number).toArray()).toEqual([Number(1)])
+        expect(await asAsync(array).ofType(Number).toArray()).toEqual([new Number(1)])
     })
 
     itParallel<{}>("Number (Object)", async (asParallel) => {
-        expect(await asParallel(array).ofType(Number).toArray()).toEqual([Number(1)])
+        expect(await asParallel(array).ofType(Number).toArray()).toEqual([new Number(1)])
     })
 })
