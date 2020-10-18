@@ -17,7 +17,7 @@
     "build:main": "tsc --module commonjs --target es2017 --outDir dist --declaration",
     "build:esnext": "tsc -t esnext --outDir dist/esnext",
     "postbuild": "node config/copy",
-    "lint": "tslint -p ./",
+    "lint": "eslint -c .eslintrc.js --ext .ts src",
     "doc": "typedoc ./src --exclude \"**/_*/*.ts\" --out ./doc --excludePrivate --excludeNotExported --readme none --name \"LINQ To TypeScript\"",
     "release:npm": "npm publish dist",
     "release:preflight": "npm pack ./dist --dry-run"
@@ -42,6 +42,12 @@
     "tslib": ">=1.10.0"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "eslint": "^7.11.0",
+    "eslint-plugin-jsdoc": "^30.6.5",
+    "eslint-plugin-prefer-arrow": "^1.2.2",
     "tslib": "^1.14.1",
     "typescript": "^3.9.7"
   },

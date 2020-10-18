@@ -5,5 +5,5 @@
  * @param y right value
  */
 export const EqualityComparer = <T>(x: T, y: T) =>
-    // tslint:disable-next-line:triple-equals
+    // eslint-disable-next-line eqeqeq
     x == y

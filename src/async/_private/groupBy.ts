@@ -92,7 +92,7 @@ function groupBy_0_Simple<TSource, TKey extends SelectorKeyType>(
             }
         }
 
-        // tslint:disable-next-line:forin
+        // eslint-disable-next-line guard-for-in
         for (const value in keyMap) {
             yield keyMap[value]
         }

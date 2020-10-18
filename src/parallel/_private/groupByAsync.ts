@@ -100,11 +100,11 @@ function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
         }
 
         const results = new Array<IGrouping<TKey, TSource>>()
-        /* tslint:disable:forin */
+        /* eslint-disable guard-for-in */
         for (const value in keyMap) {
             results.push(keyMap[value])
         }
-        /* tslint:enable:forin */
+        /* eslint-enable guard-for-in */
         return results
     }
 

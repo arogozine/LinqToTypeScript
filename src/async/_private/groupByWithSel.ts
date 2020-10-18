@@ -65,7 +65,7 @@ const groupBy1Simple = <TSource, TKey extends SelectorKeyType, TElement>(
             }
         }
 
-        // tslint:disable-next-line:forin
+        // eslint-disable-next-line guard-for-in
         for (const value in keyMap) {
             yield keyMap[value]
         }

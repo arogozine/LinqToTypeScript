@@ -15,7 +15,7 @@ export function count<TSource>(source: Iterable<TSource>, predicate?: (x: TSourc
 }
 
 const count1 = <T>(source: Iterable<T>): number => {
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     let count = 0
 
     for (const _ of source) {
@@ -26,7 +26,7 @@ const count1 = <T>(source: Iterable<T>): number => {
 }
 
 const count2 = <T>(source: Iterable<T>, predicate: (x: T) => boolean): number => {
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     let count = 0
     for (const value of source) {
         if (predicate(value) === true) {

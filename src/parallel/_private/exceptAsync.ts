@@ -10,7 +10,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns A sequence that contains the set difference of the elements of two sequences.
  */
 export function exceptAsync<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {

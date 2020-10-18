@@ -1,6 +1,6 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../types"
 
-// tslint:disable:interface-name
+/* eslint-disable @typescript-eslint/naming-convention */
 
 /**
  * Base implementation of IParallelEnumerable<T>

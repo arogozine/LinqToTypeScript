@@ -46,7 +46,7 @@ const average1 = async (source: IAsyncParallel<number>): Promise<number> => {
 const average2 = async <TSource>(
     source: IAsyncParallel<TSource>, func: (x: TSource) => number): Promise<number> => {
     let value: number | undefined
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     let count: number | undefined
     for (const item of await source.toArray()) {
         value = (value || 0) + func(item)

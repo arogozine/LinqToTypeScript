@@ -1,5 +1,5 @@
 import { IConstructor } from "./"
-// tslint:disable:ban-types
+/* eslint-disable @typescript-eslint/ban-types */
 
 /**
  * Accepted inputs for the ofType function

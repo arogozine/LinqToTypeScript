@@ -108,12 +108,12 @@ const groupBy1Simple = <TSource, TElement>(
             }
         }
 
-        /* tslint:disable:forin */
+        /* eslint-disable guard-for-in */
         const results = new Array<IGrouping<string | number, TElement>>()
         for (const value in keyMap) {
             results.push(keyMap[value])
         }
-        /* tslint:enable:forin */
+        /* eslint-enable guard-for-in */
         return results
     }
 

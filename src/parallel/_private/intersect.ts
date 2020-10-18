@@ -11,7 +11,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns A sequence that contains the elements that form the set intersection of two sequences.
  */
 export function intersect<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     first: IParallelEnumerable<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {

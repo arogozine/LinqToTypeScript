@@ -1,6 +1,6 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
 
-// tslint:disable:completed-docs
+/* eslint-disable  */
 
 export function nextIterationWithIndex<TSource, TOut>(
     source: IParallelEnumerable<TSource>,

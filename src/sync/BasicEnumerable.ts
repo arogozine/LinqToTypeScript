@@ -1,6 +1,6 @@
 import { IEnumerable } from "../types"
 
-// tslint:disable:interface-name
+/* eslint-disable @typescript-eslint/naming-convention */
 
 /**
  * Basic Enumerable. Usually returned from the Enumerable class.

@@ -8,7 +8,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns An IParallelEnumerable<T> that contains the concatenated elements of the two input sequences.
  */
 export function concat<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
     const generator = async () => {
         // Wait for both enumerables

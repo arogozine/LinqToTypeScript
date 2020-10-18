@@ -1,6 +1,6 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
 
-// tslint:disable:completed-docs
+/* eslint-disable  */
 
 /**
  * @private Don't use directly.

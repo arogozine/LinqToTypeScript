@@ -68,7 +68,7 @@ import { InvalidOperationException } from "../shared/InvalidOperationException"
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
 import { BasicEnumerable } from "../sync/BasicEnumerable"
 
-// tslint:disable:completed-docs
+/* eslint-disable */
 
 /**
  * @private
@@ -158,7 +158,7 @@ export const bindArrayEnumerable = <T>() => {
     bind(containsAsync, "containsAsync")
     prototype.count = function(predicate?: (x: T) => boolean) {
         if (predicate) {
-            // tslint:disable-next-line:no-shadowed-variable
+            // eslint-disable-next-line no-shadow
             let count = 0
             for (let i = 0; i < this.length; i ++) {
                 if (predicate(this[i]) === true) {
@@ -275,7 +275,7 @@ export const bindArrayEnumerable = <T>() => {
         }
 
         if (selector) {
-            // tslint:disable-next-line:no-shadowed-variable
+            // eslint-disable-next-line no-shadow
             let max = Number.NEGATIVE_INFINITY
 
             for (let i = 0; i < this.length; i++) {
@@ -295,7 +295,7 @@ export const bindArrayEnumerable = <T>() => {
         }
 
         if (selector) {
-            // tslint:disable-next-line:no-shadowed-variable
+            // eslint-disable-next-line no-shadow
             let min = Number.POSITIVE_INFINITY
 
             for (let i = 0; i < this.length; i++) {

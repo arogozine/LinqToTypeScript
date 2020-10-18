@@ -19,7 +19,7 @@ export function first<TSource>(source: Iterable<TSource>, predicate?: (x: TSourc
 }
 
 const first1 = <T>(source: Iterable<T>) => {
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     const first = source[Symbol.iterator]().next()
 
     if (first.done === true) {

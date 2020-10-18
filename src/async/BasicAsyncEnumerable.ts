@@ -1,6 +1,6 @@
 import { IAsyncEnumerable } from "../types"
 
-// tslint:disable:interface-name
+/* eslint-disable @typescript-eslint/naming-convention */
 
 /**
  * The class behind IAsyncEnumerable<T>

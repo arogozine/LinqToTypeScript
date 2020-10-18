@@ -9,11 +9,11 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 export function enumerateObject<TInput>(
     source: TInput): IAsyncEnumerable<[keyof TInput, TInput[keyof TInput]]> {
     async function *iterable(): AsyncIterableIterator<[keyof TInput, TInput[keyof TInput]]> {
-        /* tslint:disable */
+        /* eslint-disable */
         for (const key in source) {
             yield [ key, source[key] ]
         }
-        /* tslint:enable */
+        /* eslint-enable */
     }
 
     return new BasicAsyncEnumerable(iterable)

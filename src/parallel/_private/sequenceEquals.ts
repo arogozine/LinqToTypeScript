@@ -9,7 +9,7 @@ import { IAsyncParallel, IEqualityComparer } from "../../types"
  * @returns Whether or not the two iterations are equal
  */
 export async function sequenceEquals<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {

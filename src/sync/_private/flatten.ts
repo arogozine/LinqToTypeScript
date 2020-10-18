@@ -18,7 +18,7 @@ export function flatten<TSource>(
 export function flatten<TSource>(
     source: IFlatten<TSource>, shallow?: boolean): IEnumerable<TSource | Iterable<TSource>> {
 
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     function* iterator(source: Iterable<any>): IterableIterator<TSource | Iterable<TSource>> {
         for (const item of source) {
             // JS string is an Iterable.

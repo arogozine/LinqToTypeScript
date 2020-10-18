@@ -9,7 +9,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
  */
 export function unionAsync<TSource>(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {

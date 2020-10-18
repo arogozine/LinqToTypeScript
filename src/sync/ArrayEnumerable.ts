@@ -1,6 +1,6 @@
 import { IEnumerable } from "../types"
 
-// tslint:disable:interface-name
+/* eslint-disable @typescript-eslint/naming-convention */
 
 /**
  * Array backed Enumerable
@@ -17,6 +17,6 @@ export interface ArrayEnumerable<TSource> extends IEnumerable<TSource> {
     reverse(): ArrayEnumerable<TSource>
     concat(items: IEnumerable<TSource>): IEnumerable<TSource>
     concat(...items: ReadonlyArray<TSource>[]): ArrayEnumerable<TSource>
-    // tslint:disable-next-line: array-type
+    // eslint-disable-next-line @typescript-eslint/array-type
     concat(...items: Array<TSource | ReadonlyArray<TSource>>): ArrayEnumerable<TSource>
 }

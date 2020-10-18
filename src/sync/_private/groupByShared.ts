@@ -2,8 +2,7 @@ import { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../.
 import { BasicEnumerable } from "../BasicEnumerable"
 import { Grouping } from "../Grouping"
 
-// tslint:disable:completed-docs
-// tslint:disable:variable-name
+/* eslint-disable @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match */
 
 /**
  * Group and Iterable Based on a Generic Key and an equality comparer
@@ -67,7 +66,7 @@ export const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
             }
         }
 
-        // tslint:disable-next-line:forin
+        // eslint-disable-next-line guard-for-in
         for (const value in keyMap) {
             yield keyMap[value]
         }
@@ -99,11 +98,11 @@ export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement
             }
         }
 
-        /* tslint:disable:forin */
+        /* eslint-disable guard-for-in */
         for (const value in keyMap) {
             yield keyMap[value]
         }
-        /* tslint:enable:forin */
+        /* eslint-enable guard-for-in */
     }
 
     return new BasicEnumerable(generate)
