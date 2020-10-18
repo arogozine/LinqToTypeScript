@@ -17,7 +17,7 @@ export const isParallelEnumerable = (source: any): source is IParallelEnumerable
         return true
     }
 
-    if (!(source[Symbol.asyncIterator] instanceof Function)) {
+    if (typeof source[Symbol.asyncIterator] !== "function") {
         return false
     }
 
@@ -26,7 +26,7 @@ export const isParallelEnumerable = (source: any): source is IParallelEnumerable
 
     const methods = source.prototype || source
     for (const prop of propertyNames) {
-        if (!(methods[prop] instanceof Function)) {
+        if (typeof methods[prop] !== "function") {
             return false
         }
     }

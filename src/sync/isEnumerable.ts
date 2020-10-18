@@ -10,6 +10,7 @@ import { BasicEnumerable } from "./BasicEnumerable"
  * @returns Whether or not this is an Enumerable type
  */
 export function isEnumerable(source: any): source is IEnumerable<any> {
+
     if (!source) {
         return false
     }
@@ -22,7 +23,7 @@ export function isEnumerable(source: any): source is IEnumerable<any> {
         return true
     }
 
-    if (!(source[Symbol.iterator] instanceof Function)) {
+    if (typeof source[Symbol.iterator] !== "function") {
         return false
     }
 
@@ -32,7 +33,7 @@ export function isEnumerable(source: any): source is IEnumerable<any> {
     const methods = source.prototype || source
 
     for (const prop of propertyNames) {
-        if (!(methods[prop] instanceof Function)) {
+        if (typeof methods[prop] !== "function") {
             return false
         }
     }

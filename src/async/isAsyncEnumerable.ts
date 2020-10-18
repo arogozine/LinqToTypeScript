@@ -17,7 +17,7 @@ export function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any> 
         return true
     }
 
-    if (!(source[Symbol.asyncIterator] instanceof Function)) {
+    if (typeof source[Symbol.asyncIterator] !== "function") {
         return false
     }
 
@@ -26,7 +26,7 @@ export function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any> 
 
     const methods = source.prototype || source
     for (const prop of propertyNames) {
-        if (!(methods[prop] instanceof Function)) {
+        if (typeof methods[prop] !== "function") {
             return false
         }
     }
