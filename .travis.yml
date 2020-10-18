@@ -4,7 +4,7 @@ node_js:
   - '10'
 sudo: false
 before_script:
-  - npm install -g typescript tslint jest rollup
+  - npm install -g typescript jest rollup
 script:
   - npm install
   - npm run build

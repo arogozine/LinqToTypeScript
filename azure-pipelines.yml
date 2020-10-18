@@ -20,13 +20,13 @@ steps:
     versionSpec: $(node_version)
 
 - script: |
-    npm install -g typescript tslint jest rollup
+    npm install -g typescript jest rollup
   displayName: 'Install Globals'
 - script: |
     npm install
     npm run build
   displayName: 'Build Library'
-- script: tslint -p ./
+- script: npm run lint
   displayName: 'Run Lint'
 - script: |
     cd test
