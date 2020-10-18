@@ -11,6 +11,20 @@ import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
  */
 export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> implements IOrderedParallelEnumerable<T> {
 
+    private constructor(private readonly orderedPairs: () => AsyncIterable<T[]>) {
+        super({
+            generator: async () => {
+                const asyncVals = orderedPairs()
+                const array = []
+                for await (const val of asyncVals) {
+                    array.push(...val)
+                }
+                return array
+            },
+            type: ParallelGeneratorType.PromiseToArray,
+        })
+    }
+
     public static generateAsync<TSource, TKey>(
         source: AsyncIterable<TSource> | OrderedParallelEnumerable<TSource>,
         keySelector: (x: TSource) => Promise<TKey>,
@@ -50,20 +64,6 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         }
 
         return new OrderedParallelEnumerable(orderedPairs)
-    }
-
-    private constructor(private readonly orderedPairs: () => AsyncIterable<T[]>) {
-        super({
-            generator: async () => {
-                const asyncVals = orderedPairs()
-                const array = []
-                for await (const val of asyncVals) {
-                    array.push(...val)
-                }
-                return array
-            },
-            type: ParallelGeneratorType.PromiseToArray,
-        })
     }
 
     public thenBy<TKey>(keySelector: (x: T) => TKey,

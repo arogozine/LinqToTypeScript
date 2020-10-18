@@ -10,6 +10,14 @@ import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
  */
 export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implements IOrderedAsyncEnumerable<T> {
 
+    public constructor(private readonly orderedPairs: () => AsyncIterable<T[]>) {
+        super(async function *() {
+            for await (const orderedPair of orderedPairs()) {
+                yield* orderedPair
+            }
+        })
+    }
+
     public static generateAsync<TSource, TKey>(
         source: AsyncIterable<TSource> | OrderedAsyncEnumerable<TSource>,
         keySelector: (x: TSource) => Promise<TKey>,
@@ -50,14 +58,6 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         }
 
         return new OrderedAsyncEnumerable(orderedPairs)
-    }
-
-    public constructor(private readonly orderedPairs: () => AsyncIterable<T[]>) {
-        super(async function *() {
-            for await (const orderedPair of orderedPairs()) {
-                yield* orderedPair
-            }
-        })
     }
 
     public thenBy<TKey>(keySelector: (x: T) => TKey,

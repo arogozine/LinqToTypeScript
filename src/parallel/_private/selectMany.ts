@@ -31,12 +31,13 @@ export function selectMany<TSource, OUT>(
         let values: TypedData<Iterable<OUT>>
         if (typeof selector === "function") {
             if (selector.length === 1) {
-                values = await nextIteration(source, selector as (x: TSource) => Iterable<OUT>)
+                values = nextIteration(source, selector as (x: TSource) => Iterable<OUT>)
             } else {
-                values = await nextIterationWithIndex(source, selector)
+                values = nextIterationWithIndex(source, selector)
             }
         } else {
-            values = await nextIteration(source, (x: any) => x[selector])
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+            values = nextIteration(source, (x: any) => x[selector])
         }
 
         const valuesArray = []

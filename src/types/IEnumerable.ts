@@ -15,7 +15,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param func An accumulator function to be invoked on each element.
      * @returns The final accumulator value.
      */
-    aggregate(func: (x: TSource, y: TSource) => TSource): TSource,
+    aggregate(func: (x: TSource, y: TSource) => TSource): TSource
     /**
      * Applies an accumulator function over a sequence.
      * The specified seed value is used as the initial accumulator value.
@@ -23,7 +23,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param func An accumulator function to be invoked on each element.
      * @returns The final accumulator value.
      */
-    aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate,
+    aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): TAccumulate
     /**
      * Applies an accumulator function over a sequence.
      * The specified seed value is used as the initial accumulator value,
@@ -36,34 +36,34 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     aggregate<TAccumulate, TResult>(
         seed: TAccumulate,
         func: (x: TAccumulate, y: TSource) => TAccumulate,
-        resultSelector: (x: TAccumulate) => TResult): TResult,
+        resultSelector: (x: TAccumulate) => TResult): TResult
     /**
      * Determines whether all elements of a sequence satisfy a condition.
      * @param predicate A function to test each element for a condition.
      * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
      * or if the sequence is empty; otherwise, ``false``.
      */
-    all(predicate: (x: TSource) => boolean): boolean,
+    all(predicate: (x: TSource) => boolean): boolean
     /**
      * Determines whether all elements of a sequence satisfy a condition.
      * @param predicate An async function to test each element for a condition.
      * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
      * or if the sequence is empty; otherwise, ``false``.
      */
-    allAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>,
+    allAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>
     /**
      * Determines whether a sequence contains any elements.
      * If predicate is specified, determines whether any element of a sequence satisfies a condition.
      * @param predicate A function to test each element for a condition.
      * @returns true if the source sequence contains any elements or passes the test specified; otherwise, false.
      */
-    any(predicate?: (x: TSource) => boolean): boolean,
+    any(predicate?: (x: TSource) => boolean): boolean
     /**
      * Determines whether any element of a sequence satisfies a condition.
      * @param predicate An async function to test each element for a condition.
      * @returns true if the source sequence contains any elements or passes the test specified; otherwise, false.
      */
-    anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>,
+    anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>
     /**
      * Converts the iterable to an @see {IAsyncEnumerable}
      * @returns An IAsyncEnumerable<T>
@@ -87,7 +87,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The average of the sequence of values.
      */
-    average(selector: (x: TSource) => number): number,
+    average(selector: (x: TSource) => number): number
     /**
      * Computes the average of a sequence of values
      * that are obtained by invoking a transform function on each element of the input sequence.
@@ -95,13 +95,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The average of the sequence of values.
      */
-    averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
+    averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
      * Concatenates two sequences.
      * @param second The sequence to concatenate to the first sequence.
      * @returns An IEnumerable<T> that contains the concatenated elements of the two sequences.
      */
-    concat(second: IEnumerable<TSource>): IEnumerable<TSource>,
+    concat(second: IEnumerable<TSource>): IEnumerable<TSource>
     /**
      * Determines whether a sequence contains a specified element by
      * using the specified or default IEqualityComparer<T>.
@@ -109,7 +109,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param comparer An equality comparer to compare values. Optional.
      * @returns true if the source sequence contains an element that has the specified value; otherwise, false.
      */
-    contains(value: TSource, comparer?: IEqualityComparer<TSource>): boolean,
+    contains(value: TSource, comparer?: IEqualityComparer<TSource>): boolean
     /**
      * Determines whether a sequence contains a specified element
      * by using the specified or default IEqualityComparer<T>.
@@ -117,7 +117,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param comparer An equality comparer to compare values. Optional.
      * @returns true if the source sequence contains an element that has the specified value; otherwise, false.
      */
-    containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>,
+    containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>
     /**
      * Returns the number of elements in a sequence
      * or represents how many elements in the specified sequence satisfy a condition
@@ -139,13 +139,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
      * @returns An IEnumerable<T> that contains distinct elements from the source sequence.
      */
-    distinct(comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
+    distinct(comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>
     /**
      * Returns distinct elements from a sequence by using the specified equality comparer to compare values.
      * @param comparer An IAsyncEqualityComparer<T> to compare values.
      * @returns An IAsyncEnumerable<T> that contains distinct elements from the source sequence.
      */
-    distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+    distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>
     /**
      * Returns the element at a specified index in a sequence.
      * @param index The zero-based index of the element to retrieve.
@@ -153,7 +153,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * index is less than 0 or greater than or equal to the number of elements in source.
      * @returns The element at the specified position in the source sequence.
      */
-    elementAt(index: number): TSource,
+    elementAt(index: number): TSource
     /**
      * Returns the element at a specified index in a sequence or a default value if the index is out of range.
      * @param index The zero-based index of the element to retrieve.
@@ -170,7 +170,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param comparer An IEqualityComparer<T> to compare values. Optional.
      * @returns A sequence that contains the set difference of the elements of two sequences.
      */
-    except(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
+    except(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>
     /**
      * Produces the set difference of two sequences by using the comparer provided to compare values.
      * @param second An IEnumerable<T> whose elements that also occur in the first sequence
@@ -178,7 +178,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param comparer An IAsyncEqualityComparer<T> to compare values.
      * @returns A sequence that contains the set difference of the elements of two sequences.
      */
-    exceptAsync(second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+    exceptAsync(second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>
     /**
      * Returns first element in sequence that satisfies predicate otherwise
      * returns the first element in the sequence.
@@ -187,14 +187,14 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns The first element in the sequence
      * or the first element that passes the test in the specified predicate function.
      */
-    first(predicate?: (x: TSource) => boolean): TSource,
+    first(predicate?: (x: TSource) => boolean): TSource
     /**
      * Returns the first element in a sequence that satisfies a specified condition.
      * @param predicate A function to test each element for a condition.
      * @throws {InvalidOperationException} No elements in Iteration matching predicate
      * @returns The first element in the sequence that passes the test in the specified predicate function.
      */
-    firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>,
+    firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
     /**
      * Returns first element in sequence that satisfies predicate otherwise
      * returns the first element in the sequence. Returns null if no value found.
@@ -203,7 +203,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * or the first element that passes the test in the specified predicate function.
      * Returns null if no value found.
      */
-    firstOrDefault(predicate?: (x: TSource) => boolean): TSource | null,
+    firstOrDefault(predicate?: (x: TSource) => boolean): TSource | null
     /**
      * Returns the first element of the sequence that satisfies a condition or a default value
      * if no such element is found.
@@ -211,13 +211,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns null if source is empty or if no element passes the test specified by predicate;
      * otherwise, the first element in source that passes the test specified by predicate.
      */
-    firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>,
+    firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**
      * Performs a specified action on each element of the Iterable<TSource>
      * @param action The action to take an each element
      * @returns A new IEnumerable<T> that executes the action lazily as you iterate.
      */
-    each(action: (x: TSource) => void): IEnumerable<TSource>,
+    each(action: (x: TSource) => void): IEnumerable<TSource>
     /**
      * Performs a specified action on each element of the Iterable<TSource>
      * @param action The async action to take an each element
@@ -240,7 +240,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     groupBy<TKey>(
             keySelector: (x: TSource) => TKey,
-            comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>,
+            comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TSource>>
     /**
      * Groups the elements of a sequence according to a specified key selector function.
      * @param keySelector A function to extract the key for each element.
@@ -259,7 +259,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     groupByAsync<TKey>(
             keySelector: (x: TSource) => Promise<TKey> | TKey,
             comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
-            : IAsyncEnumerable<IGrouping<TKey, TSource>>,
+            : IAsyncEnumerable<IGrouping<TKey, TSource>>
     /**
      * Groups the elements of a sequence according to a specified key selector function and
      * projects the elements for each group by using a specified function.
@@ -301,7 +301,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     intersectAsync(
             second: IEnumerable<TSource>,
-            comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+            comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>
     /**
      * Correlates the elements of two sequences based on matching keys.
      * A specified IEqualityComparer<T> is used to compare keys or the strict equality comparer.
@@ -318,7 +318,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
             outerKeySelector: (x: TSource) => TKey,
             innerKeySelector: (x: TInner) => TKey,
             resultSelector: (x: TSource, y: TInner) => TResult,
-            comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>,
+            comparer?: IEqualityComparer<TKey>): IEnumerable<TResult>
     /**
      * Returns the last element of a sequence.
      * If predicate is specified, the last element of a sequence that satisfies a specified condition.
@@ -327,14 +327,14 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns The value at the last position in the source sequence
      * or the last element in the sequence that passes the test in the specified predicate function.
      */
-    last(predicate?: (x: TSource) => boolean): TSource,
+    last(predicate?: (x: TSource) => boolean): TSource
     /**
      * Returns the last element of a sequence that satisfies a specified condition.
      * @param predicate A function to test each element for a condition.
      * @throws {InvalidOperationException} The source sequence is empty.
      * @returns The last element in the sequence that passes the test in the specified predicate function.
      */
-    lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>,
+    lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
     /**
      * Returns the last element of a sequence.
      * If predicate is specified, the last element of a sequence that satisfies a specified condition.
@@ -342,60 +342,60 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns The value at the last position in the source sequence
      * or the last element in the sequence that passes the test in the specified predicate function.
      */
-    lastOrDefault(predicate?: (x: TSource) => boolean): TSource | null,
+    lastOrDefault(predicate?: (x: TSource) => boolean): TSource | null
     /**
      * Returns the last element of a sequence that satisfies a specified condition.
      * @param predicate A function to test each element for a condition.
      * @returns The last element in the sequence that passes the test in the specified predicate function.
      * Null if no elements.
      */
-    lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>,
+    lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**
      * Returns the maximum value in a sequence of values.
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The maximum value in the sequence.
      */
-    max(this: IEnumerable<number>): number,
+    max(this: IEnumerable<number>): number
     /**
      * Invokes a transform function on each element of a sequence and returns the maximum value.
      * @param selector A transform function to apply to each element.
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The maximum value in the sequence.
      */
-    max(selector: (x: TSource) => number): number,
+    max(selector: (x: TSource) => number): number
     /**
      * Invokes an async transform function on each element of a sequence and returns the maximum value.
      * @param selector A transform function to apply to each element.
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The maximum value in the sequence.
      */
-    maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
+    maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
      * Returns the minimum value in a sequence of values.
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The minimum value in the sequence.
      */
-    min(this: IEnumerable<number>): number,
+    min(this: IEnumerable<number>): number
     /**
      * Invokes a transform function on each element of a sequence and returns the minimum value.
      * @param selector A transform function to apply to each element.
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The minimum value in the sequence.
      */
-    min(selector: (x: TSource) => number): number,
+    min(selector: (x: TSource) => number): number
     /**
      * Invokes a transform function on each element of a sequence and returns the minimum value.
      * @param selector A transform function to apply to each element.
      * @throws {InvalidOperationException} source contains no elements.
      * @returns The minimum value in the sequence.
      */
-    minAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
+    minAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
      * Applies a type filter to a source iteration
      * @param type Either value for typeof or a consturctor function
      * @returns Values that match the type string or are instance of type
      */
-    ofType<T extends OfType>(type: T): IEnumerable<InferType<T>>,
+    ofType<T extends OfType>(type: T): IEnumerable<InferType<T>>
 
     /**
      * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
@@ -438,7 +438,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Inverts the order of the elements in a sequence.
      * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
      */
-    reverse(): IEnumerable<TSource>,
+    reverse(): IEnumerable<TSource>
     /**
      * Projects each element of a sequence into a new form.
      * @param selector A transform function to apply to each element.
@@ -468,14 +468,14 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     selectAsync<TKey extends keyof TSource, TResult>(
                 this: IEnumerable<{ [key: string]: Promise<TResult> }>,
-                key: TKey): IAsyncEnumerable<TResult>,
+                key: TKey): IAsyncEnumerable<TResult>
     /**
      * Projects each element of a sequence to an IEnumerable<T> and flattens the resulting sequences into one sequence.
      * @param selector A transform function to apply to each element.
      * @returns An IEnumerable<T> whose elements are the result of invoking the
      * one-to-many transform function on each element of the input sequence.
      */
-    selectMany<TResult>(selector: (x: TSource, index: number) => Iterable<TResult>): IEnumerable<TResult>,
+    selectMany<TResult>(selector: (x: TSource, index: number) => Iterable<TResult>): IEnumerable<TResult>
     /**
      * Projects each element of a sequence to an IEnumerable<T> and flattens the resulting sequences into one sequence.
      * @param selector A string key of TSource.
@@ -484,7 +484,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
         this: IEnumerable<TBindedSource>,
-        selector: keyof TBindedSource): IEnumerable<TOut>,
+        selector: keyof TBindedSource): IEnumerable<TOut>
     /**
      * Projects each element of a sequence to an IAsyncEnumerable<T>
      * and flattens the resulting sequences into one sequence.
@@ -493,21 +493,21 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * one-to-many transform function on each element of the input sequence.
      */
     selectManyAsync<TResult>(
-            selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>,
+            selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IAsyncEnumerable<TResult>
     /**
      * Determines whether or not two sequences are equal
      * @param second second iterable
      * @param comparer Compare function to use, by default is @see {StrictEqualityComparer}
      * @returns Whether or not the two iterations are equal
      */
-    sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean,
+    sequenceEquals(second: IEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): boolean
     /**
      * Compares two sequences to see if they are equal using an async comparer function.
      * @param second Second Sequence
      * @param comparer Async Comparer
      * @returns Whether or not the two iterations are equal
      */
-    sequenceEqualsAsync(second: IEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>,
+    sequenceEqualsAsync(second: IEnumerable<TSource>, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>
     /**
      * Returns the only element of a sequence that satisfies a specified condition (if specified),
      * and throws an exception if more than one such element exists.
@@ -517,7 +517,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * The source sequence is empty.
      * @returns The single element of the input sequence that satisfies a condition.
      */
-    single(predicate?: (x: TSource) => boolean): TSource,
+    single(predicate?: (x: TSource) => boolean): TSource
      /**
       * Returns the only element of a sequence that satisfies a specified condition,
       * and throws an exception if more than one such element exists.
@@ -528,7 +528,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
       * The source sequence is empty.
       * @returns The single element of the input sequence that satisfies a condition.
       */
-    singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>,
+    singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
     /**
      * If predicate is specified returns the only element of a sequence that satisfies a specified condition,
      * ootherwise returns the only element of a sequence. Returns a default value if no such element exists.
@@ -539,7 +539,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns The single element of the input sequence that satisfies the condition,
      * or null if no such element is found.
      */
-    singleOrDefault(predicate?: (x: TSource) => boolean): TSource | null,
+    singleOrDefault(predicate?: (x: TSource) => boolean): TSource | null
     /**
      * Returns the only element of a sequence that satisfies a specified condition.
      * Returns a default value if no such element exists.
@@ -550,13 +550,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns The single element of the input sequence that satisfies the condition,
      * or null if no such element is found.
      */
-    singleOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>,
+    singleOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**
      * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
      * @param count The number of elements to skip before returning the remaining elements.
      * @returns An IEnumerable<T> that contains the elements that occur after the specified index in the input sequence.
      */
-    skip(count: number): IEnumerable<TSource>,
+    skip(count: number): IEnumerable<TSource>
     /**
      * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
      * The element's index is used in the logic of the predicate function.
@@ -565,7 +565,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns An IEnumerable<T> that contains the elements from the input sequence starting at the first element
      * in the linear series that does not pass the test specified by predicate.
      */
-    skipWhile(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
+    skipWhile(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>
     /**
      * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
      * The element's index is used in the logic of the predicate function.
@@ -574,7 +574,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns An IAsyncEnumerable<T> that contains the elements from the input sequence starting
      * at the first element in the linear series that does not pass the test specified by predicate.
      */
-    skipWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>,
+    skipWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
     /**
      * Computes the sum of the sequence of numeric values.
      * @returns The sum of the values in the sequence.
@@ -586,14 +586,14 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param selector A transform function to apply to each element.
      * @returns The sum of the projected values.
      */
-    sum(selector: (x: TSource) => number): number,
+    sum(selector: (x: TSource) => number): number
     /**
      * Computes the sum of the sequence of numeric values that are obtained by invoking a transform function
      * on each element of the input sequence.
      * @param selector An async transform function to apply to each element.
      * @returns The sum of the projected values.
      */
-    sumAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
+    sumAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
      * Returns a specified number of contiguous elements from the start of a sequence.
      * @param amount The number of elements to return.
@@ -628,32 +628,32 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param selector A function to serve as a key selector.
      * @return Map<K, V[]>
      */
-    toMap<TKey>(selector: (x: TSource) => TKey): Map<TKey, TSource[]>,
+    toMap<TKey>(selector: (x: TSource) => TKey): Map<TKey, TSource[]>
     /**
      * Converts an Iterable<V> to a Map<K, V[]>.
      * @param selector An async function to serve as a key selector.
      * @returns A promise for Map<K, V[]>
      */
-    toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>,
+    toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>
     /**
      * Converts the iteration to a Set
      * @returns Set containing the iteration values
      */
-    toSet(): Set<TSource>,
+    toSet(): Set<TSource>
     /**
      * Produces the set union of two sequences by using scrict equality comparison or a specified IEqualityComparer<T>.
      * @param second An Iterable<T> whose distinct elements form the second set for the union.
      * @param comparer The IEqualityComparer<T> to compare values. Optional.
      * @returns An IEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
      */
-    union(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>,
+    union(second: Iterable<TSource>, comparer?: IEqualityComparer<TSource>): IEnumerable<TSource>
     /**
      * Produces the set union of two sequences by using a specified IAsyncEqualityComparer<T>.
      * @param second An Iterable<T> whose distinct elements form the second set for the union.
      * @param comparer The IAsyncEqualityComparer<T> to compare values.
      * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
      */
-    unionAsync(second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+    unionAsync(second: Iterable<TSource>, comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource>
     /**
      * Filters a sequence of values based on a predicate.
      * Each element's index is used in the logic of the predicate function.
@@ -661,7 +661,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * the second parameter of the function represents the index of the source element.
      * @returns An IEnumerable<T> that contains elements from the input sequence that satisfy the condition.
      */
-    where(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
+    where(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>
     /**
      * Filters a sequence of values based on a predicate.
      * Each element's index is used in the logic of the predicate function.
@@ -675,7 +675,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param second The second sequence to merge.
      * @returns An IEnumerable<[T, Y]> that contains merged elements of two input sequences.
      */
-    zip<TSecond>(second: Iterable<TSecond>): IEnumerable<[TSource, TSecond]>,
+    zip<TSecond>(second: Iterable<TSecond>): IEnumerable<[TSource, TSecond]>
     /**
      * Applies a specified function to the corresponding elements of two sequences, producing a sequence of the results.
      * @param second The second sequence to merge.
@@ -684,7 +684,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     zip<TSecond, TResult>(
         second: Iterable<TSecond>,
-        resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>,
+        resultSelector: (x: TSource, y: TSecond) => TResult): IEnumerable<TResult>
     /**
      * Applies a specified async function to the corresponding elements of two sequences,
      * producing a sequence of the results.
@@ -694,6 +694,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     zipAsync<TSecond, TResult>(
         second: Iterable<TSecond>,
-        resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>,
+        resultSelector: (x: TSource, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult>
     [Symbol.iterator](): IterableIterator<TSource>
 }

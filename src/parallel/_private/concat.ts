@@ -16,7 +16,7 @@ export function concat<TSource>(
         // Concat
         const firstData = promiseResults[0]
         const secondData = promiseResults[1]
-        const data = new Array(firstData.length + secondData.length)
+        const data = new Array<TSource>(firstData.length + secondData.length)
         let i = 0
         for (; i < firstData.length; i++) {
             data[i] = firstData[i]

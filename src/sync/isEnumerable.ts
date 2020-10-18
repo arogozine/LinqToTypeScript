@@ -2,9 +2,12 @@ import { IEnumerable } from "../types"
 import { ArrayEnumerable } from "./ArrayEnumerable"
 import { BasicEnumerable } from "./BasicEnumerable"
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
 /**
  * Determine if a source is a IEnumerable
  * @param source Any Value
+ * @returns Whether or not this is an Enumerable type
  */
 export function isEnumerable(source: any): source is IEnumerable<any> {
     if (!source) {

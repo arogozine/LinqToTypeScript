@@ -26,6 +26,7 @@ export function selectMany<TCollection>(
     source: AsyncIterable<any>,
     selector: any): IAsyncEnumerable<TCollection> {
     if (typeof selector === "function") {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (selector.length === 1) {
             return selectMany1(source, selector)
         } else {

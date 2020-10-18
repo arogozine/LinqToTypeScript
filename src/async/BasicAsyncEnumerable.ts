@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
+
 import { IAsyncEnumerable } from "../types"
 
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -7,7 +9,7 @@ import { IAsyncEnumerable } from "../types"
  * @private
  */
 export class BasicAsyncEnumerable<TSource> {
-    constructor(private readonly iterator: () => AsyncIterableIterator<TSource>) {
+    public constructor(private readonly iterator: () => AsyncIterableIterator<TSource>) {
         //
     }
 

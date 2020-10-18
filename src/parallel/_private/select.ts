@@ -33,6 +33,7 @@ export function select<TSource, OUT>(
             return new BasicParallelEnumerable(nextIterationWithIndex(source, key))
         }
     } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         return new BasicParallelEnumerable(nextIteration(source, (x: any) => x[key] as OUT))
     }
 }

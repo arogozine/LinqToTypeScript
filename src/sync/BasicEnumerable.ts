@@ -1,13 +1,13 @@
 import { IEnumerable } from "../types"
 
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/no-empty-interface */
 
 /**
  * Basic Enumerable. Usually returned from the Enumerable class.
- * @private Use @see {IEnumerable} instead
+ * @private
  */
 export class BasicEnumerable<TSource> {
-    constructor(private readonly iterator: () => IterableIterator<TSource>) {
+    public constructor(private readonly iterator: () => IterableIterator<TSource>) {
         //
     }
 

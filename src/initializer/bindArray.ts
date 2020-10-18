@@ -11,6 +11,7 @@ export const bindArray = <T, Y extends Iterable<T> & ArrayLike<T>>(jsArray: ICon
         .filter((v) => v !== "constructor") as Array<keyof Y>
 
     for (const prop of propertyNames) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         jsArray.prototype[prop] =  jsArray.prototype[prop] || (ArrayEnumerable.prototype as any)[prop]
     }
 }

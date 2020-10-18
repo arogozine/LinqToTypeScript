@@ -18,6 +18,7 @@ export function firstOrDefault<TSource>(
 
 const firstOrDefault1 = <T>(source: Iterable<T>): T | null => {
     const first = source[Symbol.iterator]().next()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return first.value || null
 }
 

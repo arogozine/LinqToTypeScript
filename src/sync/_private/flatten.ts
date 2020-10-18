@@ -23,6 +23,7 @@ export function flatten<TSource>(
         for (const item of source) {
             // JS string is an Iterable.
             // We exclude it from being flattened
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (item[Symbol.iterator] !== undefined && typeof item !== "string") {
                 yield* shallow ? item : iterator(item)
             } else {

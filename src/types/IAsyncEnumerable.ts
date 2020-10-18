@@ -57,7 +57,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * @param comparer An IEqualityComparer<T> to compare values. Optional.
      * @returns A sequence that contains the set difference of the elements of two sequences.
      */
-    except(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>,
+    except(second: IAsyncEnumerable<TSource>, comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource>
     /**
      * Produces the set difference of two sequences by using the comparer provided to compare values.
      * @param second An IAsyncEnumerable<T> whose elements that also occur in the first sequence
@@ -126,7 +126,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     groupByWithSel<TKey, TElement>(
             keySelector: ((x: TSource) => TKey),
             elementSelector: (x: TSource) => TElement,
-            comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>,
+            comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>
     /**
      * Produces the set intersection of two sequences by using the specified IEqualityComparer<T> to compare values.
      * If no comparer is selected, uses the StrictEqualityComparer.

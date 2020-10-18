@@ -12,12 +12,14 @@ export function firstOrDefault<TSource>(
     if (predicate) {
         return firstOrDefault2(source, predicate)
     } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return firstOrDefault1(source)
     }
 }
 
 const firstOrDefault1 = async <T>(source: AsyncIterable<T>) => {
     const first = await source[Symbol.asyncIterator]().next()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return first.value || null
 }
 

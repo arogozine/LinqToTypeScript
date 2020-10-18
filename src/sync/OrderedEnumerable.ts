@@ -10,7 +10,15 @@ import { BasicEnumerable } from "./BasicEnumerable"
  */
 export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrderedEnumerable<T> {
 
-    //#region Sync
+    private constructor(private readonly orderedPairs: () => IterableIterator<T[]>) {
+        super(function *() {
+            for (const orderedPair of orderedPairs()) {
+                yield* orderedPair
+            }
+        })
+    }
+
+    // #region Sync
 
     public static generate<TSource, TKey>(
         source: Iterable<TSource> | OrderedEnumerable<TSource>,
@@ -33,9 +41,9 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         return new OrderedEnumerable(orderedPairs)
     }
 
-    //#endregion
+    // #endregion
 
-    //#region Async
+    // #region Async
 
     public static generateAsync<TSource, TKey>(
         source: Iterable<TSource> | OrderedEnumerable<TSource>,
@@ -58,15 +66,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         return new OrderedAsyncEnumerable(orderedPairs)
     }
 
-    //#endregion
-
-    private constructor(private readonly orderedPairs: () => IterableIterator<T[]>) {
-        super(function *() {
-            for (const orderedPair of orderedPairs()) {
-                yield* orderedPair
-            }
-        })
-    }
+    // #endregion
 
     public thenBy<TKey>(
         keySelector: (x: T) => TKey,

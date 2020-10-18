@@ -33,6 +33,7 @@ export function from<TSource>(
     generator: () => any) {
     return new BasicParallelEnumerable<TSource>({
         generator,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         type,
     })
 }

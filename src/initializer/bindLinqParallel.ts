@@ -1,4 +1,5 @@
 import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, IPrototype } from "../types"
+
 import { aggregate } from "./../parallel/_private/aggregate"
 import { all } from "./../parallel/_private/all"
 import { allAsync } from "./../parallel/_private/allAsync"
@@ -73,6 +74,8 @@ import { whereAsync } from "./../parallel/_private/whereAsync"
 import { zip } from "./../parallel/_private/zip"
 import { zipAsync } from "./../parallel/_private/zipAsync"
 
+/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
+
 /**
  * Binds LINQ methods to an iterable type
  * @param object Iterable Type
@@ -80,7 +83,7 @@ import { zipAsync } from "./../parallel/_private/zipAsync"
 export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
 
     // TODO: Make TypeScript Safe
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
     type Writeable<TType> = { -readonly [P in keyof TType]-?: TType[P] }
     const wPrototype = object.prototype as Writeable<IParallelEnumerable<T>>
     const prototype = wPrototype as IParallelEnumerable<T>

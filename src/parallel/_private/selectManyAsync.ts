@@ -17,9 +17,9 @@ export function selectManyAsync<TSource, TResult>(
     const generator = async () => {
         let values: TypedData<Iterable<TResult>>
         if (selector.length === 1) {
-            values = await nextIterationAsync(source, selector as (x: TSource) => Promise<Iterable<TResult>>)
+            values = nextIterationAsync(source, selector as (x: TSource) => Promise<Iterable<TResult>>)
         } else {
-            values = await nextIterationWithIndexAsync(source, selector)
+            values = nextIterationWithIndexAsync(source, selector)
         }
 
         const valuesArray = []

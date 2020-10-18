@@ -35,6 +35,7 @@ export function groupByAsync<TSource, TKey>(
         return groupByAsync_0<TSource, TKey>(source,
             keySelector, comparer)
     } else {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return groupByAsync_0_Simple(source,
             keySelector as (x: TSource) => any)
     }

@@ -18,6 +18,7 @@ module.exports = {
         "node": true
     },
     "extends": [
+        "plugin:jsdoc/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
@@ -30,9 +31,17 @@ module.exports = {
         "eslint-plugin-jsdoc",
         "eslint-plugin-prefer-arrow",
         "@typescript-eslint",
-        // "@typescript-eslint/tslint"
     ],
+    "settings": {
+        "jsdoc":{
+          "ignorePrivate": true,
+          "ignoreInternal": true,
+          "mode": "typescript"
+        }
+    },
     "rules": {
+        // Seems broken with async generators
+        "@typescript-eslint/require-await": "off",
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/array-type": [
             "error",
@@ -87,7 +96,8 @@ module.exports = {
             }
         ],
         "@typescript-eslint/member-ordering": "error",
-        "@typescript-eslint/naming-convention": "error",
+        // Proper Case Looks Nice
+        "@typescript-eslint/naming-convention": "off",
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-empty-interface": "error",
         "@typescript-eslint/no-explicit-any": "off",
@@ -114,6 +124,7 @@ module.exports = {
             }
         ],
         "@typescript-eslint/unified-signatures": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         "complexity": "off",
         "constructor-super": "error",
         "eqeqeq": [
@@ -123,7 +134,6 @@ module.exports = {
         "guard-for-in": "error",
         "id-blacklist": [
             "error",
-            "any",
             "Number",
             "number",
             "String",
@@ -134,9 +144,16 @@ module.exports = {
             "undefined"
         ],
         "id-match": "error",
+        // This rule seems to be a bit broken
+        "jsdoc/require-jsdoc": "off",
+        // "jsdoc/require-jsdoc": [ "error", { "publicOnly": true } ],
         "jsdoc/check-alignment": "error",
         "jsdoc/check-indentation": "error",
-        "jsdoc/newline-after-description": "error",
+        // Not needed with TypeScript
+        "jsdoc/require-param-type": "off",
+        // Not needed with TypeScript
+        "jsdoc/require-returns-type": "off",
+        "jsdoc/newline-after-description": "off",
         "max-classes-per-file": "off",
         "new-parens": "error",
         "no-bitwise": "error",
@@ -174,7 +191,8 @@ module.exports = {
             "error",
             "never"
         ],
-        "prefer-arrow/prefer-arrow-functions": "error",
+        // TODO - Enable later
+        "prefer-arrow/prefer-arrow-functions": "off",
         "prefer-const": "error",
         "radix": "error",
         "spaced-comment": [
@@ -187,38 +205,6 @@ module.exports = {
             }
         ],
         "use-isnan": "error",
-        "valid-typeof": "off",
-        /*
-        "@typescript-eslint/tslint/config": [
-            "error",
-            {
-                "rules": {
-                    "completed-docs": [
-                        true,
-                        {
-                            "classes": true,
-                            "enums": true,
-                            "types": true,
-                            "interfaces": true,
-                            "functions": {
-                                "visibilities": [
-                                    "exported"
-                                ]
-                            },
-                            "methods": {
-                                "locations": "instance",
-                                "privacies": [
-                                    "public",
-                                    "protected"
-                                ]
-                            }
-                        }
-                    ],
-                    "no-promise-as-boolean": true,
-                    "object-literal-sort-keys": true
-                }
-            }
-        ]
-        */
+        "valid-typeof": "off"
     }
 };

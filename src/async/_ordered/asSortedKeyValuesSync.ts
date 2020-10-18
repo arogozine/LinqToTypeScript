@@ -7,14 +7,13 @@ import { asKeyMapSync } from "./asKeyMapSync"
  * @param keySelector Key Selector
  * @param ascending Ascending or Descending Sort
  * @param comparer Key Comparer for Sorting. Optional.
- * @returns Async Iterable Iterator
  */
-export async function *asSortedKeyValuesSync<TSource, TKey>(
+export function *asSortedKeyValuesSync<TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
     ascending: boolean,
     comparer?: IComparer<TKey>) {
-    const map = await asKeyMapSync(source, keySelector)
+    const map = asKeyMapSync(source, keySelector)
     const sortedKeys = [...map.keys()].sort(comparer ? comparer : undefined)
 
     if (ascending) {

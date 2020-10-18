@@ -1,6 +1,7 @@
 /**
  * Underlying data type for a Parallel Enumerable
  */
+// eslint-disable-next-line no-shadow
 export const enum ParallelGeneratorType {
     /**
      * Generator returns a Promise which returns values

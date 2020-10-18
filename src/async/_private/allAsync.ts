@@ -2,6 +2,7 @@
  * Determines whether all elements of a sequence satisfy a condition.
  * @param source An AsyncIterable<T> that contains the elements to apply the predicate to.
  * @param predicate A function to test each element for a condition.
+ * @returns Whether all elements of a sequence satisfy the condition.
  */
 export async function allAsync<TSource>(
     source: AsyncIterable<TSource>,

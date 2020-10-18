@@ -22,6 +22,9 @@ export function takeWhile<T>(
 }
 
 const takeWhile1 = <T>(source: Iterable<T>, predicate: (x: T) => boolean): IEnumerable<T> => {
+    /**
+     * @internal
+     */
     function* iterator() {
         for (const item of source) {
             if (predicate(item)) {
