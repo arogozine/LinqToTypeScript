@@ -46,7 +46,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     all(predicate: (x: TSource) => boolean): boolean,
     /**
      * Determines whether all elements of a sequence satisfy a condition.
-     * @param predicate A function to test each element for a condition.
+     * @param predicate An async function to test each element for a condition.
      * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
      * or if the sequence is empty; otherwise, ``false``.
      */
@@ -60,7 +60,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     any(predicate?: (x: TSource) => boolean): boolean,
     /**
      * Determines whether any element of a sequence satisfies a condition.
-     * @param predicate A function to test each element for a condition.
+     * @param predicate An async function to test each element for a condition.
      * @returns true if the source sequence contains any elements or passes the test specified; otherwise, false.
      */
     anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>,
@@ -91,8 +91,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Computes the average of a sequence of values
      * that are obtained by invoking a transform function on each element of the input sequence.
-     * @param selector A transform function to apply to each element.
+     * @param selector An async transform function to apply to each element.
      * @throws {InvalidOperationException} source contains no elements.
+     * @returns The average of the sequence of values.
      */
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
     /**
@@ -589,7 +590,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Computes the sum of the sequence of numeric values that are obtained by invoking a transform function
      * on each element of the input sequence.
-     * @param selector A transform function to apply to each element.
+     * @param selector An async transform function to apply to each element.
      * @returns The sum of the projected values.
      */
     sumAsync(selector: (x: TSource) => Promise<number>): Promise<number>,
@@ -598,7 +599,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param amount The number of elements to return.
      * @returns An IEnumerable<T> that contains the specified number of elements from the start of the input sequence.
      */
-    take(amount: number): IEnumerable<TSource>,
+    take(amount: number): IEnumerable<TSource>
     /**
      * Returns elements from a sequence as long as a specified condition is true.
      * The element's index is used in the logic of the predicate function.
@@ -607,7 +608,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns An IEnumerable<T> that contains elements from the input sequence
      * that occur before the element at which the test no longer passes.
      */
-    takeWhile(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>,
+    takeWhile(predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource>
     /**
      * Returns elements from a sequence as long as a specified condition is true.
      * The element's index is used in the logic of the predicate function.
@@ -616,12 +617,12 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
      * that occur before the element at which the test no longer passes.
      */
-    takeWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>,
+    takeWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
     /**
-     * Creates an array from a Iterable<T>.
+     * Creates an array from a IEnumerable<T>.
      * @returns An array of elements
      */
-    toArray(): TSource[],
+    toArray(): TSource[]
     /**
      * Converts an Iterable<V> to a Map<K, V[]>.
      * @param selector A function to serve as a key selector.
@@ -635,7 +636,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>,
     /**
-     * Converts the Itertion to a Set
+     * Converts the iteration to a Set
      * @returns Set containing the iteration values
      */
     toSet(): Set<TSource>,
