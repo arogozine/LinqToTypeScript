@@ -42,8 +42,8 @@
     "tslib": ">=1.10.0"
   },
   "devDependencies": {
-    "tslib": "^1.10.0",
-    "typescript": "^3.8.3"
+    "tslib": "^1.14.1",
+    "typescript": "^3.9.7"
   },
   "engines": {
     "node": ">=10.17.0"
