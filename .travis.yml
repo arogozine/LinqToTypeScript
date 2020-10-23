@@ -11,12 +11,12 @@ node_js:
 sudo: false
 
 before_script:
-  - npm install -g typescript jest rollup
+  - npm install -g typescript jest
 
 script:
   - npm install
   - npm run build
-  - npm run test
+  - npm run lint
   - cd test
   - npm install
   - npm run test

@@ -20,7 +20,7 @@ steps:
     versionSpec: $(node_version)
 
 - script: |
-    npm install -g typescript jest rollup
+    npm install -g typescript jest
   displayName: 'Install Globals'
 - script: |
     npm install
