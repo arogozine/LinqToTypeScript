@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "build": "npm run build:main && npm run build:esnext",
-    "build:main": "tsc --module commonjs --target es2017 --outDir dist --declaration",
+    "build:main": "tsc --module commonjs --target es2018 --outDir dist --declaration",
     "build:esnext": "tsc -t esnext --outDir dist/esnext",
     "postbuild": "node config/copy",
     "lint": "eslint -c .eslintrc.js --ext .ts src",
