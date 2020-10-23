@@ -1,14 +1,22 @@
 language: node_js
+
+os:
+  - linux
+  - osx
+
 node_js:
-  - '11.10.1'
-  - '10'
+  - 'node'
+  - 'lts/*'
+
 sudo: false
+
 before_script:
   - npm install -g typescript jest rollup
+
 script:
   - npm install
   - npm run build
-  - tslint -p ./
+  - npm run test
   - cd test
   - npm install
   - npm run test
@@ -19,8 +27,10 @@ script:
   - cd ../reacttest
   - npm install
   - npm run build
+
 cache:
   directories:
    - "node_modules"
+
 git:
   depth: 1
