@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 3.6.X and ES 2017**
+- **Targets TypeScript 3.9.X and ES 2017**
 ```TypeScript
 await from([bing, google, quackQuackGo])
     .asParallel()
@@ -13,12 +13,12 @@ await from([bing, google, quackQuackGo])
 |[![][master-build-azure-badge]][master-build-azure-url]|[![][indev-build-azure-badge]][indev-build-azure-url]|
 |[![][master-build-badge]][master-build-url]|[![][indev-build-badge]][indev-build-url]|
 
-[master-build-url]: https://travis-ci.org/arogozine/LinqToTypeScript
-[master-build-badge]: https://travis-ci.org/arogozine/LinqToTypeScript.svg?branch=master
+[master-build-url]: https://travis-ci.com/arogozine/LinqToTypeScript
+[master-build-badge]: https://travis-ci.com/arogozine/LinqToTypeScript.svg?branch=master
 [master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=master
 [master-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=master
-[indev-build-url]: https://travis-ci.org/arogozine/LinqToTypeScript
-[indev-build-badge]: https://travis-ci.org/arogozine/LinqToTypeScript.svg?branch=InDev
+[indev-build-url]: https://travis-ci.com/arogozine/LinqToTypeScript
+[indev-build-badge]: https://travis-ci.com/arogozine/LinqToTypeScript.svg?branch=InDev
 [indev-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=InDev
 [indev-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=InDev
 ## Getting Started
