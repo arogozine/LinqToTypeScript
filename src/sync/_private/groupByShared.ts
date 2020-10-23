@@ -10,7 +10,7 @@ import { Grouping } from "../Grouping"
  * @param source Iteration
  * @param keySelector Key Selector
  * @param comparer Key Comparer
- * @private Don't Use Directly
+ * @private
  */
 export const groupBy_0 = <TSource, TKey>(
     source: Iterable<TSource>,
@@ -47,7 +47,7 @@ export const groupBy_0 = <TSource, TKey>(
 }
 
 /**
- * @private Don't Use Directly
+ * @private
  */
 export const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
     source: Iterable<TSource>,
@@ -72,12 +72,10 @@ export const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
             yield keyMap[value]
         }
     }
-
-//    return new BasicEnumerable(iterator)
 }
 
 /**
- * @private Don't Use Directly
+ * @private
  */
 export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
     source: Iterable<TSource>,
@@ -110,7 +108,7 @@ export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement
 }
 
 /**
- * @private Don't Use Directly
+ * @private
  */
 export function groupBy_1<TSource, TKey, TElement>(
     source: Iterable<TSource>,

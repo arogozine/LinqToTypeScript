@@ -162,7 +162,7 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     /**
      * Converts the async or parallel iteration to a Map<TKey, TSource[]>.
      * @param selector A function to serve as a key selector.
-     * @return A promise for Map<TKey, TSource[]>
+     * @returns A promise for Map<TKey, TSource[]>
      */
     toMap<TKey>(selector: (x: TSource) => TKey): Promise<Map<TKey, TSource[]>>
     /**

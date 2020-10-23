@@ -190,7 +190,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * Sorts the elements of a sequence in descending order by using a specified or default comparer.
      * @param keySelector A function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys. Optional.
-     * @return An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
+     * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
      */
     orderByDescending<TKey>(
         predicate: (x: TSource) => TKey,
@@ -199,7 +199,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * Sorts the elements of a sequence in descending order by using a specified comparer.
      * @param keySelector An async function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys.
-     * @return An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
+     * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
      */
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,

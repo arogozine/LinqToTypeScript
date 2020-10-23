@@ -16,6 +16,7 @@ export function any<TSource>(
 }
 
 const any1 = <TSource>(source: Iterable<TSource>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _ of source) {
         return true
     }

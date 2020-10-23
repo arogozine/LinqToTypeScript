@@ -6,6 +6,7 @@ import { IEqualityComparer } from "../../types"
  * @param first first iterable
  * @param second second iterable
  * @param comparer Compare function to use, by default is @see {StrictEqualityComparer}
+ * @returns Whether or not the two iterables are equal
  */
 export function sequenceEquals<TSource>(
     first: Iterable<TSource>,

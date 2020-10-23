@@ -6,7 +6,7 @@ import { OrderedAsyncEnumerable } from "../OrderedAsyncEnumerable"
  * @param source A sequence of values to order.
  * @param keySelector A function to extract a key from an element.
  * @param comparer An IComparer<T> to compare keys. Optional.
- * @return An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
+ * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
  */
 export function orderByDescending<TSource, TKey>(
     source: IAsyncEnumerable<TSource>,

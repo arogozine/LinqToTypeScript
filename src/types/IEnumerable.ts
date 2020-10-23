@@ -419,7 +419,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Sorts the elements of a sequence in descending order by using a specified or default comparer.
      * @param keySelector A function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys. Optional.
-     * @return An IOrderedEnumerable<TElement> whose elements are sorted in descending order according to a key.
+     * @returns An IOrderedEnumerable<TElement> whose elements are sorted in descending order according to a key.
      */
     orderByDescending<TKey>(
         predicate: (x: TSource) => TKey,
@@ -428,7 +428,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Sorts the elements of a sequence in descending order by using a specified comparer.
      * @param keySelector An async function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys.
-     * @return An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
+     * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
      */
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
@@ -626,7 +626,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Converts an Iterable<V> to a Map<K, V[]>.
      * @param selector A function to serve as a key selector.
-     * @return Map<K, V[]>
+     * @returns Map<K, V[]>
      */
     toMap<TKey>(selector: (x: TSource) => TKey): Map<TKey, TSource[]>
     /**

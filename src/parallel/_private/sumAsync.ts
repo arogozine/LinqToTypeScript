@@ -5,6 +5,7 @@ import { IAsyncParallel } from "../../types"
  * on each element of the input sequence.
  * @param source A sequence of values that are used to calculate a sum.
  * @param selector A transform function to apply to each element.
+ * @returns Sum of the sequence
  */
 export async function sumAsync<TSource>(
     source: IAsyncParallel<TSource>,

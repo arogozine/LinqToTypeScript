@@ -6,6 +6,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * Generates a sequence that contains one repeated value.
  * @param element The value to be repeated.
  * @param count The number of times to repeat the value in the generated sequence.
+ * @param delay Miliseconds for Timeout
  * @returns An IParallelEnumerable<T> that contains a repeated value.
  */
 export function repeat<TResult>(

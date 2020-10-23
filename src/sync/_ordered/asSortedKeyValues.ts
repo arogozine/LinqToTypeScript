@@ -7,7 +7,6 @@ import { asKeyMap } from "./asKeyMap"
  * @param keySelector Key Selector
  * @param ascending Ascending or Descending Sort
  * @param comparer Key Comparer for Sorting. Optional.
- * @returns Iterable Iterator
  */
 export function *asSortedKeyValues<TSource, TKey>(
     source: Iterable<TSource>,

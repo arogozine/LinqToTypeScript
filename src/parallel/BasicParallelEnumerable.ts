@@ -1,6 +1,6 @@
 import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../types"
 
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface */
 
 /**
  * Base implementation of IParallelEnumerable<T>
@@ -14,9 +14,8 @@ export class BasicParallelEnumerable<TSource> {
     }
 
     public [Symbol.asyncIterator](): AsyncIterableIterator<TSource> {
-        const thisOuter = this
+        const { dataFunc } = this
         async function *iterator() {
-            const dataFunc = thisOuter.dataFunc
             switch (dataFunc.type) {
                 case ParallelGeneratorType.ArrayOfPromises:
                     for (const value of dataFunc.generator()) {
