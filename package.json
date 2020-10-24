@@ -20,7 +20,8 @@
     "lint": "eslint -c .eslintrc.js --ext .ts src",
     "doc": "typedoc ./src --exclude \"**/_*/*.ts\" --out ./doc --excludePrivate --excludeNotExported --readme none --name \"LINQ To TypeScript\"",
     "release:npm": "npm publish dist",
-    "release:preflight": "npm pack ./dist --dry-run"
+    "release:npm-next": "npm publish dist --tag next",
+    "release:pack": "npm pack ./dist"
   },
   "repository": {
     "type": "git",
