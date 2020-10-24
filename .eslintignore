@@ -1,0 +1,7 @@
+**/*.js
+config/*
+nodetest/*
+test/*
+reacttest/*
+dist/*
+doc/*
