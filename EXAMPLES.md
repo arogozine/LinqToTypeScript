@@ -9,7 +9,7 @@ import { from } from "linq-to-typescript"
 import * as url from "url"
 import * as https from "https"
 
-const downloadFile = (url: url.Url) => {
+const downloadFile = (url: url.URL) => {
     return new Promise<string>((resolve) => {
         let content = ``
         https.get(url, (res) => {
@@ -54,7 +54,7 @@ console.log(primeNumbers)
 ## Misc Examples (binding LINQ to Array)
 
 ```TypeScript
-import { EqualityComparer, enumerateObject, flatten, initializeLinq } from "linq-to-typescript"
+import { IEnumerable, ArrayEnumerable, EqualityComparer, enumerateObject, flatten, initializeLinq } from "linq-to-typescript"
 
 initializeLinq()
 
