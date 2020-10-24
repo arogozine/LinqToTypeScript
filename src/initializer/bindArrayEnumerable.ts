@@ -62,9 +62,7 @@ import { whereAsync } from "../sync/_private/whereAsync"
 import { zip } from "../sync/_private/zip"
 import { zipAsync } from "../sync/_private/zipAsync"
 
-import { ArgumentOutOfRangeException } from "../shared/ArgumentOutOfRangeException"
-import { ErrorString } from "../shared/ErrorString"
-import { InvalidOperationException } from "../shared/InvalidOperationException"
+import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
 import { BasicEnumerable } from "../sync/BasicEnumerable"
 

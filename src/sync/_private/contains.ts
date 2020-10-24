@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
+import { StrictEqualityComparer } from "../../shared"
 import { IEqualityComparer } from "../../types/IEqualityComparer"
 
 /**

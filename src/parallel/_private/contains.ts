@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
+import { StrictEqualityComparer } from "../../shared"
 import { IEqualityComparer, IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
 import { nextIteration } from "./_nextIteration"
 
@@ -7,6 +7,7 @@ import { nextIteration } from "./_nextIteration"
  * @param source A sequence in which to locate a value.
  * @param value The value to locate in the sequence.
  * @param comparer An equality comparer to compare values. Optional.
+ * @returns Whether or not source contains the specified value
  */
 export async function contains<TSource>(
     source: IParallelEnumerable<TSource>,

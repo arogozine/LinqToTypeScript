@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
+import { StrictEqualityComparer } from "../../shared"
 import { IEnumerable, IEqualityComparer, SelectorKeyType } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 import { groupBy_0, groupBy_0_Simple } from "./groupByShared"

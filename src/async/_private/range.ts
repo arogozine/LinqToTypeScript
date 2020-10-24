@@ -1,4 +1,4 @@
-import { ArgumentOutOfRangeException } from "../../shared/ArgumentOutOfRangeException"
+import { ArgumentOutOfRangeException } from "../../shared"
 import { IAsyncEnumerable } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 

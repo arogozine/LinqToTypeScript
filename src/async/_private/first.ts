@@ -1,5 +1,4 @@
-import { ErrorString } from "../../shared/ErrorString"
-import { InvalidOperationException } from "../../shared/InvalidOperationException"
+import { ErrorString, InvalidOperationException } from "../../shared"
 
 /**
  * Returns the first element of a sequence.

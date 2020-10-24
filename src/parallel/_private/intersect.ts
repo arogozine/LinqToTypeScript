@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
+import { StrictEqualityComparer } from "../../shared"
 import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 

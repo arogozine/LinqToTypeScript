@@ -1,4 +1,4 @@
-import { StrictEqualityComparer } from "../../shared/StrictEqualityComparer"
+import { StrictEqualityComparer } from "../../shared"
 import { IEqualityComparer } from "../../types"
 
 /**
@@ -6,6 +6,7 @@ import { IEqualityComparer } from "../../types"
  * @param source A sequence in which to locate a value.
  * @param value The value to locate in the sequence.
  * @param comparer An equality comparer to compare values. Optional.
+ * @returns Whether a sequence contains a specified element
  */
 export async function contains<TSource>(
     source: AsyncIterable<TSource>,

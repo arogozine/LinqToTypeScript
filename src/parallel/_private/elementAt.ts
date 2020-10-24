@@ -1,4 +1,4 @@
-import { ArgumentOutOfRangeException } from "../../shared/ArgumentOutOfRangeException"
+import { ArgumentOutOfRangeException } from "../../shared"
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 /**

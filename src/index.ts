@@ -20,7 +20,7 @@
 export * from "./types"
 
 // Types and Stuff
-export * from "./shared/shared"
+export * from "./shared"
 export * from "./sync/Enumerable"
 export { ArrayEnumerable } from "./sync/ArrayEnumerable"
 export * from "./initializer/initializer"

@@ -23,7 +23,7 @@ export * from "./../initializer/initializer"
 export * from "./../types"
 
 // Shared Functions and Classes
-export * from "./../shared/shared"
+export * from "../shared"
 
 // Parallel Specific
 export * from "./ParallelEnumerable"

@@ -1,4 +1,4 @@
-import { ArgumentOutOfRangeException } from "../../shared/ArgumentOutOfRangeException"
+import { ArgumentOutOfRangeException } from "../../shared"
 
 /**
  * Returns the element at a specified index in a sequence.
@@ -6,6 +6,7 @@ import { ArgumentOutOfRangeException } from "../../shared/ArgumentOutOfRangeExce
  * @param index The zero-based index of the element to retrieve.
  * @throws {ArgumentOutOfRangeException}
  * index is less than 0 or greater than or equal to the number of elements in source.
+ * @returns Element at the specified index in the sequence.
  */
 export async function elementAt<TSource>(source: AsyncIterable<TSource>, index: number): Promise<TSource> {
     if (index < 0) {

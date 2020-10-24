@@ -1,4 +1,4 @@
-import { ArgumentOutOfRangeException } from "../../shared/ArgumentOutOfRangeException"
+import { ArgumentOutOfRangeException } from "../../shared"
 
 /**
  * Returns the element at a specified index in a sequence.
