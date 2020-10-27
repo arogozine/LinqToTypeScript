@@ -1,11 +1,6 @@
+// This file only purpose is to copy files before npm publish and strip churn/security sensitive metadata from package.json
 // https://raw.githubusercontent.com/Hotell/typescript-lib-starter/master/scripts/copy.js
 
-/**
- * This file only purpose is to copy files before npm publish and strip churn/security sensitive metadata from package.json
- *
- * **NOTE:**
- * 👉 This file should not use any 3rd party dependency
- */
 const { writeFileSync, copyFileSync, statSync } = require('fs')
 const { resolve, basename } = require('path')
 const packageJson = require('../package.json')
