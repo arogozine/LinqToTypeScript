@@ -27,6 +27,9 @@ script:
   - cd ../reacttest
   - npm install
   - npm run build
+  - cd ../examples
+  - npm i
+  - npm run test
 
 cache:
   directories:
