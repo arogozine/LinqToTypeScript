@@ -1,0 +1,18 @@
+{
+  "name": "examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "linq-to-typescript": "file:../dist",
+    "tslib": "^1.14.1"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  }
+}

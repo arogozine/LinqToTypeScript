@@ -46,6 +46,7 @@ test/*.js.map
 nodetest/*.js
 src/*.js
 src/*.js.map
+examples/*.js
 !test/jest.config.js
 
 dist
