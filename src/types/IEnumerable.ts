@@ -76,7 +76,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     asParallel(): IParallelEnumerable<TSource>
     /**
      * Computes the average of a sequence of number values.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The average of the sequence of values.
      */
     average(this: IEnumerable<number>): number
@@ -84,7 +84,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Computes the average of a sequence of values
      * that are obtained by invoking a transform function on each element of the input sequence.
      * @param selector A transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The average of the sequence of values.
      */
     average(selector: (x: TSource) => number): number
@@ -92,7 +92,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Computes the average of a sequence of values
      * that are obtained by invoking a transform function on each element of the input sequence.
      * @param selector An async transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The average of the sequence of values.
      */
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>
@@ -114,7 +114,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Determines whether a sequence contains a specified element
      * by using the specified or default IEqualityComparer<T>.
      * @param value The value to locate in the sequence.
-     * @param comparer An equality comparer to compare values. Optional.
+     * @param comparer An async equality comparer to compare values.
      * @returns true if the source sequence contains an element that has the specified value; otherwise, false.
      */
     containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>
@@ -149,7 +149,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Returns the element at a specified index in a sequence.
      * @param index The zero-based index of the element to retrieve.
-     * @throws {ArgumentOutOfRangeException}
+     * @throws {import('../types/ArgumentOutOfRangeException')}
      * index is less than 0 or greater than or equal to the number of elements in source.
      * @returns The element at the specified position in the source sequence.
      */
@@ -183,7 +183,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Returns first element in sequence that satisfies predicate otherwise
      * returns the first element in the sequence.
      * @param predicate A function to test each element for a condition. Optional.
-     * @throws {InvalidOperationException} No elements in Iteration matching predicate
+     * @throws {import('../types/InvalidOperationException')} No elements in Iteration matching predicate
      * @returns The first element in the sequence
      * or the first element that passes the test in the specified predicate function.
      */
@@ -191,7 +191,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Returns the first element in a sequence that satisfies a specified condition.
      * @param predicate A function to test each element for a condition.
-     * @throws {InvalidOperationException} No elements in Iteration matching predicate
+     * @throws {import('../types/InvalidOperationException')} No elements in Iteration matching predicate
      * @returns The first element in the sequence that passes the test in the specified predicate function.
      */
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
@@ -323,7 +323,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Returns the last element of a sequence.
      * If predicate is specified, the last element of a sequence that satisfies a specified condition.
      * @param predicate A function to test each element for a condition. Optional.
-     * @throws {InvalidOperationException} The source sequence is empty.
+     * @throws {import('../types/InvalidOperationException')} The source sequence is empty.
      * @returns The value at the last position in the source sequence
      * or the last element in the sequence that passes the test in the specified predicate function.
      */
@@ -331,7 +331,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Returns the last element of a sequence that satisfies a specified condition.
      * @param predicate A function to test each element for a condition.
-     * @throws {InvalidOperationException} The source sequence is empty.
+     * @throws {import('../types/InvalidOperationException')} The source sequence is empty.
      * @returns The last element in the sequence that passes the test in the specified predicate function.
      */
     lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
@@ -352,41 +352,41 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**
      * Returns the maximum value in a sequence of values.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The maximum value in the sequence.
      */
     max(this: IEnumerable<number>): number
     /**
      * Invokes a transform function on each element of a sequence and returns the maximum value.
      * @param selector A transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The maximum value in the sequence.
      */
     max(selector: (x: TSource) => number): number
     /**
      * Invokes an async transform function on each element of a sequence and returns the maximum value.
      * @param selector A transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The maximum value in the sequence.
      */
     maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
      * Returns the minimum value in a sequence of values.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The minimum value in the sequence.
      */
     min(this: IEnumerable<number>): number
     /**
      * Invokes a transform function on each element of a sequence and returns the minimum value.
      * @param selector A transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The minimum value in the sequence.
      */
     min(selector: (x: TSource) => number): number
     /**
      * Invokes a transform function on each element of a sequence and returns the minimum value.
      * @param selector A transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The minimum value in the sequence.
      */
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>
@@ -512,7 +512,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Returns the only element of a sequence that satisfies a specified condition (if specified),
      * and throws an exception if more than one such element exists.
      * @param predicate A function to test an element for a condition. (Optional)
-     * @throws {InvalidOperationException} No element satisfies the condition in predicate. OR
+     * @throws {import('../types/InvalidOperationException')} No element satisfies the condition in predicate. OR
      * More than one element satisfies the condition in predicate. OR
      * The source sequence is empty.
      * @returns The single element of the input sequence that satisfies a condition.
@@ -522,7 +522,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
       * Returns the only element of a sequence that satisfies a specified condition,
       * and throws an exception if more than one such element exists.
       * @param predicate A function to test an element for a condition.
-      * @throws {InvalidOperationException}
+      * @throws {import('../types/InvalidOperationException')}
       * No element satisfies the condition in predicate. OR
       * More than one element satisfies the condition in predicate. OR
       * The source sequence is empty.
@@ -533,7 +533,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * If predicate is specified returns the only element of a sequence that satisfies a specified condition,
      * ootherwise returns the only element of a sequence. Returns a default value if no such element exists.
      * @param predicate A function to test an element for a condition. Optional.
-     * @throws {InvalidOperationException}
+     * @throws {import('../types/InvalidOperationException')}
      * If predicate is specified more than one element satisfies the condition in predicate,
      * otherwise the input sequence contains more than one element.
      * @returns The single element of the input sequence that satisfies the condition,
@@ -544,7 +544,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Returns the only element of a sequence that satisfies a specified condition.
      * Returns a default value if no such element exists.
      * @param predicate A function to test an element for a condition. Optional.
-     * @throws {InvalidOperationException}
+     * @throws {import('../types/InvalidOperationException')}
      * If predicate is specified more than one element satisfies the condition in predicate,
      * otherwise the input sequence contains more than one element.
      * @returns The single element of the input sequence that satisfies the condition,

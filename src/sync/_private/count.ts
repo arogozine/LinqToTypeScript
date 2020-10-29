@@ -18,6 +18,7 @@ const count1 = <T>(source: Iterable<T>): number => {
     // eslint-disable-next-line no-shadow
     let count = 0
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _ of source) {
         count++
     }

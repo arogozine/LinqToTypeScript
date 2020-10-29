@@ -17,6 +17,7 @@ export function count<TSource>(source: AsyncIterable<TSource>, predicate?: (x: T
 const count1 = async <T>(source: AsyncIterable<T>) => {
     let total = 0
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for await (const _ of source) {
         total++
     }

@@ -4,8 +4,29 @@ import { IAsyncEqualityComparer, IEqualityComparer } from "./"
  * Common Methods between IAsyncEnumerable and IParallelEnumerable
  */
 export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
+    /**
+     * Applies an accumulator function over a sequence.
+     * @param func An accumulator function to be invoked on each element.
+     * @returns The final accumulator value.
+     */
     aggregate(func: (x: TSource, y: TSource) => TSource): Promise<TSource>
+    /**
+     * Applies an accumulator function over a sequence.
+     * The specified seed value is used as the initial accumulator value.
+     * @param seed The initial accumulator value.
+     * @param func An accumulator function to be invoked on each element.
+     * @returns The final accumulator value.
+     */
     aggregate<TAccumulate>(seed: TAccumulate, func: (x: TAccumulate, y: TSource) => TAccumulate): Promise<TAccumulate>
+    /**
+     * Applies an accumulator function over a sequence.
+     * The specified seed value is used as the initial accumulator value,
+     * and the specified function is used to select the result value.
+     * @param seed The initial accumulator value.
+     * @param func An accumulator function to be invoked on each element.
+     * @param resultSelector A function to transform the final accumulator value into the result value.
+     * @returns The transformed final accumulator value.
+     */
     aggregate<TAccumulate, TResult>(
             seed: TAccumulate,
             func: (x: TAccumulate, y: TSource) => TAccumulate,
@@ -39,7 +60,7 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>
     /**
      * Computes the average of a sequence of number values.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The average of the sequence of values.
      */
     average(this: IAsyncParallel<number>): Promise<number>
@@ -47,7 +68,7 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
      * Computes the average of a sequence of values
      * that are obtained by invoking a transform function on each element of the input sequence.
      * @param selector A transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The average of the sequence of values.
      */
     average(selector: (x: TSource) => number): Promise<number>
@@ -55,84 +76,141 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
      * Computes the average of a sequence of values
      * that are obtained by invoking a transform function on each element of the input sequence.
      * @param selector An async transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
      * @returns The average of the sequence of values.
      */
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>
+    /**
+     * Determines whether a sequence contains a specified element by
+     * using the specified or default IEqualityComparer<T>.
+     * @param value The value to locate in the sequence.
+     * @param comparer An equality comparer to compare values. Optional.
+     * @returns true if the source sequence contains an element that has the specified value; otherwise, false.
+     */
     contains(value: TSource, comparer?: IEqualityComparer<TSource>): Promise<boolean>
+    /**
+     * Determines whether a sequence contains a specified element
+     * by using the specified or default IEqualityComparer<T>.
+     * @param value The value to locate in the sequence.
+     * @param comparer An async equality comparer to compare values.
+     * @returns true if the source sequence contains an element that has the specified value; otherwise, false.
+     */
     containsAsync(value: TSource, comparer: IAsyncEqualityComparer<TSource>): Promise<boolean>
+    /**
+     * Returns the number of elements in a sequence
+     * or represents how many elements in the specified sequence satisfy a condition
+     * if the predicate is specified.
+     * @param predicate A function to test each element for a condition. Optional.
+     * @returns The number of elements in the input sequence.
+     */
     count(predicate?: (x: TSource) => boolean): Promise<number>
+    /**
+     * Returns the number of elements in a sequence
+     * or represents how many elements in the specified sequence satisfy a condition
+     * if the predicate is specified.
+     * @param predicate A function to test each element for a condition.
+     * @returns The number of elements in the input sequence.
+     */
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>
     /**
-     * @throws {ArgumentOutOfRangeException}
+     * Returns the element at a specified index in a sequence.
+     * @param index The zero-based index of the element to retrieve.
+     * @throws {import('../types/ArgumentOutOfRangeException')}
+     * index is less than 0 or greater than or equal to the number of elements in source.
+     * @returns The element at the specified position in the source sequence.
      */
     elementAt(index: number): Promise<TSource>
+    /**
+     * Returns the element at a specified index in a sequence or a default value if the index is out of range.
+     * @param index The zero-based index of the element to retrieve.
+     * @returns
+     * null if the index is outside the bounds of the source sequence;
+     * otherwise, the element at the specified position in the source sequence.
+     */
     elementAtOrDefault(index: number): Promise<TSource | null>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
-     * @throws {InvalidOperationException} Sequence contains no matching elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no matching elements
      */
     first(predicate?: (x: TSource) => boolean): Promise<TSource>
     /**
-     * @throws {InvalidOperationException} Sequence contains no matching elements
+     * Returns the first element in a sequence that satisfies a specified condition.
+     * @param predicate A function to test each element for a condition.
+     * @throws {import('../types/InvalidOperationException')} No elements in Iteration matching predicate
+     * @returns The first element in the sequence that passes the test in the specified predicate function.
      */
     firstAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
+    /**
+     * Returns first element in sequence that satisfies predicate otherwise
+     * returns the first element in the sequence. Returns null if no value found.
+     * @param predicate A function to test each element for a condition. Optional.
+     * @returns The first element in the sequence
+     * or the first element that passes the test in the specified predicate function.
+     * Returns null if no value found.
+     */
     firstOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>
+    /**
+     * Returns the first element of the sequence that satisfies a condition or a default value
+     * if no such element is found.
+     * @param predicate An async function to test each element for a condition.
+     * @returns null if source is empty or if no element passes the test specified by predicate;
+     * otherwise, the first element in source that passes the test specified by predicate.
+     */
     firstOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
-     * @throws {InvalidOperationException} Sequence contains no matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no matching element
      */
     last(predicate?: (x: TSource) => boolean): Promise<TSource>
     /**
-     * @throws {InvalidOperationException} Sequence contains no matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no matching element
      */
     lastAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
     lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>
     lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      * @param this Async Iteration of Numbers
      */
     max(this: IAsyncParallel<number>): Promise<number>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     max(selector: (x: TSource) => number): Promise<number>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     min(this: IAsyncParallel<number>): Promise<number>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     min(selector: (x: TSource) => number): Promise<number>
     /**
-     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
-     * @throws {InvalidOperationException} Sequence contains more than one element
-     * @throws {InvalidOperationException} Sequence contains more than one matching element
-     * @throws {InvalidOperationException} Sequence contains no matching element
-     * @throws {InvalidOperationException} Sequence contains no elements
+     * @throws {import('../types/InvalidOperationException')} Sequence contains more than one element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains more than one matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     single(predicate?: (x: TSource) => boolean): Promise<TSource>
     /**
-     * @throws {InvalidOperationException} Sequence contains more than one matching element
-     * @throws {InvalidOperationException} Sequence contains no matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains more than one matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains no matching element
      */
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
     /**
-     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains more than one matching element
      */
     singleOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>
     /**
-     * @throws {InvalidOperationException} Sequence contains more than one matching element
+     * @throws {import('../types/InvalidOperationException')} Sequence contains more than one matching element
      */
     singleOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**

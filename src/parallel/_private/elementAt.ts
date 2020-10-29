@@ -7,6 +7,7 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @param index The zero-based index of the element to retrieve.
  * @throws {ArgumentOutOfRangeException}
  * index is less than 0 or greater than or equal to the number of elements in source.
+ * @returns The element at the specified index in the sequence.
  */
 export async function elementAt<TSource>(
     source: IParallelEnumerable<TSource>,

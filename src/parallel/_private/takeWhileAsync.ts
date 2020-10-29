@@ -7,7 +7,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param source The sequence to return elements from.
  * @param predicate An async function to test each source element for a condition;
  * the second parameter of the function represents the index of the source element.
- * @return An IParallelEnumerable<T> that contains elements
+ * @returns An IParallelEnumerable<T> that contains elements
  * from the input sequence that occur before the element at which the test no longer passes.
  */
 export function takeWhileAsync<TSource>(
