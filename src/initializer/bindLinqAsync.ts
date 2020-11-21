@@ -8,7 +8,7 @@ import { anyAsync } from "./../async/_private/anyAsync"
 import { asParallel } from "./../async/_private/asParallel"
 import { average } from "./../async/_private/average"
 import { averageAsync } from "./../async/_private/averageAsync"
-import { concat } from "../async/_private/concatenate"
+import { concatenate } from "../async/_private/concatenate"
 import { contains } from "./../async/_private/contains"
 import { containsAsync } from "./../async/_private/containsAsync"
 import { count } from "./../async/_private/count"
@@ -125,7 +125,7 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(asParallel, "asParallel")
     bind(average, "average")
     bind(averageAsync, "averageAsync")
-    bind(concat, "concat")
+    bind(concatenate, "concat")
     prototype.contains = function(value: T, comparer?: IEqualityComparer<T>) {
         return contains(this, value, comparer)
     }

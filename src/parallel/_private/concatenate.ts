@@ -7,7 +7,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param second The sequence to concatenate to the first sequence.
  * @returns An IParallelEnumerable<T> that contains the concatenated elements of the two input sequences.
  */
-export function concat<TSource>(
+export function concatenate<TSource>(
     // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>, second: IAsyncParallel<TSource>): IParallelEnumerable<TSource> {
     const generator = async () => {

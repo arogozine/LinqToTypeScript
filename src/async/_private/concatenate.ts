@@ -7,7 +7,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param second The sequence to concatenate to the first sequence.
  * @returns An IAsyncEnumerable<T> that contains the concatenated elements of the two input sequences.
  */
-export function concat<TSource>(
+export function concatenate<TSource>(
     first: AsyncIterable<TSource>, second: AsyncIterable<TSource>): IAsyncEnumerable<TSource> {
     async function* iterator() {
         yield* first
