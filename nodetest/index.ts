@@ -8,7 +8,7 @@ const primeNumbers = range(2, 10000)
     .toArray()
 
 async function asyncIterable() {
-    for await (const i of  range(0, 10).selectAsync(async (x) => x * 2)) {
+    for await (const i of range(0, 10).selectAsync(async (x) => x * 2)) {
         console.log(i)
     }
 }

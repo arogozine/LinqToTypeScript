@@ -32,10 +32,10 @@ npm i linq-to-typescript
 ### tsconfig.json
 ```JSON
 "compilerOptions": {
-    "target": "es2017",
+    "target": "es2018",
     "lib": [
       "dom",
-      "es2017"
+      "es2018"
     ],
     "importHelpers": true
 }

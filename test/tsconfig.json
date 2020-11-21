@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "moduleResolution": "node",
-        "target": "es2017",
+        "target": "es2018",
         "module": "esnext", 
         "esModuleInterop": true,
         "removeComments": true,
@@ -16,8 +16,7 @@
         "declaration": true,
         "lib": [      
             "dom",
-            "es2017",
-            "esnext.asynciterable"
+            "es2018"
         ],
         "importHelpers": true,
     }
