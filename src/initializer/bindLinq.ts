@@ -126,7 +126,7 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(asParallel, "asParallel")
     bind(average, "average")
     bind(averageAsync, "averageAsync")
-    bind(concatenate, "concat")
+    bind(concatenate, "concatenate")
     prototype.contains = function(value: T, comparer?: IEqualityComparer<T>) {
         return contains(this, value, comparer)
     }

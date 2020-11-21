@@ -15,7 +15,4 @@ export class ArrayEnumerable<TSource> extends Array<TSource> {
  */
 export interface ArrayEnumerable<TSource> extends IEnumerable<TSource> {
     reverse(): ArrayEnumerable<TSource>
-    concat(items: IEnumerable<TSource>): IEnumerable<TSource>
-    concat(...items: ConcatArray<TSource>[]): ArrayEnumerable<TSource>
-    concat(...items: (TSource | ConcatArray<TSource>)[]): ArrayEnumerable<TSource>
 }

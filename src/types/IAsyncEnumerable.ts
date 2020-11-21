@@ -23,7 +23,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * @param second The sequence to concatenate to the first sequence.
      * @returns An IAsyncEnumerable<T> that contains the concatenated elements of the two sequences.
      */
-    concat(second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
+    concatenate(second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
     /**
      * Returns distinct elements from a sequence by using the default
      * or specified equality comparer to compare values.

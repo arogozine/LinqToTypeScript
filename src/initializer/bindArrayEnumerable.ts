@@ -7,6 +7,7 @@ import { asAsync } from "../sync/_private/asAsync"
 import { asParallel } from "../sync/_private/asParallel"
 import { average } from "../sync/_private/average"
 import { averageAsync } from "../sync/_private/averageAsync"
+import { concatenate } from "../sync/_private/concatenate"
 import { contains } from "../sync/_private/contains"
 import { containsAsync } from "../sync/_private/containsAsync"
 import { countAsync } from "../sync/_private/countAsync"
@@ -64,7 +65,6 @@ import { zipAsync } from "../sync/_private/zipAsync"
 
 import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
-import { BasicEnumerable } from "../sync/BasicEnumerable"
 
 /* eslint-disable */
 
@@ -125,31 +125,7 @@ export const bindArrayEnumerable = <T>() => {
     bind(asParallel, "asParallel")
     bind(average, "average")
     bind(averageAsync, "averageAsync")
-    prototype.concat = function(this: ArrayEnumerable<T>) {
-        let items: any
-        if (arguments.length === 1) {
-            items = arguments[0]
-        } else {
-            items = [...arguments]
-        }
-
-        if (items instanceof BasicEnumerable) {
-            // this scoping
-            const enumerable = this
-            const iterator = function *() {
-                for (const x of enumerable) {
-                    yield x
-                }
-                for (const x of items) {
-                    yield x
-                }
-            }
-
-            return new BasicEnumerable(iterator)
-        } else {
-            return Array.prototype.concat.apply(this, [items])
-        }
-    } as any // TODO
+    bind(concatenate, "concatenate")
     prototype.contains = function(value: T, comparer?: IEqualityComparer<T>) {
         return contains(this, value, comparer)
     }

@@ -22,7 +22,12 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     readonly dataFunc: TypedData<TSource>
 
     asAsync(): IAsyncEnumerable<TSource>
-    concat(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>
+    /**
+     * Concatenates two async sequences.
+     * @param second The async sequence to concatenate to the first sequence.
+     * @returns An IParallelEnumerable<T> that contains the concatenated elements of the two sequences.
+     */
+    concatenate(second: IAsyncParallel<TSource>): IParallelEnumerable<TSource>
     distinct(comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>
     distinctAsync(comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>
     each(action: (x: TSource) => void): IParallelEnumerable<TSource>

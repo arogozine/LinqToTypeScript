@@ -101,7 +101,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @param second The sequence to concatenate to the first sequence.
      * @returns An IEnumerable<T> that contains the concatenated elements of the two sequences.
      */
-    concat(second: IEnumerable<TSource>): IEnumerable<TSource>
+    concatenate(second: IEnumerable<TSource>): IEnumerable<TSource>
     /**
      * Determines whether a sequence contains a specified element by
      * using the specified or default IEqualityComparer<T>.
