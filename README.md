@@ -58,11 +58,7 @@ const evenNumbers = from([1, 2, 3, 4, 5, 6, 7, 8, 9]).where((x) => x % 2 === 0).
 import { initializeLinq, IEnumerable, ArrayEnumerable } from "linq-to-typescript"
 // 1. Declare that the JS types implement the IEnumerable interface
 declare global {
-    interface Array<T> extends IEnumerable<T> {
-        concat(items: IEnumerable<T>): IEnumerable<T>;
-        concat(...items: Array<ReadonlyArray<T>>): ArrayEnumerable<T>;
-        concat(...items: Array<T | ReadonlyArray<T>>): ArrayEnumerable<T>;    
-    }
+    interface Array<T> extends IEnumerable<T> { }
     interface Uint8Array extends IEnumerable<number> { }
     interface Uint8ClampedArray extends IEnumerable<number> { }
     interface Uint16Array extends IEnumerable<number> { }
@@ -120,7 +116,7 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 | all                | Yes     | [Sync](test/tests/All.ts), [Async](test/tests/AllAsync.ts)
 | any                | Yes     | [Sync](test/tests/Any.ts), [Async](test/tests/AnyAsync.ts)
 | average            | Yes     | [Sync](test/tests/Average.ts), [Async](test/tests/AverageAsync.ts)
-| concat             | No      | [Sync](test/tests/Concat.ts)
+| concatenate        | No      | [Sync](test/tests/Concatenate.ts) | Equivalent to `.Concat` but renamed to avoid conflict with JS
 | contains           | Yes     | [Sync](test/tests/Contains.ts), [Async](test/tests/ContainsAsync.ts)
 | count              | Yes     | [Sync](test/tests/Count.ts), [Async](test/tests/CountAsync.ts)
 | distinct           | Yes     | [Sync](test/tests/Distinct.ts), [Async](test/tests/DistinctAsync.ts)
