@@ -84,41 +84,15 @@ import { zipAsync } from "./../sync/_private/zipAsync"
 export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     const prototype = object.prototype as IEnumerable<T>
 
-    const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, key: keyof IEnumerable<T>, length?: number) => {
-        switch (length || func.length) {
-            case 1:
-                prototype[key] = function(this: IEnumerable<T>) {
-                    return func(this)
-                } as any
-                return
-            case 2:
-                prototype[key] = function(this: IEnumerable<T>, a: any) {
-                    return func(this, a)
-                } as any
-                return
-            case 3:
-                prototype[key] = function(this: IEnumerable<T>, a: any, b: any) {
-                    return func(this, a, b)
-                } as any
-                return
-            case 4:
-                prototype[key] = function(this: IEnumerable<T>, a: any, b: any, c: any) {
-                    return func(this, a, b, c)
-                } as any
-                return
-            case 5:
-                prototype[key] = function(this: IEnumerable<T>, a: any, b: any, c: any, d: any) {
-                    return func(this, a, b, c, d)
-                } as any
-                return
-            case 6:
-                prototype[key] = function(this: IEnumerable<T>, a: any, b: any, c: any, d: any, e: any) {
-                    return func(this, a, b, c, d, e)
-                } as any
-                return
-            default:
-                throw new Error("Invalid Function")
+    // The static methods take an IEnumerable as first argument
+    // when wrapping the first argument becomes `this`
+
+    const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, key: keyof IEnumerable<T>) => {
+        const wrapped = function(this: IEnumerable<T>, ...params: any) {
+            return func(this, ...params)
         }
+        Object.defineProperty(wrapped, "length", { value: func.length - 1 })
+        prototype[key] = wrapped as any
     }
 
     bind(aggregate, "aggregate")
@@ -126,17 +100,16 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(allAsync, "allAsync")
     bind(any, "any")
     bind(anyAsync, "anyAsync")
-    // TODO - Browsers not naming arrow functions properly
     bind(asAsync, "asAsync")
     bind(asParallel, "asParallel")
     bind(average, "average")
     bind(averageAsync, "averageAsync")
     bind(concatenate, "concatenate")
-    bind(contains, "contains", 3)
+    bind(contains, "contains")
     bind(containsAsync, "containsAsync")
     bind(count, "count")
     bind(countAsync, "countAsync")
-    bind(distinct, "distinct", 2)
+    bind(distinct, "distinct")
     bind(distinctAsync, "distinctAsync")
     bind(each, "each")
     bind(eachAsync, "eachAsync")
@@ -151,9 +124,9 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(groupBy, "groupBy")
     bind(groupByAsync, "groupByAsync")
     bind(groupByWithSel, "groupByWithSel")
-    bind(intersect, "intersect", 3)
+    bind(intersect, "intersect")
     bind(intersectAsync, "intersectAsync")
-    bind(join, "joinByKey", 6)
+    bind(join, "joinByKey")
     bind(last, "last")
     bind(lastAsync, "lastAsync")
     bind(lastOrDefault, "lastOrDefault")
@@ -172,7 +145,7 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(selectAsync, "selectAsync")
     bind(selectMany, "selectMany")
     bind(selectManyAsync, "selectManyAsync")
-    bind(sequenceEquals, "sequenceEquals", 3)
+    bind(sequenceEquals, "sequenceEquals")
     bind(sequenceEqualsAsync, "sequenceEqualsAsync")
     bind(single, "single")
     bind(singleAsync, "singleAsync")
