@@ -55,7 +55,7 @@ const evenNumbers = from([1, 2, 3, 4, 5, 6, 7, 8, 9]).where((x) => x % 2 === 0).
 #### Without Wrappers
 ```TypeScript
 // 0. Import Module
-import { initializeLinq, IEnumerable, ArrayEnumerable } from "linq-to-typescript"
+import { initializeLinq, IEnumerable } from "linq-to-typescript"
 // 1. Declare that the JS types implement the IEnumerable interface
 declare global {
     interface Array<T> extends IEnumerable<T> { }
