@@ -1,8 +1,8 @@
 
 import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
-
-/* eslint-disable */
+import { BasicEnumerable } from '../sync/BasicEnumerable'
+import { IEnumerable } from '../types'
 
 /**
  * @private
@@ -10,6 +10,15 @@ import { ArrayEnumerable } from "../sync/ArrayEnumerable"
 export const bindArrayEnumerable = <T>() => {
 
     const { prototype } = ArrayEnumerable
+
+    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
+        // eslint-disable-next-line @typescript-eslint/array-type
+        .filter((v) => v !== "constructor") as Array<keyof IEnumerable<string>>
+
+    for (const prop of propertyNames) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        prototype[prop] = (prototype[prop] as any) || BasicEnumerable.prototype[prop]
+    }
 
     prototype.all = function(this: ArrayEnumerable<T>, predicate: (x: T) => boolean): boolean {
         return this.every(predicate)
@@ -40,14 +49,14 @@ export const bindArrayEnumerable = <T>() => {
             throw new ArgumentOutOfRangeException("index")
         }
 
-        return this[index]
+        return this[index] as T
     }
     prototype.elementAtOrDefault = function(index: number): T | null {
-        return this[index] || null
+        return (this[index] as T | undefined) || null
     }
     prototype.first = function(predicate?: (x: T) => boolean): T {
         if (predicate) {
-            const value = this.find(predicate)
+            const value = this.find(predicate) as T | undefined
             if (value === undefined) {
                 throw new InvalidOperationException(ErrorString.NoMatch)
             } else {
@@ -58,25 +67,25 @@ export const bindArrayEnumerable = <T>() => {
                 throw new InvalidOperationException(ErrorString.NoElements)
             }
 
-            return this[0]
+            return this[0] as T
         }
     }
     prototype.firstOrDefault = function(predicate?: (x: T) => boolean): T | null {
         if (predicate) {
-            const value = this.find(predicate)
+            const value = this.find(predicate) as T | undefined
             if (value === undefined) {
                 return null
             } else {
                 return value
             }
         } else {
-            return this.length === 0 ? null : this[0]
+            return this.length === 0 ? null : this[0] as T
         }
     }
     prototype.last = function(predicate?: (x: T) => boolean): T {
         if (predicate) {
             for (let i = this.length - 1; i >= 0; i--) {
-                const value = this[i]
+                const value = this[i] as T
                 if (predicate(value) === true) {
                     return value
                 }
@@ -88,13 +97,13 @@ export const bindArrayEnumerable = <T>() => {
                 throw new InvalidOperationException(ErrorString.NoElements)
             }
 
-            return this[this.length - 1]
+            return this[this.length - 1] as T
         }
     }
     prototype.lastOrDefault = function(predicate?: (x: T) => boolean): T | null {
         if (predicate) {
             for (let i = this.length - 1; i >= 0; i--) {
-                const value = this[i]
+                const value = this[i] as T
                 if (predicate(value) === true) {
                     return value
                 }
@@ -102,7 +111,7 @@ export const bindArrayEnumerable = <T>() => {
 
             return null
         } else {
-            return this.length === 0 ? null : this[this.length - 1]
+            return this.length === 0 ? null : this[this.length - 1] as T
         }
     }
     prototype.max = function(selector?: (x: T) => number): number | never {

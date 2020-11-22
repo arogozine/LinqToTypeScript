@@ -1,0 +1,90 @@
+import { IEnumerable } from '../types'
+import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
+import { BasicEnumerable } from '../sync/BasicEnumerable'
+
+/**
+ * Adds LINQ methods to String prototype
+ */
+export const bindString = () => {
+    const prototype = String.prototype as string & IEnumerable<string>
+
+    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
+        // eslint-disable-next-line @typescript-eslint/array-type
+        .filter((v) => v !== "constructor") as Array<keyof IEnumerable<string>>
+
+    for (const prop of propertyNames) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        prototype[prop] = (prototype[prop] as any) || BasicEnumerable.prototype[prop]
+    }
+
+    prototype.count = function(predicate?: (x: string) => boolean) {
+        if (predicate) {
+            // eslint-disable-next-line no-shadow
+            let count = 0
+            for (let i = 0; i < this.length; i ++) {
+                if (predicate(this[i]) === true) {
+                    count++
+                }
+            }
+            return count
+        } else {
+            return this.length
+        }
+    }
+
+    prototype.elementAt = function(index: number): string {
+        if (index < 0 || index >= this.length) {
+            throw new ArgumentOutOfRangeException("index")
+        }
+
+        return this[index]
+    }
+
+    prototype.elementAtOrDefault = function(index: number): string | null {
+        return this[index] || null
+    }
+
+    prototype.last = function(predicate?: (x: string) => boolean): string {
+        if (predicate) {
+            for (let i = this.length - 1; i >= 0; i--) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
+            throw new InvalidOperationException(ErrorString.NoMatch)
+        } else {
+            if (this.length === 0) {
+                throw new InvalidOperationException(ErrorString.NoElements)
+            }
+
+            return this[this.length - 1]
+        }
+    }
+
+    prototype.lastOrDefault = function(predicate?: (x: string) => boolean): string | null {
+        if (predicate) {
+            for (let i = this.length - 1; i >= 0; i--) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
+            return null
+        } else {
+            return this.length === 0 ? null : this[this.length - 1]
+        }
+    }
+
+    prototype.reverse = function() {
+        let reversed = ""
+        for (let i = this.length - 1; i >= 0; i--)
+        {
+            reversed += this[i]
+        }
+
+        return reversed as string & IEnumerable<string>
+    }
+}
