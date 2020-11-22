@@ -1,13 +1,9 @@
-import { IEnumerable, ArrayEnumerable, EqualityComparer, enumerateObject, flatten, initializeLinq } from "linq-to-typescript"
+import { IEnumerable, EqualityComparer, enumerateObject, flatten, initializeLinq } from "linq-to-typescript"
 
 initializeLinq()
 
 declare global {
-    interface Array<T> extends IEnumerable<T> {
-        concat(items: IEnumerable<T>): IEnumerable<T>;
-        concat(...items: Array<ReadonlyArray<T>>): ArrayEnumerable<T>;
-        concat(...items: Array<T | ReadonlyArray<T>>): ArrayEnumerable<T>;    
-    }
+    interface Array<T> extends IEnumerable<T> { }
     interface Uint8Array extends IEnumerable<number> { }
     interface Uint8ClampedArray extends IEnumerable<number> { }
     interface Uint16Array extends IEnumerable<number> { }
@@ -36,7 +32,7 @@ declare global {
 [true].any((x) => !x); // false
 
 // CONCAT
-[1, 2].concat([2, 3]); // [1, 2, 2, 3]
+[1, 2].concatenate([2, 3]); // [1, 2, 2, 3]
 
 // CONTAINS
 [1, 2, 3].contains(1); // true
