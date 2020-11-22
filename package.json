@@ -50,7 +50,7 @@
     "eslint": "^7.11.0",
     "eslint-plugin-jsdoc": "^30.6.5",
     "eslint-plugin-prefer-arrow": "^1.2.2",
-    "tslib": "^1.14.1",
+    "tslib": "^2.0.3",
     "typescript": "^3.9.7"
   },
   "engines": {
