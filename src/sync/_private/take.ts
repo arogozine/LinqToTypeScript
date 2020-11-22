@@ -7,7 +7,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param amount The number of elements to return.
  * @returns An IEnumerable<T> that contains the specified number of elements from the start of the input sequence.
  */
-export function take<T>(source: Iterable<T>, amount: number): IEnumerable<T> {
+export const take = <TSource>(source: Iterable<TSource>, amount: number): IEnumerable<TSource> => {
 
     function* iterator() {
         // negative amounts should yield empty
@@ -21,5 +21,5 @@ export function take<T>(source: Iterable<T>, amount: number): IEnumerable<T> {
         }
     }
 
-    return new BasicEnumerable<T>(iterator)
+    return new BasicEnumerable<TSource>(iterator)
 }

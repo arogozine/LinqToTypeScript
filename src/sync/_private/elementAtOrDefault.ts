@@ -6,7 +6,7 @@
  * null if the index is outside the bounds of the source sequence;
  * otherwise, the element at the specified position in the source sequence.
  */
-export function elementAtOrDefault<TSource>(source: Iterable<TSource>, index: number): TSource | null {
+export const elementAtOrDefault = <TSource>(source: Iterable<TSource>, index: number): TSource | null => {
     let i = 0
     for (const item of source) {
         if (index === i++) {

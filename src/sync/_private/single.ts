@@ -10,7 +10,7 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * The source sequence is empty.
  * @returns The single element of the input sequence that satisfies a condition.
  */
-export function single<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
+export const single = <TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource => {
     if (predicate) {
         return single2(source, predicate)
     } else {

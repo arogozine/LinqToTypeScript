@@ -7,7 +7,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param second The sequence to concatenate to the first sequence.
  * @returns An IEnumerable<T> that contains the concatenated elements of the two input sequences.
  */
-export function concatenate<TSource>(first: Iterable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource> {
+export const concatenate = <TSource>(first: Iterable<TSource>, second: IEnumerable<TSource>): IEnumerable<TSource> => {
     function* iterator() {
         yield* first
         yield* second

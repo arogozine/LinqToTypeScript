@@ -6,7 +6,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param source A sequence of values to reverse.
  * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
  */
-export function reverse<TSource>(source: Iterable<TSource>): IEnumerable<TSource> {
+export const reverse = <TSource>(source: Iterable<TSource>): IEnumerable<TSource> => {
     function* iterator() {
         for (const x of [...source].reverse()) {
             yield x

@@ -4,9 +4,9 @@
  * @param selector A function to determine the Key based on the value.
  * @returns KVP Object
  */
-export function toObject<TSource>(
+export const toObject = <TSource>(
     source: Iterable<TSource>,
-    selector: (x: TSource) => string): {[key: string]: TSource} {
+    selector: (x: TSource) => string): { [key: string]: TSource } => {
 
     const map: {[key: string]: TSource} = {}
 

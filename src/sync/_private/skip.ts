@@ -7,7 +7,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param count The number of elements to skip before returning the remaining elements.
  * @returns An IEnumerable<T> that contains the elements that occur after the specified index in the input sequence.
  */
-export function skip<TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> {
+export const skip = <TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> => {
 
     function* iterator() {
         let i = 0

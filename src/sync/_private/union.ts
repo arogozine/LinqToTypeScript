@@ -8,10 +8,10 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param comparer The IEqualityComparer<T> to compare values. Optional.
  * @returns An IEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
  */
-export function union<TSource>(
+export const union = <TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
-    comparer?: IEqualityComparer<TSource>): IEnumerable<TSource> {
+    comparer?: IEqualityComparer<TSource>): IEnumerable<TSource> => {
         if (comparer) {
             return union2(first, second, comparer)
         } else {

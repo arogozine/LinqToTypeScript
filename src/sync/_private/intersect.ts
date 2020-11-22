@@ -10,10 +10,10 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param comparer An IEqualityComparer<T> to compare values. Optional.
  * @returns A sequence that contains the elements that form the set intersection of two sequences.
  */
-export function intersect<TSource>(
+export const intersect = <TSource>(
     first: IEnumerable<TSource>,
     second: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> => {
 
     function *iterator(): IterableIterator<TSource> {
 

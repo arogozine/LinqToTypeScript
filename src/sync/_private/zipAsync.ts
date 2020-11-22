@@ -9,10 +9,10 @@ import { IAsyncEnumerable } from "../../types"
  * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
  * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
  */
-export function zipAsync<TFirst, TSecond, TResult>(
+export const zipAsync = <TFirst, TSecond, TResult>(
     first: Iterable<TFirst>,
     second: Iterable<TSecond>,
-    resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> {
+    resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IAsyncEnumerable<TResult> => {
     async function* generator() {
         const firstIterator = first[Symbol.iterator]()
         const secondIterator = second[Symbol.iterator]()

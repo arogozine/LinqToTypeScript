@@ -8,7 +8,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param count The number of times to repeat the value in the generated sequence.
  * @returns An IEnumerable<T> that contains a repeated value.
  */
-export function repeat<TResult>(element: TResult, count: number): IEnumerable<TResult> {
+export const repeat = <TResult>(element: TResult, count: number): IEnumerable<TResult> => {
     if (count < 0) {
         throw new ArgumentOutOfRangeException(`count`)
     }

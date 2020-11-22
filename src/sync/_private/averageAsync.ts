@@ -8,8 +8,8 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * @throws {InvalidOperationException} source contains no elements.
  * @returns Avarage of the sequence of values
  */
-export async function averageAsync<TSource>(
-    source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
+export const averageAsync = async <TSource>(
+    source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> => {
     let value: number | undefined
     let count: number | undefined
     for (const item of source) {

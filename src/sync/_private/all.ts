@@ -5,7 +5,7 @@
  * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
  * or if the sequence is empty; otherwise, ``false``.
  */
-export function all<TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): boolean {
+export const all = <TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): boolean => {
     for (const item of source) {
         if (predicate(item) === false) {
             return false

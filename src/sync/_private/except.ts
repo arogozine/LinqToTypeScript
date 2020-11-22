@@ -11,10 +11,10 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param comparer An IEqualityComparer<T> to compare values. Optional.
  * @returns A sequence that contains the set difference of the elements of two sequences.
  */
-export function except<TSource>(
+export const except = <TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> => {
 
     function *iterator() {
         const secondArray = [...second]

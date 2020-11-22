@@ -8,10 +8,10 @@ import { IEqualityComparer } from "../../types/IEqualityComparer"
  * @param comparer An equality comparer to compare values. Optional.
  * @returns true if the source sequence contains an element that has the specified value; otherwise, false.
  */
-export function contains<TSource>(
+export const contains = <TSource>(
     source: Iterable<TSource>,
     value: TSource,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): boolean {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): boolean => {
 
     for (const item of source) {
         if (comparer(value, item)) {

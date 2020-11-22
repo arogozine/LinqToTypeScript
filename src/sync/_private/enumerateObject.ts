@@ -6,7 +6,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param source Source Object
  * @returns IEnumerabe<[TKey, TValue]> of Key Value pairs
  */
-export function enumerateObject<TInput>(source: TInput): IEnumerable<[keyof TInput, TInput[keyof TInput]]> {
+export const enumerateObject = <TInput>(source: TInput): IEnumerable<[keyof TInput, TInput[keyof TInput]]> => {
     function *iterable(): IterableIterator<[keyof TInput, TInput[keyof TInput]]> {
         // eslint-disable-next-line guard-for-in
         for (const key in source) {

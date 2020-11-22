@@ -16,13 +16,13 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @returns An IEnumerable<T> that has elements of type TResult that
  * are obtained by performing an inner join on two sequences.
  */
-export function join<TOuter, TInner, TKey, TResult>(
+export const join = <TOuter, TInner, TKey, TResult>(
     outer: Iterable<TOuter>,
     inner: Iterable<TInner>,
     outerKeySelector: (x: TOuter) => TKey,
     innerKeySelector: (x: TInner) => TKey,
     resultSelector: (x: TOuter, y: TInner) => TResult,
-    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IEnumerable<TResult> {
+    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IEnumerable<TResult> => {
     function *iterator(): IterableIterator<TResult> {
         const innerArray = [...inner]
         for (const o of outer) {

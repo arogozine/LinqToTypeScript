@@ -4,9 +4,9 @@
  * @param selector A async function to determine the Key based on the value.
  * @returns Promise for Mapping of Key to Value derived from the source iterable
  */
-export async function toObjectAsync<TSource>(
+export const toObjectAsync = async <TSource>(
     source: Iterable<TSource>,
-    selector: (x: TSource) => Promise<string>): Promise<{[key: string]: TSource}> {
+    selector: (x: TSource) => Promise<string>): Promise<{[key: string]: TSource}> => {
 
     const map: {[key: string]: TSource} = {}
 

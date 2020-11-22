@@ -8,10 +8,10 @@ import { IAsyncEqualityComparer } from "../../types/IAsyncEqualityComparer"
  * @param comparer The IAsyncEqualityComparer<T> to compare values.
  * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
  */
-export function unionAsync<TSource>(
+export const unionAsync = <TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>) {
+    comparer: IAsyncEqualityComparer<TSource>) => {
 
     async function *iterator(): AsyncIterableIterator<TSource> {
         const result: TSource[] = []

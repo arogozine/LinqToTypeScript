@@ -11,8 +11,8 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * The source sequence is empty.
  * @returns The single element of the input sequence that satisfies a condition.
  */
-export async function singleAsync<TSource>(
-    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
+export const singleAsync = async <TSource>(
+    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> => {
     let hasValue = false
     let singleValue: TSource | null = null
 

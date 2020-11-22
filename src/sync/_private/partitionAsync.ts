@@ -5,8 +5,8 @@
  * @param predicate Async Pass / Fail condition
  * @returns Promise of [pass, fail]
  */
-export async function partitionAsync<TSource>(
-    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource[][]> {
+export const partitionAsync = async <TSource>(
+    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<[TSource[], TSource[]]> => {
     const fail: TSource[] = []
     const pass: TSource[] = []
 

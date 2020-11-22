@@ -9,9 +9,9 @@ import { IAsyncEnumerable } from "../../types"
  * the second parameter of the function represents the index of the source element.
  * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
  */
-export function whereAsync<TSource>(
+export const whereAsync = <TSource>(
     source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> => {
     if (predicate.length === 1) {
         return whereAsync1(source, predicate as (x: TSource) => Promise<boolean>)
     } else {

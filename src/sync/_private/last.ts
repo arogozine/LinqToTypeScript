@@ -9,7 +9,7 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * @returns The value at the last position in the source sequence
  * or the last element in the sequence that passes the test in the specified predicate function.
  */
-export function last<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
+export const last = <TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource => {
     if (predicate) {
         return last2(source, predicate)
     } else {

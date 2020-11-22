@@ -7,10 +7,10 @@ import { IAsyncEqualityComparer } from "../../types/IAsyncEqualityComparer"
  * @param comparer An equality comparer to compare values. Optional.
  * @returns true if the source sequence contains an element that has the specified value; otherwise, false.
  */
-export async function containsAsync<TSource>(
+export const containsAsync = async <TSource>(
     source: Iterable<TSource>,
     value: TSource,
-    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> => {
     for (const item of source) {
         if (await comparer(value, item)) {
             return true

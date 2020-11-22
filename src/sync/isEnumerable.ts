@@ -9,7 +9,7 @@ import { BasicEnumerable } from "./BasicEnumerable"
  * @param source Any Value
  * @returns Whether or not this is an Enumerable type
  */
-export function isEnumerable(source: any): source is IEnumerable<any> {
+export const isEnumerable = (source: any): source is IEnumerable<any> => {
 
     if (!source) {
         return false

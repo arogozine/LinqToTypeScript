@@ -9,7 +9,7 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * @returns The first element in the sequence
  * or the first element that passes the test in the specified predicate function.
  */
-export function first<TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource {
+export const first = <TSource>(source: Iterable<TSource>, predicate?: (x: TSource) => boolean): TSource => {
     if (predicate) {
         return first2(source, predicate)
     } else {

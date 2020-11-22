@@ -10,14 +10,14 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @returns An IEnumerable<T> that contains elements from the input sequence
  * that occur before the element at which the test no longer passes.
  */
-export function takeWhile<T>(
-    source: Iterable<T>,
-    predicate: (x: T, index: number) => boolean): IEnumerable<T> {
+export const takeWhile = <TSource>(
+    source: Iterable<TSource>,
+    predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource> => {
 
     if (predicate.length === 1) {
-        return takeWhile1(source, predicate as (x: T) => boolean)
+        return takeWhile1(source, predicate as (x: TSource) => boolean)
     } else {
-        return takeWhile2(source, predicate as (x: T, index: number) => boolean)
+        return takeWhile2(source, predicate as (x: TSource, index: number) => boolean)
     }
 }
 

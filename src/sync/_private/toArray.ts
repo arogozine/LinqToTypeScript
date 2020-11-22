@@ -3,6 +3,6 @@
  * @param source An Iterable<T> to create an array from.
  * @returns An array of elements
  */
-export function toArray<TSource>(source: Iterable<TSource>): TSource[] {
+export const toArray = <TSource>(source: Iterable<TSource>): TSource[] => {
     return [...source]
 }

@@ -1,4 +1,4 @@
-import { from } from "../../parallel/ParallelEnumerable" // TODO
+import { from } from "../../parallel/ParallelEnumerable"
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 /**
@@ -6,8 +6,8 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @param source Sequence to convert
  * @returns An IParallelEnumerable<T>
  */
-export function asParallel<TSource>(source: Iterable<TSource>): IParallelEnumerable<TSource> {
-    async function generator() {
+export const asParallel = <TSource>(source: Iterable<TSource>): IParallelEnumerable<TSource> => {
+    const generator = async () => {
         const array = []
         for (const value of source) {
             array.push(value)

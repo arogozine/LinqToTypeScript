@@ -9,10 +9,10 @@ import { IAsyncEnumerable, IAsyncEqualityComparer } from "../../types"
  * @param comparer An IAsyncEqualityComparer<T> to compare values.
  * @returns A sequence that contains the set difference of the elements of two sequences.
  */
-export function exceptAsync<TSource>(
+export const exceptAsync = <TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> => {
 
     async function *iterator() {
         const secondArray = [...second]

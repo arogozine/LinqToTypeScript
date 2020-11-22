@@ -8,9 +8,9 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
  * @returns An IEnumerable<T> that contains distinct elements from the source sequence.
  */
-export function distinct<TSource>(
+export const distinct = <TSource>(
     source: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> => {
 
     function* iterator() {
         const distinctElements: TSource[] = []

@@ -11,9 +11,9 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * @returns The single element of the input sequence that satisfies the condition,
  * or null if no such element is found.
  */
-export function singleOrDefault<TSource>(
+export const singleOrDefault = <TSource>(
     source: Iterable<TSource>,
-    predicate?: (x: TSource) => boolean): TSource | null {
+    predicate?: (x: TSource) => boolean): TSource | null => {
 
     if (predicate) {
         return singleOrDefault2(source, predicate)
