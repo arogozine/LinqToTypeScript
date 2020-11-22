@@ -8,26 +8,21 @@ await from([bing, google, quackQuackGo])
     .select(getTitle)
     .toArray()
 ```
-|Release|InDev|
-|:------:|:------:|
-|[![][master-build-azure-badge]][master-build-azure-url]|[![][indev-build-azure-badge]][indev-build-azure-url]|
-|[![][master-build-badge]][master-build-url]|[![][indev-build-badge]][indev-build-url]|
+## Getting Started
+```sh
+npm i linq-to-typescript
+```
+[![npm](https://img.shields.io/npm/v/linq-to-typescript?color=brightgreen&style=flat-square)](https://www.npmjs.com/package/linq-to-typescript)
+![npm bundle size](https://img.shields.io/bundlephobia/min/linq-to-typescript?color=brightgreen&style=flat-square)
+[![License](https://img.shields.io/npm/l/linq-to-typescript?color=brightgreen&style=flat-square)](LICENSE)
+![npm](https://img.shields.io/npm/dw/linq-to-typescript?color=brightgreen&style=flat-square)
+[![][master-build-azure-badge]][master-build-azure-url]
+[![][master-build-badge]][master-build-url]
 
 [master-build-url]: https://travis-ci.com/arogozine/LinqToTypeScript
 [master-build-badge]: https://travis-ci.com/arogozine/LinqToTypeScript.svg?branch=master
 [master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=master
 [master-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=master
-[indev-build-url]: https://travis-ci.com/arogozine/LinqToTypeScript
-[indev-build-badge]: https://travis-ci.com/arogozine/LinqToTypeScript.svg?branch=InDev
-[indev-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=InDev
-[indev-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=InDev
-## Getting Started
-```sh
-npm i linq-to-typescript
-```
-[![npm version](https://badge.fury.io/js/linq-to-typescript.svg)](https://badge.fury.io/js/linq-to-typescript)
-[![bundle size](https://img.shields.io/bundlephobia/min/linq-to-typescript.svg)](https://bundlephobia.com/result?p=linq-to-typescript)
-[![dependencies Status](https://david-dm.org/arogozine/linqtotypescript/status.svg)](https://david-dm.org/arogozine/linqtotypescript)
 
 ### tsconfig.json
 ```JSON
