@@ -4,14 +4,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 // 0. Import Module
-import { initializeLinq, IEnumerable, ArrayEnumerable } from "linq-to-typescript"
+import { initializeLinq, IEnumerable } from "linq-to-typescript"
 // 1. Declare that the JS types implement the IEnumerable interface
 declare global {
-    interface Array<T> extends IEnumerable<T> {
-        concat(items: IEnumerable<T>): IEnumerable<T>;
-        concat(...items: Array<ReadonlyArray<T>>): ArrayEnumerable<T>;
-        concat(...items: Array<T | ReadonlyArray<T>>): ArrayEnumerable<T>;    
-    }
+    interface Array<T> extends IEnumerable<T> { }
     interface Uint8Array extends IEnumerable<number> { }
     interface Uint8ClampedArray extends IEnumerable<number> { }
     interface Uint16Array extends IEnumerable<number> { }
