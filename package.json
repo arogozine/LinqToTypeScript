@@ -1,12 +1,12 @@
 {
   "name": "linq-to-typescript",
-  "version": "8.0.0-beta2",
+  "version": "8.0.0-beta3",
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "main": "./commonjs/index.js",
   "exports": {
     ".": {
-      "require":  "./commonjs/index.js",
+      "require": "./commonjs/index.js",
       "default": "./esm/index.js"
     }
   },
