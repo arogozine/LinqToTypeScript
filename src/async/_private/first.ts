@@ -10,8 +10,8 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * If predicate is specified,
  * the first element in the sequence that passes the test in the specified predicate function.
  */
-export function first<TSource>(
-    source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> {
+export const first = <TSource>(
+    source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource> => {
     if (predicate) {
         return first2(source, predicate)
     } else {

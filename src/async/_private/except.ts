@@ -11,10 +11,10 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param comparer An IEqualityComparer<T> to compare values. Optional.
  * @returns A sequence that contains the set difference of the elements of two sequences.
  */
-export function except<TSource>(
+export const except = <TSource>(
     first: AsyncIterable<TSource>,
     second: AsyncIterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> => {
 
     async function *iterator() {
         // TODO: async eq of [...second] ?

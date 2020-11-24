@@ -6,9 +6,9 @@
  * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
  * or if the sequence is empty; otherwise, ``false``.
  */
-export function any<TSource>(
+export const any = <TSource>(
     source: AsyncIterable<TSource>,
-    predicate?: (x: TSource) => boolean): Promise<boolean> {
+    predicate?: (x: TSource) => boolean): Promise<boolean> => {
     if (predicate) {
         return any2(source, predicate)
     } else {

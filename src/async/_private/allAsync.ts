@@ -4,9 +4,9 @@
  * @param predicate A function to test each element for a condition.
  * @returns Whether all elements of a sequence satisfy the condition.
  */
-export async function allAsync<TSource>(
+export const allAsync = async <TSource>(
     source: AsyncIterable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
+    predicate: (x: TSource) => Promise<boolean>): Promise<boolean> => {
     for await (const item of source) {
         if (await predicate(item) === false) {
             return false

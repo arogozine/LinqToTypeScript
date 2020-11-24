@@ -6,9 +6,9 @@
  * @param predicate A function to test each element for a condition. Optional.
  * @returns The number of elements in the sequence.
  */
-export async function countAsync<T>(
-    source: AsyncIterable<T>,
-    predicate: (x: T) => Promise<boolean>): Promise<number> {
+export const countAsync = async <TSource>(
+    source: AsyncIterable<TSource>,
+    predicate: (x: TSource) => Promise<boolean>): Promise<number> => {
     let count = 0
     for await (const value of source) {
         if (await predicate(value) === true) {

@@ -7,9 +7,9 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param comparer An IAsyncEqualityComparer<T> to compare values.
  * @returns An IAsyncEnumerable<T> that contains distinct elements from the source sequence.
  */
-export function distinctAsync<TSource>(
+export const distinctAsync = <TSource>(
     source: AsyncIterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+    comparer: IAsyncEqualityComparer<TSource>): IAsyncEnumerable<TSource> => {
 
     async function* iterator() {
         const distinctElements: TSource[] = []

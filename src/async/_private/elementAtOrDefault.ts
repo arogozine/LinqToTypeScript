@@ -6,8 +6,8 @@
  * default(TSource) if the index is outside the bounds of the source sequence;
  * otherwise, the element at the specified position in the source sequence.
  */
-export async function elementAtOrDefault<TSource>(
-    source: AsyncIterable<TSource>, index: number): Promise<TSource | null> {
+export const elementAtOrDefault = async <TSource>(
+    source: AsyncIterable<TSource>, index: number): Promise<TSource | null> => {
     let i = 0
     for await (const item of source) {
         if (index === i++) {
