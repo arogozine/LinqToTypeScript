@@ -7,14 +7,13 @@ import { IParallelEnumerable } from "../../types"
  * @param predicate Pass / Fail condition
  * @returns [pass, fail]
  */
-export const partitionAsync = async <TSource>(
-    source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<[TSource[], TSource[]]> => {
+export const partitionParallel = async <TSource>(
+    source: IParallelEnumerable<TSource>, predicate: (x: TSource) => boolean): Promise<[TSource[], TSource[]]> => {
     const fail: TSource[] = []
     const pass: TSource[] = []
 
     for await (const value of source) {
-        if (await predicate(value) === true) {
+        if (predicate(value) === true) {
             pass.push(value)
         } else {
             fail.push(value)

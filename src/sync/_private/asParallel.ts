@@ -1,4 +1,4 @@
-import { fromParallel } from "../../parallel/ParallelEnumerable"
+import { fromParallel } from "../../parallel/static/fromParallel"
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 /**
