@@ -6,7 +6,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param source IParallelFlatten to flatten
  * @param shallow When false - recurses the iterable types
  */
-export function flatten<TSource>(
+export function flattenParallel<TSource>(
     source: IParallelFlatten<TSource>,
     shallow?: false): IParallelEnumerable<TSource>
 /**
@@ -14,10 +14,10 @@ export function flatten<TSource>(
  * @param source IParallelFlatten to flatten
  * @param shallow When false - recurses the iterable types
  */
-export function flatten<TSource>(
+export function flattenParallel<TSource>(
     source: IParallelFlatten<TSource>,
     shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>
-export function flatten<TSource>(
+export function flattenParallel<TSource>(
     source: IParallelFlatten<TSource>,
     shallow?: boolean): IParallelEnumerable<TSource | AsyncIterable<TSource>> {
 
