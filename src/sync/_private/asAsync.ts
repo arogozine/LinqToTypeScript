@@ -1,4 +1,4 @@
-import { fromAsync } from "../../async/_private/fromAsync"
+import { fromAsync } from "../../async/static/fromAsync"
 
 /**
  * Converts the iterable to an @see {IAsyncEnumerable}

@@ -1,4 +1,4 @@
-import { fromAsync } from "../../async/_private/fromAsync"
+import { fromAsync } from "../../async/static/fromAsync"
 import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer, SelectorKeyType } from "../../types"
 import { IGrouping } from "../../types/IGrouping"
 import { Grouping } from "../Grouping"

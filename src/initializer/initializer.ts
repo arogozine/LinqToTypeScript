@@ -15,6 +15,5 @@ bindLinqParallel(BasicParallelEnumerable)
 // Array Enumerable extends Array and has some custom optimizations
 bindArrayEnumerable()
 
-export { bindLinq, bindArray, bindString }
-export { bindLinqAsync }
+export { bindLinq, bindLinqAsync, bindArray, bindString }
 export { initializeLinq } from "./initializeLinq"

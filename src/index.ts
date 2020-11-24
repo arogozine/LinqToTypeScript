@@ -21,9 +21,11 @@ export * from "./types"
 
 // Types and Stuff
 export * from "./shared"
-export * from "./sync/Enumerable"
 export { ArrayEnumerable } from "./sync/ArrayEnumerable"
 export * from "./initializer/initializer"
+export { from } from "./sync/static/from"
+export { fromAsync } from "./async/static/fromAsync"
+export { fromParallel } from "./parallel/static/fromParallel"
 export { isEnumerable } from "./sync/isEnumerable"
 export { isParallelEnumerable } from "./parallel/isParallelEnumerable"
 export { isAsyncEnumerable } from "./async/isAsyncEnumerable"
