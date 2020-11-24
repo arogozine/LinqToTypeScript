@@ -2,6 +2,14 @@ import { ArgumentOutOfRangeException } from "linq-to-typescript"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("elementAt", () => {
+    it("String", () => {
+        expect("abc".elementAt(0)).toBe("a")
+        expect("abc".elementAt(1)).toBe("b")
+        expect("abc".elementAt(2)).toBe("c")
+
+        expect(() => "abc".elementAt(3)).toThrowError(ArgumentOutOfRangeException)
+    })
+
     itEnumerable("Basic", (asEnumerable) => {
         expect(asEnumerable([1]).elementAt(0)).toBe(1)
         expect(asEnumerable([1, 2]).elementAt(1)).toBe(2)

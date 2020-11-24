@@ -2,6 +2,10 @@ import { EqualityComparer } from "linq-to-typescript"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("distinct", () => {
+    it("String", () => {
+        expect("foo".distinct().toArray()).toEqual(["f", "o"])
+    })
+
     itEnumerable("Basic", (asEnumerable) => {
         expect(asEnumerable([1, 1]).distinct().toArray()).toEqual([1])
     })

@@ -2,6 +2,14 @@ import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../Test
 
 describe("elementAtOrDefault", () => {
 
+    it("String", () => {
+        expect("abc".elementAtOrDefault(0)).toBe("a")
+        expect("abc".elementAtOrDefault(1)).toBe("b")
+        expect("abc".elementAtOrDefault(2)).toBe("c")
+
+        expect("abc".elementAtOrDefault(3)).toBeNull()
+    })
+
     itEnumerable("WithElements", (asEnumerable) => {
         expect(asEnumerable([1]).elementAtOrDefault(0)).toBe(1)
         expect(asEnumerable([1, 2]).elementAtOrDefault(1)).toBe(2)

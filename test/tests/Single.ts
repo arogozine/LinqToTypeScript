@@ -4,6 +4,10 @@ import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../Test
 // tslint:disable:variable-name
 
 describe("single", () => {
+    it("String", () => {
+        expect("a".single()).toBe("a")
+    })
+
     itEnumerable("basic", (asEnumerable) => {
         const vals = asEnumerable([1])
         expect(vals.single()).toBe(1)

@@ -3,6 +3,14 @@ import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 // tslint:disable:variable-name
 
 describe("where", () => {
+    it("String", () => {
+        expect("alphabetagamma".where(c => c === "a").toArray()).toEqual(["a", "a", "a", "a", "a"])
+    })
+
+    it("String Index", () => {
+        expect("alphabetagamma".where((_, i) => i === 5).toArray()).toEqual(["b"])
+    })
+
     itEnumerable("item predicate", (asEnumerable) => {
         const vals = asEnumerable([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
         expect(vals.where((x) => x > 8).toArray()).toEqual([9])

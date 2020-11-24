@@ -3,6 +3,10 @@ import { InvalidOperationException } from "linq-to-typescript"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("first", () => {
+    it("String", () => {
+        expect("abc".first()).toBe("a")
+    })
+
     itEnumerable("Basic", (asEnumerable) =>
         expect(asEnumerable([1]).first()).toBe(1))
 

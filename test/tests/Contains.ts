@@ -2,6 +2,10 @@ import { EqualityComparer } from "linq-to-typescript"
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("contains", () => {
+    it("String", () => {
+        expect("abc".contains("c")).toBe(true)
+    })
+
     itEnumerable<string | number>("Countains", (asEnumerable) => {
         const array = asEnumerable([1, "2", "3"])
 

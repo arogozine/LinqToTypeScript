@@ -3,6 +3,10 @@ import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "./../Te
 
 describe("aggregate", () => {
 
+    it("String", () => {
+        expect("thisisthemostboringpartofcoding".aggregate((x, y) => x + y)).toBe("thisisthemostboringpartofcoding")
+    })
+
     itEnumerable<string>("Basic", (asEnumerable) => {
         const array = asEnumerable(["f", "o", "o"])
 

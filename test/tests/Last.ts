@@ -2,6 +2,14 @@ import { InvalidOperationException } from "linq-to-typescript"
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("last", () => {
+    it("String", () => {
+        expect("abc".last()).toEqual("c")
+    })
+
+    it("String Empty", () => {
+        expect(() => "".last()).toThrow(InvalidOperationException)
+    })
+
     itEnumerable("Last", (asEnumerable) => {
         expect(asEnumerable([1, 2]).last()).toBe(2)
     })

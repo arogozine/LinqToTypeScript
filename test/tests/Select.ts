@@ -3,6 +3,14 @@ import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 // tslint:disable:variable-name
 
 describe("select", () => {
+    it("String", () => {
+        expect("abc".select(x => `div_${x}`).toArray()).toEqual([ "div_a", "div_b", "div_c" ])
+    })
+
+    it("String Index", () => {
+        expect("abc".select((_, i) => `div_${i}`).toArray()).toEqual([ "div_0", "div_1", "div_2" ])
+    })
+
     itEnumerable<string>("select parseInt", (asEnumerable) => {
         expect(asEnumerable(["1", "2", "3"]).select((num) => Number.parseInt(num, undefined))
             .toArray()).toEqual([1, 2, 3])

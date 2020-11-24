@@ -1,6 +1,15 @@
 import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "./../TestHelpers"
 
 describe("allAsync", () => {
+
+    itAsync("String", async () => {
+        const ans1 = await "abc".allAsync(async x => x !== "d")
+        expect(ans1).toBe(true)
+
+        const ans2 = await "abc".allAsync(async x => x !== "c")
+        expect(ans2).toBe(false)
+    })
+
     itEnumerableAsync<{ Age: number, Name: string}>("Basic", async (asEnumerable) => {
         // Create an array of Pets.
         const pets = asEnumerable([

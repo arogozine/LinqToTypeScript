@@ -1,6 +1,12 @@
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "./../TestHelpers"
 
 describe("count", () => {
+
+    it("String", () => {
+        expect("abc".count()).toBe(3)
+        expect("a b c".count(x => x !== " ")).toBe(3)
+    })
+
     itEnumerable<boolean>("Count Predicate", (asEnumerable) => {
         const array = asEnumerable([true, true, false])
 

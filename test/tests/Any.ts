@@ -1,6 +1,16 @@
 import { asAsync, expectAsync, itAsync, itEnumerable, itParallel } from "./../TestHelpers"
 
 describe("any", () => {
+    it("String", () => {
+        expect("".any()).toBe(false)
+        expect(" ".any()).toBe(true)
+    })
+
+    it("String Predicate", () => {
+        expect("aaa".any(x => x === "b")).toBe(false)
+        expect(" ".any(x => x === " ")).toBe(true)
+    })
+
     itEnumerable("Empty", (asEnumerable) => {
         const array = asEnumerable([])
 

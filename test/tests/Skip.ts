@@ -4,6 +4,10 @@ describe("skip", () => {
     const vals = [1, 2, 3, 4]
     const valsAsync = asAsync(vals)
 
+    it("String", () => {
+        expect("one".skip(1).toArray()).toEqual(["n", "e"])
+    })
+
     itEnumerable("first element", (asEnumerable) =>
         expect(asEnumerable(vals).skip(1).toArray()).toEqual([2, 3, 4]))
 

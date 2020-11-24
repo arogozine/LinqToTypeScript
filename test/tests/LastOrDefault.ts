@@ -1,6 +1,14 @@
 import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 
 describe("lastOrDefault", () => {
+    it("String", () => {
+        expect("abc".lastOrDefault()).toEqual("c")
+    })
+
+    it("String Empty", () => {
+        expect("".lastOrDefault()).toBeNull()
+    })
+
     itEnumerable("LastOrDefault", (asEnumerable) => {
         expect(asEnumerable([]).lastOrDefault()).toBeNull()
 
