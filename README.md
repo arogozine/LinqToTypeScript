@@ -217,12 +217,12 @@ from(iterableIteratorOrArray)
 
 // To Create an IAsyncEnumerable<T>
 import { fromAsync } from "linq-to-typescript"
-from(asyncIterableIteratorOrPromiseArray)
+fromAsync(asyncIterableIteratorOrPromiseArray)
 
 // To Create an IParallelEnumerable<T>
 // You have to specify the parallel generator function type
 import { fromParallel, ParallelGeneratorType } from "linq-to-typescript"
-from(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
+fromParallel(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
 ```
 
 ### F.A.Q.
