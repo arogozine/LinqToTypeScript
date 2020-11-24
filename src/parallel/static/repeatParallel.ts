@@ -9,7 +9,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param delay Miliseconds for Timeout
  * @returns An IParallelEnumerable<T> that contains a repeated value.
  */
-export function repeat<TResult>(
+export function repeatParallel<TResult>(
     // eslint-disable-next-line no-shadow
     element: TResult, count: number, delay?: number): IParallelEnumerable<TResult> {
     if (count < 0) {
