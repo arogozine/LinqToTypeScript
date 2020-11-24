@@ -154,13 +154,14 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 
 #### Static Methods
 
-| Method          | Enumerable | Async | Parallel | Tests Coverage |
-|-----------------|------------|-------|----------|----------------|
-| empty           | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Empty.ts)
-| enumerateObject | Yes        | Yes   | No       | [Test](test/tests/staticmethods/EnumerateObject.ts)
-| flatten         | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Flatten.ts)
-| range           | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Range.ts)
-| repeat          | Yes        | Yes   | Yes      | [Test](test/tests/staticmethods/Repeat.ts)
+| Method          | Async                | Parallel          | Tests Coverage |
+|-----------------|----------------------|-------------------|----------------|
+| empty           | emptyAsync           | emptyParallel     | [Test](test/tests/staticmethods/Empty.ts)
+| enumerateObject | enumerateObjectAsync | N/A               | [Test](test/tests/staticmethods/EnumerateObject.ts)
+| flatten         | flattenAsync         | flattenParallel   | [Test](test/tests/staticmethods/Flatten.ts)
+| partition       | partitionAsync       | partitionParallel | [Test](test/tests/staticmethods/Partition.ts)
+| range           | rangeAsync           | rangeParallel     | [Test](test/tests/staticmethods/Range.ts)
+| repeat          | repeatAsync          | repeatParallel    | [Test](test/tests/staticmethods/Repeat.ts)
 
 #### Index Methods
 
@@ -215,12 +216,12 @@ import { from } from "linq-to-typescript"
 from(iterableIteratorOrArray)
 
 // To Create an IAsyncEnumerable<T>
-import { from } from "linq-to-typescript/async"
+import { fromAsync } from "linq-to-typescript"
 from(asyncIterableIteratorOrPromiseArray)
 
 // To Create an IParallelEnumerable<T>
 // You have to specify the parallel generator function type
-import { from, ParallelGeneratorType } from "linq-to-typescript/parallel"
+import { fromParallel, ParallelGeneratorType } from "linq-to-typescript"
 from(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
 ```
 
