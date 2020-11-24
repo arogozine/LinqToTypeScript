@@ -6,7 +6,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param source AsyncIterable to flatten
  * @param shallow When false - recurses the iterable types
  */
-export function flatten<TSource>(
+export function flattenAsync<TSource>(
     source: IAsyncFlatten<TSource>,
     shallow?: false): IAsyncEnumerable<TSource>
 /**
@@ -14,10 +14,10 @@ export function flatten<TSource>(
  * @param source AsyncIterable to flatten
  * @param shallow When false - recurses the iterable types
  */
-export function flatten<TSource>(
+export function flattenAsync<TSource>(
     source: IAsyncFlatten<TSource>,
     shallow: true): IAsyncEnumerable<TSource | AsyncIterable<TSource>>
-export function flatten<TSource>(
+export function flattenAsync<TSource>(
     source: IAsyncFlatten<TSource>,
     shallow?: boolean): IAsyncEnumerable<TSource | AsyncIterable<TSource>> {
 

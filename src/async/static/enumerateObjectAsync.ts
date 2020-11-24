@@ -6,7 +6,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param source Source Object
  * @returns IAsyncEnumerabe<[TKey, TValue]> of Key Value pairs
  */
-export const enumerateObject = <TInput>(
+export const enumerateObjectAsync = <TInput>(
     source: TInput): IAsyncEnumerable<[keyof TInput, TInput[keyof TInput]]> => {
     async function *iterable(): AsyncIterableIterator<[keyof TInput, TInput[keyof TInput]]> {
         /* eslint-disable */
