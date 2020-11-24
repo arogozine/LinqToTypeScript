@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable } from "../../types"
 
 /**
@@ -34,7 +34,7 @@ const takeWhileAsync1 = <T>(
         }
     }
 
-    return from(iterator)
+    return fromAsync(iterator)
 }
 
 const takeWhileAsync2 = <T>(
@@ -51,5 +51,5 @@ const takeWhileAsync2 = <T>(
         }
     }
 
-    return from(iterator)
+    return fromAsync(iterator)
 }

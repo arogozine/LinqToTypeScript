@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 
 /**
  * Converts the iterable to an @see {IAsyncEnumerable}
@@ -12,5 +12,5 @@ export const asAsync = <TSource>(source: Iterable<TSource>) => {
         }
     }
 
-    return from(generator)
+    return fromAsync(generator)
 }

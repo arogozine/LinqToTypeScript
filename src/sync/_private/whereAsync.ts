@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable } from "../../types"
 
 /**
@@ -30,7 +30,7 @@ const whereAsync1 = <T>(
         }
     }
 
-    return from(generator)
+    return fromAsync(generator)
 }
 
 const whereAsync2 = <T>(
@@ -45,5 +45,5 @@ const whereAsync2 = <T>(
         }
     }
 
-    return from(generator)
+    return fromAsync(generator)
 }

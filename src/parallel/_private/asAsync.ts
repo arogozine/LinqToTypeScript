@@ -1,9 +1,10 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable, IParallelEnumerable } from "../../types"
 
 /**
  * Converts a IEnumerable enumerable to an async one.
  * @param source A parallel IEnumerable
+ * @returns IAsyncEnumerable<TSource>
  */
 export function asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEnumerable<TSource> {
     async function* generator() {
@@ -11,5 +12,5 @@ export function asAsync<TSource>(source: IParallelEnumerable<TSource>): IAsyncEn
             yield value
         }
     }
-    return from(generator)
+    return fromAsync(generator)
 }

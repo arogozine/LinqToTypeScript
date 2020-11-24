@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable, IAsyncEqualityComparer, IEqualityComparer, SelectorKeyType } from "../../types"
 import { IGrouping } from "../../types/IGrouping"
 import { Grouping } from "../Grouping"
@@ -63,7 +63,7 @@ function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
         }
     }
 
-    return from(iterator)
+    return fromAsync(iterator)
 }
 
 function groupByAsync_0<TSource, TKey>(
@@ -99,5 +99,5 @@ function groupByAsync_0<TSource, TKey>(
         }
     }
 
-    return from(generate)
+    return fromAsync(generate)
 }

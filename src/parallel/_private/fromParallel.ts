@@ -7,7 +7,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param generator Function that gives back an array of promises
  * @returns IParallelEnumerable<T>
  */
-export function from<TSource>(
+export function fromParallel<TSource>(
     type: ParallelGeneratorType.ArrayOfPromises,
     generator: () => Promise<TSource>[]): IParallelEnumerable<TSource>
 /**
@@ -16,7 +16,7 @@ export function from<TSource>(
  * @param generator Async function which returns an array of values
  * @returns IParallelEnumerable<T>
  */
-export function from<TSource>(
+export function fromParallel<TSource>(
     type: ParallelGeneratorType.PromiseToArray,
     generator: () => Promise<TSource[]>): IParallelEnumerable<TSource>
 /**
@@ -25,10 +25,10 @@ export function from<TSource>(
  * @param generator Async function that returns an array of value promises
  * @returns IParallelEnumerable<T>
  */
-export function from<TSource>(
+export function fromParallel<TSource>(
     type: ParallelGeneratorType.PromiseOfPromises,
     generator: () => Promise<Promise<TSource>[]>): IParallelEnumerable<TSource>
-export function from<TSource>(
+export function fromParallel<TSource>(
     type: any,
     generator: () => any) {
     return new BasicParallelEnumerable<TSource>({

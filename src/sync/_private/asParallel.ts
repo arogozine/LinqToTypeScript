@@ -1,4 +1,4 @@
-import { from } from "../../parallel/ParallelEnumerable"
+import { fromParallel } from "../../parallel/ParallelEnumerable"
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 /**
@@ -15,5 +15,5 @@ export const asParallel = <TSource>(source: Iterable<TSource>): IParallelEnumera
         return array
     }
 
-    return from(ParallelGeneratorType.PromiseToArray, generator)
+    return fromParallel(ParallelGeneratorType.PromiseToArray, generator)
 }

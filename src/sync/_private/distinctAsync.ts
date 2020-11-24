@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable, IAsyncEqualityComparer } from "../../types"
 
 /**
@@ -27,5 +27,5 @@ export const distinctAsync = <TSource>(
         }
     }
 
-    return from(iterator)
+    return fromAsync(iterator)
 }

@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable } from "../../types"
 
 /**
@@ -16,5 +16,5 @@ export const eachAsync = <TSource>(
         }
     }
 
-    return from(generator)
+    return fromAsync(generator)
 }

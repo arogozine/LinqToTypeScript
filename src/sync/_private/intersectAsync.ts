@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable, IAsyncEqualityComparer, IEnumerable } from "../../types"
 
 /**
@@ -39,5 +39,5 @@ export const intersectAsync = <TSource>(
         }
     }
 
-    return from(iterator)
+    return fromAsync(iterator)
 }

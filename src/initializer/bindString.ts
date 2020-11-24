@@ -17,6 +17,37 @@ export const bindString = () => {
         prototype[prop] = (prototype[prop] as any) || BasicEnumerable.prototype[prop]
     }
 
+    prototype.first = function(predicate?: (x: string) => boolean) {
+        if (predicate) {
+            for (let i = 0; i < this.length; i++) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+
+            throw new InvalidOperationException(ErrorString.NoMatch)
+        }
+        if (this.length === 0) {
+            throw new InvalidOperationException(ErrorString.NoElements)
+        }
+        return this[0]
+    }
+
+    prototype.firstOrDefault = function(predicate?: (x: string) => boolean) {
+        if (predicate) {
+            for (let i = 0; i < this.length; i++) {
+                const value = this[i]
+                if (predicate(value) === true) {
+                    return value
+                }
+            }
+            return null
+        }
+
+        return this.length === 0 ? null : this[0]
+    }
+
     prototype.count = function(predicate?: (x: string) => boolean) {
         if (predicate) {
             // eslint-disable-next-line no-shadow
@@ -79,12 +110,16 @@ export const bindString = () => {
     }
 
     prototype.reverse = function() {
-        let reversed = ""
-        for (let i = this.length - 1; i >= 0; i--)
-        {
-            reversed += this[i]
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const outer = this
+
+        function* generator() {
+            for (let i = outer.length - 1; i >= 0; i--)
+            {
+                yield outer[i]
+            }
         }
 
-        return reversed as string & IEnumerable<string>
+        return new BasicEnumerable(generator)
     }
 }

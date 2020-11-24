@@ -1,4 +1,4 @@
-import { from } from "../../async/_private/from"
+import { fromAsync } from "../../async/_private/fromAsync"
 import { IAsyncEnumerable } from "../../types"
 
 /**
@@ -30,7 +30,7 @@ const selectManyAsync1 = <TSource, TResult>(
         }
     }
 
-    return from(generator)
+    return fromAsync(generator)
 }
 
 const selectManyAsync2 = <TSource, TResult>(
@@ -47,5 +47,5 @@ const selectManyAsync2 = <TSource, TResult>(
         }
     }
 
-    return from(generator)
+    return fromAsync(generator)
 }
