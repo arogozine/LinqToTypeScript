@@ -1,7 +1,7 @@
 import {
-    from as fromParallel,
+    fromParallel,
     ParallelGeneratorType,
-} from "linq-to-typescript/parallel"
+} from "linq-to-typescript"
 import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
 describe("eachAsync", () => {

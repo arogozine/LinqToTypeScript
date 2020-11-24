@@ -3,7 +3,7 @@ import { asAsync, itAsync, itEnumerable, itParallel } from "../TestHelpers"
 describe("reverse", () => {
     it("String", () => {
         expect("abc".reverse().toArray()).toEqual(["c", "b", "a"])
-        expect(typeof "abc".reverse()).toBe("string")
+        expect(typeof "abc".reverse()).toBe("object")
     })
 
     itEnumerable("basic", (asEnumerable) => {

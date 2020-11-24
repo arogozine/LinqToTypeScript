@@ -1,18 +1,13 @@
 import {
-    ArrayEnumerable,
-    from,
-    IEnumerable,
-} from "linq-to-typescript"
-
-import {
-    from as fromAsync,
     IAsyncEnumerable,
-} from "linq-to-typescript/async"
-import {
-    from as fromParallel,
     IParallelEnumerable,
     ParallelGeneratorType,
-} from "linq-to-typescript/parallel"
+    ArrayEnumerable,
+    from,
+    fromAsync,
+    fromParallel,
+    IEnumerable,
+} from "linq-to-typescript"
 
 // There are helper functions to make testing easy
 

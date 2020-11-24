@@ -1,6 +1,4 @@
-import { repeat as repeatAsync } from "linq-to-typescript/async"
-import { ArgumentOutOfRangeException, repeat } from "linq-to-typescript"
-import { repeat as repeatParallel } from "linq-to-typescript/parallel"
+import { ArgumentOutOfRangeException, repeat, repeatAsync, repeatParallel } from "linq-to-typescript"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("repeat", () => {

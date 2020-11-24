@@ -1,6 +1,4 @@
-import { range as rangeAsync } from "linq-to-typescript/async"
-import { ArgumentOutOfRangeException, range } from "linq-to-typescript"
-import { range as rangeParallel } from "linq-to-typescript/parallel"
+import { ArgumentOutOfRangeException, range, rangeAsync, rangeParallel } from "linq-to-typescript"
 import { itAsync, itEnumerable, itParallel } from "../../TestHelpers"
 
 describe("range", () => {

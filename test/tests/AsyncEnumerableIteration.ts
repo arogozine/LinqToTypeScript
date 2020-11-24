@@ -1,4 +1,4 @@
-import { from } from "linq-to-typescript/async"
+import { fromAsync } from "linq-to-typescript"
 import { itAsync } from "./../TestHelpers"
 
 describe("AsyncEnumerableIteration", () => {
@@ -48,7 +48,7 @@ describe("AsyncEnumerableIteration", () => {
             }
         }
 
-        const asyncEnumerable = from(generatorFunc)
+        const asyncEnumerable = fromAsync(generatorFunc)
         const generator = asyncEnumerable[Symbol.asyncIterator]()
         const nextValue = await generator.next()
         expect(nextValue.done).toBe(true)
