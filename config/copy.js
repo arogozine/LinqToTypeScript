@@ -19,6 +19,17 @@ function main() {
   cp(cpFiles, distPath)
 
   writeFileSync(resolve(distPath, 'package.json'), distPackageJson)
+
+  commonJsFix()
+}
+
+/**
+ * Copies package.json (that specifies common js) to dist/commonjs folder
+ */
+function commonJsFix() {
+  const packageLoc = resolve(__dirname, '../config/package.json')
+  const packageDist = resolve(__dirname, '../dist/commonjs/package.json')
+  copyFileSync(packageLoc, packageDist)
 }
 
 /**

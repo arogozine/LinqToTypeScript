@@ -2,10 +2,16 @@
   "name": "linq-to-typescript",
   "version": "8.0.0-beta2",
   "description": "LINQ ported to TypeScript",
-  "main": "./index.js",
-  "esnext": "./esnext/index.js",
-  "type": "commonjs",
-  "types": "./index.d.ts",
+  "type": "module",
+  "main": "./commonjs/index.js",
+  "exports": {
+    ".": {
+      "require":  "./commonjs/index.js",
+      "default": "./esm/index.js"
+    }
+  },
+  "module": "./esm/index.js",
+  "types": "./commonjs/index.d.ts",
   "maintainers": [
     {
       "name": "Alexandre Rogozine",
@@ -13,9 +19,9 @@
     }
   ],
   "scripts": {
-    "build": "npm run build:main && npm run build:esnext",
-    "build:main": "tsc --module commonjs --target es2018 --outDir dist --declaration",
-    "build:esnext": "tsc -t esnext --outDir dist/esnext",
+    "build": "npm run build:main && npm run build:esm",
+    "build:main": "tsc --module commonjs --target es2018 --outDir dist/commonjs --declaration",
+    "build:esm": "tsc -t es2019 --outDir dist/esm",
     "postbuild": "node config/copy",
     "lint": "eslint -c .eslintrc.js --ext .ts src",
     "doc": "typedoc ./src --exclude \"**/_*/*.ts\" --out ./doc --excludePrivate --excludeNotExported --readme none --name \"LINQ To TypeScript\"",
