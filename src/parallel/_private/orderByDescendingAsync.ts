@@ -6,7 +6,7 @@ import { OrderedParallelEnumerable } from "../OrderedParallelEnumerable"
  * @param source A sequence of values to order.
  * @param keySelector An async function to extract a key from an element.
  * @param comparer An IComparer<T> to compare keys.
- * @return An IOrderedParallelEnumerable<TElement> whose elements are sorted in descending order according to a key.
+ * @returns An IOrderedParallelEnumerable<TElement> whose elements are sorted in descending order according to a key.
  */
 export function orderByDescendingAsync<TSource, TKey>(
     source: IAsyncParallel<TSource>,
