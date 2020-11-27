@@ -1,0 +1,4 @@
+nodetest/*.js
+*.js.map
+*.js
+!unittests/jest.config.js
