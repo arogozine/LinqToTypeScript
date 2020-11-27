@@ -15,7 +15,7 @@
   "dependencies": {
     "@types/jest": "^26.0.14",
     "jest": "^26.5.3",
-    "linq-to-typescript": "file:../dist",
+    "linq-to-typescript": "file:../../dist",
     "ts-jest": "^26.4.1",
     "tslib": "^1.10.0"
   },
