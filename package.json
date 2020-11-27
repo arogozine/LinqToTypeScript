@@ -24,7 +24,7 @@
     "build:esm": "tsc -t es2019 --outDir dist/esm",
     "postbuild": "node config/copy",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
-    "doc": "typedoc ./src --exclude \"**/_*/*.ts\" --out ./doc --excludePrivate --excludeNotExported --readme none --name \"LINQ To TypeScript\"",
+    "doc": "typedoc ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --gitRevision master --out ./doc --excludePrivate --excludeNotExported --stripInternal --readme README.md --name \"LINQ To TypeScript\" --includeVersion --mode file",
     "release:npm": "npm publish dist",
     "release:npm-next": "npm publish dist --tag next",
     "release:pack": "npm pack ./dist"

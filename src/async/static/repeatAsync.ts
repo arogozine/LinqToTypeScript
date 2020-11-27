@@ -21,6 +21,9 @@ export function repeatAsync<TResult>(
     }
 }
 
+/**
+ * @private
+ */
 const repeat1 = <T>(element: T, count: number): IAsyncEnumerable<T> => {
     async function* iterator() {
         for (let i = 0; i < count; i++) {
@@ -31,6 +34,9 @@ const repeat1 = <T>(element: T, count: number): IAsyncEnumerable<T> => {
     return new BasicAsyncEnumerable(iterator)
 }
 
+/**
+ * @private
+ */
 const repeat2 = <T>(element: T, count: number, delay: number): IAsyncEnumerable<T> => {
     async function* iterator() {
         for (let i = 0; i < count; i++) {

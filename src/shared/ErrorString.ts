@@ -1,5 +1,5 @@
 /**
- * Common Error Strings
+ * @private
  */
 export const ErrorString = Object.freeze({
     MoreThanOneElement: `Sequence contains more than one element`,
