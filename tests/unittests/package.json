@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest -c ./jest.config.js"
+    "test": "jest -c ./jest.config.js --rootDir tests"
   },
   "author": "",
   "license": "ISC",

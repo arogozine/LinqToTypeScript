@@ -4,8 +4,8 @@ module.exports = {
   roots: [ "<rootDir>" ],
   // verbose: true,
   bail: true,
-  testRegex: "(/tests/.*)$",
+  testRegex: [ "(.*)$" ],
   testMatch: null,
   // Setup File
-  setupFilesAfterEnv: [ "./initialize.ts" ]
+  setupFilesAfterEnv: [ "../initialize.ts" ]
 };
