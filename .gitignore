@@ -40,14 +40,9 @@ jspm_packages
 .vscode
 
 # Uneeded JS files
-test/compiled
-test/*.js
-test/*.js.map
-nodetest/*.js
 src/*.js
 src/*.js.map
 examples/*.js
-!test/jest.config.js
 
 dist
 cjs

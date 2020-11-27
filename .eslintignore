@@ -1,8 +1,6 @@
 **/*.js
 config/*
-nodetest/*
-test/*
-reacttest/*
+tests/*
 dist/*
 doc/*
 examples/*

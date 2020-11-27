@@ -31,18 +31,18 @@ steps:
 - script: npm run lint
   displayName: 'Run Lint'
 - script: |
-    cd test
+    cd tests/unittests
     npm install
     npm run test
-  displayName: 'Run Tests'
+  displayName: 'Run Unit Tests'
 - script: |
-    cd nodetest
+    cd tests/nodetest
     npm install
     tsc
     node index.js
   displayName: 'Test Node'
 - script: |
-    cd reacttest
+    cd tests/reacttest
     npm install
     npm run build
   displayName: 'Test React'
