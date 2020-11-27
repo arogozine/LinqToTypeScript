@@ -5,9 +5,9 @@
  * @param predicate A function to test each element for a condition.
  * @returns true if the source sequence contains any elements or passes the test specified; otherwise, false.
  */
-export function any<TSource>(
+export const any = <TSource>(
     source: Iterable<TSource>,
-    predicate?: (x: TSource) => boolean): boolean {
+    predicate?: (x: TSource) => boolean) => {
     if (predicate) {
         return any2(source, predicate)
     } else {

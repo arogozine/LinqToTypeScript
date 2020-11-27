@@ -10,9 +10,9 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @returns An IEnumerable<T> that contains the elements from the input sequence starting at the first element
  * in the linear series that does not pass the test specified by predicate.
  */
-export function skipWhile<TSource>(
+export const skipWhile = <TSource>(
     source: Iterable<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => boolean) => {
 
     if (predicate.length === 1) {
         return skipWhile1(source, predicate as (x: TSource) => boolean)

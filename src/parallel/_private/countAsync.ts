@@ -7,9 +7,9 @@ import { nextIterationAsync } from "./_nextIterationAsync"
  * @param predicate A function to test each element for a condition.
  * @returns How many elements in the specified sequence satisfy the provided predicate.
  */
-export async function countAsync<TSource>(
+export const countAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<number> {
+    predicate: (x: TSource) => Promise<boolean>) => {
     const data = nextIterationAsync(source, predicate)
     let countPromise: Promise<boolean[]>
     switch (data.type) {

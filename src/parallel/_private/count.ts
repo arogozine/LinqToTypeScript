@@ -8,9 +8,9 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @param predicate A function to test each element for a condition. Optional.
  * @returns The number of elements in the input sequence.
  */
-export function count<TSource>(
+export const count = <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate?: (x: TSource) => boolean): Promise<number> {
+    predicate?: (x: TSource) => boolean) => {
     if (predicate) {
         return count2(source, predicate)
     } else {

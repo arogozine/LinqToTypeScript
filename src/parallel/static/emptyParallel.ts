@@ -1,11 +1,11 @@
-import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
+import { ParallelGeneratorType, TypedData } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 /**
  * Returns an empty IParallelEnumerable<T> that has the specified type argument.
  * @returns An empty IParallelEnumerable<T> whose type argument is TResult.
  */
-export function emptyParallel<TResult>(): IParallelEnumerable<TResult> {
+export const emptyParallel = <TResult>() => {
     const dataFunc: TypedData<TResult> = {
         generator: async () => [],
         type: ParallelGeneratorType.PromiseToArray,

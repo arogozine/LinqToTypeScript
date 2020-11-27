@@ -5,9 +5,9 @@ import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../typ
 /**
  * @private Next Iteration for Parallel Enumerable
  */
-export function nextIterationAsync<TSource, TOut>(
+export const nextIterationAsync = <TSource, TOut>(
     source: IParallelEnumerable<TSource>,
-    onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut> {
+    onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {
