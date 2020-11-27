@@ -89,19 +89,22 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 #### IEnumerable
 - Inspired by LINQ API Surface
 - Has Async methods that return `Promise` or `IAsyncEnumerable`
-- Implements `Iterable<T>` interface
+- Implements `Iterable<T>` 
+- Use `from` to wrap your arrays
 
 #### IAsyncEnumerable
 - Inspired by LINQ API Surface
 - Has Async methods that return `Promise` or `IAsyncEnumerable`
 - For asynchronous iteration
 - Implements `AsyncIterable<T>` interface
+- Use `fromAsync` to wrap your AsyncIterable type
 
 #### IParallelEnumerable
 - Inspired by LINQ API Surface
 - Has Async methods that return `Promise` or `IParallelEnumerable`
 - For asynchronous iteration in parallel (where possible)
-- Implements `AsyncIterable<T>` interface.
+- Implements `AsyncIterable<T>` interface
+- Use `fromParallel` to create a parallel enumeration
 
 #### Shared Instance Methods
 
@@ -240,17 +243,17 @@ Why did you create this?
 For fun and to gain understanding of TypeScript and Node Package Manager.
 
 **Q**
-What's needed to target ES2016?
+What's needed to target ES2018?
 
 **A**
-This libraries uses async iteration.
-You will need the `Symbol.asyncIterator` polyfill. Libraries such as core js have this.
+This library uses iteration and async iteration. You may need polyfills for Iterator and AsyncIterator.
+Libraries such as core js have this.
 
 **Q**
 Can this run in an ES5 browser like Internet Explorer.
 
 **A**
-With the right transpiler, polyfills, and bundler. Its not recommended due to the size and most likely performance.
+With the right transpiler, polyfills, and bundler. Its not recommended due to the size and most likely major performance impact.
 
 **Q**
 How does this compare to other LINQ libraries?
