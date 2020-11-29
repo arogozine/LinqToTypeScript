@@ -12,13 +12,14 @@ await from([bing, google, quackQuackGo])
 ```sh
 npm i linq-to-typescript
 ```
-[![npm](https://img.shields.io/npm/v/linq-to-typescript?color=brightgreen&style=flat-square)](https://www.npmjs.com/package/linq-to-typescript)
-![npm bundle size](https://img.shields.io/bundlephobia/min/linq-to-typescript?color=brightgreen&style=flat-square)
+[![npm](https://img.shields.io/npm/v/linq-to-typescript?color=brightgreen&style=flat-square)][npm-url]
+[![npm bundle size](https://img.shields.io/bundlephobia/min/linq-to-typescript?color=brightgreen&style=flat-square)][npm-url]
 [![License](https://img.shields.io/npm/l/linq-to-typescript?color=brightgreen&style=flat-square)](LICENSE)
-![npm](https://img.shields.io/npm/dw/linq-to-typescript?color=brightgreen&style=flat-square)
+[![npm](https://img.shields.io/npm/dw/linq-to-typescript?color=brightgreen&style=flat-square)][npm-url]
 [![][master-build-azure-badge]][master-build-azure-url]
 [![][master-build-badge]][master-build-url]
 
+[npm-url]: https://www.npmjs.com/package/linq-to-typescript
 [master-build-url]: https://travis-ci.com/arogozine/LinqToTypeScript
 [master-build-badge]: https://travis-ci.com/arogozine/LinqToTypeScript.svg?branch=master
 [master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=master
@@ -75,9 +76,11 @@ const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArra
 
 ### Examples
 
-Please refer to [EXAMPLES.md](EXAMPLES.md)
+Please refer to the [examples folder](/examples)
 
 ## API
+
+[TypeDoc API Surface Documentation](https://arogozine.github.io/linqtotypescript/)
 
 **LinqToTypeScript implements the functionality of the IEnumerable interface**
 
@@ -184,10 +187,6 @@ Please refer to [EXAMPLES.md](EXAMPLES.md)
 |-----------------------------|--------------------------------------------------|
 | ArgumentOutOfRangeException | Thrown when a passed in argument is invalid      |
 | InvalidOperationException   | Thrown when no elements or no predicate match    |
-
-#### TypeDoc Documentation
-
-Refer to https://arogozine.github.io/linqtotypescript/
 
 ### Design
 
