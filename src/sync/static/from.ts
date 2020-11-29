@@ -1,27 +1,56 @@
-import { IEnumerable } from "../../types"
+import { IEnumerable, IterableType } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 /**
- * Creates an IEnumerable<T> from an array
+ * Creates an IEnumerable<TSource> from an array
  * @param source Array of Elements
- * @returns IEnumerable<T>
+ * @returns IEnumerable<TSource>
  */
-export function from<TSource>(source: TSource[]): IEnumerable<TSource>
+export function from<TSource>(source: ArrayLike<TSource>): IEnumerable<TSource>
 /**
- * Creates an IEnumerable<T> from an IterableIterator<T> of elements
+ * Creates an IEnumerable<TSource> from an IterableIterator<TSource> of elements
  * @param source Iteration of Elements
- * @returns IEnumerable<T>
+ * @returns IEnumerable<TSource>
  */
 export function from<TSource>(source: IterableIterator<TSource>): IEnumerable<TSource>
-export function from<TSource>(source: TSource[] | IterableIterator<TSource>): IEnumerable<TSource> {
-    if (Array.isArray(source)) {
-        const iterator = function *() {
-            for (const value of source) {
-                yield value
+/**
+ * Creates an IEnumerable<TSource> from an iterable type
+ * @param source Iterable Type
+ * @returns IEnumerable<TSource>
+ */
+export function from<TSource>(source: IterableType<TSource>): IEnumerable<TSource>
+/**
+ * Creates an IEnumerable<TSource> from a generator function
+ * @param source Generator
+ * @returns IEnumerable<TSource>
+ */
+export function from<TSource>(source: () => Generator<TSource>): IEnumerable<TSource>
+export function from<TSource>(source: IterableType<TSource> | ArrayLike<TSource> | IterableIterator<TSource> | (() => Generator<TSource>)): IEnumerable<TSource> {
+    const isArrayLike = (x: any): x is ArrayLike<TSource> => {
+        return Array.isArray(x) || (typeof x === "object" && typeof x.length === "number" && (x.length === 0 || 0 in x))
+    }
+
+    const isIterableType = (x: any): x is (() => Generator<TSource>) => typeof x === "function"
+
+    if (isArrayLike(source)) {
+        const generator = function* () {
+            for (let i = 0; i < source.length; i++) {
+                yield source[i]
             }
         }
-        return new BasicEnumerable(iterator)
-    } else {
-        return new BasicEnumerable(() => source)
+
+        return new BasicEnumerable(generator)
     }
+
+    if (isIterableType(source)) {
+        return new BasicEnumerable(source)
+    }
+
+    return new BasicEnumerable(function* () {
+        for (const val of source) {
+            yield val
+        }
+    })
 }
