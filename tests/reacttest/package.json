@@ -10,7 +10,7 @@
     "linq-to-typescript": "file:../../dist",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "^4.0.2",
     "typescript": "^3.9.7"
   },
   "scripts": {
