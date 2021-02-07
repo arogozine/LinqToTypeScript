@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "main": "./commonjs/index.js",
