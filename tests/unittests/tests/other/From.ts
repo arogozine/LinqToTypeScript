@@ -1,6 +1,6 @@
-import { from, fromAsync, fromParallel } from 'linq-to-typescript'
+import { from, fromParallel } from 'linq-to-typescript'
 
-describe("exceptions", () => {
+describe("from", () => {
     it("from array", () => {
         const array = [1, 2, 3]
 
@@ -40,10 +40,6 @@ describe("exceptions", () => {
         }
 
         expect(from(generator).toArray()).toEqual([1, 2, 3])
-    })
-
-    it("fromAsync", () => {
-        expect(typeof fromAsync).toBe("function")
     })
 
     it("fromParallel", () => {
