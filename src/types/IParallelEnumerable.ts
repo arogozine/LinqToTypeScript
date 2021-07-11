@@ -114,7 +114,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
             keySelector: (x: TSource) => Promise<TKey> | TKey,
             comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
             : IParallelEnumerable<IGrouping<TKey, TSource>>
-    
+
     groupByWithSel<TElement, TKey extends SelectorKeyType>(
             keySelector: ((x: TSource) => TKey),
             elementSelector: (x: TSource) => TElement): IParallelEnumerable<IGrouping<TKey, TElement>>
