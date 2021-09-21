@@ -141,6 +141,7 @@ module.exports = {
         // Not needed with TypeScript
         "jsdoc/require-returns-type": "off",
         "jsdoc/newline-after-description": "off",
+        "jsdoc/require-yields": "off",
         "max-classes-per-file": "off",
         "new-parens": "error",
         "no-bitwise": "error",

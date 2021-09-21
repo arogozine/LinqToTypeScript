@@ -116,7 +116,9 @@ export function itParallel<T = number>(
  * @param timeout Custom timeout for an async spec.
  */
 export function itAsync<T>(expectation: string, assertion: () => Promise<T>, timeout?: number): void {
-    it(`${ expectation } Async`, (done) => assertion().then(done, fail), timeout)
+    it(`${ expectation } Async`, (done) => {
+        assertion().then(done)
+    }, timeout)
 }
 
 /**
@@ -132,15 +134,18 @@ export function itEnumerableAsync<T = number>(
 
     if (assertion.length === 0) {
         // asIEnumerable is not used
-        it(expectation, (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
+        it(expectation, (done) => { assertion(asArrayEnumerable).then(done) }, timeout)
     } else {
         // asIEnumerable is used
-        it(`${ expectation } Array Enumerable`,
-        (done) => assertion(asArrayEnumerable).then(done, fail), timeout)
-        it(`${ expectation } Basic Enumerable`,
-            (done) => assertion(asBasicEnumerable).then(done, fail), timeout)
-        it(`${ expectation } Array`,
-            (done) => assertion((x) => x as any).then(done, fail), timeout)
+        it(`${ expectation } Array Enumerable`, (done) => {
+            assertion(asArrayEnumerable).then(done)
+        }, timeout)
+        it(`${ expectation } Basic Enumerable`, (done) => {
+            assertion(asBasicEnumerable).then(done)
+        }, timeout)
+        it(`${ expectation } Array`, (done) => {
+            assertion((x) => x as any).then(done)
+        }, timeout)
     }
 }
 

@@ -114,7 +114,7 @@ export const bindArrayEnumerable = <T>() => {
             return this.length === 0 ? null : this[this.length - 1] as T
         }
     }
-    prototype.max = function(selector?: (x: T) => number): number | never {
+    prototype.max = function(this: ArrayEnumerable<any>, selector?: (x: T) => number): number | never {
         if (this.length === 0) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
@@ -124,15 +124,15 @@ export const bindArrayEnumerable = <T>() => {
             let max = Number.NEGATIVE_INFINITY
 
             for (let i = 0; i < this.length; i++) {
-                max = Math.max(selector(this[i]), max)
+                max = Math.max(selector(this[i] as T), max)
             }
 
             return max
         } else {
-            return Math.max.apply(null, this)
+            return Math.max.apply(null, this as ArrayEnumerable<number>)
         }
     }
-    prototype.min = function(selector?: (x: T) => number): number | never {
+    prototype.min = function(this: ArrayEnumerable<any>, selector?: (x: T) => number): number | never {
         if (this.length === 0) {
             throw new InvalidOperationException(ErrorString.NoElements)
         }
@@ -142,12 +142,12 @@ export const bindArrayEnumerable = <T>() => {
             let min = Number.POSITIVE_INFINITY
 
             for (let i = 0; i < this.length; i++) {
-                min = Math.min(selector(this[i]), min)
+                min = Math.min(selector(this[i] as T), min)
             }
 
             return min
         } else {
-            return Math.min.apply(null, this)
+            return Math.min.apply(null, this as ArrayEnumerable<number>)
         }
     }
     prototype.reverse = function() {
