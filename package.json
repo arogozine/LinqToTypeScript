@@ -24,7 +24,7 @@
     "build:esm": "tsc -t es2019 --outDir dist/esm",
     "postbuild": "node config/copy",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
-    "doc": "npx rimraf doc && typedoc ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --gitRevision master --out ./doc --excludePrivate --excludeNotExported --stripInternal --readme README.md --name \"LINQ To TypeScript\" --includeVersion --mode file",
+    "doc": "npx rimraf doc && typedoc ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --gitRevision master --out ./doc --excludePrivate --readme README.md --name \"LINQ To TypeScript\" --includeVersion",
     "release:npm": "npm publish dist",
     "release:npm-next": "npm publish dist --tag next",
     "release:pack": "npm pack ./dist"
@@ -44,7 +44,6 @@
   ],
   "author": "Alexandre Rogozine",
   "license": "MIT",
-  "dependencies": {},
   "peerDependencies": {
     "tslib": ">=1.14.0"
   },
@@ -56,6 +55,7 @@
     "eslint-plugin-jsdoc": "^30.6.5",
     "eslint-plugin-prefer-arrow": "^1.2.2",
     "tslib": "^1.14.1",
+    "typedoc-plugin-merge-modules": "^2.1.1",
     "typescript": "^3.9.7"
   },
   "engines": {
