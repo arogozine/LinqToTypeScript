@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 3.9.X and ES 2018**
+- **Targets TypeScript 4.4.X and ES 2018**
 ```TypeScript
 await from([bing, google, quackQuackGo])
     .asParallel()
@@ -20,8 +20,8 @@ npm i linq-to-typescript
 [![][master-build-badge]][master-build-url]
 
 [npm-url]: https://www.npmjs.com/package/linq-to-typescript
-[master-build-url]: https://travis-ci.com/arogozine/LinqToTypeScript
-[master-build-badge]: https://travis-ci.com/arogozine/LinqToTypeScript.svg?branch=master
+[master-build-url]: https://app.travis-ci.com/arogozine/LinqToTypeScript
+[master-build-badge]: https://app.travis-ci.com/arogozine/LinqToTypeScript.svg?branch=master
 [master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=master
 [master-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=master
 
