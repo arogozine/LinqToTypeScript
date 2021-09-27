@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'fs'
+import { readFile, writeFile, writeFileSync } from 'fs'
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url';
 
@@ -17,6 +17,7 @@ readFile(indexJsPath, (error, data) => {
     const masterPath = `https://github.com/arogozine/LinqToTypeScript/blob/master/`
     let indexHtml = data.toString()
     indexHtml = indexHtml.replaceAll(`href="tests/`, `href="${masterPath}tests/`)
+    indexHtml = indexHtml.replaceAll(`href="/examples"`, `href="${masterPath}examples"`)
 
-    writeFile(indexJsPath, indexHtml, () => {})
+    writeFileSync(indexJsPath, indexHtml)
 })
