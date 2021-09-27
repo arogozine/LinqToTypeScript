@@ -1,9 +1,11 @@
-// This file only purpose is to copy files before npm publish and strip churn/security sensitive metadata from package.json
-// https://raw.githubusercontent.com/Hotell/typescript-lib-starter/master/scripts/copy.js
+import { writeFileSync, copyFileSync, statSync } from 'fs'
+import { resolve, basename, dirname } from 'path'
+import { fileURLToPath } from 'url';
+import packageJson from '../package.json'
 
-const { writeFileSync, copyFileSync, statSync } = require('fs')
-const { resolve, basename } = require('path')
-const packageJson = require('../package.json')
+// https://stackoverflow.com/a/62892482
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 main()
 

@@ -1,8 +1,11 @@
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
-      "target": "es2018",
-      "module": "commonjs",
+      "target": "es2021",
+      "lib": [
+        "ES2021"
+      ],
+      "module": "ES2020",
       "allowJs": true,
       "checkJs": true,
       "resolveJsonModule": true,
