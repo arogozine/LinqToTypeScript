@@ -1,4 +1,4 @@
-import { writeFileSync, copyFileSync, statSync } from 'fs'
+import { writeFileSync, copyFileSync, statSync, writeFile } from 'fs'
 import { resolve, basename, dirname } from 'path'
 import { fileURLToPath } from 'url';
 import packageJson from '../package.json'
@@ -26,12 +26,17 @@ function main() {
 }
 
 /**
- * Copies package.json (that specifies common js) to dist/commonjs folder
+ * Creates package.json file (that specifies common js) in dist/commonjs folder
  */
 function commonJsFix() {
-  const packageLoc = resolve(__dirname, '../config/package.json')
-  const packageDist = resolve(__dirname, '../dist/commonjs/package.json')
-  copyFileSync(packageLoc, packageDist)
+  const commonJs = `
+  {
+    "type": "commonjs"
+  }
+  `
+
+  const filePath = resolve(__dirname, '../dist/commonjs/package.json')
+  writeFileSync(filePath, commonJs)
 }
 
 /**
