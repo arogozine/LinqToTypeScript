@@ -6,5 +6,6 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns An empty IAsyncEnumerable<T> whose type argument is TResult.
  */
 export const emptyAsync = <TResult>(): IAsyncEnumerable<TResult> => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     return new BasicAsyncEnumerable<TResult>(async function *iterable() { })
 }
