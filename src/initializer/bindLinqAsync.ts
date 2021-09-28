@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IEqualityComparer, IPrototype } from "../types"
+import { IAsyncEnumerable, IPrototype } from "../types"
 
 import { aggregate } from "./../async/_private/aggregate"
 import { all } from "./../async/_private/all"
@@ -81,39 +81,14 @@ import { zipAsync } from "./../async/_private/zipAsync"
  * @param object Iterable Type
  */
 export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
-
     const prototype = object.prototype as IAsyncEnumerable<T>
 
     const bind = (func: (x: IAsyncEnumerable<T>, ...params: any[]) => any, key: keyof IAsyncEnumerable<T>) => {
-        switch (func.length) {
-            case 1:
-                prototype[key] = function(this: IAsyncEnumerable<T>) {
-                    return func(this)
-                } as any
-                return
-            case 2:
-                prototype[key] = function(this: IAsyncEnumerable<T>, a: any) {
-                    return func(this, a)
-                } as any
-                return
-            case 3:
-                prototype[key] = function(this: IAsyncEnumerable<T>, a: any, b: any) {
-                    return func(this, a, b)
-                } as any
-                return
-            case 4:
-                prototype[key] = function(this: IAsyncEnumerable<T>, a: any, b: any, c: any) {
-                    return func(this, a, b, c)
-                } as any
-                return
-            case 5:
-                prototype[key] = function(this: IAsyncEnumerable<T>, a: any, b: any, c: any, d: any) {
-                    return func(this, a, b, c, d)
-                } as any
-                return
-            default:
-                throw new Error("Invalid Function")
+        const wrapped = function(this: IAsyncEnumerable<T>, ...params: any) {
+            return func(this, ...params)
         }
+        Object.defineProperty(wrapped, "length", { value: func.length - 1 })
+        prototype[key] = wrapped as any
     }
 
     bind(aggregate, "aggregate")
@@ -121,20 +96,15 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(allAsync, "allAsync")
     bind(any, "any")
     bind(anyAsync, "anyAsync")
-    // bind(asAsync, "asAsync")
     bind(asParallel, "asParallel")
     bind(average, "average")
     bind(averageAsync, "averageAsync")
     bind(concatenate, "concatenate")
-    prototype.contains = function(value: T, comparer?: IEqualityComparer<T>) {
-        return contains(this, value, comparer)
-    }
+    bind(contains, "contains")
     bind(containsAsync, "containsAsync")
     bind(count, "count")
     bind(countAsync, "countAsync")
-    prototype.distinct = function(comparer?: IEqualityComparer<T>) {
-        return distinct(this, comparer)
-    }
+    bind(distinct, "distinct")
     bind(distinctAsync, "distinctAsync")
     bind(each, "each")
     bind(eachAsync, "eachAsync")
@@ -149,18 +119,9 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(groupBy, "groupBy")
     bind(groupByAsync, "groupByAsync")
     bind(groupByWithSel, "groupByWithSel")
-    prototype.intersect = function(second: IAsyncEnumerable<T>, comparer?: IEqualityComparer<T>) {
-        return intersect(this, second, comparer)
-    }
+    bind(intersect, "intersect")
     bind(intersectAsync, "intersectAsync")
-    prototype.joinByKey = function<TInner, TKey, TResult>(
-        inner: IAsyncEnumerable<TInner>,
-        outerKeySelector: (x: T) => TKey,
-        innerKeySelector: (x: TInner) => TKey,
-        resultSelector: (x: T, y: TInner) => TResult,
-        comparer?: IEqualityComparer<TKey>) {
-        return join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer)
-    }
+    bind(join, "joinByKey")
     bind(last, "last")
     bind(lastAsync, "lastAsync")
     bind(lastOrDefault, "lastOrDefault")
@@ -179,9 +140,7 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(selectAsync, "selectAsync")
     bind(selectMany, "selectMany")
     bind(selectManyAsync, "selectManyAsync")
-    prototype.sequenceEquals = function(second: IAsyncEnumerable<T>, comparer?: IEqualityComparer<T>) {
-        return sequenceEquals(this, second, comparer)
-    }
+    bind(sequenceEquals, "sequenceEquals")
     bind(sequenceEqualsAsync, "sequenceEqualsAsync")
     bind(single, "single")
     bind(singleAsync, "singleAsync")
