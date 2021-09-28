@@ -1,4 +1,4 @@
-import { readFile, writeFile, writeFileSync } from 'fs'
+import { readFileSync, writeFileSync } from 'fs'
 import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url';
 
@@ -7,17 +7,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const indexJsPath = resolve(__dirname, `./../doc/index.html`)
 
-readFile(indexJsPath, (error, data) => {
+let indexHtml = readFileSync(indexJsPath).toString()
 
-    if (error) {
-        throw error
-    }
+// Use absolute paths to tests/ and examples/ for documentation
+// otherwise they don't work
+const masterPath = `https://github.com/arogozine/LinqToTypeScript/blob/master/`
+indexHtml = indexHtml.replaceAll(`href="tests/`, `href="${masterPath}tests/`)
+indexHtml = indexHtml.replaceAll(`href="/examples"`, `href="${masterPath}examples"`)
 
-    // Replace Tests Paths for Documentation
-    const masterPath = `https://github.com/arogozine/LinqToTypeScript/blob/master/`
-    let indexHtml = data.toString()
-    indexHtml = indexHtml.replaceAll(`href="tests/`, `href="${masterPath}tests/`)
-    indexHtml = indexHtml.replaceAll(`href="/examples"`, `href="${masterPath}examples"`)
-
-    writeFileSync(indexJsPath, indexHtml)
-})
+writeFileSync(indexJsPath, indexHtml)

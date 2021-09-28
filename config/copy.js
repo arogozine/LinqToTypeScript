@@ -1,4 +1,4 @@
-import { writeFileSync, copyFileSync, statSync, writeFile } from 'fs'
+import { writeFileSync, copyFileSync, statSync } from 'fs'
 import { resolve, basename, dirname } from 'path'
 import { fileURLToPath } from 'url';
 import packageJson from '../package.json'
