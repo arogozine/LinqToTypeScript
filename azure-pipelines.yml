@@ -44,12 +44,12 @@ steps:
 - script: |
     cd tests/reacttest
     npm install
-    tsc
     npm run build
   displayName: 'Test React'
 - script: |
     cd tests/moduletest
     npm install
+    tsc
     node --experimental-specifier-resolution=node index.js
   displayName: 'Test ES6 Modules'
 - script: |
