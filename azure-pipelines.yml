@@ -47,6 +47,11 @@ steps:
     npm run build
   displayName: 'Test React'
 - script: |
+    cd tests/moduletest
+    npm install
+    node --experimental-specifier-resolution=node index.js
+  displayName: 'Test ES6 Modules'
+- script: |
     cd examples
     npm install
     npm run test

@@ -68,7 +68,7 @@ declare global {
     interface Set<T> extends IEnumerable<T> { }
     interface String extends IEnumerable<string> { }
 }
-// 2. Bind Linq Functions to Array and Map
+// 2. Bind Linq Functions to Array, Map, etc
 initializeLinq()
 // 3. Use without a wrapper type
 const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArray()
@@ -77,6 +77,12 @@ const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArra
 ### Examples
 
 Please refer to the [examples folder](/examples)
+
+### ES6 Modules
+
+To use library with ES6 modules,
+1. Make sure that you specify `"type": "module"` in package.json
+2. Run node with `--experimental-specifier-resolution=node`
 
 ## API
 
@@ -227,55 +233,34 @@ import { fromParallel, ParallelGeneratorType } from "linq-to-typescript"
 fromParallel(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
 ```
 
-### F.A.Q.
+### Issues and Questions
 
-**Q**
-I am getting a `Error: Cannot find module 'tslib'` error.
+**Q1: I'm getting a `Error: Cannot find module 'tslib'` error.**
 
-**A**
 This library depends on tslib. Run `npm i tslib` to solve the error.
 
-**Q**
-Why did you create this?
+**Q2: I'm getting a `Directory import [...] is not supported resolving ES modules imported from [...]`**
 
-**A**
-For fun and to gain understanding of TypeScript and Node Package Manager.
+If your package is `"type": "module"` then you need to run with `--experimental-specifier-resolution=node`
 
-**Q**
-What's needed to target ES2018?
+**Q3: How does this compare to other LINQ libraries?**
 
-**A**
-This library uses iteration and async iteration. You may need polyfills for Iterator and AsyncIterator.
-Libraries such as core js have this.
-
-**Q**
-Can this run in an ES5 browser like Internet Explorer.
-
-**A**
-With the right transpiler, polyfills, and bundler. Its not recommended due to the size and most likely major performance impact.
-
-**Q**
-How does this compare to other LINQ libraries?
-
-**A**
 Other libraries tend to use eager evaluation and work with arrays instead of iterables.
 
-**Q**
-Why should I use this instead of lodash or something similar?
+**Q4: Can I use your code?**
 
-**A**
-- TypeScript first. Libraries which target JavaScript first do additional type checking which can have a negative impact on performance.
-- This library uses [iterators and generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators). Evaluation is lazy, not eager like JS array operations. These are new language features which have no support in legacy browsers like IE11.
+With attribution; the code is licensed under MIT.
 
-**Q**
-Which browsers are supported?
+**Q5: Why should I use this instead of lodash or something similar?**
 
-**A**
-- Firefox, Chrome, and Edge. IE is **not** supported.
-- A good bundler targeting ES5 should allow IE support (with proper ES6/ES7 polyfils).
+The whole library is written in TypeScript first and avoids typechecking done by TypeScript Language Service.
 
-**Q**
-Can I contribute?
+Lazy evaluation. Not much happens until you iterate over the enumerable or conver it to an Array, Map, etc.
 
-**A**
+**Q6: Is IE11 supported?**
+
+No.
+
+**Q7: Can I contribute?**
+
 Please do!

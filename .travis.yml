@@ -28,6 +28,9 @@ script:
   - cd ../reacttest
   - npm install
   - npm run build
+  - cd ../moduletest
+  - npm install
+  - node --experimental-specifier-resolution=node index.js
   - cd ../../examples
   - npm i
   - npm run test

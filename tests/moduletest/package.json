@@ -1,0 +1,19 @@
+{
+  "name": "nodetest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "linq-to-typescript": "file:../../dist",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.3"
+  }
+}

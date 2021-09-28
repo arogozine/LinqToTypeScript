@@ -1,0 +1,23 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "target": "ES2020",
+        "module": "ES2020",
+        "esModuleInterop": true,
+        "removeComments": true,
+        "noImplicitAny": true,
+        "experimentalDecorators": true,
+        "strictNullChecks": true,
+        "noFallthroughCasesInSwitch": true,
+        "strict": true,
+        "alwaysStrict": true,
+        "sourceMap": false,
+        "declaration": false,
+        "lib": [      
+            "dom",
+            "ES2020"
+        ],
+        "importHelpers": true,
+    }
+}
