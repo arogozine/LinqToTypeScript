@@ -6,11 +6,5 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns An empty IAsyncEnumerable<T> whose type argument is TResult.
  */
 export const emptyAsync = <TResult>(): IAsyncEnumerable<TResult> => {
-    async function *iterable() {
-        for await (const _ of []) {
-            yield _
-        }
-    }
-
-    return new BasicAsyncEnumerable<TResult>(iterable)
+    return new BasicAsyncEnumerable<TResult>(async function *iterable() { })
 }

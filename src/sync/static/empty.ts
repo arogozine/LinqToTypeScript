@@ -6,10 +6,5 @@ import { BasicEnumerable } from "../BasicEnumerable"
  * @returns An empty IEnumerable<T> whose type argument is TResult.
  */
 export const empty = <TResult>(): IEnumerable<TResult> => {
-    const iterator = function*() {
-        for (const x of [] as TResult[]) {
-            yield x
-        }
-    }
-    return new BasicEnumerable(iterator)
+    return new BasicEnumerable(function*() { })
 }
