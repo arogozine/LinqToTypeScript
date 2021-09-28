@@ -1,4 +1,4 @@
-import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, IPrototype } from "../types"
+import { IParallelEnumerable, IPrototype } from "../types"
 
 import { aggregate } from "./../parallel/_private/aggregate"
 import { all } from "./../parallel/_private/all"
@@ -82,43 +82,16 @@ import { zipAsync } from "./../parallel/_private/zipAsync"
  */
 export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
 
-    // TODO: Make TypeScript Safe
     // eslint-disable-next-line
     type Writeable<TType> = { -readonly [P in keyof TType]-?: TType[P] }
-    const wPrototype = object.prototype as Writeable<IParallelEnumerable<T>>
-    const prototype = wPrototype as IParallelEnumerable<T>
+    const prototype = object.prototype as Writeable<IParallelEnumerable<T>>
 
-    const bind = (func: (x: IParallelEnumerable<T>, ...params: any[]) => any,
-                  key: keyof IParallelEnumerable<T>) => {
-        switch (func.length) {
-            case 1:
-                wPrototype[key] = function(this: IParallelEnumerable<T>) {
-                    return func(this)
-                } as any
-                return
-            case 2:
-                wPrototype[key] = function(this: IParallelEnumerable<T>, a: any) {
-                    return func(this, a)
-                } as any
-                return
-            case 3:
-                wPrototype[key] = function(this: IParallelEnumerable<T>, a: any, b: any) {
-                    return func(this, a, b)
-                } as any
-                return
-            case 4:
-                wPrototype[key] = function(this: IParallelEnumerable<T>, a: any, b: any, c: any) {
-                    return func(this, a, b, c)
-                } as any
-                return
-            case 5:
-                wPrototype[key] = function(this: IParallelEnumerable<T>, a: any, b: any, c: any, d: any) {
-                    return func(this, a, b, c, d)
-                } as any
-                return
-            default:
-                throw new Error("Invalid Function")
+    const bind = (func: (x: IParallelEnumerable<T>, ...params: any[]) => any, key: keyof IParallelEnumerable<T>) => {
+        const wrapped = function(this: IParallelEnumerable<T>, ...params: any) {
+            return func(this, ...params)
         }
+        Object.defineProperty(wrapped, "length", { value: func.length - 1 })
+        prototype[key] = wrapped as any
     }
 
     bind(aggregate, "aggregate")
@@ -127,19 +100,14 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(any, "any")
     bind(anyAsync, "anyAsync")
     bind(asAsync, "asAsync")
-    // bind(asParallel)
     bind(average, "average")
     bind(averageAsync, "averageAsync")
     bind(concatenate, "concatenate")
-    prototype.contains = function(value: T, comparer?: IEqualityComparer<T>) {
-        return contains(this, value, comparer)
-    }
+    bind(contains, "contains")
     bind(containsAsync, "containsAsync")
     bind(count, "count")
     bind(countAsync, "countAsync")
-    prototype.distinct = function(comparer?: IEqualityComparer<T>) {
-        return distinct(this, comparer)
-    }
+    bind(distinct, "distinct")
     bind(distinctAsync, "distinctAsync")
     bind(each, "each")
     bind(eachAsync, "eachAsync")
@@ -154,18 +122,9 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(groupBy, "groupBy")
     bind(groupByAsync, "groupByAsync")
     bind(groupByWithSel, "groupByWithSel")
-    prototype.intersect = function(second: IAsyncParallel<T>, comparer?: IEqualityComparer<T>) {
-        return intersect(this, second, comparer)
-    }
+    bind(intersect, "intersect")
     bind(intersectAsync, "intersectAsync")
-    prototype.joinByKey = function<TInner, TKey, TResult>(
-        inner: IAsyncParallel<TInner>,
-        outerKeySelector: (x: T) => TKey,
-        innerKeySelector: (x: TInner) => TKey,
-        resultSelector: (x: T, y: TInner) => TResult,
-        comparer?: IEqualityComparer<TKey>) {
-        return join(this, inner, outerKeySelector, innerKeySelector, resultSelector, comparer)
-    }
+    bind(join, "joinByKey")
     bind(last, "last")
     bind(lastAsync, "lastAsync")
     bind(lastOrDefault, "lastOrDefault")
@@ -184,9 +143,7 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(selectAsync, "selectAsync")
     bind(selectMany, "selectMany")
     bind(selectManyAsync, "selectManyAsync")
-    prototype.sequenceEquals = function(second: IAsyncParallel<T>, comparer?: IEqualityComparer<T>) {
-        return sequenceEquals(this, second, comparer)
-    }
+    bind(sequenceEquals, "sequenceEquals")
     bind(sequenceEqualsAsync, "sequenceEqualsAsync")
     bind(single, "single")
     bind(singleAsync, "singleAsync")
