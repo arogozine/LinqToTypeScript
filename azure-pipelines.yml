@@ -44,6 +44,7 @@ steps:
 - script: |
     cd tests/reacttest
     npm install
+    tsc
     npm run build
   displayName: 'Test React'
 - script: |
