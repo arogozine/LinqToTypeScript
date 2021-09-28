@@ -6,7 +6,7 @@
  * @returns [pass, fail]
  */
 export const partitionAsync = async <TSource>(
-    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<[TSource[], TSource[]]> => {
+    source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean): Promise<[pass: TSource[], fail: TSource[]]> => {
     const fail: TSource[] = []
     const pass: TSource[] = []
 

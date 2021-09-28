@@ -6,7 +6,7 @@
  * @returns [pass, fail]
  */
 export const partition = <TSource>(source: Iterable<TSource>,
-                                   predicate: (x: TSource) => boolean): [TSource[], TSource[]] => {
+                                   predicate: (x: TSource) => boolean): [pass: TSource[], fail: TSource[]] => {
     const fail: TSource[] = []
     const pass: TSource[] = []
 
