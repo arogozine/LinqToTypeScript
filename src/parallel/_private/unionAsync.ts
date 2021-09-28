@@ -8,11 +8,11 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param comparer The IAsyncEqualityComparer<T> to compare values.
  * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
  */
-export function unionAsync<TSource>(
+export const unionAsync = <TSource>(
     // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> => {
 
     const generator = async () => {
         const result: TSource[] = []

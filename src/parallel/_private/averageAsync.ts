@@ -10,8 +10,8 @@ import { nextIterationAsync } from "./_nextIterationAsync"
  * @throws {InvalidOperationException} source contains no elements.
  * @returns Average value (from the selector) of this parallel sequence
  */
-export async function averageAsync<TSource>(
-    source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> {
+export const averageAsync = async <TSource>(
+    source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> => {
     const nextIter = nextIterationAsync(source, selector)
     // eslint-disable-next-line @typescript-eslint/array-type
     let values: Array<number | Promise<number>>

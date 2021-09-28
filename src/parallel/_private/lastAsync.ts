@@ -9,9 +9,9 @@ import { ParallelGeneratorType } from "../../types/ParallelGeneratorType"
  * @throws {InvalidOperationException} The source sequence is empty.
  * @returns The last element in the sequence that passes the test in the specified predicate function.
  */
-export async function lastAsync<TSource>(
+export const lastAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
+    predicate: (x: TSource) => Promise<boolean>): Promise<TSource> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {

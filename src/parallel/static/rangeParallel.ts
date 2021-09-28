@@ -10,7 +10,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * OR start + count -1 is larger than MAX_SAFE_INTEGER.
  * @returns An IParallelEnumerable<number> that contains a range of sequential integral numbers.
  */
-export function rangeParallel(start: number, count: number): IParallelEnumerable<number> {
+export const rangeParallel = (start: number, count: number): IParallelEnumerable<number> => {
     if (start < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
         throw new ArgumentOutOfRangeException(`start`)
     }

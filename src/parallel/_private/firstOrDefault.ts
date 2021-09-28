@@ -10,9 +10,9 @@ import { toArray } from "./toArray"
  * or the first element that passes the test in the specified predicate function.
  * Returns null if no value found.
  */
-export function firstOrDefault<TSource>(
+export const firstOrDefault = <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate?: (x: TSource) => boolean): Promise<TSource | null> {
+    predicate?: (x: TSource) => boolean): Promise<TSource | null> => {
     if (predicate) {
         return firstOrDefault2(source, predicate)
     } else {

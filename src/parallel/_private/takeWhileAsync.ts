@@ -10,9 +10,9 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns An IParallelEnumerable<T> that contains elements
  * from the input sequence that occur before the element at which the test no longer passes.
  */
-export function takeWhileAsync<TSource>(
+export const takeWhileAsync = <TSource>(
     source: IAsyncParallel<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource> => {
     const generator = async () => {
         const values = await source.toArray()
         const results = new Array<TSource>()

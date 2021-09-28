@@ -8,9 +8,9 @@ import { nextIterationAsync } from "./_nextIterationAsync"
  * @param action The action to take an each element
  * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
  */
-export function eachAsync<TSource>(
+export const eachAsync = <TSource>(
     source: IParallelEnumerable<TSource>,
-    action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource> {
+    action: (x: TSource) => Promise<void>): IParallelEnumerable<TSource> => {
     return new BasicParallelEnumerable(nextIterationAsync(source, async (x) => {
             await action(x)
             return x

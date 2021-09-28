@@ -9,9 +9,9 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * index is less than 0 or greater than or equal to the number of elements in source.
  * @returns The element at the specified index in the sequence.
  */
-export async function elementAt<TSource>(
+export const elementAt = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    index: number): Promise<TSource> {
+    index: number): Promise<TSource> => {
     if (index < 0) {
         throw new ArgumentOutOfRangeException("index")
     }

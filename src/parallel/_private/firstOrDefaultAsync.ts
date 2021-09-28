@@ -8,9 +8,9 @@ import { toArray } from "./toArray"
  * @returns The first element that passes the test in the specified predicate function.
  * Returns null if no value found.
  */
-export async function firstOrDefaultAsync<TSource>(
+export const firstOrDefaultAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
+    predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> => {
     const data = await toArray(source)
     for (const value of data) {
         if (await predicate(value) === true) {

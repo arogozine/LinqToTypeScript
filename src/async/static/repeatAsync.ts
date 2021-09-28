@@ -9,8 +9,8 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param delay How long to delay the repeat (ms)
  * @returns An IAsyncEnumerable<T> that contains a repeated value.
  */
-export function repeatAsync<TResult>(
-    element: TResult, count: number, delay?: number): IAsyncEnumerable<TResult> {
+export const repeatAsync = <TResult>(
+    element: TResult, count: number, delay?: number): IAsyncEnumerable<TResult> => {
     if (count < 0) {
         throw new ArgumentOutOfRangeException(`count`)
     }

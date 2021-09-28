@@ -5,9 +5,10 @@
  * @returns ``true`` if every element of the source sequence passes the test in the specified predicate,
  * or if the sequence is empty; otherwise, ``false``.
  */
-export async function anyAsync<TSource>(
+export const anyAsync = async <TSource>(
     source: AsyncIterable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
+    predicate: (x: TSource) => Promise<boolean>
+) => {
     for await (const item of source) {
         if (await predicate(item) === true) {
             return true

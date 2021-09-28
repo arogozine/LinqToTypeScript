@@ -8,9 +8,9 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns An IParallelEnumerable<T> that contains the specified number of elements
  * from the start of the input sequence.
  */
-export function take<TSource>(
+export const take = <TSource>(
     source: IParallelEnumerable<TSource>,
-    amount: number): IParallelEnumerable<TSource> {
+    amount: number): IParallelEnumerable<TSource> => {
     const amountLeft = amount > 0 ? amount : 0
     const dataFunc = source.dataFunc
 

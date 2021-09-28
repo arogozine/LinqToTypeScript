@@ -14,13 +14,13 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns An IParallelEnumerable<T> that has elements of type TResult that
  * are obtained by performing an inner join on two sequences.
  */
-export function join<TOuter, TInner, TKey, TResult>(
+export const join = <TOuter, TInner, TKey, TResult>(
     outer: IAsyncParallel<TOuter>,
     inner: IAsyncParallel<TInner>,
     outerKeySelector: (x: TOuter) => TKey,
     innerKeySelector: (x: TInner) => TKey,
     resultSelector: (x: TOuter, y: TInner) => TResult,
-    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IParallelEnumerable<TResult> {
+    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IParallelEnumerable<TResult> => {
     const generator = async () => {
         const innerOuter = await Promise.all([inner.toArray(), outer.toArray()])
         const innerArray = innerOuter[0]

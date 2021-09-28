@@ -7,9 +7,9 @@ import { IAsyncParallel } from "../../types"
  * @param selector A transform function to apply to each element.
  * @returns Sum of the sequence
  */
-export async function sumAsync<TSource>(
+export const sumAsync = async <TSource>(
     source: IAsyncParallel<TSource>,
-    selector: (x: TSource) => Promise<number>): Promise<number> {
+    selector: (x: TSource) => Promise<number>): Promise<number> => {
     let total = 0
     for (const value of await source.toArray()) {
         total += await selector(value)

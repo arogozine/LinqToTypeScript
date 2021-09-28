@@ -8,9 +8,9 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns
  * An IParallelEnumerable<T> that contains the elements that occur after the specified index in the input sequence.
  */
-export function skip<TSource>(
+export const skip = <TSource>(
     source: IParallelEnumerable<TSource>,
-    count: number): IParallelEnumerable<TSource> {
+    count: number): IParallelEnumerable<TSource> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {

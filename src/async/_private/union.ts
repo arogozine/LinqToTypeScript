@@ -8,10 +8,10 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param comparer The IEqualityComparer<T> to compare values. Optional.
  * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
  */
-export function union<TSource>(
+export const union = <TSource>(
     first: AsyncIterable<TSource>,
     second: AsyncIterable<TSource>,
-    comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> {
+    comparer?: IEqualityComparer<TSource>): IAsyncEnumerable<TSource> => {
     if (comparer) {
         return union2(first, second, comparer)
     } else {

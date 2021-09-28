@@ -5,8 +5,8 @@
  * @returns null if source is empty or if no element passes the test specified by predicate;
  * otherwise, the first element in source that passes the test specified by predicate.
  */
-export async function firstOrDefaultAsync<T>(
-    source: Iterable<T>, predicate: (x: T) => Promise<boolean>): Promise<T | null> {
+export const firstOrDefaultAsync = async <TSource>(
+    source: Iterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> => {
     for (const value of source) {
         if (await predicate(value) === true) {
             return value

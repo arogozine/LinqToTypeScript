@@ -8,10 +8,10 @@ import { IEqualityComparer } from "../../types"
  * @param comparer Compare function to use, by default is @see {StrictEqualityComparer}
  * @returns Whether or not the two iterables are equal
  */
-export function sequenceEquals<TSource>(
+export const sequenceEquals = <TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): boolean {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer) => {
 
     const firstIterator = first[Symbol.iterator]()
     const secondIterator = second[Symbol.iterator]()

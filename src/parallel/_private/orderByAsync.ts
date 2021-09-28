@@ -8,9 +8,9 @@ import { OrderedParallelEnumerable } from "../OrderedParallelEnumerable"
  * @param comparer An IComparer<T> to compare keys.
  * @returns An IOrderedParallelEnumerable<TElement> whose elements are sorted according to a key.
  */
-export function orderByAsync<TSource, TKey>(
+export const orderByAsync = <TSource, TKey>(
     source: IAsyncParallel<TSource>,
     keySelector: (x: TSource) => Promise<TKey>,
-    comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource> {
+    comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource> => {
     return OrderedParallelEnumerable.generateAsync(source, keySelector, true, comparer)
 }

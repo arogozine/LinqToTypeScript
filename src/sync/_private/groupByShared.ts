@@ -77,10 +77,10 @@ export const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
 /**
  * @private
  */
-export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement>(
+export const groupBy_1_Simple = <TSource, TKey extends SelectorKeyType, TElement>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
-    elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<TKey, TElement>> {
+    elementSelector: (x: TSource) => TElement): IEnumerable<IGrouping<TKey, TElement>> => {
 
     function *generate(): IterableIterator<IGrouping<TKey, TElement>> {
         const keyMap: { [key: string]: Grouping<TKey, TElement> } = {}
@@ -110,11 +110,11 @@ export function groupBy_1_Simple<TSource, TKey extends SelectorKeyType, TElement
 /**
  * @private
  */
-export function groupBy_1<TSource, TKey, TElement>(
+export const groupBy_1 = <TSource, TKey, TElement>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
     elementSelector: (x: TSource) => TElement,
-    comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> {
+    comparer: IEqualityComparer<TKey>): IEnumerable<IGrouping<TKey, TElement>> => {
 
     function *generate(): IterableIterator<IGrouping<TKey, TElement>> {
         const keyMap = new Array<Grouping<TKey, TElement>>()

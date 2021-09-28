@@ -4,9 +4,9 @@
  * @param selector Key Selector
  * @returns KVP Object
  */
-export async function toObject<TSource>(
+export const toObject = async <TSource>(
     source: AsyncIterable<TSource>,
-    selector: (x: TSource) => string): Promise<{[key: string]: TSource}> {
+    selector: (x: TSource) => string): Promise<{[key: string]: TSource}> => {
 
     const map: {[key: string]: TSource} = {}
 
