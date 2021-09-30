@@ -25,8 +25,8 @@
     "postbuild": "node --experimental-json-modules config/copy",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
     "doc": "npx rimraf doc && typedoc ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --gitRevision master --out ./doc --excludePrivate --readme README.md --name \"LINQ To TypeScript\" --includeVersion && node config/editdocs",
-    "release:npm": "npm publish dist",
-    "release:npm-next": "npm publish dist --tag next",
+    "release:npm": "npm publish ./dist",
+    "release:npm-next": "npm publish ./dist --tag next",
     "release:pack": "npm pack ./dist"
   },
   "repository": {
