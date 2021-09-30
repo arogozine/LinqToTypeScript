@@ -10,7 +10,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * OR start + count -1 is larger than MAX_SAFE_INTEGER.
  * @returns An IAsyncEnumerable<number> that contains a range of sequential integral numbers.
  */
-export function rangeAsync(start: number, count: number): IAsyncEnumerable<number> {
+export const rangeAsync = (start: number, count: number): IAsyncEnumerable<number> => {
     if (start < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
         throw new ArgumentOutOfRangeException(`start`)
     }
