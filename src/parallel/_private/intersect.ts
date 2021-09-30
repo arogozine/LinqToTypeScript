@@ -10,11 +10,10 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param comparer An IAsyncEqualityComparer<T> to compare values. Optional.
  * @returns A sequence that contains the elements that form the set intersection of two sequences.
  */
-export function intersect<TSource>(
-    // eslint-disable-next-line no-shadow
+export const intersect = <TSource>(
     first: IParallelEnumerable<TSource>,
     second: IAsyncParallel<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> => {
 
     const generator = async () => {
 

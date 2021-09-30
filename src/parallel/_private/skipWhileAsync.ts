@@ -10,9 +10,9 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns An IParallelEnumerable<T> that contains the elements from the input sequence starting
  * at the first element in the linear series that does not pass the test specified by predicate.
  */
-export function skipWhileAsync<TSource>(
+export const skipWhileAsync = <TSource>(
     source: IAsyncParallel<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource> => {
     const generator = async () => {
         const values = await source.toArray()
         let i = 0

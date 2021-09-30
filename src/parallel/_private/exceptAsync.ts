@@ -9,16 +9,13 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param comparer An IAsyncEqualityComparer<T> to compare values.
  * @returns A sequence that contains the set difference of the elements of two sequences.
  */
-export function exceptAsync<TSource>(
-    // eslint-disable-next-line no-shadow
+export const exceptAsync = <TSource>(
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> => {
 
     const generator = async () => {
-        const values = await Promise.all([ first.toArray(), second.toArray() ])
-        const firstValues = values[0]
-        const secondValues = values[1]
+        const [firstValues, secondValues] = await Promise.all([ first.toArray(), second.toArray() ])
         const resultValues = []
 
         for (const firstItem of firstValues) {

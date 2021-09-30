@@ -7,22 +7,41 @@ import { nextIterationAsync } from "./_nextIterationAsync"
  * @param predicate A function to test each element for a condition.
  * @returns Whether or not the parallel sequence contains any value (from the predicate)
  */
-export function anyAsync<TSource>(
-    source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> {
+export const anyAsync = async <TSource>(
+    source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> => {
     const nextIter = nextIterationAsync(source, predicate)
 
+    let values: boolean[]
+    let promises: Promise<boolean>[]
     switch (nextIter.type) {
         case ParallelGeneratorType.PromiseToArray:
-            return nextIter.generator().then((values) => {
-                return values.some((x) => x)
-            })
+            values = await nextIter.generator()
+            return values.includes(true)
         case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(nextIter.generator()).then((values) => {
-                return values.some((x) => x)
+            promises = nextIter.generator()
+
+            if (promises.length === 0) {
+                return false
+            }
+
+            return new Promise((resolve, reject) => {
+                let resolvedCount = 0
+                for (const promise of promises) {
+                    promise.then(value => {
+                        resolvedCount++
+                        if (value) {
+                            resolve(true)
+                        }
+                        else if (resolvedCount === promises.length) {
+                            resolve(false)
+                        }
+                    }, reject)
+                }
             })
+
         case ParallelGeneratorType.PromiseOfPromises:
-            return nextIter.generator().then((values) => Promise.all(values)).then((values) => {
-                return values.some((x) => x)
-            })
+            promises = await nextIter.generator()
+            values = await Promise.all(promises)
+            return values.includes(true)
     }
 }

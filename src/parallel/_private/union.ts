@@ -8,10 +8,10 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param comparer The IEqualityComparer<T> to compare values. Optional.
  * @returns An IParallelEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
  */
-export function union<TSource>(
+export const union = <TSource>(
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
-    comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+    comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource> => {
     if (comparer) {
         return union2(first, second, comparer)
     } else {

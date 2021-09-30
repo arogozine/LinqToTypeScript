@@ -10,9 +10,9 @@ import { nextIterationAsync } from "./_nextIterationAsync"
  * @throws {InvalidOperationException} source contains no elements.
  * @returns The minimum value in the sequence.
  */
-export async function minAsync<TSource>(
+export const minAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    selector: (x: TSource) => Promise<number>): Promise<number> {
+    selector: (x: TSource) => Promise<number>): Promise<number> => {
     const dataFunc = nextIterationAsync(source, selector)
     const maxInfo = await new BasicParallelEnumerable(dataFunc).toArray()
 

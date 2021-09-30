@@ -6,8 +6,8 @@ import { IParallelEnumerable, ParallelGeneratorType } from "./../../types"
  * @param source A sequence of values to reverse.
  * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
  */
-export function reverse<TSource>(
-    source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource> {
+export const reverse = <TSource>(
+    source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.ArrayOfPromises: {

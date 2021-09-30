@@ -5,7 +5,7 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @param source An IParallelEnumerable<T> to create an array from.
  * @returns An array of elements
  */
-export function toArray<TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]> {
+export const toArray = <TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray:
@@ -17,7 +17,5 @@ export function toArray<TSource>(source: IParallelEnumerable<TSource>): Promise<
                 const data = await dataFunc.generator()
                 return Promise.all(data)
             })()
-        default:
-            throw new Error("Not Implemented")
     }
 }

@@ -8,9 +8,9 @@ import { nextIteration } from "./_nextIteration"
  * @param action The action to take an each element
  * @returns A new IParallelEnumerable<T> that executes the action lazily as you iterate.
  */
-export function each<TSource>(
+export const each = <TSource>(
     source: IParallelEnumerable<TSource>,
-    action: (x: TSource) => void): IParallelEnumerable<TSource> {
+    action: (x: TSource) => void): IParallelEnumerable<TSource> => {
     return new BasicParallelEnumerable(nextIteration(source, (x) => {
             action(x)
             return x

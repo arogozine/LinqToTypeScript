@@ -7,9 +7,9 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @returns The last element in the sequence that passes the test in the specified predicate function.
  * Null if no elements.
  */
-export async function lastOrDefaultAsync<TSource>(
+export const lastOrDefaultAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> {
+    predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {

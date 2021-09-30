@@ -7,9 +7,9 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param comparer An IAsyncEqualityComparer<T> to compare values.
  * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
  */
-export function distinctAsync<TSource>(
+export const distinctAsync = <TSource>(
     source: IAsyncParallel<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> {
+    comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> => {
     const generator = async () => {
         const distinctElements: TSource[] = []
         outerLoop:

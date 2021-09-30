@@ -4,9 +4,9 @@
  * @param selector A function to serve as a key selector.
  * @returns A promise for Map<K, V[]>
  */
-export async function toMap<K, V>(
+export const toMap = async <K, V>(
     source: AsyncIterable<V>,
-    selector: (x: V) => K): Promise<Map<K, V[]>> {
+    selector: (x: V) => K): Promise<Map<K, V[]>> => {
     const map = new Map<K, V[]>()
 
     for await (const value of source) {

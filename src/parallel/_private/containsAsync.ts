@@ -8,10 +8,10 @@ import { nextIterationAsync } from "./_nextIterationAsync"
  * @param comparer An equality comparer to compare values. Optional.
  * @returns Whether or not the specified parallel sequence contains a value
  */
-export async function containsAsync<TSource>(
+export const containsAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
     value: TSource,
-    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> => {
     const values = nextIterationAsync(source, (x) => comparer(value, x))
 
     switch (values.type) {

@@ -9,10 +9,10 @@ import { nextIteration } from "./_nextIteration"
  * @param comparer An equality comparer to compare values. Optional.
  * @returns Whether or not source contains the specified value
  */
-export async function contains<TSource>(
+export const contains = async <TSource>(
     source: IParallelEnumerable<TSource>,
     value: TSource,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> => {
     let values: TypedData<boolean>
     if (comparer) {
         values = nextIteration(source, (x) => comparer(value, x))

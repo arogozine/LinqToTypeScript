@@ -9,9 +9,9 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * the second parameter of the function represents the index of the source element.
  * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
  */
-export function where<TSource>(
+export const where = <TSource>(
     source: IAsyncParallel<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource> => {
     const generator = async () => {
         const values = await source.toArray()
         return values.filter(predicate)

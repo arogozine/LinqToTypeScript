@@ -12,9 +12,9 @@ import { toArray } from "./toArray"
  * The source sequence is empty.
  * @returns The single element of the input sequence that satisfies a condition.
  */
-export function single<TSource>(
+export const single = <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate?: (x: TSource) => boolean): Promise<TSource> {
+    predicate?: (x: TSource) => boolean): Promise<TSource> => {
     if (predicate) {
         return single2(source, predicate)
     } else {

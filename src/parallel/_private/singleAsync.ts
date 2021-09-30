@@ -13,9 +13,9 @@ import { toArray } from "./toArray"
  * The source sequence is empty.
  * @returns The single element of the input sequence that satisfies a condition.
  */
-export async function singleAsync<TSource>(
+export const singleAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
+    predicate: (x: TSource) => Promise<boolean>): Promise<TSource> => {
     const results = await toArray(source)
 
     let hasValue = false

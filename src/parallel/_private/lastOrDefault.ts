@@ -8,9 +8,9 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @returns The value at the last position in the source sequence
  * or the last element in the sequence that passes the test in the specified predicate function.
  */
-export function lastOrDefault<TSource>(
+export const lastOrDefault = <TSource>(
     source: IParallelEnumerable<TSource>,
-    predicate?: (x: TSource) => boolean): Promise<TSource | null> {
+    predicate?: (x: TSource) => boolean): Promise<TSource | null> => {
     if (predicate) {
         return lastOrDefault2(source, predicate)
     } else {

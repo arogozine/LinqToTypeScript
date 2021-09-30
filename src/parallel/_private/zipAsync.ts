@@ -9,10 +9,10 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @param resultSelector An async function that specifies how to merge the elements from the two sequences.
  * @returns An IAsyncEnumerable<T> that contains merged elements of two input sequences.
  */
-export function zipAsync<TFirst, TSecond, TResult>(
+export const zipAsync = <TFirst, TSecond, TResult>(
     first: IAsyncParallel<TFirst>,
     second: IAsyncParallel<TSecond>,
-    resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult> {
+    resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult> => {
     async function generator() {
         const [left, right] = await Promise.all([first.toArray(), second.toArray()])
         const maxLength = left.length > right.length ? left.length : right.length

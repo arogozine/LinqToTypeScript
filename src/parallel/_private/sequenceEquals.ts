@@ -8,11 +8,11 @@ import { IAsyncParallel, IEqualityComparer } from "../../types"
  * @param comparer Comparer
  * @returns Whether or not the two iterations are equal
  */
-export async function sequenceEquals<TSource>(
+export const sequenceEquals = async <TSource>(
     // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> => {
 
     const firstArray = await first.toArray()
     const secondArray = await second.toArray()
