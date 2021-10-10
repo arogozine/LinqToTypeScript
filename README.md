@@ -156,6 +156,7 @@ To use library with ES6 modules,
 | takeWhile          | Yes     | [Sync](tests/unittests/tests/TakeWhile.ts), [Async](tests/unittests/tests/TakeWhileAsync.ts)
 | toArray            | No      | [Sync](tests/unittests/tests/ToArray.ts)
 | toMap              | Yes     | [Sync](tests/unittests/tests/ToMap.ts), [Async](tests/unittests/tests/ToMapAsync.ts) | Equivalent to `ToDictionary`
+| toObject           | Yes     | [Sync](tests/unittests/tests/toObject.ts), [Async](tests/unittests/tests/ToObjectAsync.ts)
 | toSet              | No      | [Sync](tests/unittests/tests/ToSet.ts) | Equivalent to `ToHashSet`. No comparer overload for JS.
 | union              | Yes     | [Sync](tests/unittests/tests/Union.ts)
 | where              | Yes     | [Sync](tests/unittests/tests/Where.ts), [Async](tests/unittests/tests/WhereAsync.ts)

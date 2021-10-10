@@ -66,6 +66,8 @@ import { takeWhileAsync } from "./../parallel/_private/takeWhileAsync"
 import { toArray } from "./../parallel/_private/toArray"
 import { toMap } from "./../parallel/_private/toMap"
 import { toMapAsync } from "./../parallel/_private/toMapAsync"
+import { toObject } from "./../parallel/_private/toObject"
+import { toObjectAsync } from "./../parallel/_private/toObjectAsync"
 import { toSet } from "./../parallel/_private/toSet"
 import { union } from "./../parallel/_private/union"
 import { unionAsync } from "./../parallel/_private/unionAsync"
@@ -160,6 +162,8 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(toArray, "toArray")
     bind(toMap, "toMap")
     bind(toMapAsync, "toMapAsync")
+    bind(toObject, "toObject")
+    bind(toObjectAsync, "toObjectAsync")
     bind(toSet, "toSet")
     bind(union, "union")
     bind(unionAsync, "unionAsync")

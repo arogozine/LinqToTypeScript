@@ -1,17 +1,17 @@
 /**
  * Converts an Async Iterable to a key value pair object
  * @param source Iteration to Convert to an Object
- * @param selector Key Selector
- * @returns KVP Object Promise
+ * @param selector Async Key Selector
+ * @returns KVP Object
  */
-export async function toObject<TSource, TKey extends keyof any>(
+ export const toObjectAsync = async <TSource, TKey extends keyof any>(
     source: AsyncIterable<TSource>,
-    selector: (x: TSource) => TKey): Promise<Record<TKey, TSource>> {
+    selector: (x: TSource) => Promise<TKey>): Promise<Record<TKey, TSource>> => {
 
     const map: Partial<Record<TKey, TSource>> = {}
 
     for await (const value of source) {
-        map[selector(value)] = value
+        map[await selector(value)] = value
     }
 
     return map as Record<TKey, TSource>

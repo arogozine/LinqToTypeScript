@@ -250,6 +250,18 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
      */
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>
     /**
+     * Converts the Iteration to an Object. Duplicate values will be overriden.
+     * @param selector A function to determine the Key based on the value.
+     * @returns Promise of KVP Object
+     */
+    toObject<TKey extends keyof any>(selector: (x: TSource) => TKey): Promise<Record<TKey, TSource>>
+    /**
+     * Converts the Iteration to an Object. Duplicate values will be overriden.
+     * @param selector An async function to determine the Key based on the value.
+     * @returns Promise of KVP Object
+     */
+    toObjectAsync<TKey extends keyof any>(selector: (x: TSource) => Promise<TKey>): Promise<Record<TKey, TSource>>
+    /**
      * Converts the async iteration to a Set
      * @returns A promise for a set containing the iteration values
      */

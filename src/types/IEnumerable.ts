@@ -1,10 +1,17 @@
-import { IAsyncEnumerable,
+
+import {
+    IAsyncEnumerable,
     IAsyncEqualityComparer,
     IComparer,
     IEqualityComparer,
     IGrouping,
     InferType,
-    IOrderedAsyncEnumerable, IOrderedEnumerable, IParallelEnumerable, OfType, SelectorKeyType } from "./"
+    IOrderedAsyncEnumerable,
+    IOrderedEnumerable,
+    IParallelEnumerable,
+    OfType,
+    SelectorKeyType
+} from "./"
 
 /**
  * Iterable type with methods from LINQ.
@@ -637,6 +644,18 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns A promise for Map<K, V[]>
      */
     toMapAsync<TKey>(selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>>
+    /**
+     * Converts the Iteration to an Object. Duplicate values will be overriden.
+     * @param selector A function to determine the Key based on the value.
+     * @returns KVP Object
+     */
+    toObject<TKey extends keyof any>(selector: (x: TSource) => TKey): Record<TKey, TSource>
+    /**
+     * Converts the Iteration to an Object. Duplicate values will be overriden.
+     * @param selector An async function to determine the Key based on the value.
+     * @returns KVP Object
+     */
+    toObjectAsync<TKey extends keyof any>(selector: (x: TSource) => Promise<TKey>): Promise<Record<TKey, TSource>>
     /**
      * Converts the iteration to a Set
      * @returns Set containing the iteration values

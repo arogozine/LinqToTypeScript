@@ -4,15 +4,15 @@
  * @param selector A function to determine the Key based on the value.
  * @returns KVP Object
  */
-export const toObject = <TSource>(
+export const toObject = <TSource, TKey extends keyof any>(
     source: Iterable<TSource>,
-    selector: (x: TSource) => string): { [key: string]: TSource } => {
+    selector: (x: TSource) => TKey): Record<TKey, TSource> => {
 
-    const map: {[key: string]: TSource} = {}
+    const map: Partial<Record<TKey, TSource>> = {}
 
     for (const value of source) {
         map[selector(value)] = value
     }
 
-    return map
+    return map as Record<TKey, TSource>
 }

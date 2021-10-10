@@ -66,6 +66,8 @@ import { takeWhileAsync } from "./../async/_private/takeWhileAsync"
 import { toArray } from "./../async/_private/toArray"
 import { toMap } from "./../async/_private/toMap"
 import { toMapAsync } from "./../async/_private/toMapAsync"
+import { toObject } from "./../async/_private/toObject"
+import { toObjectAsync } from "./../async/_private/toObjectAsync"
 import { toSet } from "./../async/_private/toSet"
 import { union } from "./../async/_private/union"
 import { unionAsync } from "./../async/_private/unionAsync"
@@ -157,6 +159,8 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(toArray, "toArray")
     bind(toMap, "toMap")
     bind(toMapAsync, "toMapAsync")
+    bind(toObject, "toObject")
+    bind(toObjectAsync, "toObjectAsync")
     bind(toSet, "toSet")
     bind(union, "union")
     bind(unionAsync, "unionAsync")
