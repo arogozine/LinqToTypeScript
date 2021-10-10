@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 4.4.X and ES 2018**
+- **Targets TypeScript 4.4.X and ES 2019**
 ```TypeScript
 await from([bing, google, quackQuackGo])
     .asParallel()
@@ -28,10 +28,9 @@ npm i linq-to-typescript
 ### tsconfig.json
 ```JSON
 "compilerOptions": {
-    "target": "es2018",
+    "target": "es2019",
     "lib": [
-      "dom",
-      "es2018"
+      "es2019"
     ],
     "importHelpers": true
 }

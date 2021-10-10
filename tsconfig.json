@@ -3,10 +3,9 @@
         "moduleResolution": "node",
         "module": "ES2020",
         "esModuleInterop": true,
-        "target": "es2018",
+        "target": "es2019",
         "lib": [
-            "dom",
-            "es2018"
+            "es2019"
         ],
         "strict": true,
         "noImplicitReturns": true,
