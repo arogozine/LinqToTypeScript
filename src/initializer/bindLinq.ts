@@ -45,6 +45,8 @@ import { orderBy } from "./../sync/_private/orderBy"
 import { orderByAsync } from "./../sync/_private/orderByAsync"
 import { orderByDescending } from "./../sync/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../sync/_private/orderByDescendingAsync"
+import { partition } from "./../sync/_private/partition"
+import { partitionAsync } from "./../sync/_private/partitionAsync"
 import { reverse } from "./../sync/_private/reverse"
 import { select } from "./../sync/_private/select"
 import { selectAsync } from "./../sync/_private/selectAsync"
@@ -166,6 +168,8 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(toMapAsync, "toMapAsync")
     bind(toObject, "toObject")
     bind(toObjectAsync, "toObjectAsync")
+    bind(partition, "partition")
+    bind(partitionAsync, "partitionAsync")
     bind(toSet, "toSet")
     bind(union, "union")
     bind(unionAsync, "unionAsync")

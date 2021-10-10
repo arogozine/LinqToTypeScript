@@ -44,6 +44,8 @@ import { orderBy } from "./../async/_private/orderBy"
 import { orderByAsync } from "./../async/_private/orderByAsync"
 import { orderByDescending } from "./../async/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../async/_private/orderByDescendingAsync"
+import { partition } from "./../async/_private/partition"
+import { partitionAsync } from "./../async/_private/partitionAsync"
 import { reverse } from "./../async/_private/reverse"
 import { select } from "./../async/_private/select"
 import { selectAsync } from "./../async/_private/selectAsync"
@@ -137,6 +139,8 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(orderByAsync, "orderByAsync")
     bind(orderByDescending, "orderByDescending")
     bind(orderByDescendingAsync, "orderByDescendingAsync")
+    bind(partition, "partition")
+    bind(partitionAsync, "partitionAsync")
     bind(reverse, "reverse")
     bind(select, "select")
     bind(selectAsync, "selectAsync")

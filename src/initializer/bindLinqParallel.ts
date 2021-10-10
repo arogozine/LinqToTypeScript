@@ -44,6 +44,8 @@ import { orderBy } from "./../parallel/_private/orderBy"
 import { orderByAsync } from "./../parallel/_private/orderByAsync"
 import { orderByDescending } from "./../parallel/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../parallel/_private/orderByDescendingAsync"
+import { partition } from "./../parallel/_private/partition"
+import { partitionAsync } from "./../parallel/_private/partitionAsync"
 import { reverse } from "./../parallel/_private/reverse"
 import { select } from "./../parallel/_private/select"
 import { selectAsync } from "./../parallel/_private/selectAsync"
@@ -140,6 +142,8 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(orderByAsync, "orderByAsync")
     bind(orderByDescending, "orderByDescending")
     bind(orderByDescendingAsync, "orderByDescendingAsync")
+    bind(partition, "partition")
+    bind(partitionAsync, "partitionAsync")
     bind(reverse, "reverse")
     bind(select, "select")
     bind(selectAsync, "selectAsync")

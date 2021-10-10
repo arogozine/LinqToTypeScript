@@ -143,6 +143,7 @@ To use library with ES6 modules,
 | ofType             | No      | [Sync](tests/unittests/tests/OfType.ts)
 | orderBy            | Yes     | [Sync](tests/unittests/tests/OrderBy.ts), [Async](tests/unittests/tests/OrderByAsync.ts)
 | orderByDescending  | Yes     | [Sync](tests/unittests/tests/OrderByDescending.ts), [Async](tests/unittests/tests/OrderByDescendingAsync.ts)
+| partition          | Yes     | [Sync](tests/unittests/tests/Partition.ts), [Async](tests/unittests/tests/PartitionAsync.ts)
 | reverse            | No      | [Sync](tests/unittests/tests/Reverse.ts)
 | select             | Yes     | [Sync](tests/unittests/tests/Select.ts), [Async](tests/unittests/tests/SelectAsync.ts)
 | selectMany         | Yes     | [Sync](tests/unittests/tests/SelectMany.ts), [Async](tests/unittests/tests/SelectManyAsync.ts)
@@ -171,7 +172,6 @@ To use library with ES6 modules,
 | empty           | emptyAsync           | emptyParallel     | [Test](tests/unittests/tests/staticmethods/Empty.ts)
 | enumerateObject | enumerateObjectAsync | N/A               | [Test](tests/unittests/tests/staticmethods/EnumerateObject.ts)
 | flatten         | flattenAsync         | flattenParallel   | [Test](tests/unittests/tests/staticmethods/Flatten.ts)
-| partition       | partitionAsync       | partitionParallel | [Test](tests/unittests/tests/staticmethods/Partition.ts)
 | range           | rangeAsync           | rangeParallel     | [Test](tests/unittests/tests/staticmethods/Range.ts)
 | repeat          | repeatAsync          | repeatParallel    | [Test](tests/unittests/tests/staticmethods/Repeat.ts)
 

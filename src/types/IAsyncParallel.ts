@@ -199,6 +199,19 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
      * @throws {import('../types/InvalidOperationException')} Sequence contains no matching element
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
+    /**
+     * Partitions the values into a tuple of failing and passing arrays
+     * @param predicate Predicate to determine whether a value passes or fails
+     * @returns [values that pass, values that fail]
+     */
+    partition(predicate: (x: TSource) => boolean): Promise<[pass: TSource[], fail: TSource[]]>
+    /**
+     * Partitions the values into a tuple of failing and passing arrays
+     * @param predicate Async predicate to determine whether a value passes or fails
+     * @returns [values that pass, values that fail]
+     */
+    partitionAsync(predicate: (x: TSource) => Promise<boolean>): Promise<[pass: TSource[], fail: TSource[]]>
+
     single(predicate?: (x: TSource) => boolean): Promise<TSource>
     /**
      * @throws {import('../types/InvalidOperationException')} Sequence contains more than one matching element

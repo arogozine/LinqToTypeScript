@@ -405,7 +405,6 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns Values that match the type string or are instance of type
      */
     ofType<T extends OfType>(type: T): IEnumerable<InferType<T>>
-
     /**
      * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
      * @param keySelector A function to extract a key from an element.
@@ -442,7 +441,18 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
-
+    /**
+     * Partitions the values into a tuple of failing and passing arrays
+     * @param predicate Predicate to determine whether a value passes or fails
+     * @returns [values that pass, values that fail]
+     */
+    partition(predicate: (x: TSource) => boolean): [pass: TSource[], fail: TSource[]]
+    /**
+     * Partitions the values into a tuple of failing and passing arrays
+     * @param predicate Predicate to determine whether a value passes or fails
+     * @returns [values that pass, values that fail]
+     */
+    partitionAsync(predicate: (x: TSource) => Promise<boolean>): Promise<[pass: TSource[], fail: TSource[]]>
     /**
      * Inverts the order of the elements in a sequence.
      * @returns A sequence whose elements correspond to those of the input sequence in reverse order.

@@ -1,6 +1,5 @@
 export { emptyParallel } from "./emptyParallel"
 export { flattenParallel } from "./flattenParallel"
 export { fromParallel } from "./fromParallel"
-export { partitionParallel } from "./partitionParallel"
 export { rangeParallel } from "./rangeParallel"
 export { repeatParallel } from "./repeatParallel"
