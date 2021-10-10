@@ -9,8 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "linq-to-typescript": "^8.1.0",
-    "tslib": "^2.3.1"
+    "linq-to-typescript": "^8.1.0"
   },
   "devDependencies": {
     "typescript": "^4.4.3"

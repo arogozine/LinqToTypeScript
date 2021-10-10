@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "moduleResolution": "node",
-        "target": "es2018",
+        "target": "es2019",
         "module": "commonjs",
         "esModuleInterop": true,
         "removeComments": true,
@@ -16,8 +16,7 @@
         "declaration": false,
         "lib": [      
             "dom",
-            "es2018"
+            "es2019"
         ],
-        "importHelpers": true,
     }
 }

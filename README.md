@@ -37,7 +37,6 @@ npm i linq-to-typescript
 }
 ```
 * The `strict` TS option is recommended.
-* Library is dependent on [tslib](https://github.com/Microsoft/tslib) for async iteration polyfills.
 
 ### Using the Library
 #### With Wrappers
@@ -235,32 +234,28 @@ fromParallel(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
 
 ### Issues and Questions
 
-**Q1: I'm getting a `Error: Cannot find module 'tslib'` error.**
+**Q1: I'm getting a `Directory import [...] is not supported resolving ES modules imported from [...]`**
 
-This library depends on tslib. Run `npm i tslib` to solve the error.
+If your application npm package is `"type": "module"` then you need to run with `--experimental-specifier-resolution=node`
 
-**Q2: I'm getting a `Directory import [...] is not supported resolving ES modules imported from [...]`**
-
-If your package is `"type": "module"` then you need to run with `--experimental-specifier-resolution=node`
-
-**Q3: How does this compare to other LINQ libraries?**
+**Q2: How does this compare to other LINQ libraries?**
 
 Other libraries tend to use eager evaluation and work with arrays instead of iterables.
 
-**Q4: Can I use your code?**
+**Q3: Can I use your code?**
 
 With attribution; the code is licensed under MIT.
 
-**Q5: Why should I use this instead of lodash or something similar?**
+**Q4: Why should I use this instead of lodash or something similar?**
 
 The whole library is written in TypeScript first and avoids typechecking done by TypeScript Language Service.
 
 Lazy evaluation. Not much happens until you iterate over the enumerable or conver it to an Array, Map, etc.
 
-**Q6: Is IE11 supported?**
+**Q5: Is IE11 supported?**
 
 No.
 
-**Q7: Can I contribute?**
+**Q6: Can I contribute?**
 
 Please do!

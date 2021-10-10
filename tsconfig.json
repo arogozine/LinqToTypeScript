@@ -17,7 +17,6 @@
         "forceConsistentCasingInFileNames": true,
         "outDir": "./dist/esm",
         "resolveJsonModule": true,
-        "importHelpers": true,
         "stripInternal": true
     },
     "include": [

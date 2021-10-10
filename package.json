@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "npx rimraf dist && npm run build:main && npm run build:esm",
-    "build:main": "tsc --module commonjs --target es2018 --outDir dist/commonjs --declaration",
+    "build:main": "tsc --module commonjs --target es2019 --outDir dist/commonjs --declaration",
     "build:esm": "tsc -t es2019 --outDir dist/esm",
     "postbuild": "node --experimental-json-modules config/copy",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
@@ -40,13 +40,10 @@
     "async",
     "generators",
     "enumerable",
-    "es2018"
+    "es2019"
   ],
   "author": "Alexandre Rogozine",
   "license": "MIT",
-  "peerDependencies": {
-    "tslib": "^2.3.1"
-  },
   "devDependencies": {
     "@types/node": "^16.9.4",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
@@ -54,7 +51,6 @@
     "eslint": "^7.11.0",
     "eslint-plugin-jsdoc": "^36.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.2",
-    "tslib": ">=2.3.1",
     "typedoc-plugin-merge-modules": "^3.0.2",
     "typescript": "^4.4.3"
   },

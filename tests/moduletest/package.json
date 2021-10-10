@@ -10,8 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "linq-to-typescript": "file:../../dist",
-    "tslib": "^2.3.1"
+    "linq-to-typescript": "file:../../dist"
   },
   "devDependencies": {
     "typescript": "^4.4.3"
