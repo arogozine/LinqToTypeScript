@@ -10,10 +10,3 @@
 * LINQ API Documentation
 * Create Commons Attribution 4.0 International
 * https://github.com/dotnet/docs/blob/master/LICENSE
-
-### TypeScript library bundling scripts adapted from,
-
-* TypeScript Lib Starter
-* MIT License
-* https://github.com/Hotell/typescript-lib-starter
-* https://github.com/Hotell/typescript-lib-starter/blob/master/LICENSE.md
