@@ -25,9 +25,14 @@ export const nextIterationAsync = <TSource, TOut>(
             }
         }
         case ParallelGeneratorType.ArrayOfPromises: {
-            const generator = () => dataFunc
-                .generator()
-                .map((promise) => promise.then(onfulfilled))
+            const generator = () => {
+                const promises = dataFunc.generator()
+
+                return promises.map(async promise => {
+                    const value = await promise
+                    return await onfulfilled(value)
+                })
+            }
             return {
                 generator,
                 type: ParallelGeneratorType.ArrayOfPromises,
