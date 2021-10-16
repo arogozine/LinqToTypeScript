@@ -9,6 +9,19 @@ import {
     IEnumerable,
 } from "linq-to-typescript"
 
+/**
+ * Return a promise that returns after 0 to 100 ms
+ * @param value Value to Return
+ * @returns Promise that returns value
+ */
+export const randomTimeOut = <T>(value: T) => {
+    const rand = Math.floor(Math.random() * 100)
+
+    return new Promise<T>(resolve => {
+        setTimeout(() => resolve(value), rand)
+    })
+}
+
 // There are helper functions to make testing easy
 
 /**
@@ -43,19 +56,17 @@ export function asAsync<T>(values: T[]): IAsyncEnumerable<T>
 export function asAsync<T>(values: T[]) {
     async function *promises() {
         for (const value of values) {
-            yield await new Promise<T>((resolve) => setTimeout(() => resolve(value), 10))
+            yield await randomTimeOut(value)
         }
     }
     return fromAsync(promises)
 }
 
 function asParallel<T>(type: ParallelGeneratorType, values: T[]): IParallelEnumerable<T> {
-    const generator1 = () =>
-        values.map((value) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 10)))
-    const generator2 = () =>
-        new Promise<T[]>((resolve) => setTimeout(() => resolve([... values]), 10))
-    const generator3 = async () =>
-        await generator1()
+    const generator1 = () => values.map(randomTimeOut)
+    const generator2 = () => randomTimeOut([...values])
+    const generator3 = async () => await generator1()
+
     switch (type) {
         case ParallelGeneratorType.ArrayOfPromises:
             return fromParallel(type, generator1)
