@@ -31,8 +31,7 @@ npm i linq-to-typescript
     "target": "es2019",
     "lib": [
       "es2019"
-    ],
-    "importHelpers": true
+    ]
 }
 ```
 * The `strict` TS option is recommended.

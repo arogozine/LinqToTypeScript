@@ -18,6 +18,6 @@
             "dom",
             "es2019",
         ],
-        "importHelpers": true,
+        "importHelpers": false,
     }
 }
