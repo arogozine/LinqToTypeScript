@@ -23,7 +23,7 @@ const union1 = <TSource>(
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>) => {
 
-    async function generator() {
+    const generator = async () => {
 
         const set = new Set<TSource>()
         const secondPromise = second.toArray()

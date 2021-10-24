@@ -1,20 +1,24 @@
-/**
- * Computes the sum of the sequence of numeric values.
- * @param source A sequence of numeric values to calculate the sum of.
- * @returns The sum of the values in the sequence.
- */
-export function sum(source: Iterable<number>): number
-/**
- * Computes the sum of the sequence of numeric values that are obtained by invoking a transform function
- * on each element of the input sequence.
- * @param source A sequence of values that are used to calculate a sum.
- * @param selector A transform function to apply to each element.
- * @returns The sum of the projected values.
- */
-export function sum<TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
-export function sum<TSource>(
+type SumFunc = {
+    /**
+     * Computes the sum of the sequence of numeric values.
+     * @param source A sequence of numeric values to calculate the sum of.
+     * @returns The sum of the values in the sequence.
+     */
+    (source: Iterable<number>): number
+    /**
+     * Computes the sum of the sequence of numeric values that are obtained by invoking a transform function
+     * on each element of the input sequence.
+     * @param source A sequence of values that are used to calculate a sum.
+     * @param selector A transform function to apply to each element.
+     * @returns The sum of the projected values.
+     */
+    <TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number
+}
+
+
+export const sum: SumFunc = <TSource>(
     source: Iterable<number> | Iterable<TSource>,
-    selector?: (x: TSource) => number): number {
+    selector?: (x: TSource) => number): number => {
 
     if (selector) {
         return sum2(source as Iterable<TSource>, selector)

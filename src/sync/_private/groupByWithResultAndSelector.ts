@@ -16,12 +16,12 @@ import { groupBy_1, groupBy_1_Simple } from "./groupByShared"
  * @returns A collection of elements of type TResult
  * where each element represents a projection over a group and its key.
  */
-export function groupByWithResultAndSelector<TSource, TKey extends SelectorKeyType, TElement, TResult>(
+export const groupByWithResultAndSelector = <TSource, TKey extends SelectorKeyType, TElement, TResult>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,
     elementSelector: (x: TSource) => TElement,
     resultSelector: (key: TKey, values: IEnumerable<TElement>) => TResult,
-    comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> {
+    comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> => {
     if (comparer) {
         return groupBy3(source,
             keySelector as (x: TSource) => TKey,

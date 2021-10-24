@@ -6,8 +6,8 @@
  * @returns The value at the last position in the source sequence
  * or the last element in the sequence that passes the test in the specified predicate function.
  */
-export async function lastOrDefault<TSource>(
-    source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null> {
+export const lastOrDefault = <TSource>(
+    source: AsyncIterable<TSource>, predicate?: (x: TSource) => boolean): Promise<TSource | null> => {
 
     if (predicate) {
         return lastOrDefault2(source, predicate)

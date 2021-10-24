@@ -8,8 +8,9 @@ import { BasicEnumerable } from "../BasicEnumerable"
  */
 export const reverse = <TSource>(source: Iterable<TSource>): IEnumerable<TSource> => {
     function* iterator() {
-        for (const x of [...source].reverse()) {
-            yield x
+        const array = [...source]
+        for (let i = array.length - 1; i >= 0; i--) {
+            yield array[i]
         }
     }
 

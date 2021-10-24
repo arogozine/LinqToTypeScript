@@ -7,8 +7,8 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * @throws {InvalidOperationException} The source sequence is empty.
  * @returns The last element in the sequence that passes the test in the specified predicate function.
  */
-export async function lastAsync<TSource>(
-    source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> {
+export const lastAsync = async <TSource>(
+    source: AsyncIterable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<TSource> => {
     let last: TSource | null = null
 
     for await (const value of source) {

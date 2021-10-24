@@ -2,31 +2,35 @@ import { Grouping } from "../../sync/Grouping"
 import { IAsyncEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupBy<TSource, TKey extends SelectorKeyType>(
-    source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>
-/**
- * Groups the elements of a sequence according to a key selector function.
- * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
- * @param source An AsyncIterable<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @param comparer An IEqualityComparer<T> to compare keys.
- */
-export function groupBy<TSource, TKey>(
+type GroupByFunc = {
+    /**
+     * Groups the elements of a sequence according to a specified key selector function.
+     * @param source An AsyncIterable<T> whose elements to group.
+     * @param keySelector A function to extract the key for each element.
+     * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
+     * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+     */
+    <TSource, TKey extends SelectorKeyType>(
+        source: AsyncIterable<TSource>,
+        keySelector: (x: TSource) => TKey): IAsyncEnumerable<IGrouping<TKey, TSource>>
+    /**
+     * Groups the elements of a sequence according to a key selector function.
+     * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
+     * @param source An AsyncIterable<T> whose elements to group.
+     * @param keySelector A function to extract the key for each element.
+     * @param comparer An IEqualityComparer<T> to compare keys.
+     */
+    <TSource, TKey>(
+        source: AsyncIterable<TSource>,
+        keySelector: (x: TSource) => TKey,
+        comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
+}
+
+
+export const groupBy: GroupByFunc = <TSource, TKey>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => TKey,
-    comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>>
-export function groupBy<TSource, TKey>(
-    source: AsyncIterable<TSource>,
-    keySelector: (x: TSource) => TKey,
-    comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TSource>> {
+    comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<any, TSource>> => {
 
     if (comparer) {
         return groupBy_0<TSource, TKey>(source,
@@ -38,10 +42,10 @@ export function groupBy<TSource, TKey>(
     }
 }
 
-function groupBy_0<TSource, TKey>(
+const groupBy_0 = <TSource, TKey>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => TKey,
-    comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> {
+    comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> => {
 
     async function *generate(): AsyncIterableIterator<IGrouping<TKey, TSource>> {
 
@@ -74,10 +78,10 @@ function groupBy_0<TSource, TKey>(
     return new BasicAsyncEnumerable(generate)
 }
 
-function groupBy_0_Simple<TSource, TKey extends SelectorKeyType>(
+const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
     source: AsyncIterable<TSource>,
     keySelector: (x: TSource) => TKey):
-        IAsyncEnumerable<IGrouping<TKey, TSource>> {
+        IAsyncEnumerable<IGrouping<TKey, TSource>> => {
 
     async function *iterator(): AsyncIterableIterator<IGrouping<TKey, TSource>> {
         const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}

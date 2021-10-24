@@ -15,7 +15,7 @@ export const rangeParallel = (start: number, count: number): IParallelEnumerable
         throw new ArgumentOutOfRangeException(`start`)
     }
 
-    function generator() {
+    const generator = () => {
         const items = []
         const maxI = start + count
         for (let i = start; i < maxI; i++) {

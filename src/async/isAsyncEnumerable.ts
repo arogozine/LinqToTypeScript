@@ -8,7 +8,7 @@ import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
  * @param source Any Value
  * @returns Whether or not source is an Async Enumerable
  */
-export function isAsyncEnumerable(source: any): source is IAsyncEnumerable<any> {
+export const isAsyncEnumerable = (source: any): source is IAsyncEnumerable<any> => {
     if (!source) {
         return false
     }

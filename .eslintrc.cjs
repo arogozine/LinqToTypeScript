@@ -179,8 +179,7 @@ module.exports = {
             "error",
             "never"
         ],
-        // TODO - Enable later
-        "prefer-arrow/prefer-arrow-functions": "off",
+        "prefer-arrow/prefer-arrow-functions": "error",
         "prefer-const": "error",
         "radix": "error",
         "spaced-comment": [

@@ -10,10 +10,10 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param comparer An IAsyncEqualityComparer<T> to compare values. Optional.
  * @returns A sequence that contains the elements that form the set intersection of two sequences.
  */
-export function intersect<TSource>(
+export const intersect = <TSource>(
     first: IAsyncEnumerable<TSource>,
     second: IAsyncEnumerable<TSource>,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> => {
 
     async function *iterator(): AsyncIterableIterator<TSource> {
 

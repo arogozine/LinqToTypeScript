@@ -10,9 +10,9 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns An IAsyncEnumerable<T> that contains the elements from the input sequence starting at the first element
  * in the linear series that does not pass the test specified by predicate.
  */
-export function skipWhile<TSource>(
+export const skipWhile = <TSource>(
     source: AsyncIterable<TSource>,
-    predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource> => {
 
     if (predicate.length === 1) {
         return skipWhile1(source, predicate as (x: TSource) => boolean)

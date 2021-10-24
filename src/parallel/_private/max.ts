@@ -3,26 +3,30 @@ import { IParallelEnumerable, TypedData } from "../../types"
 import { nextIteration } from "./_nextIteration"
 import { typeDataToArray } from "./_typeDataToArray"
 
-/**
- * Returns the maximum value in a sequence of values.
- * @param source A sequence of values to determine the maximum value of.
- * @throws {InvalidOperationException} source contains no elements.
- * @returns The maximum value in the sequence.
- */
-export async function max(source: IParallelEnumerable<number>): Promise<number>
-/**
- * Invokes a transform function on each element of a sequence and returns the maximum value.
- * @param source A sequence of values to determine the maximum value of.
- * @param selector A transform function to apply to each element.
- * @throws {InvalidOperationException} source contains no elements.
- * @returns The maximum value in the sequence.
- */
-export async function max<TSource>(
-    source: IParallelEnumerable<TSource>,
-    selector: (x: TSource) => number): Promise<number>
-export async function max<TSource>(
+type MaxFunc = {
+    /**
+     * Returns the maximum value in a sequence of values.
+     * @param source A sequence of values to determine the maximum value of.
+     * @throws {InvalidOperationException} source contains no elements.
+     * @returns The maximum value in the sequence.
+     */
+    (source: IParallelEnumerable<number>): Promise<number>
+    /**
+     * Invokes a transform function on each element of a sequence and returns the maximum value.
+     * @param source A sequence of values to determine the maximum value of.
+     * @param selector A transform function to apply to each element.
+     * @throws {InvalidOperationException} source contains no elements.
+     * @returns The maximum value in the sequence.
+     */
+    <TSource>(
+        source: IParallelEnumerable<TSource>,
+        selector: (x: TSource) => number): Promise<number>
+}
+
+
+export const max: MaxFunc = async <TSource>(
     source: IParallelEnumerable<TSource> | IParallelEnumerable<number>,
-    selector?: (x: TSource) => number): Promise<number> {
+    selector?: (x: TSource) => number): Promise<number> => {
 
     let dataFunc : TypedData<number>
     if (selector) {

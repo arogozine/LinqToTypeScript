@@ -10,9 +10,9 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
  * that occur before the element at which the test no longer passes.
  */
-export function takeWhileAsync<TSource>(
+export const takeWhileAsync = <TSource>(
     source: AsyncIterable<TSource>,
-    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> {
+    predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource> => {
 
     if (predicate.length === 1) {
         return takeWhileAsync1(source, predicate as (x: TSource) => Promise<boolean>)

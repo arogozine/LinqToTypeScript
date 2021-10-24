@@ -11,9 +11,9 @@ import { nextIterationWithIndexAsync } from "./_nextIterationWithIndexAsync"
  * @returns An IParallelEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export function selectManyAsync<TSource, TResult>(
+export const selectManyAsync = <TSource, TResult>(
     source: IParallelEnumerable<TSource>,
-    selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IParallelEnumerable<TResult> {
+    selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IParallelEnumerable<TResult> => {
     const generator = async () => {
         let values: TypedData<Iterable<TResult>>
         if (selector.length === 1) {

@@ -7,10 +7,10 @@ import { IAsyncEqualityComparer } from "../../types/IAsyncEqualityComparer"
  * @param comparer Async Comparer
  * @returns Whether or not the two iterations are equal
  */
-export async function sequenceEqualsAsync<TSource>(
+export const sequenceEqualsAsync = async <TSource>(
     first: AsyncIterable<TSource>,
     second: AsyncIterable<TSource>,
-    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> {
+    comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> => {
 
     const firstIterator = first[Symbol.asyncIterator]()
     const secondIterator = second[Symbol.asyncIterator]()

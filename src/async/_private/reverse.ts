@@ -6,7 +6,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param source A sequence of values to reverse.
  * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
  */
-export function reverse<TSource>(source: AsyncIterable<TSource>): IAsyncEnumerable<TSource> {
+export const reverse = <TSource>(source: AsyncIterable<TSource>): IAsyncEnumerable<TSource> => {
 
     async function* iterator() {
         const values = []

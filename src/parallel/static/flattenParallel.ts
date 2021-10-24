@@ -1,25 +1,29 @@
 import { IParallelEnumerable, IParallelFlatten, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
-/**
- * Flattens a parallel iterable
- * @param source IParallelFlatten to flatten
- * @param shallow When false - recurses the iterable types
- */
-export function flattenParallel<TSource>(
+type FlatternParallelFunc = {
+    /**
+     * Flattens a parallel iterable
+     * @param source IParallelFlatten to flatten
+     * @param shallow When false - recurses the iterable types
+     */
+    <TSource>(
+        source: IParallelFlatten<TSource>,
+        shallow?: false): IParallelEnumerable<TSource>
+    /**
+     * Flattens a parallel iterable
+     * @param source IParallelFlatten to flatten
+     * @param shallow When false - recurses the iterable types
+     */
+    <TSource>(
+        source: IParallelFlatten<TSource>,
+        shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>
+}
+
+
+export const flattenParallel: FlatternParallelFunc = <TSource>(
     source: IParallelFlatten<TSource>,
-    shallow?: false): IParallelEnumerable<TSource>
-/**
- * Flattens a parallel iterable
- * @param source IParallelFlatten to flatten
- * @param shallow When false - recurses the iterable types
- */
-export function flattenParallel<TSource>(
-    source: IParallelFlatten<TSource>,
-    shallow: true): IParallelEnumerable<TSource | AsyncIterable<TSource>>
-export function flattenParallel<TSource>(
-    source: IParallelFlatten<TSource>,
-    shallow?: boolean): IParallelEnumerable<TSource | AsyncIterable<TSource>> {
+    shallow?: boolean): IParallelEnumerable<TSource | AsyncIterable<TSource>> => {
 
     async function* iterator(sourceInner: AsyncIterable<any>)
         : AsyncIterableIterator<TSource | AsyncIterable<TSource>> {

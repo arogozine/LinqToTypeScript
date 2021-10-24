@@ -4,33 +4,37 @@ import { IAsyncEqualityComparer, IEqualityComparer,
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 import { nextIterationAsync } from "./_nextIterationAsync"
 
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An IAsyncParallel<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupByAsync<TSource, TKey extends SelectorKeyType>(
-    source: IParallelEnumerable<TSource>,
-    keySelector: (x: TSource) => Promise<TKey> | TKey): IParallelEnumerable<IGrouping<TKey, TSource>>
-/**
- * Groups the elements of a sequence according to a specified key selector function.
- * @param source An IAsyncParallel<T> whose elements to group.
- * @param keySelector A function to extract the key for each element.
- * @param comparer An IEqualityComparer<T> or IAsyncEqualityComparer<T> to compare keys.
- * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
- * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
- */
-export function groupByAsync<TSource, TKey>(
-    source: IParallelEnumerable<TSource>,
-    keySelector: (x: TSource) => Promise<TKey> | TKey,
-    comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
-export function groupByAsync<TSource, TKey>(
+type GroupByAsyncFunc = {
+    /**
+     * Groups the elements of a sequence according to a specified key selector function.
+     * @param source An IAsyncParallel<T> whose elements to group.
+     * @param keySelector A function to extract the key for each element.
+     * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+     * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+     */
+    <TSource, TKey extends SelectorKeyType>(
+        source: IParallelEnumerable<TSource>,
+        keySelector: (x: TSource) => Promise<TKey> | TKey): IParallelEnumerable<IGrouping<TKey, TSource>>
+    /**
+     * Groups the elements of a sequence according to a specified key selector function.
+     * @param source An IAsyncParallel<T> whose elements to group.
+     * @param keySelector A function to extract the key for each element.
+     * @param comparer An IEqualityComparer<T> or IAsyncEqualityComparer<T> to compare keys.
+     * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
+     * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
+     */
+    <TSource, TKey>(
+        source: IParallelEnumerable<TSource>,
+        keySelector: (x: TSource) => Promise<TKey> | TKey,
+        comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
+}
+
+
+export const groupByAsync: GroupByAsyncFunc = <TSource, TKey>(
     source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey,
     comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
-        : IParallelEnumerable<IGrouping<any, TSource>> {
+        : IParallelEnumerable<IGrouping<any, TSource>> => {
 
     if (comparer) {
         return groupByAsync_0<TSource, TKey>(source,
@@ -42,11 +46,11 @@ export function groupByAsync<TSource, TKey>(
     }
 }
 
-function groupByAsync_0<TSource, TKey>(
+const groupByAsync_0 = <TSource, TKey>(
     source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey,
     comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
-        : IParallelEnumerable<IGrouping<TKey, TSource>> {
+        : IParallelEnumerable<IGrouping<TKey, TSource>> => {
 
     const generator = async () => {
         const typedData = nextIterationAsync(source, async (value) => {
@@ -97,10 +101,10 @@ function groupByAsync_0<TSource, TKey>(
     })
 }
 
-function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
+const groupByAsync_0_Simple = <TSource, TKey extends SelectorKeyType>(
     source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey>):
-        IParallelEnumerable<IGrouping<TKey, TSource>> {
+        IParallelEnumerable<IGrouping<TKey, TSource>> => {
 
     const generator = async () => {
         const typedData = nextIterationAsync(source, async (value) => {

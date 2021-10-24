@@ -1,24 +1,26 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
 
-/**
- * Computes the average of a sequence of number values.
- * @param source A sequence of values to calculate the average of.
- * @throws {InvalidOperationException} source contains no elements.
- */
-export function average(
-    source: AsyncIterable<number>): Promise<number>
-/**
- * Computes the average of a sequence of values
- * that are obtained by invoking a transform function on each element of the input sequence.
- * @param source A sequence of values to calculate the average of.
- * @param selector A transform function to apply to each element.
- * @throws {InvalidOperationException} source contains no elements.
- */
-export function average<TSource>(
-    source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
-export function average<TSource>(
+type AverageFunc = {
+    /**
+     * Computes the average of a sequence of number values.
+     * @param source A sequence of values to calculate the average of.
+     * @throws {InvalidOperationException} source contains no elements.
+     */
+    (source: AsyncIterable<number>): Promise<number>
+    /**
+     * Computes the average of a sequence of values
+     * that are obtained by invoking a transform function on each element of the input sequence.
+     * @param source A sequence of values to calculate the average of.
+     * @param selector A transform function to apply to each element.
+     * @throws {InvalidOperationException} source contains no elements.
+     */
+    <TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
+}
+
+
+export const average: AverageFunc = <TSource>(
     source: AsyncIterable<TSource> | AsyncIterable<number>,
-    selector?: (x: TSource) => number): Promise<number> {
+    selector?: (x: TSource) => number): Promise<number> => {
     if (selector) {
         return average2(source as AsyncIterable<TSource>, selector)
     } else {

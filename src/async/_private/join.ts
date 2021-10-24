@@ -14,13 +14,13 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns An IAsyncEnumerable<T> that has elements of type TResult that
  * are obtained by performing an inner join on two sequences.
  */
-export function join<TOuter, TInner, TKey, TResult>(
+export const join = <TOuter, TInner, TKey, TResult>(
     outer: AsyncIterable<TOuter>,
     inner: AsyncIterable<TInner>,
     outerKeySelector: (x: TOuter) => TKey,
     innerKeySelector: (x: TInner) => TKey,
     resultSelector: (x: TOuter, y: TInner) => TResult,
-    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IAsyncEnumerable<TResult> {
+    comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IAsyncEnumerable<TResult> => {
     async function *iterator(): AsyncIterableIterator<TResult> {
         const innerArray = []
         for await (const i of inner) {

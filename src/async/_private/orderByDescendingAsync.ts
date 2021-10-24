@@ -8,9 +8,9 @@ import { OrderedAsyncEnumerable } from "../OrderedAsyncEnumerable"
  * @param comparer An IComparer<T> to compare keys.
  * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
  */
-export function orderByDescendingAsync<TSource, TKey>(
+export const orderByDescendingAsync = <TSource, TKey>(
     source: IAsyncEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey>,
-    comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> {
+    comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource> => {
     return OrderedAsyncEnumerable.generateAsync(source, keySelector, false, comparer)
 }

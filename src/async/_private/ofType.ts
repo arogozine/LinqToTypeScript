@@ -8,9 +8,9 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @param type Either value for typeof or a consturctor function
  * @returns Values that match the type string or are instance of type
  */
-export function ofType<TSource, TType extends OfType>(
+export const ofType = <TSource, TType extends OfType>(
     source: AsyncIterable<TSource>,
-    type: TType): IAsyncEnumerable<InferType<TType>> {
+    type: TType): IAsyncEnumerable<InferType<TType>> => {
 
     const typeCheck = typeof type === "string" ?
         ((x: TSource) => typeof x === type) as (x: TSource) => x is InferType<TType> :

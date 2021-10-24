@@ -7,9 +7,9 @@ import { ErrorString, InvalidOperationException } from "../../shared"
  * @throws {InvalidOperationException} source contains no elements.
  * @returns The minimum value in the sequence.
  */
-export async function minAsync<TSource>(
+export const minAsync = async <TSource>(
     source: AsyncIterable<TSource>,
-    selector: (x: TSource) => Promise<number>): Promise<number> {
+    selector: (x: TSource) => Promise<number>): Promise<number> => {
     let min: number | null = null
     for await (const item of source) {
         min = Math.min(min || Number.POSITIVE_INFINITY, await selector(item))

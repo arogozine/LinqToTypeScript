@@ -8,7 +8,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns
  * An IAsyncEnumerable<T> that contains the elements that occur after the specified index in the input sequence.
  */
-export function skip<TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource> {
+export const skip = <TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource> => {
 
     async function* iterator() {
         let i = 0

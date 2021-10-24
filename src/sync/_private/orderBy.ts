@@ -10,9 +10,9 @@ import { OrderedEnumerable } from "../OrderedEnumerable"
  * @param comparer An IComparer<T> to compare keys. Optional.
  * @returns An IOrderedEnumerable<TElement> whose elements are sorted according to a key.
  */
-export function orderBy<TSource, TKey>(
+export const orderBy = <TSource, TKey>(
     source: IEnumerable<TSource>,
     keySelector: (x: TSource) => TKey,
-    comparer?: IComparer<TKey>): IOrderedEnumerable<TSource> {
+    comparer?: IComparer<TKey>): IOrderedEnumerable<TSource> => {
     return OrderedEnumerable.generate<TSource, TKey>(source, keySelector, true, comparer)
 }

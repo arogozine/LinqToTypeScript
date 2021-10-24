@@ -8,9 +8,9 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns An IAsyncEnumerable<T> whose elements are the result of invoking the
  * one-to-many transform function on each element of the input sequence.
  */
-export function selectManyAsync<TSource, Y>(
+export const selectManyAsync = <TSource, Y>(
     source: AsyncIterable<TSource>,
-    selector: (x: TSource, index: number) => Promise<Iterable<Y>>): IAsyncEnumerable<Y> {
+    selector: (x: TSource, index: number) => Promise<Iterable<Y>>): IAsyncEnumerable<Y> => {
     if (selector.length === 1) {
         const iterator = async function*() {
             for await (const value of source) {

@@ -8,10 +8,10 @@ import { IEqualityComparer } from "../../types"
  * @param comparer An equality comparer to compare values. Optional.
  * @returns Whether a sequence contains a specified element
  */
-export async function contains<TSource>(
+export const contains = async <TSource>(
     source: AsyncIterable<TSource>,
     value: TSource,
-    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> {
+    comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> => {
 
     for await (const item of source) {
         if (comparer(value, item)) {
