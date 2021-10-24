@@ -1,4 +1,6 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { IParallelEnumerable } from "../../types"
+import { nextIterationAsync } from "./_nextIterationAsync"
+import { typeDataToArray } from "./_typeDataToArray"
 
 
 /**
@@ -7,31 +9,17 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @param selector An async function to serve as a key selector.
  * @returns A promise for Map<K, V[]>
  */
-export const toMapAsync = async <K, V>(
-    source: IParallelEnumerable<V>,
-    selector: (x: V) => Promise<K>): Promise<Map<K, V[]>> => {
-    const map = new Map<K, V[]>()
+export const toMapAsync = async <TKey, TSource>(
+    source: IParallelEnumerable<TSource>,
+    selector: (x: TSource) => Promise<TKey>): Promise<Map<TKey, TSource[]>> => {
+    const map = new Map<TKey, TSource[]>()
 
-    const dataFunc = source.dataFunc
-    let values: V[]
-
-    switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            values = await dataFunc.generator()
-            break
-        case ParallelGeneratorType.ArrayOfPromises:
-            values = await Promise.all(dataFunc.generator())
-            break
-        case ParallelGeneratorType.PromiseOfPromises:
-            values = await Promise.all(await dataFunc.generator())
-            break
-    }
-
-    const keyValuesPromises = values.map(async (value) => {
-        return [await selector(value), value] as [K, V]
+    const dataFunc = nextIterationAsync(source, async (value) => {
+        const key = await selector(value)
+        return [key, value] as [TKey, TSource]
     })
 
-    const keyValues = await Promise.all(keyValuesPromises)
+    const keyValues = await typeDataToArray(dataFunc)
 
     for (const [key, value] of keyValues) {
         const array = map.get(key)

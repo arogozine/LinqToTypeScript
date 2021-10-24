@@ -1,6 +1,7 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { IParallelEnumerable } from "../../types"
 import { nextIterationAsync } from "./_nextIterationAsync"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Computes the average of a sequence of values
@@ -13,20 +14,7 @@ import { nextIterationAsync } from "./_nextIterationAsync"
 export const averageAsync = async <TSource>(
     source: IParallelEnumerable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> => {
     const nextIter = nextIterationAsync(source, selector)
-    // eslint-disable-next-line @typescript-eslint/array-type
-    let values: Array<number | Promise<number>>
-    switch (nextIter.type) {
-        case ParallelGeneratorType.ArrayOfPromises:
-            values = nextIter.generator()
-            break
-        case ParallelGeneratorType.PromiseOfPromises:
-            values = await nextIter.generator()
-            break
-        case ParallelGeneratorType.PromiseToArray:
-        default:
-            values = await nextIter.generator()
-            break
-    }
+    const values = await typeDataToArray(nextIter)
 
     if (values.length === 0) {
         throw new InvalidOperationException(ErrorString.NoElements)
@@ -34,7 +22,7 @@ export const averageAsync = async <TSource>(
 
     let value = 0
     for (const selectedValue of values) {
-        value += await selectedValue
+        value += selectedValue
     }
 
     return value / values.length

@@ -19,29 +19,30 @@ export const elementAt = async <TSource>(
     const dataFunc = source.dataFunc
 
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            return dataFunc.generator().then((values) => {
-                if (index >= values.length) {
-                    throw new ArgumentOutOfRangeException("index")
-                } else {
-                    return values[index]
-                }
-            })
-        case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(dataFunc.generator()).then((values) => {
-                if (index >= values.length) {
-                    throw new ArgumentOutOfRangeException("index")
-                } else {
-                    return values[index]
-                }
-            })
-        case ParallelGeneratorType.PromiseOfPromises:
-            return dataFunc.generator().then(async (values) => {
-                if (index >= values.length) {
-                    throw new ArgumentOutOfRangeException("index")
-                } else {
-                    return await values[index]
-                }
-            })
+        case ParallelGeneratorType.PromiseToArray: {
+            const values = await dataFunc.generator()
+            if (index >= values.length) {
+                throw new ArgumentOutOfRangeException("index")
+            } else {
+                return values[index]
+            }
+        }
+        case ParallelGeneratorType.ArrayOfPromises: {
+            const promises = dataFunc.generator()
+
+            if (index >= promises.length) {
+                throw new ArgumentOutOfRangeException("index")
+            } else {
+                return await promises[index]
+            }
+        }
+        case ParallelGeneratorType.PromiseOfPromises: {
+            const promises = await dataFunc.generator()
+            if (index >= promises.length) {
+                throw new ArgumentOutOfRangeException("index")
+            } else {
+                return await promises[index]
+            }
+        }
     }
 }

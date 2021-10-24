@@ -1,4 +1,6 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { IParallelEnumerable } from "../../types"
+import { nextIterationAsync } from "./_nextIterationAsync"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Converts an Async Iterable to a key value pair object
@@ -10,26 +12,12 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<TKey>): Promise<Record<TKey, TSource>> => {
 
-    const dataFunc = source.dataFunc
-    let values: TSource[]
-
-    switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            values = await dataFunc.generator()
-            break
-        case ParallelGeneratorType.ArrayOfPromises:
-            values = await Promise.all(dataFunc.generator())
-            break
-        case ParallelGeneratorType.PromiseOfPromises:
-            values = await Promise.all(await dataFunc.generator())
-            break
-    }
-
-    const keyValuesPromises = values.map(async (value) => {
-        return [await selector(value), value] as [TKey, TSource]
+    const dataFunc = nextIterationAsync(source, async (value) => {
+        const key = await selector(value)
+        return [key, value] as [TKey, TSource]
     })
 
-    const keyValues = await Promise.all(keyValuesPromises)
+    const keyValues = await typeDataToArray(dataFunc)
 
     const map: Partial<Record<TKey, TSource>> = {}
 

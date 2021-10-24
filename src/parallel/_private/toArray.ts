@@ -1,4 +1,5 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { IParallelEnumerable } from "../../types"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Creates an array from a IParallelEnumerable<T>.
@@ -6,16 +7,5 @@ import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
  * @returns An array of elements
  */
 export const toArray = <TSource>(source: IParallelEnumerable<TSource>): Promise<TSource[]> => {
-    const dataFunc = source.dataFunc
-    switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            return dataFunc.generator()
-        case ParallelGeneratorType.ArrayOfPromises:
-            return Promise.all(dataFunc.generator())
-        case ParallelGeneratorType.PromiseOfPromises:
-            return (async () => {
-                const data = await dataFunc.generator()
-                return Promise.all(data)
-            })()
-    }
+    return typeDataToArray(source.dataFunc)
 }

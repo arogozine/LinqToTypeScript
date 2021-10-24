@@ -19,10 +19,6 @@ export const allAsync = <TSource>(
     })
 
     switch (nextIter.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            return nextIter
-                .generator()
-                .then(() => true, () => false)
         case ParallelGeneratorType.ArrayOfPromises:
             return Promise.all(nextIter.generator())
                 .then(() => true, () => false)

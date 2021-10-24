@@ -1,4 +1,6 @@
-import { IAsyncParallel } from "../../types"
+import { IParallelEnumerable } from "../../types"
+import { nextIterationAsync } from "./_nextIterationAsync"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Computes the sum of the sequence of numeric values that are obtained by invoking a transform function
@@ -8,12 +10,16 @@ import { IAsyncParallel } from "../../types"
  * @returns Sum of the sequence
  */
 export const sumAsync = async <TSource>(
-    source: IAsyncParallel<TSource>,
+    source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<number> => {
-    let total = 0
-    for (const value of await source.toArray()) {
-        total += await selector(value)
+
+    const dataFunc = nextIterationAsync(source, selector)
+    const values = await typeDataToArray(dataFunc)
+
+    let sum = 0
+    for (const value of values) {
+        sum += value
     }
 
-    return total
+    return sum
 }

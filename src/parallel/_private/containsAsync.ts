@@ -15,10 +15,6 @@ export const containsAsync = async <TSource>(
     const values = nextIterationAsync(source, (x) => comparer(value, x))
 
     switch (values.type) {
-        case ParallelGeneratorType.PromiseToArray: {
-            const data = await values.generator()
-            return data.some((x) => x)
-        }
         case ParallelGeneratorType.ArrayOfPromises: {
             const data = await Promise.all(values.generator())
             return data.some((x) => x)

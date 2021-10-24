@@ -1,7 +1,7 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
 import { IParallelEnumerable } from "../../types/IParallelEnumerable"
-import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 import { nextIterationAsync } from "./_nextIterationAsync"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Invokes a transform function on each element of a sequence and returns the minimum value.
@@ -14,7 +14,7 @@ export const minAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<number> => {
     const dataFunc = nextIterationAsync(source, selector)
-    const maxInfo = await new BasicParallelEnumerable(dataFunc).toArray()
+    const maxInfo = await typeDataToArray(dataFunc)
 
     if (maxInfo.length === 0) {
         throw new InvalidOperationException(ErrorString.NoElements)

@@ -1,7 +1,7 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
-import { IParallelEnumerable } from "../../types"
-import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
+import { IParallelEnumerable, TypedData } from "../../types"
 import { nextIteration } from "./_nextIteration"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Returns the maximum value in a sequence of values.
@@ -21,19 +21,21 @@ export async function max<TSource>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => number): Promise<number>
 export async function max<TSource>(
-    source: IParallelEnumerable<TSource>,
+    source: IParallelEnumerable<TSource> | IParallelEnumerable<number>,
     selector?: (x: TSource) => number): Promise<number> {
-    let maxInfo: any[]
+
+    let dataFunc : TypedData<number>
     if (selector) {
-        const dataFunc = nextIteration(source, selector)
-        maxInfo = await new BasicParallelEnumerable(dataFunc).toArray()
+        dataFunc = nextIteration(source as IParallelEnumerable<TSource> , selector)
     } else {
-        maxInfo = await source.toArray()
+        dataFunc = source.dataFunc as TypedData<number>
     }
 
-    if (maxInfo.length === 0) {
+    const data = await typeDataToArray(dataFunc)
+
+    if (data.length === 0) {
         throw new InvalidOperationException(ErrorString.NoElements)
     }
 
-    return Math.max.apply(null, maxInfo)
+    return Math.max.apply(null, data)
 }

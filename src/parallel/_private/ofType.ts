@@ -1,5 +1,7 @@
-import { IAsyncParallel, InferType, IParallelEnumerable, OfType, ParallelGeneratorType } from "../../types"
+import { InferType, IParallelEnumerable, OfType, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
+import { nextIteration } from "./_nextIteration"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Applies a type filter to a source iteration
@@ -8,18 +10,27 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns Values that match the type string or are instance of type
  */
 export const ofType = <TSource, TType extends OfType>(
-    source: IAsyncParallel<TSource>,
+    source: IParallelEnumerable<TSource>,
     type: TType): IParallelEnumerable<InferType<TType>> => {
 
-    const typeCheck = typeof type === "string" ?
-        ((x: TSource) => typeof x === type) as (x: TSource) => x is InferType<TType> :
-        ((x: TSource) => x instanceof (type as any)) as (x: TSource) => x is InferType<TType>
+    const typeCheck: (x: TSource) => [boolean, InferType<TType>] = typeof type === "string" ?
+        (x: TSource) => [typeof x === type, x as InferType<TType>] :
+        (x: TSource) => [x instanceof (type as any), x as InferType<TType>]
 
-    const data = async () =>
-        (await source.toArray()).filter(typeCheck)
+    const generator = async () => {
+        const dataFunc = nextIteration(source, typeCheck)
+        const values = await typeDataToArray(dataFunc)
+        const filteredValues = []
+        for (const [pass, value] of values) {
+            if (pass) {
+                filteredValues.push(value)
+            }
+        }
+        return filteredValues
+    }
 
     return new BasicParallelEnumerable({
-        generator: data,
+        generator,
         type: ParallelGeneratorType.PromiseToArray,
     })
 }

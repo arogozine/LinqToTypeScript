@@ -1,4 +1,5 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { IParallelEnumerable } from "../../types"
+import { typeDataToArray } from "./_typeDataToArray"
 
 /**
  * Converts the Async Itertion to a Set
@@ -9,19 +10,7 @@ export const toSet = async <TSource>(
     source: IParallelEnumerable<TSource>): Promise<Set<TSource>> => {
 
     const dataFunc = source.dataFunc
-    let values: TSource[]
-
-    switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            values = await dataFunc.generator()
-            break
-        case ParallelGeneratorType.ArrayOfPromises:
-            values = await Promise.all(dataFunc.generator())
-            break
-        case ParallelGeneratorType.PromiseOfPromises:
-            values = await Promise.all(await dataFunc.generator())
-            break
-    }
+    const values = await typeDataToArray(dataFunc)
 
     return new Set<TSource>(values)
 }

@@ -1,4 +1,4 @@
-import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
+import { IParallelEnumerable, ParallelGeneratorType, LimitedTypedData } from "../../types"
 
 /* eslint-disable  */
 
@@ -7,7 +7,7 @@ import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../typ
  */
 export const nextIterationAsync = <TSource, TOut>(
     source: IParallelEnumerable<TSource>,
-    onfulfilled: (x: TSource) => Promise<TOut>): TypedData<TOut> => {
+    onfulfilled: (x: TSource) => Promise<TOut>): LimitedTypedData<TOut> => {
     const dataFunc = source.dataFunc
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray: {

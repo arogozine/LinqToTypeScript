@@ -63,9 +63,6 @@ function groupByAsync_0<TSource, TKey>(
             case ParallelGeneratorType.PromiseOfPromises:
                 values = await Promise.all(await typedData.generator())
                 break
-            case ParallelGeneratorType.PromiseToArray:
-                values = await typedData.generator()
-                break
         }
 
         const keyMap = new Array<Grouping<TKey, TSource>>()
@@ -119,9 +116,6 @@ function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
                 break
             case ParallelGeneratorType.PromiseOfPromises:
                 values = await Promise.all(await typedData.generator())
-                break
-            case ParallelGeneratorType.PromiseToArray:
-                values = await typedData.generator()
                 break
         }
 

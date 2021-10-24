@@ -24,15 +24,6 @@ export function selectManyAsync<TSource, TResult>(
 
         const valuesArray = []
         switch (values.type) {
-            case ParallelGeneratorType.PromiseToArray: {
-                for (const outer of await values.generator()) {
-                    for (const y of outer) {
-                        valuesArray.push(y)
-                    }
-                }
-
-                break
-            }
             case ParallelGeneratorType.ArrayOfPromises: {
                 for (const outer of values.generator()) {
                     for (const y of await outer) {

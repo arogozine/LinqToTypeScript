@@ -19,10 +19,6 @@ export const countAsync = async <TSource>(
         case ParallelGeneratorType.PromiseOfPromises:
             countPromise = Promise.all(await data.generator())
             break
-        case ParallelGeneratorType.PromiseToArray:
-        default:
-            countPromise = data.generator()
-            break
     }
 
     let totalCount = 0

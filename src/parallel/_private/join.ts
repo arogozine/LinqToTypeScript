@@ -22,9 +22,7 @@ export const join = <TOuter, TInner, TKey, TResult>(
     resultSelector: (x: TOuter, y: TInner) => TResult,
     comparer: IEqualityComparer<TKey> = StrictEqualityComparer): IParallelEnumerable<TResult> => {
     const generator = async () => {
-        const innerOuter = await Promise.all([inner.toArray(), outer.toArray()])
-        const innerArray = innerOuter[0]
-        const outerArray = innerOuter[1]
+        const [innerArray, outerArray] = await Promise.all([inner.toArray(), outer.toArray()])
 
         const results = new Array<TResult>()
         for (const o of outerArray) {

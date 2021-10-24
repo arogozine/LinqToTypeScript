@@ -11,12 +11,8 @@ export const anyAsync = async <TSource>(
     source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<boolean> => {
     const nextIter = nextIterationAsync(source, predicate)
 
-    let values: boolean[]
     let promises: Promise<boolean>[]
     switch (nextIter.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            values = await nextIter.generator()
-            return values.includes(true)
         case ParallelGeneratorType.ArrayOfPromises:
             promises = nextIter.generator()
 
@@ -41,7 +37,12 @@ export const anyAsync = async <TSource>(
 
         case ParallelGeneratorType.PromiseOfPromises:
             promises = await nextIter.generator()
-            values = await Promise.all(promises)
+
+            if (Promise.length === 0) {
+                return false
+            }
+
+            const values = await Promise.all(promises)
             return values.includes(true)
     }
 }
