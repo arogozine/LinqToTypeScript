@@ -22,7 +22,7 @@ steps:
     versionSpec: $(node_version)
 
 - script: |
-    npm install -g typescript jest
+    npm install -g typescript jest typedoc
   displayName: 'Install Globals'
 - script: |
     npm install
@@ -30,6 +30,8 @@ steps:
   displayName: 'Build Library'
 - script: npm run lint
   displayName: 'Run Lint'
+- script: npm run doc
+  displayName: 'Run Type Doc'
 - script: |
     cd tests/unittests
     npm install
