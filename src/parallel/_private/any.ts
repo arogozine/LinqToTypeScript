@@ -21,12 +21,10 @@ const any1 = async <TSource>(source: IParallelEnumerable<TSource>) => {
     let values: TSource[] | Promise<TSource>[]
 
     switch (dataFunc.type) {
-        case ParallelGeneratorType.PromiseToArray:
-            values = await dataFunc.generator()
-            return values.length !== 0
         case ParallelGeneratorType.ArrayOfPromises:
             values = dataFunc.generator()
             return values.length !== 0
+        case ParallelGeneratorType.PromiseToArray:
         case ParallelGeneratorType.PromiseOfPromises:
             values = await dataFunc.generator()
             return values.length !== 0

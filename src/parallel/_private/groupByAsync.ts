@@ -1,7 +1,8 @@
 import { Grouping } from "../../sync/Grouping"
-import { IAsyncEqualityComparer, IAsyncParallel, IEqualityComparer,
+import { IAsyncEqualityComparer, IEqualityComparer,
     IGrouping, IParallelEnumerable, ParallelGeneratorType, SelectorKeyType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
+import { nextIterationAsync } from "./_nextIterationAsync"
 
 /**
  * Groups the elements of a sequence according to a specified key selector function.
@@ -11,7 +12,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
 export function groupByAsync<TSource, TKey extends SelectorKeyType>(
-    source: IAsyncParallel<TSource>,
+    source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey): IParallelEnumerable<IGrouping<TKey, TSource>>
 /**
  * Groups the elements of a sequence according to a specified key selector function.
@@ -22,11 +23,11 @@ export function groupByAsync<TSource, TKey extends SelectorKeyType>(
  * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
  */
 export function groupByAsync<TSource, TKey>(
-    source: IAsyncParallel<TSource>,
+    source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey,
     comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TSource>>
 export function groupByAsync<TSource, TKey>(
-    source: IAsyncParallel<TSource>,
+    source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey,
     comparer?: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
         : IParallelEnumerable<IGrouping<any, TSource>> {
@@ -42,15 +43,33 @@ export function groupByAsync<TSource, TKey>(
 }
 
 function groupByAsync_0<TSource, TKey>(
-    source: IAsyncParallel<TSource>,
+    source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey> | TKey,
     comparer: IEqualityComparer<TKey> | IAsyncEqualityComparer<TKey>)
         : IParallelEnumerable<IGrouping<TKey, TSource>> {
 
     const generator = async () => {
-        const keyMap = new Array<Grouping<TKey, TSource>>()
-        for await (const value of source) {
+        const typedData = nextIterationAsync(source, async (value) => {
             const key = await keySelector(value)
+            return [key, value] as [TKey, TSource]
+        })
+
+        let values: [TKey, TSource][]
+
+        switch (typedData.type) {
+            case ParallelGeneratorType.ArrayOfPromises:
+                values = await Promise.all(typedData.generator())
+                break
+            case ParallelGeneratorType.PromiseOfPromises:
+                values = await Promise.all(await typedData.generator())
+                break
+            case ParallelGeneratorType.PromiseToArray:
+                values = await typedData.generator()
+                break
+        }
+
+        const keyMap = new Array<Grouping<TKey, TSource>>()
+        for (const [key, value] of values) {
             let found = false
 
             for (let i = 0; i < keyMap.length; i++) {
@@ -82,15 +101,32 @@ function groupByAsync_0<TSource, TKey>(
 }
 
 function groupByAsync_0_Simple<TSource, TKey extends SelectorKeyType>(
-    source: IAsyncParallel<TSource>,
+    source: IParallelEnumerable<TSource>,
     keySelector: (x: TSource) => Promise<TKey>):
         IParallelEnumerable<IGrouping<TKey, TSource>> {
 
     const generator = async () => {
-        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
-        for (const value of await source.toArray()) {
-
+        const typedData = nextIterationAsync(source, async (value) => {
             const key = await keySelector(value)
+            return [key, value] as [TKey, TSource]
+        })
+
+        let values: [TKey, TSource][]
+
+        switch (typedData.type) {
+            case ParallelGeneratorType.ArrayOfPromises:
+                values = await Promise.all(typedData.generator())
+                break
+            case ParallelGeneratorType.PromiseOfPromises:
+                values = await Promise.all(await typedData.generator())
+                break
+            case ParallelGeneratorType.PromiseToArray:
+                values = await typedData.generator()
+                break
+        }
+
+        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
+        for (const [key, value] of values) {
             const grouping: Grouping<TKey, TSource> = keyMap[key]
 
             if (grouping) {
