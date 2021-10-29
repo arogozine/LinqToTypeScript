@@ -15,26 +15,26 @@ const generateNumbers = (max: number) => {
 
 interface IHomeState {
   value: number
-  numbers: number[]
+  primeNumbers: number[]
 }
 
 const Home: NextPage = () => {
-  const [state, dispatch] = useState<IHomeState>({ value: 100, numbers: generateNumbers(100) })
+  const [state, dispatch] = useState<IHomeState>({ value: 100, primeNumbers: generateNumbers(100) })
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
     const numbers = generateNumbers(value)
-    dispatch({ value, numbers })
+    dispatch({ value, primeNumbers: numbers })
   }
 
-  const numbers = state
-    .numbers
+  const numberList = state
+    .primeNumbers
     .map(x => <li key={x}>{x}</li>)
 
   return (
     <>
       <ul>
-        {numbers}
+        {numberList}
       </ul>
       <input type="number" min={0} value={state.value} onChange={onChange} />
     </>
