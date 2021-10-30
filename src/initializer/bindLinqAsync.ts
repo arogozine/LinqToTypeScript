@@ -84,15 +84,17 @@ import { zipAsync } from "./../async/_private/zipAsync"
  * Binds LINQ methods to an iterable type
  * @param object Iterable Type
  */
-export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
+export const bindLinqAsync = <T extends any, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
     const prototype = object.prototype as IAsyncEnumerable<T>
 
-    const bind = (func: (x: IAsyncEnumerable<T>, ...params: any[]) => any, key: keyof IAsyncEnumerable<T>) => {
-        const wrapped = function(this: IAsyncEnumerable<T>, ...params: any) {
+    const bind = <TKey extends Exclude<keyof IAsyncEnumerable<T>, keyof AsyncIterable<T>>, TParams extends Parameters<IAsyncEnumerable<T>[TKey]>>
+        (func: (x: IAsyncEnumerable<T>, ...params: TParams) => ReturnType<IAsyncEnumerable<any>[TKey]>, key: TKey) => {
+        const wrapped = function(this: IAsyncEnumerable<any>, ...params: TParams) {
             return func(this, ...params)
         }
+
         Object.defineProperty(wrapped, "length", { value: func.length - 1 })
-        prototype[key] = wrapped as any
+        prototype[key] = wrapped as IAsyncEnumerable<T>[TKey]
     }
 
     bind(aggregate, "aggregate")

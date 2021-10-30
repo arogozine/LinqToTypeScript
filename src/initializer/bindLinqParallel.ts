@@ -85,13 +85,11 @@ import { zipAsync } from "./../parallel/_private/zipAsync"
  * @param object Iterable Type
  */
 export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
+    const prototype = object.prototype as IParallelEnumerable<T>
 
-    // eslint-disable-next-line
-    type Writeable<TType> = { -readonly [P in keyof TType]-?: TType[P] }
-    const prototype = object.prototype as Writeable<IParallelEnumerable<T>>
-
-    const bind = (func: (x: IParallelEnumerable<T>, ...params: any[]) => any, key: keyof IParallelEnumerable<T>) => {
-        const wrapped = function(this: IParallelEnumerable<T>, ...params: any) {
+    const bind = <TKey extends Exclude<keyof IParallelEnumerable<T>, keyof AsyncIterable<T> | "dataFunc">, TParams extends Parameters<IParallelEnumerable<T>[TKey]>>
+        (func: (x: IParallelEnumerable<T>, ...params: TParams) => ReturnType<IParallelEnumerable<T>[TKey]>, key: TKey) => {
+        const wrapped = function(this: IParallelEnumerable<T>, ...params: TParams) {
             return func(this, ...params)
         }
         Object.defineProperty(wrapped, "length", { value: func.length - 1 })

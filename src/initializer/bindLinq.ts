@@ -91,12 +91,14 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     // The static methods take an IEnumerable as first argument
     // when wrapping the first argument becomes `this`
 
-    const bind = (func: (x: IEnumerable<T>, ...params: any[]) => any, key: keyof IEnumerable<T>) => {
-        const wrapped = function(this: IEnumerable<T>, ...params: any) {
+    const bind = <TKey extends Exclude<keyof IEnumerable<T>, keyof Iterable<T>>, TParams extends Parameters<IEnumerable<T>[TKey]>>
+        (func: (x: IEnumerable<T>, ...params: TParams) => ReturnType<IEnumerable<any>[TKey]>, key: TKey) => {
+        const wrapped = function(this: IEnumerable<any>, ...params: TParams) {
             return func(this, ...params)
         }
+
         Object.defineProperty(wrapped, "length", { value: func.length - 1 })
-        prototype[key] = wrapped as any
+        prototype[key] = wrapped as IEnumerable<T>[TKey]
     }
 
     bind(aggregate, "aggregate")
