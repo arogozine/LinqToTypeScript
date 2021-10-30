@@ -19,6 +19,14 @@ module.exports = {
         "eslint-plugin-prefer-arrow",
         "@typescript-eslint",
     ],
+    "overrides": [
+        {
+            files: ['*.ts', '*.tsx'],
+            parserOptions: {
+                project: ['./tsconfig.json']
+            }
+        }
+    ],
     "settings": {
         "jsdoc":{
           "ignorePrivate": true,
@@ -153,6 +161,7 @@ module.exports = {
         "no-empty": "error",
         "no-eval": "error",
         "no-fallthrough": "off",
+        // Fails on bind methods
         "no-invalid-this": "off",
         "no-new-wrappers": "error",
         "no-restricted-imports": [
@@ -192,6 +201,6 @@ module.exports = {
             }
         ],
         "use-isnan": "error",
-        "valid-typeof": "off"
+        "valid-typeof": "error"
     }
 };
