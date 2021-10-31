@@ -17,11 +17,8 @@ npm i linq-to-typescript
 [![License](https://img.shields.io/npm/l/linq-to-typescript?color=brightgreen&style=flat-square)](LICENSE)
 [![npm](https://img.shields.io/npm/dw/linq-to-typescript?color=brightgreen&style=flat-square)][npm-url]
 [![][master-build-azure-badge]][master-build-azure-url]
-[![][master-build-badge]][master-build-url]
 
 [npm-url]: https://www.npmjs.com/package/linq-to-typescript
-[master-build-url]: https://app.travis-ci.com/arogozine/LinqToTypeScript
-[master-build-badge]: https://app.travis-ci.com/arogozine/LinqToTypeScript.svg?branch=master
 [master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=master
 [master-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=master
 
