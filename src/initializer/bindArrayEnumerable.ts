@@ -7,17 +7,11 @@ import { IEnumerable } from '../types'
 /**
  * @private
  */
-export const bindArrayEnumerable = <T>() => {
-
+export const bindArrayEnumerable = <T, TKey extends keyof IEnumerable<T>>() => {
     const { prototype } = ArrayEnumerable
-
-    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
-        // eslint-disable-next-line @typescript-eslint/array-type
-        .filter((v) => v !== "constructor") as Array<keyof IEnumerable<string>>
-
+    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype) as TKey[]
     for (const prop of propertyNames) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        prototype[prop] = (prototype[prop] as any) || BasicEnumerable.prototype[prop]
+        prototype[prop] = prototype[prop] ?? BasicEnumerable.prototype[prop]
     }
 
     prototype.all = function(this: ArrayEnumerable<T>, predicate: (x: T) => boolean): boolean {

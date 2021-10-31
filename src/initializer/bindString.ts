@@ -5,16 +5,11 @@ import { BasicEnumerable } from '../sync/BasicEnumerable'
 /**
  * Adds LINQ methods to String prototype
  */
-export const bindString = () => {
+export const bindString = <TKey extends keyof IEnumerable<string>>() => {
     const prototype = String.prototype as string & IEnumerable<string>
-
-    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype)
-        // eslint-disable-next-line @typescript-eslint/array-type
-        .filter((v) => v !== "constructor") as Array<keyof IEnumerable<string>>
-
+    const propertyNames = Object.getOwnPropertyNames(BasicEnumerable.prototype) as TKey[]
     for (const prop of propertyNames) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        prototype[prop] = (prototype[prop] as any) || BasicEnumerable.prototype[prop]
+        prototype[prop] = prototype[prop] ?? BasicEnumerable.prototype[prop]
     }
 
     prototype.first = function(predicate?: (x: string) => boolean) {
