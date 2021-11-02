@@ -17,8 +17,11 @@ npm i linq-to-typescript
 [![License](https://img.shields.io/npm/l/linq-to-typescript?color=brightgreen&style=flat-square)](LICENSE)
 [![npm](https://img.shields.io/npm/dw/linq-to-typescript?color=brightgreen&style=flat-square)][npm-url]
 [![][master-build-azure-badge]][master-build-azure-url]
+[![][master-build-badge]][master-build-url]
 
 [npm-url]: https://www.npmjs.com/package/linq-to-typescript
+[master-build-url]: https://app.travis-ci.com/arogozine/LinqToTypeScript
+[master-build-badge]: https://app.travis-ci.com/arogozine/LinqToTypeScript.svg?branch=master
 [master-build-azure-url]: https://arogozine.visualstudio.com/LinqToTypeScript/_build/latest?definitionId=7&branchName=master
 [master-build-azure-badge]: https://arogozine.visualstudio.com/LinqToTypeScript/_apis/build/status/arogozine.LinqToTypeScript?branchName=master
 
@@ -152,7 +155,7 @@ To use library with ES6 modules,
 | takeWhile          | Yes     | [Sync](tests/unittests/tests/TakeWhile.ts), [Async](tests/unittests/tests/TakeWhileAsync.ts)
 | toArray            | No      | [Sync](tests/unittests/tests/ToArray.ts)
 | toMap              | Yes     | [Sync](tests/unittests/tests/ToMap.ts), [Async](tests/unittests/tests/ToMapAsync.ts) | Equivalent to `ToDictionary`
-| toObject           | Yes     | [Sync](tests/unittests/tests/toObject.ts), [Async](tests/unittests/tests/ToObjectAsync.ts)
+| toObject           | Yes     | [Sync](tests/unittests/tests/toObject.ts), [Async](tests/unittests/tests/toObjectAsync.ts)
 | toSet              | No      | [Sync](tests/unittests/tests/ToSet.ts) | Equivalent to `ToHashSet`. No comparer overload for JS.
 | union              | Yes     | [Sync](tests/unittests/tests/Union.ts)
 | where              | Yes     | [Sync](tests/unittests/tests/Where.ts), [Async](tests/unittests/tests/WhereAsync.ts)
