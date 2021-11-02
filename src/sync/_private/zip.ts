@@ -45,7 +45,7 @@ const zip1 = <TFirst, TSecond>(source: Iterable<TFirst>, second: Iterable<TSecon
             const a = firstIterator.next()
             const b = secondIterator.next()
 
-            if (a.done && b.done) {
+            if (a.done || b.done) {
                 break
             } else {
                 yield [a.value, b.value]
@@ -68,7 +68,7 @@ const zip2 = <TFirst, TSecond, TResult>(
             const a = firstIterator.next()
             const b = secondIterator.next()
 
-            if (a.done && b.done) {
+            if (a.done || b.done) {
                 break
             } else {
                 yield resultSelector(a.value, b.value)

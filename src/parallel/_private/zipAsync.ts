@@ -15,9 +15,9 @@ export const zipAsync = <TFirst, TSecond, TResult>(
     resultSelector: (x: TFirst, y: TSecond) => Promise<TResult>): IParallelEnumerable<TResult> => {
     const generator = async () => {
         const [left, right] = await Promise.all([first.toArray(), second.toArray()])
-        const maxLength = left.length > right.length ? left.length : right.length
-        const resultPromises = new Array<Promise<TResult>>(maxLength)
-        for (let i = 0; i < maxLength; i++) {
+        const minLength = left.length < right.length ? left.length : right.length
+        const resultPromises = new Array<Promise<TResult>>(minLength)
+        for (let i = 0; i < minLength; i++) {
             const a = left[i]
             const b = right[i]
             resultPromises[i] = resultSelector(a, b)

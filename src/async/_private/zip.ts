@@ -43,11 +43,9 @@ const zip1 = <T, Y>(
         const secondIterator = second[Symbol.asyncIterator]()
 
         while (true) {
-            const result = await Promise.all([firstIterator.next(), secondIterator.next()])
-            const a = result[0]
-            const b = result[1]
+            const [a, b] = await Promise.all([firstIterator.next(), secondIterator.next()])
 
-            if (a.done && b.done) {
+            if (a.done || b.done) {
                 break
             } else {
                 yield [a.value, b.value]
@@ -67,11 +65,9 @@ const zip2 = <T, Y, OUT>(
         const secondIterator = second[Symbol.asyncIterator]()
 
         while (true) {
-            const result = await Promise.all([firstIterator.next(), secondIterator.next()])
-            const a = result[0]
-            const b = result[1]
+            const [a, b] = await Promise.all([firstIterator.next(), secondIterator.next()])
 
-            if (a.done && b.done) {
+            if (a.done || b.done) {
                 break
             } else {
                 yield resultSelector(a.value, b.value)

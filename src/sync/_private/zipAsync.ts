@@ -21,7 +21,7 @@ export const zipAsync = <TFirst, TSecond, TResult>(
             const a = firstIterator.next()
             const b = secondIterator.next()
 
-            if (a.done && b.done) {
+            if (a.done || b.done) {
                 break
             } else {
                 yield resultSelector(a.value, b.value)

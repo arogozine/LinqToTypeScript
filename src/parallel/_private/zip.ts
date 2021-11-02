@@ -41,9 +41,9 @@ const zip1 = <T, Y>(
     second: IAsyncParallel<Y>): IParallelEnumerable<[T, Y]> => {
     const generator = async () => {
         const [left, right] = await Promise.all([source.toArray(), second.toArray()])
-        const maxLength = left.length > right.length ? left.length : right.length
-        const results = new Array<[T, Y]>(maxLength)
-        for (let i = 0; i < maxLength; i++) {
+        const minLength = left.length < right.length ? left.length : right.length
+        const results = new Array<[T, Y]>(minLength)
+        for (let i = 0; i < minLength; i++) {
             const a = left[i]
             const b = right[i]
             results[i] = [a, b]
@@ -62,9 +62,9 @@ const zip2 = <T, Y, OUT>(
     resultSelector: (x: T, y: Y) => OUT): IParallelEnumerable<OUT> => {
     const generator = async () => {
         const [left, right] = await Promise.all([source.toArray(), second.toArray()])
-        const maxLength = left.length > right.length ? left.length : right.length
-        const results = new Array<OUT>(maxLength)
-        for (let i = 0; i < maxLength; i++) {
+        const minLength = left.length < right.length ? left.length : right.length
+        const results = new Array<OUT>(minLength)
+        for (let i = 0; i < minLength; i++) {
             const a = left[i]
             const b = right[i]
             results[i] = resultSelector(a, b)
