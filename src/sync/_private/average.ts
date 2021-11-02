@@ -22,39 +22,25 @@ type AverageFunc = {
 export const average: AverageFunc = <TSource>(
     source: Iterable<TSource> | Iterable<number>,
     selector?: (x: TSource) => number): number => {
+
+    let value = 0
+    let count = 0
+
     if (selector) {
-        return average2(source as Iterable<TSource>, selector)
+        for (const item of source) {
+            value = value + selector(item as TSource)
+            count = count + 1
+        }
     } else {
-        return average1(source as Iterable<number>)
-    }
-}
-
-const average1 = (source: Iterable<number>): number => {
-    let value: number | undefined
-    let count: number | undefined
-    for (const item of source) {
-        value = (value || 0) + item
-        count = (count || 0) + 1
+        for (const item of source) {
+            value = value + (item as number)
+            count = count + 1
+        }
     }
 
-    if (value === undefined) {
+    if (count === 0) {
         throw new InvalidOperationException(ErrorString.NoElements)
     }
 
-    return value / (count as number)
-}
-
-const average2 = <TSource>(source: Iterable<TSource>, func: (x: TSource) => number): number => {
-    let value: number | undefined
-    let count: number | undefined
-    for (const item of source) {
-        value = (value || 0) + func(item)
-        count = (count || 0) + 1
-    }
-
-    if (value === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return value / (count as number)
+    return value / count
 }

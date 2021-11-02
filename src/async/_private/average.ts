@@ -17,44 +17,28 @@ type AverageFunc = {
     <TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
 }
 
-
-export const average: AverageFunc = <TSource>(
+export const average: AverageFunc = async <TSource>(
     source: AsyncIterable<TSource> | AsyncIterable<number>,
     selector?: (x: TSource) => number): Promise<number> => {
+
+    let value = 0
+    let count = 0
+
     if (selector) {
-        return average2(source as AsyncIterable<TSource>, selector)
+        for await (const item of source) {
+            value = value + selector(item as TSource)
+            count = count + 1
+        }
     } else {
-        return average1(source as AsyncIterable<number>)
-    }
-}
-
-const average1 = async (source: AsyncIterable<number>) => {
-    let value: number | undefined
-    let count: number | undefined
-    for await (const item of source) {
-        value = (value || 0) + item
-        count = (count || 0) + 1
+        for await (const item of source) {
+            value = value + (item as number)
+            count = count + 1
+        }
     }
 
-    if (value === undefined) {
+    if (count === 0) {
         throw new InvalidOperationException(ErrorString.NoElements)
     }
 
-    return value / (count as number)
-}
-
-const average2 = async <TSource>(
-    source: AsyncIterable<TSource>, func: (x: TSource) => number) => {
-    let value: number | undefined
-    let count: number | undefined
-    for await (const item of source) {
-        value = (value || 0) + func(item)
-        count = (count || 0) + 1
-    }
-
-    if (value === undefined) {
-        throw new InvalidOperationException(ErrorString.NoElements)
-    }
-
-    return value / (count as number)
+    return value / count
 }

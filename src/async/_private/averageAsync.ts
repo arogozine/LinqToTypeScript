@@ -11,16 +11,16 @@ import { ErrorString, InvalidOperationException } from "../../shared"
 export const averageAsync = async <TSource>(
     source: AsyncIterable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<number> => {
-    let value: number | undefined
-    let count: number | undefined
+    let value = 0
+    let count = 0
     for await (const item of source) {
-        value = (value || 0) + await selector(item)
-        count = (count || 0) + 1
+        value = value + await selector(item)
+        count = count + 1
     }
 
-    if (value === undefined) {
+    if (count === 0) {
         throw new InvalidOperationException(ErrorString.NoElements)
     }
 
-    return value / (count as number)
+    return value / count
 }
