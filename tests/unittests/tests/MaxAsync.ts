@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "linq-to-typescript"
-import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel, randomTimeOut } from "../TestHelpers"
 
 describe("maxAsync", () => {
     itEnumerableAsync("MaxSelectEmptyError", async (asEnumerable) => {
@@ -76,6 +76,25 @@ describe("maxAsync", () => {
         const max = await asParallel([ Number.NEGATIVE_INFINITY ])
             .maxAsync(async (x) => x)
         expect(max).toBe(Number.NEGATIVE_INFINITY)
+    })
+
+    //#endregion
+
+    //#region Zero Array
+
+    itEnumerableAsync("Zero Array", async (asEnumerable) => {
+        const max = await asEnumerable([0, 0]).maxAsync(randomTimeOut)
+        expect(max).toBe(0)
+    })
+
+    itAsync("Zero Array", async () => {
+        const max = await asAsync([0, 0]).maxAsync(randomTimeOut)
+        expect(max).toBe(0)
+    })
+
+    itParallel("Zero Array", async (asParallel) => {
+        const max = await asParallel([0, 0]).maxAsync(randomTimeOut)
+        expect(max).toBe(0)
     })
 
     //#endregion

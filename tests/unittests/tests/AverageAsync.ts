@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "linq-to-typescript"
-import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel, randomTimeOut } from "../TestHelpers"
 
 describe("averageAsync", () => {
     itEnumerableAsync("selector", async (asEnumerable) => {
@@ -30,4 +30,23 @@ describe("averageAsync", () => {
         const expect = await expectAsync((asParallel([])).averageAsync(async (x) => x * 10))
         expect.toThrowError(InvalidOperationException)
     })
+
+    //#region Zero Array
+
+    itEnumerableAsync("Zero Array", async (asEnumerable) => {
+        const avg = await asEnumerable([0, 0]).averageAsync(randomTimeOut)
+        expect(avg).toBe(0)
+    })
+
+    itAsync("Zero Array", async () => {
+        const avg = await asAsync([0, 0]).averageAsync(randomTimeOut)
+        expect(avg).toBe(0)
+    })
+
+    itParallel("Zero Array", async (asParallel) => {
+        const avg = await asParallel([0, 0]).averageAsync(randomTimeOut)
+        expect(avg).toBe(0)
+    })
+
+    //#endregion
 })

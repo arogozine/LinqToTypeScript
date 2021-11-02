@@ -139,4 +139,32 @@ describe("max", () => {
     })
 
     //#endregion
+    
+    //#region Zero Array
+
+    itEnumerable("Zero Array", (asEnumerable) => {
+        const max = asEnumerable([0, 0]).max()
+        expect(max).toBe(0)
+
+        const max2 = asEnumerable([0, 0]).max((x) => x * 2)
+        expect(max2).toBe(0)
+    })
+
+    itAsync("Zero Array", async () => {
+        const max = await asAsync([0, 0]).max()
+        expect(max).toBe(0)
+
+        const max2 = await asAsync([0, 0]).max((x) => x * 2)
+        expect(max2).toBe(0)
+    })
+
+    itParallel("Zero Array", async (asParallel) => {
+        const max = await asParallel([0, 0]).max()
+        expect(max).toBe(0)
+
+        const max2 = await asParallel([0, 0]).max((x) => x * 2)
+        expect(max2).toBe(0)
+    })
+
+    //#endregion
 })

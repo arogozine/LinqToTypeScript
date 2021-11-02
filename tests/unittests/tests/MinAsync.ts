@@ -1,5 +1,5 @@
 import { InvalidOperationException } from "linq-to-typescript"
-import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
+import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel, randomTimeOut } from "../TestHelpers"
 
 describe("minAsync", () => {
 
@@ -51,6 +51,25 @@ describe("minAsync", () => {
         const min = await asParallel([ Number.POSITIVE_INFINITY ])
             .minAsync(async (x) => x)
         expect(min).toBe(Number.POSITIVE_INFINITY)
+    })
+
+    //#endregion
+
+    //#region Zero Array
+
+    itEnumerableAsync("Zero Array", async (asEnumerable) => {
+        const min = await asEnumerable([0, 0]).minAsync(randomTimeOut)
+        expect(min).toBe(0)
+    })
+
+    itAsync("Zero Array", async () => {
+        const min = await asAsync([0, 0]).minAsync(randomTimeOut)
+        expect(min).toBe(0)
+    })
+
+    itParallel("Zero Array", async (asParallel) => {
+        const min = await asParallel([0, 0]).minAsync(randomTimeOut)
+        expect(min).toBe(0)
     })
 
     //#endregion

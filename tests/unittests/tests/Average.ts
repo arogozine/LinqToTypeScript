@@ -46,4 +46,32 @@ describe("average", () => {
         const expect = await expectAsync((asParallel([] as number[])).average((x) => x * 10))
         expect.toThrowError(InvalidOperationException)
     })
+
+    //#region Zero Array
+
+    itEnumerable("Zero Array", async (asEnumerable) => {
+        const avg = asEnumerable([0, 0]).average()
+        expect(avg).toBe(0)
+
+        const avg2 = asEnumerable([0, 0]).average((x) => x * 2)
+        expect(avg2).toBe(0)
+    })
+
+    itAsync("Zero Array", async () => {
+        const avg = await asAsync([0, 0]).average()
+        expect(avg).toBe(0)
+
+        const avg2 = await asAsync([0, 0]).average((x) => x * 2)
+        expect(avg2).toBe(0)
+    })
+
+    itParallel("Zero Array", async (asParallel) => {
+        const avg = await asParallel([0, 0]).average()
+        expect(avg).toBe(0)
+
+        const avg2 = await asParallel([0, 0]).average((x) => x * 2)
+        expect(avg2).toBe(0)
+    })
+
+    //#endregion
 })

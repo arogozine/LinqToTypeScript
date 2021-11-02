@@ -151,4 +151,33 @@ describe("min", () => {
     })
 
     //#endregion
+
+    //#region Zero Array
+
+    itEnumerable("Zero Array", (asEnumerable) => {
+        const min = asEnumerable([0, 0]).min()
+        expect(min).toBe(0)
+      
+        const min2 = asEnumerable([0, 0]).min((x) => x * 2)
+        expect(min2).toBe(0)
+    })
+
+    itAsync("Zero Array", async () => {
+        const min = await asAsync([0, 0]).min()
+        expect(min).toBe(0)
+      
+        const min2 = await asAsync([0, 0]).min((x) => x * 2)
+        expect(min2).toBe(0)
+    })
+
+    
+    itParallel("Zero Array", async (asParallel) => {
+        const min = await asParallel([0, 0]).min()
+        expect(min).toBe(0)
+      
+        const min2 = await asParallel([0, 0]).min((x) => x * 2)
+        expect(min2).toBe(0)
+    })
+
+    //#endregion
 })
