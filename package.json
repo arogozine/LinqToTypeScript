@@ -19,9 +19,10 @@
     }
   ],
   "scripts": {
-    "build": "npx rimraf dist && npm run build:main && npm run build:esm",
-    "build:main": "tsc --module commonjs --target es2019 --outDir dist/commonjs --declaration",
-    "build:esm": "tsc -t es2019 --outDir dist/esm",
+    "build": "npx rimraf dist && npm run build:main && npm run build:esm && npm run build:declaration",
+    "build:main": "tsc --removeComments --module commonjs --outDir dist/commonjs --declaration",
+    "build:declaration": "tsc --module commonjs --outDir dist/commonjs --declaration --emitDeclarationOnly",
+    "build:esm": "tsc --removeComments --outDir dist/esm",
     "postbuild": "node --experimental-json-modules config/copy",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
     "doc": "npx rimraf doc && typedoc ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --gitRevision master --out ./doc --excludePrivate --readme README.md --name \"LINQ To TypeScript\" --includeVersion && node config/editdocs",
