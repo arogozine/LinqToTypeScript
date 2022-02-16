@@ -79,7 +79,7 @@ import { whereAsync } from "./../sync/_private/whereAsync"
 import { zip } from "./../sync/_private/zip"
 import { zipAsync } from "./../sync/_private/zipAsync"
 
-/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
 
 /**
  * Binds LINQ methods to an iterable type

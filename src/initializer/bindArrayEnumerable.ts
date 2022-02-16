@@ -29,6 +29,7 @@ export const bindArrayEnumerable = <T, TKey extends keyof IEnumerable<T>>() => {
             // eslint-disable-next-line no-shadow
             let count = 0
             for (let i = 0; i < this.length; i ++) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 if (predicate(this[i]) === true) {
                     count++
                 }

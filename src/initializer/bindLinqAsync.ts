@@ -78,13 +78,13 @@ import { whereAsync } from "./../async/_private/whereAsync"
 import { zip } from "./../async/_private/zip"
 import { zipAsync } from "./../async/_private/zipAsync"
 
-/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument */
 
 /**
  * Binds LINQ methods to an iterable type
  * @param object Iterable Type
  */
-export const bindLinqAsync = <T extends any, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
+export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<Y>) => {
     const prototype = object.prototype as IAsyncEnumerable<T>
 
     const bind = <TKey extends Exclude<keyof IAsyncEnumerable<T>, keyof AsyncIterable<T>>, TParams extends Parameters<IAsyncEnumerable<T>[TKey]>>

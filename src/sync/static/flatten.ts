@@ -28,6 +28,7 @@ export const flatten: FlattenFunc = <TSource>(
             // We exclude it from being flattened
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             if (item[Symbol.iterator] !== undefined && typeof item !== "string") {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 yield* shallow ? item : iterator(item)
             } else {
                 yield item
