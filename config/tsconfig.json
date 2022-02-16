@@ -5,7 +5,7 @@
       "lib": [
         "ES2021"
       ],
-      "module": "ES2020",
+      "module": "esnext",
       "allowJs": true,
       "checkJs": true,
       "resolveJsonModule": true,

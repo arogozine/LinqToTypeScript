@@ -1,7 +1,7 @@
 import { writeFileSync, copyFileSync, statSync } from 'fs'
 import { resolve, basename, dirname } from 'path'
 import { fileURLToPath } from 'url';
-import packageJson from '../package.json'
+import packageJson from '../package.json' assert { type: "json" }
 
 // https://stackoverflow.com/a/62892482
 const __filename = fileURLToPath(import.meta.url);
