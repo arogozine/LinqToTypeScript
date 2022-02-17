@@ -142,6 +142,12 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     countAsync(predicate: (x: TSource) => Promise<boolean>): Promise<number>
     /**
+     * Returns the elements of an IEnumerable<T>, or a default valued singleton collection if the sequence is empty.
+     * @param defaultValue The value to return if the sequence is empty.
+     * @returns An IEnumerable<T> that contains defaultValue if source is empty; otherwise, source.
+     */
+    defaultIfEmpty(defaultValue: TSource): IEnumerable<TSource>
+    /**
      * Returns distinct elements from a sequence by using the default or specified equality comparer to compare values.
      * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
      * @returns An IEnumerable<T> that contains distinct elements from the source sequence.

@@ -14,6 +14,7 @@ import { contains } from "./../sync/_private/contains"
 import { containsAsync } from "./../sync/_private/containsAsync"
 import { count } from "./../sync/_private/count"
 import { countAsync } from "./../sync/_private/countAsync"
+import { defaultIfEmpty } from "../sync/_private/defaultIfEmpty"
 import { distinct } from "./../sync/_private/distinct"
 import { distinctAsync } from "./../sync/_private/distinctAsync"
 import { each } from "./../sync/_private/each"
@@ -115,6 +116,7 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(containsAsync, "containsAsync")
     bind(count, "count")
     bind(countAsync, "countAsync")
+    bind(defaultIfEmpty, "defaultIfEmpty")
     bind(distinct, "distinct")
     bind(distinctAsync, "distinctAsync")
     bind(each, "each")

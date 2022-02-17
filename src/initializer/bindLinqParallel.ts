@@ -13,6 +13,7 @@ import { contains } from "./../parallel/_private/contains"
 import { containsAsync } from "./../parallel/_private/containsAsync"
 import { count } from "./../parallel/_private/count"
 import { countAsync } from "./../parallel/_private/countAsync"
+import { defaultIfEmpty } from "./../parallel/_private/defaultIfEmpty"
 import { distinct } from "./../parallel/_private/distinct"
 import { distinctAsync } from "./../parallel/_private/distinctAsync"
 import { each } from "./../parallel/_private/each"
@@ -109,6 +110,7 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(containsAsync, "containsAsync")
     bind(count, "count")
     bind(countAsync, "countAsync")
+    bind(defaultIfEmpty, "defaultIfEmpty")
     bind(distinct, "distinct")
     bind(distinctAsync, "distinctAsync")
     bind(each, "each")

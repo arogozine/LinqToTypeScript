@@ -120,6 +120,7 @@ To use library with ES6 modules,
 | concatenate        | No      | [Sync](tests/unittests/tests/Concatenate.ts) | Equivalent to `.Concat` but renamed to avoid conflict with JS
 | contains           | Yes     | [Sync](tests/unittests/tests/Contains.ts), [Async](tests/unittests/tests/ContainsAsync.ts)
 | count              | Yes     | [Sync](tests/unittests/tests/Count.ts), [Async](tests/unittests/tests/CountAsync.ts)
+| defaultIfEmpty     | No      | [Sync](tests/unittests/tests/DefaultIfEmpty.ts)
 | distinct           | Yes     | [Sync](tests/unittests/tests/Distinct.ts), [Async](tests/unittests/tests/DistinctAsync.ts)
 | elementAt          | No      | [Sync](tests/unittests/tests/ElementAt.ts)
 | elementAtOrDefault | No      | [Sync](tests/unittests/tests/ElementAtOrDefault.ts)

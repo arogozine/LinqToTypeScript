@@ -25,6 +25,12 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      */
     concatenate(second: IAsyncEnumerable<TSource>): IAsyncEnumerable<TSource>
     /**
+     * Returns the elements of an IAsyncEnumerable<T>, or a default valued singleton collection if the sequence is empty.
+     * @param defaultValue The value, or Promise that gives back that value, to return if the sequence is empty.
+     * @returns An IAsyncEnumerable<T> that contains defaultValue if source is empty; otherwise, source.
+     */
+    defaultIfEmpty(defaultValue: TSource | Promise<TSource>): IAsyncEnumerable<TSource>
+    /**
      * Returns distinct elements from a sequence by using the default
      * or specified equality comparer to compare values.
      * @param comparer An IEqualityComparer<T> to compare values. Optional. Defaults to Strict Equality Comparison.
