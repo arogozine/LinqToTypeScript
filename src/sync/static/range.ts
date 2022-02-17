@@ -12,7 +12,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  */
 export const range = (start: number, count: number): IEnumerable<number> => {
     if (start < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
-        throw new ArgumentOutOfRangeException(`start`)
+        throw new ArgumentOutOfRangeException("start")
     }
 
     function* iterator() {

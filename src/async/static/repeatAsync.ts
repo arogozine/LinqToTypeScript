@@ -12,7 +12,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 export const repeatAsync = <TResult>(
     element: TResult, count: number, delay?: number): IAsyncEnumerable<TResult> => {
     if (count < 0) {
-        throw new ArgumentOutOfRangeException(`count`)
+        throw new ArgumentOutOfRangeException("count")
     }
     if (delay) {
         return repeat2(element, count, delay)

@@ -1,6 +1,6 @@
-import { IEnumerable } from '../types'
+import { IEnumerable } from "../types"
 import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
-import { BasicEnumerable } from '../sync/BasicEnumerable'
+import { BasicEnumerable } from "../sync/BasicEnumerable"
 
 /**
  * Adds LINQ methods to String prototype

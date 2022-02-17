@@ -47,7 +47,7 @@ export const aggregate: AggregateFunc = <TSource, TAccumulate, TResult>(
     resultSelector?: (x: TAccumulate) => TResult): Promise<TSource | TAccumulate | TResult | null> => {
     if (resultSelector) {
         if (!func) {
-            throw new ReferenceError(`TAccumulate function is undefined`)
+            throw new ReferenceError("TAccumulate function is undefined")
         }
 
         return aggregate3(source, seedOrFunc as TAccumulate, func, resultSelector)

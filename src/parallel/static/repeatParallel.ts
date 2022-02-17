@@ -13,7 +13,7 @@ export const repeatParallel = <TResult>(
     // eslint-disable-next-line no-shadow
     element: TResult, count: number, delay?: number): IParallelEnumerable<TResult> => {
     if (count < 0) {
-        throw new ArgumentOutOfRangeException(`count`)
+        throw new ArgumentOutOfRangeException("count")
     }
     if (delay) {
         return repeat2(element, count, delay)

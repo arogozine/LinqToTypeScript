@@ -1,8 +1,8 @@
 
 import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
-import { BasicEnumerable } from '../sync/BasicEnumerable'
-import { IEnumerable } from '../types'
+import { BasicEnumerable } from "../sync/BasicEnumerable"
+import { IEnumerable } from "../types"
 
 /**
  * @private

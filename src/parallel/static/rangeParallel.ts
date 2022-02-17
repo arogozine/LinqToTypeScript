@@ -12,7 +12,7 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  */
 export const rangeParallel = (start: number, count: number): IParallelEnumerable<number> => {
     if (start < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
-        throw new ArgumentOutOfRangeException(`start`)
+        throw new ArgumentOutOfRangeException("start")
     }
 
     const generator = () => {

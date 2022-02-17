@@ -12,7 +12,8 @@ module.exports = {
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "tsconfig.json",
-        "sourceType": "module"
+        "sourceType": "module",
+        "extraFileExtensions": [ ".cjs" ]
     },
     "plugins": [
         "eslint-plugin-jsdoc",
@@ -201,6 +202,7 @@ module.exports = {
             }
         ],
         "use-isnan": "error",
-        "valid-typeof": "error"
+        "valid-typeof": "error",
+        "quotes": ["error", "double"]
     }
 };

@@ -12,7 +12,7 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  */
 export const rangeAsync = (start: number, count: number): IAsyncEnumerable<number> => {
     if (start < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
-        throw new ArgumentOutOfRangeException(`start`)
+        throw new ArgumentOutOfRangeException("start")
     }
 
     async function* iterator() {

@@ -5,8 +5,8 @@
 export class ArgumentOutOfRangeException extends RangeError {
     public constructor(public readonly paramName: string) {
         super(`${ paramName } was out of range.` +
-            ` Must be non-negative and less than the size of the collection.`)
-        this.name = `ArgumentOutOfRangeException`
+            " Must be non-negative and less than the size of the collection.")
+        this.name = "ArgumentOutOfRangeException"
         this.stack = this.stack || (new Error()).stack
     }
 }

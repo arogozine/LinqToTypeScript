@@ -4,7 +4,7 @@
 export class InvalidOperationException extends Error {
     public constructor(message: string) {
         super(message)
-        this.name = `InvalidOperationException`
+        this.name = "InvalidOperationException"
         this.stack = this.stack || (new Error()).stack
     }
 }

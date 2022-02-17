@@ -10,7 +10,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
  */
 export const repeat = <TResult>(element: TResult, count: number): IEnumerable<TResult> => {
     if (count < 0) {
-        throw new ArgumentOutOfRangeException(`count`)
+        throw new ArgumentOutOfRangeException("count")
     }
 
     function* iterator() {
