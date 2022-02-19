@@ -6,12 +6,13 @@
   "main": "./commonjs/index.js",
   "exports": {
     ".": {
+      "types": "./types/index.d.ts",
       "require": "./commonjs/index.js",
       "default": "./esm/index.js"
     }
   },
   "module": "./esm/index.js",
-  "types": "./commonjs/index.d.ts",
+  "types": "./types/index.d.ts",
   "maintainers": [
     {
       "name": "Alexandre Rogozine",
@@ -20,8 +21,8 @@
   ],
   "scripts": {
     "build": "npx rimraf dist && npm run build:main && npm run build:esm && npm run build:declaration",
-    "build:main": "tsc --removeComments --module commonjs --outDir dist/commonjs --declaration",
-    "build:declaration": "tsc --module commonjs --outDir dist/commonjs --declaration --emitDeclarationOnly",
+    "build:main": "tsc --removeComments --module commonjs --outDir dist/commonjs",
+    "build:declaration": "tsc --module commonjs --outDir dist/types --declaration --emitDeclarationOnly",
     "build:esm": "tsc --removeComments --outDir dist/esm",
     "postbuild": "node --experimental-json-modules config/copy",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
