@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "9.0.0",
+  "version": "10.0.0-beta1",
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "main": "./commonjs/index.js",
@@ -57,7 +57,7 @@
     "typescript": "^4.5.5"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=17"
   },
   "bugs": {
     "url": "https://github.com/arogozine/LinqToTypeScript/issues"
