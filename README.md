@@ -1,6 +1,6 @@
 # LINQ To TypeScript
 - **Implementation of [LINQ](https://en.wikipedia.org/wiki/Language_Integrated_Query) for TypeScript**
-- **Targets TypeScript 4.4.X and ES 2019**
+- **Targets TypeScript 4.5.X and ES 2019**
 ```TypeScript
 await from([bing, google, quackQuackGo])
     .asParallel()
@@ -72,11 +72,9 @@ const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArra
 
 Please refer to the [examples folder](/examples)
 
-### ES6 Modules
+### ES6 Modules (ESM)
 
-To use library with ES6 modules,
-1. Make sure that you specify `"type": "module"` in package.json
-2. Run node with `--experimental-specifier-resolution=node`
+To use library with ES6 modules make sure that you specify `"type": "module"` in package.json
 
 ## API
 
@@ -231,28 +229,24 @@ fromParallel(ParallelGeneratorType.PromiseToArray, asyncFuncThatReturnsAnArray)
 
 ### Issues and Questions
 
-**Q1: I'm getting a `Directory import [...] is not supported resolving ES modules imported from [...]`**
-
-If your application npm package is `"type": "module"` then you need to run with `--experimental-specifier-resolution=node`
-
-**Q2: How does this compare to other LINQ libraries?**
+**Q1: How does this compare to other LINQ libraries?**
 
 Other libraries tend to use eager evaluation and work with arrays instead of iterables.
 
-**Q3: Can I use your code?**
+**Q2: Can I use your code?**
 
 With attribution; the code is licensed under MIT.
 
-**Q4: Why should I use this instead of lodash or something similar?**
+**Q3: Why should I use this instead of lodash or something similar?**
 
 The whole library is written in TypeScript first and avoids typechecking done by TypeScript Language Service.
 
 Lazy evaluation. Not much happens until you iterate over the enumerable or conver it to an Array, Map, etc.
 
-**Q5: Is IE11 supported?**
+**Q4: Is IE11 supported?**
 
 No.
 
-**Q6: Can I contribute?**
+**Q5: Can I contribute?**
 
 Please do!
