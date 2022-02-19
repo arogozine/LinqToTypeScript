@@ -1,70 +1,91 @@
-// Adapted from,
-// typescript-esm-example
-// By Andrey Sakharov
-// Original: https://github.com/muturgan/typescript-esm-example/blob/main/buildtools/fix-imports.js
-// MIT License: https://github.com/muturgan/typescript-esm-example/blob/main/LICENSE
-
-import { extname, join } from 'path';
-import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
-
-const START_PATH = join(process.cwd(), 'dist/esm');
-const IMPORT_REGEXP = /^((import|export) [^';]* from "(\.\/|(\.\.\/)+)[^";]*)"/g;
-const JUST_ADD_AN_EXTENSION = `$1.js"`;
-const ADD_INDEX_FILE = `$1/index.js"`;
-const JS_EXT = '.js';
-
-/**
- * @param {string} rootPath
- */
-function fixImportsAtFolder(rootPath) {
-    const entries = readdirSync(rootPath);
-
-    entries.forEach((entry) => {
-        const entryPath = join(rootPath, entry);
-        if (entry.endsWith(JS_EXT)) {
-            fixImportsAtFile(entryPath);
-        }
-        else {
-            const extName = extname(entry);
-            if (!extName) {
-                const stat = statSync(entryPath);
-                if (stat.isDirectory()) {
-                    fixImportsAtFolder(entryPath);
-                }
-            }
-        }
-    });
-}
+import { existsSync, writeFileSync } from 'fs'
+import { dirname, join } from "path"
+import ts from 'typescript'
+const { createPrinter, isSourceFile, createCompilerHost, createProgram, isImportDeclaration, isExportDeclaration, isStringLiteral, ModuleKind, ModuleResolutionKind, ScriptTarget } = ts
 
 /**
  * 
- * @param {string} filePath 
+ * @param {ts.SourceFile} sourceFile 
+ * @returns {ts.TransformerFactory<ts.Node>}
  */
-function fixImportsAtFile(filePath) {
-    const content = readFileSync(filePath).toString('utf8');
-    const lines = content.split('\n');
-    const fixedLines = lines.map((l) => {
-        if (!l.match(IMPORT_REGEXP)) {
-            return l;
+const generateTransformer = (sourceFile) => {
+    const pathWithoutFileName = dirname(sourceFile.fileName);
+
+    return (/** @type {ts.TransformationContext} */context) => (/** @type {ts.Node} */rootNode) => {
+
+        function visit(/** @type {ts.Node} */node) {
+            node = ts.visitEachChild(node, visit, context);
+
+            // Import Declaration
+            const parentNodeIsExportOrImport = node.parent &&
+                (isImportDeclaration(node.parent) || isExportDeclaration(node.parent))
+
+            // Node is the relative path of an import or export
+            if (parentNodeIsExportOrImport && isStringLiteral(node)) {
+                const relativePathWithQuotes = node.getFullText(sourceFile).trimStart()
+                const relativePathWithoutQuotes = relativePathWithQuotes.substring(1, relativePathWithQuotes.length - 1)
+
+                if (relativePathWithoutQuotes.includes(".js")) {
+                    return node
+                }
+
+                const fullImportPath = join(pathWithoutFileName, relativePathWithoutQuotes);
+
+                // Append .js or index.js to all imports
+                if (existsSync(fullImportPath + ".js")) {
+                    node = context.factory.createStringLiteral(`${relativePathWithoutQuotes}.js`)
+                }
+                else if (existsSync(join(fullImportPath, "index.js"))) {
+                    node = context.factory.createStringLiteral(`${relativePathWithoutQuotes}/index.js`)
+                }
+                else {
+                    throw new Error(`Can't fix TypeScript paths: ${node.getFullText(sourceFile)}`)
+                }
+            }
+            
+            return node
         }
 
-        const [_, importPath] = l.split(`"`);
-        const fullPath = join(filePath, '..', importPath);
-        const exists = existsSync(fullPath);
-        if (exists === false) {
-            return l.replace(IMPORT_REGEXP, JUST_ADD_AN_EXTENSION);
-        }
-
-        const stat = statSync(fullPath);
-        const isDirectory = stat.isDirectory();
-        if (isDirectory === true) {
-            return l.replace(IMPORT_REGEXP, ADD_INDEX_FILE);
-        }
-
-        return l;
-    });
-    const withFixedImports = fixedLines.join('\n');
-    writeFileSync(filePath, withFixedImports);
+        return ts.visitNode(rootNode, visit)
+      }
 }
 
-fixImportsAtFolder(START_PATH);
+/**
+ * Add .js extension to imports and exports
+ * Specify index.js for folder imports
+ */
+const addJsToImportAndExports = () => {
+    /** @type {ts.CompilerOptions} */
+    const compilerOptions = {
+        moduleResolution: ModuleResolutionKind.NodeJs,
+        module: ModuleKind.NodeNext,
+        esModuleInterop: true,
+        target: ScriptTarget.ESNext,
+        lib: [
+            "es2020"
+        ],
+        allowJs: true,
+        checkJs: true
+    };
+
+    const host = createCompilerHost(compilerOptions);
+    const program = createProgram(["./dist/esm/index.js"], compilerOptions, host);
+    const sourceFiles = program.getSourceFiles();
+
+    for (const sourceFile of sourceFiles) {
+        if (!sourceFile.isDeclarationFile) {
+            const result = ts.transform(
+                sourceFile, [generateTransformer(sourceFile)]
+            )
+        
+            const transformedSourceFile = result.transformed[0]
+            if (isSourceFile(transformedSourceFile)) {
+                const printer = createPrinter()
+                const file = printer.printFile(transformedSourceFile)
+                writeFileSync(sourceFile.fileName, file)
+            }
+        }
+    }
+}
+
+addJsToImportAndExports()
