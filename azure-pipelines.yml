@@ -4,18 +4,22 @@ trigger:
   - master
   - InDev
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 strategy:
   matrix:
-    node_17_x:
-      node_version: 17.x
+    linux:
+      imageName: 'ubuntu-latest'
+    mac:
+      imageName: 'macOS-latest'
+    windows:
+      imageName: 'windows-latest'
+
+pool:
+  vmImage: $(imageName)
 
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: $(node_version)
+    versionSpec: 17.x
 
 - script: |
     npm install -g typescript jest typedoc
