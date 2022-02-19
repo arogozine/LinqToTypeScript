@@ -9,6 +9,7 @@ import { asAsync } from "./../sync/_private/asAsync"
 import { asParallel } from "./../sync/_private/asParallel"
 import { average } from "./../sync/_private/average"
 import { averageAsync } from "./../sync/_private/averageAsync"
+import { chunk } from "./../sync/_private/chunk"
 import { concatenate } from "../sync/_private/concatenate"
 import { contains } from "./../sync/_private/contains"
 import { containsAsync } from "./../sync/_private/containsAsync"
@@ -111,6 +112,7 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(asParallel, "asParallel")
     bind(average, "average")
     bind(averageAsync, "averageAsync")
+    bind(chunk, "chunk")
     bind(concatenate, "concatenate")
     bind(contains, "contains")
     bind(containsAsync, "containsAsync")

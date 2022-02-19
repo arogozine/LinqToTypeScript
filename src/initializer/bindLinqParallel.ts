@@ -8,6 +8,7 @@ import { anyAsync } from "./../parallel/_private/anyAsync"
 import { asAsync } from "./../parallel/_private/asAsync"
 import { average } from "./../parallel/_private/average"
 import { averageAsync } from "./../parallel/_private/averageAsync"
+import { chunk } from "./../parallel/_private/chunk"
 import { concatenate } from "../parallel/_private/concatenate"
 import { contains } from "./../parallel/_private/contains"
 import { containsAsync } from "./../parallel/_private/containsAsync"
@@ -105,6 +106,7 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(asAsync, "asAsync")
     bind(average, "average")
     bind(averageAsync, "averageAsync")
+    bind(chunk, "chunk")
     bind(concatenate, "concatenate")
     bind(contains, "contains")
     bind(containsAsync, "containsAsync")

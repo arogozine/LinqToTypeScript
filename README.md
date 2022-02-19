@@ -115,6 +115,7 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 | all                | Yes     | [Sync](tests/unittests/tests/All.ts), [Async](tests/unittests/tests/AllAsync.ts)
 | any                | Yes     | [Sync](tests/unittests/tests/Any.ts), [Async](tests/unittests/tests/AnyAsync.ts)
 | average            | Yes     | [Sync](tests/unittests/tests/Average.ts), [Async](tests/unittests/tests/AverageAsync.ts)
+| chunk              | No      | [Sync](tests/unittests/tests/Chunk.ts)
 | concatenate        | No      | [Sync](tests/unittests/tests/Concatenate.ts) | Equivalent to `.Concat` but renamed to avoid conflict with JS
 | contains           | Yes     | [Sync](tests/unittests/tests/Contains.ts), [Async](tests/unittests/tests/ContainsAsync.ts)
 | count              | Yes     | [Sync](tests/unittests/tests/Count.ts), [Async](tests/unittests/tests/CountAsync.ts)

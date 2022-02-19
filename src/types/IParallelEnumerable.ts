@@ -26,6 +26,12 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
      */
     asAsync(): IAsyncEnumerable<TSource>
     /**
+     * Splits the elements of a sequence into chunks of size at most size.
+     * @param size The maximum size of each chunk.
+     * @returns An IParallelEnumerable<T> that contains the elements the input sequence split into chunks of size size.
+     */
+    chunk(size: number): IParallelEnumerable<TSource[]>
+    /**
      * Concatenates two async sequences.
      * @param second The async sequence to concatenate to the first sequence.
      * @returns An IParallelEnumerable<T> that contains the concatenated elements of the two sequences.

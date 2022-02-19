@@ -104,6 +104,12 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     averageAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
+     * Splits the elements of a sequence into chunks of size at most size.
+     * @param size The maximum size of each chunk.
+     * @returns An IEnumerable<T> that contains the elements the input sequence split into chunks of size size.
+     */
+    chunk(size: number): IEnumerable<TSource[]>
+    /**
      * Concatenates two sequences.
      * @param second The sequence to concatenate to the first sequence.
      * @returns An IEnumerable<T> that contains the concatenated elements of the two sequences.
