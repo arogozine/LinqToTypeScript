@@ -5,13 +5,6 @@ import { Grouping } from "../Grouping"
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match */
 
-/**
- * Group and Iterable Based on a Generic Key and an equality comparer
- * @param source Iteration
- * @param keySelector Key Selector
- * @param comparer Key Comparer
- * @private
- */
 export const groupBy_0 = <TSource, TKey>(
     source: Iterable<TSource>,
     keySelector: (x: TSource) => TKey,

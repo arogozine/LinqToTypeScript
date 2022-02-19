@@ -1,13 +1,6 @@
 import { StrictEqualityComparer } from "../../shared"
 import { IEqualityComparer } from "../../types"
 
-/**
- * Determines whether or not two sequences are equal
- * @param first first iterable
- * @param second second iterable
- * @param comparer Compare function to use, by default is @see {StrictEqualityComparer}
- * @returns Whether or not the two iterables are equal
- */
 export const sequenceEquals = <TSource>(
     first: Iterable<TSource>,
     second: Iterable<TSource>,

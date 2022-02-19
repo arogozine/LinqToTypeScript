@@ -1,12 +1,6 @@
 import { IAsyncEqualityComparer, IAsyncParallel, IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
-/**
- * Returns distinct elements from a sequence by using the specified equality comparer to compare values.
- * @param source The sequence to remove duplicate elements from.
- * @param comparer An IAsyncEqualityComparer<T> to compare values.
- * @returns An IParallelEnumerable<T> that contains distinct elements from the source sequence.
- */
 export const distinctAsync = <TSource>(
     source: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> => {

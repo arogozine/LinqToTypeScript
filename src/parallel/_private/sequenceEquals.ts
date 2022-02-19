@@ -1,13 +1,6 @@
 import { StrictEqualityComparer } from "../../shared"
 import { IAsyncParallel, IEqualityComparer } from "../../types"
 
-/**
- * Compares two parallel sequences to see if they are equal using a comparer function.
- * @param first First Sequence
- * @param second Second Sequence
- * @param comparer Comparer
- * @returns Whether or not the two iterations are equal
- */
 export const sequenceEquals = async <TSource>(
     // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,

@@ -1,20 +1,7 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
 
 type MinAsync = {
-    /**
-     * Returns the minimum value in a sequence of values.
-     * @param source A sequence of values to determine the minimum value of.
-     * @throws {InvalidOperationException} source contains no elements.
-     * @returns The minimum value in the sequence.
-     */
     (source: AsyncIterable<number>): Promise<number>
-    /**
-     * Invokes a transform function on each element of a sequence and returns the minimum value.
-     * @param source A sequence of values to determine the minimum value of.
-     * @param selector A transform function to apply to each element.
-     * @throws {InvalidOperationException} source contains no elements.
-     * @returns The minimum value in the sequence.
-     */
     <TSource>(source: AsyncIterable<TSource>, selector: (x: TSource) => number): Promise<number>
 }
 

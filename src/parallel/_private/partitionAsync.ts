@@ -2,13 +2,6 @@ import { IParallelEnumerable } from "../../types"
 import { nextIterationAsync } from "./_nextIterationAsync"
 import { typeDataToArray } from "./_typeDataToArray"
 
-/**
- * Paritions the AsyncIterable<T> into a tuple of failing and passing arrays
- * based on the predicate.
- * @param source Elements to Partition
- * @param predicate Pass / Fail condition
- * @returns [pass, fail]
- */
 export const partitionAsync = async <TSource>(
     source: IParallelEnumerable<TSource>, predicate: (x: TSource) => Promise<boolean>): Promise<[pass: TSource[], fail: TSource[]]> => {
 

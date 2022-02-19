@@ -1,12 +1,6 @@
 import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { nextIterationAsync } from "./_nextIterationAsync"
 
-/**
- * Returns how many elements in the specified sequence satisfy a condition
- * @param source A sequence that contains elements to be counted.
- * @param predicate A function to test each element for a condition.
- * @returns How many elements in the specified sequence satisfy the provided predicate.
- */
 export const countAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
     predicate: (x: TSource) => Promise<boolean>) => {

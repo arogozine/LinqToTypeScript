@@ -1,9 +1,3 @@
-/**
- * Converts an AsyncIterable<V> to a Map<K, V[]>.
- * @param source An Iterable<V> to convert.
- * @param selector A function to serve as a key selector.
- * @returns A promise for Map<K, V[]>
- */
 export const toMap = async <K, V>(source: AsyncIterable<V>, selector: (x: V) => K): Promise<Map<K, V[]>> => {
     const map = new Map<K, V[]>()
 

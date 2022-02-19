@@ -1,13 +1,6 @@
 import { IAsyncEqualityComparer, IAsyncParallel, IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
-/**
- * Produces the set union of two sequences by using a specified IAsyncEqualityComparer<T>.
- * @param first An AsyncIterable<T> whose distinct elements form the first set for the union.
- * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.
- * @param comparer The IAsyncEqualityComparer<T> to compare values.
- * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
- */
 export const unionAsync = <TSource>(
     // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,
