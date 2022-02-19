@@ -1,6 +1,6 @@
-import type { NextPage } from 'next'
+import type { NextPage } from "next"
 import { range } from "linq-to-typescript"
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useState } from "react"
 
 const generateNumbers = (max: number) => {
   const primeNumbers = range(2, max)
