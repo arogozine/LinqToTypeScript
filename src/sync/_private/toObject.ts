@@ -1,4 +1,4 @@
-export const toObject = <TSource, TKey extends keyof any>(
+export const toObject = <TSource, TKey extends keyof TSource>(
     source: Iterable<TSource>,
     selector: (x: TSource) => TKey): Record<TKey, TSource> => {
 
