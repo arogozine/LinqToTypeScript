@@ -3,7 +3,7 @@
     "compilerOptions": {
         "moduleResolution": "node",
         "target": "es2019",
-        "module": "commonjs",
+        "module": "ESNext",
         "esModuleInterop": true,
         "removeComments": true,
         "noImplicitAny": true,

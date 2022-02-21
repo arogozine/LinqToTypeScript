@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "tsc && node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "linq-to-typescript": "^8.1.0"
+    "linq-to-typescript": "^10.0.0-beta1"
   },
   "devDependencies": {
-    "typescript": "^4.4.3"
+    "typescript": "^4.5.5"
   }
 }

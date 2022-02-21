@@ -16,7 +16,7 @@ const downloadFile = (url: url.URL) => {
 const getTitle = (html: string) => {
     const start = html.indexOf('<title>') + '<title>'.length
     const end = html.indexOf('</title>')
-    return html.substr(start, end - start)
+    return html.substring(start, end - start)
 }
 
 const bing = new url.URL(`https://www.bing.com/`)
