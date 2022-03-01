@@ -31,6 +31,8 @@ import { firstOrDefaultAsync } from "./../sync/_private/firstOrDefaultAsync"
 import { groupBy } from "./../sync/_private/groupBy"
 import { groupByAsync } from "./../sync/_private/groupByAsync"
 import { groupByWithSel } from "./../sync/_private/groupByWithSel"
+import { groupJoin } from "../sync/_private/groupJoin"
+import { groupJoinAsync } from "../sync/_private/groupJoinAsync"
 import { intersect } from "./../sync/_private/intersect"
 import { intersectAsync } from "./../sync/_private/intersectAsync"
 import { join } from "./../sync/_private/join"
@@ -134,6 +136,8 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(groupBy, "groupBy")
     bind(groupByAsync, "groupByAsync")
     bind(groupByWithSel, "groupByWithSel")
+    bind(groupJoin, "groupJoin")
+    bind(groupJoinAsync, "groupJoinAsync")
     bind(intersect, "intersect")
     bind(intersectAsync, "intersectAsync")
     bind(join, "joinByKey")

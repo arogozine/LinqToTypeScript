@@ -30,6 +30,8 @@ import { firstOrDefaultAsync } from "./../parallel/_private/firstOrDefaultAsync"
 import { groupBy } from "./../parallel/_private/groupBy"
 import { groupByAsync } from "./../parallel/_private/groupByAsync"
 import { groupByWithSel } from "./../parallel/_private/groupByWithSel"
+import { groupJoin } from "./../parallel/_private/groupJoin"
+import { groupJoinAsync } from "./../parallel/_private/groupJoinAsync"
 import { intersect } from "./../parallel/_private/intersect"
 import { intersectAsync } from "./../parallel/_private/intersectAsync"
 import { join } from "./../parallel/_private/join"
@@ -128,6 +130,10 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(groupBy, "groupBy")
     bind(groupByAsync, "groupByAsync")
     bind(groupByWithSel, "groupByWithSel")
+    bind(groupJoin, "groupJoin")
+    bind(groupJoinAsync, "groupJoinAsync")
+    bind(groupJoin, "groupJoin")
+    bind(groupJoinAsync, "groupJoinAsync")
     bind(intersect, "intersect")
     bind(intersectAsync, "intersectAsync")
     bind(join, "joinByKey")

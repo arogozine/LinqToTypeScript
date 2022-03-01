@@ -135,6 +135,19 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
             elementSelector: (x: TSource) => TElement,
             comparer: IEqualityComparer<TKey>): IParallelEnumerable<IGrouping<TKey, TElement>>
 
+    groupJoin<TInner, TKey, TResult>(
+        inner: Iterable<TInner> | AsyncIterable<TInner>,
+        outerKeySelector: (value: TSource) => TKey,
+        innerKeySelector: (value: TInner) => TKey,
+        resultSelector: (element: TSource, collection: TInner[]) => TResult,
+        comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>
+    groupJoinAsync<TInner, TKey, TResult>(
+        inner: Iterable<TInner> | AsyncIterable<TInner>,
+        outerKeySelector: (value: TSource) => TKey | Promise<TKey>,
+        innerKeySelector: (value: TInner) => TKey | Promise<TKey>,
+        resultSelector: (element: TSource, collection: TInner[]) => TResult | Promise<TResult>,
+        comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>
+
     intersect(second: IAsyncParallel<TSource>,
               comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>
     intersectAsync(second: IAsyncParallel<TSource>,

@@ -141,6 +141,18 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
             keySelector: ((x: TSource) => TKey),
             elementSelector: (x: TSource) => TElement,
             comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>
+    groupJoin<TInner, TKey, TResult>(
+            inner: Iterable<TInner> | AsyncIterable<TInner>,
+            outerKeySelector: (value: TSource) => TKey,
+            innerKeySelector: (value: TInner) => TKey,
+            resultSelector: (element: TSource, collection: TInner[]) => TResult,
+            comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>
+    groupJoinAsync<TInner, TKey, TResult>(
+            inner: Iterable<TInner> | AsyncIterable<TInner>,
+            outerKeySelector: (value: TSource) => TKey | Promise<TKey>,
+            innerKeySelector: (value: TInner) => TKey | Promise<TKey>,
+            resultSelector: (element: TSource, collection: TInner[]) => TResult | Promise<TResult>,
+            comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>
     /**
      * Produces the set intersection of two sequences by using the specified IEqualityComparer<T> to compare values.
      * If no comparer is selected, uses the StrictEqualityComparer.
