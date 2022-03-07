@@ -72,7 +72,6 @@ function createDistPackageJson(packageConfig) {
   const {
     devDependencies,
     scripts,
-    engines,
     ...distPackageJson
   } = packageConfig
 
