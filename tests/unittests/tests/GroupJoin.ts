@@ -16,8 +16,65 @@ const daisy: Pet = { Name: "Daisy", Owner: magnus };
 
 const people = [ magnus, terry, charlotte ];
 const pets = [ barley, boots, whiskers, daisy ];
+const emptyPets: Pet[] = []
+const emptyPeople: Person[] = []
 
 describe("groupJoin", () => {
+    itEnumerable<Person>("empty 1", (asEnumerable) => {
+        const query =
+            asEnumerable(people).groupJoin(emptyPets,
+                    person => person,
+                    pet => pet.Owner,
+                    (person, petCollection) => {
+                        return {
+                            OwnerName: person.Name,
+                            Pets: petCollection
+                                .map(pet => pet.Name)
+                        }
+                    })
+            .toArray();
+
+        expect(query).toEqual([
+            { OwnerName: magnus.Name, Pets: [ ] },
+            { OwnerName: terry.Name, Pets: [ ] },
+            { OwnerName: charlotte.Name, Pets: [ ] }
+        ])
+    })
+
+    itEnumerable<Person>("empty 2", (asEnumerable) => {
+        const query =
+            asEnumerable(emptyPeople).groupJoin(pets,
+                    person => person,
+                    pet => pet.Owner,
+                    (person, petCollection) => {
+                        return {
+                            OwnerName: person.Name,
+                            Pets: petCollection
+                                .map(pet => pet.Name)
+                        }
+                    })
+            .toArray();
+
+        expect(query).toEqual([ ])
+    })
+
+    itEnumerable<Person>("empty 3", (asEnumerable) => {
+        const query =
+            asEnumerable(emptyPeople).groupJoin(emptyPets,
+                    person => person,
+                    pet => pet.Owner,
+                    (person, petCollection) => {
+                        return {
+                            OwnerName: person.Name,
+                            Pets: petCollection
+                                .map(pet => pet.Name)
+                        }
+                    })
+            .toArray();
+
+        expect(query).toEqual([ ])
+    })
+
     itEnumerable<Person>("basic", (asEnumerable) => {
         const query =
             asEnumerable(people).groupJoin(pets,
@@ -37,6 +94,58 @@ describe("groupJoin", () => {
             { OwnerName: terry.Name, Pets: [ barley.Name, boots.Name ] },
             { OwnerName: charlotte.Name, Pets: [ whiskers.Name ] }
         ])
+    })
+
+    itAsync("empty", async () => {
+        const query = await asAsync(people).groupJoin(emptyPets,
+            person => person,
+            pet => pet.Owner,
+            (person, petCollection) => {
+                return {
+                    OwnerName: person.Name,
+                    Pets: petCollection
+                        .map(pet => pet.Name)
+                }
+            })
+            .toArray();
+
+        expect(query).toEqual([
+            { OwnerName: magnus.Name, Pets: [ ] },
+            { OwnerName: terry.Name, Pets: [ ] },
+            { OwnerName: charlotte.Name, Pets: [ ] }
+        ])
+    })
+
+    itAsync("empty 2", async () => {
+        const query = await asAsync(emptyPeople).groupJoin(pets,
+            person => person,
+            pet => pet.Owner,
+            (person, petCollection) => {
+                return {
+                    OwnerName: person.Name,
+                    Pets: petCollection
+                        .map(pet => pet.Name)
+                }
+            })
+            .toArray();
+
+        expect(query).toEqual([ ])
+    })
+
+    itAsync("empty 3", async () => {
+        const query = await asAsync(emptyPeople).groupJoin(emptyPets,
+            person => person,
+            pet => pet.Owner,
+            (person, petCollection) => {
+                return {
+                    OwnerName: person.Name,
+                    Pets: petCollection
+                        .map(pet => pet.Name)
+                }
+            })
+            .toArray();
+
+        expect(query).toEqual([ ])
     })
 
     itAsync("basic", async () => {
@@ -59,8 +168,60 @@ describe("groupJoin", () => {
         ])
     })
 
-    itParallel("basic", async () => {
-        const query = await asAsync(people).groupJoin(pets,
+    itParallel<Person>("empty", async asParallel => {
+        const query = await asParallel(people).groupJoin(emptyPets,
+            person => person,
+            pet => pet.Owner,
+            (person, petCollection) => {
+                return {
+                    OwnerName: person.Name,
+                    Pets: petCollection
+                        .map(pet => pet.Name)
+                }
+            })
+            .toArray();
+
+            expect(query).toEqual([
+                { OwnerName: magnus.Name, Pets: [ ] },
+                { OwnerName: terry.Name, Pets: [ ] },
+                { OwnerName: charlotte.Name, Pets: [ ] }
+            ])
+    })
+
+    itParallel<Person>("empty 2", async asParallel => {
+        const query = await asParallel(emptyPeople).groupJoin(pets,
+            person => person,
+            pet => pet.Owner,
+            (person, petCollection) => {
+                return {
+                    OwnerName: person.Name,
+                    Pets: petCollection
+                        .map(pet => pet.Name)
+                }
+            })
+            .toArray();
+
+        expect(query).toEqual([ ])
+    })
+
+    itParallel<Person>("empty 3", async asParallel => {
+        const query = await asParallel(emptyPeople).groupJoin(emptyPets,
+            person => person,
+            pet => pet.Owner,
+            (person, petCollection) => {
+                return {
+                    OwnerName: person.Name,
+                    Pets: petCollection
+                        .map(pet => pet.Name)
+                }
+            })
+            .toArray();
+
+        expect(query).toEqual([ ])
+    })
+
+    itParallel<Person>("basic", async asParallel => {
+        const query = await asParallel(people).groupJoin(pets,
                     person => person,
                     pet => pet.Owner,
                     (person, petCollection) => {
@@ -79,9 +240,9 @@ describe("groupJoin", () => {
         ])
     })
 
-    itParallel("inner async", async () => {
+    itParallel<Person>("inner async", async asParallel => {
         const asyncPets = asAsync(pets);
-        const query = await asAsync(people).groupJoin(asyncPets,
+        const query = await asParallel(people).groupJoin(asyncPets,
                     person => person,
                     pet => pet.Owner,
                     (person, petCollection) => {

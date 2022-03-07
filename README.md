@@ -129,6 +129,7 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 | each               | Yes     | [Sync](tests/unittests/tests/Each.ts), [Async](tests/unittests/tests/EachAsync.ts) | From `List<T>.ForEach`
 | groupBy            | Yes     | [Sync](tests/unittests/tests/GroupBy.ts), [Async](tests/unittests/tests/GroupByAsync.ts)
 | groupByWithSel     | No      | [Sync](tests/unittests/tests/GroupByWithSel.ts)
+| groupJoin          | Yes     | [Sync](tests/unittests/tests/GroupJoin.ts), [Async](/tests/unittests/tests/GroupJoinAsync.ts)
 | intersect          | Yes     | [Sync](tests/unittests/tests/Intersect.ts), [Async](tests/unittests/tests/IntersectAsync.ts)
 | joinByKey          | No      | [Sync](tests/unittests/tests/JoinByKey.ts)
 | last               | Yes     | [Sync](tests/unittests/tests/Last.ts), [Async](tests/unittests/tests/LastAsync.ts)

@@ -141,12 +141,30 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
             keySelector: ((x: TSource) => TKey),
             elementSelector: (x: TSource) => TElement,
             comparer: IEqualityComparer<TKey>): IAsyncEnumerable<IGrouping<TKey, TElement>>
+    /**
+     * Correlates the elements of two sequences based on equality of keys and groups the results.
+     * @param inner The sequence to join to the first sequence.
+     * @param outerKeySelector The sequence to join to the first sequence.
+     * @param innerKeySelector A function to extract the join key from each element of the second sequence.
+     * @param resultSelector A function to create a result element from an element from the first sequence and a collection of matching elements from the second sequence.
+     * @param comparer To compare keys. Optional.
+     * @returns An IAsyncEnumerable<T> that contains elements of type TResult that are obtained by performing a grouped join on two sequences.
+     */
     groupJoin<TInner, TKey, TResult>(
             inner: Iterable<TInner> | AsyncIterable<TInner>,
             outerKeySelector: (value: TSource) => TKey,
             innerKeySelector: (value: TInner) => TKey,
             resultSelector: (element: TSource, collection: TInner[]) => TResult,
             comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>
+    /**
+     * Correlates the elements of two sequences based on equality of keys and groups the results.
+     * @param inner The sequence to join to the first sequence. Can be async.
+     * @param outerKeySelector The sequence to join to the first sequence. Can be async.
+     * @param innerKeySelector A function to extract the join key from each element of the second sequence.
+     * @param resultSelector A function to create a result element from an element from the first sequence and a collection of matching elements from the second sequence. Can be async.
+     * @param comparer To compare keys. Optional.
+     * @returns An IAsyncEnumerable<T> that contains elements of type TResult that are obtained by performing a grouped join on two sequences.
+     */
     groupJoinAsync<TInner, TKey, TResult>(
             inner: Iterable<TInner> | AsyncIterable<TInner>,
             outerKeySelector: (value: TSource) => TKey | Promise<TKey>,
