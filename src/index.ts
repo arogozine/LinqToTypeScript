@@ -16,7 +16,7 @@
 // Create Commons Attribution 4.0 International
 // https://github.com/dotnet/docs/blob/master/LICENSE
 
-// Shared Interfacess
+// Shared Interfaces
 export * from "./types"
 
 // Types and Stuff
