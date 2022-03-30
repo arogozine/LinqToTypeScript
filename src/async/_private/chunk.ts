@@ -4,7 +4,7 @@ import type { IAsyncEnumerable } from "../../types"
 
 export const chunk = <TSource>(source: AsyncIterable<TSource>, size: number): IAsyncEnumerable<TSource[]> => {
     if (size < 1) {
-        throw new ArgumentOutOfRangeException("index")
+        throw new ArgumentOutOfRangeException("size")
     }
 
     async function* iterator() {

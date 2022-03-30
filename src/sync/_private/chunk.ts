@@ -4,7 +4,7 @@ import type { IEnumerable } from "../../types"
 
 export const chunk = <TSource>(source: Iterable<TSource>, size: number): IEnumerable<TSource[]> => {
     if (size < 1) {
-        throw new ArgumentOutOfRangeException("index")
+        throw new ArgumentOutOfRangeException("size")
     }
 
     function* iterator() {

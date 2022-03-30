@@ -4,7 +4,7 @@ import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../typ
 
 export const chunk = <TSource>(source: IParallelEnumerable<TSource>, size: number): IParallelEnumerable<TSource[]> => {
     if (size < 1) {
-        throw new ArgumentOutOfRangeException("index")
+        throw new ArgumentOutOfRangeException("size")
     }
 
     let dataFunc: TypedData<TSource[]>
