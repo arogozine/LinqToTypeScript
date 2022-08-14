@@ -53,7 +53,13 @@ steps:
     npm install
     tsc
     node index.js
-  displayName: 'Test ES6 Modules'
+  displayName: 'Test Modules'
+- script: |
+    cd tests/esmtest
+    npm install
+    tsc
+    node index.js
+  displayName: 'Test ESM Modules'
 - script: |
     cd examples
     npm install
