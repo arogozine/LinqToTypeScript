@@ -7,6 +7,8 @@ const downloadFile = (url: url.URL) => {
         let content = ``
         https.get(url, (res) => {
             res.setEncoding("utf8");
+            // https://stackoverflow.com/questions/54096937/why-i-keep-getting-econnreset-error-on-proxy-calls-in-mac-osx-only-totally-arbi
+            res.headers.connection = "keep-alive";
             res.on("data", (chunk) => content += chunk);
             res.on("end", () => resolve(content));
         })
@@ -16,7 +18,7 @@ const downloadFile = (url: url.URL) => {
 const getTitle = (html: string) => {
     const start = html.indexOf('<title>') + '<title>'.length
     const end = html.indexOf('</title>')
-    return html.substring(start, end - start)
+    return html.substring(start, end)
 }
 
 const bing = new url.URL(`https://www.bing.com/`)
