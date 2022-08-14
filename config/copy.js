@@ -21,22 +21,6 @@ function main() {
   cp(cpFiles, distPath)
 
   writeFileSync(resolve(distPath, 'package.json'), distPackageJson)
-
-  commonJsFix()
-}
-
-/**
- * Creates package.json file (that specifies common js) in dist/commonjs folder
- */
-function commonJsFix() {
-  const commonJs = `
-  {
-    "type": "commonjs"
-  }
-  `
-
-  const filePath = resolve(__dirname, '../dist/commonjs/package.json')
-  writeFileSync(filePath, commonJs)
 }
 
 /**
