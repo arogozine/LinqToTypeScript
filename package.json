@@ -4,10 +4,8 @@
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./types/index.d.ts",
-      "import": "./esm/index.js"
-    }
+    "types": "./types/index.d.ts",
+    "import": "./esm/index.js"
   },
   "main": "./esm/index.js",
   "module": "./esm/index.js",

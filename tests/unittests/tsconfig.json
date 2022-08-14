@@ -1,12 +1,14 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
+        "allowJs": true,
         "moduleResolution": "node",
         "target": "es2019",
         "module": "esnext", 
         "esModuleInterop": true,
         "removeComments": true,
         "noImplicitAny": true,
+        "noEmit": true,
         "experimentalDecorators": true,
         "strictNullChecks": true,
         "noFallthroughCasesInSwitch": true,

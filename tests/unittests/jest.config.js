@@ -7,5 +7,11 @@ module.exports = {
   testRegex: [ "(.*)$" ],
   testMatch: null,
   // Setup File
-  setupFilesAfterEnv: [ "../initialize.ts" ]
-};
+  setupFilesAfterEnv: [ "../initialize.ts" ],
+  transform: {
+     "^.+\\.(j|t)sx?$": "ts-jest",
+  },
+  moduleNameMapper: {
+    "linq-to-typescript": "<rootDir>/../../../dist"
+  }
+}
