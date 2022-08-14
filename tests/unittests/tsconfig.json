@@ -3,7 +3,7 @@
     "compilerOptions": {
         "allowJs": true,
         "moduleResolution": "node",
-        "target": "es2019",
+        "target": "es2022",
         "module": "esnext", 
         "esModuleInterop": true,
         "removeComments": true,
@@ -17,7 +17,7 @@
         "sourceMap": true,
         "declaration": true,
         "lib": [      
-            "es2019"
+            "es2022"
         ]
     }
 }

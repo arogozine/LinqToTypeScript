@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "moduleResolution": "node",
-        "target": "ES2019",
+        "target": "ES2022",
         "module": "ES2020",
         "esModuleInterop": true,
         "removeComments": true,
@@ -15,7 +15,7 @@
         "sourceMap": false,
         "declaration": false,
         "lib": [      
-            "ES2019"
+            "ES2022"
         ]
     }
 }

@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "moduleResolution": "node",
-        "target": "es2019",
+        "target": "es2022",
         "module": "ESNext",
         "esModuleInterop": true,
         "removeComments": true,
@@ -16,7 +16,7 @@
         "declaration": false,
         "lib": [      
             "dom",
-            "es2019",
+            "es2022",
         ],
         "importHelpers": false,
     }
