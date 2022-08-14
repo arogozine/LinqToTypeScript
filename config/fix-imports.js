@@ -4,6 +4,24 @@ import ts from 'typescript'
 const { createPrinter, isSourceFile, createCompilerHost, createProgram, isImportDeclaration, isExportDeclaration, isStringLiteral, ModuleKind, ModuleResolutionKind, ScriptTarget } = ts
 
 /**
+ * @param  {...string} path 
+ * @returns {boolean}
+ */
+const existsDtsOrJs = (...path) => {
+    const joined = join(...path)
+
+    if (existsSync(joined + `.js`)) {
+        return true;
+    }
+
+    if (existsSync(joined + `.d.ts`)) {
+        return true;
+    }
+
+    return false
+}
+
+/**
  * 
  * @param {ts.SourceFile} sourceFile 
  * @returns {ts.TransformerFactory<ts.Node>}
@@ -32,10 +50,10 @@ const generateTransformer = (sourceFile) => {
                 const fullImportPath = join(pathWithoutFileName, relativePathWithoutQuotes);
 
                 // Append .js or index.js to all imports
-                if (existsSync(fullImportPath + ".js")) {
+                if (existsDtsOrJs(fullImportPath)) {
                     node = context.factory.createStringLiteral(`${relativePathWithoutQuotes}.js`)
                 }
-                else if (existsSync(join(fullImportPath, "index.js"))) {
+                else if (existsDtsOrJs(fullImportPath, "index")) {
                     node = context.factory.createStringLiteral(`${relativePathWithoutQuotes}/index.js`)
                 }
                 else {
@@ -53,8 +71,10 @@ const generateTransformer = (sourceFile) => {
 /**
  * Add .js extension to imports and exports
  * Specify index.js for folder imports
+ * @param {string} indexPath
+ * @param {boolean} parseDeclaration
  */
-const addJsToImportAndExports = () => {
+const addJsToImportAndExports = (indexPath, parseDeclaration) => {
     /** @type {ts.CompilerOptions} */
     const compilerOptions = {
         moduleResolution: ModuleResolutionKind.NodeJs,
@@ -69,11 +89,15 @@ const addJsToImportAndExports = () => {
     };
 
     const host = createCompilerHost(compilerOptions);
-    const program = createProgram(["./dist/esm/index.js"], compilerOptions, host);
+    const program = createProgram([indexPath], compilerOptions, host);
     const sourceFiles = program.getSourceFiles();
 
     for (const sourceFile of sourceFiles) {
-        if (!sourceFile.isDeclarationFile) {
+        if (sourceFile.fileName.includes(`node_modules/`)) {
+            continue;
+        }
+
+        if (parseDeclaration || !sourceFile.isDeclarationFile) {
             const result = ts.transform(
                 sourceFile, [generateTransformer(sourceFile)]
             )
@@ -88,4 +112,5 @@ const addJsToImportAndExports = () => {
     }
 }
 
-addJsToImportAndExports()
+addJsToImportAndExports("./dist/esm/index.js", false)
+addJsToImportAndExports("./dist/types/index.d.ts", true)
