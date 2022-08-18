@@ -17,7 +17,7 @@ export const min: MinFunc = <TSource>(source: Iterable<TSource> | Iterable<numbe
 const min1 = (source: Iterable<number>) => {
     let minItem: number | null = null
     for (const item of source) {
-        minItem = Math.min(minItem || Number.POSITIVE_INFINITY, item)
+        minItem = Math.min(minItem ?? Number.POSITIVE_INFINITY, item)
     }
 
     if (minItem === null) {
@@ -30,7 +30,7 @@ const min1 = (source: Iterable<number>) => {
 const min2 = <TSource>(source: Iterable<TSource>, selector: (x: TSource) => number) => {
     let minItem: number | null = null
     for (const item of source) {
-        minItem = Math.min(minItem || Number.POSITIVE_INFINITY, selector(item))
+        minItem = Math.min(minItem ?? Number.POSITIVE_INFINITY, selector(item))
     }
 
     if (minItem === null) {

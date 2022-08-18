@@ -47,7 +47,7 @@ export const bindArrayEnumerable = <T, TKey extends keyof IEnumerable<T>>() => {
         return this[index] as T
     }
     prototype.elementAtOrDefault = function(index: number): T | null {
-        return (this[index] as T | undefined) || null
+        return (this[index] as T | undefined) ?? null
     }
     prototype.first = function(predicate?: (x: T) => boolean): T {
         if (predicate) {

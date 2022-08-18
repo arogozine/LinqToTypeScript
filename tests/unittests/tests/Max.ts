@@ -35,6 +35,18 @@ describe("max", () => {
 
     itParallel("Basic", async (asParallel) => expect(await asParallel([1, 2, 3]).max()).toBe(3))
 
+    itEnumerable("Max Zero", (asEnumerable) => {
+        expect(asEnumerable([0, -1]).max()).toBe(0)
+    })
+
+    itAsync("Max Zero", async () => {
+        expect(await asAsync([0, -1]).max()).toBe(0)
+    })
+
+    itParallel("Max Zero", async (asParallel) => {
+        expect(await asParallel([0, -1]).max()).toBe(0)
+    })
+
     itEnumerable("empty array throws exception", (asEnumerable) =>
         expect(() => asEnumerable([]).max()).toThrowError(InvalidOperationException))
 

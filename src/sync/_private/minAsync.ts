@@ -4,7 +4,7 @@ export const minAsync = async <TSource>(
     source: Iterable<TSource>, selector: (x: TSource) => Promise<number>): Promise<number> => {
     let min: number | null = null
     for (const item of source) {
-        min = Math.min(min || Number.POSITIVE_INFINITY, await selector(item))
+        min = Math.min(min ?? Number.POSITIVE_INFINITY, await selector(item))
     }
 
     if (min === null) {

@@ -18,7 +18,7 @@ export const max: MaxFunc = <TSource>(
 const max1 = (source: Iterable<number>): number => {
     let maxItem: number | null = null
     for (const item of source) {
-        maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, item)
+        maxItem = Math.max(maxItem ?? Number.NEGATIVE_INFINITY, item)
     }
 
     if (maxItem === null) {
@@ -31,7 +31,7 @@ const max1 = (source: Iterable<number>): number => {
 const max2 = <TSource>(source: Iterable<TSource>, selector: (x: TSource) => number): number => {
     let maxItem: number | null = null
     for (const item of source) {
-        maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, selector(item))
+        maxItem = Math.max(maxItem ?? Number.NEGATIVE_INFINITY, selector(item))
     }
 
     if (maxItem === null) {

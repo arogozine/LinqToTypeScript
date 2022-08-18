@@ -14,6 +14,18 @@ describe("min", () => {
         expect(await asParallel([1, 2, 3, -7]).min()).toBe(-7)
     })
 
+    itEnumerable("Min Zero", (asEnumerable) => {
+        expect(asEnumerable([1, 2, 0, 1, 3, 4, 9, 8, 5]).min()).toBe(0)
+    })
+
+    itAsync("Min Zero", async () => {
+        expect(await asAsync([1, 2, 0, 1, 3, 4, 9, 8, 5]).min()).toBe(0)
+    })
+
+    itParallel("Min Zero", async (asParallel) => {
+        expect(await asParallel([1, 2, 0, 1, 3, 4, 9, 8, 5]).min()).toBe(0)
+    })
+
     itEnumerable("MinEmptyError", (asEnumerable) => {
         expect(() => asEnumerable([]).min()).toThrowError(InvalidOperationException)
     })
@@ -54,6 +66,20 @@ describe("min", () => {
     itParallel("Min Predicate", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([1, 2, 3, -7]).min(Math.abs))
         expectMin.toBe(1)
+    })
+
+    itEnumerable("Min Predicate Zero", (asEnumerable) => {
+        expect(asEnumerable([1, 2, 0, 1, 3, 4, 9, 8, 5]).min(Math.abs)).toBe(0)
+    })
+
+    itAsync("Min Predicate Zero", async () => {
+        const expectMin = await expectAsync(asAsync([1, 2, 0, 1, 3, 4, 9, 8, 5]).min(Math.abs))
+        expectMin.toBe(0)
+    })
+
+    itParallel("Min Predicate Zero", async (asParallel) => {
+        const expectMin = await expectAsync(asParallel([1, 2, 0, 1, 3, 4, 9, 8, 5]).min(Math.abs))
+        expectMin.toBe(0)
     })
 
     itEnumerable("empty exception", (asEnumerable) => {

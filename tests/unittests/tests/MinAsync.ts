@@ -24,7 +24,7 @@ describe("minAsync", () => {
     })
 
     itAsync("Min Predicate", async () => {
-        const expectMin = await expectAsync(asAsync([1, 2, 3, -7]).min(Math.abs))
+        const expectMin = await expectAsync(asAsync([1, 2, 3, -7]).minAsync(async (x) => Math.abs(x)))
         expectMin.toBe(1)
     })
 

@@ -18,7 +18,7 @@ export const max: MaxFunc = <TSource>(
 const max1 = async (source: AsyncIterable<number>) => {
     let maxItem: number | null = null
     for await (const item of source) {
-        maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, item)
+        maxItem = Math.max(maxItem ?? Number.NEGATIVE_INFINITY, item)
     }
 
     if (maxItem === null) {
@@ -32,7 +32,7 @@ const max2 = async <TSource>(
     source: AsyncIterable<TSource>, selector: (x: TSource) => number) => {
     let maxItem: number | null = null
     for await (const item of source) {
-        maxItem = Math.max(maxItem || Number.NEGATIVE_INFINITY, selector(item))
+        maxItem = Math.max(maxItem ?? Number.NEGATIVE_INFINITY, selector(item))
     }
 
     if (maxItem === null) {

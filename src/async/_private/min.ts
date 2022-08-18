@@ -16,7 +16,7 @@ export const min: MinAsync = (source: AsyncIterable<number>, selector?: (x: numb
 const min1 = async (source: AsyncIterable<number>) => {
     let minValue: number | null = null
     for await (const item of source) {
-        minValue = Math.min(minValue || Number.POSITIVE_INFINITY, item)
+        minValue = Math.min(minValue ?? Number.POSITIVE_INFINITY, item)
     }
 
     if (minValue === null) {
@@ -29,7 +29,7 @@ const min1 = async (source: AsyncIterable<number>) => {
 const min2 = async (source: AsyncIterable<number>, selector: (x: number) => number) => {
     let minValue: number | null = null
     for await (const item of source) {
-        minValue = Math.min(minValue || Number.POSITIVE_INFINITY, selector(item))
+        minValue = Math.min(minValue ?? Number.POSITIVE_INFINITY, selector(item))
     }
 
     if (minValue === null) {
