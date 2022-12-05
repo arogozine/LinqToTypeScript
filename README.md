@@ -114,6 +114,7 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 | aggregate          | No      | [Sync](tests/unittests/tests/Aggregate.ts)
 | all                | Yes     | [Sync](tests/unittests/tests/All.ts), [Async](tests/unittests/tests/AllAsync.ts)
 | any                | Yes     | [Sync](tests/unittests/tests/Any.ts), [Async](tests/unittests/tests/AnyAsync.ts)
+| append             | No      | [Sync](tests/unittests/tests/Append.ts)
 | average            | Yes     | [Sync](tests/unittests/tests/Average.ts), [Async](tests/unittests/tests/AverageAsync.ts)
 | chunk              | No      | [Sync](tests/unittests/tests/Chunk.ts)
 | concatenate        | No      | [Sync](tests/unittests/tests/Concatenate.ts) | Equivalent to `.Concat` but renamed to avoid conflict with JS
@@ -140,6 +141,7 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 | orderBy            | Yes     | [Sync](tests/unittests/tests/OrderBy.ts), [Async](tests/unittests/tests/OrderByAsync.ts)
 | orderByDescending  | Yes     | [Sync](tests/unittests/tests/OrderByDescending.ts), [Async](tests/unittests/tests/OrderByDescendingAsync.ts)
 | partition          | Yes     | [Sync](tests/unittests/tests/Partition.ts), [Async](tests/unittests/tests/PartitionAsync.ts)
+| prepend            | No      | [Sync](tests/unittests/tests/Prepend.ts)
 | reverse            | No      | [Sync](tests/unittests/tests/Reverse.ts)
 | select             | Yes     | [Sync](tests/unittests/tests/Select.ts), [Async](tests/unittests/tests/SelectAsync.ts)
 | selectMany         | Yes     | [Sync](tests/unittests/tests/SelectMany.ts), [Async](tests/unittests/tests/SelectManyAsync.ts)

@@ -72,6 +72,12 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     anyAsync(predicate: (x: TSource) => Promise<boolean>): Promise<boolean>
     /**
+     * Appends a value to the end of the sequence.
+     * @param element The value to append to the sequence.
+     * @returns An IEnumerable<T> that ends with the specified element.
+     */
+    append(element: TSource): IEnumerable<TSource>
+    /**
      * Converts the iterable to an @see {IAsyncEnumerable}
      * @returns An IAsyncEnumerable<T>
      */
@@ -495,6 +501,12 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * @returns [values that pass, values that fail]
      */
     partitionAsync(predicate: (x: TSource) => Promise<boolean>): Promise<[pass: TSource[], fail: TSource[]]>
+    /**
+     * Adds a value to the beginning of the sequence.
+     * @param element The value to prepend to the sequence.
+     * @returns An IEnumerable<T> that begins with the specified element.
+     */
+    prepend(element: TSource): IEnumerable<TSource>
     /**
      * Inverts the order of the elements in a sequence.
      * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
