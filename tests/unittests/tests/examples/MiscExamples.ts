@@ -112,6 +112,9 @@ describe("miscExamples", () => {
         ["str", "str2", 1, 2, 3, {}].ofType("string"); // ["str", "str2"]
         [1, 2, "4", false, true].ofType("boolean"); // [false, true]
 
+        // ORDER
+        [3, 4, 7, 0, 1].order(); // [0, 1, 3, 4, 7]
+
         // ORDERBY
         [3, 4, 7, 0, 1].orderBy((x) => x); // [0, 1, 3, 4, 7]
 

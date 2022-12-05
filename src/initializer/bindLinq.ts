@@ -45,10 +45,12 @@ import { maxAsync } from "./../sync/_private/maxAsync"
 import { min } from "./../sync/_private/min"
 import { minAsync } from "./../sync/_private/minAsync"
 import { ofType } from "./../sync/_private/ofType"
+import { order } from "../sync/_private/order"
 import { orderBy } from "./../sync/_private/orderBy"
 import { orderByAsync } from "./../sync/_private/orderByAsync"
 import { orderByDescending } from "./../sync/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../sync/_private/orderByDescendingAsync"
+import { orderDescending } from "./../sync/_private/orderDescending"
 import { partition } from "./../sync/_private/partition"
 import { partitionAsync } from "./../sync/_private/partitionAsync"
 import { reverse } from "./../sync/_private/reverse"
@@ -150,10 +152,12 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(min, "min")
     bind(minAsync, "minAsync")
     bind(ofType, "ofType")
+    bind(order, "order")
     bind(orderBy, "orderBy")
     bind(orderByAsync, "orderByAsync")
     bind(orderByDescending, "orderByDescending")
     bind(orderByDescendingAsync, "orderByDescendingAsync")
+    bind(orderDescending, "orderDescending")
     bind(reverse, "reverse")
     bind(select, "select")
     bind(selectAsync, "selectAsync")
