@@ -26,7 +26,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         let orderedPairs: () => AsyncIterable<TSource[]>
         if (source instanceof OrderedAsyncEnumerable) {
             orderedPairs = async function*() {
-                for await (const pair of source.orderedPairs()) {
+                for await (const pair of (source as OrderedAsyncEnumerable<TSource>).orderedPairs()) {
                     yield* asAsyncSortedKeyValuesSync(pair, keySelector, ascending, comparer)
                 }
             }
@@ -47,7 +47,7 @@ export class OrderedAsyncEnumerable<T> extends BasicAsyncEnumerable<T> implement
         let orderedPairs: () => AsyncIterable<TSource[]>
         if (source instanceof OrderedAsyncEnumerable) {
             orderedPairs = async function*() {
-                for await (const pair of source.orderedPairs()) {
+                for await (const pair of (source as OrderedAsyncEnumerable<TSource>).orderedPairs()) {
                     yield* asSortedKeyValuesSync(pair, keySelector, ascending, comparer)
                 }
             }

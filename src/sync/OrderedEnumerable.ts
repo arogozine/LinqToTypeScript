@@ -28,7 +28,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         let orderedPairs: () => IterableIterator<TSource[]>
         if (source instanceof OrderedEnumerable) {
             orderedPairs = function*() {
-                for (const pair of source.orderedPairs()) {
+                for (const pair of (source as OrderedEnumerable<TSource>).orderedPairs()) {
                     yield* asSortedKeyValues(pair, keySelector, ascending, comparer)
                 }
             }
@@ -53,7 +53,7 @@ export class OrderedEnumerable<T> extends BasicEnumerable<T> implements IOrdered
         let orderedPairs: () => AsyncIterableIterator<TSource[]>
         if (source instanceof OrderedEnumerable) {
             orderedPairs = async function*() {
-                for (const pair of source.orderedPairs()) {
+                for (const pair of (source as OrderedEnumerable<TSource>).orderedPairs()) {
                     yield* asSortedKeyValuesAsync(pair, keySelector, ascending, comparer)
                 }
             }

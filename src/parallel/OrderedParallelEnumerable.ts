@@ -33,7 +33,7 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         let orderedPairs: () => AsyncIterable<TSource[]>
         if (source instanceof OrderedParallelEnumerable) {
             orderedPairs = async function*() {
-                for await (const pair of source.orderedPairs()) {
+                for await (const pair of (source as OrderedParallelEnumerable<TSource>).orderedPairs()) {
                     yield* asAsyncSortedKeyValuesSync(pair, keySelector, ascending, comparer)
                 }
             }
@@ -53,7 +53,7 @@ export class OrderedParallelEnumerable<T> extends BasicParallelEnumerable<T> imp
         let orderedPairs: () => AsyncIterable<TSource[]>
         if (source instanceof OrderedParallelEnumerable) {
             orderedPairs = async function*() {
-                for await (const pair of source.orderedPairs()) {
+                for await (const pair of (source as OrderedParallelEnumerable<TSource>).orderedPairs()) {
                     yield* asSortedKeyValuesSync(pair, keySelector, ascending, comparer)
                 }
             }
