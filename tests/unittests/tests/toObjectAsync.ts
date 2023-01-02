@@ -1,6 +1,6 @@
 import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 
-const objectKeys = <TObject>(object: TObject) => {
+const objectKeys = <TObject extends object>(object: TObject) => {
     return Object.keys(object) as Array<keyof TObject>
 }
 
