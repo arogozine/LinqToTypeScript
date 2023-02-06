@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "11.0.0-beta",
+  "version": "11.0.0",
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "exports": {
