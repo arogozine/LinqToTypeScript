@@ -27,6 +27,9 @@ declare global {
 [1, 2].all((x) => x < 3); // true
 [1, 2].all((x) => x < 2); // false
 
+// APPEND
+[1, 2].append(3); // [1, 2, 3]
+
 // ANY
 [0].any(); // true
 [true].any((x) => !x); // false
@@ -108,6 +111,9 @@ const groupByBreed = cats.groupBy((cat) => cat.breed);
 
 // ORDERBY
 [3, 4, 7, 0, 1].orderBy((x) => x); // [0, 1, 3, 4, 7]
+
+// PREPEND
+[1, 2].prepend(3); // [3, 1, 2]
 
 // REVERSE
 [1, 2, 3].reverse(); // [3, 2, 1]

@@ -5,6 +5,7 @@ import { all } from "./../sync/_private/all"
 import { allAsync } from "./../sync/_private/allAsync"
 import { any } from "./../sync/_private/any"
 import { anyAsync } from "./../sync/_private/anyAsync"
+import { append } from "../sync/_private/append"
 import { asAsync } from "./../sync/_private/asAsync"
 import { asParallel } from "./../sync/_private/asParallel"
 import { average } from "./../sync/_private/average"
@@ -51,6 +52,7 @@ import { orderByDescending } from "./../sync/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../sync/_private/orderByDescendingAsync"
 import { partition } from "./../sync/_private/partition"
 import { partitionAsync } from "./../sync/_private/partitionAsync"
+import { prepend } from "../sync/_private/prepend"
 import { reverse } from "./../sync/_private/reverse"
 import { select } from "./../sync/_private/select"
 import { selectAsync } from "./../sync/_private/selectAsync"
@@ -110,6 +112,7 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(allAsync, "allAsync")
     bind(any, "any")
     bind(anyAsync, "anyAsync")
+    bind(append, "append")
     bind(asAsync, "asAsync")
     bind(asParallel, "asParallel")
     bind(average, "average")
@@ -154,6 +157,7 @@ export const bindLinq = <T, Y extends Iterable<T>>(object: IPrototype<Y>) => {
     bind(orderByAsync, "orderByAsync")
     bind(orderByDescending, "orderByDescending")
     bind(orderByDescendingAsync, "orderByDescendingAsync")
+    bind(prepend, "prepend")
     bind(reverse, "reverse")
     bind(select, "select")
     bind(selectAsync, "selectAsync")

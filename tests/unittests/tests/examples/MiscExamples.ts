@@ -37,6 +37,9 @@ describe("miscExamples", () => {
         [0].any(); // true
         [true].any((x) => !x); // false
 
+        // APPEND
+        [1, 2].append(3); // [1, 2, 3]
+
         // CONCAT
         [1, 2].concatenate([2, 3]); // [1, 2, 2, 3]
 
@@ -114,6 +117,9 @@ describe("miscExamples", () => {
 
         // ORDERBY
         [3, 4, 7, 0, 1].orderBy((x) => x); // [0, 1, 3, 4, 7]
+
+        // PREPEND
+        [1, 2].prepend(3); // [3, 1, 2]
 
         // REVERSE
         [1, 2, 3].reverse(); // [3, 2, 1]
