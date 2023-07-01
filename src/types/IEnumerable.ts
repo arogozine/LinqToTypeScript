@@ -454,6 +454,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     ofType<T extends OfType>(type: T): IEnumerable<InferType<T>>
     /**
      * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
+     * @param comparer An IComparer<T> to compare values. Optional.
+     * @returns An IOrderedEnumerable<TElement> whose elements are sorted.
+     */
+    order(
+        comparer?: IComparer<TSource>): IOrderedEnumerable<TSource>
+    /**
+     * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
      * @param keySelector A function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys. Optional.
      * @returns An IOrderedEnumerable<TElement> whose elements are sorted according to a key.
@@ -488,6 +495,13 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
+    /**
+     * Sorts the elements of a sequence in descending order by using a specified or default comparer.
+     * @param comparer An IComparer<T> to compare values. Optional.
+     * @returns An IOrderedEnumerable<TElement> whose elements are sorted in descending order.
+     */
+    orderDescending(
+        comparer?: IComparer<TSource>): IOrderedEnumerable<TSource>
     /**
      * Partitions the values into a tuple of failing and passing arrays
      * @param predicate Predicate to determine whether a value passes or fails
