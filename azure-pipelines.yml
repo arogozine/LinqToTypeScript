@@ -76,3 +76,7 @@ steps:
     npm run test
   displayName: 'Test Examples'
   continueOnError: false
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(cliscriptpath)'

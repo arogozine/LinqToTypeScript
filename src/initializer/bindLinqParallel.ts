@@ -45,10 +45,12 @@ import { maxAsync } from "./../parallel/_private/maxAsync"
 import { min } from "./../parallel/_private/min"
 import { minAsync } from "./../parallel/_private/minAsync"
 import { ofType } from "./../parallel/_private/ofType"
+import { order } from "./../parallel/_private/order"
 import { orderBy } from "./../parallel/_private/orderBy"
 import { orderByAsync } from "./../parallel/_private/orderByAsync"
 import { orderByDescending } from "./../parallel/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../parallel/_private/orderByDescendingAsync"
+import { orderDescending } from "./../parallel/_private/orderDescending"
 import { partition } from "./../parallel/_private/partition"
 import { partitionAsync } from "./../parallel/_private/partitionAsync"
 import { prepend } from "./../parallel/_private/prepend"
@@ -149,10 +151,12 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(min, "min")
     bind(minAsync, "minAsync")
     bind(ofType, "ofType")
+    bind(order, "order")
     bind(orderBy, "orderBy")
     bind(orderByAsync, "orderByAsync")
     bind(orderByDescending, "orderByDescending")
     bind(orderByDescendingAsync, "orderByDescendingAsync")
+    bind(orderDescending, "orderDescending")
     bind(partition, "partition")
     bind(partitionAsync, "partitionAsync")
     bind(prepend, "prepend")

@@ -183,7 +183,13 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
             resultSelector: (x: TSource, y: TInner) => TResult,
             comparer?: IEqualityComparer<TKey>): IParallelEnumerable<TResult>
     ofType<TType extends OfType>(type: TType): IParallelEnumerable<InferType<TType>>
-
+    /**
+     * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
+     * @param comparer An IComparer<T> to compare values. Optional.
+     * @returns An IOrderedParallelEnumerable<TElement> whose elements are sorted.
+     */
+    order(
+        comparer?: IComparer<TSource>): IOrderedParallelEnumerable<TSource>
     orderBy<TKey>(
         predicate: (x: TSource) => TKey,
         comparer?: IComparer<TKey>): IOrderedParallelEnumerable<TSource>
@@ -196,6 +202,13 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
         comparer?: IComparer<TKey>): IParallelEnumerable<TSource>
+    /**
+     * Sorts the elements of a sequence in descending order by using a specified or default comparer.
+     * @param comparer An IComparer<T> to compare values. Optional.
+     * @returns An IParallelEnumerable<TElement> whose elements are sorted in descending order.
+     */
+    orderDescending(
+        comparer?: IComparer<TSource>): IParallelEnumerable<TSource>
     /**
      * Adds a value to the beginning of the sequence.
      * @param element The value to prepend to the sequence.

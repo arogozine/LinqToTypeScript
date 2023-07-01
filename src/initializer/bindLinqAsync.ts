@@ -45,10 +45,12 @@ import { maxAsync } from "./../async/_private/maxAsync"
 import { min } from "./../async/_private/min"
 import { minAsync } from "./../async/_private/minAsync"
 import { ofType } from "./../async/_private/ofType"
+import { order } from "./../async/_private/order"
 import { orderBy } from "./../async/_private/orderBy"
 import { orderByAsync } from "./../async/_private/orderByAsync"
 import { orderByDescending } from "./../async/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../async/_private/orderByDescendingAsync"
+import { orderDescending } from "./../async/_private/orderDescending"
 import { partition } from "./../async/_private/partition"
 import { partitionAsync } from "./../async/_private/partitionAsync"
 import { prepend } from "../async/_private/prepend"
@@ -148,10 +150,12 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(min, "min")
     bind(minAsync, "minAsync")
     bind(ofType, "ofType")
+    bind(order, "order")
     bind(orderBy, "orderBy")
     bind(orderByAsync, "orderByAsync")
     bind(orderByDescending, "orderByDescending")
     bind(orderByDescendingAsync, "orderByDescendingAsync")
+    bind(orderDescending, "orderDescending")
     bind(partition, "partition")
     bind(partitionAsync, "partitionAsync")
     bind(prepend, "prepend")

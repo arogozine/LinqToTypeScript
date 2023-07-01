@@ -220,6 +220,13 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     ofType<TType extends OfType>(type: TType): IAsyncEnumerable<InferType<TType>>
     /**
      * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
+     * @param comparer An IComparer<T> to compare values. Optional.
+     * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted.
+     */
+    order(
+        comparer?: IComparer<TSource>): IOrderedAsyncEnumerable<TSource>
+    /**
+     * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
      * @param keySelector A function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys. Optional.
      * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted according to a key.
@@ -254,6 +261,13 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
+    /**
+     * Sorts the elements of a sequence in descending order by using a specified or default comparer.
+     * @param comparer An IComparer<T> to compare values. Optional.
+     * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order.
+     */
+    orderDescending(
+        comparer?: IComparer<TSource>): IOrderedAsyncEnumerable<TSource>
     /**
      * Adds a value to the beginning of the sequence.
      * @param element The value to prepend to the sequence.
