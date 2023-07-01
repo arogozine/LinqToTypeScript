@@ -13,6 +13,12 @@ import { IAsyncEqualityComparer,
  * Async Iterable type with methods from LINQ.
  */
 export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
+   /**
+    * Appends a value to the end of the sequence.
+    * @param element The value to append to the sequence.
+    * @returns An IAsyncEnumerable<T> that ends with the specified element.
+    */
+    append(element: TSource): IAsyncEnumerable<TSource>
     /**
      * Converts an async iterable to a Parallel Enumerable.
      * @returns Parallel Enumerable of source
@@ -248,6 +254,12 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
+    /**
+     * Adds a value to the beginning of the sequence.
+     * @param element The value to prepend to the sequence.
+     * @returns An IAsyncEnumerable<T> that begins with the specified element.
+     */
+    prepend(element: TSource): IAsyncEnumerable<TSource>
     /**
      * Inverts the order of the elements in a sequence.
      * @returns An async sequence whose elements correspond to those of the input sequence in reverse order.

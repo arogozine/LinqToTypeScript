@@ -3,6 +3,7 @@ import { IParallelEnumerable, IPrototype } from "../types"
 import { aggregate } from "./../parallel/_private/aggregate"
 import { all } from "./../parallel/_private/all"
 import { allAsync } from "./../parallel/_private/allAsync"
+import { append } from "./../parallel/_private/append"
 import { any } from "./../parallel/_private/any"
 import { anyAsync } from "./../parallel/_private/anyAsync"
 import { asAsync } from "./../parallel/_private/asAsync"
@@ -50,6 +51,7 @@ import { orderByDescending } from "./../parallel/_private/orderByDescending"
 import { orderByDescendingAsync } from "./../parallel/_private/orderByDescendingAsync"
 import { partition } from "./../parallel/_private/partition"
 import { partitionAsync } from "./../parallel/_private/partitionAsync"
+import { prepend } from "./../parallel/_private/prepend"
 import { reverse } from "./../parallel/_private/reverse"
 import { select } from "./../parallel/_private/select"
 import { selectAsync } from "./../parallel/_private/selectAsync"
@@ -103,6 +105,7 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(aggregate, "aggregate")
     bind(all, "all")
     bind(allAsync, "allAsync")
+    bind(append, "append")
     bind(any, "any")
     bind(anyAsync, "anyAsync")
     bind(asAsync, "asAsync")
@@ -152,6 +155,7 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(orderByDescendingAsync, "orderByDescendingAsync")
     bind(partition, "partition")
     bind(partitionAsync, "partitionAsync")
+    bind(prepend, "prepend")
     bind(reverse, "reverse")
     bind(select, "select")
     bind(selectAsync, "selectAsync")

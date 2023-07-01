@@ -21,6 +21,12 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
      */
     readonly dataFunc: TypedData<TSource>
     /**
+     * Appends a value to the end of the sequence.
+     * @param element The value to append to the sequence.
+     * @returns An IParallelEnumerable<T> that ends with the specified element.
+     */
+    append(element: TSource): IParallelEnumerable<TSource>
+    /**
      * Converts the parallel iterable to an @see {IAsyncEnumerable}
      * @returns An IAsyncEnumerable<T>
      */
@@ -190,6 +196,12 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     orderByDescendingAsync<TKey>(
         predicate: (x: TSource) => Promise<TKey>,
         comparer?: IComparer<TKey>): IParallelEnumerable<TSource>
+    /**
+     * Adds a value to the beginning of the sequence.
+     * @param element The value to prepend to the sequence.
+     * @returns An IParallelEnumerable<T> that begins with the specified element.
+     */
+    prepend(element: TSource): IParallelEnumerable<TSource>
     /**
      * Inverts the order of the elements in a sequence.
      * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
