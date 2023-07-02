@@ -77,6 +77,6 @@ steps:
   displayName: 'Test Examples'
   continueOnError: false
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  displayName: 'Publish Staging Directory'
   inputs:
-    PathtoPublish: '$(cliscriptpath)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
