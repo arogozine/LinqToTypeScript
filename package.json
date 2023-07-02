@@ -20,7 +20,7 @@
     "build": "npx rimraf dist && npm run build:esm && npm run build:declaration",
     "build:declaration": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
     "build:esm": "tsc --removeComments --outDir dist/esm",
-    "postbuild": "node config/copy && node config/fix-imports",
+    "postbuild": "node --no-warnings config/copy && node --no-warnings config/fix-imports",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
     "doc": "npx rimraf doc && typedoc ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --gitRevision master --out ./doc --excludePrivate --readme README.md --name \"LINQ To TypeScript\" --includeVersion && node config/editdocs",
     "release:npm": "npm publish ./dist",
