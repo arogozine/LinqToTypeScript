@@ -22,60 +22,61 @@ steps:
     versionSource: 'spec'
     versionSpec: 18.x
     checkLatest: true
-- script: |
+- powershell: |
     npm install -g typescript jest typedoc
   displayName: 'Install Globals'
-  continueOnError: false
-- script: |
+  failOnStderr: false
+- powershell: |
     npm install
     npm run build
   displayName: 'Build Library'
-  continueOnError: false
+  failOnStderr: false
 - script: npm run lint
   displayName: 'Run Lint'
-  continueOnError: false
-- script: npm run doc
+  failOnStderr: false
+- powershell: |
+    npm run doc
   displayName: 'Run Type Doc'
-  continueOnError: false
-- script: |
+  failOnStderr: false
+- powershell: |
     cd tests/unittests
     npm install
     npm run test
   displayName: 'Run Unit Tests'
-  continueOnError: false
-- script: |
+  failOnStderr: false
+- powershell: |
     cd tests/nodetest
     npm install
     tsc
     node index.js
   displayName: 'Test Node'
-  continueOnError: false
-- script: |
+  failOnStderr: false
+- powershell: |
     cd tests/reacttest
     npm install
     npm run build
   displayName: 'Test React'
-  continueOnError: false
-- script: |
+  failOnStderr: false
+- powershell: |
     cd tests/moduletest
     npm install
     tsc
     node index.js
   displayName: 'Test Modules'
-  continueOnError: false
-- script: |
+  failOnStderr: false
+- powershell: |
     cd tests/esmtest
     npm install
     tsc
     node index.js
   displayName: 'Test ESM Modules'
-  continueOnError: false
-- script: |
+  failOnStderr: false
+- powershell: |
     cd examples
     npm install
     npm run test
   displayName: 'Test Examples'
-  continueOnError: false
+  failOnStderr: false
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Staging Directory'
   inputs:
