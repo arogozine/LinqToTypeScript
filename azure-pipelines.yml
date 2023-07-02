@@ -25,59 +25,55 @@ steps:
 - powershell: |
     npm install -g typescript jest typedoc
   displayName: 'Install Globals'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     npm install
     npm run build
   displayName: 'Build Library'
-  failOnStderr: false
+  failOnStderr: true
 - script: npm run lint
   displayName: 'Run Lint'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     npm run doc
   displayName: 'Run Type Doc'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     cd tests/unittests
     npm install
     npm run test
   displayName: 'Run Unit Tests'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     cd tests/nodetest
     npm install
     tsc
     node index.js
   displayName: 'Test Node'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     cd tests/reacttest
     npm install
     npm run build
   displayName: 'Test React'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     cd tests/moduletest
     npm install
     tsc
     node index.js
   displayName: 'Test Modules'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     cd tests/esmtest
     npm install
     tsc
     node index.js
   displayName: 'Test ESM Modules'
-  failOnStderr: false
+  failOnStderr: true
 - powershell: |
     cd examples
     npm install
     npm run test
   displayName: 'Test Examples'
-  failOnStderr: false
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Staging Directory'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+  failOnStderr: true
