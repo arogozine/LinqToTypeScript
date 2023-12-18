@@ -27,7 +27,7 @@ steps:
   displayName: 'Install Globals'
   failOnStderr: true
 - powershell: |
-    npm install
+    npm install --silent
     npm run build
   displayName: 'Build Library'
   failOnStderr: true
@@ -46,34 +46,34 @@ steps:
   failOnStderr: true
 - powershell: |
     cd tests/nodetest
-    npm install
+    npm install --silent
     tsc
     node index.js
   displayName: 'Test Node'
   failOnStderr: true
 - powershell: |
     cd tests/reacttest
-    npm install
+    npm install --silent
     npm run build
   displayName: 'Test React'
   failOnStderr: true
 - powershell: |
     cd tests/moduletest
-    npm install
+    npm install --silent
     tsc
     node index.js
   displayName: 'Test Modules'
   failOnStderr: true
 - powershell: |
     cd tests/esmtest
-    npm install
+    npm install --silent
     tsc
     node index.js
   displayName: 'Test ESM Modules'
   failOnStderr: true
 - powershell: |
     cd examples
-    npm install
+    npm install --silent
     npm run test
   displayName: 'Test Examples'
   failOnStderr: true
