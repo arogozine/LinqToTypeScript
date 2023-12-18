@@ -3,7 +3,7 @@
     "compilerOptions": {
         "moduleResolution": "Node16",
         "target": "ES2022",
-        "module": "commonjs",
+        "module": "Node16",
         "esModuleInterop": true,
         "removeComments": true,
         "noImplicitAny": true,

@@ -1,9 +1,9 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "moduleResolution": "Node16",
+        "moduleResolution": "nodenext",
         "target": "ES2022",
-        "module": "ES2022",
+        "module": "nodenext",
         "esModuleInterop": true,
         "removeComments": true,
         "noImplicitAny": true,
