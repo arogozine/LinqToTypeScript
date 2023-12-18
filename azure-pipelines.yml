@@ -40,7 +40,7 @@ steps:
   failOnStderr: true
 - powershell: |
     cd tests/unittests
-    npm install
+    npm install --silent
     npm run test
   displayName: 'Run Unit Tests'
   failOnStderr: true
