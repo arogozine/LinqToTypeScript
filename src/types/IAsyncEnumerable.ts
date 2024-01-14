@@ -391,7 +391,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
      * that occur before the element at which the test no longer passes.
      */
-    takeWhile(pedicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
+    takeWhile(predicate: (x: TSource, index: number) => boolean): IAsyncEnumerable<TSource>
     /**
      * Returns elements from a sequence as long as a specified condition is true.
      * The element's index is used in the logic of the predicate function.
@@ -400,7 +400,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
      * that occur before the element at which the test no longer passes.
      */
-    takeWhileAsync(pedicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
+    takeWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
     /**
      * Produces the set union of two sequences by using scrict equality comparison or a specified IEqualityComparer<T>.
      * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.

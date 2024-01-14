@@ -461,7 +461,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         comparer?: IComparer<TSource>): IOrderedEnumerable<TSource>
     /**
      * Sorts the elements of a sequence in ascending order by using a specified or default comparer.
-     * @param keySelector A function to extract a key from an element.
+     * @param predicate A function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys. Optional.
      * @returns An IOrderedEnumerable<TElement> whose elements are sorted according to a key.
      */
@@ -470,7 +470,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>
     /**
      * Sorts the elements of a sequence in ascending order by using a specified comparer.
-     * @param keySelector An async function to extract a key from an element.
+     * @param predicate An async function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys.
      * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted according to a key.
      */
@@ -479,7 +479,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         comparer?: IComparer<TKey>): IOrderedAsyncEnumerable<TSource>
     /**
      * Sorts the elements of a sequence in descending order by using a specified or default comparer.
-     * @param keySelector A function to extract a key from an element.
+     * @param predicate A function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys. Optional.
      * @returns An IOrderedEnumerable<TElement> whose elements are sorted in descending order according to a key.
      */
@@ -488,7 +488,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
         comparer?: IComparer<TKey>): IOrderedEnumerable<TSource>
     /**
      * Sorts the elements of a sequence in descending order by using a specified comparer.
-     * @param keySelector An async function to extract a key from an element.
+     * @param predicate An async function to extract a key from an element.
      * @param comparer An IComparer<T> to compare keys.
      * @returns An IOrderedAsyncEnumerable<TElement> whose elements are sorted in descending order according to a key.
      */
@@ -534,7 +534,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     select<TResult>(selector: (x: TSource, index: number) => TResult): IEnumerable<TResult>
     /**
      * Projects each element of a sequence into a new form.
-     * @param selector A key of TSource.
+     * @param key A key of TSource.
      * @returns
      * An IEnumerable<T> whose elements are the result of getting the value from the key on each element of source.
      */
