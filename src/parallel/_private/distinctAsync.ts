@@ -6,16 +6,18 @@ export const distinctAsync = <TSource>(
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> => {
     const generator = async () => {
         const distinctElements: TSource[] = []
-        outerLoop:
         for (const item of await source.toArray()) {
+            let found = false
             for (const distinctElement of distinctElements) {
-                const found = await comparer(distinctElement, item)
-                if (found) {
-                    continue outerLoop
+                if (await comparer(distinctElement, item)) {
+                    found = true
+                    break
                 }
             }
 
-            distinctElements.push(item)
+            if (!found) {
+                distinctElements.push(item)
+            }
         }
 
         return distinctElements
