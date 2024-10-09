@@ -1,2 +1,8 @@
 {
+  "extends": "next",
+  "rules": {
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/semi": "off"
+  }
 }
