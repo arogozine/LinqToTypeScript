@@ -25,7 +25,7 @@ steps:
 - powershell: |
     npm install -g typescript jest typedoc
   displayName: 'Install Globals'
-  failOnStderr: true
+  failOnStderr: false
 - powershell: |
     npm install --silent
     npm run build
