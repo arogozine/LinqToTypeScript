@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "11.1.0",
+  "version": "12.0.0-beta",
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "exports": {
@@ -22,7 +22,7 @@
     "build:esm": "tsc --removeComments --outDir dist/esm",
     "postbuild": "node --no-warnings config/copy && node --no-warnings config/fix-imports",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
-    "doc": "npx rimraf doc && typedoc ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --gitRevision master --out ./doc --excludePrivate --excludeExternals --readme README.md --name \"LINQ To TypeScript\" --includeVersion && node config/editdocs",
+    "doc": "npx rimraf doc && typedoc --entryPointStrategy expand ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --exclude \"tests/**\" --gitRevision master --out ./doc --excludePrivate --excludeExternals --readme README.md --name \"LINQ To TypeScript\" --includeVersion && node config/editdocs",
     "release:npm": "npm publish ./dist",
     "release:npm-next": "npm publish ./dist --tag next",
     "release:pack": "npm pack ./dist"
@@ -49,8 +49,8 @@
     "eslint": "^8.44.0",
     "eslint-plugin-jsdoc": "^46.4.3",
     "eslint-plugin-prefer-arrow": "^1.2.3",
-    "typedoc-plugin-merge-modules": "^5.0.1",
-    "typescript": "^4.7.4"
+    "typedoc-plugin-merge-modules": "^6.0.1",
+    "typescript": "^5.6.3"
   },
   "engines": {
     "node": ">=17"

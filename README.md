@@ -147,7 +147,7 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 | reverse            | No      | [Sync](tests/unittests/tests/Reverse.ts)
 | select             | Yes     | [Sync](tests/unittests/tests/Select.ts), [Async](tests/unittests/tests/SelectAsync.ts)
 | selectMany         | Yes     | [Sync](tests/unittests/tests/SelectMany.ts), [Async](tests/unittests/tests/SelectManyAsync.ts)
-| sequenceEquals     | Yes     | [Sync](tests/unittests/tests/SequenceEquals.ts), [Async](tests/unittests/tests/SequenceEqualAsync.ts)
+| sequenceEquals     | Yes     | [Sync](tests/unittests/tests/SequenceEquals.ts), [Async](tests/unittests/tests/SequenceEqualsAsync.ts)
 | single             | Yes     | [Sync](tests/unittests/tests/Single.ts), [Async](tests/unittests/tests/SingleAsync.ts)
 | singleOrDefault    | Yes     | [Sync](tests/unittests/tests/SingleOrDefault.ts), [Async](tests/unittests/tests/SingleOrDefaultAsync.ts)
 | skip               | No      | [Sync](tests/unittests/tests/Skip.ts)

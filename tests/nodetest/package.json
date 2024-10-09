@@ -12,6 +12,6 @@
     "linq-to-typescript": "file:../../dist"
   },
   "devDependencies": {
-    "typescript": "^4.7.4"
+    "typescript": "^5.6.3"
   }
 }
