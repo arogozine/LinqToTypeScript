@@ -1,5 +1,5 @@
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
-import { IConstructor, IEnumerable } from "../types"
+import type { IConstructor, IEnumerable } from "../types"
 
 /**
  * Binds LINQ method to a built in array type

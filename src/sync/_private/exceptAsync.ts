@@ -1,5 +1,5 @@
 import { fromAsync } from "../../async/static/fromAsync"
-import { IAsyncEnumerable, IAsyncEqualityComparer } from "../../types"
+import type { IAsyncEnumerable, IAsyncEqualityComparer } from "../../types"
 
 export const exceptAsync = <TSource>(
     first: Iterable<TSource>,

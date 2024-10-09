@@ -1,4 +1,4 @@
-import { IEnumerable } from "../types"
+import type { IEnumerable } from "../types"
 
 /* eslint-disable @typescript-eslint/no-empty-interface */
 

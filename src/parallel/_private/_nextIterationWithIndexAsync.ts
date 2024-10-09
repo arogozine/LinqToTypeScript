@@ -1,4 +1,4 @@
-import { IParallelEnumerable, LimitedTypedData, ParallelGeneratorType } from "../../types"
+import { type IParallelEnumerable, type LimitedTypedData, ParallelGeneratorType } from "../../types"
 
 /* eslint-disable  */
 

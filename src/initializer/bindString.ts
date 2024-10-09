@@ -1,4 +1,4 @@
-import { IEnumerable } from "../types"
+import type { IEnumerable } from "../types"
 import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
 import { BasicEnumerable } from "../sync/BasicEnumerable"
 

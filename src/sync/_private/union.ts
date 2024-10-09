@@ -1,4 +1,4 @@
-import { IEnumerable, IEqualityComparer } from "../../types"
+import type { IEnumerable, IEqualityComparer } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 export const union = <TSource>(

@@ -1,5 +1,5 @@
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
-import { IEqualityComparer, IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IEqualityComparer, type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 export const groupJoin = <TOuter, TInner, TKey, TResult>(
     outer: IParallelEnumerable<TOuter>,

@@ -1,5 +1,4 @@
-import { IAsyncEnumerable } from "../../types/IAsyncEnumerable"
-import { InferType, OfType } from "../../types/InferType"
+import type { IAsyncEnumerable, InferType, OfType } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 export const ofType = <TSource, TType extends OfType>(

@@ -1,4 +1,4 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 export const append = <TSource>(source: IParallelEnumerable<TSource>, element: TSource): IParallelEnumerable<TSource> => {

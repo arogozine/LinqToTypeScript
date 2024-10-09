@@ -1,4 +1,4 @@
-import { IAsyncEqualityComparer } from "../../types/IAsyncEqualityComparer"
+import type { IAsyncEqualityComparer } from "../../types/IAsyncEqualityComparer"
 
 export const sequenceEqualsAsync = async <TSource>(
     first: AsyncIterable<TSource>,

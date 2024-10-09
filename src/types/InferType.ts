@@ -1,4 +1,4 @@
-import { IConstructor } from "./"
+import type { IConstructor } from "./"
 /* eslint-disable @typescript-eslint/ban-types */
 
 /**

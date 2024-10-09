@@ -1,5 +1,5 @@
 import { fromAsync } from "../../async/static/fromAsync"
-import { IAsyncEnumerable, IAsyncEqualityComparer, IEnumerable } from "../../types"
+import type { IAsyncEnumerable, IAsyncEqualityComparer, IEnumerable } from "../../types"
 
 export const intersectAsync = <TSource>(
     first: IEnumerable<TSource>,

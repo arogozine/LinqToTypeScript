@@ -2,7 +2,7 @@
 import { ArgumentOutOfRangeException, ErrorString, InvalidOperationException } from "../shared"
 import { ArrayEnumerable } from "../sync/ArrayEnumerable"
 import { BasicEnumerable } from "../sync/BasicEnumerable"
-import { IEnumerable } from "../types"
+import type { IEnumerable } from "../types"
 
 /**
  * @private

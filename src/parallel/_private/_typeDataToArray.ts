@@ -1,4 +1,4 @@
-import { TypedData, ParallelGeneratorType, LimitedTypedData } from "../../types"
+import { type TypedData, ParallelGeneratorType, type LimitedTypedData } from "../../types"
 
 /**
  * @private

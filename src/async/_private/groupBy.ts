@@ -1,5 +1,5 @@
 import { Grouping } from "../../sync/Grouping"
-import { IAsyncEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
+import type { IAsyncEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 type GroupByFunc = {

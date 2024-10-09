@@ -1,4 +1,4 @@
-import { IAsyncEqualityComparer, IAsyncParallel } from "../../types"
+import type { IAsyncEqualityComparer, IAsyncParallel } from "../../types"
 
 export const sequenceEqualsAsync = async <TSource>(
     // eslint-disable-next-line no-shadow

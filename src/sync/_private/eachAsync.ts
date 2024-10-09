@@ -1,5 +1,5 @@
 import { fromAsync } from "../../async/static/fromAsync"
-import { IAsyncEnumerable } from "../../types"
+import type { IAsyncEnumerable } from "../../types"
 
 export const eachAsync = <TSource>(
     source: Iterable<TSource>, action: (x: TSource) => Promise<void>): IAsyncEnumerable<TSource> => {

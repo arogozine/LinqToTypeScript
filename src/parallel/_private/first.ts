@@ -1,5 +1,5 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { toArray } from "./toArray"
 
 export const first = <TSource>(

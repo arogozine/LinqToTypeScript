@@ -1,5 +1,5 @@
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
-import { IParallelEnumerable, ParallelGeneratorType } from "./../../types"
+import { type IParallelEnumerable, ParallelGeneratorType } from "./../../types"
 
 export const reverse = <TSource>(
     source: IParallelEnumerable<TSource>): IParallelEnumerable<TSource> => {

@@ -1,5 +1,5 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
-import { IParallelEnumerable } from "../../types"
+import { type IParallelEnumerable } from "../../types"
 import { ParallelGeneratorType } from "../../types/ParallelGeneratorType"
 
 export const lastAsync = async <TSource>(

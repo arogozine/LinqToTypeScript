@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IComparer } from "./"
+import type { IAsyncEnumerable, IComparer } from "./"
 
 /**
  * Represents an async enumeration that has been ordered.

@@ -1,5 +1,5 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
-import { IParallelEnumerable, TypedData } from "../../types"
+import type { IParallelEnumerable, TypedData } from "../../types"
 import { nextIteration } from "./_nextIteration"
 import { typeDataToArray } from "./_typeDataToArray"
 

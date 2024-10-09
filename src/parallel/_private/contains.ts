@@ -1,5 +1,5 @@
 import { StrictEqualityComparer } from "../../shared"
-import { IEqualityComparer, IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
+import { type IEqualityComparer, type IParallelEnumerable, ParallelGeneratorType, type TypedData } from "../../types"
 import { nextIteration } from "./_nextIteration"
 
 export const contains = async <TSource>(

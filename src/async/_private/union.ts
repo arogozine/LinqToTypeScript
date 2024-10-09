@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IEqualityComparer } from "../../types"
+import type { IAsyncEnumerable, IEqualityComparer } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 export const union = <TSource>(

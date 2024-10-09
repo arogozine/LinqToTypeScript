@@ -1,4 +1,4 @@
-import { InferType, IParallelEnumerable, OfType, ParallelGeneratorType } from "../../types"
+import { type InferType, type IParallelEnumerable, type OfType, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 import { nextIteration } from "./_nextIteration"
 import { typeDataToArray } from "./_typeDataToArray"

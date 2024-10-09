@@ -1,5 +1,5 @@
 import { StrictEqualityComparer } from "../../shared"
-import { IEnumerable, IEqualityComparer } from "../../types"
+import { type IEnumerable, type IEqualityComparer } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 export const distinct = <TSource>(

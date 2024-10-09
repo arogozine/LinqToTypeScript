@@ -1,4 +1,4 @@
-import { IAsyncParallel, IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IAsyncParallel, type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 export const skipWhileAsync = <TSource>(

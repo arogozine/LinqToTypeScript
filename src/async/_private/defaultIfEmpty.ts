@@ -1,4 +1,4 @@
-import { IAsyncEnumerable } from "../../types"
+import type { IAsyncEnumerable } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 export const defaultIfEmpty = <TSource>(source: AsyncIterable<TSource>, defaultValue: TSource | Promise<TSource>): IAsyncEnumerable<TSource> => {

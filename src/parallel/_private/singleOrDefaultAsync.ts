@@ -1,5 +1,5 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
-import { IParallelEnumerable } from "../../types"
+import type { IParallelEnumerable } from "../../types"
 import { toArray } from "./toArray"
 
 export const singleOrDefaultAsync = async <TSource>(

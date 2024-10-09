@@ -1,6 +1,6 @@
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 import { ArgumentOutOfRangeException } from "../../shared"
-import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
+import { type IParallelEnumerable, ParallelGeneratorType, type TypedData } from "../../types"
 
 export const chunk = <TSource>(source: IParallelEnumerable<TSource>, size: number): IParallelEnumerable<TSource[]> => {
     if (size < 1) {

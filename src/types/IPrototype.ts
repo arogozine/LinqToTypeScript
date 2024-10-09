@@ -1,4 +1,4 @@
-import { IConstructor } from "./IConstructor"
+import type { IConstructor } from "./IConstructor"
 
 /**
  * TODO: Simplify

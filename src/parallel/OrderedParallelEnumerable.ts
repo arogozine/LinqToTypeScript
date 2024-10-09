@@ -1,4 +1,4 @@
-import { IComparer, IOrderedParallelEnumerable, ParallelGeneratorType } from "../types"
+import { type IComparer, type IOrderedParallelEnumerable, ParallelGeneratorType } from "../types"
 import { asAsyncSortedKeyValues } from "./_ordered/asAsyncSortedKeyValues"
 import { asAsyncSortedKeyValuesSync } from "./_ordered/asAsyncSortedKeyValuesSync"
 import { asSortedKeyValues } from "./_ordered/asSortedKeyValues"

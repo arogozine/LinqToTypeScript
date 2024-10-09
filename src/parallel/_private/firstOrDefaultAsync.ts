@@ -1,4 +1,4 @@
-import { IParallelEnumerable } from "../../types"
+import type { IParallelEnumerable } from "../../types"
 import { toArray } from "./toArray"
 
 export const firstOrDefaultAsync = async <TSource>(

@@ -1,4 +1,4 @@
-import { IEnumerable, IPrototype } from "../types"
+import type { IEnumerable, IPrototype } from "../types"
 
 import { aggregate } from "./../sync/_private/aggregate"
 import { all } from "./../sync/_private/all"

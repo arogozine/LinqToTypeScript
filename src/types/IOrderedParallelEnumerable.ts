@@ -1,4 +1,4 @@
-import { IComparer, IParallelEnumerable } from "./"
+import type { IComparer, IParallelEnumerable } from "./"
 
 /**
  * Represents an async parallel enumeration that has been ordered.

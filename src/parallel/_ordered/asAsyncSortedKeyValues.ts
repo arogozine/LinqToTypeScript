@@ -1,4 +1,4 @@
-import { IComparer } from "../../types"
+import type { IComparer } from "../../types"
 import { asAsyncKeyMap } from "./asAsyncKeyMap"
 
 /**

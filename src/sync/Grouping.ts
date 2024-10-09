@@ -1,4 +1,4 @@
-import { IGrouping } from "../types"
+import type { IGrouping } from "../types"
 import { ArrayEnumerable } from "./ArrayEnumerable"
 
 /**

@@ -1,5 +1,5 @@
 import { OrderedAsyncEnumerable } from "../async/OrderedAsyncEnumerable"
-import { IComparer, IOrderedAsyncEnumerable, IOrderedEnumerable } from "../types"
+import type { IComparer, IOrderedAsyncEnumerable, IOrderedEnumerable } from "../types"
 import { asSortedKeyValues } from "./_ordered/asSortedKeyValues"
 import { asSortedKeyValuesAsync } from "./_ordered/asSortedKeyValuesAsync"
 import { BasicEnumerable } from "./BasicEnumerable"

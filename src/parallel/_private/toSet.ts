@@ -1,4 +1,4 @@
-import { IParallelEnumerable } from "../../types"
+import type { IParallelEnumerable } from "../../types"
 import { typeDataToArray } from "./_typeDataToArray"
 
 export const toSet = async <TSource>(

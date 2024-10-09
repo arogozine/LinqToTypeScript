@@ -1,4 +1,4 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import type { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 type FromParallelFunc = {
@@ -33,11 +33,10 @@ type FromParallelFunc = {
 
 
 export const fromParallel: FromParallelFunc = <TSource>(
-    type: any,
+    type: ParallelGeneratorType,
     generator: () => any) => {
     return new BasicParallelEnumerable<TSource>({
         generator,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         type,
     })
 }

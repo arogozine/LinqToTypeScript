@@ -1,5 +1,5 @@
 import { StrictEqualityComparer } from "../../shared"
-import { IEqualityComparer } from "../../types"
+import type { IEqualityComparer } from "../../types"
 
 export const sequenceEquals = <TSource>(
     first: Iterable<TSource>,

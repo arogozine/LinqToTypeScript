@@ -1,4 +1,4 @@
-import { IParallelEnumerable } from "../../types"
+import type { IParallelEnumerable } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 import { nextIteration } from "./_nextIteration"
 import { nextIterationWithIndex } from "./_nextIterationWithIndex"

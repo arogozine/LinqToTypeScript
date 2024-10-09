@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IEnumerable, IParallelEnumerable } from "../types"
+import type { IAsyncEnumerable, IEnumerable, IParallelEnumerable } from "../types"
 
 /**
  * Represents an iteration that can be flattened.

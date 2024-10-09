@@ -1,4 +1,4 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { nextIterationAsync } from "./_nextIterationAsync"
 
 export const countAsync = async <TSource>(

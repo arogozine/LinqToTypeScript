@@ -1,5 +1,5 @@
 import { StrictEqualityComparer } from "../../shared"
-import { IEqualityComparer } from "../../types/IEqualityComparer"
+import type { IEqualityComparer } from "../../types/IEqualityComparer"
 
 export const contains = <TSource>(
     source: Iterable<TSource>,

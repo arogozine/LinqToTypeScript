@@ -1,4 +1,4 @@
-import { IAsyncEqualityComparer, IAsyncParallel, IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IAsyncEqualityComparer, type IAsyncParallel, type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 export const unionAsync = <TSource>(

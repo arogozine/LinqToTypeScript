@@ -1,4 +1,4 @@
-import { IComparer, IParallelEnumerable, IOrderedParallelEnumerable } from "../../types"
+import type { IComparer, IParallelEnumerable, IOrderedParallelEnumerable } from "../../types"
 import { OrderedParallelEnumerable } from "../OrderedParallelEnumerable"
 
 export const orderDescending = <TSource>(

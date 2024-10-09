@@ -1,4 +1,4 @@
-import { IAsyncEqualityComparer,
+import type { IAsyncEqualityComparer,
         IAsyncParallel,
         IComparer,
         IEqualityComparer,

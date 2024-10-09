@@ -1,6 +1,4 @@
-import { IComparer } from "../../types/IComparer"
-import { IEnumerable } from "../../types/IEnumerable"
-import { IOrderedEnumerable } from "../../types/IOrderedEnumerable"
+import type { IComparer, IEnumerable, IOrderedEnumerable } from "../../types"
 import { OrderedEnumerable } from "../OrderedEnumerable"
 
 export const orderByDescending = <TSource, TKey>(

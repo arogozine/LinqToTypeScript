@@ -1,6 +1,6 @@
 import { Grouping } from "../../sync/Grouping"
-import { IAsyncParallel, IEqualityComparer, IGrouping,
-    IParallelEnumerable, ParallelGeneratorType, SelectorKeyType } from "../../types"
+import { type IAsyncParallel, type IEqualityComparer, type IGrouping,
+    type IParallelEnumerable, ParallelGeneratorType, type SelectorKeyType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 type GroupByWithSelFunc = {

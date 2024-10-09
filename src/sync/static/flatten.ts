@@ -1,4 +1,4 @@
-import { IEnumerable, IFlatten } from "../../types"
+import type { IEnumerable, IFlatten } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 type FlattenFunc = {

@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IComparer, IOrderedAsyncEnumerable } from "../../types"
+import type { IAsyncEnumerable, IComparer, IOrderedAsyncEnumerable } from "../../types"
 import { OrderedAsyncEnumerable } from "../OrderedAsyncEnumerable"
 
 export const orderBy = <TSource, TKey>(

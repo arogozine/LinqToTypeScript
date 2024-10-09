@@ -1,5 +1,5 @@
 import { StrictEqualityComparer } from "../../shared"
-import { IAsyncParallel, IEqualityComparer, IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IAsyncParallel, type IEqualityComparer, type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 export const intersect = <TSource>(

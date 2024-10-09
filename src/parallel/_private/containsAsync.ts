@@ -1,4 +1,4 @@
-import { IAsyncEqualityComparer, IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IAsyncEqualityComparer, type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { nextIterationAsync } from "./_nextIterationAsync"
 
 export const containsAsync = async <TSource>(

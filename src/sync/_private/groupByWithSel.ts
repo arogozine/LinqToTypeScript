@@ -1,4 +1,4 @@
-import { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
+import type { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
 import { groupBy_1, groupBy_1_Simple } from "./groupByShared"
 
 export type GroupByWithSelFunc = {

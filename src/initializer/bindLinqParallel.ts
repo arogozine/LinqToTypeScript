@@ -1,4 +1,4 @@
-import { IParallelEnumerable, IPrototype } from "../types"
+import type { IParallelEnumerable, IPrototype } from "../types"
 
 import { aggregate } from "./../parallel/_private/aggregate"
 import { all } from "./../parallel/_private/all"

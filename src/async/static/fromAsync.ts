@@ -1,5 +1,5 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
-import { IAsyncEnumerable } from "../../types"
+import type { IAsyncEnumerable } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 type FromAsyncFunc = {

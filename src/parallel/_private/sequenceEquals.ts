@@ -1,5 +1,5 @@
 import { StrictEqualityComparer } from "../../shared"
-import { IAsyncParallel, IEqualityComparer } from "../../types"
+import type { IAsyncParallel, IEqualityComparer } from "../../types"
 
 export const sequenceEquals = async <TSource>(
     // eslint-disable-next-line no-shadow

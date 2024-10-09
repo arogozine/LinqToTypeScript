@@ -1,5 +1,5 @@
 import { fromAsync } from "../../async/static/fromAsync"
-import { IAsyncEnumerable } from "../../types"
+import type { IAsyncEnumerable } from "../../types"
 
 export const zipAsync = <TFirst, TSecond, TResult>(
     first: Iterable<TFirst>,

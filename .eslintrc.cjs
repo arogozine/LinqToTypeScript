@@ -107,6 +107,10 @@ module.exports = {
         "@typescript-eslint/prefer-for-of": "off",
         "@typescript-eslint/prefer-function-type": "off",
         "@typescript-eslint/prefer-namespace-keyword": "error",
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            { prefer: 'type-imports' }
+        ],
         "@typescript-eslint/semi": [
             "error",
             "never"

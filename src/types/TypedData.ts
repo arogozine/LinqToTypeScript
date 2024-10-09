@@ -1,4 +1,4 @@
-import { ParallelGeneratorType } from "./ParallelGeneratorType"
+import type { ParallelGeneratorType } from "./ParallelGeneratorType"
 
 /**
  * Specifies how data is stored in the parallel enumerable.

@@ -1,4 +1,4 @@
-import { IAsyncEnumerable } from "../../types"
+import type { IAsyncEnumerable } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 export const append = <TSource>(source: AsyncIterable<TSource>, element: TSource): IAsyncEnumerable<TSource> => {

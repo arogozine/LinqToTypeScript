@@ -1,6 +1,6 @@
 import { Grouping } from "../../sync/Grouping"
-import { IAsyncEqualityComparer, IEqualityComparer,
-    IGrouping, IParallelEnumerable, ParallelGeneratorType, SelectorKeyType } from "../../types"
+import { type IAsyncEqualityComparer, type IEqualityComparer,
+    type IGrouping, type IParallelEnumerable, ParallelGeneratorType, type SelectorKeyType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 import { nextIterationAsync } from "./_nextIterationAsync"
 

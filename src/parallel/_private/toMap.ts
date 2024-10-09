@@ -1,4 +1,4 @@
-import { IParallelEnumerable } from "../../types"
+import type { IParallelEnumerable } from "../../types"
 import { nextIteration } from "./_nextIteration"
 import { typeDataToArray } from "./_typeDataToArray"
 

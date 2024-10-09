@@ -1,5 +1,4 @@
-import { IEnumerable } from "../../types"
-import { InferType, OfType } from "../../types/InferType"
+import type { IEnumerable, InferType, OfType } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 export const ofType = <TSource, TType extends OfType>(

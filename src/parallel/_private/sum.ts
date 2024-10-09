@@ -1,4 +1,4 @@
-import { IAsyncParallel } from "../../types"
+import type { IAsyncParallel } from "../../types"
 
 type SumFunc = {
     (source: IAsyncParallel<number>): Promise<number>

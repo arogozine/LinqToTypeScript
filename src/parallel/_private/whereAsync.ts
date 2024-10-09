@@ -1,4 +1,4 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 import { nextIterationWithIndexAsync } from "./_nextIterationWithIndexAsync"
 import { typeDataToArray } from "./_typeDataToArray"

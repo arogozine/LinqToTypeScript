@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IAsyncFlatten } from "../../types"
+import type { IAsyncEnumerable, IAsyncFlatten } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 type FlattenAsyncFunc = {

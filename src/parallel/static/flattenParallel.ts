@@ -1,4 +1,4 @@
-import { IParallelEnumerable, IParallelFlatten, ParallelGeneratorType } from "../../types"
+import { type IParallelEnumerable, type IParallelFlatten, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 type FlatternParallelFunc = {

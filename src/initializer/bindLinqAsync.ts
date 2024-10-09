@@ -1,4 +1,4 @@
-import { IAsyncEnumerable, IPrototype } from "../types"
+import type { IAsyncEnumerable, IPrototype } from "../types"
 
 import { aggregate } from "./../async/_private/aggregate"
 import { all } from "./../async/_private/all"

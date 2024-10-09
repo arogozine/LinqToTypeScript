@@ -1,4 +1,4 @@
-import { IEnumerable } from "../types"
+import type { IEnumerable } from "../types"
 import { ArrayEnumerable } from "./ArrayEnumerable"
 import { BasicEnumerable } from "./BasicEnumerable"
 

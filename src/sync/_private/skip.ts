@@ -1,4 +1,4 @@
-import { IEnumerable } from "../../types/IEnumerable"
+import type { IEnumerable } from "../../types/IEnumerable"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 export const skip = <TSource>(source: Iterable<TSource>, count: number): IEnumerable<TSource> => {

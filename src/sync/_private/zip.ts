@@ -1,4 +1,4 @@
-import { IEnumerable } from "../../types"
+import type { IEnumerable } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
 type ZipFunc = {

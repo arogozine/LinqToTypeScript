@@ -1,4 +1,4 @@
-import { IAsyncEnumerable } from "../../types"
+import type { IAsyncEnumerable } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
 export const skip = <TSource>(source: AsyncIterable<TSource>, count: number): IAsyncEnumerable<TSource> => {

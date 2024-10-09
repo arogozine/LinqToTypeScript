@@ -1,4 +1,4 @@
-import { IParallelEnumerable, ParallelGeneratorType } from "../../types"
+import { type IParallelEnumerable, ParallelGeneratorType } from "../../types"
 
 export const lastOrDefault = <TSource>(
     source: IParallelEnumerable<TSource>,

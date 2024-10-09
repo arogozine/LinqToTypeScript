@@ -1,4 +1,4 @@
-import { IComparer, IEnumerable, IOrderedAsyncEnumerable } from "./"
+import type { IComparer, IEnumerable, IOrderedAsyncEnumerable } from "./"
 
 /**
  * Ordered Iterable type with methods from LINQ.

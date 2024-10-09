@@ -1,4 +1,4 @@
-import { IParallelEnumerable, ParallelGeneratorType, TypedData } from "../../types"
+import { type IParallelEnumerable, ParallelGeneratorType, type TypedData } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 export const defaultIfEmpty = <TSource>(source: IParallelEnumerable<TSource>, defaultValue: TSource | Promise<TSource>): IParallelEnumerable<TSource> => {

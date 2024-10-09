@@ -1,4 +1,4 @@
-import { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
+import type { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 import { Grouping } from "../Grouping"
 

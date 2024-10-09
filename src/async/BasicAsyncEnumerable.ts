@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
-import { IAsyncEnumerable } from "../types"
+import type { IAsyncEnumerable } from "../types"
 
 /* eslint-disable @typescript-eslint/naming-convention */
 

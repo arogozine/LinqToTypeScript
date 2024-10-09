@@ -1,5 +1,5 @@
 import { fromAsync } from "../../async/static/fromAsync"
-import { IParallelEnumerable } from "../../types"
+import type { IParallelEnumerable } from "../../types"
 
 export const asAsync = <TSource>(source: IParallelEnumerable<TSource>) => {
     async function* generator() {
