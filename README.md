@@ -70,7 +70,7 @@ const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArra
 
 ### Examples
 
-Please refer to the [examples folder](/examples)
+Please refer to the [examples folder](https://github.com/arogozine/LinqToTypeScript/blob/master/examples)
 
 ### ES6 Modules (ESM)
 
@@ -111,57 +111,57 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 
 | Method             | Async\* | Tests Coverage | Notes |
 |--------------------|---------|----------------|-------|
-| aggregate          | No      | [Sync](tests/unittests/tests/Aggregate.ts)
-| all                | Yes     | [Sync](tests/unittests/tests/All.ts), [Async](tests/unittests/tests/AllAsync.ts)
-| any                | Yes     | [Sync](tests/unittests/tests/Any.ts), [Async](tests/unittests/tests/AnyAsync.ts)
-| append             | No      | [Sync](tests/unittests/tests/Append.ts)
-| average            | Yes     | [Sync](tests/unittests/tests/Average.ts), [Async](tests/unittests/tests/AverageAsync.ts)
-| chunk              | No      | [Sync](tests/unittests/tests/Chunk.ts)
-| concatenate        | No      | [Sync](tests/unittests/tests/Concatenate.ts) | Equivalent to `.Concat` but renamed to avoid conflict with JS
-| contains           | Yes     | [Sync](tests/unittests/tests/Contains.ts), [Async](tests/unittests/tests/ContainsAsync.ts)
-| count              | Yes     | [Sync](tests/unittests/tests/Count.ts), [Async](tests/unittests/tests/CountAsync.ts)
-| defaultIfEmpty     | No      | [Sync](tests/unittests/tests/DefaultIfEmpty.ts)
-| distinct           | Yes     | [Sync](tests/unittests/tests/Distinct.ts), [Async](tests/unittests/tests/DistinctAsync.ts)
-| elementAt          | No      | [Sync](tests/unittests/tests/ElementAt.ts)
-| elementAtOrDefault | No      | [Sync](tests/unittests/tests/ElementAtOrDefault.ts)
-| except             | Yes     | [Sync](tests/unittests/tests/Except.ts), [Async](tests/unittests/tests/ExceptAsync.ts)
-| first              | Yes     | [Sync](tests/unittests/tests/First.ts), [Async](tests/unittests/tests/FirstAsync.ts)
-| firstOrDefault     | Yes     | [Sync](tests/unittests/tests/FirstOrDefault.ts), [Async](tests/unittests/tests/FirstOrDefaultAsync.ts)
-| each               | Yes     | [Sync](tests/unittests/tests/Each.ts), [Async](tests/unittests/tests/EachAsync.ts) | From `List<T>.ForEach`
-| groupBy            | Yes     | [Sync](tests/unittests/tests/GroupBy.ts), [Async](tests/unittests/tests/GroupByAsync.ts)
-| groupByWithSel     | No      | [Sync](tests/unittests/tests/GroupByWithSel.ts)
-| groupJoin          | Yes     | [Sync](tests/unittests/tests/GroupJoin.ts), [Async](/tests/unittests/tests/GroupJoinAsync.ts)
-| intersect          | Yes     | [Sync](tests/unittests/tests/Intersect.ts), [Async](tests/unittests/tests/IntersectAsync.ts)
-| joinByKey          | No      | [Sync](tests/unittests/tests/JoinByKey.ts)
-| last               | Yes     | [Sync](tests/unittests/tests/Last.ts), [Async](tests/unittests/tests/LastAsync.ts)
-| lastOrDefault      | Yes     | [Sync](tests/unittests/tests/LastOrDefault.ts), [Async](tests/unittests/tests/LastOrDefaultAsync.ts)
-| max                | Yes     | [Sync](tests/unittests/tests/Max.ts), [Async](tests/unittests/tests/MaxAsync.ts)
-| min                | Yes     | [Sync](tests/unittests/tests/Min.ts), [Async](tests/unittests/tests/MinAsync.ts)
-| ofType             | No      | [Sync](tests/unittests/tests/OfType.ts)
+| aggregate          | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Aggregate.ts)
+| all                | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/All.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/AllAsync.ts)
+| any                | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Any.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/AnyAsync.ts)
+| append             | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Append.ts)
+| average            | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Average.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/AverageAsync.ts)
+| chunk              | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Chunk.ts)
+| concatenate        | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Concatenate.ts) | Equivalent to `.Concat` but renamed to avoid conflict with JS
+| contains           | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Contains.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ContainsAsync.ts)
+| count              | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Count.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/CountAsync.ts)
+| defaultIfEmpty     | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/DefaultIfEmpty.ts)
+| distinct           | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Distinct.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/DistinctAsync.ts)
+| elementAt          | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ElementAt.ts)
+| elementAtOrDefault | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ElementAtOrDefault.ts)
+| except             | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Except.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ExceptAsync.ts)
+| first              | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/First.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/FirstAsync.ts)
+| firstOrDefault     | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/FirstOrDefault.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/FirstOrDefaultAsync.ts)
+| each               | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Each.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/EachAsync.ts) | From `List<T>.ForEach`
+| groupBy            | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/GroupBy.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/GroupByAsync.ts)
+| groupByWithSel     | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/GroupByWithSel.ts)
+| groupJoin          | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/GroupJoin.ts), [Async](/tests/unittests/tests/GroupJoinAsync.ts)
+| intersect          | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Intersect.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/IntersectAsync.ts)
+| joinByKey          | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/JoinByKey.ts)
+| last               | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Last.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/LastAsync.ts)
+| lastOrDefault      | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/LastOrDefault.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/LastOrDefaultAsync.ts)
+| max                | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Max.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/MaxAsync.ts)
+| min                | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Min.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/MinAsync.ts)
+| ofType             | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/OfType.ts)
 | order              | No      | [Sync](/tests/unittests/tests/Order.ts)
-| orderBy            | Yes     | [Sync](tests/unittests/tests/OrderBy.ts), [Async](tests/unittests/tests/OrderByAsync.ts)
-| orderByDescending  | Yes     | [Sync](tests/unittests/tests/OrderByDescending.ts), [Async](tests/unittests/tests/OrderByDescendingAsync.ts)
-| orderDescending    | No      | [Sync](tests/unittests/tests/OrderDescending.ts)
-| partition          | Yes     | [Sync](tests/unittests/tests/Partition.ts), [Async](tests/unittests/tests/PartitionAsync.ts)
-| prepend            | No      | [Sync](tests/unittests/tests/Prepend.ts)
-| reverse            | No      | [Sync](tests/unittests/tests/Reverse.ts)
-| select             | Yes     | [Sync](tests/unittests/tests/Select.ts), [Async](tests/unittests/tests/SelectAsync.ts)
-| selectMany         | Yes     | [Sync](tests/unittests/tests/SelectMany.ts), [Async](tests/unittests/tests/SelectManyAsync.ts)
-| sequenceEquals     | Yes     | [Sync](tests/unittests/tests/SequenceEquals.ts), [Async](tests/unittests/tests/SequenceEqualsAsync.ts)
-| single             | Yes     | [Sync](tests/unittests/tests/Single.ts), [Async](tests/unittests/tests/SingleAsync.ts)
-| singleOrDefault    | Yes     | [Sync](tests/unittests/tests/SingleOrDefault.ts), [Async](tests/unittests/tests/SingleOrDefaultAsync.ts)
-| skip               | No      | [Sync](tests/unittests/tests/Skip.ts)
-| skipWhile          | Yes     | [Sync](tests/unittests/tests/SkipWhile.ts), [Async](tests/unittests/tests/SkipWhileAsync.ts)
-| sum                | Yes     | [Sync](tests/unittests/tests/Sum.ts), [Async](tests/unittests/tests/SumAsync.ts)
-| take               | No      | [Sync](tests/unittests/tests/Take.ts)
-| takeWhile          | Yes     | [Sync](tests/unittests/tests/TakeWhile.ts), [Async](tests/unittests/tests/TakeWhileAsync.ts)
-| toArray            | No      | [Sync](tests/unittests/tests/ToArray.ts)
-| toMap              | Yes     | [Sync](tests/unittests/tests/ToMap.ts), [Async](tests/unittests/tests/ToMapAsync.ts) | Equivalent to `ToDictionary`
-| toObject           | Yes     | [Sync](tests/unittests/tests/toObject.ts), [Async](tests/unittests/tests/toObjectAsync.ts)
-| toSet              | No      | [Sync](tests/unittests/tests/ToSet.ts) | Equivalent to `ToHashSet`. No comparer overload for JS.
-| union              | Yes     | [Sync](tests/unittests/tests/Union.ts)
-| where              | Yes     | [Sync](tests/unittests/tests/Where.ts), [Async](tests/unittests/tests/WhereAsync.ts)
-| zip                | Yes     | [Sync](tests/unittests/tests/Zip.ts), [Async](tests/unittests/tests/ZipAsync.ts)
+| orderBy            | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/OrderBy.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/OrderByAsync.ts)
+| orderByDescending  | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/OrderByDescending.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/OrderByDescendingAsync.ts)
+| orderDescending    | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/OrderDescending.ts)
+| partition          | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Partition.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/PartitionAsync.ts)
+| prepend            | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Prepend.ts)
+| reverse            | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Reverse.ts)
+| select             | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Select.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SelectAsync.ts)
+| selectMany         | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SelectMany.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SelectManyAsync.ts)
+| sequenceEquals     | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SequenceEquals.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SequenceEqualsAsync.ts)
+| single             | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Single.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SingleAsync.ts)
+| singleOrDefault    | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SingleOrDefault.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SingleOrDefaultAsync.ts)
+| skip               | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Skip.ts)
+| skipWhile          | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SkipWhile.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SkipWhileAsync.ts)
+| sum                | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Sum.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/SumAsync.ts)
+| take               | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Take.ts)
+| takeWhile          | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/TakeWhile.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/TakeWhileAsync.ts)
+| toArray            | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ToArray.ts)
+| toMap              | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ToMap.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ToMapAsync.ts) | Equivalent to `ToDictionary`
+| toObject           | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/toObject.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/toObjectAsync.ts)
+| toSet              | No      | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ToSet.ts) | Equivalent to `ToHashSet`. No comparer overload for JS.
+| union              | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Union.ts)
+| where              | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Where.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/WhereAsync.ts)
+| zip                | Yes     | [Sync](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/Zip.ts), [Async](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/ZipAsync.ts)
 
 \* Async methods take an async function
 
@@ -169,11 +169,11 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 
 | Method          | Async                | Parallel          | Tests Coverage |
 |-----------------|----------------------|-------------------|----------------|
-| empty           | emptyAsync           | emptyParallel     | [Test](tests/unittests/tests/staticmethods/Empty.ts)
-| enumerateObject | enumerateObjectAsync | N/A               | [Test](tests/unittests/tests/staticmethods/EnumerateObject.ts)
-| flatten         | flattenAsync         | flattenParallel   | [Test](tests/unittests/tests/staticmethods/Flatten.ts)
-| range           | rangeAsync           | rangeParallel     | [Test](tests/unittests/tests/staticmethods/Range.ts)
-| repeat          | repeatAsync          | repeatParallel    | [Test](tests/unittests/tests/staticmethods/Repeat.ts)
+| empty           | emptyAsync           | emptyParallel     | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Empty.ts)
+| enumerateObject | enumerateObjectAsync | N/A               | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/EnumerateObject.ts)
+| flatten         | flattenAsync         | flattenParallel   | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Flatten.ts)
+| range           | rangeAsync           | rangeParallel     | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Range.ts)
+| repeat          | repeatAsync          | repeatParallel    | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Repeat.ts)
 
 #### Index Methods
 

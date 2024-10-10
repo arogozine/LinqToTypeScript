@@ -1,5 +1,5 @@
 import { fromAsync } from "../../async/static/fromAsync"
-import type { IAsyncEqualityComparer } from "../../types/IAsyncEqualityComparer"
+import type { IAsyncEqualityComparer } from "../../types"
 
 export const unionAsync = <TSource>(
     first: Iterable<TSource>,

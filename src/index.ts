@@ -17,7 +17,7 @@
 // https://github.com/dotnet/docs/blob/master/LICENSE
 
 // Shared Interfaces
-export * from "./types"
+export type * from "./types"
 
 // Types and Stuff
 export * from "./shared"
