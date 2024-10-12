@@ -41,10 +41,15 @@ const generateTransformer = (sourceFile) => {
             // Node is the relative path of an import or export
             if (parentNodeIsExportOrImport && isStringLiteral(node)) {
                 const relativePathWithQuotes = node.getFullText(sourceFile).trimStart()
-                const relativePathWithoutQuotes = relativePathWithQuotes.substring(1, relativePathWithQuotes.length - 1)
+                let relativePathWithoutQuotes = relativePathWithQuotes.substring(1, relativePathWithQuotes.length - 1)
 
                 if (relativePathWithoutQuotes.includes(".js")) {
                     return node
+                }
+
+                // "./" -> "."
+                if (relativePathWithoutQuotes.endsWith(`/`)) {
+                    relativePathWithoutQuotes = relativePathWithoutQuotes.substring(0, relativePathWithoutQuotes.length - 1)
                 }
 
                 const fullImportPath = join(pathWithoutFileName, relativePathWithoutQuotes);
@@ -55,10 +60,17 @@ const generateTransformer = (sourceFile) => {
                 }
                 else if (existsDtsOrJs(fullImportPath, "index")) {
                     node = context.factory.createStringLiteral(`${relativePathWithoutQuotes}/index.js`)
+
                 }
                 else {
                     throw new Error(`Can't fix TypeScript paths: ${node.getFullText(sourceFile)}`)
                 }
+
+                const text =/** @type {ts.StringLiteral} */(node).text
+                if (text.includes(`//`)) {
+                    throw new Error(`Error "${text}"`)
+                }
+
             }
             
             return node
