@@ -22,7 +22,7 @@
     "build:esm": "tsc --removeComments --outDir dist/esm",
     "postbuild": "node --no-warnings config/copy && node --no-warnings config/fix-imports",
     "lint": "eslint -c .eslintrc.cjs --ext .ts src",
-    "doc": "npx rimraf doc && typedoc --entryPointStrategy expand ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --exclude \"tests/**\" --gitRevision master --out ./doc --excludePrivate --excludeExternals --readme README.md --name \"LINQ To TypeScript\" --includeVersion && node config/editdocs",
+    "doc": "npx rimraf doc && typedoc --entryPointStrategy expand ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --exclude \"tests/**\" --gitRevision master --out ./doc --excludePrivate --excludeExternals --readme README.md --name \"LINQ To TypeScript\" --includeVersion --plugin typedoc-plugin-merge-modules && node config/editdocs --plugin ",
     "release:npm": "npm publish ./dist",
     "release:npm-next": "npm publish ./dist --tag next",
     "release:pack": "npm pack ./dist"
