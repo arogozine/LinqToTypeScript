@@ -169,27 +169,37 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
     lastOrDefault(predicate?: (x: TSource) => boolean): Promise<TSource | null>
     lastOrDefaultAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource | null>
     /**
+     * Returns the maximum value in a sequence of values.
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      * @param this Async Iteration of Numbers
      */
     max(this: IAsyncParallel<number>): Promise<number>
     /**
+     * Invokes a transform function on each element of a sequence and returns the maximum value.
+     * @param selector A transform function to apply to each element.
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     max(selector: (x: TSource) => number): Promise<number>
     /**
+     * Invokes an async transform function on each element of a sequence and returns the maximum value.
+     * @param selector A transform function to apply to each element.
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
+     * Returns the minimum value in a sequence of values.
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     min(this: IAsyncParallel<number>): Promise<number>
     /**
+     * Invokes a transform function on each element of a sequence and returns the minimum value.
+     * @param selector A transform function to apply to each element.
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     min(selector: (x: TSource) => number): Promise<number>
     /**
+     * Invokes a transform function on each element of a sequence and returns the minimum value.
+     * @param selector A transform function to apply to each element.
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>
