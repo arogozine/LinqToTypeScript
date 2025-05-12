@@ -44,6 +44,10 @@ import { max } from "./../async/_private/max"
 import { maxAsync } from "./../async/_private/maxAsync"
 import { min } from "./../async/_private/min"
 import { minAsync } from "./../async/_private/minAsync"
+import { maxBy } from "./../async/_private/maxBy"
+import { maxByAsync } from "./../async/_private/maxByAsync"
+import { minBy } from "./../async/_private/minBy"
+import { minByAsync } from "./../async/_private/minByAsync"
 import { ofType } from "./../async/_private/ofType"
 import { order } from "./../async/_private/order"
 import { orderBy } from "./../async/_private/orderBy"
@@ -149,6 +153,10 @@ export const bindLinqAsync = <T, Y extends AsyncIterable<T>>(object: IPrototype<
     bind(maxAsync, "maxAsync")
     bind(min, "min")
     bind(minAsync, "minAsync")
+    bind(maxBy, "maxBy")
+    bind(maxByAsync, "maxByAsync")
+    bind(minBy, "minBy")
+    bind(minByAsync, "minByAsync")
     bind(ofType, "ofType")
     bind(order, "order")
     bind(orderBy, "orderBy")
