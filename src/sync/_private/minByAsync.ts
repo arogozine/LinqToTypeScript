@@ -1,7 +1,7 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
 
 export const minByAsync = async <TSource>(
-    source: Iterable<TSource>, 
+    source: Iterable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<TSource> => {
     let minValue: number | null = null
     let minItem: TSource | null = null

@@ -7,9 +7,9 @@ export const minByAsync = async <TSource>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<TSource> => {
 
-    const dataFunc = nextIterationAsync(source as IParallelEnumerable<TSource> , async (x: TSource) =>  {
+    const dataFunc = nextIterationAsync(source, async (x: TSource) =>  {
         return {
-            value: await selector(x), 
+            value: await selector(x),
             item: x
         }
     })

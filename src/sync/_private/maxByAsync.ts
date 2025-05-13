@@ -1,7 +1,7 @@
 import { ErrorString, InvalidOperationException } from "../../shared"
 
 export const maxByAsync = async <TSource>(
-    source: Iterable<TSource>, 
+    source: Iterable<TSource>,
     selector: (x: TSource) => Promise<number>): Promise<TSource> => {
     let maxValue: number | null = null
     let maxItem: TSource | null = null

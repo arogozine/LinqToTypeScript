@@ -7,9 +7,9 @@ export const maxBy = async <TSource>(
     source: IParallelEnumerable<TSource>,
     selector: (x: TSource) => number): Promise<TSource> => {
 
-    const dataFunc = nextIteration(source as IParallelEnumerable<TSource> , (x: TSource) =>  {
+    const dataFunc = nextIteration(source, (x: TSource) =>  {
         return {
-            value: selector(x), 
+            value: selector(x),
             item: x
         }
     })
