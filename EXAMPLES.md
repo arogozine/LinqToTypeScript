@@ -158,7 +158,7 @@ const groupByBreed = cats.groupBy((cat) => cat.breed);
 [1, 2, 3, -7].min(); // -7
 [1, 2, 3, -7].min(Math.abs); // 1
 
-const testArray = [{value: 1}, {value: 5}, {value: -3}, {value: 4}]
+const testArray = [{value: 1}, {value: 5}, {value: -3}, {value: 4}];
 
 // MAXBY
 testArray.maxBy((x) => x.value); // testArray[1]
