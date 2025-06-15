@@ -44,6 +44,10 @@ import { max } from "./../parallel/_private/max"
 import { maxAsync } from "./../parallel/_private/maxAsync"
 import { min } from "./../parallel/_private/min"
 import { minAsync } from "./../parallel/_private/minAsync"
+import { maxBy } from "./../parallel/_private/maxBy"
+import { maxByAsync } from "./../parallel/_private/maxByAsync"
+import { minBy } from "../parallel/_private/minBy"
+import { minByAsync } from "./../parallel/_private/minByAsync"
 import { ofType } from "./../parallel/_private/ofType"
 import { order } from "./../parallel/_private/order"
 import { orderBy } from "./../parallel/_private/orderBy"
@@ -150,6 +154,10 @@ export const bindLinqParallel = <T, Y extends AsyncIterable<T>>(object: IPrototy
     bind(maxAsync, "maxAsync")
     bind(min, "min")
     bind(minAsync, "minAsync")
+    bind(maxBy, "maxBy")
+    bind(maxByAsync, "maxByAsync")
+    bind(minBy, "minBy")
+    bind(minByAsync, "minByAsync")
     bind(ofType, "ofType")
     bind(order, "order")
     bind(orderBy, "orderBy")

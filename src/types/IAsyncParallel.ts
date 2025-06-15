@@ -187,6 +187,20 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
      */
     maxAsync(selector: (x: TSource) => Promise<number>): Promise<number>
     /**
+     * Invokes a transform function on each element of a sequence and returns the element that yields the maximum transform function value.
+     * @param selector A transform function to apply to each element.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
+     * @returns The element that yields the maximum transform function value.
+     */
+    maxBy(selector: (x: TSource) => number): Promise<TSource>
+    /**
+     * Invokes an async transform function on each element of a sequence and returns the element that yields the maximum transform function value.
+     * @param selector A transform function to apply to each element.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
+     * @returns The element that yields the maximum transform function value.
+     */
+    maxByAsync(selector: (x: TSource) => Promise<number>): Promise<TSource>
+    /**
      * Returns the minimum value in a sequence of values.
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
@@ -203,6 +217,20 @@ export interface IAsyncParallel<TSource> extends AsyncIterable<TSource> {
      * @throws {import('../types/InvalidOperationException')} Sequence contains no elements
      */
     minAsync(selector: (x: TSource) => Promise<number>): Promise<number>
+    /**
+     * Invokes a transform function on each element of a sequence and returns the element that yields the minimum transform function value.
+     * @param selector A transform function to apply to each element.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
+     * @returns The element that yields the minimum transform function value.
+     */
+    minBy(selector: (x: TSource) => number): Promise<TSource>
+    /**
+     * Invokes an async transform function on each element of a sequence and returns the element that yields the minimum transform function value.
+     * @param selector A transform function to apply to each element.
+     * @throws {import('../types/InvalidOperationException')} source contains no elements.
+     * @returns The element that yields the minimum transform function value.
+     */
+    minByAsync(selector: (x: TSource) => Promise<number>): Promise<TSource>
     /**
      * @throws {import('../types/InvalidOperationException')} Sequence contains more than one element
      * @throws {import('../types/InvalidOperationException')} Sequence contains more than one matching element
