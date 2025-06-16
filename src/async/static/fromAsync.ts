@@ -26,8 +26,8 @@ export const fromAsync: FromAsyncFunc = <TSource>(promisesOrIterable: Promise<TS
         }
 
         return new BasicAsyncEnumerable(async function*() {
-            for await (const value of promisesOrIterable) {
-                yield value
+            for (const value of promisesOrIterable) {
+                yield await value
             }
         })
     } else {

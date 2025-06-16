@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "12.0.0",
+  "version": "12.1.0-beta",
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "exports": {
@@ -21,7 +21,7 @@
     "build:declaration": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
     "build:esm": "tsc --removeComments --outDir dist/esm",
     "postbuild": "node --no-warnings config/copy && node --no-warnings config/fix-imports",
-    "lint": "eslint -c .eslintrc.cjs --ext .ts src",
+    "lint": "eslint -c eslint.config.mjs --ext .ts src",
     "doc": "npx rimraf doc && typedoc --entryPointStrategy expand ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --exclude \"tests/**\" --gitRevision master --out ./doc --excludePrivate --excludeExternals --readme README.md --name \"LINQ To TypeScript\" --includeVersion --plugin typedoc-plugin-merge-modules && node config/editdocs --plugin ",
     "release:npm": "npm publish ./dist",
     "release:npm-next": "npm publish ./dist --tag next",
@@ -43,12 +43,14 @@
   "author": "Alexandre Rogozine",
   "license": "MIT",
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^4.4.1",
     "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.57.1",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "eslint": "^9.29.0",
     "eslint-plugin-jsdoc": "^46.10.1",
     "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-prefer-arrow-functions": "^3.6.2",
     "typedoc-plugin-merge-modules": "^6.0.1",
     "typescript": "^5.6.3"
   },

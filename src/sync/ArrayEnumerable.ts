@@ -1,6 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 import type { IEnumerable } from "../types"
-
-/* eslint-disable @typescript-eslint/naming-convention */
 
 /**
  * Array backed Enumerable

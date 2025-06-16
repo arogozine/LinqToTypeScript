@@ -1,7 +1,6 @@
 import type { IAsyncEqualityComparer, IAsyncParallel } from "../../types"
 
 export const sequenceEqualsAsync = async <TSource>(
-    // eslint-disable-next-line no-shadow
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): Promise<boolean> => {

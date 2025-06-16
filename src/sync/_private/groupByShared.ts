@@ -2,8 +2,8 @@ import type { IEnumerable, IEqualityComparer, IGrouping, SelectorKeyType } from 
 import { BasicEnumerable } from "../BasicEnumerable"
 import { Grouping } from "../Grouping"
 
-/* eslint-disable jsdoc/require-returns */
-/* eslint-disable @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match */
+
+
 
 export const groupBy_0 = <TSource, TKey>(
     source: Iterable<TSource>,

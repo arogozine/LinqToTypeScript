@@ -45,7 +45,6 @@ export const bindString = <TKey extends keyof IEnumerable<string>>() => {
 
     prototype.count = function(predicate?: (x: string) => boolean) {
         if (predicate) {
-            // eslint-disable-next-line no-shadow
             let count = 0
             for (let i = 0; i < this.length; i ++) {
                 if (predicate(this[i]) === true) {

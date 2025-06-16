@@ -10,7 +10,6 @@ import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
  * @returns An IParallelEnumerable<T> that contains a repeated value.
  */
 export const repeatParallel = <TResult>(
-    // eslint-disable-next-line no-shadow
     element: TResult, count: number, delay?: number): IParallelEnumerable<TResult> => {
     if (count < 0) {
         throw new ArgumentOutOfRangeException("count")

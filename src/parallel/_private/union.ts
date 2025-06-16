@@ -44,7 +44,7 @@ const union1 = <TSource>(
 }
 
 const union2 = <TSource>(
-    // eslint-disable-next-line no-shadow
+
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource>) => {

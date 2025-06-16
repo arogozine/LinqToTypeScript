@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-wrapper-object-types */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import type { IConstructor } from "./"
-/* eslint-disable @typescript-eslint/ban-types */
 
 /**
  * Accepted inputs for the ofType function

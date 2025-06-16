@@ -26,7 +26,7 @@ export const bindArrayEnumerable = <T, TKey extends keyof IEnumerable<T>>() => {
     }
     prototype.count = function(predicate?: (x: T) => boolean) {
         if (predicate) {
-            // eslint-disable-next-line no-shadow
+
             let count = 0
             for (let i = 0; i < this.length; i ++) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -115,7 +115,6 @@ export const bindArrayEnumerable = <T, TKey extends keyof IEnumerable<T>>() => {
         }
 
         if (selector) {
-            // eslint-disable-next-line no-shadow
             let max = Number.NEGATIVE_INFINITY
 
             for (let i = 0; i < this.length; i++) {
@@ -133,7 +132,6 @@ export const bindArrayEnumerable = <T, TKey extends keyof IEnumerable<T>>() => {
         }
 
         if (selector) {
-            // eslint-disable-next-line no-shadow
             let min = Number.POSITIVE_INFINITY
 
             for (let i = 0; i < this.length; i++) {

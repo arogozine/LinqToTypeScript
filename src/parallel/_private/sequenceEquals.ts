@@ -2,7 +2,7 @@ import { StrictEqualityComparer } from "../../shared"
 import type { IAsyncParallel, IEqualityComparer } from "../../types"
 
 export const sequenceEquals = async <TSource>(
-    // eslint-disable-next-line no-shadow
+
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): Promise<boolean> => {

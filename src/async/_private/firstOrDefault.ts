@@ -3,7 +3,6 @@ export const firstOrDefault = <TSource>(
     if (predicate) {
         return firstOrDefault2(source, predicate)
     } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return firstOrDefault1(source)
     }
 }

@@ -1,7 +1,5 @@
 import { type IParallelEnumerable, type LimitedTypedData, ParallelGeneratorType } from "../../types"
 
-/* eslint-disable  */
-
 export const nextIterationWithIndexAsync = <TSource, TOut>(
     source: IParallelEnumerable<TSource>,
     onfulfilled: (x: TSource, index: number) => Promise<TOut>): LimitedTypedData<TOut> => {

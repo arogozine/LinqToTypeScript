@@ -1,7 +1,0 @@
-**/*.js
-**/*.cjs
-config/*
-tests/*
-dist/*
-doc/*
-examples/*

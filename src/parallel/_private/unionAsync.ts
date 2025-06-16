@@ -2,7 +2,7 @@ import { type IAsyncEqualityComparer, type IAsyncParallel, type IParallelEnumera
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
 export const unionAsync = <TSource>(
-    // eslint-disable-next-line no-shadow
+
     first: IAsyncParallel<TSource>,
     second: IAsyncParallel<TSource>,
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> => {

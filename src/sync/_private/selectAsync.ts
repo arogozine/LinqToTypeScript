@@ -19,7 +19,6 @@ export const selectAsync: SelectAsyncFunc = <TSource extends { [key: string]: Pr
             return selectAsync2(source, selector)
         }
     } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return selectAsync3(source, selector)
     }
 }

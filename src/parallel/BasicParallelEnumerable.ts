@@ -1,6 +1,8 @@
 import { type IParallelEnumerable, ParallelGeneratorType, type TypedData } from "../types"
 
-/* eslint-disable @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 
 /**
  * Base implementation of IParallelEnumerable<T>

@@ -1,6 +1,7 @@
-import type { IEnumerable } from "../types"
-
 /* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+import type { IEnumerable } from "../types"
 
 /**
  * Basic Enumerable. Usually returned from the Enumerable class.
