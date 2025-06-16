@@ -23,7 +23,7 @@ steps:
     versionSpec: 22.x
     checkLatest: true
 - powershell: |
-    npm install -g typescript jest typedoc
+    npm install -g typescript jest typedoc rimraf
   displayName: 'Install Globals'
   failOnStderr: false
 - powershell: |
