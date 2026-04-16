@@ -19,9 +19,8 @@ pool:
 steps:
 - task: UseNode@1
   inputs:
-    versionSource: 'spec'
-    versionSpec: 22.x
-    checkLatest: true
+    version: 22.x
+    checkLatest: false
 - powershell: |
     npm install -g typescript jest typedoc rimraf
   displayName: 'Install Globals'
