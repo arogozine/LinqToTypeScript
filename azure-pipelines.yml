@@ -17,7 +17,7 @@ pool:
   vmImage: $(imageName)
 
 steps:
-- task: NodeTool@0
+- task: UseNode@1
   inputs:
     versionSource: 'spec'
     versionSpec: 22.x
