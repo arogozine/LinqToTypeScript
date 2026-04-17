@@ -260,7 +260,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * Groups the elements of a sequence according to a key selector function.
      * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
      * @param keySelector A function to extract the key for each element.
-     * @param comparer An IEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> to compare keys.
      * @returns An IEnumerable<IGrouping<TKey, TSource>>
      * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
      */
@@ -278,7 +278,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Groups the elements of a sequence according to a specified key selector function.
      * @param keySelector A function to extract the key for each element.
-     * @param comparer An IEqualityComparer<T> or IAsyncEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> or IAsyncEqualityComparer<TKey> to compare keys.
      * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
      * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
      */
@@ -302,7 +302,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
      * @param keySelector A function to extract the key for each element.
      * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
-     * @param comparer An IEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> to compare keys.
      * @returns An IEnumerable<IGrouping<TKey,TElement>>
      * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
      */
@@ -476,8 +476,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     minByAsync(selector: (x: TSource) => Promise<number>): Promise<TSource>
     /**
      * Applies a type filter to a source iteration
-     * @param type Either value for typeof or a consturctor function
-     * @returns Values that match the type string or are instance of type
+     * @param type Either value for typeof or a constructor function
+     * @returns Values that match the type string or are instance of the given type
      */
     ofType<T extends OfType>(type: T): IEnumerable<InferType<T>>
     /**
@@ -576,8 +576,8 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     selectAsync<TResult>(selector: (x: TSource, index: number) => Promise<TResult>): IAsyncEnumerable<TResult>
     /**
      * Projects each element of a sequence into a new form.
-     * @param key A key of the elements in the sequence
-     * @returns An IAsyncEnumerable<T> whoe elements are the result of getting the value for key
+     * @param key A key of the elements in the sequence.
+     * @returns An IAsyncEnumerable<T> whose elements are the result of getting the value for key
      * on each element of source.
      */
     selectAsync<TKey extends keyof TSource, TResult>(
@@ -592,9 +592,9 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     selectMany<TResult>(selector: (x: TSource, index: number) => Iterable<TResult>): IEnumerable<TResult>
     /**
      * Projects each element of a sequence to an IEnumerable<T> and flattens the resulting sequences into one sequence.
-     * @param selector A string key of TSource.
-     * @returns An IEnumerable<T> whose elements are the result of invoking the
-     * parameter the key is tried to on each element of the input sequence.
+     * @param selector A key of elements in the sequence.
+     * @returns An IEnumerable<TOut> whose elements are the result of selecting the iterable
+     * value from each element of the input sequence.
      */
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
         this: IEnumerable<TBindedSource>,
@@ -645,7 +645,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     singleAsync(predicate: (x: TSource) => Promise<boolean>): Promise<TSource>
     /**
      * If predicate is specified returns the only element of a sequence that satisfies a specified condition,
-     * ootherwise returns the only element of a sequence. Returns a default value if no such element exists.
+     * otherwise returns the only element of a sequence. Returns a default value if no such element exists.
      * @param predicate A function to test an element for a condition. Optional.
      * @throws {import('../types/InvalidOperationException')}
      * If predicate is specified more than one element satisfies the condition in predicate,
@@ -726,7 +726,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Returns elements from a sequence as long as a specified condition is true.
      * The element's index is used in the logic of the predicate function.
-     * @param predicate A async function to test each source element for a condition;
+     * @param predicate An async function to test each source element for a condition;
      * the second parameter of the function represents the index of the source element.
      * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
      * that occur before the element at which the test no longer passes.
@@ -767,7 +767,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
      */
     toSet(): Set<TSource>
     /**
-     * Produces the set union of two sequences by using scrict equality comparison or a specified IEqualityComparer<T>.
+     * Produces the set union of two sequences by using strict equality comparison or a specified IEqualityComparer<T>.
      * @param second An Iterable<T> whose distinct elements form the second set for the union.
      * @param comparer The IEqualityComparer<T> to compare values. Optional.
      * @returns An IEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
@@ -791,7 +791,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Filters a sequence of values based on a predicate.
      * Each element's index is used in the logic of the predicate function.
-     * @param predicate A async function to test each source element for a condition;
+     * @param predicate An async function to test each source element for a condition;
      * the second parameter of the function represents the index of the source element.
      * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
      */
@@ -799,7 +799,7 @@ export interface IEnumerable<TSource> extends Iterable<TSource> {
     /**
      * Creates a tuple of corresponding elements of two sequences, producing a sequence of the results.
      * @param second The second sequence to merge.
-     * @returns An IEnumerable<[T, Y]> that contains merged elements of two input sequences.
+     * @returns An IEnumerable<[TSource, TSecond]> that contains merged elements of two input sequences.
      */
     zip<TSecond>(second: Iterable<TSecond>): IEnumerable<[TSource, TSecond]>
     /**

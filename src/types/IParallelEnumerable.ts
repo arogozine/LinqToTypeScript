@@ -106,7 +106,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
      * Groups the elements of a sequence according to a key selector function.
      * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
      * @param keySelector A function to extract the key for each element.
-     * @param comparer An IEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> to compare keys.
      * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
      * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
      */
@@ -124,7 +124,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Groups the elements of a sequence according to a specified key selector function.
      * @param keySelector An async function to extract the key for each element.
-     * @param comparer An IEqualityComparer<T> or IAsyncEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> or IAsyncEqualityComparer<TKey> to compare keys.
      * @returns An IParallelEnumerable<IGrouping<TKey, TSource>>
      * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
      */
@@ -220,31 +220,127 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
      * @returns A sequence whose elements correspond to those of the input sequence in reverse order.
      */
     reverse(): IParallelEnumerable<TSource>
+    /**
+     * Projects each element of a sequence into a new form.
+     * @param selector A transform function to apply to each element.
+     * @returns An IParallelEnumerable<TResult> whose elements are the result of invoking
+     * the transform function on each element of the input sequence.
+     */
     select<TResult>(selector: (x: TSource, index: number) => TResult): IParallelEnumerable<TResult>
+    /**
+     * Projects each element of a sequence into a new form.
+     * @param key A key of TSource.
+     * @returns An IParallelEnumerable<TSource[TKey]> whose elements are the value of the specified key
+     * on each element of the input sequence.
+     */
     select<TKey extends keyof TSource>(key: TKey): IParallelEnumerable<TSource[TKey]>
+    /**
+     * Projects each element of a sequence into a new form.
+     * @param selector An async transform function to apply to each element.
+     * @returns An IParallelEnumerable<TResult> whose elements are the result of invoking
+     * the transform function on each element of the input sequence.
+     */
     selectAsync<TResult>(
         selector: (x: TSource, index: number) => Promise<TResult>): IParallelEnumerable<TResult>
+    /**
+     * Projects each element of a sequence into a new form.
+     * @param selector A key of elements in the sequence.
+     * @returns An IParallelEnumerable<TResult> whose elements are the value of the specified key
+     * on each element of the input sequence.
+     */
     selectAsync<TKey extends keyof TSource, TResult>(
         this: IParallelEnumerable<{ [key: string]: Promise<TResult> }>,
         selector: TKey): IParallelEnumerable<TResult>
+    /**
+     * Projects each element of a sequence to an IParallelEnumerable<T> and flattens the resulting sequences into one sequence.
+     * @param selector A transform function to apply to each element.
+     * @returns An IParallelEnumerable<TResult> whose elements are the result of invoking the
+     * one-to-many transform function on each element of the input sequence.
+     */
     selectMany<TResult>(selector: (x: TSource, index: number) => Iterable<TResult>): IParallelEnumerable<TResult>
+    /**
+     * Projects each element of a sequence to an IParallelEnumerable<T> and flattens the resulting sequences into one sequence.
+     * @param selector A key of elements in the sequence.
+     * @returns An IParallelEnumerable<TOut> whose elements are the result of selecting the iterable
+     * value from each element of the input sequence.
+     */
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
             this: IParallelEnumerable<TBindedSource>,
             selector: keyof TBindedSource): IParallelEnumerable<TOut>
+    /**
+     * Projects each element of a sequence to an IParallelEnumerable<T> and flattens the resulting sequences into one sequence.
+     * @param selector An async transform function to apply to each element.
+     * @returns An IParallelEnumerable<TResult> whose elements are the result of invoking the
+     * one-to-many transform function on each element of the input sequence.
+     */
     selectManyAsync<TResult>(
         selector: (x: TSource, index: number) => Promise<Iterable<TResult>>): IParallelEnumerable<TResult>
+    /**
+     * Determines whether or not two sequences are equal.
+     * @param second The second parallel sequence to compare.
+     * @param comparer Compare function to use; by default, StrictEqualityComparer is used.
+     * @returns A promise that resolves to true if the sequences are equal; otherwise false.
+     */
     sequenceEquals(second: IAsyncParallel<TSource>,
                    comparer?: IEqualityComparer<TSource>): Promise<boolean>
+    /**
+     * Determines whether or not two sequences are equal using an async comparer.
+     * @param second The second parallel sequence to compare.
+     * @param comparer An async comparer to use for element equality.
+     * @returns A promise that resolves to true if the sequences are equal; otherwise false.
+     */
     sequenceEqualsAsync(second: IAsyncParallel<TSource>,
                         comparer?: IAsyncEqualityComparer<TSource>): Promise<boolean>
+    /**
+     * Bypasses a specified number of elements in a sequence and then returns the remaining elements.
+     * @param count The number of elements to skip before returning the remaining elements.
+     * @returns An IParallelEnumerable<T> that contains the elements that occur after the specified count in the input sequence.
+     */
     skip(count: number): IParallelEnumerable<TSource>
+    /**
+     * Bypasses elements in a sequence as long as a specified condition is true and then returns the remaining elements.
+     * @param predicate A function to test each source element for a condition; the second parameter is the element index.
+     * @returns An IParallelEnumerable<T> that contains the elements from the input sequence starting at the first element that does not pass the test.
+     */
     skipWhile(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>
+    /**
+     * Bypasses elements in a sequence as long as a specified async condition is true and then returns the remaining elements.
+     * @param predicate An async function to test each source element for a condition; the second parameter is the element index.
+     * @returns An IParallelEnumerable<T> that contains the elements from the input sequence starting at the first element that does not pass the test.
+     */
     skipWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>
+    /**
+     * Returns a specified number of contiguous elements from the start of a sequence.
+     * @param amount The number of elements to return.
+     * @returns An IParallelEnumerable<T> that contains the specified number of elements from the start of the input sequence.
+     */
     take(amount: number): IParallelEnumerable<TSource>
+    /**
+     * Returns elements from a sequence as long as a specified condition is true.
+     * @param predicate A function to test each source element for a condition; the second parameter is the element index.
+     * @returns An IParallelEnumerable<T> that contains elements from the input sequence that occur before the element at which the test no longer passes.
+     */
     takeWhile(predicate: (x: TSource, index: number) => boolean): IParallelEnumerable<TSource>
+    /**
+     * Returns elements from a sequence as long as a specified async condition is true.
+     * @param predicate An async function to test each source element for a condition; the second parameter is the element index.
+     * @returns An IParallelEnumerable<T> that contains elements from the input sequence that occur before the element at which the test no longer passes.
+     */
     takeWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IParallelEnumerable<TSource>
+    /**
+     * Produces the set union of two sequences by using strict equality comparison or a specified IEqualityComparer<T>.
+     * @param second An IAsyncParallel<T> whose distinct elements form the second set for the union.
+     * @param comparer The IEqualityComparer<T> to compare values. Optional.
+     * @returns An IParallelEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
+     */
     union(second: IAsyncParallel<TSource>,
           comparer?: IEqualityComparer<TSource>): IParallelEnumerable<TSource>
+    /**
+     * Produces the set union of two sequences by using a specified IAsyncEqualityComparer<T>.
+     * @param second An IAsyncParallel<T> whose distinct elements form the second set for the union.
+     * @param comparer An IAsyncEqualityComparer<T> to compare values.
+     * @returns An IParallelEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
+     */
     unionAsync(second: IAsyncParallel<TSource>,
                comparer?: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource>
     /**
@@ -258,7 +354,7 @@ export interface IParallelEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Filters a sequence of values based on a predicate.
      * Each element's index is used in the logic of the predicate function.
-     * @param predicate A async function to test each source element for a condition;
+     * @param predicate An async function to test each source element for a condition;
      * the second parameter of the function represents the index of the source element.
      * @returns An IParallelEnumerable<T> that contains elements from the input sequence that satisfy the condition.
      */

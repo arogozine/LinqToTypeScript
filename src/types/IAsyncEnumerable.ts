@@ -98,7 +98,8 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * Groups the elements of a sequence according to a key selector function.
      * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
      * @param keySelector A function to extract the key for each element.
-     * @param comparer An IAsyncEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> to compare keys.
+     * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>> where each grouping contains values that share the same key.
      */
     groupBy<TKey>(
             keySelector: (x: TSource) => TKey,
@@ -114,7 +115,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Groups the elements of a sequence according to a specified key selector function.
      * @param keySelector A function to extract the key for each element.
-     * @param comparer An IEqualityComparer<T> or IAsyncEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> or IAsyncEqualityComparer<TKey> to compare keys.
      * @returns An IAsyncEnumerable<IGrouping<TKey, TSource>>
      * where each IGrouping<TKey,TElement> object contains a sequence of objects and a key.
      */
@@ -126,7 +127,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * projects the elements for each group by using a specified function.
      * @param keySelector A function to extract the key for each element.
      * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
-     * @param comparer An IEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> to compare keys.
      * @returns An IAsyncEnumerable<IGrouping<TKey, TElement>>
      * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
      */
@@ -139,7 +140,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
      * The keys are compared by using a comparer and each group's elements are projected by using a specified function.
      * @param keySelector A function to extract the key for each element.
      * @param elementSelector A function to map each source element to an element in an IGrouping<TKey,TElement>.
-     * @param comparer An IEqualityComparer<T> to compare keys.
+     * @param comparer An IEqualityComparer<TKey> to compare keys.
      * @returns An IAsyncEnumerable<IGrouping<TKey,TElement>>
      * where each IGrouping<TKey,TElement> object contains a collection of objects of type TElement and a key.
      */
@@ -214,8 +215,8 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
             comparer?: IEqualityComparer<TKey>): IAsyncEnumerable<TResult>
     /**
      * Applies a type filter to a source iteration
-     * @param type Either value for typeof or a consturctor function
-     * @returns Values that match the type string or are instance of type
+     * @param type Either value for typeof or a constructor function
+     * @returns Values that match the type string or are instance of the given type
      */
     ofType<TType extends OfType>(type: TType): IAsyncEnumerable<InferType<TType>>
     /**
@@ -302,8 +303,8 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     selectAsync<TResult>(selector: (x: TSource, index: number) => Promise<TResult>): IAsyncEnumerable<TResult>
     /**
      * Projects each element of a sequence into a new form.
-     * @param key A key of the elements in the sequence
-     * @returns An IAsyncEnumerable<T> whoe elements are the result of getting the value for key
+     * @param key A key of the elements in the sequence.
+     * @returns An IAsyncEnumerable<T> whose elements are the result of getting the value for key
      * on each element of source.
      */
     selectAsync<TKey extends keyof TSource, TResult>(
@@ -320,9 +321,9 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Projects each element of a sequence to an IAsyncEnumerable<T>
      * and flattens the resulting sequences into one sequence.
-     * @param selector A string key of TSource.
-     * @returns An IAsyncEnumerable<T> whose elements are the result of invoking the
-     * parameter the key is tried to on each element of the input sequence.
+     * @param selector A key of elements in the sequence.
+     * @returns An IAsyncEnumerable<TOut> whose elements are the result of selecting the iterable
+     * value from each element of the input sequence.
      */
     selectMany<TBindedSource extends { [key: string]: Iterable<TOut>}, TOut>(
             this: IAsyncEnumerable<TBindedSource>,
@@ -395,14 +396,14 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Returns elements from a sequence as long as a specified condition is true.
      * The element's index is used in the logic of the predicate function.
-     * @param predicate A async function to test each source element for a condition;
+     * @param predicate An async function to test each source element for a condition;
      * the second parameter of the function represents the index of the source element.
      * @returns An IAsyncEnumerable<T> that contains elements from the input sequence
      * that occur before the element at which the test no longer passes.
      */
     takeWhileAsync(predicate: (x: TSource, index: number) => Promise<boolean>): IAsyncEnumerable<TSource>
     /**
-     * Produces the set union of two sequences by using scrict equality comparison or a specified IEqualityComparer<T>.
+     * Produces the set union of two sequences by using strict equality comparison or a specified IEqualityComparer<T>.
      * @param second An AsyncIterable<T> whose distinct elements form the second set for the union.
      * @param comparer The IEqualityComparer<T> to compare values. Optional.
      * @returns An IAsyncEnumerable<T> that contains the elements from both input sequences, excluding duplicates.
@@ -426,7 +427,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Filters a sequence of values based on a predicate.
      * Each element's index is used in the logic of the predicate function.
-     * @param predicate A async function to test each source element for a condition;
+     * @param predicate An async function to test each source element for a condition;
      * the second parameter of the function represents the index of the source element.
      * @returns An IAsyncEnumerable<T> that contains elements from the input sequence that satisfy the condition.
      */
@@ -443,7 +444,7 @@ export interface IAsyncEnumerable<TSource> extends IAsyncParallel<TSource> {
     /**
      * Creates a tuple of corresponding elements of two sequences, producing a sequence of the results.
      * @param second The second sequence to merge.
-     * @returns An IAsyncEnumerable<[T, Y]> that contains merged elements of two input sequences.
+     * @returns An IAsyncEnumerable<[TSource, TSecond]> that contains merged elements of two input sequences.
      */
     zip<TSecond>(second: AsyncIterable<TSecond>): IAsyncEnumerable<[TSource, TSecond]>
     /**
