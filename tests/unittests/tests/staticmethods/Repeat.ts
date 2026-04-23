@@ -18,14 +18,14 @@ describe("repeat", () => {
     })
 
     itEnumerable("Repeat Throws", () => {
-        expect(() => repeat(1, -1)).toThrowError(ArgumentOutOfRangeException)
+        expect(() => repeat(1, -1)).toThrow(ArgumentOutOfRangeException)
     })
 
     itAsync("Repeat Throws", async () => {
-        expect(() => repeatAsync(1, -1)).toThrowError(ArgumentOutOfRangeException)
+        expect(() => repeatAsync(1, -1)).toThrow(ArgumentOutOfRangeException)
     })
 
     itParallel("Repeat Throws", () => {
-        expect(() => repeatParallel(1, -1)).toThrowError(ArgumentOutOfRangeException)
+        expect(() => repeatParallel(1, -1)).toThrow(ArgumentOutOfRangeException)
     })
 })

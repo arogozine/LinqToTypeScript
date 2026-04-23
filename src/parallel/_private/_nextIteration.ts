@@ -1,6 +1,6 @@
 import { type IParallelEnumerable, ParallelGeneratorType, type TypedData } from "../../types"
 
-/* eslint-disable  */
+
 
 /**
  * @private Don't use directly.

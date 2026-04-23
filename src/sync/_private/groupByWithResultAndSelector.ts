@@ -11,7 +11,7 @@ export const groupByWithResultAndSelector = <TSource, TKey extends SelectorKeyTy
     comparer?: IEqualityComparer<TKey>): IEnumerable<TResult> => {
     if (comparer) {
         return groupBy3(source,
-            keySelector as (x: TSource) => TKey,
+            keySelector,
             elementSelector,
             resultSelector)
     } else {

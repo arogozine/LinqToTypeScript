@@ -18,23 +18,23 @@ describe("range", () => {
     })
 
     itEnumerable("Invalid Input Throws", () => {
-        expect(() => range(-1, 99)).toThrowError(ArgumentOutOfRangeException)
+        expect(() => range(-1, 99)).toThrow(ArgumentOutOfRangeException)
 
         expect(() => range(Number.MAX_SAFE_INTEGER - 10, 99))
-            .toThrowError(ArgumentOutOfRangeException)
+            .toThrow(ArgumentOutOfRangeException)
     })
 
     itAsync("Invalid Input Throws", async () => {
-        expect(() => rangeAsync(-1, 99)).toThrowError(ArgumentOutOfRangeException)
+        expect(() => rangeAsync(-1, 99)).toThrow(ArgumentOutOfRangeException)
 
         expect(() => rangeAsync(Number.MAX_SAFE_INTEGER - 10, 99))
-            .toThrowError(ArgumentOutOfRangeException)
+            .toThrow(ArgumentOutOfRangeException)
     })
 
     itParallel("Invalid Input Throws", async () => {
-        expect(() => rangeParallel(-1, 99)).toThrowError(ArgumentOutOfRangeException)
+        expect(() => rangeParallel(-1, 99)).toThrow(ArgumentOutOfRangeException)
 
         expect(() => rangeParallel(Number.MAX_SAFE_INTEGER - 10, 99))
-            .toThrowError(ArgumentOutOfRangeException)
+            .toThrow(ArgumentOutOfRangeException)
     })
 })

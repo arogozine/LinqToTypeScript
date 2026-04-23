@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
+/* eslint-disable no-redeclare */
 import type { IEnumerable } from "../types"
 
 /**

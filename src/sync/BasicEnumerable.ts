@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
+/* eslint-disable no-redeclare */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import type { IEnumerable } from "../types"
 

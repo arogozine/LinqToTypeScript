@@ -20,17 +20,17 @@ describe("maxByAsync", () => {
 
     itEnumerable<MaxByAsyncTestType>("MaxByAsyncEmptyError", async (asEnumerable) => {
         const value = await expectAsync(asEnumerable(asMaxByTestType([])).maxByAsync(async (x) => await x.asyncValue()))
-        value.toThrowError(InvalidOperationException)
+        value.toThrow(InvalidOperationException)
     })
 
     itAsync("MaxByAsyncEmptyError", async () => {
         const value = await expectAsync(asAsync(asMaxByTestType([])).maxByAsync(async (x) => await x.asyncValue()))
-        value.toThrowError(InvalidOperationException)
+        value.toThrow(InvalidOperationException)
     })
 
     itParallel<MaxByAsyncTestType>("MaxByAsyncEmptyError", async (asParallel) => {
         const value = await expectAsync(asParallel(asMaxByTestType([])).maxByAsync(async (x) => await x.asyncValue()))
-        value.toThrowError(InvalidOperationException)
+        value.toThrow(InvalidOperationException)
     })
 
     //#endregion

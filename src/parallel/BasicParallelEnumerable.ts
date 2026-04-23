@@ -1,7 +1,7 @@
+/* eslint-disable no-redeclare */
 import { type IParallelEnumerable, ParallelGeneratorType, type TypedData } from "../types"
 
 /* eslint-disable @typescript-eslint/no-empty-interface */
-/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 
 /**

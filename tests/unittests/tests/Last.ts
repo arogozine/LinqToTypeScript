@@ -23,17 +23,17 @@ describe("last", () => {
     })
 
     itEnumerable("LastEmpty", (asEnumerable) => {
-        expect(() => asEnumerable([]).last()).toThrowError(InvalidOperationException)
+        expect(() => asEnumerable([]).last()).toThrow(InvalidOperationException)
     })
 
     itAsync("LastEmpty", async () => {
         const expect = await expectAsync(asAsync([]).last())
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itParallel("LastEmpty", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).last())
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itEnumerable("LastPredicate", (asEnumerable) => {
@@ -50,16 +50,16 @@ describe("last", () => {
 
     itEnumerable("Last Empty With Predicate", (asEnumerable) => {
         expect(() => asEnumerable([]).last((x) => x > 2))
-            .toThrowError(InvalidOperationException)
+            .toThrow(InvalidOperationException)
     })
 
     itAsync("Last Empty With Predicate", async () => {
         const expect = await expectAsync(asAsync([]).last((x) => x > 2))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itParallel("Last Empty With Predicate", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).last((x) => x > 2))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 })

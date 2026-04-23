@@ -1,5 +1,5 @@
+/* eslint-disable no-redeclare */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-/* eslint-disable @typescript-eslint/no-unsafe-declaration-merging */
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import type { IAsyncEnumerable } from "../types"

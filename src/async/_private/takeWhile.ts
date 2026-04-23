@@ -8,7 +8,7 @@ export const takeWhile = <TSource>(
     if (predicate.length === 1) {
         return takeWhile1(source, predicate as (x: TSource) => boolean)
     } else {
-        return takeWhile2(source, predicate as (x: TSource, index: number) => boolean)
+        return takeWhile2(source, predicate)
     }
 }
 

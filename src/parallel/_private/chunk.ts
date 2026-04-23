@@ -11,6 +11,7 @@ export const chunk = <TSource>(source: IParallelEnumerable<TSource>, size: numbe
 
     switch (source.dataFunc.type) {
         case ParallelGeneratorType.ArrayOfPromises:
+        {
             const arrayOfPromises = source.dataFunc.generator
             dataFunc = {
                 type: ParallelGeneratorType.ArrayOfPromises,
@@ -34,7 +35,9 @@ export const chunk = <TSource>(source: IParallelEnumerable<TSource>, size: numbe
                 }
             }
             break
+        }
         case ParallelGeneratorType.PromiseOfPromises:
+        {
             const promiseOfPromises = source.dataFunc.generator
             dataFunc = {
                 type: ParallelGeneratorType.PromiseOfPromises,
@@ -58,7 +61,9 @@ export const chunk = <TSource>(source: IParallelEnumerable<TSource>, size: numbe
                 }
             }
             break
+        }
         case ParallelGeneratorType.PromiseToArray:
+        {
             const promiseToArray = source.dataFunc.generator
             dataFunc = {
                 type: ParallelGeneratorType.PromiseToArray,
@@ -82,6 +87,7 @@ export const chunk = <TSource>(source: IParallelEnumerable<TSource>, size: numbe
                 }
             }
             break
+        }
     }
 
     return new BasicParallelEnumerable(dataFunc)

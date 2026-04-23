@@ -22,17 +22,17 @@ describe("minBy", () => {
 
     itEnumerable<MinByTestType>("MinByEmptyError", (asEnumerable) => {
         expect(() => asEnumerable(asMinByTestType([])).minBy((x) => x.value))
-            .toThrowError(InvalidOperationException)
+            .toThrow(InvalidOperationException)
     })
 
     itAsync("MinByEmptyError", async () => {
         const value = await expectAsync(asAsync(asMinByTestType([])).minBy((x) => x.value))
-        value.toThrowError(InvalidOperationException)
+        value.toThrow(InvalidOperationException)
     })
 
     itParallel<MinByTestType>("MinByEmptyError", async (asParallel) => {
         const value = await expectAsync(asParallel(asMinByTestType([])).minBy((x) => x.value))
-        value.toThrowError(InvalidOperationException)
+        value.toThrow(InvalidOperationException)
     })
 
     //#endregion

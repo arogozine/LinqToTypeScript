@@ -4,17 +4,17 @@ import { asAsync, expectAsync, itAsync, itEnumerableAsync, itParallel, randomTim
 describe("maxAsync", () => {
     itEnumerableAsync("MaxSelectEmptyError", async (asEnumerable) => {
         const expect = await expectAsync(asEnumerable([]).maxAsync(async (x) => x * x))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itAsync("MaxSelectEmptyError", async () => {
         const value = await expectAsync(asAsync([]).maxAsync(async (x) => x * x))
-        value.toThrowError(InvalidOperationException)
+        value.toThrow(InvalidOperationException)
     })
 
     itParallel("MaxSelectEmptyError", async (asParallel) => {
         const value = await expectAsync(asParallel([]).maxAsync(async (x) => x * x))
-        value.toThrowError(InvalidOperationException)
+        value.toThrow(InvalidOperationException)
     })
 
     itEnumerableAsync("MaxSelect", async (asEnumerable) => {
@@ -45,17 +45,17 @@ describe("maxAsync", () => {
 
     itEnumerableAsync("empty array throws exception with selector", async (asEnumerable) => {
         const expect = await expectAsync(asEnumerable([]).maxAsync(async (x) => x * 2))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itAsync("empty array throws exception with selector", async () => {
         const expect = await expectAsync(asAsync([]).maxAsync(async (x) => x * 2))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itParallel("empty array throws exception with selector", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).maxAsync(async (x) => x * 2))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     //#region Infinity Test

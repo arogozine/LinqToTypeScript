@@ -29,7 +29,7 @@ export const groupByWithResult: GroupByWithResultFunc = <TSource, TKey, TResult>
     } else {
         return groupBy_2_Simple<TSource, any, TResult>(source,
             keySelector,
-            resultSelector as (x: TKey, values: IEnumerable<TSource>) => TResult)
+            resultSelector)
     }
 }
 

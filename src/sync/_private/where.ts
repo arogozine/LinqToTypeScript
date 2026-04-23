@@ -7,7 +7,7 @@ export const where = <TSource>(
     if (predicate.length === 1) {
         return where1(source, predicate as (x: TSource) => boolean)
     } else {
-        return where2(source, predicate as (x: TSource, index: number) => boolean)
+        return where2(source, predicate)
     }
 }
 

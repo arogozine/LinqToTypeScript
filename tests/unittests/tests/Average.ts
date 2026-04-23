@@ -12,16 +12,16 @@ describe("average", () => {
         expect(await asParallel([0, 10]).average()).toBe(5))
 
     itEnumerable("EmptyThrowsException", (asEnumerable) =>
-        expect(() => asEnumerable([]).average()).toThrowError(InvalidOperationException))
+        expect(() => asEnumerable([]).average()).toThrow(InvalidOperationException))
 
     itAsync("EmptyThrowsException", async () => {
         const expect = await expectAsync(asAsync([]).average())
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itParallel("EmptyThrowsException", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).average())
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itEnumerable("selector", (asEnumerable) =>
@@ -35,16 +35,16 @@ describe("average", () => {
 
     itEnumerable("empty array with selector throws exception",
         (asEnumerable) => expect(
-            () => asEnumerable([] as number[]).average((x) => x * 10)).toThrowError(InvalidOperationException))
+            () => asEnumerable([] as number[]).average((x) => x * 10)).toThrow(InvalidOperationException))
 
     itAsync("empty array with selector throws exception", async () => {
         const expect = await expectAsync((asAsync([] as number[])).average((x) => x * 10))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itParallel("empty array with selector throws exception", async (asParallel) => {
         const expect = await expectAsync((asParallel([] as number[])).average((x) => x * 10))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     //#region Zero Array

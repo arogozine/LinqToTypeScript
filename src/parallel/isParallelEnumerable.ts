@@ -1,7 +1,7 @@
 import type { IParallelEnumerable } from "../types"
 import { BasicParallelEnumerable } from "./BasicParallelEnumerable"
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment */
+
 
 /**
  * Determine if the source is IParallelEnumerable

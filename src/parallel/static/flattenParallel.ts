@@ -28,9 +28,9 @@ export const flattenParallel: FlatternParallelFunc = <TSource>(
     async function* iterator(sourceInner: AsyncIterable<any>)
         : AsyncIterableIterator<TSource | AsyncIterable<TSource>> {
         for await (const item of sourceInner) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
             if (item[Symbol.asyncIterator] !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
                 const items = shallow ? item : iterator(item as AsyncIterable<any>)
                 for await (const inner of items) {
                     yield inner

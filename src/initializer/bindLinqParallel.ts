@@ -90,7 +90,7 @@ import { whereAsync } from "./../parallel/_private/whereAsync"
 import { zip } from "./../parallel/_private/zip"
 import { zipAsync } from "./../parallel/_private/zipAsync"
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 
 /**
  * Binds LINQ methods to an iterable type

@@ -27,31 +27,31 @@ describe("min", () => {
     })
 
     itEnumerable("MinEmptyError", (asEnumerable) => {
-        expect(() => asEnumerable([]).min()).toThrowError(InvalidOperationException)
+        expect(() => asEnumerable([]).min()).toThrow(InvalidOperationException)
     })
 
     itAsync("MinEmptyError", async () => {
         const expectMin = await expectAsync(asAsync([]).min())
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itParallel("MinEmptyError", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).min())
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itEnumerable("MinPredicate Empty Error", (asEnumerable) => {
-        expect(() => asEnumerable([] as number[]).min((x) => x * x)).toThrowError(InvalidOperationException)
+        expect(() => asEnumerable([] as number[]).min((x) => x * x)).toThrow(InvalidOperationException)
     })
 
     itAsync("MinPredicate Empty Error", async () => {
         const expectMin = await expectAsync(asAsync([] as number[]).min((x) => x * x))
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itParallel("MinPredicate Empty Error", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).min((x) => x * x))
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itEnumerable("Min Predicate", (asEnumerable) => {
@@ -83,31 +83,31 @@ describe("min", () => {
     })
 
     itEnumerable("empty exception", (asEnumerable) => {
-        expect(() => asEnumerable([]).min()).toThrowError(InvalidOperationException)
+        expect(() => asEnumerable([]).min()).toThrow(InvalidOperationException)
     })
 
     itAsync("empty exception", async () => {
         const expectMin = await expectAsync(asAsync([]).min())
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itParallel("empty exception", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).min())
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itEnumerable("empty exception with selector", (asEnumerable) => {
-        expect(() => asEnumerable([]).min((x) => x)).toThrowError(InvalidOperationException)
+        expect(() => asEnumerable([]).min((x) => x)).toThrow(InvalidOperationException)
     })
 
     itAsync("empty exception with selector", async () => {
         const expectMin = await expectAsync(asAsync([]).min((x) => x))
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itParallel("empty exception with selector", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).min((x) => x))
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     //#region Infinity Test

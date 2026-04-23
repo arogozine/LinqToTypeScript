@@ -14,9 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "@types/jest": "^29.5.11",
-    "jest": "^29.7.0",
+    "jest": "^30.3.0",
     "linq-to-typescript": "file:../../dist",
-    "ts-jest": "^29.2.5"
+    "ts-jest": "^29.4.9"
   },
   "devDependencies": {
     "jest-fixed-default-reporter": "^2.0.1",

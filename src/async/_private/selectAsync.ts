@@ -14,7 +14,7 @@ export const selectAsync: SelectAsyncFunc = <TSource extends { [key: string]: Pr
     selector: ((x: TSource) => Promise<TResult>) | TKey): IAsyncEnumerable<any> => {
 
     if (typeof selector === "string") {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
         return selectAsync2(source, selector)
     } else {
         return selectAsync1(source, selector as (x: TSource) => Promise<TResult>)

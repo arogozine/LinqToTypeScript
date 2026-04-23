@@ -24,7 +24,7 @@ export const selectMany: SelectManyFunc = <TSource, OUT>(
                 values = nextIterationWithIndex(source, selector)
             }
         } else {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
+
             values = nextIteration(source, (x: any) => x[selector])
         }
 

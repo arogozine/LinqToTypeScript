@@ -104,7 +104,7 @@ export const bindString = <TKey extends keyof IEnumerable<string>>() => {
     }
 
     prototype.reverse = function() {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+
         const outer = this
 
         function* generator() {

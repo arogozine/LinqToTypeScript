@@ -16,16 +16,16 @@ describe("lastAsync", () => {
 
     itEnumerableAsync("Empty Throws Error", async (asEnumerable) => {
         const expect = await expectAsync(asEnumerable([]).lastAsync(async (x) => x === 1))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itAsync("Empty Throws Error", async () => {
         const expect = await expectAsync(asAsync([]).lastAsync(async (x) => x === 1))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itParallel("Empty Throws Error", async (asParallel) => {
         const expect = await expectAsync(asParallel([]).lastAsync(async (x) => x === 1))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 })

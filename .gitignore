@@ -56,3 +56,5 @@ package
 # avoid comitting package lock
 # it gives false "security vulnerabilities in your dependencies"
 package-lock.json
+
+.vs

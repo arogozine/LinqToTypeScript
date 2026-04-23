@@ -9,7 +9,7 @@ export const firstOrDefault = <TSource>(
 
 const firstOrDefault1 = async <T>(source: AsyncIterable<T>) => {
     const first = await source[Symbol.asyncIterator]().next()
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
     return first.value ?? null
 }
 

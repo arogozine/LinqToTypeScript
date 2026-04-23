@@ -5,17 +5,17 @@ describe("minAsync", () => {
 
     itEnumerableAsync("MinPredicate Empty Error", async (asEnumerable) => {
         const expect = await expectAsync(asEnumerable([]).minAsync(async (x) => x * x))
-        expect.toThrowError(InvalidOperationException)
+        expect.toThrow(InvalidOperationException)
     })
 
     itAsync("MinPredicate Empty Error", async () => {
         const expectMin = await expectAsync(asAsync([]).minAsync(async (x) => x * x))
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itParallel("MinPredicate Empty Error", async (asParallel) => {
         const expectMin = await expectAsync(asParallel([]).minAsync(async (x) => x * x))
-        expectMin.toThrowError(InvalidOperationException)
+        expectMin.toThrow(InvalidOperationException)
     })
 
     itEnumerableAsync("Min Predicate", async (asEnumerable) => {

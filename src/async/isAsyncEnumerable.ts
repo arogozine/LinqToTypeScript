@@ -1,7 +1,7 @@
 import type { IAsyncEnumerable } from "../types"
 import { BasicAsyncEnumerable } from "./BasicAsyncEnumerable"
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
 
 /**
  * Determine if a type is IAsyncEnumerable

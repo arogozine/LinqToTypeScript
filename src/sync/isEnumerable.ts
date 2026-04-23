@@ -2,7 +2,7 @@ import type { IEnumerable } from "../types"
 import { ArrayEnumerable } from "./ArrayEnumerable"
 import { BasicEnumerable } from "./BasicEnumerable"
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
 
 /**
  * Determine if a source is a IEnumerable

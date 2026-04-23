@@ -10,7 +10,9 @@ export const typeDataToArray = async <TSource>(dataFunc: TypedData<TSource> | Li
         case ParallelGeneratorType.ArrayOfPromises:
             return await Promise.all(dataFunc.generator())
         case ParallelGeneratorType.PromiseOfPromises:
+        {
             const data = await dataFunc.generator()
             return await Promise.all(data)
+        }
     }
 }

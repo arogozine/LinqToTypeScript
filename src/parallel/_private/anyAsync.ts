@@ -30,6 +30,7 @@ export const anyAsync = async <TSource>(
             })
 
         case ParallelGeneratorType.PromiseOfPromises:
+        {
             promises = await nextIter.generator()
 
             if (Promise.length === 0) {
@@ -38,5 +39,6 @@ export const anyAsync = async <TSource>(
 
             const values = await Promise.all(promises)
             return values.includes(true)
+        }
     }
 }

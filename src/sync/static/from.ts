@@ -1,7 +1,7 @@
 import type { IEnumerable, IterableType } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 
 type FromFunc = {
     /**

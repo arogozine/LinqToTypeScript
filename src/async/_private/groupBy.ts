@@ -20,9 +20,9 @@ export const groupBy: GroupByFunc = <TSource, TKey>(
 
     if (comparer) {
         return groupBy_0<TSource, TKey>(source,
-            keySelector as (x: TSource) => TKey, comparer)
+            keySelector, comparer)
     } else {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
         return groupBy_0_Simple(source,
             keySelector as (x: TSource) => any)
     }

@@ -10,7 +10,7 @@ type SelectManyFunc = {
         selector: keyof TSource): IAsyncEnumerable<Y>
 }
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+
 
 export const selectMany: SelectManyFunc = <TCollection>(
     source: AsyncIterable<any>,

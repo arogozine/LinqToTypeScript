@@ -15,11 +15,15 @@ const count1 = async <TSource>(source: IParallelEnumerable<TSource>): Promise<nu
     switch (dataFunc.type) {
         case ParallelGeneratorType.PromiseToArray:
         case ParallelGeneratorType.PromiseOfPromises:
+        {
             const arrayData = await source.toArray()
             return arrayData.length
+        }
         case ParallelGeneratorType.ArrayOfPromises:
+        {
             const promises = dataFunc.generator()
             return promises.length
+        }
     }
 }
 

@@ -8,7 +8,7 @@ export const takeWhileAsync = <TSource>(
     if (predicate.length === 1) {
         return takeWhileAsync1(source, predicate as (x: TSource) => Promise<boolean>)
     } else {
-        return takeWhileAsync2(source, predicate as (x: TSource, index: number) => Promise<boolean>)
+        return takeWhileAsync2(source, predicate)
     }
 }
 
