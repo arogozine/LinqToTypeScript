@@ -7,17 +7,19 @@ export const distinctAsync = <TSource>(
 
     async function* iterator() {
         const distinctElements: TSource[] = []
-        outerLoop:
-        for (const item of source) {
+        for await (const item of source) {
+            let found = false
             for (const distinctElement of distinctElements) {
-                const found = await comparer(distinctElement, item)
-                if (found) {
-                    continue outerLoop
+                if (await comparer(distinctElement, item)) {
+                    found = true
+                    break
                 }
             }
 
-            distinctElements.push(item)
-            yield item
+            if (!found) {
+                distinctElements.push(item)
+                yield item
+            }
         }
     }
 
