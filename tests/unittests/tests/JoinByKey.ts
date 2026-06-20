@@ -61,12 +61,9 @@ describe("joinByKey", () => {
             .toArray()
 
         expect(joinBy.length).toBe(3)
-        // expect(joinBy[0].x).toBe(1)
-        // expect(joinBy[1].x).toBe(2)
-        // expect(joinBy[2].x).toBe(3)
-        expect(joinBy[0].x == joinBy[0].y)
-        expect(joinBy[1].x == joinBy[1].y)
-        expect(joinBy[2].x == joinBy[2].y)
+        expect(joinBy[0].x == joinBy[0].y).toBeTruthy()
+        expect(joinBy[1].x == joinBy[1].y).toBeTruthy()
+        expect(joinBy[2].x == joinBy[2].y).toBeTruthy()
     })
 
     itAsync("With Comparer", async () => {
@@ -78,12 +75,9 @@ describe("joinByKey", () => {
             .toArray()
 
         expect(joinBy.length).toBe(3)
-        // expect(joinBy[0].x).toBe(1)
-        // expect(joinBy[1].x).toBe(2)
-        // expect(joinBy[2].x).toBe(3)
-        expect(joinBy[0].x == joinBy[0].y)
-        expect(joinBy[1].x == joinBy[1].y)
-        expect(joinBy[2].x == joinBy[2].y)
+        expect(joinBy[0].x == joinBy[0].y).toBeTruthy()
+        expect(joinBy[1].x == joinBy[1].y).toBeTruthy()
+        expect(joinBy[2].x == joinBy[2].y).toBeTruthy()
     })
 
     itParallel<string | number>("With Comparer", async (asParallel) => {
@@ -95,11 +89,8 @@ describe("joinByKey", () => {
             .toArray()
 
         expect(joinBy.length).toBe(3)
-        // expect(joinBy[0].x).toBe(1)
-        // expect(joinBy[1].x).toBe(2)
-        // expect(joinBy[2].x).toBe(3)
-        expect(joinBy[0].x == joinBy[0].y)
-        expect(joinBy[1].x == joinBy[1].y)
-        expect(joinBy[2].x == joinBy[2].y)
+        expect(joinBy[0].x == joinBy[0].y).toBeTruthy()
+        expect(joinBy[1].x == joinBy[1].y).toBeTruthy()
+        expect(joinBy[2].x == joinBy[2].y).toBeTruthy()
     })
 })

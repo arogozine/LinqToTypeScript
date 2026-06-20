@@ -33,6 +33,12 @@ npm i linq-to-typescript
 ```
 * The `strict` TS option is recommended.
 
+### Node.js
+
+Node.js 17 or higher is required.
+
+> **Note:** This package is ESM-only. If your project uses CommonJS (`require`), you'll need a bundler or interop shim.
+
 ### Using the Library
 #### With Wrappers
 ```TypeScript
@@ -70,7 +76,11 @@ const evenNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9].where((x) => x % 2 === 0).toArra
 
 ### Examples
 
-Please refer to the [examples folder](https://github.com/arogozine/LinqToTypeScript/blob/master/examples)
+The [examples folder](https://github.com/arogozine/LinqToTypeScript/blob/master/examples) contains runnable demos:
+
+- [primenumbers.ts](https://github.com/arogozine/LinqToTypeScript/blob/master/examples/primenumbers.ts) — find primes using `range().where().all()`
+- [digitsofpi.ts](https://github.com/arogozine/LinqToTypeScript/blob/master/examples/digitsofpi.ts) — approximate π via the Nilakantha series with `range().select().aggregate()`
+- [paralleldownload.ts](https://github.com/arogozine/LinqToTypeScript/blob/master/examples/paralleldownload.ts) — download URLs in parallel with `asParallel().selectAsync()`
 
 ### ES6 Modules (ESM)
 
@@ -84,7 +94,7 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 
 - IEnumerable, IAsyncEnumerable, and IParallelEnumerable interfaces are based on,
 - [IEnumerable&lt;T&gt; Interface](https://msdn.microsoft.com/en-us/library/9eekhta0(v=vs.110).aspx)
-- Some changes made due to conflics with existing method names
+- Some changes made due to conflicts with existing method names
 - Some changes made due to limitations of JavaScript
 
 #### IEnumerable
@@ -169,20 +179,20 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 
 #### Static Methods
 
-| Method          | Async                | Parallel          | Tests Coverage |
-|-----------------|----------------------|-------------------|----------------|
-| empty           | emptyAsync           | emptyParallel     | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Empty.ts)
-| enumerateObject | enumerateObjectAsync | N/A               | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/EnumerateObject.ts)
-| flatten         | flattenAsync         | flattenParallel   | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Flatten.ts)
-| range           | rangeAsync           | rangeParallel     | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Range.ts)
-| repeat          | repeatAsync          | repeatParallel    | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Repeat.ts)
+| Method          | Description                                          | Async                | Parallel          | Tests Coverage |
+|-----------------|------------------------------------------------------|----------------------|-------------------|----------------|
+| empty           | Returns an empty enumerable                          | emptyAsync           | emptyParallel     | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Empty.ts)
+| enumerateObject | Yields `[key, value]` pairs from a plain object      | enumerateObjectAsync | N/A               | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/EnumerateObject.ts)
+| flatten         | Flattens a nested iterable one level deep            | flattenAsync         | flattenParallel   | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Flatten.ts)
+| range           | Generates a sequence of integers from start to start+count | rangeAsync     | rangeParallel     | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Range.ts)
+| repeat          | Repeats a value N times                              | repeatAsync          | repeatParallel    | [Test](https://github.com/arogozine/LinqToTypeScript/blob/master/tests/unittests/tests/staticmethods/Repeat.ts)
 
 #### Index Methods
 
 | Method               | Notes                                                   |
 |----------------------|---------------------------------------------------------|
 | bindArray            | Binds IEnumerable methods to an ArrayLike Iterable type |
-| bindLinq             | Binds IEnumerable methods to an Interable type          |
+| bindLinq             | Binds IEnumerable methods to an Iterable type           |
 | bindLinqAsync        | Binds IAsyncEnumerable methods to an AsyncIterable type |
 | isEnumerable         | Determines if source implements IEnumerable             |
 | isAsyncEnumerable    | Determines if source implements IAsyncEnumerable        |
@@ -195,6 +205,17 @@ To use library with ES6 modules make sure that you specify `"type": "module"` in
 |-----------------------------|--------------------------------------------------|
 | ArgumentOutOfRangeException | Thrown when a passed in argument is invalid      |
 | InvalidOperationException   | Thrown when no elements or no predicate match    |
+
+#### Comparers
+
+Built-in comparers can be passed to methods like `distinct`, `contains`, `sequenceEquals`, `except`, `intersect`, and `union`.
+
+| Export                 | Purpose                                      |
+|------------------------|----------------------------------------------|
+| `EqualityComparer`     | Loose equality (`==`)                        |
+| `StrictEqualityComparer` | Strict equality (`===`)                    |
+| `NumberComparer`       | Numeric ordering (for use with `orderBy`)    |
+| `StringifyComparer`    | Equality via `JSON.stringify`                |
 
 ### Design
 

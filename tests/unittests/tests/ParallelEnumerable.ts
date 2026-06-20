@@ -25,18 +25,14 @@ describe("ParallelEnumerable", () => {
         const promise3 = iterator.next()
         expect(promise3).toBeDefined()
         const result3 = await promise3
-        // what ?
         expect(result3.done).toBe(false)
         expect(result3.value).toBe(3)
 
-        /*
         const promise4 = iterator.next()
         expect(promise4).toBeDefined()
         const result4 = await promise4
-        console.log(JSON.stringify(result))
-        expect(result.done).toBe(true)
-        expect(result.value).toBeNull()
-        */
+        expect(result4.done).toBe(true)
+        expect(result4.value).toBeUndefined()
     })
 
     itParallel("AsyncForEach - Automatic", async (asParallel) => {
