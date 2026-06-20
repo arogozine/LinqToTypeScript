@@ -10,30 +10,34 @@ export const last = <TSource>(source: Iterable<TSource>, predicate?: (x: TSource
 
 const last1 = <TSource>(source: Iterable<TSource>): TSource => {
     let lastItem: TSource | undefined
+    let hasValue = false
 
     for (const value of source) {
         lastItem = value
+        hasValue = true
     }
 
-    if (!lastItem) {
+    if (!hasValue) {
         throw new InvalidOperationException(ErrorString.NoElements)
     }
 
-    return lastItem
+    return lastItem as TSource
 }
 
 const last2 = <TSource>(source: Iterable<TSource>, predicate: (x: TSource) => boolean): TSource => {
     let lastItem: TSource | undefined
+    let hasValue = false
 
     for (const value of source) {
         if (predicate(value) === true) {
             lastItem = value
+            hasValue = true
         }
     }
 
-    if (!lastItem) {
+    if (!hasValue) {
         throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
-    return lastItem
+    return lastItem as TSource
 }

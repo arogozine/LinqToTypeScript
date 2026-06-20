@@ -33,7 +33,7 @@ const single1 = async <TSource>(source: IParallelEnumerable<TSource>): Promise<T
                 throw new InvalidOperationException(ErrorString.NoElements)
             }
 
-            return results[0]
+            return await results[0]
         }
         case ParallelGeneratorType.PromiseOfPromises: {
             const results = await dataFunc.generator()

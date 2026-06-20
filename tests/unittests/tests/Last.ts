@@ -62,4 +62,19 @@ describe("last", () => {
         const expect = await expectAsync(asParallel([]).last((x) => x > 2))
         expect.toThrow(InvalidOperationException)
     })
+
+    itEnumerable("Falsy", (asEnumerable) => {
+        const val = asEnumerable([1, 0]).last()
+        expect(val).toBe(0)
+    })
+
+    itAsync("Falsy", async () => {
+        const val = await asAsync([1, 0]).last()
+        expect(val).toBe(0)
+    })
+
+    itParallel("Falsy", async (asParallel) => {
+        const val = await asParallel([1, 0]).last()
+        expect(val).toBe(0)
+    })
 })

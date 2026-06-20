@@ -17,24 +17,36 @@ describe("range", () => {
         expect(oneToTen).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     })
 
-    itEnumerable("Invalid Input Throws", () => {
+    itEnumerable("Invalid Start Throws", () => {
         expect(() => range(-1, 99)).toThrow(ArgumentOutOfRangeException)
 
         expect(() => range(Number.MAX_SAFE_INTEGER - 10, 99))
             .toThrow(ArgumentOutOfRangeException)
     })
 
-    itAsync("Invalid Input Throws", async () => {
+    itAsync("Invalid Start Throws", async () => {
         expect(() => rangeAsync(-1, 99)).toThrow(ArgumentOutOfRangeException)
 
         expect(() => rangeAsync(Number.MAX_SAFE_INTEGER - 10, 99))
             .toThrow(ArgumentOutOfRangeException)
     })
 
-    itParallel("Invalid Input Throws", async () => {
+    itParallel("Invalid Start Throws", async () => {
         expect(() => rangeParallel(-1, 99)).toThrow(ArgumentOutOfRangeException)
 
         expect(() => rangeParallel(Number.MAX_SAFE_INTEGER - 10, 99))
             .toThrow(ArgumentOutOfRangeException)
+    })
+
+    itEnumerable("Invalid Count Throws", () => {
+        expect(() => range(1, -99)).toThrow(ArgumentOutOfRangeException)
+    })
+
+    itAsync("Invalid Count Throws", async () => {
+        expect(() => rangeAsync(1, -99)).toThrow(ArgumentOutOfRangeException)
+    })
+
+    itParallel("Invalid Count Throws", async () => {
+        expect(() => rangeParallel(1, -99)).toThrow(ArgumentOutOfRangeException)
     })
 })

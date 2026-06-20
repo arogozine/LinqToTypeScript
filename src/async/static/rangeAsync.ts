@@ -11,8 +11,8 @@ import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
  * @returns An IAsyncEnumerable<number> that contains a range of sequential integral numbers.
  */
 export const rangeAsync = (start: number, count: number): IAsyncEnumerable<number> => {
-    if (start < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
-        throw new ArgumentOutOfRangeException("start")
+    if (start < 0 || count < 0 || (start + count - 1) > Number.MAX_SAFE_INTEGER) {
+        throw new ArgumentOutOfRangeException(count < 0 ? "count" : "start")
     }
 
     async function* iterator() {

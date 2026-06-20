@@ -11,31 +11,35 @@ export const last = <TSource>(
 
 const last1 = async <T>(source: AsyncIterable<T>) => {
     let lastItem: T | null = null
+    let hasValue = false
 
     for await (const value of source) {
         lastItem = value
+        hasValue = true
     }
 
-    if (!lastItem) {
+    if (!hasValue) {
         throw new InvalidOperationException(ErrorString.NoElements)
     }
 
-    return lastItem
+    return lastItem as T
 }
 
 const last2 = async <TSource>(
     source: AsyncIterable<TSource>, predicate: (x: TSource) => boolean) => {
     let lastItem: TSource | null = null
+    let hasValue = false
 
     for await (const value of source) {
         if (predicate(value) === true) {
             lastItem = value
+            hasValue = true
         }
     }
 
-    if (!lastItem) {
+    if (!hasValue) {
         throw new InvalidOperationException(ErrorString.NoMatch)
     }
 
-    return lastItem
+    return lastItem as TSource
 }

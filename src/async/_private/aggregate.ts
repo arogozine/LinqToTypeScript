@@ -39,7 +39,7 @@ const aggregate1 = async <TSource>(
     let aggregateValue: TSource | undefined
 
     for await (const value of source) {
-        if (aggregateValue) {
+        if (aggregateValue !== undefined) {
             aggregateValue = func(aggregateValue, value)
         } else {
             aggregateValue = value

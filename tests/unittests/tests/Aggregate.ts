@@ -180,4 +180,19 @@ describe("aggregate", () => {
         const val = await asParallel([1, 2, 3]).aggregate(4, (x, y) => x + y, (acc) => acc * 10)
         expect(val).toBe(100)
     })
+
+    itEnumerable("Falsy", (asEnumerable) => {
+        const val = asEnumerable([1, 0, 0, 0, 1]).aggregate(0, (acc, x) => x === 0 ? acc + 1: acc)
+        expect(val).toBe(3)
+    })
+
+    itAsync("Falsy", async () => {
+        const val = await asAsync([1, 0, 0, 0, 1]).aggregate(0, (acc, x) => x === 0 ? acc + 1: acc)
+        expect(val).toBe(3)
+    })
+
+    itParallel("Falsy", async (asParallel) => {
+        const val = await asParallel([1, 0, 0, 0, 1]).aggregate(0, (acc, x) => x === 0 ? acc + 1: acc)
+        expect(val).toBe(3)
+    })
 })

@@ -10,7 +10,7 @@ export const take = <TSource>(
     switch (dataFunc.type) {
         case ParallelGeneratorType.ArrayOfPromises:
         {
-            const generator1 = () => dataFunc.generator().splice(0, amountLeft)
+            const generator1 = () => dataFunc.generator().slice(0, amountLeft)
             return new BasicParallelEnumerable<TSource>({
                 generator: generator1,
                 type: ParallelGeneratorType.ArrayOfPromises,
@@ -18,7 +18,7 @@ export const take = <TSource>(
         }
         case ParallelGeneratorType.PromiseOfPromises:
         {
-            const generator2 = () => dataFunc.generator().then((x) => x.splice(0, amountLeft))
+            const generator2 = () => dataFunc.generator().then((x) => x.slice(0, amountLeft))
             return new BasicParallelEnumerable<TSource>({
                 generator: generator2,
                 type: ParallelGeneratorType.PromiseOfPromises,
@@ -27,7 +27,7 @@ export const take = <TSource>(
         case ParallelGeneratorType.PromiseToArray:
         default:
         {
-            const generator3 = () => dataFunc.generator().then((x) => x.splice(0, amountLeft))
+            const generator3 = () => dataFunc.generator().then((x) => x.slice(0, amountLeft))
             return new BasicParallelEnumerable<TSource>({
                 generator: generator3,
                 type: ParallelGeneratorType.PromiseToArray,

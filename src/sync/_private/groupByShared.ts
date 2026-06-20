@@ -47,22 +47,21 @@ export const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
     keySelector: (x: TSource) => TKey) => {
 
     return function *iterator() {
-        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
+        const keyMap = new Map<TKey, Grouping<TKey, TSource>>()
         for (const value of source) {
 
             const key = keySelector(value)
-            const grouping: Grouping<TKey, TSource> = keyMap[key]
+            const grouping: Grouping<TKey, TSource> | undefined = keyMap.get(key)
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<TKey, TSource>(key, value)
+                keyMap.set(key, new Grouping<TKey, TSource>(key, value))
             }
         }
 
-        // eslint-disable-next-line guard-for-in
-        for (const value in keyMap) {
-            yield keyMap[value]
+        for (const grouping of keyMap.values()) {
+            yield grouping
         }
     }
 }
