@@ -10,9 +10,9 @@ export const distinct = <TSource>(
         const distinctElements: TSource[] = []
         for (const item of source) {
 
-            const foundItem = distinctElements.find((x) => comparer(x, item))
+            const found = distinctElements.some((x) => comparer(x, item))
 
-            if (!foundItem) {
+            if (!found) {
                 distinctElements.push(item)
                 yield item
             }

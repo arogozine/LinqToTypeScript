@@ -47,4 +47,28 @@ describe("intersect", () => {
 
         expect(array).toEqual([1, 2])
     })
+
+    itEnumerable<number | boolean | string | null | undefined>("Falsy Duplicates", (asEnumerable) => {
+        const array = asEnumerable([false, false, 0, 0, "", "", null, null, undefined, undefined])
+            .intersect(asEnumerable([false, 0, "", null, undefined]))
+            .toArray()
+
+        expect(array).toEqual([false, 0, "", null, undefined])
+    })
+
+    itAsync("Falsy Duplicates", async () => {
+        const array = await asAsync([false, false, 0, 0, "", "", null, null, undefined, undefined])
+            .intersect(asAsync([false, 0, "", null, undefined]))
+            .toArray()
+
+        expect(array).toEqual([false, 0, "", null, undefined])
+    })
+
+    itParallel<number | boolean | string | null | undefined>("Falsy Duplicates", async (asParallel) => {
+        const array = await asParallel([false, false, 0, 0, "", "", null, null, undefined, undefined])
+            .intersect(asAsync([false, 0, "", null, undefined]))
+            .toArray()
+
+        expect(array).toEqual([false, 0, "", null, undefined])
+    })
 })

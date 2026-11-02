@@ -30,6 +30,21 @@ describe("distinct", () => {
         expect(await asParallel([1, 0, false, ""]).distinct().toArray()).toEqual([1, 0, false, ""])
     })
 
+    itEnumerable<number | boolean | string | null | undefined>("Falsy Duplicates", (asEnumerable) => {
+        const values = [false, false, 0, 0, "", "", null, null, undefined, undefined]
+        expect(asEnumerable(values).distinct().toArray()).toEqual([false, 0, "", null, undefined])
+    })
+
+    itAsync("Falsy Duplicates", async () => {
+        const values = [false, false, 0, 0, "", "", null, null, undefined, undefined]
+        expect(await asAsync(values).distinct().toArray()).toEqual([false, 0, "", null, undefined])
+    })
+
+    itParallel<number | boolean | string | null | undefined>("Falsy Duplicates", async (asParallel) => {
+        const values = [false, false, 0, 0, "", "", null, null, undefined, undefined]
+        expect(await asParallel(values).distinct().toArray()).toEqual([false, 0, "", null, undefined])
+    })
+
     itEnumerable<string | number>("Distinct", (asEnumerable) => {
         const array = asEnumerable(["f", "o", "o"])
 
