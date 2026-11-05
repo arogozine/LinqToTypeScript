@@ -8,8 +8,8 @@ export const distinct = <TSource>(
     const generator = async () => {
         const distinctElements: TSource[] = []
         for (const item of await source.toArray()) {
-            const foundItem = distinctElements.find((x) => comparer(x, item))
-            if (!foundItem) {
+            const found = distinctElements.some((x) => comparer(x, item))
+            if (!found) {
                 distinctElements.push(item)
             }
         }

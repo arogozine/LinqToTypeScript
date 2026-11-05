@@ -28,4 +28,16 @@ describe("lastAsync", () => {
         const expect = await expectAsync(asParallel([]).lastAsync(async (x) => x === 1))
         expect.toThrow(InvalidOperationException)
     })
+
+    itEnumerableAsync("Falsy", async (asEnumerable) => {
+        expect(await asEnumerable([1, 0]).lastAsync(async (x) => x === 0)).toBe(0)
+    })
+
+    itAsync("Falsy", async () => {
+        expect(await asAsync([1, 0]).lastAsync(async (x) => x === 0)).toBe(0)
+    })
+
+    itParallel("Falsy", async (asParallel) => {
+        expect(await asParallel([1, 0]).lastAsync(async (x) => x === 0)).toBe(0)
+    })
 })
