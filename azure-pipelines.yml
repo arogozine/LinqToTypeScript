@@ -50,9 +50,13 @@ steps:
 - powershell: |
     cd tests/unittests
     npm install --silent
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     npm run test
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
   displayName: 'Run Unit Tests'
-  failOnStderr: true
+  # Jest writes its summary to stderr, so failOnStderr would fail passing runs.
+  # Failure is determined by the exit codes checked above instead.
+  failOnStderr: false
 - powershell: |
     cd tests/nodetest
     npm install --silent
