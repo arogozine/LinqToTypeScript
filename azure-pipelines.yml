@@ -1,4 +1,7 @@
-name: LinqToTypeScript
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+variables:
+  npm_config_cache: $(Pipeline.Workspace)/.npm
 
 trigger:
   - master
@@ -21,6 +24,13 @@ steps:
   inputs:
     version: 22.x
     checkLatest: false
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | "22.x" | **/package-lock.json, !**/node_modules/**'
+    restoreKeys: |
+      npm | "$(Agent.OS)" | "22.x"
+    path: $(npm_config_cache)
+  displayName: 'Cache npm'
 - powershell: |
     npm install -g typescript jest typedoc rimraf
   displayName: 'Install Globals'

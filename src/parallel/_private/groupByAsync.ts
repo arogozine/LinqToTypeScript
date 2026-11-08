@@ -108,23 +108,21 @@ const groupByAsync_0_Simple = <TSource, TKey extends SelectorKeyType>(
                 break
         }
 
-        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
+        const keyMap = new Map<TKey, Grouping<TKey, TSource>>()
         for (const [key, value] of values) {
-            const grouping: Grouping<TKey, TSource> = keyMap[key]
+            const grouping = keyMap.get(key)
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<TKey, TSource>(key, value)
+                keyMap.set(key, new Grouping<TKey, TSource>(key, value))
             }
         }
 
         const results = new Array<IGrouping<TKey, TSource>>()
-        /* eslint-disable guard-for-in */
-        for (const value in keyMap) {
-            results.push(keyMap[value])
+        for (const value of keyMap.values()) {
+            results.push(value)
         }
-        /* eslint-enable guard-for-in */
         return results
     }
 

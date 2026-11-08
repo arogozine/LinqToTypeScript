@@ -78,26 +78,24 @@ const groupBy1Simple = <TSource, TElement>(
 
     // generate(): AsyncIterableIterator<IGrouping<string | number, TElement>>
     const generator = async () => {
-        const keyMap: { [key: string]: Grouping<string | number, TElement> } = {}
+        const keyMap = new Map<string | number, Grouping<string | number, TElement>>()
         for (const value of await source.toArray()) {
 
             const key = keySelector(value)
-            const grouping: Grouping<string | number, TElement> = keyMap[key]
+            const grouping = keyMap.get(key)
             const element = elementSelector(value)
 
             if (grouping) {
                 grouping.push(element)
             } else {
-                keyMap[key] = new Grouping<string | number, TElement>(key, element)
+                keyMap.set(key, new Grouping<string | number, TElement>(key, element))
             }
         }
 
-        /* eslint-disable guard-for-in */
         const results = new Array<IGrouping<string | number, TElement>>()
-        for (const value in keyMap) {
-            results.push(keyMap[value])
+        for (const value of keyMap.values()) {
+            results.push(value)
         }
-        /* eslint-enable guard-for-in */
         return results
     }
 

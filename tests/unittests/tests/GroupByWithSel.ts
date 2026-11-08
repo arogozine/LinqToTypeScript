@@ -105,4 +105,43 @@ describe("groupByWithSel", () => {
             expect(group.toArray()).toEqual(["1", "2", "3"])
         }
     })
+    // Regression: groups were stored in a plain object, so prototype member
+    // names collided and 1 / "1" were merged.
+    const protoKeys = ["constructor", "toString", "__proto__", "hasOwnProperty"]
+
+    itEnumerable<string>("PrototypeNamedKeys", (asEnumerable) => {
+        const groups = asEnumerable([...protoKeys, ...protoKeys]).groupByWithSel((x) => x, (x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(protoKeys)
+        for (const g of groups) {
+            expect(g.toArray()).toEqual([g.key, g.key])
+        }
+    })
+
+    itAsync("PrototypeNamedKeys", async () => {
+        const groups = await asAsync([...protoKeys, ...protoKeys]).groupByWithSel((x) => x, (x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(protoKeys)
+    })
+
+    itParallel<string>("PrototypeNamedKeys", async (asParallel) => {
+        const groups = await asParallel([...protoKeys, ...protoKeys]).groupByWithSel((x) => x, (x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(protoKeys)
+    })
+
+    itEnumerable<number | string>("NumberAndStringKeysAreDistinctAndKeepInsertionOrder", (asEnumerable) => {
+        const groups = asEnumerable(["b", "2", 2, "a", 1, "1"])
+            .groupByWithSel((x) => x, (x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(["b", "2", 2, "a", 1, "1"])
+    })
+
+    itAsync("NumberAndStringKeysAreDistinctAndKeepInsertionOrder", async () => {
+        const groups = await asAsync<number | string>(["b", "2", 2, "a", 1, "1"])
+            .groupByWithSel((x) => x, (x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(["b", "2", 2, "a", 1, "1"])
+    })
+
+    itParallel<number | string>("NumberAndStringKeysAreDistinctAndKeepInsertionOrder", async (asParallel) => {
+        const groups = await asParallel(["b", "2", 2, "a", 1, "1"])
+            .groupByWithSel((x) => x, (x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(["b", "2", 2, "a", 1, "1"])
+    })
 })

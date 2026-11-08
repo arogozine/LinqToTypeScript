@@ -32,22 +32,21 @@ const groupByAsync_0_Simple = <TSource, TKey extends SelectorKeyType>(
     keySelector: (x: TSource) => Promise<TKey>): IAsyncEnumerable<IGrouping<TKey, TSource>> => {
 
     async function *iterator(): AsyncIterableIterator<IGrouping<TKey, TSource>> {
-        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {} // TODO
+        const keyMap = new Map<TKey, Grouping<TKey, TSource>>()
         for await (const value of source) {
 
             const key = await keySelector(value)
-            const grouping: Grouping<TKey, TSource> = keyMap[key]
+            const grouping = keyMap.get(key)
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<TKey, TSource>(key, value)
+                keyMap.set(key, new Grouping<TKey, TSource>(key, value))
             }
         }
 
-        // eslint-disable-next-line guard-for-in
-        for (const value in keyMap) {
-            yield keyMap[value]
+        for (const value of keyMap.values()) {
+            yield value
         }
     }
 

@@ -35,25 +35,23 @@ const groupBy_0_Simple = <TSource, TKey extends SelectorKeyType>(
         IParallelEnumerable<IGrouping<TKey, TSource>> => {
 
     const generator = async () => {
-        const keyMap: {[key: string]: Grouping<TKey, TSource>} = {}
+        const keyMap = new Map<TKey, Grouping<TKey, TSource>>()
         for (const value of await source.toArray()) {
 
             const key = keySelector(value)
-            const grouping: Grouping<TKey, TSource> = keyMap[key] // TODO
+            const grouping = keyMap.get(key)
 
             if (grouping) {
                 grouping.push(value)
             } else {
-                keyMap[key] = new Grouping<TKey, TSource>(key, value)
+                keyMap.set(key, new Grouping<TKey, TSource>(key, value))
             }
         }
 
         const results = new Array<IGrouping<TKey, TSource>>()
-        /* eslint-disable guard-for-in */
-        for (const value in keyMap) {
-            results.push(keyMap[value])
+        for (const value of keyMap.values()) {
+            results.push(value)
         }
-        /* eslint-enable guard-for-in */
         return results
     }
 

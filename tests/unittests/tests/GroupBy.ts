@@ -75,4 +75,21 @@ describe("groupBy", () => {
             }
         }
     })
+
+    const protoKeys = ["constructor", "toString", "__proto__"]
+
+    itEnumerable<string>("PrototypeNamedKeys", (asEnumerable) => {
+        const groups = asEnumerable([...protoKeys, ...protoKeys]).groupBy((x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(protoKeys)
+    })
+
+    itAsync("PrototypeNamedKeys", async () => {
+        const groups = await asAsync([...protoKeys, ...protoKeys]).groupBy((x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(protoKeys)
+    })
+
+    itParallel<string>("PrototypeNamedKeys", async (asParallel) => {
+        const groups = await asParallel([...protoKeys, ...protoKeys]).groupBy((x) => x).toArray()
+        expect(groups.map((g) => g.key)).toEqual(protoKeys)
+    })
 })
