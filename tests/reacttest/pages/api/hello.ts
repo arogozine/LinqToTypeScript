@@ -5,7 +5,6 @@ type Data = {
   name: string
 }
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
