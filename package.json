@@ -1,6 +1,6 @@
 {
   "name": "linq-to-typescript",
-  "version": "12.1.1",
+  "version": "12.1.2",
   "description": "LINQ ported to TypeScript",
   "type": "module",
   "exports": {
@@ -21,7 +21,7 @@
     "build:declaration": "tsc --outDir dist/types --declaration --emitDeclarationOnly",
     "build:esm": "tsc --removeComments --outDir dist/esm",
     "postbuild": "node --no-warnings config/copy && node --no-warnings config/fix-imports",
-    "lint": "eslint -c eslint.config.mjs --ext .ts src",
+    "lint": "eslint -c eslint.config.mjs src",
     "doc": "npx rimraf doc && typedoc --entryPointStrategy expand ./src --exclude \"**/_*/*.ts\" --exclude \"**/bindArrayEnumerable.ts\" --exclude \"tests/**\" --gitRevision master --out ./doc --excludePrivate --excludeExternals --readme README.md --name \"LINQ To TypeScript\" --includeVersion --plugin typedoc-plugin-merge-modules && node config/editdocs --plugin ",
     "release:npm": "npm publish ./dist",
     "release:npm-next": "npm publish ./dist --tag next",
@@ -43,18 +43,18 @@
   "author": "Alexandre Rogozine",
   "license": "MIT",
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
-    "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^8.59.0",
-    "@typescript-eslint/parser": "^8.34.0",
-    "eslint": "^9.39.4",
-    "eslint-plugin-jsdoc": "^62.9.0",
-    "eslint-plugin-prefer-arrow": "^1.2.3",
-    "eslint-plugin-prefer-arrow-functions": "^3.6.2",
-    "globals": "^17.5.0",
-    "typedoc-plugin-merge-modules": "^6.0.1",
-    "typescript": "^5.6.3"
+    "@types/node": "^22.20.5",
+    "@typescript-eslint/eslint-plugin": "^8.72.2",
+    "@typescript-eslint/parser": "^8.72.2",
+    "eslint": "^10.14.0",
+    "eslint-plugin-jsdoc": "^63.3.3",
+    "eslint-plugin-prefer-arrow-functions": "^3.10.2",
+    "globals": "^17.14.0",
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-merge-modules": "^7.0.0",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=17"

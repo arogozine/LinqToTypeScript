@@ -14,11 +14,15 @@
   "license": "ISC",
   "dependencies": {
     "@types/jest": "^30.0.0",
-    "jest": "^30.5.1",
+    "jest": "^30.5.2",
     "linq-to-typescript": "file:../../dist",
-    "ts-jest": "^29.4.12"
+    "ts-jest": "^29.4.15"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "minimatch": "^11.0.7",
+    "glob": "^14.0.2"
   }
 }

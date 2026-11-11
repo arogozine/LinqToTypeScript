@@ -1,8 +1,0 @@
-{
-  "extends": "next",
-  "rules": {
-    "@stylistic/ban-types": "off",
-    "@typescript-eslint/member-delimiter-style": "off",
-    "@typescript-eslint/semi": "off"
-  }
-}
