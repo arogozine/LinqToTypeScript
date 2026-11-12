@@ -1,7 +1,7 @@
 import type { IAsyncEnumerable, IAsyncFlatten } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
-type FlattenAsyncFunc = {
+export type FlattenAsyncFunc = {
     /**
      * Flattens an async iterable
      * @param source AsyncIterable to flatten

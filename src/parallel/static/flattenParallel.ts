@@ -1,7 +1,7 @@
 import { type IParallelEnumerable, type IParallelFlatten, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
-type FlatternParallelFunc = {
+export type FlattenParallelFunc = {
     /**
      * Flattens a parallel iterable
      * @param source IParallelFlatten to flatten
@@ -21,7 +21,7 @@ type FlatternParallelFunc = {
 }
 
 
-export const flattenParallel: FlatternParallelFunc = <TSource>(
+export const flattenParallel: FlattenParallelFunc = <TSource>(
     source: IParallelFlatten<TSource>,
     shallow?: boolean): IParallelEnumerable<TSource | AsyncIterable<TSource>> => {
 

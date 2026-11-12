@@ -3,7 +3,7 @@ import { BasicEnumerable } from "../BasicEnumerable"
 
 
 
-type FromFunc = {
+export type FromFunc = {
     /**
      * Creates an IEnumerable<TSource> from an array
      * @param source Array of Elements

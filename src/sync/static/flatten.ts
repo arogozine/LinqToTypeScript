@@ -1,7 +1,7 @@
 import type { IEnumerable, IFlatten } from "../../types"
 import { BasicEnumerable } from "../BasicEnumerable"
 
-type FlattenFunc = {
+export type FlattenFunc = {
     /**
      * Flattens an iterable
      * @param source Iterable to flatten

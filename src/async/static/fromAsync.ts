@@ -2,7 +2,7 @@ import { ErrorString, InvalidOperationException } from "../../shared"
 import type { IAsyncEnumerable } from "../../types"
 import { BasicAsyncEnumerable } from "../BasicAsyncEnumerable"
 
-type FromAsyncFunc = {
+export type FromAsyncFunc = {
     /**
      * Converts the input array of promises to an async iterable
      * @param promises Array of Promises to Convert to an IAsyncEnumerable<T>

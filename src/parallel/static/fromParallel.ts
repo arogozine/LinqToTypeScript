@@ -1,7 +1,7 @@
 import type { IParallelEnumerable, ParallelGeneratorType } from "../../types"
 import { BasicParallelEnumerable } from "../BasicParallelEnumerable"
 
-type FromParallelFunc = {
+export type FromParallelFunc = {
     /**
      * Creates an IParallelEnumerable from a function that returns an Array of Promises
      * @param type Array of Promises

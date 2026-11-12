@@ -42,6 +42,12 @@
   ],
   "author": "Alexandre Rogozine",
   "license": "MIT",
+  "overrides": {
+    "minimatch": "^11.0.7",
+    "typedoc": {
+      "minimatch": "^10.2.5"
+    }
+  },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
