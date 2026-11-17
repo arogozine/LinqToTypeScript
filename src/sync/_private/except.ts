@@ -8,6 +8,18 @@ export const except = <TSource>(
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IEnumerable<TSource> => {
 
     function *iterator() {
+        if (comparer === StrictEqualityComparer) {
+            // Hash fast path: O(n + m)
+            const seen = new Set(second)
+            for (const firstItem of first) {
+                if (!seen.has(firstItem)) {
+                    seen.add(firstItem)
+                    yield firstItem
+                }
+            }
+            return
+        }
+
         const secondArray = [...second]
 
         for (const firstItem of first) {
@@ -23,6 +35,8 @@ export const except = <TSource>(
             }
 
             if (exists === false) {
+                // Set semantics: later duplicates of this item are excluded
+                secondArray.push(firstItem)
                 yield firstItem
             }
         }

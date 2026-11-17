@@ -3,6 +3,23 @@ import { asAsync, itAsync, itEnumerableAsync, itParallel } from "../TestHelpers"
 describe("exceptAsync", () => {
     // tslint:disable:triple-equals
 
+    itEnumerableAsync("de-duplicates", async (asEnumerable) => {
+        const result = await asEnumerable([1, 1, 2, 3, 3])
+            .exceptAsync(asEnumerable([3]), async (x, y) => x === y)
+            .toArray()
+        expect(result).toEqual([1, 2])
+    })
+
+    itAsync("de-duplicates", async () => {
+        const value = await asAsync([1, 1, 2, 3, 3]).exceptAsync(asAsync([3]), async (x, y) => x === y).toArray()
+        expect(value).toEqual([1, 2])
+    })
+
+    itParallel("de-duplicates", async (asParallel) => {
+        const value = await asParallel([1, 1, 2, 3, 3]).exceptAsync(asParallel([3]), async (x, y) => x === y).toArray()
+        expect(value).toEqual([1, 2])
+    })
+
     itEnumerableAsync<string | number>("with comparer", async (asEnumerable) => {
         const exceptResult = await asEnumerable([1, "2", 3])
             .exceptAsync(asEnumerable([1, "2"]), async (x, y) => x == y)

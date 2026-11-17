@@ -7,7 +7,9 @@ export const exceptAsync = <TSource>(
     comparer: IAsyncEqualityComparer<TSource>): IParallelEnumerable<TSource> => {
 
     const generator = async () => {
-        const [firstValues, secondValues] = await Promise.all([ first.toArray(), second.toArray() ])
+        const [firstValues, secondValuesSource] = await Promise.all([ first.toArray(), second.toArray() ])
+        // Copy so we can append already-emitted items (set semantics) without mutating the source
+        const secondValues = [...secondValuesSource]
         const resultValues = []
 
         for (const firstItem of firstValues) {
@@ -23,6 +25,7 @@ export const exceptAsync = <TSource>(
             }
 
             if (exists === false) {
+                secondValues.push(firstItem)
                 resultValues.push(firstItem)
             }
         }

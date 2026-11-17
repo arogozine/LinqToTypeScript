@@ -26,6 +26,8 @@ export const exceptAsync = <TSource>(
             }
 
             if (exists === false) {
+                // Set semantics: later duplicates of this item are excluded
+                secondArray.push(firstItem)
                 yield firstItem
             }
         }

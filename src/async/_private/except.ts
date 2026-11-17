@@ -8,6 +8,21 @@ export const except = <TSource>(
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IAsyncEnumerable<TSource> => {
 
     async function *iterator() {
+        if (comparer === StrictEqualityComparer) {
+            // Hash fast path: O(n + m)
+            const seen = new Set<TSource>()
+            for await (const x of second) {
+                seen.add(x)
+            }
+            for await (const firstItem of first) {
+                if (!seen.has(firstItem)) {
+                    seen.add(firstItem)
+                    yield firstItem
+                }
+            }
+            return
+        }
+
         // TODO: async eq of [...second] ?
         const secondArray = []
         for await (const x of second) {
@@ -27,6 +42,8 @@ export const except = <TSource>(
             }
 
             if (exists === false) {
+                // Set semantics: later duplicates of this item are excluded
+                secondArray.push(firstItem)
                 yield firstItem
             }
         }

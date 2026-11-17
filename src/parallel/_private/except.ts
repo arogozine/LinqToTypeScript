@@ -8,7 +8,23 @@ export const except = <TSource>(
     comparer: IEqualityComparer<TSource> = StrictEqualityComparer): IParallelEnumerable<TSource> => {
 
     const generator = async () => {
-        const [firstValues, secondValues] = await Promise.all([ first.toArray(), second.toArray() ])
+        const [firstValues, secondValuesSource] = await Promise.all([ first.toArray(), second.toArray() ])
+
+        if (comparer === StrictEqualityComparer) {
+            // Hash fast path: O(n + m)
+            const seen = new Set<TSource>(secondValuesSource)
+            const result: TSource[] = []
+            for (const firstItem of firstValues) {
+                if (!seen.has(firstItem)) {
+                    seen.add(firstItem)
+                    result.push(firstItem)
+                }
+            }
+            return result
+        }
+
+        // Copy so we can append already-emitted items (set semantics) without mutating the source
+        const secondValues = [...secondValuesSource]
         const resultValues = []
 
         for (const firstItem of firstValues) {
@@ -24,6 +40,7 @@ export const except = <TSource>(
             }
 
             if (exists === false) {
+                secondValues.push(firstItem)
                 resultValues.push(firstItem)
             }
         }
